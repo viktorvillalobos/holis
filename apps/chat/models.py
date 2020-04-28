@@ -40,7 +40,7 @@ class Channel(TimeStampedModel):
         unique_together = ["name", "company"]
 
     def __str__(self):
-        return self.title
+        return self.name
 
 
 class Message(TimeStampedModel):
@@ -89,7 +89,7 @@ class MessageAttachment(TimeStampedModel):
     message = models.ForeignKey(
         Message,
         verbose_name=_("message"),
-        related_name="messages",
+        related_name="attachments",
         on_delete=models.CASCADE,
     )
     attachment = models.FileField(_("attachment"))

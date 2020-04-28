@@ -74,13 +74,14 @@ THIRD_PARTY_APPS = [
     "channels",
     "mptt",
     "corsheaders",
-    "markdownx"
+    "markdownx",
+    "drf_yasg"
 ]
 
 LOCAL_APPS = [
     "apps.users.apps.UsersConfig",
     "apps.core.apps.CoreConfig",
-    "apps.chat.apps.ChatConfig"
+    "apps.chat.apps.ChatConfig",
     # Your stuff: custom apps go here
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
