@@ -3,7 +3,7 @@ from django.utils.translation import gettext_lazy as _
 from mptt.models import MPTTModel, TreeForeignKey
 from model_utils.models import TimeStampedModel
 from django_countries.fields import CountryField
-
+from django.contrib.postgres.fields import JSONField
 # Create your models here.
 
 
@@ -55,6 +55,9 @@ class Area(MPTTModel):
         blank=True,
         related_name='children',
     )
+    width = models.PositiveIntegerField(_("Width"), default=30)
+    height = models.PositiveIntegerField(_("Height"), default=30)
+    state = JSONField(default=list)
 
     tenant_id = "company_id"
 
@@ -67,3 +70,19 @@ class Area(MPTTModel):
 
     def __str__(self):
         return self.name
+
+    class Announcement(TimeStampedModel):
+        company = models.ForeignKey(
+            "core.Company",
+            related_name="announcements",
+            on_delete=models.CASCADE,
+            verbose_name=_("company"),
+        )
+
+        text = models.TextField(_("text"), blank=True)
+
+        created_by = models.ForeignKey(
+            "users.User",
+            related_name="announcements",
+            on_delete=models.CASCADE,
+        )

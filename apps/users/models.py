@@ -1,9 +1,15 @@
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.db import models
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 
 from model_utils.models import TimeStampedModel
+from birthday.fields import BirthdayField
+from birthday.managers import BirthdayManager
+
+
+class UserManager(BirthdayManager, BaseUserManager):
+    pass
 
 
 class User(AbstractUser):
@@ -17,7 +23,15 @@ class User(AbstractUser):
         on_delete=models.CASCADE,
         related_name="users",
     )
-    position = models.CharField(_("position"), blank=True, null=True, max_length=100)
+    position = models.CharField(
+        _("position"), blank=True, null=True, max_length=100
+    )
+    default_area = models.ForeignKey(
+        "core.Area", blank=True, null=True, on_delete=models.SET_NULL,
+    )
+    birthday = BirthdayField()
+
+    objects = UserManager()
 
     tenant_id = "company_id"
 
@@ -62,7 +76,7 @@ class Status(TimeStampedModel):
         return self.text
 
 
-class UserNotification(TimeStampedModel):
+class Notification(TimeStampedModel):
     """
         User notification
     """
@@ -84,5 +98,5 @@ class UserNotification(TimeStampedModel):
     class Meta:
         unique_together = ["id", "company"]
         ordering = ["-created"]
-        verbose_name = _("user notification")
-        verbose_name_plural = _("user notifications")
+        verbose_name = _("notification")
+        verbose_name_plural = _("notifications")

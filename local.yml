@@ -6,6 +6,7 @@ volumes:
 
 services:
   django: &django
+    container_name: django
     build:
       context: .
       dockerfile: ./compose/local/django/Dockerfile
@@ -13,6 +14,7 @@ services:
     depends_on:
       - postgres
       - mailhog
+      - redis
     volumes:
       - .:/app
     env_file:
