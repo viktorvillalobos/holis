@@ -13,7 +13,15 @@ class CompanyViewSet(ModelViewSet):
 
 class AreaViewSet(ModelViewSet):
     serializer_class = serializers.AreaSerializer
+    queryset = core_models.Area.objects.all()
 
     def get_queryset(self, *args, **kwargs):
-        # TODO: Filter by user
-        return core_models.Area.objects.filter(company__pk=1)
+        return self.queryset.filter(company__pk=self.request.user.company_id)
+
+
+class AnnouncementViewSet(ModelViewSet):
+    serializer_class = serializers.AnnouncementSerializer
+    queryset = core_models.Announcement.objects.all()
+
+    def get_queryset(self):
+        return self.queryset.filter(company__pk=self.request.user.company_id)

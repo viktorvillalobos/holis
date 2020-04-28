@@ -28,3 +28,12 @@ class AreaSerializer(serializers.ModelSerializer):
     class Meta:
         model = core_models.Area
         fields = "__all__"
+
+
+class AnnouncementSerializer(serializers.ModelSerializer):
+    company = serializers.HiddenField(default=CustomCurrentCompany())
+
+    class Meta:
+        model = core_models.Announcement
+        fields = "__all__"
+

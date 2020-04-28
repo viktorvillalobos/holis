@@ -75,18 +75,23 @@ class Area(MPTTModel):
     def __str__(self):
         return self.name
 
-    class Announcement(TimeStampedModel):
-        company = models.ForeignKey(
-            "core.Company",
-            related_name="announcements",
-            on_delete=models.CASCADE,
-            verbose_name=_("company"),
-        )
 
-        text = models.TextField(_("text"), blank=True)
+class Announcement(TimeStampedModel):
+    company = models.ForeignKey(
+        "core.Company",
+        related_name="announcements",
+        on_delete=models.CASCADE,
+        verbose_name=_("company"),
+    )
 
-        created_by = models.ForeignKey(
-            "users.User",
-            related_name="announcements",
-            on_delete=models.CASCADE,
-        )
+    text = models.TextField(_("text"), blank=True)
+
+    created_by = models.ForeignKey(
+        "users.User", related_name="announcements", on_delete=models.CASCADE,
+    )
+
+    tenant_id = "company_id"
+
+    class Meta:
+        ordering = ["-created"]
+        unique_together = ["id", "company"]

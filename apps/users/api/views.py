@@ -32,6 +32,14 @@ class UserViewSet(
         )
         return Response(status=status.HTTP_200_OK, data=serializer.data)
 
+    @action(detail=False, methods=["GET"])
+    def birthdays(self, request):
+        users = User.objects.get_upcoming_birthdays()
+        serializer = self.serializer_class(
+            users, many=True, context={"request": request}
+        )
+        return Response(status=status.HTTP_200_OK, data=serializer.data)
+
 
 class NotificationViewSet(ModelViewSet):
     serializer_class = serializers.NotificationSerializer
