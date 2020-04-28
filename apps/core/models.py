@@ -4,6 +4,7 @@ from mptt.models import MPTTModel, TreeForeignKey
 from model_utils.models import TimeStampedModel
 from django_countries.fields import CountryField
 from django.contrib.postgres.fields import JSONField
+
 # Create your models here.
 
 
@@ -24,6 +25,9 @@ class Company(TimeStampedModel):
         ordering = ["name"]
         verbose_name = _("company")
         verbose_name_plural = _("companies")
+
+    def __str__(self):
+        return self.name
 
 
 class Area(MPTTModel):

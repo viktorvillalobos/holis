@@ -1,13 +1,14 @@
 from typing import Dict, List
 import pytest
 
-from apps.core.uc.area_uc import GetUsersAreaUC
+from apps.core.uc.area_uc import GetStateAreaUC
 from apps.core.tests.factories import AreaFactory
 
 
 class TestGetUsersAreaUC:
     def test_execute(self) -> None:
         item: Dict = {
+            "id": 1,
             "name": "Victor",
             "last_name": "Villalobos",
             "status": "Coding",
@@ -20,5 +21,5 @@ class TestGetUsersAreaUC:
         expected_results: List = [item for x in range(10)]
 
         area = AreaFactory.build()
-        instance = GetUsersAreaUC(area)
+        instance = GetStateAreaUC(area)
         assert instance.execute() == expected_results

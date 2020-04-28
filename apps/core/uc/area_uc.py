@@ -5,7 +5,7 @@ from typing import Dict, List
 from apps.core.uc.abstracts import AbstractModelUC
 
 
-class GetUsersAreaUC(AbstractModelUC):
+class GetStateAreaUC(AbstractModelUC):
     """
         Allow to handle the state of area
         Area.state contains the status of the area,
@@ -36,6 +36,7 @@ class GetUsersAreaUC(AbstractModelUC):
     def execute(self) -> List[Dict]:
 
         item: Dict = {
+            "id": 1,
             "name": "Victor",
             "last_name": "Villalobos",
             "status": "Coding",

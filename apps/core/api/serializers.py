@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from apps.core import models as core_models
-from apps.core.uc.area_uc import GetUsersAreaUC
+from apps.core.uc.area_uc import GetStateAreaUC
 
 
 class CustomCurrentCompany(serializers.CurrentUserDefault):
@@ -17,7 +17,7 @@ class CompanySerializer(serializers.ModelSerializer):
 
 class StateField(serializers.ReadOnlyField):
     def to_representation(self, obj):
-        state = GetUsersAreaUC(obj).execute()
+        state = GetStateAreaUC(obj).execute()
         return state
 
 
