@@ -6,6 +6,7 @@
     <title>Webapp</title>
 </head>
 <body>
+    <input type="hidden" name="csrf" value={{ csrf_token }}>
     <div id="app"></div>
     {% render_bundle 'app' config='DEFAULT' %}
 </body>

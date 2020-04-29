@@ -277,3 +277,4 @@ lesgens/media/
 .env
 .envs/*
 !.envs/.local/
+webpack-stats.json
