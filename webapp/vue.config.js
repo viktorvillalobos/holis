@@ -1,7 +1,10 @@
 const BundleTracker = require('webpack-bundle-tracker')
 
+
+const webpackFile = process.env.NODE_ENV === 'production' ? '../webapp/webpack-stats-prod.json' : '../webapp/webpack-stats.json'
+
 module.exports = {
-  publicPath: process.env.NODE_ENV === 'production' ? '/static/ficha/' : 'http://127.0.0.1:8080/',
+  publicPath: process.env.NODE_ENV === 'production' ? '/static/webapp/' : 'http://127.0.0.1:8080/',
   outputDir: './dist/',
 
   chainWebpack: config => {
@@ -10,7 +13,7 @@ module.exports = {
 
     config
       .plugin('BundleTracker')
-      .use(BundleTracker, [{ filename: '../webapp/webpack-stats.json' }])
+      .use(BundleTracker, [{ filename: webpackFile}])
 
     config.resolve.alias
       .set('__STATIC__', 'static')

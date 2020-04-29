@@ -1,5 +1,6 @@
 from .base import *  # noqa
 from .base import env
+from .base import ROOT_DIR
 
 # GENERAL
 # ------------------------------------------------------------------------------
@@ -68,3 +69,17 @@ CELERY_TASK_EAGER_PROPAGATES = True
 # ------------------------------------------------------------------------------
 
 CORS_ORIGIN_ALLOW_ALL = True
+
+
+WEBPACK_STATS_FILE = ROOT_DIR / "webapp/webpack-stats.json"
+
+if not WEBPACK_STATS_FILE.exists():
+    WEBPACK_STATS_FILE = ROOT_DIR / "webapp/webpack-stats-prod.json"
+
+WEBPACK_LOADER = {
+    'DEFAULT': {
+        'CACHE': not DEBUG,
+        'BUNDLE_DIR_NAME': 'webpack_bundles/',  # must end with slash
+        'STATS_FILE': str(WEBPACK_STATS_FILE),
+    }
+}

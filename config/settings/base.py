@@ -341,6 +341,7 @@ WEBPACK_LOADER = {
     'DEFAULT': {
         'CACHE': not DEBUG,
         'BUNDLE_DIR_NAME': 'webpack_bundles/',  # must end with slash
-        'STATS_FILE': str(ROOT_DIR / "webapp/webpack-stats.json"),
+        'STATS_FILE': str(ROOT_DIR / "webapp/webpack-stats-prod.json"),
     }
 }
+
