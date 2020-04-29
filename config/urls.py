@@ -7,6 +7,8 @@ from django.views import defaults as default_views
 from django.views.generic import TemplateView
 from rest_framework.authtoken.views import obtain_auth_token
 
+from apps.core import views as core_views
+
 urlpatterns = [
     path(
         "", TemplateView.as_view(template_name="pages/home.html"), name="home"
@@ -33,6 +35,7 @@ urlpatterns += [
     path("api/v1/", include("config.api_router")),
     # DRF auth token
     path("auth-token/", obtain_auth_token),
+    path("app/", core_views.webapp, name="webapp"),
 ]
 
 if settings.DEBUG:

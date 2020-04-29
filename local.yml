@@ -17,6 +17,8 @@ services:
       - redis
     volumes:
       - .:/app
+      - ./webapp:/app/webapp
+      - ./webapp/webpack-stats.json:/app/webapp/webpack-stats-json
     env_file:
       - ./.envs/.local/.django
       - ./.envs/.local/.postgres
