@@ -8,6 +8,8 @@ from sentry_sdk.integrations.celery import CeleryIntegration
 
 from .base import *  # noqa
 from .base import env
+from .base import DEBUG
+from .base import ROOT_DIR
 
 # GENERAL
 # ------------------------------------------------------------------------------
@@ -20,7 +22,9 @@ ALLOWED_HOSTS = env.list("DJANGO_ALLOWED_HOSTS", default=["lesgens.co"])
 # ------------------------------------------------------------------------------
 DATABASES["default"] = env.db("DATABASE_URL")  # noqa F405
 DATABASES["default"]["ATOMIC_REQUESTS"] = True  # noqa F405
-DATABASES["default"]["CONN_MAX_AGE"] = env.int("CONN_MAX_AGE", default=60)  # noqa F405
+DATABASES["default"]["CONN_MAX_AGE"] = env.int(
+    "CONN_MAX_AGE", default=60
+)  # noqa F405
 
 # CACHES
 # ------------------------------------------------------------------------------
@@ -71,7 +75,9 @@ GS_DEFAULT_ACL = "publicRead"
 # STATIC
 # ------------------------
 # STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
-STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
+STATICFILES_STORAGE = (
+    'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
+)
 # MEDIA
 # ------------------------------------------------------------------------------
 DEFAULT_FILE_STORAGE = "apps.utils.storages.MediaRootGoogleCloudStorage"
@@ -94,7 +100,8 @@ TEMPLATES[-1]["OPTIONS"]["loaders"] = [  # type: ignore[index] # noqa F405
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#default-from-email
 DEFAULT_FROM_EMAIL = env(
-    "DJANGO_DEFAULT_FROM_EMAIL", default="Lesgens Remote Team Tool <noreply@lesgens.co>"
+    "DJANGO_DEFAULT_FROM_EMAIL",
+    default="Lesgens Remote Team Tool <noreply@lesgens.co>",
 )
 # https://docs.djangoproject.com/en/dev/ref/settings/#server-email
 SERVER_EMAIL = env("DJANGO_SERVER_EMAIL", default=DEFAULT_FROM_EMAIL)
@@ -119,7 +126,9 @@ EMAIL_BACKEND = "anymail.backends.mailgun.EmailBackend"
 ANYMAIL = {
     "MAILGUN_API_KEY": env("MAILGUN_API_KEY"),
     "MAILGUN_SENDER_DOMAIN": env("MAILGUN_DOMAIN"),
-    "MAILGUN_API_URL": env("MAILGUN_API_URL", default="https://api.mailgun.net/v3"),
+    "MAILGUN_API_URL": env(
+        "MAILGUN_API_URL", default="https://api.mailgun.net/v3"
+    ),
 }
 
 # django-compressor
@@ -131,7 +140,9 @@ COMPRESS_STORAGE = "storages.backends.gcloud.GoogleCloudStorage"
 # https://django-compressor.readthedocs.io/en/latest/settings/#django.conf.settings.COMPRESS_URL
 COMPRESS_URL = STATIC_URL  # noqa F405
 # https://django-compressor.readthedocs.io/en/latest/settings/#django.conf.settings.COMPRESS_OFFLINE
-COMPRESS_OFFLINE = True  # Offline compression is required when using Whitenoise
+COMPRESS_OFFLINE = (
+    True  # Offline compression is required when using Whitenoise
+)
 # https://django-compressor.readthedocs.io/en/latest/settings/#django.conf.settings.COMPRESS_FILTERS
 COMPRESS_FILTERS = {
     "css": [
@@ -171,7 +182,11 @@ LOGGING = {
             "propagate": False,
         },
         # Errors logged by the SDK itself
-        "sentry_sdk": {"level": "ERROR", "handlers": ["console"], "propagate": False},
+        "sentry_sdk": {
+            "level": "ERROR",
+            "handlers": ["console"],
+            "propagate": False,
+        },
         "django.security.DisallowedHost": {
             "level": "ERROR",
             "handlers": ["console"],
@@ -196,3 +211,25 @@ sentry_sdk.init(
 
 # Your stuff...
 # ------------------------------------------------------------------------------
+
+WEBPACK_LOADER = {
+    'DEFAULT': {
+        'CACHE': not DEBUG,
+        'BUNDLE_DIR_NAME': 'webpack_bundles/',  # must end with slash
+        'STATS_FILE': str(ROOT_DIR / "webapp/webpack-stats-prod.json"),
+    }
+}
+
+
+from django.contrib.staticfiles import storage  # noqa E402
+import functools  # noqa E402
+
+original_hashed_name = storage.HashedFilesMixin.hashed_name
+
+
+@functools.wraps(original_hashed_name)
+def hashed_name(self, name, *args, **kwargs):
+    return original_hashed_name(self, name.strip('"'), *args, **kwargs)
+
+
+storage.HashedFilesMixin.hashed_name = hashed_name
