@@ -111,17 +111,28 @@ export default {
     }
   },
   methods: {
-    onClick ({ offsetX, offsetY }) {
+    onClick (e) {
+
+        const {x, y} = this.getOffset(e)
+
         this.clearHex()
-        const hexCoordinates = this.Grid.pointToHex([offsetX, offsetY])
+        const hexCoordinates = this.Grid.pointToHex([x, y])
+        console.log(x)
+        console.log(y)
         this.selectedHex = this.grid.get(hexCoordinates)
         if (this.selectedHex) {
           this.selectedHex.filled()
           this.selectedHex.addImage()
-          const neighbors = this.grid.neighborsOf(this.selectedHex)
-          console.log(neighbors)
-          this.$emit('neighbors', neighbors)
+          // const neighbors = this.grid.neighborsOf(this.selectedHex)
+          // console.log(neighbors)
+          // this.$emit('neighbors', neighbors)
         }
+    },
+    getOffset(e) {
+      /* LayerX and LayerY Works well in chrome and firefox */ 
+      const xpos = e.layerX
+      const ypos = e.layerY
+      return {x:xpos, y:ypos};
     },
     clearHex() {
       if (this.selectedHex)
