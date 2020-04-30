@@ -76,7 +76,7 @@ THIRD_PARTY_APPS = [
     "corsheaders",
     "markdownx",
     "drf_yasg",
-    "webpack_loader"
+    "webpack_loader",
 ]
 
 LOCAL_APPS = [
@@ -155,7 +155,7 @@ STATIC_ROOT = str(ROOT_DIR / "staticfiles")
 # https://docs.djangoproject.com/en/dev/ref/settings/#static-url
 STATIC_URL = "/static/"
 # https://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/#std:setting-STATICFILES_DIRS
-STATICFILES_DIRS = [str(APPS_DIR / "static")]
+STATICFILES_DIRS = [str(APPS_DIR / "static"), str(ROOT_DIR / "webapp/dist")]
 # https://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/#staticfiles-finders
 STATICFILES_FINDERS = [
     "django.contrib.staticfiles.finders.FileSystemFinder",
@@ -344,4 +344,3 @@ WEBPACK_LOADER = {
         'STATS_FILE': str(ROOT_DIR / "webapp/webpack-stats-prod.json"),
     }
 }
-
