@@ -62,7 +62,7 @@ export default {
         filled() {
           this.draw
             .stop(true, true)
-            .stroke({width: 12, color: '#7f7fff' })
+            .stroke({width: 10, color: '#7f7fff' })
             .animate(1000)
             .stroke({width: 5, color: '#7f7fff' })
         },
@@ -72,7 +72,7 @@ export default {
           const centerPosition = this.center().add(position)
           this.draw
             .stop(true, true)
-            .stroke({width: 5, color: '#7f7fff' })
+            .stroke({width: 2, color: '#7f7fff' })
             .animate(250)
             .stroke({width: 1, color: 'rgba(224, 224, 224, .5)' })
           
@@ -117,15 +117,12 @@ export default {
 
         this.clearHex()
         const hexCoordinates = this.Grid.pointToHex([x, y])
-        console.log(x)
-        console.log(y)
         this.selectedHex = this.grid.get(hexCoordinates)
         if (this.selectedHex) {
           this.selectedHex.filled()
           this.selectedHex.addImage()
-          // const neighbors = this.grid.neighborsOf(this.selectedHex)
-          // console.log(neighbors)
-          // this.$emit('neighbors', neighbors)
+          const neighbors = this.grid.neighborsOf(this.selectedHex)
+          this.$emit('neighbors', neighbors)
         }
     },
     getOffset(e) {
