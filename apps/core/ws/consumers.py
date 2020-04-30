@@ -47,7 +47,10 @@ class MainConsumer(NotificationMixin, AsyncJsonWebsocketConsumer):
         if _type == "error":
             return await self.send_json({"error": _msg})
         elif _type == "chat.message":
-            message: Dict = {"message": content["message"], "user": "Pitufin"}
+            message: Dict = {
+                "message": content["message"],
+                "user": self.scope["user"].username,
+            }
             return await self.notification(message)
         else:
             _msg = _("type not handled")
