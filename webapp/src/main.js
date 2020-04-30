@@ -4,6 +4,10 @@ import router from './router'
 import store from './store'
 import VueNativeSock from 'vue-native-websocket';
 import './../node_modules/bulma/css/bulma.css';
+import AxiosDjango from '@/plugins/AxiosDjango'
+
+
+Vue.use(AxiosDjango)
 
 
 Vue.use(VueNativeSock, 'ws://localhost:8000', {
