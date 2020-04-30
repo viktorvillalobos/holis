@@ -6,7 +6,6 @@ const webpackFile = process.env.NODE_ENV === 'production' ? '../webapp/webpack-s
 module.exports = {
   publicPath: process.env.NODE_ENV === 'production' ? '/static/webapp/' : 'http://127.0.0.1:8080/',
   outputDir: './assets/webapp/',
-  assetsDir: './assets/webapp/',
 
   chainWebpack: config => {
     config.optimization
