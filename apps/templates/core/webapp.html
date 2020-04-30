@@ -1,17 +1,10 @@
+{% extends 'core/vuebase.html' %}
 {% load render_bundle from webpack_loader %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Webapp</title>
-</head>
-<body>
-    <input type="hidden" name="csrf" value={{ csrf_token }}>
-    <div id="app"></div>
-    {% render_bundle 'app' config='DEFAULT' %}
-</body>
-</html>
 
+{% block title %} Office Webapp {% endblock %}
+{% block render %}
+    {% render_bundle 'app' config='DEFAULT' %}
+{% endblock %}
 
 
 

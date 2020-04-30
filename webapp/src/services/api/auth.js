@@ -1,6 +1,12 @@
+
 import axios from 'axios'
 
-import { urlBase } from './config'
+import { urlBase } from '../config'
+
+  /* * * * * * * * * * * * * * * * * * * * *
+  * We are using Django SESSION for login  *
+  * but this allow to login using JWT      *
+  * * * * * * * * * * * * * * * * * * *  * */
 
 export default {
   login(username, password){
@@ -14,7 +20,4 @@ export default {
       refresh,
     })
   },
-  getAnnouncements(){
-    return axios.get(`${urlBase}/announcements/`)
-  }
 }

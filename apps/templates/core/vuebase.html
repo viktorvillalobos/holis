@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %} Webapp {% endblock %}</title>
+</head>
+<body>
+    <input id="csrf" type="hidden" name="csrf" value={{ csrf_token }}>
+    <div id="app"></div>
+    {% block render %}
+    {% endblock %}
+    <script>
+        window.csrf = document.getElementById('csrf').value
+    </script>
+</body>
+</html>

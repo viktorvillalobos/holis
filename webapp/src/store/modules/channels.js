@@ -1,5 +1,4 @@
-import apiClient from '../../services/api'
-console.log(apiClient)
+import apiClient from '../../services/apiClient.js'
 const state = {
   list: []
 }
@@ -12,7 +11,7 @@ const mutations = {
 
 const actions = {
   async getList({ commit }) {
-    const {data} = await apiClient.announcements.getList()
+    const {data} = await apiClient.getChannels()
     console.log(data)
     commit('setList', data)
   }
