@@ -1,9 +1,9 @@
+from django.contrib.postgres.fields import JSONField
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from mptt.models import MPTTModel, TreeForeignKey
-from model_utils.models import TimeStampedModel
 from django_countries.fields import CountryField
-from django.contrib.postgres.fields import JSONField
+from model_utils.models import TimeStampedModel
+from mptt.models import MPTTModel, TreeForeignKey
 
 # Create your models here.
 
@@ -53,11 +53,11 @@ class Area(MPTTModel):
     )
     name = models.CharField(max_length=50, unique=True)
     parent = TreeForeignKey(
-        'self',
+        "self",
         on_delete=models.CASCADE,
         null=True,
         blank=True,
-        related_name='children',
+        related_name="children",
     )
     width = models.PositiveIntegerField(_("Width"), default=30)
     height = models.PositiveIntegerField(_("Height"), default=30)
@@ -66,7 +66,7 @@ class Area(MPTTModel):
     tenant_id = "company_id"
 
     class MPTTMeta:
-        order_insertion_by = ['name']
+        order_insertion_by = ["name"]
 
     class Meta:
         unique_together = ["id", "company"]

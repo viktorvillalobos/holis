@@ -11,51 +11,157 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('core', '0001_initial'),
+        ("core", "0001_initial"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Channel',
+            name="Channel",
             fields=[
-                ('created', model_utils.fields.AutoCreatedField(default=django.utils.timezone.now, editable=False, verbose_name='created')),
-                ('modified', model_utils.fields.AutoLastModifiedField(default=django.utils.timezone.now, editable=False, verbose_name='modified')),
-                ('name', models.CharField(db_index=True, max_length=255, primary_key='name', serialize=False, verbose_name='title')),
-                ('is_public', models.BooleanField(default=True, verbose_name='is public')),
+                (
+                    "created",
+                    model_utils.fields.AutoCreatedField(
+                        default=django.utils.timezone.now,
+                        editable=False,
+                        verbose_name="created",
+                    ),
+                ),
+                (
+                    "modified",
+                    model_utils.fields.AutoLastModifiedField(
+                        default=django.utils.timezone.now,
+                        editable=False,
+                        verbose_name="modified",
+                    ),
+                ),
+                (
+                    "name",
+                    models.CharField(
+                        db_index=True,
+                        max_length=255,
+                        primary_key="name",
+                        serialize=False,
+                        verbose_name="title",
+                    ),
+                ),
+                (
+                    "is_public",
+                    models.BooleanField(default=True, verbose_name="is public"),
+                ),
             ],
-            options={
-                'ordering': ['-created'],
-            },
+            options={"ordering": ["-created"],},
         ),
         migrations.CreateModel(
-            name='Message',
+            name="Message",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created', model_utils.fields.AutoCreatedField(default=django.utils.timezone.now, editable=False, verbose_name='created')),
-                ('modified', model_utils.fields.AutoLastModifiedField(default=django.utils.timezone.now, editable=False, verbose_name='modified')),
-                ('text', models.TextField(verbose_name='text')),
-                ('channel', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='messages', to='chat.Channel', verbose_name='channel')),
-                ('company', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='messages', to='core.Company', verbose_name='company')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "created",
+                    model_utils.fields.AutoCreatedField(
+                        default=django.utils.timezone.now,
+                        editable=False,
+                        verbose_name="created",
+                    ),
+                ),
+                (
+                    "modified",
+                    model_utils.fields.AutoLastModifiedField(
+                        default=django.utils.timezone.now,
+                        editable=False,
+                        verbose_name="modified",
+                    ),
+                ),
+                ("text", models.TextField(verbose_name="text")),
+                (
+                    "channel",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="messages",
+                        to="chat.Channel",
+                        verbose_name="channel",
+                    ),
+                ),
+                (
+                    "company",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="messages",
+                        to="core.Company",
+                        verbose_name="company",
+                    ),
+                ),
             ],
-            options={
-                'ordering': ['-created'],
-            },
+            options={"ordering": ["-created"],},
         ),
         migrations.CreateModel(
-            name='MessageAttachment',
+            name="MessageAttachment",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created', model_utils.fields.AutoCreatedField(default=django.utils.timezone.now, editable=False, verbose_name='created')),
-                ('modified', model_utils.fields.AutoLastModifiedField(default=django.utils.timezone.now, editable=False, verbose_name='modified')),
-                ('attachment', models.FileField(upload_to='', verbose_name='attachment')),
-                ('mimetype', models.CharField(blank=True, max_length=255, null=True, verbose_name='Mimetype')),
-                ('company', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='attachments', to='core.Company', verbose_name='company')),
-                ('message', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='messages', to='chat.Message', verbose_name='message')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "created",
+                    model_utils.fields.AutoCreatedField(
+                        default=django.utils.timezone.now,
+                        editable=False,
+                        verbose_name="created",
+                    ),
+                ),
+                (
+                    "modified",
+                    model_utils.fields.AutoLastModifiedField(
+                        default=django.utils.timezone.now,
+                        editable=False,
+                        verbose_name="modified",
+                    ),
+                ),
+                (
+                    "attachment",
+                    models.FileField(upload_to="", verbose_name="attachment"),
+                ),
+                (
+                    "mimetype",
+                    models.CharField(
+                        blank=True, max_length=255, null=True, verbose_name="Mimetype"
+                    ),
+                ),
+                (
+                    "company",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="attachments",
+                        to="core.Company",
+                        verbose_name="company",
+                    ),
+                ),
+                (
+                    "message",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="messages",
+                        to="chat.Message",
+                        verbose_name="message",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'message attachment',
-                'verbose_name_plural': 'message attachments',
-                'ordering': ['created'],
+                "verbose_name": "message attachment",
+                "verbose_name_plural": "message attachments",
+                "ordering": ["created"],
             },
         ),
     ]

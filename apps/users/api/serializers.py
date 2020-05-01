@@ -1,6 +1,5 @@
-from rest_framework import serializers
-
 from apps.users import models as users_models
+from rest_framework import serializers
 
 
 class StatusSerializer(serializers.ModelSerializer):
@@ -21,13 +20,12 @@ class UserSerializer(serializers.ModelSerializer):
             "name",
             "position",
             "statuses",
-            "url",
             "username",
         ]
 
-        extra_kwargs = {
-            "url": {"view_name": "api:user-detail", "lookup_field": "username"}
-        }
+        # extra_kwargs = {
+        #     "url": {"view_name": "api:user-detail", "lookup_field": "username"}
+        # }
 
 
 class NotificationSerializer(serializers.ModelSerializer):

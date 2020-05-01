@@ -1,6 +1,6 @@
-from rest_framework import serializers
 from apps.core import models as core_models
 from apps.core.uc.area_uc import GetStateAreaUC
+from rest_framework import serializers
 
 
 class CustomCurrentCompany(serializers.CurrentUserDefault):
@@ -36,4 +36,3 @@ class AnnouncementSerializer(serializers.ModelSerializer):
     class Meta:
         model = core_models.Announcement
         fields = "__all__"
-

@@ -7,17 +7,14 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0003_auto_20200428_0104'),
+        ("core", "0003_auto_20200428_0104"),
     ]
 
     operations = [
-        migrations.RemoveField(
-            model_name='area',
-            name='users',
-        ),
+        migrations.RemoveField(model_name="area", name="users",),
         migrations.AddField(
-            model_name='area',
-            name='state',
+            model_name="area",
+            name="state",
             field=django.contrib.postgres.fields.jsonb.JSONField(default=list),
         ),
     ]

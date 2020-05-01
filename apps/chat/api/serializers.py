@@ -1,5 +1,5 @@
-from rest_framework import serializers
 from apps.chat import models
+from rest_framework import serializers
 
 
 class ChannelSerializer(serializers.ModelSerializer):

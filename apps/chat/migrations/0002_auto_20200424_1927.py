@@ -11,36 +11,47 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('chat', '0001_initial'),
-        ('core', '0001_initial'),
+        ("chat", "0001_initial"),
+        ("core", "0001_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='message',
-            name='user',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='messages', to=settings.AUTH_USER_MODEL, verbose_name='User'),
+            model_name="message",
+            name="user",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="messages",
+                to=settings.AUTH_USER_MODEL,
+                verbose_name="User",
+            ),
         ),
         migrations.AddField(
-            model_name='channel',
-            name='company',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='channels', to='core.Company', verbose_name='company'),
+            model_name="channel",
+            name="company",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="channels",
+                to="core.Company",
+                verbose_name="company",
+            ),
         ),
         migrations.AddField(
-            model_name='channel',
-            name='users',
-            field=models.ManyToManyField(related_name='channels', to=settings.AUTH_USER_MODEL, verbose_name='users'),
+            model_name="channel",
+            name="users",
+            field=models.ManyToManyField(
+                related_name="channels",
+                to=settings.AUTH_USER_MODEL,
+                verbose_name="users",
+            ),
         ),
         migrations.AlterUniqueTogether(
-            name='messageattachment',
-            unique_together={('id', 'company')},
+            name="messageattachment", unique_together={("id", "company")},
         ),
         migrations.AlterUniqueTogether(
-            name='message',
-            unique_together={('id', 'company')},
+            name="message", unique_together={("id", "company")},
         ),
         migrations.AlterUniqueTogether(
-            name='channel',
-            unique_together={('name', 'company')},
+            name="channel", unique_together={("name", "company")},
         ),
     ]

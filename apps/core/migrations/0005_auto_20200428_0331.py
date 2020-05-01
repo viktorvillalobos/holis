@@ -6,16 +6,14 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0004_auto_20200428_0111'),
+        ("core", "0004_auto_20200428_0111"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='announcement',
-            options={'ordering': ['-created']},
+            name="announcement", options={"ordering": ["-created"]},
         ),
         migrations.AlterUniqueTogether(
-            name='announcement',
-            unique_together={('id', 'company')},
+            name="announcement", unique_together={("id", "company")},
         ),
     ]

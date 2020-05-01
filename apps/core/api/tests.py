@@ -1,6 +1,5 @@
-import pytest
-from django.urls import reverse
-
+# import pytest
+# from django.urls import reverse
 
 # class TestAreaViewSet:
 #     @pytest.mark.urls('apps.core.api.urls')

@@ -2,6 +2,7 @@
     UseCases for Area
 """
 from typing import Dict, List
+
 from apps.core.uc.abstracts import AbstractModelUC
 
 
@@ -43,6 +44,6 @@ class GetStateAreaUC(AbstractModelUC):
             "position": "FullStack Developer",
             "is_online": True,
             "x": 0,
-            "y": 1
+            "y": 1,
         }
         return [item for x in range(10)]
