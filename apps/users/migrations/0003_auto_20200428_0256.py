@@ -8,19 +8,20 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('users', '0002_auto_20200428_0104'),
+        ("users", "0002_auto_20200428_0104"),
     ]
 
     operations = [
-        migrations.AlterModelManagers(
-            name='user',
-            managers=[
-            ],
-        ),
+        migrations.AlterModelManagers(name="user", managers=[],),
         migrations.AddField(
-            model_name='notification',
-            name='user',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='notifications', to=settings.AUTH_USER_MODEL, verbose_name='user'),
+            model_name="notification",
+            name="user",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="notifications",
+                to=settings.AUTH_USER_MODEL,
+                verbose_name="user",
+            ),
             preserve_default=False,
         ),
     ]

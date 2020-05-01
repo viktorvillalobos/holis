@@ -1,8 +1,7 @@
 from typing import Dict, List
-import pytest
 
-from apps.core.uc.area_uc import GetStateAreaUC
 from apps.core.tests.factories import AreaFactory
+from apps.core.uc.area_uc import GetStateAreaUC
 
 
 class TestGetUsersAreaUC:

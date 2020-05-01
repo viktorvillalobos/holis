@@ -12,40 +12,48 @@ from django.utils.timezone import utc
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0003_auto_20200428_0104'),
-        ('users', '0001_initial'),
+        ("core", "0003_auto_20200428_0104"),
+        ("users", "0001_initial"),
     ]
 
     operations = [
-        migrations.RenameModel(
-            old_name='UserNotification',
-            new_name='Notification',
-        ),
+        migrations.RenameModel(old_name="UserNotification", new_name="Notification",),
         migrations.AlterModelOptions(
-            name='notification',
-            options={'ordering': ['-created'], 'verbose_name': 'notification', 'verbose_name_plural': 'notifications'},
+            name="notification",
+            options={
+                "ordering": ["-created"],
+                "verbose_name": "notification",
+                "verbose_name_plural": "notifications",
+            },
         ),
         migrations.AlterModelManagers(
-            name='user',
+            name="user",
             managers=[
-                ('birthdays', django.db.models.manager.Manager()),
-                ('objects', django.contrib.auth.models.UserManager()),
+                ("birthdays", django.db.models.manager.Manager()),
+                ("objects", django.contrib.auth.models.UserManager()),
             ],
         ),
         migrations.AddField(
-            model_name='user',
-            name='birthday',
-            field=birthday.fields.BirthdayField(default=datetime.date(2020, 4, 28 )),
+            model_name="user",
+            name="birthday",
+            field=birthday.fields.BirthdayField(default=datetime.date(2020, 4, 28)),
             preserve_default=False,
         ),
         migrations.AddField(
-            model_name='user',
-            name='birthday_dayofyear_internal',
-            field=models.PositiveSmallIntegerField(default=None, editable=False, null=True),
+            model_name="user",
+            name="birthday_dayofyear_internal",
+            field=models.PositiveSmallIntegerField(
+                default=None, editable=False, null=True
+            ),
         ),
         migrations.AddField(
-            model_name='user',
-            name='default_area',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to='core.Area'),
+            model_name="user",
+            name="default_area",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                to="core.Area",
+            ),
         ),
     ]

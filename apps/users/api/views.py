@@ -1,23 +1,16 @@
+from apps.users import models
+from apps.users.api import serializers
 from django.contrib.auth import get_user_model
 from rest_framework import status
 from rest_framework.decorators import action
-from rest_framework.mixins import (
-    ListModelMixin,
-    RetrieveModelMixin,
-    UpdateModelMixin,
-)
+from rest_framework.mixins import ListModelMixin, RetrieveModelMixin, UpdateModelMixin
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet, ModelViewSet
-
-from apps.users.api import serializers
-from apps.users import models
 
 User = get_user_model()
 
 
-class UserViewSet(
-    RetrieveModelMixin, ListModelMixin, UpdateModelMixin, GenericViewSet
-):
+class UserViewSet(RetrieveModelMixin, ListModelMixin, UpdateModelMixin, GenericViewSet):
     serializer_class = serializers.UserSerializer
     queryset = User.objects.all()
     lookup_field = "username"
@@ -27,9 +20,7 @@ class UserViewSet(
 
     @action(detail=False, methods=["GET"])
     def me(self, request):
-        serializer = self.serializer_class(
-            request.user, context={"request": request}
-        )
+        serializer = self.serializer_class(request.user, context={"request": request})
         return Response(status=status.HTTP_200_OK, data=serializer.data)
 
     @action(detail=False, methods=["GET"])

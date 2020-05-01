@@ -1,6 +1,5 @@
-from rest_framework import serializers
-
 from apps.users import models as users_models
+from rest_framework import serializers
 
 
 class StatusSerializer(serializers.ModelSerializer):

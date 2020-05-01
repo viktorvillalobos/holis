@@ -1,10 +1,8 @@
-import json
-from django.utils.translation import ugettext as _
-import datetime as dt
-from typing import Dict
 import logging
-from channels.generic.websocket import AsyncJsonWebsocketConsumer
+from typing import Dict
 
+from channels.generic.websocket import AsyncJsonWebsocketConsumer
+from django.utils.translation import ugettext as _
 
 logger = logging.getLogger(__name__)
 

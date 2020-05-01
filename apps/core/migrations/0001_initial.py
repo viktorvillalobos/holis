@@ -16,117 +16,101 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Company',
+            name="Company",
             fields=[
                 (
-                    'id',
+                    "id",
                     models.AutoField(
                         auto_created=True,
                         primary_key=True,
                         serialize=False,
-                        verbose_name='ID',
+                        verbose_name="ID",
                     ),
                 ),
                 (
-                    'created',
+                    "created",
                     model_utils.fields.AutoCreatedField(
                         default=django.utils.timezone.now,
                         editable=False,
-                        verbose_name='created',
+                        verbose_name="created",
                     ),
                 ),
                 (
-                    'modified',
+                    "modified",
                     model_utils.fields.AutoLastModifiedField(
                         default=django.utils.timezone.now,
                         editable=False,
-                        verbose_name='modified',
+                        verbose_name="modified",
                     ),
                 ),
+                ("country", django_countries.fields.CountryField(max_length=2),),
                 (
-                    'country',
-                    django_countries.fields.CountryField(max_length=2),
+                    "name",
+                    models.CharField(db_index=True, max_length=50, verbose_name="name"),
                 ),
                 (
-                    'name',
-                    models.CharField(
-                        db_index=True, max_length=50, verbose_name='name'
-                    ),
+                    "code",
+                    models.CharField(db_index=True, max_length=50, verbose_name="code"),
                 ),
                 (
-                    'code',
-                    models.CharField(
-                        db_index=True, max_length=50, verbose_name='code'
-                    ),
-                ),
-                (
-                    'email',
+                    "email",
                     models.EmailField(
-                        blank=True,
-                        max_length=254,
-                        null=True,
-                        verbose_name='email',
+                        blank=True, max_length=254, null=True, verbose_name="email",
                     ),
                 ),
                 (
-                    'phone',
+                    "phone",
                     models.CharField(
-                        blank=True,
-                        max_length=20,
-                        null=True,
-                        verbose_name='phone',
+                        blank=True, max_length=20, null=True, verbose_name="phone",
                     ),
                 ),
             ],
             options={
-                'verbose_name': 'company',
-                'verbose_name_plural': 'companies',
-                'ordering': ['name'],
+                "verbose_name": "company",
+                "verbose_name_plural": "companies",
+                "ordering": ["name"],
             },
         ),
         migrations.CreateModel(
-            name='Area',
+            name="Area",
             fields=[
                 (
-                    'id',
+                    "id",
                     models.AutoField(
                         auto_created=True,
                         primary_key=True,
                         serialize=False,
-                        verbose_name='ID',
+                        verbose_name="ID",
                     ),
                 ),
-                ('name', models.CharField(max_length=50, unique=True)),
-                ('lft', models.PositiveIntegerField(editable=False)),
-                ('rght', models.PositiveIntegerField(editable=False)),
+                ("name", models.CharField(max_length=50, unique=True)),
+                ("lft", models.PositiveIntegerField(editable=False)),
+                ("rght", models.PositiveIntegerField(editable=False)),
                 (
-                    'tree_id',
+                    "tree_id",
                     models.PositiveIntegerField(db_index=True, editable=False),
                 ),
-                ('level', models.PositiveIntegerField(editable=False)),
+                ("level", models.PositiveIntegerField(editable=False)),
                 (
-                    'company',
+                    "company",
                     models.ForeignKey(
                         on_delete=django.db.models.deletion.CASCADE,
-                        related_name='areas',
-                        to='core.Company',
-                        verbose_name='company',
+                        related_name="areas",
+                        to="core.Company",
+                        verbose_name="company",
                     ),
                 ),
                 (
-                    'parent',
+                    "parent",
                     mptt.fields.TreeForeignKey(
                         blank=True,
                         null=True,
                         on_delete=django.db.models.deletion.CASCADE,
-                        related_name='children',
-                        to='core.Area',
+                        related_name="children",
+                        to="core.Area",
                     ),
                 ),
             ],
-            options={
-                'ordering': ['name'],
-                'unique_together': {('id', 'company')},
-            },
+            options={"ordering": ["name"], "unique_together": {("id", "company")},},
         ),
     ]

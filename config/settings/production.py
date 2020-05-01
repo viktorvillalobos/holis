@@ -1,15 +1,14 @@
+import functools  # noqa E402
 import logging
 
 import sentry_sdk
+from django.contrib.staticfiles import storage  # noqa E402
+from sentry_sdk.integrations.celery import CeleryIntegration
 from sentry_sdk.integrations.django import DjangoIntegration
 from sentry_sdk.integrations.logging import LoggingIntegration
-from sentry_sdk.integrations.celery import CeleryIntegration
-
 
 from .base import *  # noqa
-from .base import env
-from .base import DEBUG
-from .base import ROOT_DIR
+from .base import DEBUG, ROOT_DIR, env
 
 # GENERAL
 # ------------------------------------------------------------------------------
@@ -22,9 +21,7 @@ ALLOWED_HOSTS = env.list("DJANGO_ALLOWED_HOSTS", default=["lesgens.co"])
 # ------------------------------------------------------------------------------
 DATABASES["default"] = env.db("DATABASE_URL")  # noqa F405
 DATABASES["default"]["ATOMIC_REQUESTS"] = True  # noqa F405
-DATABASES["default"]["CONN_MAX_AGE"] = env.int(
-    "CONN_MAX_AGE", default=60
-)  # noqa F405
+DATABASES["default"]["CONN_MAX_AGE"] = env.int("CONN_MAX_AGE", default=60)  # noqa F405
 
 # CACHES
 # ------------------------------------------------------------------------------
@@ -126,9 +123,7 @@ EMAIL_BACKEND = "anymail.backends.mailgun.EmailBackend"
 ANYMAIL = {
     "MAILGUN_API_KEY": env("MAILGUN_API_KEY"),
     "MAILGUN_SENDER_DOMAIN": env("MAILGUN_DOMAIN"),
-    "MAILGUN_API_URL": env(
-        "MAILGUN_API_URL", default="https://api.mailgun.net/v3"
-    ),
+    "MAILGUN_API_URL": env("MAILGUN_API_URL", default="https://api.mailgun.net/v3"),
 }
 
 # django-compressor
@@ -140,9 +135,7 @@ COMPRESS_STORAGE = "storages.backends.gcloud.GoogleCloudStorage"
 # https://django-compressor.readthedocs.io/en/latest/settings/#django.conf.settings.COMPRESS_URL
 COMPRESS_URL = STATIC_URL  # noqa F405
 # https://django-compressor.readthedocs.io/en/latest/settings/#django.conf.settings.COMPRESS_OFFLINE
-COMPRESS_OFFLINE = (
-    True  # Offline compression is required when using Whitenoise
-)
+COMPRESS_OFFLINE = True  # Offline compression is required when using Whitenoise
 # https://django-compressor.readthedocs.io/en/latest/settings/#django.conf.settings.COMPRESS_FILTERS
 COMPRESS_FILTERS = {
     "css": [
@@ -182,11 +175,7 @@ LOGGING = {
             "propagate": False,
         },
         # Errors logged by the SDK itself
-        "sentry_sdk": {
-            "level": "ERROR",
-            "handlers": ["console"],
-            "propagate": False,
-        },
+        "sentry_sdk": {"level": "ERROR", "handlers": ["console"], "propagate": False,},
         "django.security.DisallowedHost": {
             "level": "ERROR",
             "handlers": ["console"],
@@ -213,16 +202,13 @@ sentry_sdk.init(
 # ------------------------------------------------------------------------------
 
 WEBPACK_LOADER = {
-    'DEFAULT': {
-        'CACHE': not DEBUG,
-        'BUNDLE_DIR_NAME': 'webpack_bundles/',  # must end with slash
-        'STATS_FILE': str(ROOT_DIR / "webapp/webpack-stats-prod.json"),
+    "DEFAULT": {
+        "CACHE": not DEBUG,
+        "BUNDLE_DIR_NAME": "webpack_bundles/",  # must end with slash
+        "STATS_FILE": str(ROOT_DIR / "webapp/webpack-stats-prod.json"),
     }
 }
 
-
-from django.contrib.staticfiles import storage  # noqa E402
-import functools  # noqa E402
 
 original_hashed_name = storage.HashedFilesMixin.hashed_name
 

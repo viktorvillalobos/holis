@@ -1,10 +1,9 @@
-from rest_framework.viewsets import ModelViewSet
-from rest_framework.decorators import action
-from rest_framework import status
-from rest_framework.response import Response
-
 from apps.chat import models
 from apps.chat.api import serializers
+from rest_framework import status
+from rest_framework.decorators import action
+from rest_framework.response import Response
+from rest_framework.viewsets import ModelViewSet
 
 
 class ChannelViewSet(ModelViewSet):
@@ -17,7 +16,5 @@ class ChannelViewSet(ModelViewSet):
     @action(detail=True, methods=["get"])
     def messages(self, request, pk):
         channel = self.get_object()
-        serializer = serializers.MessageSerializer(
-            channel.messages.all(), many=True
-        )
+        serializer = serializers.MessageSerializer(channel.messages.all(), many=True)
         return Response(status=status.HTTP_200_OK, data=serializer.data)
