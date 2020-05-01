@@ -10,10 +10,8 @@ variables:
   CELERY_BROKER_URL: 'redis://redis:6379/0'
 
 black:
-  stage: lint
-  image: python:3.7-alpine
-  before_script:
-    - pip install -q black
+  stage: Static Analysis
+  image: milansuk/python-black:latest
   script:
     - black --fast
 
