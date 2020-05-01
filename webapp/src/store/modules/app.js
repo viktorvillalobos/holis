@@ -1,4 +1,5 @@
 const state = {
+    user: null,
     isAsideLeftActive: false,
     isAsideRightActive: true,
     isBoardActive: false,

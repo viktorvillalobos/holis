@@ -35,10 +35,15 @@ const store = new Vuex.Store({
       console.log('Socket ONMESSAGE')
       console.log(message)
       state.socket.message = message
-
-      if (message.type == "notification") {
-        state.app.notification.show = true
-        state.app.notification.text = message.message
+      
+      switch (message.type){
+        case 'notification':
+          state.app.notification.show = true
+          state.app.notification.text = message.message
+        break
+        case 'me.data':
+          state.app.user = message.user
+        break
       }
     },
     // mutations for reconnect methods

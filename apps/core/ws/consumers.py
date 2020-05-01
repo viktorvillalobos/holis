@@ -1,8 +1,11 @@
 import logging
 from typing import Dict
+from channels.db import database_sync_to_async
 
 from channels.generic.websocket import AsyncJsonWebsocketConsumer
 from django.utils.translation import ugettext as _
+
+from apps.users.api.serializers import UserSerializer
 
 logger = logging.getLogger(__name__)
 
@@ -13,23 +16,47 @@ class NotificationMixin:
         await self.send_json(message)
 
 
-class MainConsumer(NotificationMixin, AsyncJsonWebsocketConsumer):
-    def get_groups(self):
+class GridMixin:
+    async def handle_grid_position(self, message: Dict) -> None:
+        logger.info("handle_grid_position")
+        logger.info(message)
+        data = {"position": 10}
+        await self.send_json(data)
+
+
+class MainConsumerBase(AsyncJsonWebsocketConsumer):
+    async def get_groups(self):
         return ["adslab", "adslab_global"]
 
+    @database_sync_to_async
+    def serialize_user_data(self, user):
+        return UserSerializer(user).data
+
+    async def send_me_data(self):
+        if self.scope["user"].id:
+            await self.send_json(
+                {
+                    "type": "me.data",
+                    "user": await self.serialize_user_data(self.scope["user"]),
+                }
+            )
+
     async def connect_to_groups(self):
-        for group in self.get_groups():
+        for group in await self.get_groups():
             await self.channel_layer.group_add(group, self.channel_name)
 
     async def connect(self):
         # Join room group
         await self.connect_to_groups()
         await self.accept()
+        await self.send_me_data()
 
     async def disconnect(self, close_code):
         for group in self.groups:
             await self.channel_layer.group_discard(group, self.channel_name)
 
+
+class MainConsumer(NotificationMixin, GridMixin, MainConsumerBase):
     async def receive_json(self, content):
         """
             This method receive jsons for clients, and
@@ -42,6 +69,8 @@ class MainConsumer(NotificationMixin, AsyncJsonWebsocketConsumer):
             _type = "error"
             _msg = _("Type is required")
 
+        logger.info(_type)
+
         if _type == "error":
             return await self.send_json({"error": _msg})
         elif _type == "chat.message":
@@ -50,6 +79,9 @@ class MainConsumer(NotificationMixin, AsyncJsonWebsocketConsumer):
                 "user": self.scope["user"].username,
             }
             return await self.notification(message)
+        elif _type == "grid.position":
+            logger.info("handling grid position")
+            await self.handle_grid_position(content)
         else:
             _msg = _("type not handled")
             return await self.send_json({"error": _msg})
