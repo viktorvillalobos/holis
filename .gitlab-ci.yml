@@ -10,7 +10,7 @@ variables:
   CELERY_BROKER_URL: 'redis://redis:6379/0'
 
 black:
-  stage: Static Analysis
+  stage: black
   image: milansuk/python-black:latest
   script:
     - black --fast
