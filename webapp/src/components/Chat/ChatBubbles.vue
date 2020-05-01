@@ -76,6 +76,14 @@
     <li>
       <Avatar />
     </li>
+
+    <li>
+      <Avatar />
+    </li>
+
+    <li>
+      <Avatar />
+    </li>
   </ul>
 </template>
 <script>
@@ -118,6 +126,7 @@ export default {
 
   li {
     margin: 7px 0;
+    cursor: hover;
   }
 }
 </style>

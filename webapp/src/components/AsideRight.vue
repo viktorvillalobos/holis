@@ -28,7 +28,7 @@ export default {
   bottom: 0;
   margin-right: -100%;
   transition: $aside-transition;
-  padding-top: 120px;
+  padding-top: $user-card-space;
 
   &.aside-opened {
     margin-right: 0;
