@@ -17,7 +17,7 @@ black:
 
 pytest:
   stage: test
-  image: python:3.7
+  image: docker/compose:latest
   tags:
     - docker
   services:
