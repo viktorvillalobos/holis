@@ -17,7 +17,7 @@ black:
 
 
 pytest:
-  state: test
+  stage: test
   image: docker
   tags:
     - docker
