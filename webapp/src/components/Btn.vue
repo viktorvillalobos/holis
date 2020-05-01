@@ -8,8 +8,11 @@
     {'connect-btn--dropdown' : dropdown},
     {'connect-btn--flat' : flat},
     {'connect-btn--primary' : primary},
-    {'connect-btn--inverse' : inverse}
+    {'connect-btn--inverse' : inverse},
+    {'connect-btn--round' : round},
+    {'connect-btn--icon' : icon}
     ]"
+      :style="size ? `width: ${size}px; height: ${size}px` : ''"
     >
       <span>
         <slot />
@@ -39,6 +42,26 @@ export default {
      * Determines wether or not the button is flat
      */
     flat: {
+      type: Boolean,
+      default: false
+    },
+    /**
+     * Determines wether or not the button is flat
+     */
+    size: {
+      type: Number
+    },
+    /**
+     * Determines wether or not the button is flat
+     */
+    round: {
+      type: Boolean,
+      default: false
+    },
+    /**
+     * Determines wether or not the button is flat
+     */
+    icon: {
       type: Boolean,
       default: false
     },
@@ -82,7 +105,6 @@ export default {
 };
 </script>
 <style lang="scss">
-
 .connect-btn {
   padding: 7px 14px;
   border-radius: 4px;
@@ -128,6 +150,21 @@ export default {
     &:hover {
       box-shadow: none;
       background: rgba(47, 128, 237, 0.2);
+    }
+  }
+
+  &--round {
+    border-radius: 50%;
+  }
+
+  &--icon {
+    padding: 0;
+    > span {
+      width: 100%;
+      height: 100%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
     }
   }
 

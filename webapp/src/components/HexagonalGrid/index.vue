@@ -79,7 +79,7 @@ export default {
           // Draw a rect to clear the image
           vm.draw
             .rect(42,40)
-            .fill('#ffffff')
+            .fill('#f2f2f2')
             .move(centerPosition.x - 21, centerPosition.y - 20)
         },
         
