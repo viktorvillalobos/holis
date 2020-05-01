@@ -23,10 +23,6 @@ class UserSerializer(serializers.ModelSerializer):
             "username",
         ]
 
-        # extra_kwargs = {
-        #     "url": {"view_name": "api:user-detail", "lookup_field": "username"}
-        # }
-
 
 class NotificationSerializer(serializers.ModelSerializer):
     class Meta:
