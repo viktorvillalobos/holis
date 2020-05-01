@@ -268,6 +268,9 @@ export default {
   right: 8px;
   width: 326px;
   padding: 15px 8px 15px;
+  transition: $aside-transition;
+  transition-delay: .25s;
+  background-color: #fff;
 
   > div {
     display: inline-flex;
@@ -322,7 +325,6 @@ export default {
     padding-top: 5px;
     padding-left: 12px;
     border: none;
-
     background-color: $light-gray;
   }
 }

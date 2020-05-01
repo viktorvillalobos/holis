@@ -26,7 +26,7 @@
         @sound="handleSound"
         :float="!isAsideRightActive"
       />
-      <chat-bubbles />
+      <chat-bubbles @asideHandle="handleAsideRight" :aside-opened="isAsideRightActive" />
     </div>
     <router-view></router-view>
   </div>
@@ -89,6 +89,9 @@ export default {
   methods: {
     handleAsideLeft() {
       this.$store.commit("setAsideLeftActive");
+    },
+    handleAsideRight() {
+      this.$store.commit("setAsideRightActive");
     },
     handleMicro() {
       this.$store.commit("setMicroActive");
