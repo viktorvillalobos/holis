@@ -23,7 +23,7 @@ pytest:
   services:
     - docker
   before_script:
-    - sudo usermod -aG docker $USER
+    - usermod -aG docker $USER
     - docker-compose -f local.yml build
     # Ensure celerybeat does not crash due to non-existent tables
     - docker-compose -f local.yml run --rm django python manage.py migrate
