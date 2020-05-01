@@ -71,7 +71,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import "../../assets/variables";
 .connect-board-post {
   margin-top: 20px;
   border-bottom: 1px solid $light-gray;

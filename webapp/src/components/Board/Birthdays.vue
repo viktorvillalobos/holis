@@ -25,7 +25,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import "../../assets/variables";
 .connect-birthday {
   &-board {
     border-radius: 4px;

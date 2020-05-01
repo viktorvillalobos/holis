@@ -1,22 +1,34 @@
 const state = {
     isAsideLeftActive: false,
+    isAsideRightActive: true,
     isBoardActive: false,
     isNotificationsActive: false,
     notification: {
-      show: false,
-      text: "This is a demo notification"
-    }
+        show: false,
+        text: "This is a demo notification"
+    },
+    isMicroActive: true,
+    isSoundActive: true
 }
 
 const mutations = {
-    setAsideLeftActive (state) {
+    setAsideLeftActive(state) {
         state.isAsideLeftActive = !state.isAsideLeftActive
     },
-    setBoardActive (state) {
+    setAsideRightActive(state) {
+        state.isAsideRightActive = !state.isAsideRightActive
+    },
+    setBoardActive(state) {
         state.isBoardActive = !state.isBoardActive
     },
-    setNotificationsActive (state) {
+    setNotificationsActive(state) {
         state.isNotificationsActive = !state.isNotificationsActive
+    },
+    setMicroActive(state) {
+        state.isMicroActive = !state.isMicroActive
+    },
+    setSoundActive(state) {
+        state.isSoundActive = !state.isSoundActive
     }
 }
 

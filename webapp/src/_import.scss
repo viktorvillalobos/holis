@@ -1,0 +1,33 @@
+@charset "utf-8";
+
+@import url("https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&display=swap");
+
+// colors
+$light-gray: #f2f2f2;
+$gray: #4f4f4f;
+$blue: #2f80ed;
+$blue-dark: #126be3;
+
+$primary: $blue;
+$font-color: $gray;
+$background: $light-gray;
+$card-box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
+$card-border-radius: 2px;
+$avatar-box-shadow: -3px 0px 4px rgba(0, 0, 0, 0.25);
+$margin-left-container: 9px;
+$aside-width: 335px;
+$margin-left-container-aside-opened: $margin-left-container + $aside-width;
+$aside-transition: 0.25s all ease;
+
+$family-sans-serif: "Ubuntu", sans-serif;
+$grey-dark: $gray;
+$grey-light: $light-gray;
+$link: $primary;
+$widescreen-enabled: false;
+$fullhd-enabled: false;
+
+$body-background-color: $background;
+$control-border-width: 1px;
+$input-shadow: none;
+
+@import "../node_modules/bulma/bulma.sass";

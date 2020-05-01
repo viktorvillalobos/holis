@@ -1,5 +1,5 @@
 <template>
-  <card :class="['connect-aside-left', {'aside-opened' : active}]">
+  <card :class="['connect-aside-right', {'aside-opened' : active}]">
     <slot>Holi! Soy el aside de la izquierda, aqui puedes poner lo que quieras :DDDD</slot>
   </card>
 </template>
@@ -7,7 +7,7 @@
 <script>
 import Card from "@/components/Card";
 export default {
-  name: "AsideLeft",
+  name: "AsideRight",
   components: {
     Card
   },
@@ -20,7 +20,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../assets/variables";
 .connect-aside-right {
   width: $aside-width;
   position: fixed;
@@ -29,6 +28,7 @@ export default {
   bottom: 0;
   margin-right: -100%;
   transition: $aside-transition;
+  padding-top: 120px;
 
   &.aside-opened {
     margin-right: 0;

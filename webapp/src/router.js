@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import AppContainer from '@/components/AppContainer.vue'
 import Office from '@/views/office.vue'
 import Login from '@/views/login.vue'
 
@@ -12,7 +13,14 @@ const router = new Router({
     {
       path: '/',
       name: '',
-      component: Office
+      component: AppContainer,
+      children: [
+        {
+          path: '',
+          name: 'office',
+          component: Office
+        }
+      ]
     },
     {
       path: '/login',

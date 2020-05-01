@@ -74,6 +74,8 @@ export default {
 .connect-board {
   padding: 9px;
   position: relative;
+  box-sizing: border-box;
+  height: calc(100vh - 42px);
 
   &-posts-wrapper {
     height: calc(100vh - 140px);
@@ -83,7 +85,7 @@ export default {
     margin-top: 5px;
 
     > div:last-child:not(.connect-board-post-editor) {
-      margin-bottom: 75px;
+      margin-bottom: 100px;
     }
   }
 }

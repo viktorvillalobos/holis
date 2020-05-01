@@ -22,14 +22,14 @@ export default {
   position: absolute;
   bottom: 0;
   left: 0;
-  padding: 0 5px 15px 5px;
+  padding: 0 5px 5px 5px;
   display: inline-flex;
   align-items: flex-end;
   justify-content: space-between;
   background: url(../../assets/boardWaves.svg);
   background-repeat: no-repeat;
   background-position: bottom;
-  height: 65px;
+  height: 90px;
   color: #fff;
 
   p {

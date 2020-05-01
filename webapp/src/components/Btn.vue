@@ -82,7 +82,6 @@ export default {
 };
 </script>
 <style lang="scss">
-@import "../assets/variables";
 
 .connect-btn {
   padding: 7px 14px;

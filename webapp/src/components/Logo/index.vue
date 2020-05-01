@@ -61,7 +61,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../../assets/variables";
 .connect-logo {
   max-height: 46px;
   &-wrapper {

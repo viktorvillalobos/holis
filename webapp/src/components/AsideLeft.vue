@@ -30,7 +30,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../assets/variables";
 .connect-aside-left {
   width: $aside-width;
   position: fixed;

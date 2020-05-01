@@ -34,7 +34,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import "../../assets/variables";
 .connect-board-post-editor {
   position: absolute;
   top: 0;

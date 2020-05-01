@@ -150,7 +150,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import "../../assets/variables";
 .connect-menu {
   position: fixed;
   top: 71px;

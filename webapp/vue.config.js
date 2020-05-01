@@ -6,6 +6,13 @@ const webpackFile = process.env.NODE_ENV === 'production' ? '../webapp/webpack-s
 module.exports = {
   publicPath: process.env.NODE_ENV === 'production' ? '/static/webapp/' : 'http://127.0.0.1:8080/',
   outputDir: './assets/webapp/',
+  css: {
+    loaderOptions: {
+      scss: {
+        prependData: `@import "~@/_import.scss";`
+      }
+    }
+  },
 
   chainWebpack: config => {
     config.optimization
@@ -13,7 +20,7 @@ module.exports = {
 
     config
       .plugin('BundleTracker')
-      .use(BundleTracker, [{ filename: webpackFile}])
+      .use(BundleTracker, [{ filename: webpackFile }])
 
     config.resolve.alias
       .set('__STATIC__', 'static')

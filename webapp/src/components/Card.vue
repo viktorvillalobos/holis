@@ -19,7 +19,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import '../assets/variables';
 .connect-card {
   box-shadow: $card-box-shadow;
   border-radius: $card-border-radius;

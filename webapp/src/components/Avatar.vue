@@ -38,7 +38,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import "../assets/variables";
 .connect-avatar {
   width: 42px;
   height: 42px;
