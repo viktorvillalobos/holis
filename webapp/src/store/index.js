@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import app from './modules/app'
 import announcements from './modules/announcements'
+import areas from './modules/areas'
 
 Vue.use(Vuex)
 
@@ -9,7 +10,8 @@ const store = new Vuex.Store({
   strict: true, // process.env.NODE_ENV !== 'production',
   modules: {
     app,
-    announcements
+    announcements,
+    areas
   },
   state: {
     socket: {
