@@ -61,7 +61,7 @@ class Area(MPTTModel):
     )
     width = models.PositiveIntegerField(_("Width"), default=30)
     height = models.PositiveIntegerField(_("Height"), default=30)
-    state = JSONField(default=list)
+    state = JSONField(default=list, blank=True)
 
     tenant_id = "company_id"
 
