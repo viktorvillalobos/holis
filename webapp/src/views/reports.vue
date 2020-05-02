@@ -4,7 +4,7 @@
 <script>
 import WIP from '@/components/WIP'
 export default {
-    name: 'Lista de notificaciones',
+    name: 'Reportes',
     components: {
         WIP
     }

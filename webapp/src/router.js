@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import AppContainer from '@/components/AppContainer.vue'
 import Office from '@/views/office.vue'
+import Reports from '@/views/reports.vue'
 import Login from '@/views/login.vue'
 
 Vue.use(Router)
@@ -19,6 +20,11 @@ const router = new Router({
           path: '',
           name: 'office',
           component: Office
+        },
+        {
+          path: 'reports',
+          name: 'reports',
+          component: Reports
         }
       ]
     },
