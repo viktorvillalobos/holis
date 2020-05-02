@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import app from './modules/app'
 import announcements from './modules/announcements'
+import areas from './modules/areas'
 
 Vue.use(Vuex)
 
@@ -9,7 +10,8 @@ const store = new Vuex.Store({
   strict: true, // process.env.NODE_ENV !== 'production',
   modules: {
     app,
-    announcements
+    announcements,
+    areas
   },
   state: {
     socket: {
@@ -43,6 +45,9 @@ const store = new Vuex.Store({
         break
         case 'me.data':
           state.app.user = message.user
+        break
+        case 'grid.position.update':
+          state.areas.changeState = message
         break
       }
     },

@@ -8,6 +8,7 @@
 
 <script>
 import { defineGrid, extendHex } from 'honeycomb-grid'
+import { mapGetters, mapState } from 'vuex'
 import  SVG  from 'svg.js'
 
 export default {
@@ -33,6 +34,12 @@ export default {
     this.grid = this.getGrid()
   },
   computed: {
+    ...mapGetters(['currentState']),
+    ...mapState({
+      // This is filled by WS message
+      changeState: state => state.areas.changeState,
+      currentArea: state => state.areas.currentArea
+    }),
     Grid () {
       return defineGrid(this.hex)
     },
@@ -112,18 +119,29 @@ export default {
   },
   methods: {
     onClick (e) {
-
         const {x, y} = this.getOffset(e)
-
         this.clearHex()
+        this.selectCellByOffset(x, y, true)
+    },
+    selectCellByOffset(x, y, notify){
         const hexCoordinates = this.Grid.pointToHex([x, y])
-        this.selectedHex = this.grid.get(hexCoordinates)
-        if (this.selectedHex) {
-          this.selectedHex.filled()
-          this.selectedHex.addImage()
-          const neighbors = this.grid.neighborsOf(this.selectedHex)
-          this.$emit('neighbors', neighbors)
-        }
+        this.selectCellByCoordinates(hexCoordinates, notify)
+    },
+    selectCellByCoordinates(hexCoordinates, notify) {
+      if (notify) {
+        const message = {type:"grid.position", area: this.currentArea.id, x: hexCoordinates.x, y: hexCoordinates.y}
+        console.log("sending change position from selectCellByCoordinates")
+        console.log(JSON.stringify(message))
+        this.$socket.send(JSON.stringify(message))
+      }
+
+      this.selectedHex = this.grid.get(hexCoordinates)
+      if (this.selectedHex) {
+        this.selectedHex.filled()
+        this.selectedHex.addImage()
+        const neighbors = this.grid.neighborsOf(this.selectedHex)
+        this.$emit('neighbors', neighbors)
+      }
     },
     getOffset(e) {
       /* LayerX and LayerY Works well in chrome and firefox */ 
@@ -169,6 +187,17 @@ export default {
   watch: {
     size () {
       this.grid = this.getGrid()
+    },
+    currentState (value) {
+      console.log('currentState watcher')
+      value.forEach(userPosition => {
+        this.selectCellByCoordinates([userPosition.x, userPosition.y])
+      })
+    },
+    changeState (value) {
+      console.log('changeState Watcher')
+      console.log(value)
+      this.selectCellByCoordinates([value.x, value.y], false)
     }
   }
 }

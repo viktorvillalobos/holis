@@ -6,6 +6,8 @@ from channels.generic.websocket import AsyncJsonWebsocketConsumer
 from django.utils.translation import ugettext as _
 
 from apps.users.api.serializers import UserSerializer
+from apps.core.uc import area_uc
+from apps.core import models as core_models
 
 logger = logging.getLogger(__name__)
 
@@ -17,16 +19,31 @@ class NotificationMixin:
 
 
 class GridMixin:
+    @database_sync_to_async
+    def save_position(self, area_id: int, x: int, y: int):
+        area = core_models.Area.objects.get(id=area_id)
+        uc = area_uc.SaveStateAreaUC(area)
+        uc.execute(self.scope["user"], x, y)
+
+    async def grid_position(self, message):
+        await self.send_json(message)
+
+    async def notify_change_position(self, message):
+        message["user"] = await self.serialize_user_data(self.scope["user"])
+        logger.info("notify_change_position")
+        logger.info(message)
+        await self.channel_layer.group_send("adslab", message)
+
     async def handle_grid_position(self, message: Dict) -> None:
         logger.info("handle_grid_position")
         logger.info(message)
-        data = {"position": 10}
-        await self.send_json(data)
+        await self.save_position(message["area"], message["x"], message["y"])
+        await self.notify_change_position(message)
 
 
 class MainConsumerBase(AsyncJsonWebsocketConsumer):
     async def get_groups(self):
-        return ["adslab", "adslab_global"]
+        return ["adslab"]
 
     @database_sync_to_async
     def serialize_user_data(self, user):

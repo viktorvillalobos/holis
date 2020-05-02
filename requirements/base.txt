@@ -33,3 +33,4 @@ drf-yasg==1.17.1
 mock==4.0.2
 djangorestframework-simplejwt==4.4.0
 django-webpack-loader==0.7.0
+numpy==1.18.3

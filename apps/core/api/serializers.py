@@ -1,6 +1,9 @@
+import logging
 from apps.core import models as core_models
 from apps.core.uc.area_uc import GetStateAreaUC
 from rest_framework import serializers
+
+logger = logging.getLogger(__name__)
 
 
 class CustomCurrentCompany(serializers.CurrentUserDefault):
@@ -15,15 +18,12 @@ class CompanySerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class StateField(serializers.ReadOnlyField):
-    def to_representation(self, obj):
-        state = GetStateAreaUC(obj).execute()
-        return state
-
-
 class AreaSerializer(serializers.ModelSerializer):
     company = serializers.HiddenField(default=CustomCurrentCompany())
-    state = StateField()
+    state = serializers.SerializerMethodField()
+
+    def get_state(self, obj):
+        return GetStateAreaUC(obj).execute()
 
     class Meta:
         model = core_models.Area

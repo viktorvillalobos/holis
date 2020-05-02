@@ -40,7 +40,9 @@ class User(AbstractUser):
         on_delete=models.CASCADE,
         related_name="users",
     )
-    position = models.CharField(_("position"), blank=True, null=True, max_length=100)
+    position = models.CharField(
+        _("position"), blank=True, null=True, max_length=100
+    )
     default_area = models.ForeignKey(
         "core.Area", blank=True, null=True, on_delete=models.SET_NULL,
     )
@@ -57,6 +59,10 @@ class User(AbstractUser):
         ordering = ["-id"]
         unique_together = ["id", "company"]
 
+    @property
+    def current_status(self):
+        return self.statuses.filter(is_active=True).first()
+
 
 class Status(TimeStampedModel):
     """
@@ -70,7 +76,10 @@ class Status(TimeStampedModel):
         related_name="statuses",
     )
     user = models.ForeignKey(
-        User, verbose_name=_("user"), related_name="statuses", on_delete=models.CASCADE,
+        User,
+        verbose_name=_("user"),
+        related_name="statuses",
+        on_delete=models.CASCADE,
     )
     text = models.CharField(_("name"), max_length=100)
     icon = models.ImageField(_("icon"), null=True, blank=True)
@@ -113,7 +122,9 @@ class Notification(TimeStampedModel):
     )
     title = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
-    unread = models.BooleanField(_("unread"), default=True, blank=False, db_index=True)
+    unread = models.BooleanField(
+        _("unread"), default=True, blank=False, db_index=True
+    )
 
     tenant_id = "company_id"
 

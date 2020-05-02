@@ -21,11 +21,8 @@ class UserSerializer(serializers.ModelSerializer):
             "position",
             "statuses",
             "username",
+            "default_area"
         ]
-
-        # extra_kwargs = {
-        #     "url": {"view_name": "api:user-detail", "lookup_field": "username"}
-        # }
 
 
 class NotificationSerializer(serializers.ModelSerializer):
