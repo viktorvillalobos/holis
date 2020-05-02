@@ -18,8 +18,8 @@ Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 Vue.use(AxiosDjango)
 
-
-Vue.use(VueNativeSock, 'ws://localhost:8000', {
+const socket = process.env.NODE_ENV === 'production' ? "wss://lesgens.co" : 'ws://localhost:8000'
+Vue.use(VueNativeSock, socket, {
   store: store,
   format: 'json',
   reconnection: true, // (Boolean) whether to reconnect automatically (false)
