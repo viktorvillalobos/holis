@@ -46,7 +46,7 @@ class User(AbstractUser):
     default_area = models.ForeignKey(
         "core.Area", blank=True, null=True, on_delete=models.SET_NULL,
     )
-    birthday = models.ImageField()
+    birthday = BirthdayField()
 
     avatar = ImageField(
         _("avatar"), blank=True, null=True, upload_to="avatars"
