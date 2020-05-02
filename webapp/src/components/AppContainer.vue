@@ -28,8 +28,14 @@
         :user="user"
       />
       <chat-bubbles @asideHandle="handleAsideRight" :aside-opened="isAsideRightActive" />
+
+      <modal :active="firstTime">
+        <card></card>
+      </modal>
     </div>
-    <router-view></router-view>
+    <div :class="['connect-content-wrapper', {'wrap' : $route.name !== 'office' }]">
+      <router-view></router-view>
+    </div>
   </div>
 </template>
 <script>
@@ -42,8 +48,10 @@ import AsideRight from "@/components/AsideRight";
 import Board from "@/components/Board";
 
 import UserCard from "@/components/UserCard";
-import ChatBubbles from '@/components/Chat/ChatBubbles'
-import Chat from '@/components/Chat'
+import ChatBubbles from "@/components/Chat/ChatBubbles";
+import Chat from "@/components/Chat";
+import Modal from "@/components/Modal";
+import Card from "@/components/Card";
 
 import { mapState } from "vuex";
 
@@ -59,7 +67,9 @@ export default {
     Notifications,
     UserCard,
     ChatBubbles,
-    Chat
+    Chat,
+    Modal,
+    Card
   },
   computed: {
     ...mapState({
@@ -70,7 +80,7 @@ export default {
       isMicroActive: state => state.app.isMicroActive,
       isSoundActive: state => state.app.isSoundActive,
       notification: state => state.app.notification,
-      user: state => state.app.user,
+      user: state => state.app.user
     }),
     asideLeftName() {
       if (this.isNotificationsActive) return "Notificaciones";
@@ -82,11 +92,19 @@ export default {
   },
   data() {
     return {
-      showNotification: false
+      showNotification: false,
+      firstTime: false
     };
   },
   created() {
     // this.$store.dispatch("getList")
+  },
+  mounted() {
+    if (localStorage.firstTime) {
+      this.firstTime = localStorage.firstTime;
+    } else {
+      this.firstTime = true
+    }
   },
   methods: {
     handleAsideLeft() {
@@ -103,6 +121,11 @@ export default {
     },
     handleNotification() {
       this.showNotification = !this.showNotification;
+    }
+  },
+  watch: {
+    firstTime(nV) {
+      localStorage.firstTime = nV;
     }
   }
 };

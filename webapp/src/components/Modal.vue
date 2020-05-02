@@ -1,15 +1,26 @@
 <template>
-  <div class="modal">
+  <div v-if="active" :class="['modal', {'is-active' : active}]">
     <div class="modal-background"></div>
     <div class="modal-content">
-      <!-- Any other Bulma elements you want -->
+      <slot />
     </div>
-    <button class="modal-close is-large" aria-label="close"></button>
+    <button @click="emitClose" class="modal-close is-large" aria-label="close"></button>
   </div>
 </template>
 <script>
 export default {
-    name: 'Modal'
+  name: "Modal",
+  props: {
+    active: {
+      type: Boolean,
+      required: true
+    }
+  },
+  methods: {
+    emitClose() {
+      this.$emit("close");
+    }
+  }
 };
 </script>
 <style lang="scss" scoped>

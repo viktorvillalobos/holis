@@ -4,6 +4,9 @@ import router from './router'
 import store from './store'
 import VueNativeSock from 'vue-native-websocket';
 import AxiosDjango from '@/plugins/AxiosDjango';
+import VueApexCharts from 'vue-apexcharts'
+
+Vue.component('apexchart', VueApexCharts)
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { far } from '@fortawesome/free-regular-svg-icons'
