@@ -23,7 +23,8 @@ class GridMixin:
     def save_position(self, area_id: int, x: int, y: int):
         area = core_models.Area.objects.get(id=area_id)
         uc = area_uc.SaveStateAreaUC(area)
-        uc.execute(self.scope["user"], x, y)
+        positions = uc.execute(self.scope["user"], x, y)
+        return positions
 
     async def grid_position(self, message):
         await self.send_json(message)
@@ -37,7 +38,8 @@ class GridMixin:
     async def handle_grid_position(self, message: Dict) -> None:
         logger.info("handle_grid_position")
         logger.info(message)
-        await self.save_position(message["area"], message["x"], message["y"])
+        old_positions = await self.save_position(message["area"], message["x"], message["y"])
+        message["old"] = old_positions
         await self.notify_change_position(message)
 
 
