@@ -25,6 +25,7 @@
         @micro="handleMicro"
         @sound="handleSound"
         :float="!isAsideRightActive"
+        :user="user"
       />
       <chat-bubbles @asideHandle="handleAsideRight" :aside-opened="isAsideRightActive" />
     </div>
@@ -68,7 +69,8 @@ export default {
       isNotificationsActive: state => state.app.isNotificationsActive,
       isMicroActive: state => state.app.isMicroActive,
       isSoundActive: state => state.app.isSoundActive,
-      notification: state => state.app.notification
+      notification: state => state.app.notification,
+      user: state => state.app.user,
     }),
     asideLeftName() {
       if (this.isNotificationsActive) return "Notificaciones";

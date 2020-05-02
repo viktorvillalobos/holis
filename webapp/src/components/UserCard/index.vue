@@ -4,8 +4,8 @@
       <div class="connect-user-card-info">
         <Avatar />
         <div class="connect-user-card-info-text">
-          <h3>Joanna Davis</h3>
-          <p>Full stack developer</p>
+          <h3>{{user.name}}</h3>
+          <p>{{user.position}}</p>
         </div>
       </div>
       <ul class="connect-user-card-options">
@@ -259,6 +259,9 @@ export default {
     },
     micro: {
       type: Boolean
+    },
+    user: {
+      type: Object
     }
   },
   components: {
