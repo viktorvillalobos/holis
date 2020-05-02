@@ -1,5 +1,6 @@
 from apps.users import models as users_models
 from rest_framework import serializers
+from sorl.thumbnail import get_thumbnail
 
 
 class StatusSerializer(serializers.ModelSerializer):
@@ -11,9 +12,29 @@ class StatusSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     statuses = StatusSerializer(many=True, read_only=True)
 
+    avatar_thumb = serializers.SerializerMethodField()
+
+    def get_avatar_thumb(self, obj):
+        if not obj.avatar:
+            return None
+
+        thumb = get_thumbnail(
+            obj.avatar.file, '100x100', crop='center', quality=99
+        ).url
+
+        # TODO: This serializer is used in channel consumer
+        # this object not have the request object
+        # we need to create a converter from scope to request
+        # to use drf serlaizers
+        try:
+            return self.context["request"].build_absolute_uri(thumb)
+        except KeyError:
+            return thumb
+
     class Meta:
         model = users_models.User
         fields = [
+            "id",
             "birthday",
             "company",
             "email",
@@ -21,7 +42,9 @@ class UserSerializer(serializers.ModelSerializer):
             "position",
             "statuses",
             "username",
-            "default_area"
+            "default_area",
+            "avatar",
+            "avatar_thumb",
         ]
 
 

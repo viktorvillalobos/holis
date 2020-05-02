@@ -77,6 +77,7 @@ THIRD_PARTY_APPS = [
     "markdownx",
     "drf_yasg",
     "webpack_loader",
+    "sorl.thumbnail"
 ]
 
 LOCAL_APPS = [

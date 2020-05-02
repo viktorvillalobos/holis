@@ -9,5 +9,8 @@
     <div id="app"></div>
     {% block render %}
     {% endblock %}
+    <script>
+        var user_id = {{ request.user.id }};
+    </script>
 </body>
 </html>

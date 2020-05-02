@@ -27,9 +27,11 @@ export default {
     return {
       draw: null,
       selectedHex: null,
-      x: null,
-      y: null
+      oldPoint: null
     }
+  },
+  created () {
+    this.$store.dispatch("getAreas")
   },
   mounted () {
     this.draw = SVG(this.$refs.grid)
@@ -40,7 +42,8 @@ export default {
     ...mapState({
       // This is filled by WS message
       changeState: state => state.areas.changeState,
-      currentArea: state => state.areas.currentArea
+      currentArea: state => state.areas.currentArea,
+      user: state => state.app.user
     }),
     Grid () {
       return defineGrid(this.hex)
@@ -87,9 +90,9 @@ export default {
           
           // Draw a rect to clear the image
           vm.draw
-            .rect(42,40)
+            .rect(42,41)
             .fill('#f2f2f2')
-            .move(centerPosition.x - 21, centerPosition.y - 20)
+            .move(centerPosition.x - 21, centerPosition.y - 21)
         },
         
         addImage() {
@@ -121,8 +124,8 @@ export default {
   },
   methods: {
     onClick (e) {
-        const {x, y} = this.getOffset(e)
         this.clearHex()
+        const {x, y} = this.getOffset(e)
         this.selectCellByOffset(x, y, true)
     },
     selectCellByOffset(x, y, notify){
@@ -135,16 +138,14 @@ export default {
         console.log("sending change position from selectCellByCoordinates")
         console.log(JSON.stringify(message))
         this.$socket.send(JSON.stringify(message))
-      }
-
+        this.oldPoint = hexCoordinates
+      } 
       const selectedHex = this.grid.get(hexCoordinates)
       if (selectedHex) {
         selectedHex.filled()
         selectedHex.addImage()
         const neighbors = this.grid.neighborsOf(selectedHex)
         this.$emit('neighbors', neighbors)
-        this.x = hexCoordinates.x
-        this.y = hexCoordinates.y
       }
     },
     getOffset(e) {
@@ -154,7 +155,8 @@ export default {
       return {x:xpos, y:ypos};
     },
     clearHex() {
-      const lastHex = this.grid.get(this.x, this.y)
+      console.log(`clear hex ${this.oldPoint}`)
+      const lastHex = this.grid.get(this.oldPoint)
       lastHex.clear()
     },
     onHover({ offsetX, offsetY }) {
@@ -194,25 +196,38 @@ export default {
     },
     currentState (value) {
       console.log('currentState watcher')
+      const vm = this
       value.forEach(userPosition => {
         const selectedHex = this.grid.get([userPosition.x, userPosition.y])
         if (selectedHex) {
           selectedHex.filled()
           selectedHex.addImage()
+          if (userPosition.id === window.user_id) {
+             vm.oldPoint = [userPosition.x, userPosition.y]
+          }
         }
-        // this.selectCellByCoordinates([userPosition.x, userPosition.y])
       })
     },
     changeState (value) {
+      /* This is executed when a notification of user
+        change is received */
       console.log('changeState Watcher')
       console.log(value)
-      this.selectCellByCoordinates([value.x, value.y], false)
+      const point = [value.x, value.y]
+      this.selectCellByCoordinates(point, false)
       
       // Clear the old position
-      value.old.forEach(old => {
-        let selectedHex = this.grid.get([old[0], old[1]])
-        selectedHex.clear()
-      })
+      
+      // Se filtra porque los cambios hechos por nosotros mismos
+      // se borran al hacer click
+      if (value.user.id !==  window.user_id) {
+        value.old.forEach(old => {
+          console.log(`clearing {old}`)
+          let selectedHex = this.grid.get([old[0], old[1]])
+          selectedHex.clear()
+         }
+        )
+      }
     }
   }
 }
