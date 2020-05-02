@@ -14,8 +14,7 @@ class CustomCurrentCompany(serializers.CurrentUserDefault):
 
 class CustomCurrentUser(serializers.CurrentUserDefault):
     def __call__(self, serializer_field):
-        _id: int = serializer_field.context["request"].user.company_id
-        return core_models.Company.objects.get(id=_id)
+        return serializer_field.context["request"].user.id
 
 
 class CompanySerializer(serializers.ModelSerializer):
@@ -36,11 +35,14 @@ class AreaSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
+class UserField(serializers.Field):
+    def to_representation(self, obj):
+        return obj.name
+
+
 class AnnouncementSerializer(serializers.ModelSerializer):
     company = serializers.HiddenField(default=CustomCurrentCompany())
-    created_by = serializers.ReadOnlyField(
-        default=serializers.CurrentUserDefault()
-    )
+    created_by = UserField(default=serializers.CurrentUserDefault())
 
     class Meta:
         model = core_models.Announcement
