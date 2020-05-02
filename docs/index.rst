@@ -1,9 +1,9 @@
-.. Lesgens Remote Team Tool documentation master file, created by
+.. Espazum Remote Team Tool documentation master file, created by
    sphinx-quickstart.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to Lesgens Remote Team Tool's documentation!
+Welcome to Espazum documentation!
 ======================================================================
 
 .. toctree::

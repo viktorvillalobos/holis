@@ -1,4 +1,4 @@
-Lesgens Remote Team Tool
+Espazum 
 ========================
 
 Amazing remote dashboard tool
@@ -39,7 +39,7 @@ Running type checks with mypy:
 
 ::
 
-  $ mypy lesgens
+  $ mypy espazum
 
 Test coverage
 ^^^^^^^^^^^^^
@@ -75,7 +75,7 @@ To run a celery worker:
 
 .. code-block:: bash
 
-    cd lesgens
+    cd espazum
     celery -A config.celery_app worker -l info
 
 Please note: For Celery's import magic to work, it is important *where* the celery commands are run. If you are in the same folder with *manage.py*, you should be right.
