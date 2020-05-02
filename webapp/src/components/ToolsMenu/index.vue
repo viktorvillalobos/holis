@@ -2,7 +2,7 @@
   <div :class="['connect-menu', {'aside-opened' : asideOpened}]">
     <card>
       <ul>
-        <li class="active">
+        <li @click="goTo('office')" class="active">
           <svg
             width="25"
             height="25"
@@ -18,7 +18,7 @@
             />
           </svg>
         </li>
-        <li>
+        <li @click="goTo('reports')">
           <svg
             class="non-lineal"
             width="25"
@@ -166,6 +166,9 @@ export default {
       if (!this.asideOpened || this.isNotificationsActive)
         this.$store.commit("setAsideLeftActive");
       this.$store.commit("setNotificationsActive");
+    },
+    goTo(to) {
+      this.$router.push({name: to})
     }
   }
 };
