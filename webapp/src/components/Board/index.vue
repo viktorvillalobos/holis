@@ -3,7 +3,7 @@
     <birthdays />
     <div class="connect-board-posts-wrapper">
       <Post
-        v-for="post in posts"
+        v-for="post in announcementsList"
         :key="post.id"
         :isPinned="post.isPinned"
         :author="post.author"
@@ -19,6 +19,8 @@
   </div>
 </template>
 <script>
+import {mapState} from 'vuex';
+
 import Birthdays from "./Birthdays";
 import Post from "./Post";
 import PostCTA from "./PostCTA";
@@ -62,6 +64,11 @@ export default {
         }
       ]
     };
+  },
+  computed: {
+    ...mapState({
+      announcementsList: state => state.announcements.list.results 
+    })
   },
   methods: {
     handlePostEditor() {

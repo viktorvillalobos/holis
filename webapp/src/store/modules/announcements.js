@@ -15,6 +15,11 @@ const actions = {
     const {data} = await apiClient.announcements.getList()
     console.log(data)
     commit('setList', data)
+  },
+  async postAnnouncement({ dispatch }, payload) {
+    const {data} = await apiClient.announcements.postAnnouncement(payload)
+    console.log(data)
+    dispatch('getList')
   }
 }
 

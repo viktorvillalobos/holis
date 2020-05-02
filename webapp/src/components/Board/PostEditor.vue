@@ -3,13 +3,13 @@
     <label>Título</label>
     <input v-model="instance.title" type="text" />
     <label>Contenido</label>
-    <textarea v-model="instance.content" name id cols="30" rows="10"></textarea>
+    <textarea v-model="instance.text" name id cols="30" rows="10"></textarea>
     <ul>
       <li>
         <Btn @btn-click="handleClose" flat>Cancelar</Btn>
       </li>
       <li>
-        <Btn primary>Anunciar</Btn>
+        <Btn @btn-click="submit" primary>Anunciar</Btn>
       </li>
     </ul>
   </div>
@@ -20,7 +20,7 @@ export default {
   name: "PostEditor",
   props: {
     instance: {
-        type: Object
+      type: Object
     }
   },
   components: {
@@ -28,7 +28,10 @@ export default {
   },
   methods: {
     handleClose() {
-      this.$emit('close')
+      this.$emit("close");
+    },
+    submit () {
+      this.$store.dispatch('postAnnouncement', this.instance)
     }
   }
 };
