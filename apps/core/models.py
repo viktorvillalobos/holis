@@ -84,6 +84,7 @@ class Announcement(TimeStampedModel):
         verbose_name=_("company"),
     )
 
+    title = models.CharField(_("title"), max_length=100, blank=True)
     text = models.TextField(_("text"), blank=True)
 
     created_by = models.ForeignKey(

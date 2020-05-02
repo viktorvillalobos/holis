@@ -1,5 +1,5 @@
 import datetime as dt
-
+from sorl.thumbnail import ImageField
 from birthday.fields import BirthdayField
 from birthday.managers import BirthdayManager
 from django.contrib.auth.models import AbstractUser, UserManager
@@ -46,7 +46,11 @@ class User(AbstractUser):
     default_area = models.ForeignKey(
         "core.Area", blank=True, null=True, on_delete=models.SET_NULL,
     )
-    birthday = BirthdayField()
+    birthday = models.ImageField()
+
+    avatar = ImageField(
+        _("avatar"), blank=True, null=True, upload_to="avatars"
+    )
 
     objects = UserManager()
 
