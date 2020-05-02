@@ -220,13 +220,26 @@
       </ul>
     </div>
     <div>
-      <div class="field">
-        <div class="control">
-          <div class="select is-primary">
-            <select>
-              <option>Select dropdown</option>
-              <option>With options</option>
-            </select>
+      <div :class="['dropdown', {'is-active' : stateMenuIsActive}]">
+        <div class="dropdown-trigger">
+          <button
+            @click="stateMenuIsActive = !stateMenuIsActive"
+            class="button"
+            aria-haspopup="true"
+            aria-controls="dropdown-menu2"
+          >
+            <span>{{userState}}</span>
+            <span class="icon is-small">
+              <font-awesome-icon icon="angle-down" />
+            </span>
+          </button>
+        </div>
+        <div class="dropdown-menu" id="dropdown-menu2" role="menu">
+          <div class="dropdown-content">
+            <div v-for="(state, index) in states" :key="state" @click="handleState(state)">
+              <div class="dropdown-item">{{state}}</div>
+              <hr v-if="index + 1 !== states.length" class="dropdown-divider" />
+            </div>
           </div>
         </div>
       </div>
@@ -251,12 +264,31 @@ export default {
   components: {
     Avatar
   },
+  data() {
+    return {
+      stateMenuIsActive: false,
+      states: [
+        "💻 Disponible",
+        " 🤝En reunión",
+        "😋 En colación",
+        "👻 Ausente"
+      ],
+      userState: null
+    };
+  },
+  created () {
+    this.userState = this.states[0]
+  },
   methods: {
     emitSound() {
       this.$emit("sound");
     },
     emitMicro() {
       this.$emit("micro");
+    },
+    handleState(state) {
+      this.userState = state;
+      this.stateMenuIsActive = false;
     }
   }
 };
@@ -269,7 +301,7 @@ export default {
   width: 326px;
   padding: 15px 8px 15px;
   transition: $aside-transition;
-  transition-delay: .25s;
+  transition-delay: 0.25s;
   background-color: #fff;
 
   > div {
@@ -311,30 +343,40 @@ export default {
   }
 }
 
-.field {
+.dropdown {
   width: 100%;
-}
 
-.select {
-  width: 100%;
-  select {
+  &-trigger {
     width: 100%;
-    font-size: 12px;
-    height: auto;
-    padding-bottom: 5px;
-    padding-top: 5px;
-    padding-left: 12px;
-    border: none;
-    background-color: $light-gray;
+  }
+
+  button {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &.is-active {
+    .dropdown-menu {
+      width: 100%;
+
+      .dropdown-item {
+        &:hover {
+          background: $light-gray;
+          cursor: pointer;
+        }
+      }
+    }
   }
 }
 
-.select:not(.is-multiple):not(.is-loading)::after,
-.navbar-link:not(.is-arrowless)::after {
-  margin-top: -0.7em;
-}
-
-.select:not(.is-multiple):not(.is-loading)::after {
-  z-index: 20;
+.button {
+  margin-top: 5px;
+  background-color: $light-gray;
+  border: 0;
+  padding: 3px 10px;
+  text-align: center;
+  white-space: nowrap;
+  height: 30px;
 }
 </style>

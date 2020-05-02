@@ -1,5 +1,27 @@
 <template>
   <div class="connect-chat-header">
+    <div class="svg-wrapper">
+      <svg
+        width="334"
+        height="58"
+        viewBox="0 0 334 58"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          fill-rule="evenodd"
+          clip-rule="evenodd"
+          d="M84.2085 45.1453C32.2318 43.0721 -22.7635 58.7136 -68.259 33.859C-114.688 8.49463 -149.86 -38.2519 -161.764 -89.2319C-172.949 -137.136 -141.139 -182.367 -129.931 -230.266C-119.858 -273.317 -129.108 -323.619 -99.2171 -356.548C-69.4005 -389.394 -16.4019 -382.507 24.4817 -400.371C73.7948 -421.918 112.205 -481.42 165.319 -472.136C217.467 -463.022 235.579 -398.196 268.922 -357.647C300.984 -318.657 343.556 -286.936 357.337 -238.623C372.058 -187.012 367.467 -131.293 347.74 -81.3299C327.327 -29.6297 295.433 22.0569 244.821 46.3473C195.692 69.9254 138.809 47.3233 84.2085 45.1453Z"
+          fill="#9B51E0"
+        />
+        <path
+          fill-rule="evenodd"
+          clip-rule="evenodd"
+          d="M161.013 -23.2656C115.932 -54.7066 43.587 -56.6658 23.3201 -107.646C3.59608 -157.26 48.6676 -207.442 68.2792 -256.531C87.2885 -304.113 91.4403 -366.246 136.403 -390.702C181.635 -415.305 236.369 -376.546 288.175 -376.138C334.803 -375.771 379.83 -402.508 424.483 -388.434C473.144 -373.097 518.715 -340.815 542.988 -295.827C567.189 -250.973 565.41 -196.562 554.631 -147.22C544.778 -102.121 520.742 -60.3208 485.172 -31.1893C453.438 -5.19883 407.976 -10.357 369.58 4.33549C330.427 19.3177 299.572 61.3782 257.733 55.8414C215.81 50.2935 195.871 1.04547 161.013 -23.2656Z"
+          fill="#2F80ED"
+        />
+      </svg>
+    </div>
     <h3>{{chatName}}</h3>
     <ul class="chat-actions">
       <li>
@@ -30,7 +52,28 @@ export default {
   top: 0;
   left: 0;
   right: 0;
-  padding: 2px 15px;
+  padding: 2px 15px 20px 15px;
+  overflow: hidden;
+  z-index: 99;
+
+  color: #fff;
+
+  .svg-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    svg {
+      position: absolute;
+      bottom: 0;
+    }
+  }
+
+  h3 {
+    font-weight: 600;
+  }
 
   .chat-actions {
     display: flex;
@@ -38,19 +81,16 @@ export default {
     justify-content: flex-end;
 
     li {
-        margin-left: 5px;
-        cursor: pointer;
+      margin-left: 5px;
+      cursor: pointer;
+      border-radius: 50%;
+      width: 24px;
+      text-align: center;
+
+      &:hover {
+        background: rgba(0, 0, 0, 0.2);
+      }
     }
   }
-}
-
-#EmojiPicker {
-    width: 300px;
-    position: absolute;
-    bottom: 100%;
-
-    .emoji {
-        padding-top: 7px;
-    }
 }
 </style>
