@@ -29,8 +29,18 @@
       />
       <chat-bubbles @asideHandle="handleAsideRight" :aside-opened="isAsideRightActive" />
 
-      <modal :active="firstTime">
-        <card></card>
+      <modal :active="firstTime" @close="handleFirstTime">
+        <card class="welcome-card">
+          <h2>¡Hola! 😁</h2>
+          <h3>Posicionate junto a cualquiera de tus compañeros e inicia un <strong>canal de comunicación instantáneamente</strong></h3>
+          <img class="vector-bg" src="@/assets/VectorBack.svg" />
+          <img
+            src="@/assets/peek.gif"
+            alt
+            class="welcome-gif"
+            :style="`mask-image: url(${publicPath}/Vector.svg);`"
+          />
+        </card>
       </modal>
     </div>
     <div :class="['connect-content-wrapper', {'wrap' : $route.name !== 'office' }]">
@@ -93,16 +103,15 @@ export default {
   data() {
     return {
       showNotification: false,
-      firstTime: false
+      firstTime: false,
+      publicPath: process.env.BASE_URL
     };
   },
   created() {
     // this.$store.dispatch("getList")
   },
   mounted() {
-    if (localStorage.firstTime) {
-      this.firstTime = localStorage.firstTime;
-    } else {
+    if (!localStorage.firstTime) {
       this.firstTime = true
     }
   },
@@ -121,11 +130,10 @@ export default {
     },
     handleNotification() {
       this.showNotification = !this.showNotification;
-    }
-  },
-  watch: {
-    firstTime(nV) {
-      localStorage.firstTime = nV;
+    },
+    handleFirstTime() {
+      localStorage.firstTime = false
+      this.firstTime = false
     }
   }
 };
@@ -196,5 +204,32 @@ a {
 /* .slide-fade-leave-active below version 2.1.8 */ {
   transform: translateX(-20px);
   opacity: 0;
+}
+
+.connect-card.welcome-card {
+  position: relative;
+  height: 380px;
+  overflow: hidden;
+  padding: 15px;
+  text-align: center;
+  border-radius: 8px;
+
+  h2 {
+    font-weight: 600;
+    color: $primary;
+    font-size: 20px;
+  }
+}
+
+.welcome-gif {
+  left: 0;
+  position: absolute;
+  mask-size: 100%;
+  mask-repeat: no-repeat;
+  mask-position-y: -40px;
+}
+
+.vector-bg {
+  position: absolute;
 }
 </style>
