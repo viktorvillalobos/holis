@@ -1,4 +1,5 @@
 import datetime as dt
+import requests
 from sorl.thumbnail import ImageField
 from birthday.fields import BirthdayField
 from birthday.managers import BirthdayManager
@@ -66,6 +67,14 @@ class User(AbstractUser):
     @property
     def current_status(self):
         return self.statuses.filter(is_active=True).first()
+
+    def save(self, *args, **kwargs):
+        # if not self.avatar:
+        #     self.avatar = self.get_monster()
+        super().save(*args, **kwargs)
+
+    def get_monster(self):
+        pass
 
 
 class Status(TimeStampedModel):
