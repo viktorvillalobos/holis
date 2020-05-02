@@ -218,7 +218,3 @@ WEBPACK_LOADER = {
         "STATS_FILE": str(ROOT_DIR / "webapp/webpack-stats-prod.json"),
     }
 }
-
-THUMBNAILS[  # noqa F405
-    "STORAGE"
-] = "apps.utils.storages.MediaRootGoogleCloudStorage"
