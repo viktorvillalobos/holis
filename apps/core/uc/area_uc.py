@@ -1,11 +1,14 @@
 """
     UseCases for Area
 """
+import logging
 import numpy as np
 from typing import Dict, List, Tuple
 
 from apps.core.uc.abstracts import AbstractModelUC
 from apps.users.models import User
+
+logger = logging.getLogger(__name__)
 
 
 class BaseAreaUC(AbstractModelUC):
@@ -106,6 +109,21 @@ class BaseAreaUC(AbstractModelUC):
             True,
         )
 
+    def get_empty_record(self):
+        return (0, '', '', '', '', False)
+
+    def get_user_position(self, user: User):
+        return np.argwhere(self.state["id"] == user.id)
+
+    def clear_current_user_position(self, user: User):
+        logger.info("clear_current_user_position")
+        positions = self.get_user_position(user)
+        logger.info(positions)
+        for x, y in positions:
+            self.state[x, y] = self.get_empty_record()
+
+        self.save_state()
+
 
 class GetStateAreaUC(BaseAreaUC):
     def execute(self) -> List[Dict]:
@@ -118,5 +136,6 @@ class SaveStateAreaUC(BaseAreaUC):
     """
 
     def execute(self, user: User, x: int, y: int) -> None:
+        self.clear_current_user_position(user)
         self.state[x, y] = self.get_record_from_user(user, x, y)
         self.save_state()

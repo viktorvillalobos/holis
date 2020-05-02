@@ -46,6 +46,9 @@ const store = new Vuex.Store({
         case 'me.data':
           state.app.user = message.user
         break
+        case 'grid.position.update':
+          state.areas.changeState = message
+        break
       }
     },
     // mutations for reconnect methods

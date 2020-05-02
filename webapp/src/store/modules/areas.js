@@ -1,13 +1,14 @@
 import apiClient from "../../services/api"
 
 const state = {
-  current: null,
+  currentArea: null,
   list: [],
+  changeState: null,
 }
 
 const getters = {
   currentState (state) {
-    return state.current ? state.current.state : []
+    return state.currentArea ? state.currentArea.state : []
   }
 }
 
@@ -15,7 +16,7 @@ const mutations = {
   setCurrent(state) {
     // TODO: Selectable area
     if (state.list) {
-      state.current = state.list[0]
+      state.currentArea = state.list[0]
     }
   },
   setAreas(state, areas) {
