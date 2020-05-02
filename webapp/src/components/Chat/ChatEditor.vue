@@ -7,6 +7,7 @@
           class="input is-small"
           type="text"
           placeholder="Escribe tu mensaje..."
+           v-on:keyup.enter="submit"
         />
         <span class="icon-wrapper-files">
           <svg
@@ -57,6 +58,15 @@ export default {
     selectEmoji(emoji) {
       this.message = this.message + emoji.data;
       this.showEmojiPicker = false;
+    },
+    submit () {
+      const msg = {
+        message: this.message,
+        is_mine: true
+      }
+      this.$emit('enter', msg)
+
+      this.message = ''
     }
   }
 };
@@ -108,6 +118,16 @@ export default {
 
   .icon-wrapper-emoji {
     right: 0;
+  }
+}
+
+#EmojiPicker {
+  width: 300px;
+  position: absolute;
+  bottom: 100%;
+
+  .emoji {
+    padding-top: 7px;
   }
 }
 </style>
