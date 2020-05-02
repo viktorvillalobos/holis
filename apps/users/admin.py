@@ -15,7 +15,7 @@ class UserAdmin(AdminImageMixin, auth_admin.UserAdmin):
     fieldsets = (
         ("User", {"fields": ("name", "avatar")}),
     ) + auth_admin.UserAdmin.fieldsets
-    list_display = ["company", "username", "name", "is_superuser"]
+    list_display = ["username", "company", "name", "is_superuser"]
     search_fields = ["name"]
 
 

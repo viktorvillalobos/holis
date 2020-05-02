@@ -5,7 +5,7 @@ const AxiosDjango = {
   install(Vue, options) {
     if (window.csrf.value) {
       console.log(window.csrf.value)
-      Axios.defaults.headers.common['X-CSRF-TOKEN'] = window.csrf.value;
+      Axios.defaults.headers.common['X-CSRFTOKEN'] = window.csrf.value;
     }
 
     Vue.$axios = Axios
