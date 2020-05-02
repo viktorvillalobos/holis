@@ -8,6 +8,7 @@
 
 <script>
 import { defineGrid, extendHex } from 'honeycomb-grid'
+import { mapGetters } from 'vuex'
 import  SVG  from 'svg.js'
 
 export default {
@@ -33,6 +34,7 @@ export default {
     this.grid = this.getGrid()
   },
   computed: {
+    ...mapGetters(['currentState']),
     Grid () {
       return defineGrid(this.hex)
     },
@@ -112,11 +114,15 @@ export default {
   },
   methods: {
     onClick (e) {
-
         const {x, y} = this.getOffset(e)
-
         this.clearHex()
+        this.selectCellByOffset(x, y)
+    },
+    selectCellByOffset(x, y){
         const hexCoordinates = this.Grid.pointToHex([x, y])
+        this.selectCellByCoordinates(hexCoordinates)
+    },
+    selectCellByCoordinates(hexCoordinates) {
         this.selectedHex = this.grid.get(hexCoordinates)
         if (this.selectedHex) {
           this.selectedHex.filled()
@@ -169,6 +175,11 @@ export default {
   watch: {
     size () {
       this.grid = this.getGrid()
+    },
+    currentState (value) {
+      value.forEach(userPosition => {
+        this.selectCellByCoordinates([userPosition.x, userPosition.y])
+      })
     }
   }
 }

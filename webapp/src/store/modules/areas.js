@@ -1,29 +1,33 @@
 import apiClient from "../../services/api"
 
 const state = {
-  currentArea: null,
-  areas: [],
+  current: null,
+  list: [],
 }
 
 const getters = {
   currentState (state) {
-    return state.currentArea ? state.currentArea.staate : []
+    return state.current ? state.current.state : []
   }
 }
 
 const mutations = {
-  setCurrentArea(state, area) {
-    state.currentArea = area
+  setCurrent(state) {
+    // TODO: Selectable area
+    if (state.list) {
+      state.current = state.list[0]
+    }
   },
   setAreas(state, areas) {
-    state.areas = areas
+    state.list= areas
   },
 }
 
 const actions = {
   async getAreas({ commit }) {
     const { data } = await apiClient.areas.list()
-    commit('setAreas', data)
+    commit('setAreas', data.results)
+    commit('setCurrent')
   }
 }
 

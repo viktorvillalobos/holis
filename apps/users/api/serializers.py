@@ -21,6 +21,7 @@ class UserSerializer(serializers.ModelSerializer):
             "position",
             "statuses",
             "username",
+            "default_area"
         ]
 
 
