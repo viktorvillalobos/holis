@@ -1,9 +1,13 @@
 <template>
-    <h1>Soy la lksta de notificaciones! :DDDD</h1>
+    <WIP />
 </template>
 <script>
+import WIP from '@/components/WIP'
 export default {
-    
+    name: 'Lista de notificaciones',
+    components: {
+        WIP
+    }
 }
 </script>
 <style lang="scss" scoped>

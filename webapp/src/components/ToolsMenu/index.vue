@@ -2,7 +2,7 @@
   <div :class="['connect-menu', {'aside-opened' : asideOpened}]">
     <card>
       <ul>
-        <li @click="goTo('office')" class="active">
+        <li @click="goTo('office')" :class="{'active' : $route.name === 'office'}">
           <svg
             width="25"
             height="25"
@@ -18,7 +18,7 @@
             />
           </svg>
         </li>
-        <li @click="goTo('reports')">
+        <li @click="goTo('reports')" :class="{'active' : $route.name === 'reports'}">
           <svg
             class="non-lineal"
             width="25"

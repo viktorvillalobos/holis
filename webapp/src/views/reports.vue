@@ -1,10 +1,14 @@
 <template>
-  <h1>Aqui van los reportes!</h1>
+    <WIP />
 </template>
 <script>
+import WIP from '@/components/WIP'
 export default {
-  name: "Reports"
-};
+    name: 'Reportes',
+    components: {
+        WIP
+    }
+}
 </script>
 <style lang="scss" scoped>
 
