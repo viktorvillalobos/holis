@@ -124,6 +124,8 @@ class BaseAreaUC(AbstractModelUC):
 
         self.save_state()
 
+        return positions.tolist()
+
 
 class GetStateAreaUC(BaseAreaUC):
     def execute(self) -> List[Dict]:
@@ -135,7 +137,9 @@ class SaveStateAreaUC(BaseAreaUC):
         Save the position of person inside the state
     """
 
-    def execute(self, user: User, x: int, y: int) -> None:
-        self.clear_current_user_position(user)
+    def execute(self, user: User, x: int, y: int) -> List:
+        positions = self.clear_current_user_position(user)
         self.state[x, y] = self.get_record_from_user(user, x, y)
         self.save_state()
+
+        return positions

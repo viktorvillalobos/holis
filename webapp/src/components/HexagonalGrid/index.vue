@@ -26,7 +26,9 @@ export default {
   data () {
     return {
       draw: null,
-      selectedHex: null
+      selectedHex: null,
+      x: null,
+      y: null
     }
   },
   mounted () {
@@ -135,12 +137,14 @@ export default {
         this.$socket.send(JSON.stringify(message))
       }
 
-      this.selectedHex = this.grid.get(hexCoordinates)
-      if (this.selectedHex) {
-        this.selectedHex.filled()
-        this.selectedHex.addImage()
-        const neighbors = this.grid.neighborsOf(this.selectedHex)
+      const selectedHex = this.grid.get(hexCoordinates)
+      if (selectedHex) {
+        selectedHex.filled()
+        selectedHex.addImage()
+        const neighbors = this.grid.neighborsOf(selectedHex)
         this.$emit('neighbors', neighbors)
+        this.x = hexCoordinates.x
+        this.y = hexCoordinates.y
       }
     },
     getOffset(e) {
@@ -150,8 +154,8 @@ export default {
       return {x:xpos, y:ypos};
     },
     clearHex() {
-      if (this.selectedHex)
-        this.selectedHex.clear()
+      const lastHex = this.grid.get(this.x, this.y)
+      lastHex.clear()
     },
     onHover({ offsetX, offsetY }) {
         const hexCoordinates = this.Grid.pointToHex([offsetX, offsetY])
@@ -191,13 +195,24 @@ export default {
     currentState (value) {
       console.log('currentState watcher')
       value.forEach(userPosition => {
-        this.selectCellByCoordinates([userPosition.x, userPosition.y])
+        const selectedHex = this.grid.get([userPosition.x, userPosition.y])
+        if (selectedHex) {
+          selectedHex.filled()
+          selectedHex.addImage()
+        }
+        // this.selectCellByCoordinates([userPosition.x, userPosition.y])
       })
     },
     changeState (value) {
       console.log('changeState Watcher')
       console.log(value)
       this.selectCellByCoordinates([value.x, value.y], false)
+      
+      // Clear the old position
+      value.old.forEach(old => {
+        let selectedHex = this.grid.get([old[0], old[1]])
+        selectedHex.clear()
+      })
     }
   }
 }
