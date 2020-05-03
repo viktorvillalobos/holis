@@ -15,7 +15,7 @@ from .base import DEBUG, ROOT_DIR, env
 # https://docs.djangoproject.com/en/dev/ref/settings/#secret-key
 SECRET_KEY = env("DJANGO_SECRET_KEY")
 # https://docs.djangoproject.com/en/dev/ref/settings/#allowed-hosts
-ALLOWED_HOSTS = env.list("DJANGO_ALLOWED_HOSTS", default=["lesgens.co"])
+ALLOWED_HOSTS = env.list("DJANGO_ALLOWED_HOSTS", default=["espazum.com"])
 
 # DATABASES
 # ------------------------------------------------------------------------------
@@ -100,13 +100,13 @@ TEMPLATES[-1]["OPTIONS"]["loaders"] = [  # type: ignore[index] # noqa F405
 # https://docs.djangoproject.com/en/dev/ref/settings/#default-from-email
 DEFAULT_FROM_EMAIL = env(
     "DJANGO_DEFAULT_FROM_EMAIL",
-    default="Lesgens Remote Team Tool <noreply@mail.lesgens.co>",
+    default="Espazum Remote Team Tool <noreply@mail.espazum.com>",
 )
 # https://docs.djangoproject.com/en/dev/ref/settings/#server-email
 # SERVER_EMAIL = env("DJANGO_SERVER_EMAIL", default=DEFAULT_FROM_EMAIL)
 # https://docs.djangoproject.com/en/dev/ref/settings/#email-subject-prefix
 EMAIL_SUBJECT_PREFIX = env(
-    "DJANGO_EMAIL_SUBJECT_PREFIX", default="[Lesgens Remote Team Tool]"
+    "DJANGO_EMAIL_SUBJECT_PREFIX", default="[Espazum Remote Team Tool]"
 )
 
 # ADMIN
@@ -214,11 +214,7 @@ sentry_sdk.init(
 WEBPACK_LOADER = {
     "DEFAULT": {
         "CACHE": not DEBUG,
-        "BUNDLE_DIR_NAME": "webpack_bundles/",  # must end with slash
+        "BUNDLE_DIR_NAME": "static/bundle_webapp/assets/",  # must end with slash
         "STATS_FILE": str(ROOT_DIR / "webapp/webpack-stats-prod.json"),
     }
 }
-
-THUMBNAILS[  # noqa F405
-    "STORAGE"
-] = "apps.utils.storages.MediaRootGoogleCloudStorage"

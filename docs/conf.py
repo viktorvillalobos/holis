@@ -21,7 +21,7 @@ import sys
 
 # -- Project information -----------------------------------------------------
 
-project = "Lesgens Remote Team Tool"
+project = "Espazum Remote Team Tool"
 copyright = """2020, Víctor Villalobos"""
 author = "Víctor Villalobos"
 
