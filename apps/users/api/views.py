@@ -16,7 +16,7 @@ class UserViewSet(RetrieveModelMixin, ListModelMixin, UpdateModelMixin, GenericV
     lookup_field = "username"
 
     def get_queryset(self, *args, **kwargs):
-        return self.queryset.filter(id=self.request.user.id)
+        return self.queryset.all()
 
     @action(detail=False, methods=["GET"])
     def me(self, request):

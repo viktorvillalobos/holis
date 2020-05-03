@@ -8,6 +8,7 @@ from django.db import models
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 from model_utils.models import TimeStampedModel
+from sorl.thumbnail import get_thumbnail
 
 
 class UserManager(BirthdayManager, UserManager):
@@ -75,6 +76,15 @@ class User(AbstractUser):
 
     def get_monster(self):
         pass
+
+    @property
+    def avatar_thumb(self):
+        if not self.avatar:
+            return f"https://api.adorable.io/avatars/40/{self.username}@adorable.png"
+
+        return get_thumbnail(
+            self.avatar.file, '100x100', crop='center', quality=99
+        ).url
 
 
 class Status(TimeStampedModel):

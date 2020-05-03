@@ -55,7 +55,7 @@ export default {
       const {x, y} = this.getOffset(e)
       if (!this.isOverlaped([x,y])) {
         this.clearHex()
-        this.selectCellByOffset(x, y, true)
+        this.selectCellByOffset(x, y,this.user, true)
         this.wasUpdateOnClient = true
       }
     },
@@ -77,11 +77,11 @@ export default {
       console.log(response)
       return response
     },
-    selectCellByOffset(x, y, notify){
+    selectCellByOffset(x, y, user, notify){
         const hexCoordinates = this.Grid.pointToHex([x, y])
-        this.selectCellByCoordinates(hexCoordinates, notify)
+        this.selectCellByCoordinates(hexCoordinates, user, notify)
     },
-    selectCellByCoordinates(hexCoordinates, notify) {
+    selectCellByCoordinates(hexCoordinates, user, notify) {
       if (notify) {
         const message = {type:"grid.position", area: this.currentArea.id, x: hexCoordinates.x, y: hexCoordinates.y}
         this.$socket.send(JSON.stringify(message))
@@ -90,7 +90,7 @@ export default {
       const selectedHex = this.grid.get(hexCoordinates)
       if (selectedHex) {
         selectedHex.filled()
-        selectedHex.addImage()
+        selectedHex.addImage(user.avatar_thumb)
         const neighbors = this.grid.neighborsOf(selectedHex)
         this.$emit('neighbors', neighbors)
       }
@@ -183,12 +183,14 @@ export default {
             .move(centerPosition.x - 21, centerPosition.y - 21)
         },
         
-        addImage() {
+        addImage(avatar) {
           const position = this.toPoint()
           const centerPosition = this.center().add(position)
-          
+          console.log('AVATAR')
+          console.log(avatar)
+
           vm.draw
-            .image(this.img)
+            .image(avatar, 40, 40)
             .translate(centerPosition.x - 20, centerPosition.y - 20)
         },
 
@@ -233,7 +235,9 @@ export default {
         const selectedHex = this.grid.get([userPosition.x, userPosition.y])
         if (selectedHex) {
           selectedHex.filled()
-          selectedHex.addImage()
+          console.log('VALUE')
+          console.log(userPosition)
+          selectedHex.addImage(userPosition.avatar)
           if (userPosition.id === window.user_id) {
              vm.oldPoint = [userPosition.x, userPosition.y]
           }
@@ -252,7 +256,7 @@ export default {
       // se borran al hacer click
       if (!this.wasUpdateOnClient) {
 
-        this.selectCellByCoordinates(point, false)
+        this.selectCellByCoordinates(point, value.user, false)
         console.log('Updating reading the message')
 
         if (window.user_id === value.user.id)

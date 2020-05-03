@@ -48,6 +48,7 @@ class BaseAreaUC(AbstractModelUC):
         ('last_name', (np.str_, 100)),
         ('status', (np.str_, 100)),
         ('position', (np.str_, 100)),
+        ('avatar', (np.str_, 255)),
         ('is_online', np.bool_),
     ]
 
@@ -89,9 +90,10 @@ class BaseAreaUC(AbstractModelUC):
             item = {}
             item["id"] = self.state[x, y][0]
             item["name"] = self.state[x, y][1]
-            item["last_name"] = self.state[x, y][1]
-            item["status"] = self.state[x, y][2]
-            item["position"] = self.state[x, y][3]
+            item["last_name"] = self.state[x, y][2]
+            item["status"] = self.state[x, y][3]
+            item["position"] = self.state[x, y][4]
+            item["avatar"] = self.state[x, y][5]
             item["is_online"] = True
             item["x"] = x
             item["y"] = y
@@ -106,11 +108,12 @@ class BaseAreaUC(AbstractModelUC):
             user.last_name,
             user.current_status,
             user.position,
+            user.avatar_thumb,
             True,
         )
 
     def get_empty_record(self):
-        return (0, '', '', '', '', False)
+        return (0, '', '', '', '', '', False)
 
     def get_user_position(self, user: User):
         return np.argwhere(self.state["id"] == user.id)
@@ -140,6 +143,8 @@ class SaveStateAreaUC(BaseAreaUC):
     def execute(self, user: User, x: int, y: int) -> List:
         positions = self.clear_current_user_position(user)
         self.state[x, y] = self.get_record_from_user(user, x, y)
+        logger.info('CHANGING STATE')
+        logger.info(self.state[x, y])
         self.save_state()
 
         return positions

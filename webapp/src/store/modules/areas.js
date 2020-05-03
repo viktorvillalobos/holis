@@ -1,9 +1,9 @@
 import apiClient from "../../services/api"
 
 const state = {
-  currentArea: null,
+  currentArea: null, // Initial state called from rest
   list: [],
-  changeState: null,
+  changeState: null, // Message of a state change
 }
 
 const getters = {

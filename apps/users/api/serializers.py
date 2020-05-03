@@ -15,21 +15,17 @@ class UserSerializer(serializers.ModelSerializer):
     avatar_thumb = serializers.SerializerMethodField()
 
     def get_avatar_thumb(self, obj):
-        if not obj.avatar:
+        if not obj.avatar_thumb:
             return None
-
-        thumb = get_thumbnail(
-            obj.avatar.file, '100x100', crop='center', quality=99
-        ).url
 
         # TODO: This serializer is used in channel consumer
         # this object not have the request object
         # we need to create a converter from scope to request
         # to use drf serlaizers
         try:
-            return self.context["request"].build_absolute_uri(thumb)
+            return self.context["request"].build_absolute_uri(obj.avatar_thumb)
         except KeyError:
-            return thumb
+            return obj.avatar_thumb
 
     class Meta:
         model = users_models.User
