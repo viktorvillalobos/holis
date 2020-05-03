@@ -336,7 +336,7 @@ CHANNEL_LAYERS = {
         "CONFIG": {
             "hosts": [("redis", 6379)],
             'capacity': 1500,
-            'expiry': 10,
+            'expiry': 20,
         },
     },
 }

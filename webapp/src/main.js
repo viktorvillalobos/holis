@@ -5,6 +5,10 @@ import store from './store'
 import VueNativeSock from 'vue-native-websocket';
 import AxiosDjango from '@/plugins/AxiosDjango';
 import VueApexCharts from 'vue-apexcharts'
+import VueLodash from 'vue-lodash'
+import lodash from 'lodash'
+
+Vue.use(VueLodash, { name: 'piso' , lodash: lodash })
 
 Vue.component('apexchart', VueApexCharts)
 

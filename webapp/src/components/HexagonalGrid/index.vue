@@ -10,6 +10,7 @@
 import { defineGrid, extendHex } from 'honeycomb-grid'
 import { mapGetters, mapState } from 'vuex'
 import  SVG  from 'svg.js'
+import _ from 'lodash'
 
 export default {
   name: 'HexGrid',
@@ -76,7 +77,7 @@ export default {
                     && point.y === obj.y)
 
       const response = results.length ? true : false
-      console.log(response)
+      console.log(`overlaped ${response}`)
       return response
     },
     selectCellByOffset(x, y, user, notify){
@@ -104,7 +105,6 @@ export default {
       return {x:xpos, y:ypos};
     },
     clearHex() {
-      console.log(`clear hex ${this.oldPoint}`)
       const lastHex = this.grid.get(this.oldPoint)
       lastHex.clear()
     },
@@ -184,9 +184,6 @@ export default {
         addImage(avatar) {
           const position = this.toPoint()
           const centerPosition = this.center().add(position)
-          console.log('AVATAR')
-          console.log(avatar)
-
           const img = vm.draw
             .image(avatar, 50, 50)
 
@@ -239,7 +236,10 @@ export default {
           }
         }
       })
-    }
+    },
+    setOccupedStateChange: _.debounce(function(value){
+        this.$store.commit('setOccupedStateChange', value)
+    }, 500)
   },
   watch: {
     size () {
@@ -248,27 +248,23 @@ export default {
     changeState (value) {
       /* This is executed when a notification of user
         change is received */
-
-      console.log('changeState Watcher')
-      console.log(value)
       const point = [value.x, value.y]
       // Clear the old position
       // Se filtra porque los cambios hechos por nosotros mismos
       // se borran al hacer click
       if (!this.wasUpdateOnClient) {
-
+        console.log('No fue actualizado en este cliente')
         this.selectCellByCoordinates(point, value.user, false)
         console.log('Updating reading the message')
-
         if (window.user_id === value.user.id)
+        {
           this.oldPoint = point
-
+        } else {
+          this.setOccupedStateChange(value)
+        }
         this.clearMassive(value.old)
-
       }
-
       this.wasUpdateOnClient = false
-      this.$store.commit('setOccupedStateChange', value)
     }
   }
 }

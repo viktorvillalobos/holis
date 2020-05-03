@@ -38,8 +38,15 @@ const mutations = {
       * */
 
     const areaState = [...state.currentArea.state]
+    console.log('CurrentArea')
+    console.log(areaState)
     const filtered = areaState.filter(x => x.id !== change.user.id)
-    state.currentArea.state =  [...filtered, change]
+    console.log('Filtered')
+    console.log(filtered)
+    const result = [...filtered, change]
+    console.log('Result')
+    console.log(result)
+    state.currentArea.state =  result
   }
 }
 
