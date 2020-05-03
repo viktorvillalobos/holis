@@ -229,7 +229,10 @@ a {
   position: absolute;
   mask-size: 100%;
   mask-repeat: no-repeat;
-  mask-position-y: -40px;
+  mask-position-y: -60px;
+  -webkit-mask-size: 100%;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position-y: -60px;
 }
 
 .vector-bg {
