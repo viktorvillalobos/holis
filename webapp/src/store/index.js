@@ -47,7 +47,9 @@ const store = new Vuex.Store({
           state.app.user = message.user
         break
         case 'grid.position':
+          // Change the received message
           state.areas.changeState = message
+
         break
       }
     },

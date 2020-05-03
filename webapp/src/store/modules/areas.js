@@ -16,7 +16,7 @@ const getters = {
       ? areaState.map((item) => {
         return {x: item.x, y: item.y}
       }) 
-            : []
+      : []
   }
 }
 
@@ -30,6 +30,17 @@ const mutations = {
   setAreas(state, areas) {
     state.list= areas
   },
+  setOccupedStateChange(state, change) {
+    /* When a new position is received we neeed to updeda
+      * the currentArea.state        
+      * we need to find the last point to release
+      * and then occuped the new
+      * */
+
+    const areaState = [...state.currentArea.state]
+    const filtered = areaState.filter(x => x.id !== change.user.id)
+    state.currentArea.state =  [...filtered, change]
+  }
 }
 
 const actions = {

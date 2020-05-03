@@ -32,11 +32,13 @@ export default {
     }
   },
   created () {
-    this.$store.dispatch("getAreas")
   },
-  mounted () {
+  async mounted () {
     this.draw = SVG(this.$refs.grid)
     this.grid = this.getGrid()
+
+    await this.$store.dispatch("getAreas")
+    this.loadInitialState()
   },
   computed: {
     ...mapGetters(['currentState', 'occupedPoints']),
@@ -140,7 +142,6 @@ export default {
       const vm = this
       return extendHex({
         size: this.size,
-        img: 'https://api.adorable.io/avatars/40/abott@adorable.png',
         render(draw) {
           const { x, y } = this.toPoint()
           const corners = this.corners()
@@ -222,17 +223,11 @@ export default {
         selectedHex.clear()
        }
       )
-    }
-  },
-  watch: {
-    size () {
-      this.grid = this.getGrid()
     },
-    currentState (value) {
-      /* Executed when all state changed */ 
+    loadInitialState () {
       console.log('currentState watcher')
       const vm = this
-      value.forEach(userPosition => {
+      this.currentState.forEach(userPosition => {
         const selectedHex = this.grid.get([userPosition.x, userPosition.y])
         if (selectedHex) {
           selectedHex.filled()
@@ -244,6 +239,11 @@ export default {
           }
         }
       })
+    }
+  },
+  watch: {
+    size () {
+      this.grid = this.getGrid()
     },
     changeState (value) {
       /* This is executed when a notification of user
@@ -268,6 +268,7 @@ export default {
       }
 
       this.wasUpdateOnClient = false
+      this.$store.commit('setOccupedStateChange', value)
     }
   }
 }
