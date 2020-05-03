@@ -1,5 +1,5 @@
 <template>
-  <div class="connect-birthday-board" style="background-image: url(../../assets/birthday.png);">
+  <div class="connect-birthday-board" style="background-image: url(~/assets/birthday.png);">
     <h4>Próximos cumpleañeros</h4>
     <ul>
       <li>
