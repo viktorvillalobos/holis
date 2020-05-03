@@ -28,7 +28,7 @@ export default {
       draw: null,
       selectedHex: null,
       oldPoint: null,
-      updateOnClient: false
+      wasUpdateOnClient: false
     }
   },
   created () {
@@ -128,7 +128,7 @@ export default {
         this.clearHex()
         const {x, y} = this.getOffset(e)
         this.selectCellByOffset(x, y, true)
-        this.updateOnClient = true
+        this.wasUpdateOnClient = true
     },
     selectCellByOffset(x, y, notify){
         const hexCoordinates = this.Grid.pointToHex([x, y])
@@ -197,6 +197,7 @@ export default {
       this.grid = this.getGrid()
     },
     currentState (value) {
+      /* Executed when all state changed */ 
       console.log('currentState watcher')
       const vm = this
       value.forEach(userPosition => {
@@ -222,7 +223,9 @@ export default {
       
       // Se filtra porque los cambios hechos por nosotros mismos
       // se borran al hacer click
-      if (!this.updateOnClient) {
+      if (!this.wasUpdateOnClient) {
+        if (window.user_id === value.user.id)
+          this.oldPoint = point
         value.old.forEach(old => {
           console.log(`clearing {old}`)
           let selectedHex = this.grid.get([old[0], old[1]])
@@ -230,7 +233,7 @@ export default {
          }
         )
       }
-      this.updateOnClient = false
+      this.wasUpdateOnClient = false
     }
   }
 }
