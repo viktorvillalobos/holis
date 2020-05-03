@@ -47,81 +47,8 @@ export default {
       user: state => state.app.user
     }),
     Grid () {
-      return defineGrid(this.hex)
+      return defineGrid(this.getHex())
     },
-    hex() {
-      const vm = this
-      return extendHex({
-        size: this.size,
-        img: 'https://api.adorable.io/avatars/40/abott@adorable.png',
-        render(draw) {
-          const { x, y } = this.toPoint()
-          const corners = this.corners()
-          this.draw = draw
-            .polygon(corners.map(({ x, y }) => `${x},${y}`))
-            .fill('none')
-            .stroke({width: this.border, color: 'rgba(224, 224, 224, .5)' })
-            .translate(x, y)
-        },
-
-        highlight() {
-          this.draw
-            .stop(true, true)
-            .fill({ opacity: 1, color: 'aquamarine' })
-            .animate(1000)
-            .fill({ opacity: 0, color: 'none' })
-        },
-
-        filled() {
-          this.draw
-            .stop(true, true)
-            .stroke({width: 10, color: '#7f7fff' })
-            .animate(1000)
-            .stroke({width: 5, color: '#7f7fff' })
-        },
-
-        clear(){
-          const position = this.toPoint()
-          const centerPosition = this.center().add(position)
-          this.draw
-            .stop(true, true)
-            .stroke({width: 2, color: '#7f7fff' })
-            .animate(250)
-            .stroke({width: 1, color: 'rgba(224, 224, 224, .5)' })
-          
-          // Draw a rect to clear the image
-          vm.draw
-            .rect(42,41)
-            .fill('#f2f2f2')
-            .move(centerPosition.x - 21, centerPosition.y - 21)
-        },
-        
-        addImage() {
-          const position = this.toPoint()
-          const centerPosition = this.center().add(position)
-          
-          vm.draw
-            .image(this.img)
-            .translate(centerPosition.x - 20, centerPosition.y - 20)
-        },
-
-        addText() {
-          const position = this.toPoint()
-          const centerPosition = this.center().add(position)
-          const fontSize = 12
-          
-          vm.draw
-            .text(`${this.x},${this.y}`)
-            .font({
-              size: fontSize,
-              anchor: 'middle',
-              leading: 1.4,
-              fill: 'black'
-            })
-            .translate(centerPosition.x, centerPosition.y - fontSize)
-        }
-      })
-    }
   },
   methods: {
     onClick (e) {
@@ -209,6 +136,90 @@ export default {
         }
       })
     },
+    getHex() {
+      const vm = this
+      return extendHex({
+        size: this.size,
+        img: 'https://api.adorable.io/avatars/40/abott@adorable.png',
+        render(draw) {
+          const { x, y } = this.toPoint()
+          const corners = this.corners()
+          this.draw = draw
+            .polygon(corners.map(({ x, y }) => `${x},${y}`))
+            .fill('none')
+            .stroke({width: this.border, color: 'rgba(224, 224, 224, .5)' })
+            .translate(x, y)
+        },
+
+        highlight() {
+          this.draw
+            .stop(true, true)
+            .fill({ opacity: 1, color: 'aquamarine' })
+            .animate(1000)
+            .fill({ opacity: 0, color: 'none' })
+        },
+
+        filled() {
+          this.draw
+            .stop(true, true)
+            .stroke({width: 10, color: '#7f7fff' })
+            .animate(1000)
+            .stroke({width: 5, color: '#7f7fff' })
+        },
+
+        clear(){
+          const position = this.toPoint()
+          const centerPosition = this.center().add(position)
+          this.draw
+            .stop(true, true)
+            // .stroke({width: 2, color: '#7f7fff' })
+            // .animate(250)
+            .stroke({width: 1, color: 'rgba(224, 224, 224, .5)' })
+          
+          // Draw a rect to clear the image
+          vm.draw
+            .rect(42,41)
+            .fill('#f2f2f2')
+            .move(centerPosition.x - 21, centerPosition.y - 21)
+        },
+        
+        addImage() {
+          const position = this.toPoint()
+          const centerPosition = this.center().add(position)
+          
+          vm.draw
+            .image(this.img)
+            .translate(centerPosition.x - 20, centerPosition.y - 20)
+        },
+
+        addText() {
+          const position = this.toPoint()
+          const centerPosition = this.center().add(position)
+          const fontSize = 12
+          
+          vm.draw
+            .text(`${this.x},${this.y}`)
+            .font({
+              size: fontSize,
+              anchor: 'middle',
+              leading: 1.4,
+              fill: 'black'
+            })
+            .translate(centerPosition.x, centerPosition.y - fontSize)
+        }
+      })
+    },
+    clearMassive(oldValues) {
+      /* 
+        oldValues: List of items from server
+      */
+      oldValues.forEach(old => {
+        console.log(`clearing {old}`)
+        let selectedHex = this.grid.get([old[0], old[1]])
+        selectedHex.clear()
+       }
+      )
+    }
   },
   watch: {
     size () {
@@ -232,24 +243,25 @@ export default {
     changeState (value) {
       /* This is executed when a notification of user
         change is received */
+
       console.log('changeState Watcher')
       console.log(value)
       const point = [value.x, value.y]
-      this.selectCellByCoordinates(point, false)
-
       // Clear the old position
       // Se filtra porque los cambios hechos por nosotros mismos
       // se borran al hacer click
       if (!this.wasUpdateOnClient) {
+
+        this.selectCellByCoordinates(point, false)
+        console.log('Updating reading the message')
+
         if (window.user_id === value.user.id)
           this.oldPoint = point
-        value.old.forEach(old => {
-          console.log(`clearing {old}`)
-          let selectedHex = this.grid.get([old[0], old[1]])
-          selectedHex.clear()
-         }
-        )
+
+        this.clearMassive(value.old)
+
       }
+
       this.wasUpdateOnClient = false
     }
   }
