@@ -4,7 +4,7 @@ const BundleTracker = require('webpack-bundle-tracker')
 const webpackFile = process.env.NODE_ENV === 'production' ? '../webapp/webpack-stats-prod.json' : 'webpack-stats.json'
 
 module.exports = {
-  publicPath: process.env.NODE_ENV === 'production' ? 'https://espazum.com/' : 'http://localhost:8080/',
+  publicPath: process.env.NODE_ENV === 'production' ? '/static/bundle_webapp/' : 'http://localhost:8080/',
   outputDir: './assets/bundle_webapp/',
   assetsDir: 'assets/',
   css: {
