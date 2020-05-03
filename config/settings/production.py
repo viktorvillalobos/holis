@@ -214,7 +214,7 @@ sentry_sdk.init(
 WEBPACK_LOADER = {
     "DEFAULT": {
         "CACHE": not DEBUG,
-        "BUNDLE_DIR_NAME": "/bundle_webapp/",  # must end with slash
+        "BUNDLE_DIR_NAME": "/static/bundle_webapp/",  # must end with slash
         "STATS_FILE": str(ROOT_DIR / "webapp/webpack-stats-prod.json"),
     }
 }
