@@ -176,11 +176,8 @@ export default {
             // .animate(250)
             .stroke({width: 1, color: 'rgba(224, 224, 224, .5)' })
           
-          // Draw a rect to clear the image
-          vm.draw
-            .rect(42,41)
-            .fill('#f2f2f2')
-            .move(centerPosition.x - 21, centerPosition.y - 21)
+          vm.draw.circle(52).fill('#f2f2f2')
+            .translate(centerPosition.x - 26, centerPosition.y - 26)
         },
         
         addImage(avatar) {
@@ -189,9 +186,13 @@ export default {
           console.log('AVATAR')
           console.log(avatar)
 
-          vm.draw
-            .image(avatar, 40, 40)
-            .translate(centerPosition.x - 20, centerPosition.y - 20)
+          const img = vm.draw
+            .image(avatar, 50, 50)
+
+          vm.draw.circle(50)
+            .attr({ fill:img})
+            .translate(centerPosition.x - 25, centerPosition.y - 25)
+            
         },
 
         addText() {

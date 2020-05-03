@@ -80,7 +80,7 @@ class User(AbstractUser):
     @property
     def avatar_thumb(self):
         if not self.avatar:
-            return f"https://api.adorable.io/avatars/40/{self.username}@adorable.png"
+            return f"https://api.adorable.io/avatars/100/{self.username}@adorable.png"
 
         return get_thumbnail(
             self.avatar.file, '100x100', crop='center', quality=99
