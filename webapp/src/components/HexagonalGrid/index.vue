@@ -27,7 +27,8 @@ export default {
     return {
       draw: null,
       selectedHex: null,
-      oldPoint: null
+      oldPoint: null,
+      updateOnClient: false
     }
   },
   created () {
@@ -127,6 +128,7 @@ export default {
         this.clearHex()
         const {x, y} = this.getOffset(e)
         this.selectCellByOffset(x, y, true)
+        this.updateOnClient = true
     },
     selectCellByOffset(x, y, notify){
         const hexCoordinates = this.Grid.pointToHex([x, y])
@@ -220,7 +222,7 @@ export default {
       
       // Se filtra porque los cambios hechos por nosotros mismos
       // se borran al hacer click
-      if (value.user.id !==  window.user_id) {
+      if (!this.updateOnClient) {
         value.old.forEach(old => {
           console.log(`clearing {old}`)
           let selectedHex = this.grid.get([old[0], old[1]])
@@ -228,6 +230,7 @@ export default {
          }
         )
       }
+      this.updateOnClient = false
     }
   }
 }
