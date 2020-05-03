@@ -1,5 +1,5 @@
 <template>
-  <div class="connect-birthday-board">
+  <div class="connect-birthday-board" :style="`background-image: url(${birthdayLogo});`">
     <h4>Próximos cumpleañeros</h4>
     <ul>
       <li>
@@ -17,6 +17,7 @@
 </template>
 <script>
 import Avatar from "@/components/Avatar";
+import birthdayPng from "@/assets/birthday.png"
 export default {
   name: "Birthdays",
   components: {
@@ -24,6 +25,7 @@ export default {
   },
   data () {
     return {
+      birthdayLogo: birthdayPng
     }
   }
 };
@@ -38,7 +40,7 @@ export default {
     padding: 4px 10px;
     background-repeat: no-repeat;
     background-position: bottom right;
-    background-image: url('~@/assets/birthday.png');
+
     h4 {
       margin: 0 0 4px 0;
     }
