@@ -10,7 +10,6 @@
 import { defineGrid, extendHex } from 'honeycomb-grid'
 import { mapGetters, mapState } from 'vuex'
 import  SVG  from 'svg.js'
-import _ from 'lodash'
 
 export default {
   name: 'HexGrid',
@@ -237,9 +236,6 @@ export default {
         }
       })
     },
-    setOccupedStateChange: _.debounce(function(value){
-        this.$store.commit('setOccupedStateChange', value)
-    }, 500)
   },
   watch: {
     size () {
@@ -252,19 +248,21 @@ export default {
       // Clear the old position
       // Se filtra porque los cambios hechos por nosotros mismos
       // se borran al hacer click
+      this.$store.commit('setOccupedStateChange', value.state)
+
       if (!this.wasUpdateOnClient) {
         console.log('No fue actualizado en este cliente')
-        this.selectCellByCoordinates(point, value.user, false)
-        console.log('Updating reading the message')
         if (window.user_id === value.user.id)
         {
           this.oldPoint = point
         } else {
-          this.setOccupedStateChange(value)
+          this.selectCellByCoordinates(point, value.user, false)
+          this.clearMassive(value.old)
         }
-        this.clearMassive(value.old)
       }
+
       this.wasUpdateOnClient = false
+
     }
   }
 }

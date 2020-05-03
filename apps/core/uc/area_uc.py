@@ -88,15 +88,15 @@ class BaseAreaUC(AbstractModelUC):
         serialized = []
         for x, y in self.connected_idxs:
             item = {}
-            item["id"] = self.state[x, y][0]
+            item["id"] = int(self.state[x, y][0])
             item["name"] = self.state[x, y][1]
             item["last_name"] = self.state[x, y][2]
             item["status"] = self.state[x, y][3]
             item["position"] = self.state[x, y][4]
             item["avatar"] = self.state[x, y][5]
             item["is_online"] = True
-            item["x"] = x
-            item["y"] = y
+            item["x"] = int(x)
+            item["y"] = int(y)
             serialized.append(item)
 
         return serialized

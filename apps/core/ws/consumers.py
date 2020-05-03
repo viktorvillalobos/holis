@@ -24,7 +24,10 @@ class GridMixin:
         area = core_models.Area.objects.get(id=area_id)
         uc = area_uc.SaveStateAreaUC(area)
         positions = uc.execute(self.scope["user"], x, y)
-        return positions
+        return {
+            "positions": positions,
+            "state": uc.get_serialized_connected()
+        }
 
     async def grid_position(self, message):
         await self.send_json(message)
@@ -38,8 +41,9 @@ class GridMixin:
     async def handle_grid_position(self, message: Dict) -> None:
         logger.info("handle_grid_position")
         logger.info(message)
-        old_positions = await self.save_position(message["area"], message["x"], message["y"])
-        message["old"] = old_positions
+        results = await self.save_position(message["area"], message["x"], message["y"])
+        message["old"] = results["positions"]
+        message["state"] = results["state"]
         await self.notify_change_position(message)
 
 

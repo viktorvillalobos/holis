@@ -36,17 +36,7 @@ const mutations = {
       * we need to find the last point to release
       * and then occuped the new
       * */
-
-    const areaState = [...state.currentArea.state]
-    console.log('CurrentArea')
-    console.log(areaState)
-    const filtered = areaState.filter(x => x.id !== change.user.id)
-    console.log('Filtered')
-    console.log(filtered)
-    const result = [...filtered, change]
-    console.log('Result')
-    console.log(result)
-    state.currentArea.state =  result
+    state.currentArea.state =  change
   }
 }
 
