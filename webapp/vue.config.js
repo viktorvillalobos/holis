@@ -4,7 +4,7 @@ const BundleTracker = require('webpack-bundle-tracker')
 const webpackFile = process.env.NODE_ENV === 'production' ? '../webapp/webpack-stats-prod.json' : 'webpack-stats.json'
 
 module.exports = {
-  publicPath: process.env.NODE_ENV === 'production' ? '' : 'http://127.0.0.1:8080/',
+  publicPath: process.env.NODE_ENV === 'production' ? '/static/webapp/' : 'http://127.0.0.1:8080/',
   outputDir: './assets/webapp/',
   css: {
     loaderOptions: {
