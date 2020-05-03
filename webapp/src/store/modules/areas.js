@@ -9,6 +9,14 @@ const state = {
 const getters = {
   currentState (state) {
     return state.currentArea ? state.currentArea.state : []
+  },
+  occupedPoints (state) {
+    const areaState =  state.currentArea ? state.currentArea.state : []
+    return areaState 
+      ? areaState.map((item) => {
+        return {x: item.x, y: item.y}
+      }) 
+            : []
   }
 }
 

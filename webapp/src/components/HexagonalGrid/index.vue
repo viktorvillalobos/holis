@@ -39,7 +39,7 @@ export default {
     this.grid = this.getGrid()
   },
   computed: {
-    ...mapGetters(['currentState']),
+    ...mapGetters(['currentState', 'occupedPoints']),
     ...mapState({
       // This is filled by WS message
       changeState: state => state.areas.changeState,
@@ -125,10 +125,30 @@ export default {
   },
   methods: {
     onClick (e) {
+      const {x, y} = this.getOffset(e)
+      if (!this.isOverlaped([x,y])) {
         this.clearHex()
-        const {x, y} = this.getOffset(e)
         this.selectCellByOffset(x, y, true)
         this.wasUpdateOnClient = true
+      }
+    },
+    isOverlaped (point) {
+      /*
+        point: [Array[x,y]]
+      */
+
+      const obj = this.Grid.pointToHex(point)
+      if (!this.occupedPoints) {
+        return false
+      }
+      const results = 
+                this.occupedPoints
+                  .filter(point => point.x === obj.x 
+                    && point.y === obj.y)
+
+      const response = results.length ? true : false
+      console.log(response)
+      return response
     },
     selectCellByOffset(x, y, notify){
         const hexCoordinates = this.Grid.pointToHex([x, y])
@@ -137,8 +157,6 @@ export default {
     selectCellByCoordinates(hexCoordinates, notify) {
       if (notify) {
         const message = {type:"grid.position", area: this.currentArea.id, x: hexCoordinates.x, y: hexCoordinates.y}
-        console.log("sending change position from selectCellByCoordinates")
-        console.log(JSON.stringify(message))
         this.$socket.send(JSON.stringify(message))
         this.oldPoint = hexCoordinates
       } 
@@ -218,9 +236,8 @@ export default {
       console.log(value)
       const point = [value.x, value.y]
       this.selectCellByCoordinates(point, false)
-      
+
       // Clear the old position
-      
       // Se filtra porque los cambios hechos por nosotros mismos
       // se borran al hacer click
       if (!this.wasUpdateOnClient) {
