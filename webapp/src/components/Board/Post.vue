@@ -12,16 +12,20 @@
     <div class="connect-board-post-info">
       <Avatar />
       <div class="connect-board-post-info-author">
-        <p>{{author.name}} · {{author.position}}</p>
-        <p>{{post.date}}</p>
+        <p v-if="typeof author === 'object'">{{author.name}} · {{author.position}}</p>
+        <p v-else>{{author}}</p>
+        <p>{{post.created}}</p>
       </div>
     </div>
     <div class="connect-post-content">
       <div>
         {{postContentToShow}}
-        <a class="expand-post" @click="expanded = !expanded">
+        <a v-if="post.text.length > 140" class="expand-post" @click="expanded = !expanded">
           {{expanded ? 'Contraer' : 'Expandir'}}
-          <img v-if="expanded" src="../../assets/icons/chevron-up.svg" />
+          <img
+            v-if="expanded"
+            src="../../assets/icons/chevron-up.svg"
+          />
           <img v-else src="../../assets/icons/chevron-down.svg" />
         </a>
       </div>
@@ -54,10 +58,14 @@ export default {
   },
   computed: {
     postContentToShow() {
-      if (this.post.content) {
-        if (this.expanded) return this.post.content;
+      if (this.post.text) {
+        if (this.post.text.length > 140) {
+          if (this.expanded) return this.post.text;
 
-        if (!this.expanded) return `${this.post.content.substring(0, 140)}...`;
+          if (!this.expanded) return `${this.post.text.substring(0, 140)}...`;
+        } else {
+          return this.post.text;
+        }
       }
 
       return "";
@@ -128,14 +136,14 @@ export default {
   }
 
   &-content {
-      margin-bottom: 10px;
+    margin-bottom: 10px;
   }
 }
 
 .expand-post {
-    margin-left: 10px;
-    img {
-        vertical-align: middle;
-    }
+  margin-left: 10px;
+  img {
+    vertical-align: middle;
+  }
 }
 </style>

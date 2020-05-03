@@ -1,15 +1,42 @@
 <template>
   <div class="connect-reports">
-      <apexchart width="500" type="bar" :options="options" :series="series"></apexchart>
-      <WIP />
+    <div class="columns">
+      <div class="column">
+        <h2>Panel de inteligencia empresarial</h2>
+      </div>
+    </div>
+    <div class="columns">
+      <div class="column">
+        <card outline>
+          <hour-connection />
+        </card>
+      </div>
+      <div class="column">
+        <card outline>
+          <WIP />
+        </card>
+      </div>
+    </div>
+    <div class="columns">
+      <div class="column">
+        <card outline>
+          <WIP />
+        </card>
+      </div>
+    </div>
   </div>
 </template>
 <script>
 import WIP from "@/components/WIP";
+import Card from "@/components/Card";
+
+import HourConnection from "@/components/Graphs/HourConnection"
 export default {
   name: "Reportes",
   components: {
-    WIP
+    WIP,
+    Card,
+    HourConnection
   },
   data() {
     return {

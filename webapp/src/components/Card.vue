@@ -26,7 +26,13 @@ export default {
 
   &--outline {
     box-shadow: none;
-    border: 1px solid;
+    border: 1px solid $medium-gray;
+  }
+
+  &-actions {
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-end;
   }
 }
 </style>

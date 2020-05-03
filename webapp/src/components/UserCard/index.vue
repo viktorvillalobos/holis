@@ -2,7 +2,7 @@
   <div :class="['connect-user-card', {'connect-user-card--floats' : float}]">
     <div>
       <div class="connect-user-card-info">
-        <Avatar />
+        <Avatar :img="user.avatar_thumb" />
         <div class="connect-user-card-info-text">
           <h3>{{user.name}}</h3>
           <p>{{user.position}}</p>
@@ -279,8 +279,8 @@ export default {
       userState: null
     };
   },
-  created () {
-    this.userState = this.states[0]
+  created() {
+    this.userState = this.states[0];
   },
   methods: {
     emitSound() {
@@ -322,6 +322,10 @@ export default {
       margin-left: 10px;
       h3 {
         font-size: 16px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 172px;
       }
 
       p {

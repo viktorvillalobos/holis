@@ -1,5 +1,5 @@
 <template>
-  <div class="connect-birthday-board">
+  <div class="connect-birthday-board" style="background-image: url(../../assets/birthday.png);">
     <h4>Próximos cumpleañeros</h4>
     <ul>
       <li>
@@ -32,7 +32,6 @@ export default {
     position: relative;
     color: #fff;
     padding: 4px 10px;
-    background-image: url(../../assets/birthday.png);
     background-repeat: no-repeat;
     background-position: bottom right;
 

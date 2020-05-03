@@ -6,7 +6,7 @@
         v-for="post in announcementsList"
         :key="post.id"
         :isPinned="post.isPinned"
-        :author="post.author"
+        :author="post.created_by"
         :post="post"
       ></Post>
       <transition name="translate-x">
@@ -73,6 +73,7 @@ export default {
   methods: {
     handlePostEditor() {
       this.postEditorIsActive = !this.postEditorIsActive;
+      this.instance = {}
     }
   }
 };

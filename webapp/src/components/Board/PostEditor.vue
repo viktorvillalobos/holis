@@ -32,6 +32,7 @@ export default {
     },
     submit () {
       this.$store.dispatch('postAnnouncement', this.instance)
+      this.handleClose()
     }
   }
 };

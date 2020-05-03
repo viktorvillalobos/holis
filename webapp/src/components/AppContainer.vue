@@ -32,7 +32,10 @@
       <modal :active="firstTime" @close="handleFirstTime">
         <card class="welcome-card">
           <h2>¡Hola! 😁</h2>
-          <h3>Posicionate junto a cualquiera de tus compañeros e inicia un <strong>canal de comunicación instantáneamente</strong></h3>
+          <h3>
+            Posicionate junto a cualquiera de tus compañeros e inicia un
+            <strong>canal de comunicación instantáneamente</strong>
+          </h3>
           <img class="vector-bg" src="@/assets/VectorBack.svg" />
           <img
             src="@/assets/peek.gif"
@@ -112,7 +115,7 @@ export default {
   },
   mounted() {
     if (!localStorage.firstTime) {
-      this.firstTime = true
+      this.firstTime = true;
     }
   },
   methods: {
@@ -132,8 +135,8 @@ export default {
       this.showNotification = !this.showNotification;
     },
     handleFirstTime() {
-      localStorage.firstTime = false
-      this.firstTime = false
+      localStorage.firstTime = false;
+      this.firstTime = false;
     }
   }
 };
@@ -231,5 +234,14 @@ a {
 
 .vector-bg {
   position: absolute;
+}
+
+.connect-content-wrapper {
+  &.wrap {
+    width: calc(100% - #{$aside-width + $menus-width});
+    margin-left: $menus-width;
+    margin-top: 75px;
+    padding: 0 20px;
+  }
 }
 </style>
