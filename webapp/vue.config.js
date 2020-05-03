@@ -6,6 +6,7 @@ const webpackFile = process.env.NODE_ENV === 'production' ? '../webapp/webpack-s
 module.exports = {
   publicPath: process.env.NODE_ENV === 'production' ? 'https://espazum.com/static/bundle_webapp/' : 'http://localhost:8080/',
   outputDir: './assets/bundle_webapp/',
+  assetsDir: 'assets/',
   css: {
     loaderOptions: {
       scss: {
