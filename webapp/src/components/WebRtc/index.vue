@@ -4,7 +4,7 @@
           v-bind:video="item"
           v-bind:key="item.id"
           class="video-item">
-        <video controls autoplay playsinline ref="videos" :height="cameraHeight" :muted="false" :id="item.id"></video>
+        <video controls autoplay playsinline ref="videos" :height="cameraHeight" muted :id="item.id"></video>
       </div>
   </div>
 </template>
