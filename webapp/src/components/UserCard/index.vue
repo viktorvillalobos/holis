@@ -1,8 +1,8 @@
 <template>
   <div :class="['connect-user-card', {'connect-user-card--floats' : float}]">
     <div>
-      <vue-webrtc ref="webrtc"
-          v-show="false"
+      <webrtc ref="webrtc"
+        v-show="false"
           width="100%"
           :roomId="'adslab'"
           :enableAudio="true"
@@ -260,6 +260,8 @@
 </template>
 <script>
 import Avatar from "@/components/Avatar";
+import WebRTC from '@/components/WebRtc'
+
 export default {
   name: "UserCard",
   props: {
@@ -277,7 +279,8 @@ export default {
     }
   },
   components: {
-    Avatar
+    Avatar,
+    'webrtc': WebRTC
   },
   data() {
     return {
@@ -300,7 +303,11 @@ export default {
     },
     emitMicro() {
       this.$emit("micro");
-      this.$refs.webrtc.join()
+      this.connect = !this.connect
+      if (this.connect)
+        this.$refs.webrtc.join()
+      else
+        this.$refs.webrtc.leave()
     },
     handleState(state) {
       this.userState = state;

@@ -7,10 +7,7 @@ import AxiosDjango from '@/plugins/AxiosDjango';
 import VueApexCharts from 'vue-apexcharts'
 import VueLodash from 'vue-lodash'
 import lodash from 'lodash'
-import WebRTC from 'vue-webrtc'
 
-
-Vue.use(WebRTC)
 
 Vue.use(VueLodash, { name: 'piso' , lodash: lodash })
 
