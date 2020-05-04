@@ -4,13 +4,12 @@
           v-bind:video="item"
           v-bind:key="item.id"
           class="video-item">
-        <video controls autoplay playsinline ref="videos" :height="cameraHeight" muted :id="item.id"></video>
+        <video controls autoplay playsinline ref="videos" :height="cameraHeight" :muted="item.muted" :id="item.id"></video>
       </div>
   </div>
 </template>
 
 <script>
-  /* eslint-disble no-alert */
   import RTCMultiConnection from 'rtcmulticonnection';
   require('adapterjs');
   export default {
@@ -71,11 +70,11 @@
       this.rtcmConnection.enableLogs = this.enableLogs;
       this.rtcmConnection.session = {
         audio: this.enableAudio,
-        video: false
+        video: this.enableVideo
       };
       this.rtcmConnection.sdpConstraints.mandatory = {
         OfferToReceiveAudio: this.enableAudio,
-        OfferToReceiveVideo: false
+        OfferToReceiveVideo: this.enableVideo
       };
       this.rtcmConnection.onstream = function (stream) {
         let found = that.videoList.find(video => {
