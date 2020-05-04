@@ -1,14 +1,20 @@
 <template>
-  <div class="connect-board-post-cta">
+  <div class="connect-board-post-cta" :style="`background-image: url(${CTABg})`">
     <p>¿Tienes algo muy bueno que contarle a todos?</p>
     <Btn @btn-click="emitAction" inverse>¡Anúncialo!</Btn>
   </div>
 </template>
 <script>
 import Btn from "@/components/Btn";
+import CTABg from "@/assets/boardWaves.svg"
 export default {
   components: {
     Btn
+  },
+  data() {
+    return {
+      CTABg
+    }
   },
   methods: {
     emitAction() {
@@ -26,7 +32,6 @@ export default {
   display: inline-flex;
   align-items: flex-end;
   justify-content: space-between;
-  background: url(../../assets/boardWaves.svg);
   background-repeat: no-repeat;
   background-position: bottom;
   height: 90px;

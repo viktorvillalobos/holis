@@ -41,7 +41,7 @@
             src="@/assets/peek.gif"
             alt
             class="welcome-gif"
-            :style="`mask-image: url(${publicPath}/Vector.svg);`"
+            :style="`mask-image: url(${modalMask});`"
           />
         </card>
       </modal>
@@ -67,6 +67,8 @@ import Modal from "@/components/Modal";
 import Card from "@/components/Card";
 
 import { mapState } from "vuex";
+
+import modalMask from "@/assets/modalMask.svg"
 
 export default {
   name: "AppContainer",
@@ -107,7 +109,8 @@ export default {
     return {
       showNotification: false,
       firstTime: false,
-      publicPath: process.env.BASE_URL
+      publicPath: process.env.BASE_URL,
+      modalMask
     };
   },
   created() {
