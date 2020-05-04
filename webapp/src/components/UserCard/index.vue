@@ -323,7 +323,7 @@ export default {
       this.img = this.$refs.webrtc.capture();
     },
     onJoin() {
-      this.$refs.webrtc.join();
+      console.log('Join to the connection')
     },
     onLeave() {
       this.$refs.webrtc.leave();
