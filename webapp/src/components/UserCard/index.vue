@@ -4,7 +4,7 @@
       <webrtc ref="webrtc"
         v-show="false"
           width="100%"
-          :roomId="'adslab'"
+          :roomId="'takata123'"
           :enableAudio="true"
           :enableVideo="false"
           v-on:joined-room="logEvent"
