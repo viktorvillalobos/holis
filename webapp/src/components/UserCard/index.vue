@@ -2,6 +2,7 @@
   <div :class="['connect-user-card', {'connect-user-card--floats' : float}]">
     <div>
       <webrtc ref="webrtc"
+          v-show="false"
           width="100%"
           roomId="takata1234568979646665"
           :enableAudio="true"
