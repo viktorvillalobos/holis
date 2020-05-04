@@ -1,17 +1,20 @@
 <template>
   <div :class="['connect-user-card', {'connect-user-card--floats' : float}]">
     <div>
-      <webrtc ref="webrtc"
-          width="100%"
-          roomId="takata1234568979646665"
-          :enableAudio="true"
-          :enableVideo="true"
-          v-on:joined-room="logEvent"
-          v-on:left-room="logEvent"
-          v-on:open-room="logEvent"
-          v-on:share-started="logEvent"
-          v-on:share-stopped="logEvent"
-          @error="onError" />
+      <webrtc
+        :class="{'aside-expanded' : !float}"
+        ref="webrtc"
+        width="100%"
+        roomId="takata1234568979646665"
+        :enableAudio="true"
+        :enableVideo="true"
+        v-on:joined-room="logEvent"
+        v-on:left-room="logEvent"
+        v-on:open-room="logEvent"
+        v-on:share-started="logEvent"
+        v-on:share-stopped="logEvent"
+        @error="onError"
+      />
       <div class="connect-user-card-info">
         <Avatar :img="user.avatar_thumb" />
         <div class="connect-user-card-info-text">
@@ -208,7 +211,6 @@
               fill="#4F4F4F"
             />
           </svg>
-
         </li>
         <li>
           <svg
@@ -259,7 +261,7 @@
 </template>
 <script>
 import Avatar from "@/components/Avatar";
-import WebRTC from '@/components/WebRtc'
+import WebRTC from "@/components/WebRtc";
 
 export default {
   name: "UserCard",
@@ -279,7 +281,7 @@ export default {
   },
   components: {
     Avatar,
-    'webrtc': WebRTC
+    webrtc: WebRTC
   },
   data() {
     return {
@@ -302,35 +304,32 @@ export default {
     },
     emitMicro() {
       this.$emit("micro");
-      this.connect = !this.connect
-      if (this.connect)
-        this.$refs.webrtc.join()
-      else
-        this.$refs.webrtc.leave()
+      this.connect = !this.connect;
+      if (this.connect) this.$refs.webrtc.join();
+      else this.$refs.webrtc.leave();
     },
     handleState(state) {
       this.userState = state;
       this.stateMenuIsActive = false;
     },
-   logEvent(event) {
-       console.log('Event : ', event);
+    logEvent(event) {
+      console.log("Event : ", event);
     },
     onError(error, stream) {
-        console.log('On Error Event', error, stream);
+      console.log("On Error Event", error, stream);
     },
     onCapture() {
       this.img = this.$refs.webrtc.capture();
     },
     onJoin() {
-      console.log('Join to the connection')
+      console.log("Join to the connection");
     },
     onLeave() {
       this.$refs.webrtc.leave();
     },
     onShareScreen() {
       this.img = this.$refs.webrtc.shareScreen();
-    },
-
+    }
   }
 };
 </script>
@@ -423,5 +422,18 @@ export default {
   text-align: center;
   white-space: nowrap;
   height: 30px;
+}
+
+.video-list {
+  position: fixed;
+  right: 70px;
+  bottom: 18px;
+  width: 220px;
+  border-radius: 10px;
+  transition: $aside-transition;
+
+  &.aside-expanded {
+    right: 400px;
+  }
 }
 </style>
