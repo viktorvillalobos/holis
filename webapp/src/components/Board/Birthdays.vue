@@ -12,7 +12,7 @@
         <Avatar text="Mañana" />
       </li>
       <li class="connect-birthday-indicator">+99</li>
-    </ul>
+    </ul>1
   </div>
 </template>
 <script>
