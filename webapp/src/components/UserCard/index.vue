@@ -2,9 +2,8 @@
   <div :class="['connect-user-card', {'connect-user-card--floats' : float}]">
     <div>
       <webrtc ref="webrtc"
-        v-show="false"
           width="100%"
-          :roomId="'takata123'"
+          roomId="takata1234568979646665"
           :enableAudio="true"
           :enableVideo="false"
           v-on:joined-room="logEvent"
@@ -302,7 +301,7 @@ export default {
       this.$emit("sound");
     },
     emitMicro() {
-      this.$emit("micro");
+     // this.$emit("micro");
       this.connect = !this.connect
       if (this.connect)
         this.$refs.webrtc.join()
