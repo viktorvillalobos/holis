@@ -33,7 +33,7 @@
       },
       socketURL: {
         type: String,
-        default: 'http://espazum.com:9001/'
+        default: 'https://espazum.com:9001/'
       },
       cameraHeight: {
         type: [Number, String],
