@@ -49,7 +49,7 @@ http:
         certResolver: letsencrypt
 
     flower-secure-router:
-      rule: "Host(`flower.espazum.com`)"
+      rule: "Host(`espazum.com`)"
       entryPoints:
         - flower
       service: flower
