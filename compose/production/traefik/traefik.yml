@@ -13,6 +13,9 @@ entryPoints:
   flower:
     address: ":5555"
 
+  rtc:
+    address: ":9001"
+
 certificatesResolvers:
   letsencrypt:
     # https://docs.traefik.io/master/https/acme/#lets-encrypt
@@ -76,6 +79,11 @@ http:
       loadBalancer:
         servers:
           - url: http://flower:5555
+
+    rtc:
+      loadBalancer:
+        servers:
+          - url: http://rtc:9001
 
 providers:
   # https://docs.traefik.io/master/providers/file/

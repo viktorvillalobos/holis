@@ -47,6 +47,9 @@ services:
   redis:
     image: redis:5.0
 
+  rtc:
+    image: gcr.io/espazum/rtc:latest
+
   celeryworker:
     <<: *django
     image: espazum_production_celeryworker

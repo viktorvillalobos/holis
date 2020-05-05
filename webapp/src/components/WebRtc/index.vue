@@ -33,7 +33,7 @@
       },
       socketURL: {
         type: String,
-        default: 'https://rtcmulticonnection.herokuapp.com:443/'
+        default: 'https://espazum.com:9001/'
       },
       cameraHeight: {
         type: [Number, String],
