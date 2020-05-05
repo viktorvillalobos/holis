@@ -11,15 +11,13 @@ entryPoints:
     address: ":443"
 
   flower:
-    # http
-    address: ":80"
-
-  flower:
     # https
-    address: ":443"
+    address: ":5555"
 
   rtc:
-    address: ":443"
+    # https
+    address: ":9001"
+
 
 certificatesResolvers:
   letsencrypt:
@@ -54,7 +52,7 @@ http:
         certResolver: letsencrypt
 
     flower-secure-router:
-      rule: "Host(`flower.espazum.com`)"
+      rule: "Host(`espazum.com`)"
       entryPoints:
         - flower
       service: flower
@@ -63,7 +61,7 @@ http:
         certResolver: letsencrypt
     
     rtc:
-      rule: "Host(`rtc.espazum.com`)"
+      rule: "Host(`espazum.com`)"
       entryPoints:
         - rtc
       service: rtc
