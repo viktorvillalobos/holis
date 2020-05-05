@@ -11,10 +11,15 @@ entryPoints:
     address: ":443"
 
   flower:
-    address: ":5555"
+    # http
+    address: ":80"
+
+  flower:
+    # https
+    address: ":443"
 
   rtc:
-    address: ":9001"
+    address: ":443"
 
 certificatesResolvers:
   letsencrypt:
@@ -49,13 +54,19 @@ http:
         certResolver: letsencrypt
 
     flower-secure-router:
-      rule: "Host(`espazum.com`)"
+      rule: "Host(`flower.espazum.com`)"
       entryPoints:
         - flower
       service: flower
       tls:
         # https://docs.traefik.io/master/routing/routers/#certresolver
         certResolver: letsencrypt
+    
+    rtc:
+      rule: "Host(`rtc.espazum.com`)"
+      entryPoints:
+        - rtc
+      service: rtc
 
   middlewares:
     redirect:
