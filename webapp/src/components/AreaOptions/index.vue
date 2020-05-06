@@ -1,9 +1,13 @@
 <template>
   <div :class="['connect-area-options', {'aside-opened' : asideOpened}]">
-    <div class="control">
+    <div class="control" v-if="items.length > 1">
       <div class="select is-small">
-        <select>
-          <option v-for="item in items" :key="item.id" :selected="item.name === current.name">{{item.name}}</option>
+        <select @change="emitChange">
+          <option
+            v-for="item in items"
+            :key="item.id"
+            :selected="item.name === current.name"
+          >{{item.name}}</option>
         </select>
       </div>
     </div>
@@ -12,7 +16,7 @@
 </template>
 <script>
 export default {
-  name: 'AreaOptions',
+  name: "AreaOptions",
   props: {
     asideOpened: {
       type: Boolean
@@ -22,6 +26,11 @@ export default {
     },
     current: {
       type: Object
+    }
+  },
+  methods: {
+    emitChange(event) {
+      this.$emit("change", event.target.value);
     }
   }
 };

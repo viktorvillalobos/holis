@@ -11,7 +11,12 @@
           <Notifications v-if="isNotificationsActive" />
         </transition>
       </AsideLeft>
-      <AreaOptions :items="areas.list" :current="areas.currentArea" :aside-opened="isAsideLeftActive" />
+      <AreaOptions
+        :items="areas.list"
+        :current="areas.currentArea"
+        :aside-opened="isAsideLeftActive"
+        @change="changedArea"
+      />
       <notification-card
         @close="handleNotification"
         :aside-opened="isAsideLeftActive"
@@ -70,7 +75,7 @@ import Card from "@/components/Card";
 
 import { mapState } from "vuex";
 
-import modalMask from "@/assets/modalMask.svg"
+import modalMask from "@/assets/modalMask.svg";
 
 export default {
   name: "AppContainer",
@@ -144,6 +149,10 @@ export default {
     handleFirstTime() {
       localStorage.firstTime = false;
       this.firstTime = false;
+    },
+    changedArea (area) {
+      const filtered = this.areas.list.filter(x => x.name === area)
+      if (filtered[0]) this.$store.commit('setNewCurrent', filtered[0])
     }
   }
 };

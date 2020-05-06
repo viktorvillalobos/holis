@@ -7,15 +7,15 @@ const state = {
 }
 
 const getters = {
-  currentState (state) {
+  currentState(state) {
     return state.currentArea ? state.currentArea.state : []
   },
-  occupedPoints (state) {
-    const areaState =  state.currentArea ? state.currentArea.state : []
-    return areaState 
+  occupedPoints(state) {
+    const areaState = state.currentArea ? state.currentArea.state : []
+    return areaState
       ? areaState.map((item) => {
-        return {x: item.x, y: item.y}
-      }) 
+        return { x: item.x, y: item.y }
+      })
       : []
   }
 }
@@ -27,8 +27,11 @@ const mutations = {
       state.currentArea = state.list[0]
     }
   },
+  setNewCurrent(state, payload) {
+    state.currentArea = payload
+  },
   setAreas(state, areas) {
-    state.list= areas
+    state.list = areas
   },
   setOccupedStateChange(state, change) {
     /* When a new position is received we neeed to updeda
@@ -36,7 +39,7 @@ const mutations = {
       * we need to find the last point to release
       * and then occuped the new
       * */
-    state.currentArea.state =  change
+    state.currentArea.state = change
   }
 }
 
