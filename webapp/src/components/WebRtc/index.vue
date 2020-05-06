@@ -77,12 +77,6 @@
         OfferToReceiveVideo: this.enableVideo
       };
 
-      this.rtcmConnection.iceServers = [];
-      
-      this.rtcmConnection.iceServers.push({
-          url: 'stun:stun.l.google.com:19302',
-      });
-
       this.rtcmConnection.iceServers.push({
           urls: 'turn:coturn.espazum.com:443',
           credential: 'CabezaDePapa',
