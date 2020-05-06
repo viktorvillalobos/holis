@@ -176,7 +176,7 @@ export default {
             // .animate(250)
             .stroke({width: 1, color: 'rgba(224, 224, 224, .5)' })
           
-          vm.draw.circle(52).fill('#f2f2f2')
+          vm.draw.circle(52).fill('#fdfdfd')
             .translate(centerPosition.x - 26, centerPosition.y - 26)
         },
         
