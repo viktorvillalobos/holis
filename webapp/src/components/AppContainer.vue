@@ -11,7 +11,7 @@
           <Notifications v-if="isNotificationsActive" />
         </transition>
       </AsideLeft>
-      <AreaOptions />
+      <AreaOptions :items="areas.list" :current="areas.currentArea" :aside-opened="isAsideLeftActive" />
       <notification-card
         @close="handleNotification"
         :aside-opened="isAsideLeftActive"
@@ -98,7 +98,8 @@ export default {
       isMicroActive: state => state.app.isMicroActive,
       isSoundActive: state => state.app.isSoundActive,
       notification: state => state.app.notification,
-      user: state => state.app.user
+      user: state => state.app.user,
+      areas: state => state.areas
     }),
     asideLeftName() {
       if (this.isNotificationsActive) return "Notificaciones";
