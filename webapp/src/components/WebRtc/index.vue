@@ -80,11 +80,11 @@
       this.rtcmConnection.iceServers = [];
       
       this.rtcmConnection.iceServers.push({
-          url: 'stun:coturn.espazum.com:19302'
+          url: 'stun:coturn.espazum.com:443'
       });
 
       this.rtcmConnection.iceServers.push({
-          urls: 'turn:coturn.espazum.com:3478',
+          urls: 'turn:coturn.espazum.com:443',
           credential: 'CabezaDePapa',
           username: 'ElPinzas'
       });
