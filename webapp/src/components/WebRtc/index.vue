@@ -76,6 +76,19 @@
         OfferToReceiveAudio: this.enableAudio,
         OfferToReceiveVideo: this.enableVideo
       };
+
+      this.rtcmConnection.iceServers = [];
+      
+      this.rtcmConnection.iceServers.push({
+          url: 'stun:stun.l.google.com:19302'
+      });
+
+      this.rtcmConnection.iceServers.push({
+          urls: 'turn:coturn.espazum.com:3478',
+          credential: 'CabezaDePapa',
+          username: 'ElPinzas'
+      });
+
       this.rtcmConnection.onstream = function (stream) {
         let found = that.videoList.find(video => {
           return video.id === stream.streamid
