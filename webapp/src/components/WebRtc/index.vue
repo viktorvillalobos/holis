@@ -80,7 +80,7 @@
       this.rtcmConnection.iceServers = [];
       
       this.rtcmConnection.iceServers.push({
-          url: 'stun:coturn.espazum.com:443'
+          url: 'stun:coturn.espazum.com:3478'
       });
 
       this.rtcmConnection.iceServers.push({
