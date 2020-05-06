@@ -11,6 +11,7 @@
           <Notifications v-if="isNotificationsActive" />
         </transition>
       </AsideLeft>
+      <AreaOptions />
       <notification-card
         @close="handleNotification"
         :aside-opened="isAsideLeftActive"
@@ -59,6 +60,7 @@ import Notifications from "@/components/Notifications";
 import AsideLeft from "@/components/AsideLeft";
 import AsideRight from "@/components/AsideRight";
 import Board from "@/components/Board";
+import AreaOptions from "@/components/AreaOptions";
 
 import UserCard from "@/components/UserCard";
 import ChatBubbles from "@/components/Chat/ChatBubbles";
@@ -76,6 +78,7 @@ export default {
     ToolsMenu,
     Logo,
     Board,
+    AreaOptions,
     AsideLeft,
     AsideRight,
     NotificationCard,
