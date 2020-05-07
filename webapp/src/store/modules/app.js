@@ -3,6 +3,7 @@ const state = {
     isAsideLeftActive: false,
     isAsideRightActive: false,
     isBoardActive: true,
+    isReleasesActive: false,
     isNotificationsActive: false,
     notification: {
         show: false,
@@ -21,6 +22,9 @@ const mutations = {
     },
     setBoardActive(state) {
         state.isBoardActive = !state.isBoardActive
+    },
+    setReleasesActive(state) {
+        state.isReleasesActive = !state.isReleasesActive
     },
     setNotificationsActive(state) {
         state.isNotificationsActive = !state.isNotificationsActive

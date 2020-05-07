@@ -10,6 +10,9 @@
         <transition name="translate-x">
           <Notifications v-if="isNotificationsActive" />
         </transition>
+        <transition name="translate-x">
+          <Releases v-if="isReleasesActive" />
+        </transition>
       </AsideLeft>
       <AreaOptions
         :items="areas.list"
@@ -66,6 +69,7 @@ import AsideLeft from "@/components/AsideLeft";
 import AsideRight from "@/components/AsideRight";
 import Board from "@/components/Board";
 import AreaOptions from "@/components/AreaOptions";
+import Releases from "@/components/Releases";
 
 import UserCard from "@/components/UserCard";
 import ChatBubbles from "@/components/Chat/ChatBubbles";
@@ -88,6 +92,7 @@ export default {
     AsideRight,
     NotificationCard,
     Notifications,
+    Releases,
     UserCard,
     ChatBubbles,
     Chat,
@@ -100,6 +105,7 @@ export default {
       isAsideRightActive: state => state.app.isAsideRightActive,
       isBoardActive: state => state.app.isBoardActive,
       isNotificationsActive: state => state.app.isNotificationsActive,
+      isReleasesActive: state => state.app.isReleasesActive,
       isMicroActive: state => state.app.isMicroActive,
       isSoundActive: state => state.app.isSoundActive,
       notification: state => state.app.notification,
@@ -110,6 +116,8 @@ export default {
       if (this.isNotificationsActive) return "Notificaciones";
 
       if (this.isBoardActive) return "Cartelera";
+      
+      if (this.isReleasesActive) return "Novedades";
 
       return "Aside";
     }
