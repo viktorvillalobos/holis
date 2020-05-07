@@ -66,6 +66,15 @@
       var that = this;
       this.rtcmConnection = new RTCMultiConnection();
       this.rtcmConnection.socketURL = this.socketURL;
+
+      this.rtcmConnection.iceServers.push({
+          urls: 'turn:coturn.espazum.com:443',
+          credential: 'CabezaDePapa',
+          username: 'ElPinzas'
+      });
+
+      console.log(this.rtcmConnection.iceServers)
+
       this.rtcmConnection.autoCreateMediaElement = false;
       this.rtcmConnection.enableLogs = this.enableLogs;
       this.rtcmConnection.session = {
@@ -77,11 +86,6 @@
         OfferToReceiveVideo: this.enableVideo
       };
 
-      this.rtcmConnection.iceServers.push({
-          urls: 'turn:coturn.espazum.com:443',
-          credential: 'CabezaDePapa',
-          username: 'ElPinzas'
-      });
 
       this.rtcmConnection.onstream = function (stream) {
         let found = that.videoList.find(video => {
