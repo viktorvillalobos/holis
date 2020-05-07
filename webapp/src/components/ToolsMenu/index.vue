@@ -181,7 +181,7 @@ export default {
       if (this.isBoardActive) this.$store.commit("setBoardActive");
       if (this.isNotificationsActive)
         this.$store.commit("setNotificationsActive");
-      if (!this.asideOpened || this.isNotificationsActive)
+      if (!this.asideOpened || this.isReleasesActive)
         this.$store.commit("setAsideLeftActive");
       this.$store.commit("setReleasesActive");
     },
