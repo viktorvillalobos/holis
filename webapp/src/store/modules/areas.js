@@ -4,6 +4,7 @@ const state = {
   currentArea: null, // Initial state called from rest
   list: [],
   changeState: null, // Message of a state change
+  deleteFromState: null,  // Message of disconnect user, we need to delete from grid
 }
 
 const getters = {

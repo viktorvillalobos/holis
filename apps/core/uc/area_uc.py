@@ -120,14 +120,14 @@ class BaseAreaUC(AbstractModelUC):
 
     def clear_current_user_position(self, user: User):
         logger.info("clear_current_user_position")
-        positions = self.get_user_position(user)
-        logger.info(positions)
-        for x, y in positions:
+        try:
+            x, y = self.get_user_position(user)[0]
+        except IndexError:
+            return None
+        else:
             self.state[x, y] = self.get_empty_record()
-
-        self.save_state()
-
-        return positions.tolist()
+            self.save_state()
+            return int(x), int(y)
 
 
 class GetStateAreaUC(BaseAreaUC):
@@ -143,8 +143,14 @@ class SaveStateAreaUC(BaseAreaUC):
     def execute(self, user: User, x: int, y: int) -> List:
         positions = self.clear_current_user_position(user)
         self.state[x, y] = self.get_record_from_user(user, x, y)
-        logger.info('CHANGING STATE')
-        logger.info(self.state[x, y])
         self.save_state()
-
         return positions
+
+
+class ClearStateAreaUC(BaseAreaUC):
+    """
+        Clear the person when disconnect
+    """
+
+    def execute(self, user: User):
+        self.clear_current_user_position(user)

@@ -49,7 +49,9 @@ const store = new Vuex.Store({
         case 'grid.position':
           // Change the received message
           state.areas.changeState = message
-
+        break
+        case 'grid.disconnect':
+          state.areas.deleteFromState = message
         break
       }
     },

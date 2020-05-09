@@ -45,6 +45,7 @@ export default {
     ...mapState({
       // This is filled by WS message
       changeState: state => state.areas.changeState,
+      deleteFromState: state => state.areas.deleteFromState,
       currentArea: state => state.areas.currentArea,
       user: state => state.app.user
     }),
@@ -209,16 +210,13 @@ export default {
         }
       })
     },
-    clearMassive(oldValues) {
+    clearFromGrid(old) {
       /* 
         oldValues: List of items from server
       */
-      oldValues.forEach(old => {
-        console.log(`clearing {old}`)
-        let selectedHex = this.grid.get([old[0], old[1]])
-        selectedHex.clear()
-       }
-      )
+      console.log(`clearing {old}`)
+      let selectedHex = this.grid.get([old[0], old[1]])
+      selectedHex.clear()
     },
     loadInitialState () {
       console.log('currentState watcher')
@@ -257,12 +255,19 @@ export default {
           this.oldPoint = point
         } else {
           this.selectCellByCoordinates(point, value.user, false)
-          this.clearMassive(value.old)
+          if (value.old)
+            this.clearFromGrid(value.old)
         }
       }
 
       this.wasUpdateOnClient = false
 
+    },
+    deleteFromState(value) {
+      // Remove user from state
+      const point = [value.x, value.y]
+      this.clearFromGrid(point)
+      console.log(point)
     }
   }
 }
