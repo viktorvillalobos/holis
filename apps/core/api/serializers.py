@@ -36,8 +36,13 @@ class AreaSerializer(serializers.ModelSerializer):
 
 
 class UserField(serializers.Field):
-    def to_representation(self, obj):
-        return obj.name
+    def to_representation(self, user):
+        return {
+            "name": user.name,
+            "position": user.position,
+            "avatar": user.avatar.url,
+            "avatar_thumb": user.avatar_thumb,
+        }
 
 
 class AnnouncementSerializer(serializers.ModelSerializer):
