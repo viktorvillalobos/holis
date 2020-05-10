@@ -340,3 +340,6 @@ CHANNEL_LAYERS = {
         },
     },
 }
+
+
+THUMBNAIL_FORMAT = 'PNG'
