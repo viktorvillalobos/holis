@@ -30,7 +30,6 @@ export default {
       Grid: null,
       hex: null,
       selectedHex: null,
-      oldPoint: null,
       wasUpdateOnClient: false
     }
   },
@@ -65,26 +64,17 @@ export default {
     onClick (e) {
       const {x, y} = this.getOffset(e)
       if (!this.isOverlaped([x,y])) {
-        this.clearHex()
+        this.clearUserFromGrid(window.user_id)
         this.selectCellByOffset(x, y,this.user, true)
         this.wasUpdateOnClient = true
       }
     },
     isOverlaped (point) {
-      // point: [Array[x,y]]
-
       const obj = this.Grid.pointToHex(point)
-      if (!this.occupedPoints) {
-        return false
-      }
-      const results = 
-                this.occupedPoints
-                  .filter(point => point.x === obj.x 
-                    && point.y === obj.y)
-
-      const response = results.length ? true : false
-      console.log(`overlaped ${response}`)
-      return response
+      const occuped = this.rectangle
+                        .filter(hex => hex.x === obj.x && hex.y === obj.y && hex.user)
+      console.log(occuped)
+      return occuped.length !== 0
     },
     selectCellByOffset(x, y, user, notify){
         const hexCoordinates = this.Grid.pointToHex([x, y])
@@ -94,7 +84,6 @@ export default {
       if (notify) {
         const message = {type:"grid.position", area: this.currentArea.id, x: hexCoordinates.x, y: hexCoordinates.y}
         this.$socket.send(JSON.stringify(message))
-        this.oldPoint = hexCoordinates
       } 
       const selectedHex = this.rectangle.get(hexCoordinates)
       if (selectedHex) {
@@ -108,10 +97,6 @@ export default {
       const xpos = e.layerX
       const ypos = e.layerY
       return {x:xpos, y:ypos};
-    },
-    clearHex() {
-      const lastHex = this.rectangle.get(this.oldPoint)
-      lastHex.clear()
     },
     onHover({ offsetX, offsetY }) {
         const hexCoordinates = this.Grid.pointToHex([offsetX, offsetY])
@@ -154,15 +139,11 @@ export default {
     },
     async loadInitialState () {
       await this.$store.dispatch("getAreas")
-      const vm = this
       this.currentState.forEach(userPosition => {
         const selectedHex = this.rectangle.get([userPosition.x, userPosition.y])
         if (selectedHex) {
           selectedHex.filled(userPosition)
           selectedHex.addImage(userPosition.avatar)
-          if (userPosition.id === window.user_id) {
-             vm.oldPoint = [userPosition.x, userPosition.y]
-          }
         }
       })
     },
@@ -171,36 +152,24 @@ export default {
     size () {
       this.rectangle = this.getRectangle()
     },
-    changeState ({x, y, user, state}) {
+    changeState ({user, state}) {
       /* This is executed when a notification of user
         change is received */
-      const point = [x, y]
       // Clear the old position
       // Se filtra porque los cambios hechos por nosotros mismos
       // se borran al hacer click
 
-      /* if (window.user_id === user.id){
-        this.oldPoint = point
-      } else {
-        this.selectCellByCoordinates(point, user, false)
-        if (old)
-          this.clearFromGrid(old)
-      } */
-      console.log(state)
+      // this.$store.commit('setOccupedStateChange', state)
+      if (user.id  === window.user_id) return
 
-      if (user.id === window.user_id) {
-        this.oldPoint = point
-      } else {
-        state
-          .filter(x => x.id !== window.user_id)
-          .forEach(userState => {
-            const userPoint = [userState.x, userState.y]
-            this.clearUserFromGrid(userState.id)
-            this.selectCellByCoordinates(userPoint, userState, false)  
-          })
-      }
+      state
+        .filter(x => x.id !== window.user_id)
+        .forEach(userState => {
+          const userPoint = [userState.x, userState.y]
+          this.clearUserFromGrid(userState.id)
+          this.selectCellByCoordinates(userPoint, userState, false)  
+        })
 
-      this.$store.commit('setOccupedStateChange', state)
     },
     deleteFromState(value) {
       // Remove user from state
