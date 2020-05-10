@@ -13,30 +13,32 @@
       </div>
       <div class="column">
         <card outline>
-          <WIP />
+          <ParticipationChart />
         </card>
       </div>
     </div>
     <div class="columns">
       <div class="column">
         <card outline>
-          <WIP />
+          <HappinessChart />
         </card>
       </div>
     </div>
   </div>
 </template>
 <script>
-import WIP from "@/components/WIP";
 import Card from "@/components/Card";
 
-import HourConnection from "@/components/Graphs/HourConnection"
+import HourConnection from "@/components/Graphs/HourConnection";
+import ParticipationChart from "@/components/Graphs/ParticipationChart";
+import HappinessChart from "@/components/Graphs/HappinessChart";
 export default {
   name: "Reportes",
   components: {
-    WIP,
     Card,
-    HourConnection
+    HourConnection,
+    ParticipationChart,
+    HappinessChart
   },
   data() {
     return {
@@ -58,5 +60,10 @@ export default {
   }
 };
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
+.card-actions {
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
+}
 </style>

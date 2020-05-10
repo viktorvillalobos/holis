@@ -6,37 +6,39 @@
       <li>
         <span class="number">1</span>
         <div class="content">
-          <strong>
+          <span>
             <span>9</span>am -
             <span>6</span>pm
-          </strong>
+          </span>
           <p>El favorito</p>
         </div>
-        <img :src="`${publicPath}img/clock-star.svg`" class="icon" />
+        <img :src="`${publicPath}img/clock-star.svg`" class="icon-clock-star" />
       </li>
       <li>
         <span class="number">2</span>
         <div class="content">
-          <strong>
+          <span>
             <span>9</span>am -
             <span>6</span>pm
-          </strong>
+          </span>
           <p>El no tan querido</p>
         </div>
       </li>
       <li>
         <span class="number">3</span>
         <div class="content">
-          <strong>
+          <span>
             <span>9</span>am -
             <span>6</span>pm
-          </strong>
+          </span>
           <p>El tercero en discordia</p>
         </div>
       </li>
     </ul>
     <ul class="card-actions">
-        <li><Btn flat primary>Ver más</Btn></li>
+      <li>
+        <Btn flat primary>Ver más</Btn>
+      </li>
     </ul>
   </div>
 </template>
@@ -58,6 +60,11 @@ export default {
 .connect-hour-connection {
   padding: 15px;
 
+  > p {
+    font-size: 12px;
+    margin-bottom: 15px;
+  }
+
   &-list {
     width: 100%;
     li {
@@ -73,8 +80,7 @@ export default {
         min-width: 0;
         width: 52px;
         height: 52px;
-        background: #56ccf2;
-        color: $light-gray;
+        color: #56ccf2;
         font-size: 48px;
       }
 
@@ -85,7 +91,7 @@ export default {
       .content {
         width: calc(100% - 52px);
         margin-bottom: 0;
-        strong {
+        > span {
           line-height: 1;
           font-size: 24px;
 
@@ -98,8 +104,45 @@ export default {
       &:first-child {
         background-color: #b4edff;
 
+        .number {
+          background: #56ccf2;
+          color: $light-gray;
+        }
+
         .content {
           width: calc(100% - (52px + 47px));
+        }
+      }
+
+      &:nth-child(2) {
+        .number {
+          font-size: 35px;
+        }
+
+        .content {
+          > span {
+            font-size: 24px;
+
+            span {
+              font-size: 35px;
+            }
+          }
+        }
+      }
+
+      &:nth-child(3) {
+        .number {
+          font-size: 25px;
+        }
+
+        .content {
+          > span {
+            font-size: 18px;
+
+            span {
+              font-size: 25px;
+            }
+          }
         }
       }
     }

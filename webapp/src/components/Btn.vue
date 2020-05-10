@@ -22,7 +22,7 @@
         @click.stop="dropdownActive = !dropdownActive"
         class="connect-btn-drop-action"
       >
-        <img src="@/assets/icons/chevron-down.svg" />
+        <font-awesome-icon icon="chevron-down" />
       </div>
     </div>
     <card class="outside-card" v-if="dropdown && dropdownActive">
@@ -180,6 +180,7 @@ export default {
       align-items: center;
       justify-content: center;
       background: rgba(0, 0, 0, 0.1);
+      color: white !important;
     }
   }
 }

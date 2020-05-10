@@ -9,7 +9,7 @@ const state = {
         show: false,
         text: "This is a demo notification"
     },
-    isMicroActive: true,
+    isMicroActive: false,
     isSoundActive: true
 }
 

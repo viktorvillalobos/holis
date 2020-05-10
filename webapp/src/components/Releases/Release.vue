@@ -28,7 +28,7 @@ export default {
   }
 
   &-header {
-    background: $light-gray;
+    background-color: $light-gray;
     color: $font-color;
   }
 
