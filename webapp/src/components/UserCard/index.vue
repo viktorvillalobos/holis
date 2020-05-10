@@ -146,7 +146,9 @@ export default {
   padding: 15px 8px 15px;
   transition: $aside-transition;
   transition-delay: 0.25s;
-  background-color: #fff;
+  box-shadow: $card-box-shadow;
+  background: #fff;
+  border-radius: $card-border-radius;
 
   > div {
     display: inline-flex;
@@ -185,9 +187,6 @@ export default {
   }
 
   &--floats {
-    box-shadow: $card-box-shadow;
-    background: #fff;
-    border-radius: $card-border-radius;
   }
 }
 
