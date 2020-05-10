@@ -17,7 +17,7 @@ deploy:
   only:
     - master
   script:
-    - cd $DEPLOY_PATH && git pull && docker-compose -f production.yml up -d --build
+    - cd $DEPLOY_PATH && sudo git pull && sudo docker-compose -f production.yml up -d --build
 
 
 # black:
