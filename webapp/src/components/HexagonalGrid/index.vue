@@ -174,7 +174,10 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss">
   .hex-grid {
-   height: 99vh;
+   // height: 99vh;
+   width: 2500px;
+   height: 2000px;
+   overflow: auto;
   }
 
   svg {

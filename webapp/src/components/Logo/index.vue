@@ -1,6 +1,7 @@
 <template>
   <div :class="['connect-logo-wrapper', {'aside-opened' : asideOpened}]">
     <svg
+      v-if="!company.logo"
       class="connect-logo"
       width="50"
       height="47"
@@ -28,7 +29,7 @@
       </g>
     </svg>
 
-    <img v-if="company.logo" class="connect-logo-company" :src=" company.logo" :alt="company.name" />
+    <img v-if="company.logo" class="connect-logo-company" :src=" company.logo" :alt="company.name" width="50"/>
     <h1 class="connect-company">{{company.name}}</h1>
   </div>
 </template>

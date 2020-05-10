@@ -2,7 +2,7 @@
   <div class="connect-app-container">
     <div class="connect-container">
       <ToolsMenu :aside-opened="isAsideLeftActive" />
-      <Logo :aside-opened="isAsideLeftActive" />
+      <Logo :aside-opened="isAsideLeftActive" :company="company"/>
       <AsideLeft :name="asideLeftName" :active="isAsideLeftActive">
         <transition name="translate-x">
           <Board v-if="isBoardActive" />
@@ -120,6 +120,12 @@ export default {
       if (this.isReleasesActive) return "Novedades";
 
       return "Aside";
+    },
+    company () {
+      return {
+        name: this.user ? this.user.company.name : null,
+        logo: this.user ? this.user.company.logo_thumb : null
+      }
     }
   },
   data() {
