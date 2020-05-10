@@ -35,6 +35,7 @@ function getHex (vmDraw, size) {
         },
 
         clear(){
+          this.user = null
           const position = this.toPoint()
           const centerPosition = this.center().add(position)
           this.draw
