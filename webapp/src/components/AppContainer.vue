@@ -131,7 +131,6 @@ export default {
     };
   },
   created() {
-    // this.$store.dispatch("getList")
   },
   mounted() {
     if (!localStorage.firstTime) {
