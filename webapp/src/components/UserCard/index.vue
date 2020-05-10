@@ -141,11 +141,10 @@ export default {
 .connect-user-card {
   position: fixed;
   top: 7px;
-  right: 8px;
+  right: 341px;
   width: 326px;
   padding: 15px 8px 15px;
   transition: $aside-transition;
-  transition-delay: 0.25s;
   box-shadow: $card-box-shadow;
   background: #fff;
   border-radius: $card-border-radius;
@@ -187,6 +186,7 @@ export default {
   }
 
   &--floats {
+    right: 8px;
   }
 }
 

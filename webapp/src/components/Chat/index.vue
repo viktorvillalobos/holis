@@ -45,11 +45,11 @@ export default {
 .connect-chat {
   border-top: 1px solid $light-gray;
   position: relative;
-  height: calc(100vh - #{$user-card-space});
+  height: 100%;
   box-sizing: border-box;
 
   &-body {
-    height: calc(100vh - #{$user-card-space + 50px});
+    height: calc(100vh - 50px);
     overflow-y: scroll;
     padding: 40px 15px 0 15px;
     box-sizing: border-box;
