@@ -7,8 +7,9 @@
 </template>
 
 <script>
-import { defineGrid, extendHex } from 'honeycomb-grid'
+import { defineGrid } from 'honeycomb-grid'
 import { mapGetters, mapState } from 'vuex'
+import  hex from './hex.js'
 import  SVG  from 'svg.js'
 
 export default {
@@ -44,7 +45,7 @@ export default {
     */
 
     this.draw = SVG(this.$refs.grid)
-    this.hex = this.getHex()
+    this.hex =  hex.getHex(this.draw, this.size)
     this.Grid = defineGrid(this.hex)
     this.rectangle = this.getRectangle()
 
@@ -140,78 +141,6 @@ export default {
         // render each hex, passing the draw instance
         onCreate(hex) {
           hex.render(vm.draw)
-        }
-      })
-    },
-    getHex() {
-      const vm = this
-      return extendHex({
-        size: this.size,
-        render(draw) {
-          const { x, y } = this.toPoint()
-          const corners = this.corners()
-          this.draw = draw
-            .polygon(corners.map(({ x, y }) => `${x},${y}`))
-            .fill('none')
-            .stroke({width: this.border, color: 'rgba(224, 224, 224, .5)' })
-            .translate(x, y)
-        },
-
-        highlight() {
-          this.draw
-            .stop(true, true)
-            .fill({ opacity: 1, color: 'aquamarine' })
-            .animate(1000)
-            .fill({ opacity: 0, color: 'none' })
-        },
-
-        filled() {
-          this.draw
-            .stop(true, true)
-            .stroke({width: 10, color: '#7f7fff' })
-            .animate(1000)
-            .stroke({width: 5, color: '#7f7fff' })
-        },
-
-        clear(){
-          const position = this.toPoint()
-          const centerPosition = this.center().add(position)
-          this.draw
-            .stop(true, true)
-            // .stroke({width: 2, color: '#7f7fff' })
-            // .animate(250)
-            .stroke({width: 1, color: 'rgba(224, 224, 224, .5)' })
-          
-          vm.draw.circle(52).fill('#fdfdfd')
-            .translate(centerPosition.x - 26, centerPosition.y - 26)
-        },
-        
-        addImage(avatar) {
-          const position = this.toPoint()
-          const centerPosition = this.center().add(position)
-          const img = vm.draw
-            .image(avatar, 50, 50)
-
-          vm.draw.circle(50)
-            .attr({ fill:img})
-            .translate(centerPosition.x - 25, centerPosition.y - 25)
-            
-        },
-
-        addText() {
-          const position = this.toPoint()
-          const centerPosition = this.center().add(position)
-          const fontSize = 12
-          
-          vm.draw
-            .text(`${this.x},${this.y}`)
-            .font({
-              size: fontSize,
-              anchor: 'middle',
-              leading: 1.4,
-              fill: 'black'
-            })
-            .translate(centerPosition.x, centerPosition.y - fontSize)
         }
       })
     },

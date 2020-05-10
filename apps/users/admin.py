@@ -13,7 +13,7 @@ class UserAdmin(AdminImageMixin, auth_admin.UserAdmin):
     form = UserChangeForm
     add_form = UserCreationForm
     fieldsets = (
-        ("User", {"fields": ("name", "avatar")}),
+        ("User", {"fields": ("name", "avatar", "birthday")}),
     ) + auth_admin.UserAdmin.fieldsets
     list_display = ["username", "company", "name", "is_superuser"]
     search_fields = ["name"]
