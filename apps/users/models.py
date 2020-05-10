@@ -74,9 +74,6 @@ class User(AbstractUser):
         #     self.avatar = self.get_monster()
         super().save(*args, **kwargs)
 
-    def get_monster(self):
-        pass
-
     @property
     def avatar_thumb(self):
         if not self.avatar:

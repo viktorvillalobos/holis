@@ -30,7 +30,6 @@ export default {
       Grid: null,
       hex: null,
       selectedHex: null,
-      wasUpdateOnClient: false
     }
   },
   async mounted () {
@@ -66,7 +65,6 @@ export default {
       if (!this.isOverlaped([x,y])) {
         this.clearUserFromGrid(window.user_id)
         this.selectCellByOffset(x, y,this.user, true)
-        this.wasUpdateOnClient = true
       }
     },
     isOverlaped (point) {
@@ -88,8 +86,8 @@ export default {
       const selectedHex = this.rectangle.get(hexCoordinates)
       if (selectedHex) {
         selectedHex.filled(user)
-        const neighbors = this.rectangle.neighborsOf(selectedHex)
-        this.$emit('neighbors', neighbors)
+        // const neighbors = this.rectangle.neighborsOf(selectedHex)
+        // this.$emit('neighbors', neighbors)
       }
     },
     getOffset(e) {
