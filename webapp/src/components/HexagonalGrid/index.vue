@@ -155,11 +155,6 @@ export default {
     changeState ({user, state}) {
       /* This is executed when a notification of user
         change is received */
-      // Clear the old position
-      // Se filtra porque los cambios hechos por nosotros mismos
-      // se borran al hacer click
-
-      // this.$store.commit('setOccupedStateChange', state)
       if (user.id  === window.user_id) return
 
       state
