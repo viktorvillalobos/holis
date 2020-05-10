@@ -98,8 +98,7 @@ export default {
       } 
       const selectedHex = this.rectangle.get(hexCoordinates)
       if (selectedHex) {
-        selectedHex.filled()
-        selectedHex.addImage(user.avatar_thumb)
+        selectedHex.filled(user)
         const neighbors = this.rectangle.neighborsOf(selectedHex)
         this.$emit('neighbors', neighbors)
       }
@@ -121,17 +120,6 @@ export default {
           hex.highlight()
         }
     },
-    paint () {
-      const list = [[0,1], [2,2]]
-
-      list.forEach(point => {
-        const hex = this.rectangle.get(point)
-        if (hex) {
-          hex.filled()
-          console.log(hex)
-        }
-      })
-    },
     getRectangle() {
       const vm = this
       this.draw.clear()
@@ -144,24 +132,33 @@ export default {
         }
       })
     },
-    clearFromGrid(old) {
+    clearOthersFromGrid() {
+      
+    },
+    clearUserFromGrid(userId) {
+      /* remove an user from grid 
+        user: = user instance or userstat
+        */
+      console.log(`Clearing user id: ${userId} from grid`)
+      this.rectangle
+          .filter(x => x && x.user && x.user.id === userId)
+          .forEach(x => x.clear())
+    },
+    clearFromGrid(oldPoint) {
       /* 
-        oldValues: List of items from server
+        oldPoint = [x,y]
       */
       console.log(`clearing {old}`)
-      let selectedHex = this.rectangle.get([old[0], old[1]])
+      let selectedHex = this.rectangle.get(oldPoint)
       selectedHex.clear()
     },
     async loadInitialState () {
       await this.$store.dispatch("getAreas")
-      console.log('currentState watcher')
       const vm = this
       this.currentState.forEach(userPosition => {
         const selectedHex = this.rectangle.get([userPosition.x, userPosition.y])
         if (selectedHex) {
-          selectedHex.filled()
-          console.log('VALUE')
-          console.log(userPosition)
+          selectedHex.filled(userPosition)
           selectedHex.addImage(userPosition.avatar)
           if (userPosition.id === window.user_id) {
              vm.oldPoint = [userPosition.x, userPosition.y]
@@ -174,29 +171,36 @@ export default {
     size () {
       this.rectangle = this.getRectangle()
     },
-    changeState (value) {
+    changeState ({x, y, user, state}) {
       /* This is executed when a notification of user
         change is received */
-      const point = [value.x, value.y]
+      const point = [x, y]
       // Clear the old position
       // Se filtra porque los cambios hechos por nosotros mismos
       // se borran al hacer click
-      this.$store.commit('setOccupedStateChange', value.state)
 
-      if (!this.wasUpdateOnClient) {
-        console.log('No fue actualizado en este cliente')
-        if (window.user_id === value.user.id)
-        {
-          this.oldPoint = point
-        } else {
-          this.selectCellByCoordinates(point, value.user, false)
-          if (value.old)
-            this.clearFromGrid(value.old)
-        }
+      /* if (window.user_id === user.id){
+        this.oldPoint = point
+      } else {
+        this.selectCellByCoordinates(point, user, false)
+        if (old)
+          this.clearFromGrid(old)
+      } */
+      console.log(state)
+
+      if (user.id === window.user_id) {
+        this.oldPoint = point
+      } else {
+        state
+          .filter(x => x.id !== window.user_id)
+          .forEach(userState => {
+            const userPoint = [userState.x, userState.y]
+            this.clearUserFromGrid(userState.id)
+            this.selectCellByCoordinates(userPoint, userState, false)  
+          })
       }
 
-      this.wasUpdateOnClient = false
-
+      this.$store.commit('setOccupedStateChange', state)
     },
     deleteFromState(value) {
       // Remove user from state
@@ -211,9 +215,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss">
   .hex-grid {
-//   height: 99vh;
-   height: 1140px;
-   width: 1140px;
+   height: 99vh;
   }
 
   svg {

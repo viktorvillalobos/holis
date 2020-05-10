@@ -4,6 +4,7 @@ import {  extendHex } from 'honeycomb-grid'
 function getHex (vmDraw, size) {
       return extendHex({
         size: size,
+        user: null,
         render(draw) {
           const { x, y } = this.toPoint()
           const corners = this.corners()
@@ -22,12 +23,15 @@ function getHex (vmDraw, size) {
             .fill({ opacity: 0, color: 'none' })
         },
 
-        filled() {
+        filled(user) {
+          this.user = user
           this.draw
             .stop(true, true)
             .stroke({width: 10, color: '#7f7fff' })
             .animate(1000)
             .stroke({width: 5, color: '#7f7fff' })
+
+          this.addImage(user)
         },
 
         clear(){
@@ -43,7 +47,8 @@ function getHex (vmDraw, size) {
             .translate(centerPosition.x - 26, centerPosition.y - 26)
         },
         
-        addImage(avatar) {
+        addImage(user) {
+          const avatar = user.avatar || user.avatar_thumb
           const position = this.toPoint()
           const centerPosition = this.center().add(position)
           const img = vmDraw
