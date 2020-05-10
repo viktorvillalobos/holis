@@ -1,13 +1,24 @@
 stages:
-  - black
-  - test
+  - deploy
+
 
 variables:
-  POSTGRES_USER: 'lesgens'
+  POSTGRES_USER: 'espazum'
   POSTGRES_PASSWORD: ''
-  POSTGRES_DB: 'test_lesgens'
+  POSTGRES_DB: 'test_espazum'
   POSTGRES_HOST_AUTH_METHOD: trust
   CELERY_BROKER_URL: 'redis://redis:6379/0'
+  DEPLOY_PATH: /webapp/core/
+
+deploy:
+  stage: deploy
+  tags:
+    - shell
+  only:
+    - master
+  script:
+    - cd $DEPLOY_PATH && git pull && docker-compose -f production.yml up -d --build
+
 
 black:
   stage: black
