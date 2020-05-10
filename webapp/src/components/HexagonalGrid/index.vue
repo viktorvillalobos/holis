@@ -143,7 +143,6 @@ export default {
         const selectedHex = this.rectangle.get([userPosition.x, userPosition.y])
         if (selectedHex) {
           selectedHex.filled(userPosition)
-          selectedHex.addImage(userPosition.avatar)
         }
       })
     },
