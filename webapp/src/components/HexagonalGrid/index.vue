@@ -163,11 +163,9 @@ export default {
         })
 
     },
-    deleteFromState(value) {
+    deleteFromState({ user }) {
       // Remove user from state
-      const point = [value.x, value.y]
-      this.clearFromGrid(point)
-      console.log(point)
+      this.clearUserFromGrid(user.id)
     }
   }
 }
