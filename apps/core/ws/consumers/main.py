@@ -11,10 +11,17 @@ from .notifications import NotificationMixin
 
 logger = logging.getLogger(__name__)
 
+COMPANY_MAIN_CHANNEL = "company-{}"
+
 
 class MainConsumerBase(AsyncJsonWebsocketConsumer):
+    @property
+    def company_channel(self):
+        company_id: int = self.scope["user"].company_id
+        return COMPANY_MAIN_CHANNEL.format(company_id)
+
     async def get_groups(self):
-        return ["adslab"]
+        return [self.company_channel]
 
     @database_sync_to_async
     def serialize_user_data(self, user):

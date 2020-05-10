@@ -35,11 +35,11 @@ class GridMixin:
         message["user"] = await self.serialize_user_data(self.scope["user"])
         logger.info("notify_change_position")
         logger.info(message)
-        await self.channel_layer.group_send("adslab", message)
+        await self.channel_layer.group_send(self.company_channel, message)
 
     async def notify_user_disconnect(self, message):
         message["user"] = await self.serialize_user_data(self.scope["user"])
-        await self.channel_layer.group_send("adslab", message)
+        await self.channel_layer.group_send(self.company_channel, message)
 
     async def handle_grid_position(self, message: Dict) -> None:
         logger.info("handle_grid_position")
