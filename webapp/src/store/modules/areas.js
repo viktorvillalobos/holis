@@ -34,7 +34,7 @@ const mutations = {
   setAreas(state, areas) {
     state.list = areas
   },
-  setOccupedStateChange(state, change) {
+  setCurrentState(state, change) {
     /* When a new position is received we neeed to updeda
       * the currentArea.state        
       * we need to find the last point to release
@@ -49,6 +49,9 @@ const actions = {
     const { data } = await apiClient.areas.list()
     commit('setAreas', data.results)
     commit('setCurrent')
+  },
+  setCurrentState ({ commit }, state) {
+    commit('setCurrentState', state)
   }
 }
 

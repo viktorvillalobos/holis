@@ -113,7 +113,6 @@ export default {
     },
     onMouseOver(e) {
         const {x, y} = this.getOffset(e)
-        console.log(`mouse in x:${x} and y:${y}`)
         const hexCoordinates = this.Grid.pointToHex([x, y])
         const hex = this.rectangle.get(hexCoordinates)
         if (hex && hex.user ) {
@@ -123,8 +122,6 @@ export default {
         }
     },
     setHexOver: _.debounce(function(hex, x, y) {
-        console.log('Hover User')
-        console.log(hex)
         this.hexOver = hex
         this.hexLeft = x
         this.hexTop = y
@@ -178,7 +175,10 @@ export default {
     changeState ({user, state}) {
       /* This is executed when a notification of user
         change is received */
-      if (user.id  === window.user_id) return
+      if (user.id  === window.user_id) {
+        this.$store.dispatch('setCurrentState', state)
+        return
+      }
 
       state
         .filter(x => x.id !== window.user_id)
@@ -188,10 +188,14 @@ export default {
           this.selectCellByCoordinates(userPoint, userState, false)  
         })
 
+        this.$store.dispatch('setCurrentState', state)
     },
-    deleteFromState({ user }) {
+    deleteFromState({ user, state }) {
       // Remove user from state
       this.clearUserFromGrid(user.id)
+      console.log('deleteFromState')
+      console.log(state)
+      this.$store.dispatch('setCurrentState', state)
     }
   }
 }
