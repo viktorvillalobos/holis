@@ -8,6 +8,7 @@
       :style="`top: ${hexTop}px; left: ${hexLeft}px`" 
       :name="hexOver && hexOver.user ? hexOver.user.name : null"
       :position="hexOver && hexOver.user ? hexOver.user.position : null"
+      :img="hexOver && hexOver.user ? hexOver.user.avatar_thumb: null"
       origin="bottom" 
       v-show="hexOver && hexOver.user"/>
   </div>
@@ -193,8 +194,6 @@ export default {
     deleteFromState({ user, state }) {
       // Remove user from state
       this.clearUserFromGrid(user.id)
-      console.log('deleteFromState')
-      console.log(state)
       this.$store.dispatch('setCurrentState', state)
     }
   }

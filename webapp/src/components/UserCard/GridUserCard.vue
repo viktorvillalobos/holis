@@ -2,7 +2,8 @@
   <div :class="['connect-grid-user-card', origin]">
     <img src="@/assets/gridUserCardWaves.svg" class="connect-grid-user-card-waves" />
     <div class="connect-grid-user-card-content">
-      <Avatar big />
+      <Avatar big
+              :img="img"/>
       <div class="connect-grid-user-card-content-info">
         <h3>{{ name }}</h3>
         <p class="position">{{ position }}</p>
@@ -36,6 +37,10 @@ export default {
       type: String,
       default: "UX / UI Desginer"
     },
+    img: {
+      type: String,
+      default: "https://api.adorable.io/avatars/71/abott@adorable.png"
+    }
   },
   components: {
     Avatar,
