@@ -11,10 +11,12 @@
         </select>
       </div>
     </div>
-    <span class="tag is-primary">12 usuarios conectados</span>
+    <span class="tag is-primary">{{ totalUsers }} usuarios conectados</span>
   </div>
 </template>
 <script>
+import { mapState } from 'vuex'
+
 export default {
   name: "AreaOptions",
   props: {
@@ -26,6 +28,17 @@ export default {
     },
     current: {
       type: Object
+    }
+  },
+  computed: {
+    ...mapState({
+      currentArea: state => state.areas.currentArea
+    }),
+    totalUsers () {
+      if (!this.currentArea || !this.currentArea.state) {
+        return 0
+      }
+      return this.currentArea.state.length
     }
   },
   methods: {

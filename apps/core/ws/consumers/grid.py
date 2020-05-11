@@ -24,6 +24,7 @@ class GridMixin:
         area = core_models.Area.objects.get(id=area_id)
         uc = area_uc.ClearStateAreaUC(area)
         uc.execute(self.scope["user"])
+        return uc.get_serialized_connected()
 
     async def grid_position(self, message):
         await self.send_json(message)
@@ -63,8 +64,9 @@ class GridMixin:
         user = self.scope["user"]
         position: Dict = cache.get(USER_POSITION_KEY.format(user.id))
         if position:
-            await self.clear_position(**position)
+
+            state = await self.clear_position(**position)
             await self.notify_user_disconnect(
-                {"type": "grid.disconnect", **position}
+                {"type": "grid.disconnect", "state": state, **position}
             )
             cache.delete(USER_POSITION_KEY.format(user.id))

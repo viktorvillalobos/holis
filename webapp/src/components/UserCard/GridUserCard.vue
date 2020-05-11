@@ -2,10 +2,11 @@
   <div :class="['connect-grid-user-card', origin]">
     <img src="@/assets/gridUserCardWaves.svg" class="connect-grid-user-card-waves" />
     <div class="connect-grid-user-card-content">
-      <Avatar big />
+      <Avatar big
+              :img="img"/>
       <div class="connect-grid-user-card-content-info">
-        <h3>Joanna Davis</h3>
-        <p class="position">Diseñadora</p>
+        <h3>{{ name }}</h3>
+        <p class="position">{{ position }}</p>
         <p class="status">
           <font-awesome-icon icon="handshake" />En reunión
         </p>
@@ -13,7 +14,7 @@
     </div>
     <ul class="connect-grid-user-card-actions">
       <li>
-        <Btn primary>Chatea con ella</Btn>
+        <Btn primary>Chat</Btn>
       </li>
     </ul>
   </div>
@@ -27,6 +28,18 @@ export default {
     origin: {
       type: String,
       default: "top"
+    },
+    name: {
+      type: String,
+      default: "Johana Daivis"
+    },
+    position: {
+      type: String,
+      default: "UX / UI Desginer"
+    },
+    img: {
+      type: String,
+      default: "https://api.adorable.io/avatars/71/abott@adorable.png"
     }
   },
   components: {
