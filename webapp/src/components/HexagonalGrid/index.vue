@@ -2,14 +2,21 @@
   <div 
     ref="grid" 
     class="hex-grid"
+    @mouseover="onMouseOver($event)"
     @click="onClick($event)">
-    <GridUserCard style="top: 150px; left: 150px;" origin="bottom" />
+    <GridUserCard 
+      :style="`top: ${hexTop}px; left: ${hexLeft}px`" 
+      :name="hexOver && hexOver.user ? hexOver.user.name : null"
+      :position="hexOver && hexOver.user ? hexOver.user.position : null"
+      origin="bottom" 
+      v-show="hexOver && hexOver.user"/>
   </div>
 </template>
 
 <script>
 import { defineGrid } from 'honeycomb-grid'
 import { mapGetters, mapState } from 'vuex'
+import _ from 'lodash'
 import  hex from './hex.js'
 import  SVG  from 'svg.js'
 import  GridUserCard  from '@/components/UserCard/GridUserCard'
@@ -35,6 +42,9 @@ export default {
       Grid: null,
       hex: null,
       selectedHex: null,
+      hexOver: null,
+      hexTop: null,
+      hexLeft: null
     }
   },
   async mounted () {
@@ -101,13 +111,24 @@ export default {
       const ypos = e.layerY
       return {x:xpos, y:ypos};
     },
-    onHover({ offsetX, offsetY }) {
-        const hexCoordinates = this.Grid.pointToHex([offsetX, offsetY])
+    onMouseOver(e) {
+        const {x, y} = this.getOffset(e)
+        console.log(`mouse in x:${x} and y:${y}`)
+        const hexCoordinates = this.Grid.pointToHex([x, y])
         const hex = this.rectangle.get(hexCoordinates)
-        if (hex) {
-          hex.highlight()
+        if (hex && hex.user ) {
+          this.setHexOver(hex, x, y)
+        } else {
+          this.setHexOver(null, null, null)
         }
     },
+    setHexOver: _.debounce(function(hex, x, y) {
+        console.log('Hover User')
+        console.log(hex)
+        this.hexOver = hex
+        this.hexLeft = x
+        this.hexTop = y
+    }, 400),
     getRectangle() {
       const vm = this
       this.draw.clear()

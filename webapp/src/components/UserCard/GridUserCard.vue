@@ -4,8 +4,8 @@
     <div class="connect-grid-user-card-content">
       <Avatar big />
       <div class="connect-grid-user-card-content-info">
-        <h3>Joanna Davis</h3>
-        <p class="position">Diseñadora</p>
+        <h3>{{ name }}</h3>
+        <p class="position">{{ position }}</p>
         <p class="status">
           <font-awesome-icon icon="handshake" />En reunión
         </p>
@@ -13,7 +13,7 @@
     </div>
     <ul class="connect-grid-user-card-actions">
       <li>
-        <Btn primary>Chatea con ella</Btn>
+        <Btn primary>Chat</Btn>
       </li>
     </ul>
   </div>
@@ -27,7 +27,15 @@ export default {
     origin: {
       type: String,
       default: "top"
-    }
+    },
+    name: {
+      type: String,
+      default: "Johana Daivis"
+    },
+    position: {
+      type: String,
+      default: "UX / UI Desginer"
+    },
   },
   components: {
     Avatar,

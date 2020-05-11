@@ -15,7 +15,15 @@ class UserAdmin(AdminImageMixin, auth_admin.UserAdmin):
     fieldsets = (
         (
             "Profile",
-            {"fields": ("name", "avatar", "birthday", "default_area")},
+            {
+                "fields": (
+                    "name",
+                    "position",
+                    "avatar",
+                    "birthday",
+                    "default_area",
+                )
+            },
         ),
     ) + auth_admin.UserAdmin.fieldsets
     list_display = [
