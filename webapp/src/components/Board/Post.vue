@@ -10,11 +10,11 @@
       </ul>
     </div>
     <div class="connect-board-post-info">
-      <Avatar />
+      <Avatar :img="author.avatar_thumb" />
       <div class="connect-board-post-info-author">
         <p v-if="typeof author === 'object'">{{author.name}} · {{author.position}}</p>
         <p v-else>{{author}}</p>
-        <p>{{post.created}}</p>
+        <p>{{post.created | moment('DD MMMM  [de] YYYY')}}</p>
       </div>
     </div>
     <div class="connect-post-content">
