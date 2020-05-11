@@ -19,7 +19,7 @@ export default {
      */
     img: {
       type: String,
-      default: "https://api.adorable.io/avatars/50/abott@adorable.png"
+      default: "https://api.adorable.io/avatars/71/abott@adorable.png"
     },
     /**
      * A text that will be rendered under the avatar
@@ -49,10 +49,34 @@ export default {
   height: 42px;
   border-radius: 50%;
   background-size: cover;
+  position: relative;
+
+  &:after {
+    content: '';
+    width: 6px;
+    height: 6px;
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    border-radius: 50%;
+  }
+
+  &.available {
+    &:after {
+      background-color: greenyellow;
+    }
+  }
 
   &--bigger {
     width: 70px;
     height: 70px;
+
+    &:after {
+      width: 12px;
+      height: 12px;
+      top: 5px;
+      right: 5px;
+    }
   }
 
   &-wrapper {

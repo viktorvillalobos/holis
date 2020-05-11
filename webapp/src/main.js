@@ -9,7 +9,14 @@ import VueLodash from 'vue-lodash'
 import lodash from 'lodash'
 
 
-Vue.use(VueLodash, { name: 'piso' , lodash: lodash })
+const moment = require('moment')
+require('moment/locale/es')
+
+Vue.use(require('vue-moment'), {
+    moment
+})
+
+Vue.use(VueLodash, { name: 'piso', lodash: lodash })
 
 Vue.component('apexchart', VueApexCharts)
 
