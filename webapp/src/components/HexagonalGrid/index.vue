@@ -3,6 +3,7 @@
     ref="grid" 
     class="hex-grid"
     @click="onClick($event)">
+    <GridUserCard style="top: 150px; left: 150px;" origin="bottom" />
   </div>
 </template>
 
@@ -11,6 +12,7 @@ import { defineGrid } from 'honeycomb-grid'
 import { mapGetters, mapState } from 'vuex'
 import  hex from './hex.js'
 import  SVG  from 'svg.js'
+import  GridUserCard  from '@/components/UserCard/GridUserCard'
 
 export default {
   name: 'HexGrid',
@@ -23,6 +25,9 @@ export default {
       type: Number,
       default: 1
     }
+  },
+  components: {
+    GridUserCard
   },
   data () {
     return {

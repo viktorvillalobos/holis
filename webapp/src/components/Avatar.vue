@@ -1,6 +1,6 @@
 <template>
   <div class="connect-avatar-wrapper">
-    <div :class="['connect-avatar', status]" :style="`background-image: url(${img})`">
+    <div :class="['connect-avatar', status, {'connect-avatar--bigger': big}]" :style="`background-image: url(${img})`">
       <slot />
     </div>
     <span v-if="text">{{text}}</span>
@@ -33,6 +33,12 @@ export default {
      */
     status: {
       type: String
+    },
+    /**
+     * Increases the size of the avatar
+     */
+    big: {
+      type: Boolean
     }
   }
 };
@@ -43,6 +49,11 @@ export default {
   height: 42px;
   border-radius: 50%;
   background-size: cover;
+
+  &--bigger {
+    width: 70px;
+    height: 70px;
+  }
 
   &-wrapper {
     max-width: 42px;
