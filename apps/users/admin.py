@@ -13,10 +13,19 @@ class UserAdmin(AdminImageMixin, auth_admin.UserAdmin):
     form = UserChangeForm
     add_form = UserCreationForm
     fieldsets = (
-        ("User", {"fields": ("name", "avatar", "birthday")}),
+        (
+            "Profile",
+            {"fields": ("name", "avatar", "birthday", "default_area")},
+        ),
     ) + auth_admin.UserAdmin.fieldsets
-    list_display = ["username", "company", "name", "is_superuser"]
+    list_display = [
+        "username",
+        "company",
+        "name",
+        "is_superuser",
+    ]
     search_fields = ["name"]
+    filter_fields = ["company"]
 
 
 @admin.register(models.Status)

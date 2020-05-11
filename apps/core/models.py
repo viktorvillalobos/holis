@@ -4,6 +4,8 @@ from django.utils.translation import gettext_lazy as _
 from django_countries.fields import CountryField
 from model_utils.models import TimeStampedModel
 from mptt.models import MPTTModel, TreeForeignKey
+from sorl.thumbnail import get_thumbnail
+from sorl.thumbnail import ImageField
 
 # Create your models here.
 
@@ -18,6 +20,7 @@ class Company(TimeStampedModel):
     code = models.CharField(_("code"), max_length=50, db_index=True)
     email = models.EmailField(_("email"), null=True, blank=True)
     phone = models.CharField(_("phone"), max_length=20, null=True, blank=True)
+    logo = ImageField(_("logo"), blank=True, null=True, upload_to="logo")
 
     tenant_id = "id"
 
@@ -28,6 +31,14 @@ class Company(TimeStampedModel):
 
     def __str__(self):
         return self.name
+
+    @property
+    def logo_thumb(self):
+        if not self.logo:
+            return None
+        return get_thumbnail(
+            self.logo.file, '100x100', crop='center', quality=99
+        ).url
 
 
 class Area(MPTTModel):
