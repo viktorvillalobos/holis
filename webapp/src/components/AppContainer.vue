@@ -14,6 +14,7 @@
           <Releases v-if="isReleasesActive" />
         </transition>
       </AsideLeft>
+      <Searcher />
       <AreaOptions
         :items="areas.list"
         :current="areas.currentArea"
@@ -70,6 +71,7 @@ import AsideRight from "@/components/AsideRight";
 import Board from "@/components/Board";
 import AreaOptions from "@/components/AreaOptions";
 import Releases from "@/components/Releases";
+import Searcher from "@/components/Searcher";
 
 import UserCard from "@/components/UserCard";
 import ChatBubbles from "@/components/Chat/ChatBubbles";
@@ -93,6 +95,7 @@ export default {
     NotificationCard,
     Notifications,
     Releases,
+    Searcher,
     UserCard,
     ChatBubbles,
     Chat,
