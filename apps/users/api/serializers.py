@@ -22,7 +22,7 @@ class CompanyField(serializers.Field):
         return data
 
 
-class CompanySerializer(serializers.ModelSerializer):
+class UserCompanySerializer(serializers.ModelSerializer):
     logo_thumb = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
@@ -45,7 +45,7 @@ class CompanySerializer(serializers.ModelSerializer):
 
 class UserSerializer(serializers.ModelSerializer):
     statuses = StatusSerializer(many=True, read_only=True)
-    company = CompanySerializer(read_only=True)
+    company = UserCompanySerializer(read_only=True)
 
     avatar_thumb = serializers.SerializerMethodField()
 
