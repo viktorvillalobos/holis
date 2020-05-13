@@ -10,6 +10,7 @@ else:
 router.register("companies", views.CompanyViewSet, basename="companies")
 router.register("areas", views.AreaViewSet, basename="areas")
 router.register("announcements", views.AnnouncementViewSet, basename="announcements")
+router.register("changelogs", views.ChangeLogViewSet, basename="changelogs")
 
 urlpatterns = []
 

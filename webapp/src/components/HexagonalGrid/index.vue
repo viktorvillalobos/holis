@@ -1,5 +1,6 @@
 <template>
   <div 
+    id="grid"
     ref="grid" 
     class="hex-grid"
     @mouseover="onMouseOver($event)"
@@ -21,6 +22,8 @@ import _ from 'lodash'
 import  hex from './hex.js'
 import  SVG  from 'svg.js'
 import  GridUserCard  from '@/components/UserCard/GridUserCard'
+import TouchScroll from '@/plugins/touchScroll/TouchScroll'
+
 
 export default {
   name: 'HexGrid',
@@ -45,7 +48,8 @@ export default {
       selectedHex: null,
       hexOver: null,
       hexTop: null,
-      hexLeft: null
+      hexLeft: null,
+      isFirefox: false
     }
   },
   async mounted () {
@@ -62,6 +66,9 @@ export default {
     this.hex =  hex.getHex(this.draw, this.size)
     this.Grid = defineGrid(this.hex)
     this.rectangle = this.getRectangle()
+
+    this.isFirefox = window.navigator.userAgent.toLowerCase().indexOf('firefox') > -1
+    this.setScroll()
 
     await this.loadInitialState()
   },
@@ -108,9 +115,10 @@ export default {
     },
     getOffset(e) {
       /* LayerX and LayerY Works well in chrome and firefox */ 
-      const xpos = e.layerX
-      const ypos = e.layerY
-      return {x:xpos, y:ypos};
+      if (this.isFirefox) 
+        return {x: e.layerX, y: e.layerY}
+      else
+        return {x: e.offsetX, y: e.offsetY}
     },
     onMouseOver(e) {
         const {x, y} = this.getOffset(e)
@@ -168,6 +176,16 @@ export default {
         }
       })
     },
+    setScroll () {
+      this.draw.node.setAttribute("width", `2000px`)
+      this.draw.node.setAttribute("height", `1700px`)
+      const viewer = new TouchScroll();
+      viewer.init({
+          id: 'grid',
+          draggable: true,
+          wait: false
+      });
+    }
   },
   watch: {
     size () {
@@ -202,11 +220,13 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss">
+  body {
+    overflow: hidden;
+  }
+
   .hex-grid {
-   // height: 99vh;
-   width: 2500px;
-   height: 2000px;
-   overflow: auto;
+     height: 99vh;
+     overflow: hidden;
   }
 
   svg {

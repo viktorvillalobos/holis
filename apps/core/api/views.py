@@ -26,3 +26,8 @@ class AnnouncementViewSet(ModelViewSet):
 
     def get_queryset(self):
         return self.queryset.filter(company__pk=self.request.user.company_id)
+
+
+class ChangeLogViewSet(ModelViewSet):
+    serializer_class = serializers.ChangeLogSerializer
+    queryset = core_models.ChangeLog.objects.all()
