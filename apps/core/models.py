@@ -86,6 +86,13 @@ class Area(MPTTModel):
     def __str__(self):
         return self.name
 
+    @property
+    def users_online(self):
+        from apps.core.uc import area_uc
+
+        uc = area_uc.GetStateAreaUC(self)
+        return len(uc.connected_idxs)
+
 
 class Announcement(TimeStampedModel):
     company = models.ForeignKey(
@@ -107,3 +114,17 @@ class Announcement(TimeStampedModel):
     class Meta:
         ordering = ["-created"]
         unique_together = ["id", "company"]
+
+
+class ChangeLog(TimeStampedModel):
+    title = models.CharField(_("Title"), max_length=50)
+    text = models.TextField(_("text"), blank=True)
+
+    created_by = models.ForeignKey(
+        "users.User", related_name="changelogs", on_delete=models.CASCADE,
+    )
+
+    tenant_id = "company_id"
+
+    class Meta:
+        ordering = ["-created"]

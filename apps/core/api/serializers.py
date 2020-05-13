@@ -52,3 +52,11 @@ class AnnouncementSerializer(serializers.ModelSerializer):
     class Meta:
         model = core_models.Announcement
         fields = "__all__"
+
+
+class ChangeLogSerializer(serializers.ModelSerializer):
+    created_by = UserField(default=serializers.CurrentUserDefault())
+
+    class Meta:
+        model = core_models.ChangeLog
+        fields = "__all__"
