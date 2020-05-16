@@ -13,7 +13,8 @@ const state = {
     isMicroActive: false,
     isVideoActive: false,
     isSoundActive: true,
-    releases: []
+    releases: [],
+    notifications: []
 }
 
 const mutations = {
@@ -43,6 +44,9 @@ const mutations = {
     },
     setReleases(state, payload) {
         state.releases = payload
+    },
+    setNotifications(state, payload) {
+        state.notifications = payload
     }
 }
 
@@ -50,6 +54,10 @@ const actions = {
     async getReleases({commit}) {
         const { data } = await apiClient.app.getReleases()
         commit('setReleases', data.results)
+    },
+    async getNotifications({commit}) {
+        const { data } = await apiClient.app.getNotifications()
+        commit('setNotifications', data.results)
     }
 }
 
