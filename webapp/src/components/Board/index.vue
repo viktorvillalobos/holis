@@ -1,6 +1,6 @@
 <template>
   <div class="connect-board">
-    <birthdays :list="birthdays" />
+    <birthdays v-if="birthdays.length" :list="birthdays" />
     <div class="connect-board-posts-wrapper">
       <Post
         v-for="post in announcementsList"

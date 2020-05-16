@@ -23,6 +23,10 @@
         </div>
       </div>
       <ul class="connect-user-card-options">
+        <li @click="emitVideo">
+          <font-awesome-icon v-if="video" icon="video" />
+          <font-awesome-icon v-else icon="video-slash" />
+        </li>
         <li @click="emitSound">
           <font-awesome-icon v-if="sound" icon="volume-up" />
           <font-awesome-icon v-else icon="volume-mute" />
@@ -79,6 +83,9 @@ export default {
     micro: {
       type: Boolean
     },
+    video: {
+      type: Boolean
+    },
     user: {
       type: Object
     }
@@ -105,6 +112,9 @@ export default {
   methods: {
     emitSound() {
       this.$emit("sound");
+    },
+    emitVideo() {
+      this.$emit("video");
     },
     emitMicro() {
       this.$emit("micro");
@@ -167,7 +177,7 @@ export default {
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        max-width: 172px;
+        max-width: 142px;
       }
 
       p {

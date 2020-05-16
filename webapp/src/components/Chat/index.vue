@@ -16,13 +16,13 @@
       </div>
       <card class="connect-chat-new-frequent-chats">
         <ul>
-          <li v-for="user in users" :key="user.id">
+          <li v-for="user in users" :key="user.id" @click="setChat(user)">
             <Avatar :img="user.avatar_thumb" /> <span class="user-name">{{user.name || user.username}}</span>
           </li>
         </ul>
       </card>
     </div>
-    <chat-header v-if="!newChat" chat-name="Juanin Juan Harry" />
+    <chat-header v-if="!newChat" :chat-name="chatName" />
     <div v-if="!newChat" class="connect-chat-body">
       <div class="nose"></div>
       <div class="connect-chat-body-messages-wrapper">
@@ -59,6 +59,8 @@ export default {
   },
   data() {
     return {
+      searchPerson: '',
+      chatName: 'Juanin Juan Harry',
       messages: [
         {
           message: "Hola!",
@@ -76,6 +78,11 @@ export default {
     sendMessage(msg) {
       console.log("msg", msg);
       this.messages.push(msg);
+    },
+    setChat (user) {
+      console.log('hey!')
+      this.$emit('selectedChat')
+      this.chatName = user.name || user.username
     }
   }
 };

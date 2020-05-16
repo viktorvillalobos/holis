@@ -44,11 +44,10 @@ export default {
       const currentYear = new Date().getFullYear();
       const brthFormat = `${currentYear}${brth.substring(4)}`;
       return this.$moment(brthFormat).calendar(null, {
-        lastDay: "[Ayer]",
         sameDay: "[Hoy]",
         nextDay: "[Mañana]",
-        lastWeek: "dddd [pasado]",
         nextWeek: "DD/MM",
+        nextMonth: "DD/MM",
         sameElse: "L"
       });
     }
