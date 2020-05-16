@@ -10,6 +10,7 @@ const state = {
         text: "This is a demo notification"
     },
     isMicroActive: false,
+    isVideoActive: false,
     isSoundActive: true
 }
 
@@ -31,6 +32,9 @@ const mutations = {
     },
     setMicroActive(state) {
         state.isMicroActive = !state.isMicroActive
+    },
+    setVideoActive(state) {
+        state.isVideoActive = !state.isVideoActive
     },
     setSoundActive(state) {
         state.isSoundActive = !state.isSoundActive

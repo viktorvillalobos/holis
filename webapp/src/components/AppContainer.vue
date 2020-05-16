@@ -2,7 +2,7 @@
   <div class="connect-app-container">
     <div class="connect-container">
       <ToolsMenu :aside-opened="isAsideLeftActive" />
-      <Logo :aside-opened="isAsideLeftActive" :company="company"/>
+      <Logo :aside-opened="isAsideLeftActive" :company="company" />
       <AsideLeft :name="asideLeftName" :active="isAsideLeftActive">
         <transition name="translate-x">
           <Board v-if="isBoardActive" />
@@ -26,17 +26,23 @@
         :active="notification.show"
       >{{ notification.text }}</notification-card>
       <AsideRight :active="isAsideRightActive">
-        <chat />
+        <chat :newChat="newChatActive" @selectedChat="selectedChat" />
       </AsideRight>
       <user-card
         :sound="isSoundActive"
         :micro="isMicroActive"
+        :video="isVideoActive"
+        @video="handleVideo"
         @micro="handleMicro"
         @sound="handleSound"
         :float="!isAsideRightActive"
         :user="user"
       />
-      <chat-bubbles @asideHandle="handleAsideRight" :aside-opened="isAsideRightActive" />
+      <chat-bubbles
+        @newChat="newChat"
+        @asideHandle="handleAsideRight"
+        :aside-opened="isAsideRightActive"
+      />
 
       <modal :active="firstTime" @close="handleFirstTime">
         <card class="welcome-card">
@@ -106,26 +112,28 @@ export default {
       isBoardActive: state => state.app.isBoardActive,
       isNotificationsActive: state => state.app.isNotificationsActive,
       isReleasesActive: state => state.app.isReleasesActive,
+      isVideoActive: state => state.app.isVideoActive,
       isMicroActive: state => state.app.isMicroActive,
       isSoundActive: state => state.app.isSoundActive,
       notification: state => state.app.notification,
       user: state => state.app.user,
+      users: state => state.chat.users,
       areas: state => state.areas
     }),
     asideLeftName() {
       if (this.isNotificationsActive) return "Notificaciones";
 
       if (this.isBoardActive) return "Cartelera";
-      
+
       if (this.isReleasesActive) return "Novedades";
 
       return "Aside";
     },
-    company () {
+    company() {
       return {
         name: this.user ? this.user.company.name : null,
         logo: this.user ? this.user.company.logo_thumb : null
-      }
+      };
     }
   },
   data() {
@@ -133,22 +141,33 @@ export default {
       showNotification: false,
       firstTime: false,
       publicPath: process.env.BASE_URL,
-      modalMask
+      modalMask,
+      newChatActive: false
     };
   },
-  created() {
-  },
+  created() {},
   mounted() {
     if (!localStorage.firstTime) {
       this.firstTime = true;
     }
+    this.getUsers();
   },
   methods: {
+    getUsers() {
+      try {
+        this.$store.dispatch("getUsers");
+      } catch (e) {
+        console.log("couldnt load users");
+      }
+    },
     handleAsideLeft() {
       this.$store.commit("setAsideLeftActive");
     },
     handleAsideRight() {
       this.$store.commit("setAsideRightActive");
+    },
+    handleVideo() {
+      this.$store.commit("setVideoActive");
     },
     handleMicro() {
       this.$store.commit("setMicroActive");
@@ -163,9 +182,16 @@ export default {
       localStorage.firstTime = false;
       this.firstTime = false;
     },
-    changedArea (area) {
-      const filtered = this.areas.list.filter(x => x.name === area)
-      if (filtered[0]) this.$store.commit('setNewCurrent', filtered[0])
+    changedArea(area) {
+      const filtered = this.areas.list.filter(x => x.name === area);
+      if (filtered[0]) this.$store.commit("setNewCurrent", filtered[0]);
+    },
+    newChat() {
+      if (!this.isAsideRightActive) this.handleAsideRight();
+      this.newChatActive = true;
+    },
+    selectedChat () {
+      this.newChatActive = false
     }
   }
 };
