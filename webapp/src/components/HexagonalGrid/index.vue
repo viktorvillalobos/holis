@@ -5,6 +5,7 @@
     class="hex-grid"
     @mouseover="onMouseOver($event)"
     @click="onClick($event)">
+
     <GridUserCard 
       :style="`top: ${hexTop}px; left: ${hexLeft}px`" 
       :name="hexOver && hexOver.user ? hexOver.user.name : null"
@@ -12,6 +13,8 @@
       :img="hexOver && hexOver.user ? hexOver.user.avatar_thumb: null"
       origin="bottom" 
       v-show="hexOver && hexOver.user"/>
+
+
   </div>
 </template>
 
