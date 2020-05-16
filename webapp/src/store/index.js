@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import app from './modules/app'
 import announcements from './modules/announcements'
 import areas from './modules/areas'
+import chat from './modules/chat'
 
 Vue.use(Vuex)
 
@@ -11,7 +12,8 @@ const store = new Vuex.Store({
   modules: {
     app,
     announcements,
-    areas
+    areas,
+    chat
   },
   state: {
     socket: {

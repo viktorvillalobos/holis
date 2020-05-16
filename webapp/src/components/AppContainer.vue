@@ -14,7 +14,6 @@
           <Releases v-if="isReleasesActive" />
         </transition>
       </AsideLeft>
-      <Searcher />
       <AreaOptions
         :items="areas.list"
         :current="areas.currentArea"
@@ -27,7 +26,7 @@
         :active="notification.show"
       >{{ notification.text }}</notification-card>
       <AsideRight :active="isAsideRightActive">
-        <chat />
+        <chat :newChat="newChatActive" />
       </AsideRight>
       <user-card
         :sound="isSoundActive"
@@ -37,7 +36,7 @@
         :float="!isAsideRightActive"
         :user="user"
       />
-      <chat-bubbles @asideHandle="handleAsideRight" :aside-opened="isAsideRightActive" />
+      <chat-bubbles @newChat="newChat" @asideHandle="handleAsideRight" :aside-opened="isAsideRightActive" />
 
       <modal :active="firstTime" @close="handleFirstTime">
         <card class="welcome-card">
@@ -71,7 +70,6 @@ import AsideRight from "@/components/AsideRight";
 import Board from "@/components/Board";
 import AreaOptions from "@/components/AreaOptions";
 import Releases from "@/components/Releases";
-import Searcher from "@/components/Searcher";
 
 import UserCard from "@/components/UserCard";
 import ChatBubbles from "@/components/Chat/ChatBubbles";
@@ -95,7 +93,6 @@ export default {
     NotificationCard,
     Notifications,
     Releases,
-    Searcher,
     UserCard,
     ChatBubbles,
     Chat,
@@ -113,6 +110,7 @@ export default {
       isSoundActive: state => state.app.isSoundActive,
       notification: state => state.app.notification,
       user: state => state.app.user,
+      users: state => state.chat.users,
       areas: state => state.areas
     }),
     asideLeftName() {
@@ -136,7 +134,8 @@ export default {
       showNotification: false,
       firstTime: false,
       publicPath: process.env.BASE_URL,
-      modalMask
+      modalMask,
+      newChatActive: false
     };
   },
   created() {
@@ -145,8 +144,16 @@ export default {
     if (!localStorage.firstTime) {
       this.firstTime = true;
     }
+    this.getUsers ()
   },
   methods: {
+    getUsers () {
+      try {
+        this.$store.dispatch('getUsers')
+      } catch (e) {
+        console.log('couldnt load users')
+      }
+    },
     handleAsideLeft() {
       this.$store.commit("setAsideLeftActive");
     },
@@ -169,6 +176,10 @@ export default {
     changedArea (area) {
       const filtered = this.areas.list.filter(x => x.name === area)
       if (filtered[0]) this.$store.commit('setNewCurrent', filtered[0])
+    },
+    newChat () {
+      if (!this.isAsideRightActive) this.handleAsideRight()
+      this.newChatActive = true
     }
   }
 };
