@@ -1,6 +1,6 @@
 <template>
   <div class="connect-board">
-    <birthdays />
+    <birthdays :list="birthdays" />
     <div class="connect-board-posts-wrapper">
       <Post
         v-for="post in announcementsList"
@@ -67,7 +67,8 @@ export default {
   },
   computed: {
     ...mapState({
-      announcementsList: state => state.announcements.list.results 
+      announcementsList: state => state.announcements.list.results,
+      birthdays: state => state.announcements.birthdays
     })
   },
   methods: {

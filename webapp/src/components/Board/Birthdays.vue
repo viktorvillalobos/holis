@@ -2,30 +2,55 @@
   <div class="connect-birthday-board" :style="`background-image: url(${birthdayLogo});`">
     <h4>Próximos cumpleañeros</h4>
     <ul>
-      <li>
-        <Avatar text="Hoy" />
+      <li v-for="item in filteredList" :key="item.id">
+        <Avatar :img="item.avatar_thumb" :text="when(item.birthday)" />
       </li>
-      <li>
-        <Avatar text="Mañana" />
-      </li>
-      <li>
-        <Avatar text="Mañana" />
-      </li>
-      <li class="connect-birthday-indicator">+99</li>
-    </ul>1
+      <li v-if="list.length > 4" class="connect-birthday-indicator">{{howManyMore}}</li>
+    </ul>
   </div>
 </template>
 <script>
 import Avatar from "@/components/Avatar";
-import birthdayPng from "@/assets/birthday.png"
+import birthdayPng from "@/assets/birthday.png";
 export default {
   name: "Birthdays",
   components: {
     Avatar
   },
-  data () {
+  props: {
+    list: {
+      type: Array,
+      default: () => []
+    }
+  },
+  data() {
     return {
       birthdayLogo: birthdayPng
+    };
+  },
+  computed: {
+    filteredList() {
+      return this.list.slice(0, 4);
+    },
+    howManyMore() {
+      const length = this.list.length - 4;
+
+      if (length > 99) return "+99";
+      return length;
+    }
+  },
+  methods: {
+    when(brth) {
+      const currentYear = new Date().getFullYear();
+      const brthFormat = `${currentYear}${brth.substring(4)}`;
+      return this.$moment(brthFormat).calendar(null, {
+        lastDay: "[Ayer]",
+        sameDay: "[Hoy]",
+        nextDay: "[Mañana]",
+        lastWeek: "dddd [pasado]",
+        nextWeek: "DD/MM",
+        sameElse: "L"
+      });
     }
   }
 };
