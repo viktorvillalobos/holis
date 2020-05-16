@@ -6,8 +6,8 @@
         ref="webrtc"
         width="100%"
         roomId="takata1234568979646665"
-        :enableAudio="true"
-        :enableVideo="true"
+        :enableAudio="enableAudio"
+        :enableVideo="enableVideo"
         v-on:joined-room="logEvent"
         v-on:left-room="logEvent"
         v-on:open-room="logEvent"
@@ -96,7 +96,11 @@ export default {
         "😋 En colación",
         "👻 Ausente"
       ],
-      userState: null
+      userState: null,
+      enableAudio: true,
+      enableVideo: false,
+      muteMicro: false,
+      muteAudio: false
     };
   },
   created() {

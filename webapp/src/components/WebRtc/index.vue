@@ -1,5 +1,5 @@
 <template>
-  <div class="video-list" > 
+  <div class="video-list" v-show="enableVideo"> 
       <div v-for="item in videoList"
           v-bind:video="item"
           v-bind:key="item.id"
@@ -53,11 +53,11 @@
       },
       enableVideo: {
         type: Boolean,
-        default: true
+        default: false
       },
       enableLogs: {
         type: Boolean,
-        default: false
+        default: true
       },
     },
     watch: {
@@ -81,6 +81,12 @@
         audio: this.enableAudio,
         video: this.enableVideo
       };
+
+      this.rtcmConnection.mediaConstraints = {
+        audio: this.enableAudio,
+        video: this.enableVideo
+      }
+
       this.rtcmConnection.sdpConstraints.mandatory = {
         OfferToReceiveAudio: this.enableAudio,
         OfferToReceiveVideo: this.enableVideo
