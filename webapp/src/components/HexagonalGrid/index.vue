@@ -97,7 +97,6 @@ export default {
       const obj = this.Grid.pointToHex(point)
       const occuped = this.rectangle
                         .filter(hex => hex.x === obj.x && hex.y === obj.y && hex.user)
-      console.log(occuped)
       return occuped.length !== 0
     },
     selectCellByOffset(x, y, user, notify){
@@ -112,8 +111,11 @@ export default {
       const selectedHex = this.rectangle.get(hexCoordinates)
       if (selectedHex) {
         selectedHex.filled(user)
-        // const neighbors = this.rectangle.neighborsOf(selectedHex)
-        // this.$emit('neighbors', neighbors)
+        const neighbors = this.rectangle.neighborsOf(selectedHex)
+        console.log("neighbors")
+        console.log(neighbors)
+
+        this.$store.commit('setConnected', true)
       }
     },
     getOffset(e) {
@@ -157,7 +159,6 @@ export default {
       /* remove an user from grid 
         user: = user instance or userstat
         */
-      console.log(`Clearing user id: ${userId} from grid`)
       this.rectangle
           .filter(x => x && x.user && x.user.id === userId)
           .forEach(x => x.clear())
@@ -166,7 +167,6 @@ export default {
       /* 
         oldPoint = [x,y]
       */
-      console.log(`clearing {old}`)
       let selectedHex = this.rectangle.get(oldPoint)
       selectedHex.clear()
     },

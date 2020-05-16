@@ -73,8 +73,6 @@
           username: 'ElPinzas'
       });
 
-      console.log(this.rtcmConnection.iceServers)
-
       this.rtcmConnection.autoCreateMediaElement = false;
       this.rtcmConnection.enableLogs = this.enableLogs;
       this.rtcmConnection.session = {

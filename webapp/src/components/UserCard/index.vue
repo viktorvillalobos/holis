@@ -1,20 +1,6 @@
 <template>
   <div :class="['connect-user-card', {'connect-user-card--floats' : float}]">
     <div>
-      <webrtc
-        :class="{'aside-expanded' : !float}"
-        ref="webrtc"
-        width="100%"
-        roomId="takata1234568979646665"
-        :enableAudio="enableAudio"
-        :enableVideo="enableVideo"
-        v-on:joined-room="logEvent"
-        v-on:left-room="logEvent"
-        v-on:open-room="logEvent"
-        v-on:share-started="logEvent"
-        v-on:share-stopped="logEvent"
-        @error="onError"
-      />
       <div class="connect-user-card-info">
         <Avatar :img="user.avatar_thumb" />
         <div class="connect-user-card-info-text">
@@ -69,7 +55,6 @@
 </template>
 <script>
 import Avatar from "@/components/Avatar";
-import WebRTC from "@/components/WebRtc";
 
 export default {
   name: "UserCard",
@@ -92,14 +77,13 @@ export default {
   },
   components: {
     Avatar,
-    webrtc: WebRTC
   },
   data() {
     return {
       stateMenuIsActive: false,
       states: [
         "💻 Disponible",
-        " 🤝En reunión",
+        "🤝 En reunión",
         "😋 En colación",
         "👻 Ausente"
       ],
@@ -122,32 +106,11 @@ export default {
     },
     emitMicro() {
       this.$emit("micro");
-      this.connect = !this.connect;
-      if (this.connect) this.$refs.webrtc.join();
-      else this.$refs.webrtc.leave();
     },
     handleState(state) {
       this.userState = state;
       this.stateMenuIsActive = false;
     },
-    logEvent(event) {
-      console.log("Event : ", event);
-    },
-    onError(error, stream) {
-      console.log("On Error Event", error, stream);
-    },
-    onCapture() {
-      this.img = this.$refs.webrtc.capture();
-    },
-    onJoin() {
-      console.log("Join to the connection");
-    },
-    onLeave() {
-      this.$refs.webrtc.leave();
-    },
-    onShareScreen() {
-      this.img = this.$refs.webrtc.shareScreen();
-    }
   }
 };
 </script>
@@ -241,16 +204,4 @@ export default {
   height: 30px;
 }
 
-.video-list {
-  position: fixed;
-  right: 70px;
-  bottom: 18px;
-  width: 220px;
-  border-radius: 10px;
-  transition: $aside-transition;
-
-  &.aside-expanded {
-    right: 400px;
-  }
-}
 </style>
