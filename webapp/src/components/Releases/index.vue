@@ -4,6 +4,7 @@
   </div>
 </template>
 <script>
+import { mapState } from "vuex";
 import Release from "./Release";
 export default {
   name: "releases",
@@ -12,7 +13,7 @@ export default {
   },
   data() {
     return {
-      releases: [
+      releasess: [
         {
           id: 1,
           date: "05 de mayo 2020",
@@ -33,6 +34,23 @@ export default {
         }
       ]
     };
+  },
+  created() {
+    this.getReleases();
+  },
+  computed: {
+    ...mapState({
+      releases: state => state.app.releases
+    })
+  },
+  methods: {
+    getReleases() {
+      try {
+        this.$store.dispatch("getReleases");
+      } catch (e) {
+        console.log("couldnt load releases");
+      }
+    }
   }
 };
 </script>
@@ -40,5 +58,6 @@ export default {
 .connect-releases {
   padding: 10px;
   height: calc(100vh - 42px);
+  overflow-y: auto;
 }
 </style>

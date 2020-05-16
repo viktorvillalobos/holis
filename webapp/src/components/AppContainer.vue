@@ -150,9 +150,20 @@ export default {
     if (!localStorage.firstTime) {
       this.firstTime = true;
     }
-    this.getUsers();
+    this.gets();
   },
   methods: {
+    gets () {
+      this.getUsers()
+      this.getChannels()
+    },
+    getChannels() {
+      try {
+        this.$store.dispatch("getChannels");
+      } catch (e) {
+        console.log("couldnt load channels");
+      }
+    },
     getUsers() {
       try {
         this.$store.dispatch("getUsers");

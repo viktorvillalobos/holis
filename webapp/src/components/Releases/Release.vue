@@ -28,8 +28,8 @@ export default {
   }
 
   &-header {
-    background-color: $light-gray;
-    color: $font-color;
+    background-color: $light-gray !important;
+    color: $font-color !important;
   }
 
   &-body {
