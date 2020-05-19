@@ -2,7 +2,7 @@
   <article class="message release-message">
     <div class="message-header">
       <p>
-        <span class="message-date">{{release.date}}</span>
+        <span class="message-date">{{release.created | moment('DD/MM/YYYY')}}</span>
         {{release.title}}
       </p>
     </div>
@@ -28,8 +28,8 @@ export default {
   }
 
   &-header {
-    background-color: $light-gray;
-    color: $font-color;
+    background-color: $light-gray !important;
+    color: $font-color !important;
   }
 
   &-body {

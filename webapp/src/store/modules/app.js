@@ -1,3 +1,4 @@
+import apiClient from '../../services/api'
 const state = {
     user: null,
     isAsideLeftActive: false,
@@ -11,7 +12,9 @@ const state = {
     },
     isMicroActive: false,
     isVideoActive: false,
-    isSoundActive: true
+    isSoundActive: true,
+    releases: [],
+    notifications: []
 }
 
 const mutations = {
@@ -38,10 +41,24 @@ const mutations = {
     },
     setSoundActive(state) {
         state.isSoundActive = !state.isSoundActive
+    },
+    setReleases(state, payload) {
+        state.releases = payload
+    },
+    setNotifications(state, payload) {
+        state.notifications = payload
     }
 }
 
 const actions = {
+    async getReleases({commit}) {
+        const { data } = await apiClient.app.getReleases()
+        commit('setReleases', data.results)
+    },
+    async getNotifications({commit}) {
+        const { data } = await apiClient.app.getNotifications()
+        commit('setNotifications', data.results)
+    }
 }
 
 export default {
