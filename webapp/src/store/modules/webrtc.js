@@ -29,14 +29,18 @@ const mutations = {
 }
 
 const actions = {
-  disconnectAndConnect({ commit }) {
-    console.log("Disconnecting") 
+  disconnectAndConnect({ commit, state }, room) {
+    console.log(`Disconnection from ${state.room}`) 
     commit("setConnected", false)
 
     setTimeout(() => { 
-      console.log("Connecting again") 
+
+      console.log(`Connecting again to ${room}`) 
       commit("setConnected", true)
+      commit("setRoom", room)
+
     }, 4000)
+
   },
   changeToVideo({ commit }) {
     commit("setEnableVideo")

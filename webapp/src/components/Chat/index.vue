@@ -26,7 +26,7 @@
     <div v-if="!newChat" class="connect-chat-body">
       <div class="nose"></div>
       <div class="connect-chat-body-messages-wrapper">
-        <message v-for="msg in messages" :key="msg" :msg="msg" :messageIsMine="msg.is_mine" />
+        <message v-for="(msg, idx) in messages" :key="idx" :msg="msg" :messageIsMine="msg.is_mine" />
       </div>
     </div>
     <chat-editor v-if="!newChat" @enter="sendMessage" />

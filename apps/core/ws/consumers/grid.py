@@ -1,5 +1,5 @@
 import logging
-from typing import Dict
+from typing import Dict, Tuple, Optional
 from channels.db import database_sync_to_async
 from django.core.cache import cache
 
@@ -13,14 +13,16 @@ USER_POSITION_KEY = "user-{}-position"
 
 class GridMixin:
     @database_sync_to_async
-    def save_position(self, area_id: int, x: int, y: int):
+    def save_position(
+        self, area_id: int, x: int, y: int, room: Optional[str] = None
+    ) -> Tuple[Tuple, Dict]:
         area = core_models.Area.objects.get(id=area_id)
         uc = area_uc.SaveStateAreaUC(area)
-        old_point = uc.execute(self.scope["user"], x, y)
+        old_point = uc.execute(self.scope["user"], x, y, room)
         return old_point, uc.get_serialized_connected()
 
     @database_sync_to_async
-    def clear_position(self, area_id: int, x: int, y: int):
+    def clear_position(self, area_id: int, x: int, y: int, room: str):
         area = core_models.Area.objects.get(id=area_id)
         uc = area_uc.ClearStateAreaUC(area)
         uc.execute(self.scope["user"])
@@ -46,15 +48,20 @@ class GridMixin:
         logger.info("handle_grid_position")
         logger.info(message)
         user = self.scope["user"]
+        area: int = message["area"]
+        x: int = message["x"]
+        y: int = message["y"]
+        room: int = message["room"]
         old_point, serialized_state = await self.save_position(
-            message["area"], message["x"], message["y"]
+            area, x, y, room
         )
         message["old"] = old_point
         message["state"] = serialized_state
         cache.set(
             USER_POSITION_KEY.format(user.id),
-            {"area_id": message["area"], "x": message["x"], "y": message["y"]},
+            {"area_id": area, "x": x, "y": y, "room": room},
         )
+        logger.info("cache saved")
         await self.notify_change_position(message)
 
     async def handle_clear_user_position(self):
@@ -62,7 +69,11 @@ class GridMixin:
             Executed when the user is disconnected
         """
         user = self.scope["user"]
-        position: Dict = cache.get(USER_POSITION_KEY.format(user.id))
+        key = USER_POSITION_KEY.format(user.id)
+        position: Dict = cache.get(key)
+        logger.info("handle_clear_user_position")
+        logger.info(key)
+        logger.info(position)
         if position:
 
             state = await self.clear_position(**position)

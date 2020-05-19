@@ -2,10 +2,10 @@
   <div :class="['connect-user-card', {'connect-user-card--floats' : float}]">
     <div>
       <div class="connect-user-card-info">
-        <Avatar :img="user.avatar_thumb" />
+        <Avatar :img="user ? user.avatar || user.avatar_thumb : null" />
         <div class="connect-user-card-info-text">
-          <h3>{{user.name}}</h3>
-          <p>{{user.position}}</p>
+          <h3>{{user ? user.name : 'Nombre misterioso' }}</h3>
+          <p>{{user ? user.position: 'Cargo misterioso'}}</p>
         </div>
       </div>
       <ul class="connect-user-card-options">

@@ -49,6 +49,7 @@ class BaseAreaUC(AbstractModelUC):
         ('status', (np.str_, 100)),
         ('position', (np.str_, 100)),
         ('avatar', (np.str_, 255)),
+        ('room', (np.str_, 255)),
         ('is_online', np.bool_),
     ]
 
@@ -72,9 +73,21 @@ class BaseAreaUC(AbstractModelUC):
                     dtype=self.dtype,
                 ),
             )
-        else:
-            converted = self.convert_to_tuple(self.instance.state)
-            return False, np.array(converted, dtype=self.dtype)
+
+        if len(self.instance.state[0][0]) != len(self.dtype):
+            logger.info("Converting to new dtype")
+            # TODO: Convert changes, handle migrations
+            # in dtype for now we recreate the area
+            return (
+                True,
+                np.zeros(
+                    (self.instance.width, self.instance.height),
+                    dtype=self.dtype,
+                ),
+            )
+
+        converted = self.convert_to_tuple(self.instance.state)
+        return False, np.array(converted, dtype=self.dtype)
 
     def save_state(self):
         self.instance.state = self.state.tolist()
@@ -94,6 +107,7 @@ class BaseAreaUC(AbstractModelUC):
             item["status"] = self.state[x, y][3]
             item["position"] = self.state[x, y][4]
             item["avatar"] = self.state[x, y][5]
+            item["room"] = self.state[x, y][6]
             item["is_online"] = True
             item["x"] = int(x)
             item["y"] = int(y)
@@ -101,7 +115,7 @@ class BaseAreaUC(AbstractModelUC):
 
         return serialized
 
-    def get_record_from_user(self, user: User, x: int, y: int) -> Tuple:
+    def get_record_from_user(self, user: User, x: int, y: int, room: str) -> Tuple:
         return (
             user.id,
             user.name,
@@ -109,11 +123,12 @@ class BaseAreaUC(AbstractModelUC):
             user.current_status,
             user.position,
             user.avatar_thumb,
+            room,
             True,
         )
 
     def get_empty_record(self):
-        return (0, '', '', '', '', '', False)
+        return (0, '', '', '', '', '', '', False)
 
     def get_user_position(self, user: User):
         return np.argwhere(self.state["id"] == user.id)
@@ -140,9 +155,9 @@ class SaveStateAreaUC(BaseAreaUC):
         Save the position of person inside the state
     """
 
-    def execute(self, user: User, x: int, y: int) -> List:
+    def execute(self, user: User, x: int, y: int, room: str) -> List:
         positions = self.clear_current_user_position(user)
-        self.state[x, y] = self.get_record_from_user(user, x, y)
+        self.state[x, y] = self.get_record_from_user(user, x, y, room)
         self.save_state()
         return positions
 

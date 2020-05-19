@@ -10,9 +10,9 @@
       :style="`top: ${hexTop}px; left: ${hexLeft}px`" 
       :name="hexOver && hexOver.user ? hexOver.user.name : 'Secret Name'"
       :position="hexOver && hexOver.user ? hexOver.user.position : 'Cargo no definido'"
-      :img="hexOver && hexOver.user ? hexOver.user.avatar: null"
+      :img="hexOver && hexOver.user ? hexOver.user.avatar || hexOver.user.avatar_thumb : null"
       :origin="overOrigin" 
-      v-show="hexOver && hexOver.user"/>
+      v-if="hexOver && hexOver.user"/>
 
 
   </div>
@@ -53,7 +53,8 @@ export default {
       hexTop: null,
       hexLeft: null,
       isFirefox: false,
-      overOrigin: 'bottom'
+      overOrigin: 'bottom',
+      room: null
     }
   },
   async mounted () {
@@ -105,19 +106,43 @@ export default {
         this.selectCellByCoordinates(hexCoordinates, user, notify)
     },
     selectCellByCoordinates(hexCoordinates, user, notify) {
-      if (notify) {
-        const message = {type:"grid.position", area: this.currentArea.id, x: hexCoordinates.x, y: hexCoordinates.y}
-        this.$socket.send(JSON.stringify(message))
-      } 
       const selectedHex = this.rectangle.get(hexCoordinates)
       if (selectedHex) {
         selectedHex.filled(user)
-        const neighbors = this.rectangle.neighborsOf(selectedHex)
+        const neighbors = this.rectangle
+                            .neighborsOf(selectedHex)
+                            .filter(hex => hex.user !== null)
+
         console.log("neighbors")
         console.log(neighbors)
+        
+        let room = null
 
-        this.$store.dispatch('disconnectAndConnect')
+        if (neighbors.length) {
+
+          this.room = neighbors[0].user.room
+          console.log(`Connectiong to ${this.room} channel`)
+
+        } else {
+          this.room = `user-${user.id}`
+          console.log(`Creating new channel ${this.room} channel`)
+        }
+
+        this.$store.dispatch('disconnectAndConnect',  room)
       }
+
+      if (notify) {
+
+        const message = {
+          type:"grid.position", 
+          area: this.currentArea.id, 
+          x: hexCoordinates.x, 
+          y: hexCoordinates.y, 
+          room: this.room
+        }
+
+        this.$socket.send(JSON.stringify(message))
+      } 
     },
     getOffset(e) {
       /* LayerX and LayerY Works well in chrome and firefox */ 
@@ -152,7 +177,7 @@ export default {
 
       this.hexLeft = x
       this.hexTop = y
-    }, 600),
+    }, 400),
     getRectangle() {
       const vm = this
       this.draw.clear()

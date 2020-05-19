@@ -1,7 +1,13 @@
+import logging
 from apps.users import models as users_models
 from rest_framework import serializers
 
+from django.core.cache import cache
 from apps.core import models as core_models
+from apps.core.cachekeys import USER_POSITION_KEY
+
+
+logger = logging.getLogger(__name__)
 
 
 class StatusSerializer(serializers.ModelSerializer):
@@ -46,8 +52,8 @@ class UserCompanySerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     statuses = StatusSerializer(many=True, read_only=True)
     company = UserCompanySerializer(read_only=True)
-
     avatar_thumb = serializers.SerializerMethodField()
+    room = serializers.SerializerMethodField()
 
     def get_avatar_thumb(self, obj):
         if not obj.avatar_thumb:
@@ -62,6 +68,10 @@ class UserSerializer(serializers.ModelSerializer):
         except KeyError:
             return obj.avatar_thumb
 
+    def get_room(self, obj):
+        data = cache.get(USER_POSITION_KEY.format(obj.id)) or {}
+        return data.get("room")
+
     class Meta:
         model = users_models.User
         fields = [
@@ -70,6 +80,7 @@ class UserSerializer(serializers.ModelSerializer):
             "company",
             "email",
             "name",
+            "room",
             "position",
             "statuses",
             "username",
