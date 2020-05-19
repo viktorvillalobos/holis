@@ -116,8 +116,6 @@ export default {
         console.log("neighbors")
         console.log(neighbors)
         
-        let room = null
-
         if (neighbors.length) {
 
           this.room = neighbors[0].user.room
@@ -128,7 +126,7 @@ export default {
           console.log(`Creating new channel ${this.room} channel`)
         }
 
-        this.$store.dispatch('disconnectAndConnect',  room)
+        this.$store.dispatch('disconnectAndConnect',  this.room)
       }
 
       if (notify) {
