@@ -8,10 +8,10 @@
 
     <GridUserCard 
       :style="`top: ${hexTop}px; left: ${hexLeft}px`" 
-      :name="hexOver && hexOver.user ? hexOver.user.name : hexOver.user.username"
+      :name="hexOver && hexOver.user ? hexOver.user.name : 'Secret Name'"
       :position="hexOver && hexOver.user ? hexOver.user.position : 'Cargo no definido'"
       :img="hexOver && hexOver.user ? hexOver.user.avatar: null"
-      origin="bottom" 
+      :origin="overOrigin" 
       v-show="hexOver && hexOver.user"/>
 
 
@@ -52,7 +52,8 @@ export default {
       hexOver: null,
       hexTop: null,
       hexLeft: null,
-      isFirefox: false
+      isFirefox: false,
+      overOrigin: 'bottom'
     }
   },
   async mounted () {
@@ -126,20 +127,32 @@ export default {
         return {x: e.offsetX, y: e.offsetY}
     },
     onMouseOver(e) {
-        const {x, y} = this.getOffset(e)
-        const hexCoordinates = this.Grid.pointToHex([x, y])
-        const hex = this.rectangle.get(hexCoordinates)
-        if (hex && hex.user ) {
-          this.setHexOver(hex, x, y)
-        } else {
-          this.setHexOver(null, null, null)
-        }
+      const {x, y} = this.getOffset(e)
+      console.log(`X: ${x} Y: ${y}`)
+      const hexCoordinates = this.Grid.pointToHex([x, y])
+      const hex = this.rectangle.get(hexCoordinates)
+      if (hex && hex.user ) {
+        this.setHexOverPosition(hex, x, y)
+      } else {
+        this.setHexOverPosition(null, null, null)
+      }
     },
-    setHexOver: _.debounce(function(hex, x, y) {
-        console.log(`X: ${x} Y: ${y}`)
-        this.hexOver = hex
-        this.hexLeft = x
-        this.hexTop = y
+    setHexOverPosition: _.debounce(function(hex, x, y) {
+      /* 
+        setHexOverPosition 
+        Set the position in x and y to the UserHoverGrid
+        depends of the offsetX and offsetY
+      */
+      this.hexOver = hex
+      const maxWidth = window.innerWidth - 300
+      const maxHeight = window.innerHeight - 150
+      this.overOrigin = 'bottom'
+
+      if (x > maxWidth) x = x - 300
+      if (y > maxHeight) y = y - 150
+
+      this.hexLeft = x
+      this.hexTop = y
     }, 600),
     getRectangle() {
       const vm = this
