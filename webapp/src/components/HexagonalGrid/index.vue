@@ -8,9 +8,9 @@
 
     <GridUserCard 
       :style="`top: ${hexTop}px; left: ${hexLeft}px`" 
-      :name="hexOver && hexOver.user ? hexOver.user.name : null"
-      :position="hexOver && hexOver.user ? hexOver.user.position : null"
-      :img="hexOver && hexOver.user ? hexOver.user.avatar_thumb: null"
+      :name="hexOver && hexOver.user ? hexOver.user.name : hexOver.user.username"
+      :position="hexOver && hexOver.user ? hexOver.user.position : 'Cargo no definido'"
+      :img="hexOver && hexOver.user ? hexOver.user.avatar: null"
       origin="bottom" 
       v-show="hexOver && hexOver.user"/>
 
@@ -115,7 +115,7 @@ export default {
         console.log("neighbors")
         console.log(neighbors)
 
-        this.$store.commit('setConnected', true)
+        this.$store.dispatch('disconnectAndConnect')
       }
     },
     getOffset(e) {
@@ -136,10 +136,11 @@ export default {
         }
     },
     setHexOver: _.debounce(function(hex, x, y) {
+        console.log(`X: ${x} Y: ${y}`)
         this.hexOver = hex
         this.hexLeft = x
         this.hexTop = y
-    }, 400),
+    }, 600),
     getRectangle() {
       const vm = this
       this.draw.clear()

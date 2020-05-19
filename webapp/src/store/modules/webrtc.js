@@ -14,11 +14,11 @@ const mutations = {
   setRoom(state, room) {
     state.room = room
   },
-  setEnableAudio(state, enable) {
-    state.enableAudio = enable
+  setEnableAudio(state) {
+    state.enableAudio = !state.enableVideo
   },
-  setEnableVideo(state, enable) {
-    state.enableVideo = enable
+  setEnableVideo(state) {
+    state.enableVideo = !state.enableVideo
   },
   setMuteAudio(state, enable) {
     state.muteAudio = enable
@@ -29,7 +29,26 @@ const mutations = {
 }
 
 const actions = {
+  disconnectAndConnect({ commit }) {
+    console.log("Disconnecting") 
+    commit("setConnected", false)
 
+    setTimeout(() => { 
+      console.log("Connecting again") 
+      commit("setConnected", true)
+    }, 4000)
+  },
+  changeToVideo({ commit }) {
+    commit("setEnableVideo")
+    commit("setConnected", false)
+
+    commit("setConnected", false)
+    setTimeout(() => { 
+      console.log("Connecting again") 
+      commit("setConnected", true)
+    }, 4000)
+    
+  }
 }
 
 export default {

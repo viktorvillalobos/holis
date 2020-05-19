@@ -66,6 +66,7 @@ export default {
   },
   watch: {
     connected(value) {
+      console.log('Changing Connected Watcher in Office')
       if (value) this.$refs.webrtc.join();
       else this.$refs.webrtc.leave();
     }

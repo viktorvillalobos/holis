@@ -10,15 +10,15 @@
       </div>
       <ul class="connect-user-card-options">
         <li @click="emitVideo">
-          <font-awesome-icon v-if="video" icon="video" />
+          <font-awesome-icon v-if="enableVideo" icon="video" />
           <font-awesome-icon v-else icon="video-slash" />
         </li>
         <li @click="emitSound">
-          <font-awesome-icon v-if="sound" icon="volume-up" />
+          <font-awesome-icon v-if="!muteAudio" icon="volume-up" />
           <font-awesome-icon v-else icon="volume-mute" />
         </li>
         <li @click="emitMicro">
-          <font-awesome-icon v-if="micro" icon="microphone-alt" />
+          <font-awesome-icon v-if="!muteMicro" icon="microphone-alt" />
           <font-awesome-icon v-else icon="microphone-alt-slash" />
         </li>
         <li>
@@ -54,7 +54,8 @@
   </div>
 </template>
 <script>
-import Avatar from "@/components/Avatar";
+import { mapState } from 'vuex'
+import Avatar from "@/components/Avatar"
 
 export default {
   name: "UserCard",
@@ -88,11 +89,14 @@ export default {
         "👻 Ausente"
       ],
       userState: null,
-      enableAudio: true,
-      enableVideo: false,
-      muteMicro: false,
-      muteAudio: false
     };
+  },
+  computed: {
+    ...mapState({
+      muteAudio: state => state.webrtc.muteAudio,
+      muteMicro: state => state.webrtc.muteMicro,
+      enableVideo: state => state.webrtc.enableVideo
+    })
   },
   created() {
     this.userState = this.states[0];
@@ -102,7 +106,7 @@ export default {
       this.$emit("sound");
     },
     emitVideo() {
-      this.$emit("video");
+      this.$store.dispatch("changeToVideo")
     },
     emitMicro() {
       this.$emit("micro");
