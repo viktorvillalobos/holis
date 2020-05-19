@@ -128,7 +128,6 @@ export default {
     },
     onMouseOver(e) {
       const {x, y} = this.getOffset(e)
-      console.log(`X: ${x} Y: ${y}`)
       const hexCoordinates = this.Grid.pointToHex([x, y])
       const hex = this.rectangle.get(hexCoordinates)
       if (hex && hex.user ) {
