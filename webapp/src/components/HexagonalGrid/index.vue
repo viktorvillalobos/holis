@@ -101,11 +101,11 @@ export default {
                         .filter(hex => hex.x === obj.x && hex.y === obj.y && hex.user)
       return occuped.length !== 0
     },
-    selectCellByOffset(x, y, user, notify){
+    selectCellByOffset(x, y, user, isLocalUser){
         const hexCoordinates = this.Grid.pointToHex([x, y])
-        this.selectCellByCoordinates(hexCoordinates, user, notify)
+        this.selectCellByCoordinates(hexCoordinates, user, isLocalUser)
     },
-    selectCellByCoordinates(hexCoordinates, user, notify) {
+    selectCellByCoordinates(hexCoordinates, user, isLocalUser) {
       const selectedHex = this.rectangle.get(hexCoordinates)
       if (selectedHex) {
         selectedHex.filled(user)
@@ -116,21 +116,21 @@ export default {
         console.log("neighbors")
         console.log(neighbors)
         
-        if (neighbors.length) {
-
-          this.room = neighbors[0].user.room
-          console.log(`Connectiong to ${this.room} channel`)
-
-        } else {
-          this.room = `user-${user.id}`
-          console.log(`Creating new channel ${this.room} channel`)
+        if (isLocalUser) {
+          // Solo si es el usuario actual
+          if (neighbors.length) {
+            this.room = neighbors[0].user.room
+            console.log(`Connectiong to ${this.room} channel`)
+          } else {
+            this.room = this.uuidv4()
+            console.log(`Creating new channel ${this.room} channel`)
+          }
+          this.$store.dispatch('disconnectAndConnect',  this.room)
         }
 
-        this.$store.dispatch('disconnectAndConnect',  this.room)
       }
 
-      if (notify) {
-
+      if (isLocalUser) {
         const message = {
           type:"grid.position", 
           area: this.currentArea.id, 
@@ -153,7 +153,7 @@ export default {
       const {x, y} = this.getOffset(e)
       const hexCoordinates = this.Grid.pointToHex([x, y])
       const hex = this.rectangle.get(hexCoordinates)
-      if (hex && hex.user ) {
+      if (hex && hex.user) {
         this.setHexOverPosition(hex, x, y)
       } else {
         this.setHexOverPosition(null, null, null)
@@ -224,6 +224,11 @@ export default {
           draggable: true,
           wait: false
       });
+    },
+    uuidv4 () {
+      return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
+        (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+      );
     }
   },
   watch: {
