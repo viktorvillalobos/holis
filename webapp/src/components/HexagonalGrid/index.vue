@@ -111,9 +111,6 @@ export default {
                             .neighborsOf(selectedHex)
                             .filter(hex => hex.user !== null)
 
-        console.log("neighbors")
-        console.log(neighbors)
-        
         if (isLocalUser) {
           // Solo si es el usuario actual
           if (neighbors.length) {

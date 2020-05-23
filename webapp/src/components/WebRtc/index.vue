@@ -131,15 +131,19 @@
     methods: {
       join() {
          var that = this;
+         this.$store.commit("setStatusConnecting")
          this.rtcmConnection.openOrJoin(this.roomId, function (isRoomExist, roomid) {
           if (isRoomExist === false && that.rtcmConnection.isInitiator === true) {
             that.$emit('opened-room', roomid);
           }
+          that.$store.commit("setStatusConnected")
         });
       },
       leave() {
+        var that = this;
         this.rtcmConnection.attachStreams.forEach(function (localStream) {
           localStream.stop();
+          that.$store.commit("setStatusDisconnected")
         });
         this.videoList = [];
       },
