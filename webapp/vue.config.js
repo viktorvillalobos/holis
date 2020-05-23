@@ -4,7 +4,7 @@ const BundleTracker = require('webpack-bundle-tracker')
 const webpackFile = process.env.NODE_ENV === 'production' ? '../webapp/webpack-stats-prod.json' : 'webpack-stats.json'
 
 module.exports = {
-  publicPath: process.env.NODE_ENV === 'production' ? '/static/bundle_webapp/' : 'http://localhost:8080/',
+  publicPath: process.env.NODE_ENV === 'production' ? '/static/bundle_webapp/' : 'http://espazum.local:8080/',
   outputDir: './assets/bundle_webapp/',
   assetsDir: 'assets/',
   css: {
@@ -14,7 +14,9 @@ module.exports = {
       }
     }
   },
-
+  devServer: {
+    disableHostCheck: true
+  },
   chainWebpack: config => {
     config.optimization
       .splitChunks(false)
@@ -27,8 +29,8 @@ module.exports = {
       .set('__STATIC__', 'static')
 
     config.devServer
-      .public('http://127.0.0.1:8080')
-      .host('127.0.0.1')
+      .public('http://0.0.0.0:8080')
+      .host('0.0.0.0')
       .port(8080)
       .hotOnly(true)
       .watchOptions({ poll: 1000 })

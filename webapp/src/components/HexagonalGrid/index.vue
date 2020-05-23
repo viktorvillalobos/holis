@@ -13,8 +13,6 @@
       :img="hexOver && hexOver.user ? hexOver.user.avatar || hexOver.user.avatar_thumb : null"
       :origin="overOrigin" 
       v-if="hexOver && hexOver.user"/>
-
-
   </div>
 </template>
 
