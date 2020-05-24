@@ -42,11 +42,11 @@ const mutations = {
 const actions = {
   disconnectAndConnect({ commit }, room) {
     commit("setConnected", false)
+    commit("setRoom", room)
     commit("setStatusConnecting")
 
     setTimeout(() => { 
       commit("setConnected", true)
-      commit("setRoom", room)
     }, 4000)
 
   },
