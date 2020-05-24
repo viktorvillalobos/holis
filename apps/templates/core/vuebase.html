@@ -5,6 +5,8 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %} Webapp {% endblock %}</title>
+
+
     <style>
         .loader-wrap {
             position: fixed;
@@ -30,9 +32,14 @@
     </div>
     {% block render %}
     {% endblock %}
+    
     <script>
         var user_id = {{ request.user.id }};
     </script>
+    
+    <script>
+    </script>
+
     <script src="https://rtcmulticonnection.herokuapp.com/socket.io/socket.io.js"></script>
 </body>
 
