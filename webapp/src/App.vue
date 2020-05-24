@@ -47,6 +47,7 @@ export default {
       muteMicro: state => state.webrtc.muteMicro,
       enableAudio: state => state.webrtc.enableAudio,
       enableVideo: state => state.webrtc.enableVideo,
+      float : state => state.app.isAsideRightActive,
     })
   },
   methods: {
