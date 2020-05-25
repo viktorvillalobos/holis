@@ -1,0 +1,33 @@
+.espazum {
+    &-navbar {
+        position: absolute;
+        top: 20px;
+        left: 0;
+        right: 0;
+        z-index: 999;
+        .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+        &-links {
+            display: inline-flex;
+            align-items: center;
+
+            li {
+                margin-left: 32px;
+
+                a {
+                    color: $white;
+                    font-weight: 500;
+
+                    &.button {
+                        color: $blue;
+                    }
+                }
+            }
+        }
+    }
+}
