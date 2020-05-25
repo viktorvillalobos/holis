@@ -87,6 +87,8 @@ class UserSerializer(serializers.ModelSerializer):
             "default_area",
             "avatar",
             "avatar_thumb",
+            "is_staff",
+            "is_superuser"
         ]
 
 

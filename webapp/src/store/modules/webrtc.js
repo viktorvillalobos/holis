@@ -1,10 +1,11 @@
 const state = {
-  room: 'tacata123.', // Current room id
+  room: null, // Current room id
   connected: false,   // Connected to a room
   enableAudio: true,  // Activate audio in the current room
   enableVideo: false, /// Activate video in the current call
   muteAudio: false,   // mute my audio in the current call
-  muteMicro: false    // mute my micro in the current call
+  muteMicro: false,    // mute my micro in the current call
+  status: 'disconnected'
 }
 
 const mutations = {
@@ -25,20 +26,27 @@ const mutations = {
   },
   setMuteMicro(state, enable) {
     state.muteMicro = enable
-  }
+  },
+  setStatusConnecting(state) {
+    state.status = 'connecting'
+  },
+  setStatusConnected(state) {
+    state.status = 'connected'
+  },
+  setStatusDisconnected(state) {
+    state.status = 'disconnected'
+  },
+
 }
 
 const actions = {
-  disconnectAndConnect({ commit, state }, room) {
-    console.log(`Disconnection from ${state.room}`) 
+  disconnectAndConnect({ commit }, room) {
     commit("setConnected", false)
+    commit("setRoom", room)
+    commit("setStatusConnecting")
 
     setTimeout(() => { 
-
-      console.log(`Connecting again to ${room}`) 
       commit("setConnected", true)
-      commit("setRoom", room)
-
     }, 4000)
 
   },
@@ -48,10 +56,8 @@ const actions = {
 
     commit("setConnected", false)
     setTimeout(() => { 
-      console.log("Connecting again") 
       commit("setConnected", true)
     }, 4000)
-    
   }
 }
 

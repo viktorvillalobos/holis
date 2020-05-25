@@ -33,7 +33,8 @@ Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 Vue.use(AxiosDjango)
 
-const socket = process.env.NODE_ENV === 'production' ? "wss://espazum.com" : 'ws://espazum.local:8000'
+let socket = process.env.NODE_ENV === 'production' ? "wss://espazum.com" : 'ws://espazum.local:8000'
+
 Vue.use(VueNativeSock, socket, {
   store: store,
   format: 'json',

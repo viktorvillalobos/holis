@@ -20,6 +20,9 @@
         :aside-opened="isAsideLeftActive"
         @change="changedArea"
       />
+      <VoiceStatus
+        :aside-opened="isAsideLeftActive"
+      />
       <notification-card
         @close="handleNotification"
         :aside-opened="isAsideLeftActive"
@@ -76,6 +79,7 @@ import AsideRight from "@/components/AsideRight";
 import Board from "@/components/Board";
 import AreaOptions from "@/components/AreaOptions";
 import Releases from "@/components/Releases";
+import VoiceStatus from "@/components/VoiceStatus";
 
 import UserCard from "@/components/UserCard";
 import ChatBubbles from "@/components/Chat/ChatBubbles";
@@ -103,7 +107,8 @@ export default {
     ChatBubbles,
     Chat,
     Modal,
-    Card
+    Card,
+    VoiceStatus
   },
   computed: {
     ...mapState({
