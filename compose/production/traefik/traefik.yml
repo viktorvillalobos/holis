@@ -65,6 +65,9 @@ http:
       entryPoints:
         - rtc
       service: rtc
+      tls:
+        # https://docs.traefik.io/master/routing/routers/#certresolver
+        certResolver: letsencrypt
 
   middlewares:
     redirect:
