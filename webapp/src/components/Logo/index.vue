@@ -1,6 +1,6 @@
 <template>
   <div :class="['connect-logo-wrapper', {'aside-opened' : asideOpened}]">
-    <img class="connect-logo-company" src="/static/images/logo/Espazum.png" alt="espazum logo" width="200"/>
+    <img class="connect-logo-company" src="/static/images/Holis.svg" alt="espazum logo" width="120"/>
     <span class="connect-separator">|</span>
     <h1 class="connect-company">{{ company.name }}</h1>
   </div>
@@ -58,16 +58,16 @@ export default {
     .connect-company {
       font-weight: bold;
       font-size: 22px;
-      margin-top: 2.6%;
+      margin-top: 6.6%;
       padding-left: 3%;
     }
 
     .connect-separator {
       color: #576fe9;
       font-weight: bold;
-      font-size: 26px;
+      font-size: 32px;
       padding: 0 0 0 15px;
-      margin-top: 2%;
+      margin-top: 5%;
     }
   }
 
@@ -75,7 +75,7 @@ export default {
 
 
 .connect-logo-company {
-  margin-top: 5%;
+  margin-top: 4%;
   margin-left: 2%;
 }
 

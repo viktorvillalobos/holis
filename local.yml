@@ -10,7 +10,7 @@ services:
     build:
       context: .
       dockerfile: ./compose/local/django/Dockerfile
-    image: espazum_local_django
+    image: holis_local_django
     depends_on:
       - postgres
       - mailhog
@@ -30,7 +30,7 @@ services:
     build:
       context: .
       dockerfile: ./compose/production/postgres/Dockerfile
-    image: espazum_production_postgres
+    image: holis_production_postgres
     volumes:
       - local_postgres_data:/var/lib/postgresql/data
       - local_postgres_data_backups:/backups
@@ -47,7 +47,7 @@ services:
 
   celeryworker:
     <<: *django
-    image: espazum_local_celeryworker
+    image: holis_local_celeryworker
     depends_on:
       - redis
       - postgres
@@ -57,7 +57,7 @@ services:
 
   celerybeat:
     <<: *django
-    image: espazum_local_celerybeat
+    image: holis_local_celerybeat
     depends_on:
       - redis
       - postgres
@@ -67,7 +67,7 @@ services:
 
   flower:
     <<: *django
-    image: espazum_local_flower
+    image: holis_local_flower
     ports:
       - "5555:5555"
     command: /start-flower
@@ -76,7 +76,7 @@ services:
     build:
       context: .
       dockerfile: ./compose/local/node/Dockerfile
-    image: espazum_local_node
+    image: holis_local_node
     depends_on:
       - django
     volumes:
