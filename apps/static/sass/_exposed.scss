@@ -1,0 +1,86 @@
+.espazum {
+    &-exposed {
+        margin-top: 44px;
+        background-image: url(../images/clear_bg.svg);
+        background-size: 90%;
+        background-repeat: no-repeat;
+        max-height: 100vh;
+
+        h2 {
+            font-weight: 700;
+            margin-bottom: 24px;
+        }
+
+        p {
+            margin-bottom: 60px;
+        }
+
+        &-laptop {
+            max-width: 83.33%;
+        }
+
+        &-wrapper {
+            position: relative;
+        }
+
+        &-notification,
+        &-whos-talking,
+        &-play-wrapper,
+        &-chat {
+            position: absolute;
+        }
+
+        &-notification {
+            top: -54px;
+            left: 9px;
+        }
+
+        &-whos-talking {
+            left: 50px;
+            top: 39%;
+        }
+
+        &-chat {
+            left: 60.2%;
+            top: 30.5%;
+        }
+
+        &-play {
+            &-wrapper {
+                top: 100px;
+                left: 68%;
+            }
+
+            &-icon {
+                position: relative;
+                z-index: 10;
+                transition: all .25s ease;
+
+                &:hover {
+                    cursor: pointer;
+                    transform: scale(1.1);
+                }
+            }
+            &-button {
+                position: absolute;
+                background: $blue;
+                box-shadow: $box-shadow;
+                border-radius: 5px 15px 15px 15px;
+                color: #fff;
+                font-weight: 500;
+                width: 200px;
+                padding: 15px 26px;
+                left: calc(100% - 55px);
+                top: calc(100% - 40px);
+                border: 0;
+                z-index: 3;
+                transition: all .25s ease;
+
+                &:hover {
+                    cursor: pointer;
+                    transform: scale(1.1);
+                }
+            }
+        }
+    }
+}

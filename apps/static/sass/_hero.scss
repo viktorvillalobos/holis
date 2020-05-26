@@ -1,0 +1,22 @@
+.espazum {
+    &-hero {
+        position: relative;
+        padding-top: 148px;
+        min-height: 70vh;
+        margin-bottom: 32px;
+
+        h1 {
+            font-size: 3rem;
+            line-height: 3.4375rem;
+            font-weight: bold;
+            margin-bottom: 32px;
+        }
+
+        &-blobs {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 62%;
+        }
+    }
+}

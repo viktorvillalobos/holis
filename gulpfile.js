@@ -27,7 +27,6 @@ function pathsConfig(appName) {
   const vendorsRoot = 'node_modules'
 
   return {
-    
     app: this.app,
     templates: `${this.app}/templates`,
     css: `${this.app}/static/css`,

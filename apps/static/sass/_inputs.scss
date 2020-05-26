@@ -1,0 +1,21 @@
+.espazum {
+    &-inner-button-field {
+        position: relative;
+
+        .input {
+            box-shadow: $box-shadow;
+            position: absolute;
+            border-radius: 16px;
+            height: 45px;
+        }
+
+        .button {
+            position: absolute;
+            right: 0;
+            box-shadow: none;
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+            height: 45px;
+        }
+    }
+}
