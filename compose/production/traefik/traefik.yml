@@ -32,7 +32,7 @@ certificatesResolvers:
 http:
   routers:
     web-router:
-      rule: "Host(`espazum.com`) || Host(`www.espazum.com`)"
+      rule: "Host(`holis.chat`) || Host(`www.holis.chat`)"
       entryPoints:
         - web
       middlewares:
@@ -41,7 +41,7 @@ http:
       service: django
 
     web-secure-router:
-      rule: "Host(`espazum.com`) || Host(`www.espazum.com`)"
+      rule: "Host(`holis.chat`) || Host(`www.holis.chat`)"
       entryPoints:
         - web-secure
       middlewares:
@@ -52,7 +52,7 @@ http:
         certResolver: letsencrypt
 
     flower-secure-router:
-      rule: "Host(`espazum.com`)"
+      rule: "Host(`holis.chat`)"
       entryPoints:
         - flower
       service: flower
@@ -61,7 +61,7 @@ http:
         certResolver: letsencrypt
     
     rtc:
-      rule: "Host(`espazum.com`)"
+      rule: "Host(`holis.chat`)"
       entryPoints:
         - rtc
       service: rtc
