@@ -33,7 +33,7 @@
       },
       socketURL: {
         type: String,
-        default: 'https://espazum.com:9001/'
+        default: 'https://holis.chat:9001/'
       },
       cameraHeight: {
         type: [Number, String],
@@ -68,7 +68,7 @@
       this.rtcmConnection.socketURL = this.socketURL;
 
       this.rtcmConnection.iceServers.push({
-          urls: 'turn:coturn.espazum.com:443',
+          urls: 'turn:coturn.holis.chat:443',
           credential: 'CabezaDePapa',
           username: 'ElPinzas'
       });
