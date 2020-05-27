@@ -49,7 +49,7 @@ services:
     image: redis:5.0
 
   rtc:
-    image: gcr.io/holis/rtc:latest
+    image: gcr.io/espazum/rtc:latest
 
   celeryworker:
     <<: *django
