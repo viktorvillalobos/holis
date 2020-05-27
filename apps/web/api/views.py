@@ -27,18 +27,19 @@ class GetEarlyAccessAPIView(APIView):
         email = self.serializer.validated_data["email"]
         origin = self.serializer.validated_data["origin"]
 
-        logger.info(f'Sending early access email lead: {email} from {origin}')
+        logger.info(f"Sending early access email lead: {email} from {origin}")
 
         content = f"""
             email: {email}
             origin: {origin}
         """
+
         try:
             send_mail(
                 "Get Early Access",
                 content,
                 "early@mail.holis.chat",
-                ['sales@holis.chat', "viktor@holis.chat"],
+                ["sales@holis.chat"],
                 fail_silently=False,
             )
             return email, True
