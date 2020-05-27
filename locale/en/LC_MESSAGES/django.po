@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-26 22:11-0400\n"
+"POT-Creation-Date: 2020-05-26 22:46-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -362,13 +362,38 @@ msgid ""
 "mail address</a>."
 msgstr ""
 
+#: apps/templates/base.html:47 apps/templates/base.html:76
+msgid "About"
+msgstr ""
+
+#: apps/templates/base.html:50 apps/templates/base.html:77
+msgid "Blog"
+msgstr ""
+
+#: apps/templates/base.html:53 apps/templates/pages/home.html:13
+#: apps/templates/pages/home.html:87
+msgid "EARLY-ACCESS"
+msgstr "Get early access"
+
+#: apps/templates/base.html:75
+msgid "Home"
+msgstr ""
+
+#: apps/templates/base.html:83
+msgid "Terms and Conditions"
+msgstr ""
+
+#: apps/templates/base.html:84
+msgid "Privacy Policy"
+msgstr ""
+
+#: apps/templates/base.html:88
+msgid "All rights reserved"
+msgstr ""
+
 #: apps/templates/pages/home.html:10
 msgid "CALL-TO-ACTION-HEADER"
 msgstr "Do you need effective communication just like in the office?"
-
-#: apps/templates/pages/home.html:13 apps/templates/pages/home.html:87
-msgid "EARLY-ACCESS"
-msgstr "Get early access"
 
 #: apps/templates/pages/home.html:36
 msgid "FEATURE-1-TITLE"
@@ -392,7 +417,8 @@ msgstr "Analytics"
 
 #: apps/templates/pages/home.html:47
 msgid "FEATURE-3-CONTENT"
-msgstr "Because in the information age if we did not have channels we were not at all"
+msgstr ""
+"Because in the information age if we did not have channels we were not at all"
 
 #: apps/templates/pages/home.html:60
 msgid "FEATURE-MAIN-TITLE"
@@ -400,7 +426,10 @@ msgstr "Your team reach a click"
 
 #: apps/templates/pages/home.html:61
 msgid "FEATURE-MAIN-CONTENT"
-msgstr "With Holis, clicking on the grid is enough to start a voice channel with your colleagues, solve doubts efficiently, casual jokes and the background noise of others working."
+msgstr ""
+"With Holis, clicking on the grid is enough to start a voice channel with "
+"your colleagues, solve doubts efficiently, casual jokes and the background "
+"noise of others working."
 
 #: apps/templates/pages/home.html:71
 msgid "Look how it works"
@@ -473,3 +502,8 @@ msgstr ""
 #: config/settings/base.py:33
 msgid "Spanish"
 msgstr ""
+
+#, fuzzy
+#~| msgid "EARLY-ACCESS"
+#~ msgid "EARLY ACCESS"
+#~ msgstr "Get early access"

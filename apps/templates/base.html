@@ -44,13 +44,13 @@
           <a href="/">Home</a>
         </li>
         <li>
-          <a href="/">About</a>
+            <a href="/">{% trans 'About' %}</a>
         </li>
         <li>
-          <a href="/">Blog</a>
+            <a href="/">{% trans 'Blog' %}</a>
         </li>
         <li>
-          <a class="button" href="/">Get early access</a>
+            <a class="button" href="/">{% trans 'EARLY-ACCESS' %}</a>
         </li>
       </ul>
     </div>
@@ -72,20 +72,20 @@
         <div class="column is-2">
           <b>Company</b>
           <ul>
-            <li><a href="#">Home</a></li>
-            <li><a href="#">About</a></li>
-            <li><a href="#">Blog</a></li>
+              <li><a href="#">{% trans 'Home' %}</a></li>
+            <li><a href="#">{% trans 'About' %}</a></li>
+            <li><a href="#">{% trans 'Blog' %}</a></li>
           </ul>
         </div>
         <div class="column is-2">
           <b>Legal</b>
           <ul>
-            <li><a href="#">Términos y condiciones</a></li>
-            <li><a href="#">Política de privacidad</a></li>
+              <li><a href="#">{% trans 'Terms and Conditions' %}</a></li>
+              <li><a href="#">{% trans 'Privacy Policy' %}</a></li>
           </ul>
         </div>
         <div class="column is-8 has-text-right">
-          <p class="espazum-credits">Todos los derechos reservados <img src="{% static 'images/Espazum_logo_blanco.svg' %}" alt="Holis"></p>
+            <p class="espazum-credits">{% trans 'All rights reserved' %} <img src="{% static 'images/Espazum_logo_blanco.svg' %}" alt="Holis"></p>
           <ul class="espazum-rrss">
             <li><a href="https://instagram.com/holischat"><i class="fab fa-3x fa-instagram"></i></a></li>
             <li><a href="https://www.facebook.com/holischat"><i class="fab fa-3x fa-facebook"></i></a></li>

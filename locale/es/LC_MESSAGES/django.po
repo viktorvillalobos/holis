@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-26 22:11-0400\n"
+"POT-Creation-Date: 2020-05-26 22:46-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -362,13 +362,38 @@ msgid ""
 "mail address</a>."
 msgstr ""
 
+#: apps/templates/base.html:47 apps/templates/base.html:76
+msgid "About"
+msgstr "Nosotros"
+
+#: apps/templates/base.html:50 apps/templates/base.html:77
+msgid "Blog"
+msgstr ""
+
+#: apps/templates/base.html:53 apps/templates/pages/home.html:13
+#: apps/templates/pages/home.html:87
+msgid "EARLY-ACCESS"
+msgstr "Accede anticipadamente"
+
+#: apps/templates/base.html:75
+msgid "Home"
+msgstr ""
+
+#: apps/templates/base.html:83
+msgid "Terms and Conditions"
+msgstr "Términos y condiciones"
+
+#: apps/templates/base.html:84
+msgid "Privacy Policy"
+msgstr "Política de privacidad"
+
+#: apps/templates/base.html:88
+msgid "All rights reserved"
+msgstr "Todos los derechos reservados"
+
 #: apps/templates/pages/home.html:10
 msgid "CALL-TO-ACTION-HEADER"
 msgstr "Tu oficina ahora puede estar en cualquier lugar"
-
-#: apps/templates/pages/home.html:13 apps/templates/pages/home.html:87
-msgid "EARLY-ACCESS"
-msgstr "Accede anticipadamente"
 
 #: apps/templates/pages/home.html:36
 msgid "FEATURE-1-TITLE"
@@ -384,7 +409,9 @@ msgstr "Chat de texto"
 
 #: apps/templates/pages/home.html:42
 msgid "FEATURE-2-CONTENT"
-msgstr "¿La persona con la que quieres comunicarte está ocupada? ¡Déjale un mensaje al chat!"
+msgstr ""
+"¿La persona con la que quieres comunicarte está ocupada? ¡Déjale un mensaje "
+"al chat!"
 
 #: apps/templates/pages/home.html:46
 msgid "FEATURE-3-TITLE"
@@ -392,7 +419,8 @@ msgstr "Analíticas"
 
 #: apps/templates/pages/home.html:47
 msgid "FEATURE-3-CONTENT"
-msgstr "Porque en la era de la información si no teníamos analíticas no estas en nada"
+msgstr ""
+"Porque en la era de la información si no teníamos analíticas no estas en nada"
 
 #: apps/templates/pages/home.html:60
 msgid "FEATURE-MAIN-TITLE"
@@ -400,7 +428,11 @@ msgstr "Tu equipo al alcance de un click"
 
 #: apps/templates/pages/home.html:61
 msgid "FEATURE-MAIN-CONTENT"
-msgstr "Ni siquiera cuando se sentaban uno al lado del tro habían estado tan cerca. Con Holis hacer click en la grilla es suficiente para iniciar un canal de voz con tus compañeros, resolver dudas de forma eficiente, chistes casuales y el ruido de fondo de los demás trabajando."
+msgstr ""
+"Ni siquiera cuando se sentaban uno al lado del tro habían estado tan cerca. "
+"Con Holis hacer click en la grilla es suficiente para iniciar un canal de "
+"voz con tus compañeros, resolver dudas de forma eficiente, chistes casuales "
+"y el ruido de fondo de los demás trabajando."
 
 #: apps/templates/pages/home.html:71
 msgid "Look how it works"
@@ -473,6 +505,11 @@ msgstr ""
 #: config/settings/base.py:33
 msgid "Spanish"
 msgstr ""
+
+#, fuzzy
+#~| msgid "EARLY-ACCESS"
+#~ msgid "EARLY ACCESS"
+#~ msgstr "Accede anticipadamente"
 
 #~ msgid "Did you know that your office can now be anywhere?"
 #~ msgstr "Tu oficina ahora puede estar en cualquier lugar"
