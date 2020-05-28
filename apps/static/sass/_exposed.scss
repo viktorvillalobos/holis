@@ -84,3 +84,12 @@
         }
     }
 }
+
+
+@media screen and (max-width: 900px) {
+    .espazum {
+        &-exposed-wrapper {
+            display: none;
+        }
+    }
+}

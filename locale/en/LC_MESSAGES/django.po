@@ -1,0 +1,509 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-05-26 22:46-0400\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: apps/chat/models.py:25 apps/chat/models.py:55 apps/chat/models.py:87
+#: apps/core/models.py:29 apps/core/models.py:63 apps/core/models.py:102
+#: apps/users/models.py:41 apps/users/models.py:94 apps/users/models.py:135
+msgid "company"
+msgstr ""
+
+#: apps/chat/models.py:29
+msgid "users"
+msgstr ""
+
+#: apps/chat/models.py:32 apps/core/models.py:105
+msgid "title"
+msgstr ""
+
+#: apps/chat/models.py:34
+msgid "is public"
+msgstr ""
+
+#: apps/chat/models.py:59
+msgid "channel"
+msgstr ""
+
+#: apps/chat/models.py:65
+msgid "User"
+msgstr ""
+
+#: apps/chat/models.py:69 apps/core/models.py:106 apps/core/models.py:121
+msgid "text"
+msgstr ""
+
+#: apps/chat/models.py:91
+msgid "message"
+msgstr ""
+
+#: apps/chat/models.py:95
+msgid "attachment"
+msgstr ""
+
+#: apps/chat/models.py:96
+msgid "Mimetype"
+msgstr ""
+
+#: apps/chat/models.py:103
+msgid "message attachment"
+msgstr ""
+
+#: apps/chat/models.py:104
+msgid "message attachments"
+msgstr ""
+
+#: apps/core/models.py:19 apps/users/models.py:104
+msgid "name"
+msgstr ""
+
+#: apps/core/models.py:20
+msgid "code"
+msgstr ""
+
+#: apps/core/models.py:21
+msgid "email"
+msgstr ""
+
+#: apps/core/models.py:22
+msgid "phone"
+msgstr ""
+
+#: apps/core/models.py:23
+msgid "logo"
+msgstr ""
+
+#: apps/core/models.py:30
+msgid "companies"
+msgstr ""
+
+#: apps/core/models.py:73
+msgid "Width"
+msgstr ""
+
+#: apps/core/models.py:74
+msgid "Height"
+msgstr ""
+
+#: apps/core/models.py:120
+msgid "Title"
+msgstr ""
+
+#: apps/core/ws/consumers/main.py:55
+msgid "Type is required"
+msgstr ""
+
+#: apps/core/ws/consumers/main.py:71
+msgid "type not handled"
+msgstr ""
+
+#: apps/templates/account/account_inactive.html:5
+#: apps/templates/account/account_inactive.html:8
+msgid "Account Inactive"
+msgstr ""
+
+#: apps/templates/account/account_inactive.html:10
+msgid "This account is inactive."
+msgstr ""
+
+#: apps/templates/account/email.html:7
+msgid "Account"
+msgstr ""
+
+#: apps/templates/account/email.html:10
+msgid "E-mail Addresses"
+msgstr ""
+
+#: apps/templates/account/email.html:13
+msgid "The following e-mail addresses are associated with your account:"
+msgstr ""
+
+#: apps/templates/account/email.html:27
+msgid "Verified"
+msgstr ""
+
+#: apps/templates/account/email.html:29
+msgid "Unverified"
+msgstr ""
+
+#: apps/templates/account/email.html:31
+msgid "Primary"
+msgstr ""
+
+#: apps/templates/account/email.html:37
+msgid "Make Primary"
+msgstr ""
+
+#: apps/templates/account/email.html:38
+msgid "Re-send Verification"
+msgstr ""
+
+#: apps/templates/account/email.html:39
+msgid "Remove"
+msgstr ""
+
+#: apps/templates/account/email.html:46
+msgid "Warning:"
+msgstr ""
+
+#: apps/templates/account/email.html:46
+msgid ""
+"You currently do not have any e-mail address set up. You should really add "
+"an e-mail address so you can receive notifications, reset your password, etc."
+msgstr ""
+
+#: apps/templates/account/email.html:51
+msgid "Add E-mail Address"
+msgstr ""
+
+#: apps/templates/account/email.html:56
+msgid "Add E-mail"
+msgstr ""
+
+#: apps/templates/account/email.html:66
+msgid "Do you really want to remove the selected e-mail address?"
+msgstr ""
+
+#: apps/templates/account/email_confirm.html:6
+#: apps/templates/account/email_confirm.html:10
+msgid "Confirm E-mail Address"
+msgstr ""
+
+#: apps/templates/account/email_confirm.html:16
+#, python-format
+msgid ""
+"Please confirm that <a href=\"mailto:%(email)s\">%(email)s</a> is an e-mail "
+"address for user %(user_display)s."
+msgstr ""
+
+#: apps/templates/account/email_confirm.html:20
+msgid "Confirm"
+msgstr ""
+
+#: apps/templates/account/email_confirm.html:27
+#, python-format
+msgid ""
+"This e-mail confirmation link expired or is invalid. Please <a href="
+"\"%(email_url)s\">issue a new e-mail confirmation request</a>."
+msgstr ""
+
+#: apps/templates/account/login.html:7 apps/templates/account/login.html:11
+#: apps/templates/account/login.html:44
+msgid "Sign In"
+msgstr ""
+
+#: apps/templates/account/login.html:16
+#, python-format
+msgid ""
+"Please sign in with one\n"
+"of your existing third party accounts. Or, <a href=\"%(signup_url)s\">sign "
+"up</a>\n"
+"for a %(site_name)s account and sign in below:"
+msgstr ""
+
+#: apps/templates/account/login.html:26
+msgid "or"
+msgstr ""
+
+#: apps/templates/account/login.html:33
+#, python-format
+msgid ""
+"If you have not created an account yet, then please\n"
+"<a href=\"%(signup_url)s\">sign up</a> first."
+msgstr ""
+
+#: apps/templates/account/login.html:43
+msgid "Forgot Password?"
+msgstr ""
+
+#: apps/templates/account/logout.html:5 apps/templates/account/logout.html:8
+#: apps/templates/account/logout.html:17
+msgid "Sign Out"
+msgstr ""
+
+#: apps/templates/account/logout.html:10
+msgid "Are you sure you want to sign out?"
+msgstr ""
+
+#: apps/templates/account/password_change.html:6
+#: apps/templates/account/password_change.html:9
+#: apps/templates/account/password_change.html:14
+#: apps/templates/account/password_reset_from_key.html:5
+#: apps/templates/account/password_reset_from_key.html:8
+#: apps/templates/account/password_reset_from_key_done.html:4
+#: apps/templates/account/password_reset_from_key_done.html:7
+msgid "Change Password"
+msgstr ""
+
+#: apps/templates/account/password_reset.html:7
+#: apps/templates/account/password_reset.html:11
+#: apps/templates/account/password_reset_done.html:6
+#: apps/templates/account/password_reset_done.html:9
+msgid "Password Reset"
+msgstr ""
+
+#: apps/templates/account/password_reset.html:16
+msgid ""
+"Forgotten your password? Enter your e-mail address below, and we'll send you "
+"an e-mail allowing you to reset it."
+msgstr ""
+
+#: apps/templates/account/password_reset.html:21
+msgid "Reset My Password"
+msgstr ""
+
+#: apps/templates/account/password_reset.html:24
+msgid "Please contact us if you have any trouble resetting your password."
+msgstr ""
+
+#: apps/templates/account/password_reset_done.html:15
+msgid ""
+"We have sent you an e-mail. Please contact us if you do not receive it "
+"within a few minutes."
+msgstr ""
+
+#: apps/templates/account/password_reset_from_key.html:8
+msgid "Bad Token"
+msgstr ""
+
+#: apps/templates/account/password_reset_from_key.html:12
+#, python-format
+msgid ""
+"The password reset link was invalid, possibly because it has already been "
+"used.  Please request a <a href=\"%(passwd_reset_url)s\">new password reset</"
+"a>."
+msgstr ""
+
+#: apps/templates/account/password_reset_from_key.html:18
+msgid "change password"
+msgstr ""
+
+#: apps/templates/account/password_reset_from_key.html:21
+#: apps/templates/account/password_reset_from_key_done.html:8
+msgid "Your password is now changed."
+msgstr ""
+
+#: apps/templates/account/password_set.html:6
+#: apps/templates/account/password_set.html:9
+#: apps/templates/account/password_set.html:14
+msgid "Set Password"
+msgstr ""
+
+#: apps/templates/account/signup.html:6
+msgid "Signup"
+msgstr ""
+
+#: apps/templates/account/signup.html:9 apps/templates/account/signup.html:19
+msgid "Sign Up"
+msgstr ""
+
+#: apps/templates/account/signup.html:11
+#, python-format
+msgid ""
+"Already have an account? Then please <a href=\"%(login_url)s\">sign in</a>."
+msgstr ""
+
+#: apps/templates/account/signup_closed.html:5
+#: apps/templates/account/signup_closed.html:8
+msgid "Sign Up Closed"
+msgstr ""
+
+#: apps/templates/account/signup_closed.html:10
+msgid "We are sorry, but the sign up is currently closed."
+msgstr ""
+
+#: apps/templates/account/verification_sent.html:5
+#: apps/templates/account/verification_sent.html:8
+#: apps/templates/account/verified_email_required.html:5
+#: apps/templates/account/verified_email_required.html:8
+msgid "Verify Your E-mail Address"
+msgstr ""
+
+#: apps/templates/account/verification_sent.html:10
+msgid ""
+"We have sent an e-mail to you for verification. Follow the link provided to "
+"finalize the signup process. Please contact us if you do not receive it "
+"within a few minutes."
+msgstr ""
+
+#: apps/templates/account/verified_email_required.html:12
+msgid ""
+"This part of the site requires us to verify that\n"
+"you are who you claim to be. For this purpose, we require that you\n"
+"verify ownership of your e-mail address. "
+msgstr ""
+
+#: apps/templates/account/verified_email_required.html:16
+msgid ""
+"We have sent an e-mail to you for\n"
+"verification. Please click on the link inside this e-mail. Please\n"
+"contact us if you do not receive it within a few minutes."
+msgstr ""
+
+#: apps/templates/account/verified_email_required.html:20
+#, python-format
+msgid ""
+"<strong>Note:</strong> you can still <a href=\"%(email_url)s\">change your e-"
+"mail address</a>."
+msgstr ""
+
+#: apps/templates/base.html:47 apps/templates/base.html:76
+msgid "About"
+msgstr ""
+
+#: apps/templates/base.html:50 apps/templates/base.html:77
+msgid "Blog"
+msgstr ""
+
+#: apps/templates/base.html:53 apps/templates/pages/home.html:13
+#: apps/templates/pages/home.html:87
+msgid "EARLY-ACCESS"
+msgstr "Get early access"
+
+#: apps/templates/base.html:75
+msgid "Home"
+msgstr ""
+
+#: apps/templates/base.html:83
+msgid "Terms and Conditions"
+msgstr ""
+
+#: apps/templates/base.html:84
+msgid "Privacy Policy"
+msgstr ""
+
+#: apps/templates/base.html:88
+msgid "All rights reserved"
+msgstr ""
+
+#: apps/templates/pages/home.html:10
+msgid "CALL-TO-ACTION-HEADER"
+msgstr "Do you need effective communication just like in the office?"
+
+#: apps/templates/pages/home.html:36
+msgid "FEATURE-1-TITLE"
+msgstr "Realtime voice"
+
+#: apps/templates/pages/home.html:37
+msgid "FEATURE-1-CONTENT"
+msgstr "Solve doubts and socialize with your team at any time"
+
+#: apps/templates/pages/home.html:41
+msgid "FEATURE-2-TITLE"
+msgstr "Text chat"
+
+#: apps/templates/pages/home.html:42
+msgid "FEATURE-2-CONTENT"
+msgstr "Is the person you want to communicate with busy?, leave him a message"
+
+#: apps/templates/pages/home.html:46
+msgid "FEATURE-3-TITLE"
+msgstr "Analytics"
+
+#: apps/templates/pages/home.html:47
+msgid "FEATURE-3-CONTENT"
+msgstr ""
+"Because in the information age if we did not have channels we were not at all"
+
+#: apps/templates/pages/home.html:60
+msgid "FEATURE-MAIN-TITLE"
+msgstr "Your team reach a click"
+
+#: apps/templates/pages/home.html:61
+msgid "FEATURE-MAIN-CONTENT"
+msgstr ""
+"With Holis, clicking on the grid is enough to start a voice channel with "
+"your colleagues, solve doubts efficiently, casual jokes and the background "
+"noise of others working."
+
+#: apps/templates/pages/home.html:71
+msgid "Look how it works"
+msgstr "Look how it works"
+
+#: apps/templates/pages/home.html:82
+msgid "CALL-TO-ACTION-FOOTER"
+msgstr "Are you ready to go back to your office?"
+
+#: apps/users/apps.py:7
+msgid "Users"
+msgstr ""
+
+#: apps/users/forms.py:16
+msgid "This username has already been taken."
+msgstr ""
+
+#: apps/users/models.py:38
+msgid "name of user"
+msgstr ""
+
+#: apps/users/models.py:46
+msgid "position"
+msgstr ""
+
+#: apps/users/models.py:54
+msgid "avatar"
+msgstr ""
+
+#: apps/users/models.py:100 apps/users/models.py:139
+msgid "user"
+msgstr ""
+
+#: apps/users/models.py:105
+msgid "icon"
+msgstr ""
+
+#: apps/users/models.py:106
+msgid "Is active"
+msgstr ""
+
+#: apps/users/models.py:113
+msgid "status"
+msgstr ""
+
+#: apps/users/models.py:114
+msgid "statuses"
+msgstr ""
+
+#: apps/users/models.py:146
+msgid "unread"
+msgstr ""
+
+#: apps/users/models.py:154
+msgid "notification"
+msgstr ""
+
+#: apps/users/models.py:155
+msgid "notifications"
+msgstr ""
+
+#: apps/users/views.py:34
+msgid "Infos successfully updated"
+msgstr ""
+
+#: config/settings/base.py:32
+msgid "English"
+msgstr ""
+
+#: config/settings/base.py:33
+msgid "Spanish"
+msgstr ""
+
+#, fuzzy
+#~| msgid "EARLY-ACCESS"
+#~ msgid "EARLY ACCESS"
+#~ msgstr "Get early access"

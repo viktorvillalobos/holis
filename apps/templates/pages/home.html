@@ -11,9 +11,7 @@
     <div class="container">
         <div class="columns is-vcentered">
             <div class="column">
-                <h1>Tu oficina ahora
-                    puede estar
-                    en cualquier lugar</h1>
+                <h1>{% trans 'CALL-TO-ACTION-HEADER' %} </h1>
                 <picture class="espazum-hero-images-mobile">
                     <source media="(min-width: 600px)"
                         srcset="{% static 'images/home/hero.svg' %}">
@@ -26,17 +24,39 @@
                 </picture>
                 <div class="espazum-inner-button-field">
                     <input class="input" type="email" placeholder="mail@mail.com">
-                    <button class="button is-primary">Get early access</button>
+                    <button class="button is-primary"> {% trans 'EARLY-ACCESS' %}</button>
                 </div>
             </div>
             <div class="column is-8">
                 <div class="espazum-hero-images-desktop espazum-carousel-wrapper">
                     <div class="espazum-carousel">
                         <img class="espazum-carousel-img" src="{% static 'images/home/hero.svg' %}"
-                            alt="Espazum Teams young adults" />
+                            alt="Holis Teams young adults" />
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+</section>
+
+<section class="espazum-exposed">
+    <div class="container">
+        <div class="columns is-centered">
+            <div class="column is-6 has-text-centered">
+                <h2>{% trans 'FEATURE-MAIN-TITLE' %}</h2>
+                {% trans 'FEATURE-MAIN-CONTENT' %}
+            </div>
+        </div>
+
+        <div class="espazum-exposed-wrapper">
+            <img class="espazum-exposed-laptop" src="{% static 'images/laptop.svg'%}" alt="Holis">
+            <img data-aos="zoom-in-up" class="espazum-exposed-notification" src="{% static 'images/home/notification.svg'%}" alt="Holis">
+            <img data-aos="zoom-in-up" class="espazum-exposed-whos-talking" src="{% static 'images/home/whos_talkin.svg'%}" alt="Holis">
+            <div data-aos="zoom-in-up" class="espazum-exposed-play-wrapper">
+                <img class="espazum-exposed-play-icon" src="{% static 'images/home/play.svg'%}" alt="Holis">
+                <button class="espazum-exposed-play-button">{% trans 'Look how it works' %}</button>
+            </div>
+            <img data-aos="zoom-in-up" class="espazum-exposed-chat" src="{% static 'images/home/exposed_chat.svg'%}" alt="Holis">
         </div>
     </div>
 </section>
@@ -49,18 +69,18 @@
                     <div class="columns">
                         <div class="column has-text-centered border-right">
                             <img src="{% static 'images/features/real_time_vocie.svg' %}" alt="Real time voice" />
-                            <h3>Voz en tiempo real</h3>
-                            <p>Resuelve dudas y socializa con tu equipo en cualquier momento</p>
+                            <h3>{% trans 'FEATURE-1-TITLE' %}</h3>
+                            <p>{% trans 'FEATURE-1-CONTENT' %}</p>
                         </div>
                         <div class="column has-text-centered border-right">
                             <img src="{% static 'images/features/Chat.svg' %}" alt="Enterprise Chat" />
-                            <h3>Chat de texto</h3>
-                            <p>¿La persona con la que quieres comunicarte está ocupada? ¡Déjale un mensaje al chat!</p>
+                            <h3>{% trans 'FEATURE-2-TITLE' %}</h3>
+                            <p>{% trans 'FEATURE-2-CONTENT' %}</p>
                         </div>
                         <div class="column has-text-centered">
                             <img src="{% static 'images/features/analytics.svg' %}" alt="Analytics" />
-                            <h3>Analíticas</h3>
-                            <p>Porque en la era de la información si no teníamos analíticas no estábamos en nada</p>
+                            <h3>{% trans 'FEATURE-3-TITLE' %}</h3>
+                            <p>{% trans 'FEATURE-3-CONTENT' %}</p>
                         </div>
                     </div>
                 </div>
@@ -69,43 +89,16 @@
     </div>
 </section>
 
-<section class="espazum-exposed">
-    <div class="container">
-        <div class="columns is-centered">
-            <div class="column is-6 has-text-centered">
-                <h2>Tu equipo al alcance de un click</h2>
-                <p>Ni siquiera cuando se sentaban uno al lado del otro habían estado tan cerca. Con Espazum hacer click
-                    en la grilla es suficiente para iniciar un canal de voz con tus compañeros, resolver dudas de forma
-                    eficiente, chistes casuales y el ruido de fondo de los demás trabajando.</p>
-            </div>
-        </div>
-
-        <div class="espazum-exposed-wrapper">
-            <img class="espazum-exposed-laptop" src="{% static 'images/laptop.svg'%}" alt="Espazum">
-            <img data-aos="zoom-in-up" class="espazum-exposed-notification"
-                src="{% static 'images/home/notification.svg'%}" alt="Espazum">
-            <img data-aos="zoom-in-up" class="espazum-exposed-whos-talking"
-                src="{% static 'images/home/whos_talkin.svg'%}" alt="Espazum">
-            <div data-aos="zoom-in-up" class="espazum-exposed-play-wrapper">
-                <img class="espazum-exposed-play-icon" src="{% static 'images/home/play.svg'%}" alt="Espazum">
-                <button class="espazum-exposed-play-button">Mira cómo funciona</button>
-            </div>
-            <img data-aos="zoom-in-up" class="espazum-exposed-chat" src="{% static 'images/home/exposed_chat.svg'%}"
-                alt="Espazum">
-        </div>
-    </div>
-</section>
-
 <section class="espazum-cta">
     <div class="container">
         <div class="columns is-centered is-vcentered">
             <div class="column is-5">
-                <h2>¿Listo para ser parte de la experiencia?</h2>
+                <h2>{% trans 'CALL-TO-ACTION-FOOTER' %}</h2>
             </div>
             <div class="column is-5">
                 <div class="espazum-inner-button-field">
                     <input class="input" type="email" placeholder="mail@mail.com">
-                    <button class="button is-primary">Get early access</button>
+                    <button class="button is-primary">{% trans 'EARLY-ACCESS' %}</button>
                 </div>
             </div>
         </div>
@@ -123,9 +116,9 @@
 <script>
     !(function (d) {
         const images = [
-            `<img class="espazum-carousel-img" src="{% static 'images/home/hero.svg' %}" alt="Espazum Teams young adults" />`,
-            `<img class="espazum-carousel-img" src="{% static 'images/home/hero-boys.svg' %}" alt="Espazum Teams boys" />`,
-            `<img class="espazum-carousel-img" src="{% static 'images/home/hero-girls.svg' %}" alt="Espazum Teams girls" />`
+            `<img class="espazum-carousel-img" src="{% static 'images/home/hero.svg' %}" alt="Holis Teams young adults" />`,
+            `<img class="espazum-carousel-img" src="{% static 'images/home/hero-boys.svg' %}" alt="Holis Teams boys" />`,
+            `<img class="espazum-carousel-img" src="{% static 'images/home/hero-girls.svg' %}" alt="Holis Teams girls" />`
         ],
             carousel = d.getElementsByClassName('espazum-carousel')[0];
 

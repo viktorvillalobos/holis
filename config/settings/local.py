@@ -11,7 +11,9 @@ SECRET_KEY = env(
     default="IZGCmcTPYgxBYUDtxH9Dx6NOm0CSoKeZ2x3R4qUssRXSXdH4xGdoECQM9bC8ThQG",
 )
 # https://docs.djangoproject.com/en/dev/ref/settings/#allowed-hosts
-ALLOWED_HOSTS = ["localhost", "0.0.0.0", "127.0.0.1", "espazum.local"]
+ALLOWED_HOSTS = [
+    "*",
+]
 
 # CACHES
 # ------------------------------------------------------------------------------
@@ -46,7 +48,9 @@ EMAIL_PORT = 1025
 # WhiteNoise
 # ------------------------------------------------------------------------------
 # http://whitenoise.evans.io/en/latest/django.html#using-whitenoise-in-development
-INSTALLED_APPS = ["whitenoise.runserver_nostatic"] + INSTALLED_APPS  # noqa F405
+INSTALLED_APPS = [
+    "whitenoise.runserver_nostatic"
+] + INSTALLED_APPS  # noqa F405
 
 
 # django-debug-toolbar
@@ -54,6 +58,7 @@ INSTALLED_APPS = ["whitenoise.runserver_nostatic"] + INSTALLED_APPS  # noqa F405
 # https://django-debug-toolbar.readthedocs.io/en/latest/installation.html#prerequisites
 INSTALLED_APPS += ["debug_toolbar"]  # noqa F405
 # https://django-debug-toolbar.readthedocs.io/en/latest/installation.html#middleware
+
 MIDDLEWARE += ["debug_toolbar.middleware.DebugToolbarMiddleware"]  # noqa F405
 # https://django-debug-toolbar.readthedocs.io/en/latest/configuration.html#debug-toolbar-config
 DEBUG_TOOLBAR_CONFIG = {

@@ -10,7 +10,7 @@ services:
     build:
       context: .
       dockerfile: ./compose/production/django/Dockerfile
-    image: espazum_production_django
+    image: holis_production_django
     depends_on:
       - postgres
       - redis
@@ -23,7 +23,7 @@ services:
     build:
       context: .
       dockerfile: ./compose/production/postgres/Dockerfile
-    image: espazum_production_postgres
+    image: holis_production_postgres
     volumes:
       - production_postgres_data:/var/lib/postgresql/data
       - production_postgres_data_backups:/backups
@@ -34,7 +34,7 @@ services:
     build:
       context: .
       dockerfile: ./compose/production/traefik/Dockerfile
-    image: espazum_production_traefik
+    image: holis_production_traefik
     depends_on:
       - django
     volumes:
@@ -53,17 +53,17 @@ services:
 
   celeryworker:
     <<: *django
-    image: espazum_production_celeryworker
+    image: holis_production_celeryworker
     command: /start-celeryworker
 
   celerybeat:
     <<: *django
-    image: espazum_production_celerybeat
+    image: holis_production_celerybeat
     command: /start-celerybeat
 
   flower:
     <<: *django
-    image: espazum_production_flower
+    image: holis_production_flower
     command: /start-flower
 
   

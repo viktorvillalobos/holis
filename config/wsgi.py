@@ -1,5 +1,5 @@
 """
-WSGI config for Espazum Remote Team Tool project.
+WSGI config for Holis Remote Team Tool project.
 
 This module contains the WSGI application used by Django's development server
 and any production WSGI deployments. It should expose a module-level variable

@@ -8486,7 +8486,7 @@ h3 {
     .espazum-hero-blobs img {
       width: 100%; }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 900px) {
   .espazum-hero {
     padding-top: 77px; }
     .espazum-hero h1 {
@@ -8582,6 +8582,10 @@ h3 {
       -webkit-transform: scale(1.1);
               transform: scale(1.1); }
 
+@media screen and (max-width: 900px) {
+  .espazum-exposed-wrapper {
+    display: none; } }
+
 .border-right {
   border-right: 1px solid #c4c4c4; }
 
@@ -8641,6 +8645,25 @@ footer {
     width: 350px;
     background-size: cover; }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 900px) {
   .container {
-    padding: 0 15px; } }
+    padding: 0 15px; }
+  .border-right {
+    border-right: 0;
+    border-bottom: 1px solid #c4c4c4; }
+  footer:before {
+    top: -71px;
+    width: 105px;
+    height: 83px; }
+  .box {
+    padding: 35px;
+    margin: 20px; }
+  .espazum-rrss {
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center; }
+  .espazum-credits {
+    width: 100%;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center; } }

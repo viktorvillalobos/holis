@@ -1,5 +1,5 @@
 """
-ASGI config for Espazum Remote Team Tool project.
+ASGI config for Holis Remote Team Tool project.
 
 It exposes the ASGI callable as a module-level variable named ``application``.
 

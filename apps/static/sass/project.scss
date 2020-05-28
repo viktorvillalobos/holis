@@ -131,8 +131,37 @@ footer {
   }
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 900px) {
   .container {
     padding: 0 15px;
+  }
+
+  .border-right {
+    border-right: 0;
+    border-bottom: 1px solid $lighter-gray;
+  }
+
+  footer {
+    &:before {
+      top: -71px;
+      width: 105px;
+      height: 83px;
+    }
+  }
+
+  .box {
+    padding: 35px;
+    margin: 20px;
+  }
+
+  .espazum {
+    &-rrss {
+      justify-content: center;
+    }
+  
+    &-credits {
+      width: 100%;
+      justify-content: center;
+    }
   }
 }
