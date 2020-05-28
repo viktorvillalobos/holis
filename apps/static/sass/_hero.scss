@@ -12,11 +12,57 @@
             margin-bottom: 32px;
         }
 
+        &-images {
+            &-mobile {
+                display: none;
+            }
+
+            &-desktop {
+                display: block;
+            }
+        }
+
         &-blobs {
             position: absolute;
             top: 0;
             right: 0;
             width: 62%;
+
+            img {
+                width: 100%;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .espazum {
+        &-hero {
+            padding-top: 77px;
+
+            h1 {
+                text-align: center;
+                color: $white;
+            }
+
+            &-images {
+                &-desktop {
+                    display: none;
+                }
+
+                &-mobile {
+                    display: block;
+                }
+            }
+
+            &-blobs {
+                left: 0;
+                width: 100%;
+
+                img {
+                    width: 100%;
+                }
+            }
         }
     }
 }

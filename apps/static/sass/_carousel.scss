@@ -15,3 +15,9 @@
         }
     }
 }
+
+@media screen and (max-width: 768px) {
+    .espazum-carousel {
+        display: none;
+    }
+}

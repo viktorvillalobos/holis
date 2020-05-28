@@ -3,20 +3,34 @@
 
 {% block content %}
 <section class="espazum-hero">
-    <img class="espazum-hero-blobs" src="{% static 'images/header-blobs.svg' %}" />
+    <picture class="espazum-hero-blobs">
+        <source media="(max-width: 768px)" srcset="{% static 'images/mobile-header-blobs.svg' %}">
+        <source media="(min-width: 769px)" srcset="{% static 'images/header-blobs.svg' %}">
+        <img src="{% static 'images/mobile-header-blobs.svg' %}" />
+    </picture>
     <div class="container">
         <div class="columns is-vcentered">
             <div class="column">
                 <h1>Tu oficina ahora
                     puede estar
                     en cualquier lugar</h1>
+                <picture class="espazum-hero-images-mobile">
+                    <source media="(min-width: 600px)"
+                        srcset="{% static 'images/home/hero.svg' %}">
+
+                    <source media="(min-width: 600px)"
+                        srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg==">
+
+                    <img src="{% static 'images/home/hero.svg' %}"
+                        alt="Espazum Teams young adults">
+                </picture>
                 <div class="espazum-inner-button-field">
                     <input class="input" type="email" placeholder="mail@mail.com">
                     <button class="button is-primary">Get early access</button>
                 </div>
             </div>
             <div class="column is-8">
-                <div class="espazum-carousel-wrapper">
+                <div class="espazum-hero-images-desktop espazum-carousel-wrapper">
                     <div class="espazum-carousel">
                         <img class="espazum-carousel-img" src="{% static 'images/home/hero.svg' %}"
                             alt="Espazum Teams young adults" />
@@ -68,13 +82,16 @@
 
         <div class="espazum-exposed-wrapper">
             <img class="espazum-exposed-laptop" src="{% static 'images/laptop.svg'%}" alt="Espazum">
-            <img data-aos="zoom-in-up" class="espazum-exposed-notification" src="{% static 'images/home/notification.svg'%}" alt="Espazum">
-            <img data-aos="zoom-in-up" class="espazum-exposed-whos-talking" src="{% static 'images/home/whos_talkin.svg'%}" alt="Espazum">
+            <img data-aos="zoom-in-up" class="espazum-exposed-notification"
+                src="{% static 'images/home/notification.svg'%}" alt="Espazum">
+            <img data-aos="zoom-in-up" class="espazum-exposed-whos-talking"
+                src="{% static 'images/home/whos_talkin.svg'%}" alt="Espazum">
             <div data-aos="zoom-in-up" class="espazum-exposed-play-wrapper">
                 <img class="espazum-exposed-play-icon" src="{% static 'images/home/play.svg'%}" alt="Espazum">
                 <button class="espazum-exposed-play-button">Mira cómo funciona</button>
             </div>
-            <img data-aos="zoom-in-up" class="espazum-exposed-chat" src="{% static 'images/home/exposed_chat.svg'%}" alt="Espazum">
+            <img data-aos="zoom-in-up" class="espazum-exposed-chat" src="{% static 'images/home/exposed_chat.svg'%}"
+                alt="Espazum">
         </div>
     </div>
 </section>
@@ -99,9 +116,9 @@
 
 {% block javascript %}
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-  <script>
+<script>
     AOS.init();
-  </script>
+</script>
 
 <script>
     !(function (d) {

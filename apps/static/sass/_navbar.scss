@@ -31,3 +31,20 @@
         }
     }
 }
+
+@media screen and (max-width: 768px) {
+.espazum {
+    &-navbar {
+
+        &-links {
+            display: none;
+
+            &.active {
+                position: absolute;
+                display: block;
+            }
+        }
+
+    }
+}
+}
