@@ -8645,12 +8645,14 @@ footer {
     width: 350px;
     background-size: cover; }
 
+@media screen and (max-width: 768px) {
+  .border-right {
+    border-right: 0;
+    border-bottom: 1px solid #c4c4c4; } }
+
 @media screen and (max-width: 900px) {
   .container {
     padding: 0 15px; }
-  .border-right {
-    border-right: 0;
-    border-bottom: 1px solid #c4c4c4; }
   footer:before {
     top: -71px;
     width: 105px;

@@ -131,14 +131,16 @@ footer {
   }
 }
 
-@media screen and (max-width: 900px) {
-  .container {
-    padding: 0 15px;
-  }
-
+@media screen and (max-width: 768px) {
   .border-right {
     border-right: 0;
     border-bottom: 1px solid $lighter-gray;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .container {
+    padding: 0 15px;
   }
 
   footer {
@@ -158,7 +160,7 @@ footer {
     &-rrss {
       justify-content: center;
     }
-  
+
     &-credits {
       width: 100%;
       justify-content: center;

@@ -4,13 +4,13 @@
 {% block content %}
 <section class="espazum-hero">
     <picture class="espazum-hero-blobs">
-        <source media="(max-width: 768px)" srcset="{% static 'images/mobile-header-blobs.svg' %}">
-        <source media="(min-width: 769px)" srcset="{% static 'images/header-blobs.svg' %}">
+        <source media="(max-width: 900px)" srcset="{% static 'images/mobile-header-blobs.svg' %}">
+        <source media="(min-width: 901px)" srcset="{% static 'images/header-blobs.svg' %}">
         <img src="{% static 'images/mobile-header-blobs.svg' %}" />
     </picture>
     <div class="container">
         <div class="columns is-vcentered">
-            <div class="column">
+            <div class="column is-4-fullhd is-12-tablet">
                 <h1>{% trans 'CALL-TO-ACTION-HEADER' %} </h1>
                 <picture class="espazum-hero-images-mobile">
                     <source media="(min-width: 600px)"
@@ -27,7 +27,7 @@
                     <button class="button is-primary"> {% trans 'EARLY-ACCESS' %}</button>
                 </div>
             </div>
-            <div class="column is-8">
+            <div class="column is-8-fullhd is-12-tablet">
                 <div class="espazum-hero-images-desktop espazum-carousel-wrapper">
                     <div class="espazum-carousel">
                         <img class="espazum-carousel-img" src="{% static 'images/home/hero.svg' %}"
@@ -42,7 +42,7 @@
 <section class="espazum-exposed">
     <div class="container">
         <div class="columns is-centered">
-            <div class="column is-6 has-text-centered">
+            <div class="column is-6-fullhd is-10-tablet has-text-centered">
                 <h2>{% trans 'FEATURE-MAIN-TITLE' %}</h2>
                 {% trans 'FEATURE-MAIN-CONTENT' %}
             </div>
@@ -64,7 +64,7 @@
 <section class="expazum-features">
     <div class="container">
         <div class="columns is-centered">
-            <div class="column is-8">
+            <div class="column is-8-fullhd">
                 <div class="box">
                     <div class="columns">
                         <div class="column has-text-centered border-right">
@@ -92,10 +92,10 @@
 <section class="espazum-cta">
     <div class="container">
         <div class="columns is-centered is-vcentered">
-            <div class="column is-5">
+            <div class="column is-5-fullhd">
                 <h2>{% trans 'CALL-TO-ACTION-FOOTER' %}</h2>
             </div>
-            <div class="column is-5">
+            <div class="column is-5-fullhd">
                 <div class="espazum-inner-button-field">
                     <input class="input" type="email" placeholder="mail@mail.com">
                     <button class="button is-primary">{% trans 'EARLY-ACCESS' %}</button>
