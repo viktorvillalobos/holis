@@ -23,7 +23,7 @@
         </li>
         <li @click="emitDisconnect">
           <font-awesome-icon v-if="connected" icon="phone-slash" />
-          <font-awesome-icon v-else icon="phone-slash" disabled/>
+          <font-awesome-icon v-else icon="phone-slash" disabled color="grey"/>
         </li>
         <li>
           <font-awesome-icon icon="sliders-h" />

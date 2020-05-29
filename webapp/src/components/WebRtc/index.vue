@@ -83,7 +83,7 @@
         })
       },
       muteMicro (value) {
-        this.localStream.stream.getAudioTracks()[0].enabled = value
+        this.localStream.stream.getAudioTracks()[0].enabled = !value
       }
     },
     mounted() {
