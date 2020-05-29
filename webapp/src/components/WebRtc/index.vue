@@ -83,7 +83,7 @@
         })
       },
       muteMicro (value) {
-        this.localStream.stream.getAudioTracks()[0].enabled = !value
+        this.muteMyMicro(value)
       }
     },
     mounted() {
@@ -165,6 +165,9 @@
       };
     },
     methods: {
+      muteMyMicro (mute){
+        this.localStream.stream.getAudioTracks()[0].enabled = !mute
+      },
       join() {
          var that = this;
          this.$store.commit("setStatusConnecting")
