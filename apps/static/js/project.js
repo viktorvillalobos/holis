@@ -1,6 +1,6 @@
 /* Project specific Javascript goes here. */
 
-const BASE_URL = '/api/v1/';
+const BASE_URL = '/api/v1';
 async function getEarlyAccess(origin) {
     const form = document.getElementById(origin)
     const input = form.elements[0]
