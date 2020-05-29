@@ -23,6 +23,7 @@
         </li>
         <li @click="emitDisconnect">
           <font-awesome-icon v-if="connected" icon="phone-slash" />
+          <font-awesome-icon v-else icon="phone-slash" disabled/>
         </li>
         <li>
           <font-awesome-icon icon="sliders-h" />
@@ -119,14 +120,10 @@ export default {
       this.$store.commit("setMuteMicro")
     },
     emitDisconnect (){
-      let value = !this.connected
-      if (value) console.log("emitConnect")
-      else {
-        console.log("emmitDisconnected")
-        this.$socket.send(JSON.stringify({
-          type: "grid.clear"
-        }))
-      }
+      console.log("emmitDisconnected")
+      this.$socket.send(JSON.stringify({
+        type: "grid.clear"
+      }))
       this.$store.commit("disconnectByControl")
     },
     handleState(state) {
