@@ -8407,7 +8407,8 @@ h3 {
   font-weight: 500; }
 
 .espazum-inner-button-field {
-  position: relative; }
+  position: relative;
+  z-index: 4; }
   .espazum-inner-button-field .input {
     -webkit-box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.25);
             box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.25);
@@ -8423,12 +8424,26 @@ h3 {
     border-bottom-left-radius: 0;
     height: 45px; }
 
+@-webkit-keyframes navbarentrance {
+  from {
+    margin-top: -100px; }
+  to {
+    margin-top: 0; } }
+
+@keyframes navbarentrance {
+  from {
+    margin-top: -100px; }
+  to {
+    margin-top: 0; } }
+
 .espazum-navbar {
   position: absolute;
   top: 20px;
   left: 0;
   right: 0;
-  z-index: 999; }
+  z-index: 999;
+  -webkit-transition: all 0.5s ease;
+  transition: all 0.5s ease; }
   .espazum-navbar .container {
     display: -webkit-box;
     display: -ms-flexbox;
@@ -8440,6 +8455,10 @@ h3 {
         -ms-flex-pack: justify;
             justify-content: space-between;
     width: 100%; }
+  .espazum-navbar-logo--color {
+    display: block; }
+  .espazum-navbar-logo--white {
+    display: none; }
   .espazum-navbar-links {
     display: -webkit-inline-box;
     display: -ms-inline-flexbox;
@@ -8454,13 +8473,47 @@ h3 {
         font-weight: 500; }
         .espazum-navbar-links li a.button {
           color: #5d6de8; }
+  .espazum-navbar.scrolled {
+    position: fixed;
+    top: 0;
+    -webkit-animation-name: navbarentrance;
+            animation-name: navbarentrance;
+    -webkit-animation-duration: 0.5s;
+            animation-duration: 0.5s; }
+    .espazum-navbar.scrolled .container {
+      background: linear-gradient(91deg, #6469e6 2.75%, #536fe8 98.88%);
+      -webkit-box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.25);
+              box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.25);
+      border-radius: 0px 0px 15px 15px;
+      padding: 10px 15px; }
+    .espazum-navbar.scrolled .espazum-navbar-logo--color {
+      display: none; }
+    .espazum-navbar.scrolled .espazum-navbar-logo--white {
+      display: block; }
 
 @media screen and (max-width: 768px) {
-  .espazum-navbar-links {
-    display: none; }
-    .espazum-navbar-links.active {
-      position: absolute;
-      display: block; } }
+  .espazum-navbar {
+    position: fixed;
+    top: 0;
+    -webkit-animation-name: navbarentrance;
+            animation-name: navbarentrance;
+    -webkit-animation-duration: 0.5s;
+            animation-duration: 0.5s; }
+    .espazum-navbar .container {
+      background: linear-gradient(91deg, #6469e6 2.75%, #536fe8 98.88%);
+      -webkit-box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.25);
+              box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.25);
+      border-radius: 0px 0px 15px 15px;
+      padding: 10px 15px; }
+    .espazum-navbar .espazum-navbar-logo--color {
+      display: none; }
+    .espazum-navbar .espazum-navbar-logo--white {
+      display: block; }
+    .espazum-navbar-links {
+      display: none; }
+      .espazum-navbar-links.active {
+        position: absolute;
+        display: block; } }
 
 .espazum-hero {
   position: relative;
@@ -8589,8 +8642,10 @@ h3 {
 .border-right {
   border-right: 1px solid #c4c4c4; }
 
-.espazum-features .box {
-  padding: 32px !important; }
+.espazum-features {
+  margin-top: 150px; }
+  .espazum-features .box {
+    padding: 32px !important; }
 
 .espazum-cta {
   margin-top: 150px;
@@ -8669,3 +8724,36 @@ footer {
     -webkit-box-pack: center;
         -ms-flex-pack: center;
             justify-content: center; } }
+
+.espazum-form-message {
+  opacity: 0;
+  position: relative;
+  top: 70px;
+  height: 90px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: flex-end;
+  border-radius: 15px;
+  width: 100%;
+  padding: 15px;
+  background-color: #5d6de8;
+  padding-bottom: 0;
+  -webkit-transition: all ease .25s;
+  transition: all ease .25s;
+  z-index: 1; }
+  .espazum-form-message.active {
+    opacity: 1; }
+  .espazum-form-message-msg {
+    font-size: 9.6px;
+    font-size: .8rem;
+    color: #fff;
+    padding-bottom: 15px; }
+    .espazum-form-message-msg h4 {
+      font-size: 13.2px;
+      font-size: 1.1rem;
+      font-weight: 500; }

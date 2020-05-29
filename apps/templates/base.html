@@ -36,22 +36,23 @@
 
   <nav class="espazum-navbar">
     <div class="container">
-      <div class="espazum-nav-logo">
-        <img src="{% static 'images/Holis.svg' %}" alt="Holis">
+      <div class="espazum-navbar-logo">
+        <img class="espazum-navbar-logo--color" src="{% static 'images/Holis.svg' %}" alt="Holis">
+        <img class="espazum-navbar-logo--white" src="{% static 'images/HolisBlanco.svg' %}" alt="Holis" />
       </div>
-      
+
       <ul class="espazum-navbar-links">
         <li>
           <a href="/">Home</a>
         </li>
         <li>
-            <a href="/">{% trans 'About' %}</a>
+          <a href="/">{% trans 'About' %}</a>
         </li>
         <li>
-            <a href="/">{% trans 'Blog' %}</a>
+          <a href="/">{% trans 'Blog' %}</a>
         </li>
         <li>
-            <a class="button" href="/">{% trans 'EARLY-ACCESS' %}</a>
+          <a class="button" href="/">{% trans 'EARLY-ACCESS' %}</a>
         </li>
       </ul>
     </div>
@@ -73,7 +74,7 @@
         <div class="column is-2">
           <b>Company</b>
           <ul>
-              <li><a href="#">{% trans 'Home' %}</a></li>
+            <li><a href="#">{% trans 'Home' %}</a></li>
             <li><a href="#">{% trans 'About' %}</a></li>
             <li><a href="#">{% trans 'Blog' %}</a></li>
           </ul>
@@ -81,12 +82,13 @@
         <div class="column is-2">
           <b>Legal</b>
           <ul>
-              <li><a href="#">{% trans 'Terms and Conditions' %}</a></li>
-              <li><a href="#">{% trans 'Privacy Policy' %}</a></li>
+            <li><a href="#">{% trans 'Terms and Conditions' %}</a></li>
+            <li><a href="#">{% trans 'Privacy Policy' %}</a></li>
           </ul>
         </div>
         <div class="column is-8 has-text-right">
-            <p class="espazum-credits">{% trans 'All rights reserved' %} <img src="{% static 'images/HolisBlanco.svg' %}" alt="Holis"></p>
+          <p class="espazum-credits">{% trans 'All rights reserved' %} <img src="{% static 'images/HolisBlanco.svg' %}"
+              alt="Holis"></p>
           <ul class="espazum-rrss">
             <li><a href="https://instagram.com/holischat"><i class="fab fa-3x fa-instagram"></i></a></li>
             <li><a href="https://www.facebook.com/holischat"><i class="fab fa-3x fa-facebook"></i></a></li>
@@ -102,14 +104,12 @@
   <!-- Le javascript
     ================================================== -->
   <!-- Placed at the end of the document so the pages load faster -->
-  {% block javascript %}
-  <!-- Your stuff: Third-party javascript libraries go here -->
-  
-  <!-- place project specific Javascript in this file -->
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   {% compress js %}
   <script src="{% static 'js/project.js' %}"></script>
   {% endcompress %}
-
+  {% block javascript %}
+  <!-- Your stuff: Third-party javascript libraries go here -->
   {% endblock javascript %}
 </body>
 

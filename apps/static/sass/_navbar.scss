@@ -1,3 +1,12 @@
+@keyframes navbarentrance {
+    from {
+        margin-top: -100px;
+    }
+    to {
+        margin-top: 0;
+    }
+}
+
 .espazum {
     &-navbar {
         position: absolute;
@@ -5,11 +14,21 @@
         left: 0;
         right: 0;
         z-index: 999;
+        transition: all 0.5s ease;
         .container {
             display: flex;
             align-items: center;
             justify-content: space-between;
             width: 100%;
+        }
+
+        &-logo {
+            &--color {
+                display: block;
+            }
+            &--white {
+                display: none;
+            }
         }
 
         &-links {
@@ -29,22 +48,61 @@
                 }
             }
         }
+
+        &.scrolled {
+            position: fixed;
+            top: 0;
+            animation-name: navbarentrance;
+            animation-duration: 0.5s;
+            .container {
+                background: linear-gradient(91deg, #6469e6 2.75%, #536fe8 98.88%);
+                box-shadow: $box-shadow;
+                border-radius: 0px 0px 15px 15px;
+                padding: 10px 15px;
+            }
+
+            .espazum-navbar-logo {
+                &--color {
+                    display: none;
+                }
+                &--white {
+                    display: block;
+                }
+            }
+        }
     }
 }
 
 @media screen and (max-width: 768px) {
-.espazum {
-    &-navbar {
+    .espazum {
+        &-navbar {
+            position: fixed;
+            top: 0;
+            animation-name: navbarentrance;
+            animation-duration: 0.5s;
+            .container {
+                background: linear-gradient(91deg, #6469e6 2.75%, #536fe8 98.88%);
+                box-shadow: $box-shadow;
+                border-radius: 0px 0px 15px 15px;
+                padding: 10px 15px;
+            }
 
-        &-links {
-            display: none;
+            .espazum-navbar-logo {
+                &--color {
+                    display: none;
+                }
+                &--white {
+                    display: block;
+                }
+            }
+            &-links {
+                display: none;
 
-            &.active {
-                position: absolute;
-                display: block;
+                &.active {
+                    position: absolute;
+                    display: block;
+                }
             }
         }
-
     }
-}
 }

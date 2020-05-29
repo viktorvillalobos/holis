@@ -10,24 +10,38 @@
     </picture>
     <div class="container">
         <div class="columns is-vcentered">
-            <div class="column is-4-fullhd is-12-tablet">
+            <div class="column is-4-fullhd is-4-desktop is-12-tablet">
                 <h1>{% trans 'CALL-TO-ACTION-HEADER' %} </h1>
                 <picture class="espazum-hero-images-mobile">
-                    <source media="(min-width: 600px)"
-                        srcset="{% static 'images/home/hero.svg' %}">
+                    <source media="(min-width: 600px)" srcset="{% static 'images/home/hero.svg' %}">
 
                     <source media="(min-width: 600px)"
                         srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg==">
 
-                    <img src="{% static 'images/home/hero.svg' %}"
-                        alt="Espazum Teams young adults">
+                    <img src="{% static 'images/home/hero.svg' %}" alt="Espazum Teams young adults">
                 </picture>
-                <div class="espazum-inner-button-field">
-                    <input class="input" type="email" placeholder="mail@mail.com">
-                    <button class="button is-primary"> {% trans 'EARLY-ACCESS' %}</button>
-                </div>
+                <form id="header-get-early-access">
+                    <div class="espazum-inner-button-field">
+                        <input class="input" type="email" placeholder="mail@mail.com">
+                        <button onclick="getEarlyAccess('header-get-early-access')" type="button"
+                            class="button is-primary"> {% trans 'EARLY-ACCESS' %}</button>
+                    </div>
+                    <div class="espazum-form-message">
+                        <div>
+                            <script
+                                src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+                            <lottie-player src="https://assets5.lottiefiles.com/packages/lf20_NcXIOl.json"
+                                background="transparent" speed="1" style="width: 200px; height: 200px;" loop autoplay>
+                            </lottie-player>
+                        </div>
+                        <div class="espazum-form-message-msg">
+                            <h4>¡Yaaaay!</h4>
+                            Ya eres parte de nuestra lista
+                        </div>
+                    </div>
+                </form>
             </div>
-            <div class="column is-8-fullhd is-12-tablet">
+            <div class="column is-8-fullhd is-8-desktop is-12-tablet">
                 <div class="espazum-hero-images-desktop espazum-carousel-wrapper">
                     <div class="espazum-carousel">
                         <img class="espazum-carousel-img" src="{% static 'images/home/hero.svg' %}"
@@ -50,18 +64,21 @@
 
         <div class="espazum-exposed-wrapper">
             <img class="espazum-exposed-laptop" src="{% static 'images/laptop.svg'%}" alt="Holis">
-            <img data-aos="zoom-in-up" class="espazum-exposed-notification" src="{% static 'images/home/notification.svg'%}" alt="Holis">
-            <img data-aos="zoom-in-up" class="espazum-exposed-whos-talking" src="{% static 'images/home/whos_talkin.svg'%}" alt="Holis">
+            <img data-aos="zoom-in-up" class="espazum-exposed-notification"
+                src="{% static 'images/home/notification.svg'%}" alt="Holis">
+            <img data-aos="zoom-in-up" class="espazum-exposed-whos-talking"
+                src="{% static 'images/home/whos_talkin.svg'%}" alt="Holis">
             <div data-aos="zoom-in-up" class="espazum-exposed-play-wrapper">
                 <img class="espazum-exposed-play-icon" src="{% static 'images/home/play.svg'%}" alt="Holis">
                 <button class="espazum-exposed-play-button">{% trans 'Look how it works' %}</button>
             </div>
-            <img data-aos="zoom-in-up" class="espazum-exposed-chat" src="{% static 'images/home/exposed_chat.svg'%}" alt="Holis">
+            <img data-aos="zoom-in-up" class="espazum-exposed-chat" src="{% static 'images/home/exposed_chat.svg'%}"
+                alt="Holis">
         </div>
     </div>
 </section>
 
-<section class="expazum-features">
+<section class="espazum-features">
     <div class="container">
         <div class="columns is-centered">
             <div class="column is-8-fullhd">
@@ -96,10 +113,24 @@
                 <h2>{% trans 'CALL-TO-ACTION-FOOTER' %}</h2>
             </div>
             <div class="column is-5-fullhd">
-                <div class="espazum-inner-button-field">
-                    <input class="input" type="email" placeholder="mail@mail.com">
-                    <button class="button is-primary">{% trans 'EARLY-ACCESS' %}</button>
-                </div>
+                <form id="cta-get-early-access">
+                    <div class="espazum-inner-button-field">
+                        <input class="input" type="email" placeholder="mail@mail.com">
+                        <button onclick="getEarlyAccess('cta-get-early-access')" type="button"
+                            class="button is-primary"> {% trans 'EARLY-ACCESS' %}</button>
+                    </div>
+                    <div class="espazum-form-message">
+                        <div>
+                            <lottie-player src="https://assets5.lottiefiles.com/packages/lf20_NcXIOl.json"
+                                background="transparent" speed="1" style="width: 200px; height: 200px;" loop autoplay>
+                            </lottie-player>
+                        </div>
+                        <div class="espazum-form-message-msg">
+                            <h4>¡Yaaaay!</h4>
+                            Ya eres parte de nuestra lista
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -108,6 +139,8 @@
 {% endblock %}
 
 {% block javascript %}
+<script>
+</script>
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script>
     AOS.init();

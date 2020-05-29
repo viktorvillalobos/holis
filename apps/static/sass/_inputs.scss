@@ -1,6 +1,7 @@
 .espazum {
     &-inner-button-field {
         position: relative;
+        z-index: 4;
 
         .input {
             box-shadow: $box-shadow;
