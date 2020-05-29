@@ -22,8 +22,7 @@
           <font-awesome-icon v-else icon="microphone-alt-slash" />
         </li>
         <li @click="emitDisconnect">
-          <font-awesome-icon v-if="connected" icon="phone" />
-          <font-awesome-icon v-else icon="phone-slash" />
+          <font-awesome-icon v-if="connected" icon="phone-slash" />
         </li>
         <li>
           <font-awesome-icon icon="sliders-h" />
@@ -128,7 +127,7 @@ export default {
           type: "grid.clear"
         }))
       }
-      this.$store.commit("setConnected", value)
+      this.$store.commit("disconnectByControl")
     },
     handleState(state) {
       this.userState = state;

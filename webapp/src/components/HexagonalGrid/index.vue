@@ -83,7 +83,8 @@ export default {
       deleteFromState: state => state.areas.deleteFromState,
       currentArea: state => state.areas.currentArea,
       user: state => state.app.user,
-      connected: state => state.webrtc.connected
+      connected: state => state.webrtc.connected,
+      disconnectByControl: state => state.webrtc.disconnectByControl,
     }),
   },
   methods: {
@@ -231,7 +232,7 @@ export default {
   },
   watch: {
     connected (value) {
-      if (!value) this.localUserHex.clear()
+      if (!value && this.disconnectByControl) this.localUserHex.clear()
     },
     size () {
       this.rectangle = this.getRectangle()
