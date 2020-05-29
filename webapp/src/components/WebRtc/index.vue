@@ -4,27 +4,27 @@
           v-bind:video="item"
           v-bind:key="item.id"
           class="video-item">
-        <video controls autoplay playsinline ref="videos" :height="cameraHeight" :muted="item.muted" :id="item.id"></video>
+        <video 
+              controls 
+              autoplay 
+              playsinline 
+              ref="videos" 
+              :height="cameraHeight" 
+              :muted="item.muted" 
+              :id="item.id"/>
       </div>
   </div>
 </template>
 
 <script>
-  import RTCMultiConnection from 'rtcmulticonnection';
+  import RTCMultiConnection from 'rtcmulticonnection'
+  import { mapState } from 'vuex'
   require('adapterjs');
   export default {
     name: 'vue-webrtc',
     components: {
       /* eslint-disable-next-line */
       RTCMultiConnection
-    },
-    data() {
-      return {
-        rtcmConnection: null,
-        localVideo: null,
-        videoList: [],
-        canvas: null,
-      };
     },
     props: {
       roomId: {
@@ -60,7 +60,31 @@
         default: true
       },
     },
+    data() {
+      return {
+        rtcmConnection: null,
+        localVideo: null,
+        videoList: [],
+        canvas: null,
+        streams: [],
+        localStream: null
+      };
+    },
+    computed: {
+      ...mapState({
+        muteAudio: state => state.webrtc.muteAudio,
+        muteMicro: state => state.webrtc.muteMicro
+      })
+    },
     watch: {
+      muteAudio (value) {
+        this.videoList.forEach(video => {
+          if (video !== this.localVideo) video.muted = value
+        })
+      },
+      muteMicro (value) {
+        this.localStream.stream.getAudioTracks()[0].enabled = value
+      }
     },
     mounted() {
       var that = this;
@@ -95,16 +119,28 @@
         let found = that.videoList.find(video => {
           return video.id === stream.streamid
         })
+
         if (found === undefined) {
+          let muted = false
+
+          if (that.muteAudio) muted = true
+          else muted = stream.type === 'local'
+
+
           let video = {
             id: stream.streamid,
-            muted: stream.type === 'local'
-          };
-          that.videoList.push(video);
+            muted: muted
+          }
+
           if (stream.type === 'local') {
             that.localVideo = video;
+            that.localStream = stream;
           }
+          // This need to be unificated
+          that.videoList.push(video)
+          that.streams.push(stream)
         }
+
         setTimeout(function(){ 
           for (var i = 0, len = that.$refs.videos.length; i < len; i++) {
             if (that.$refs.videos[i].id === stream.streamid)

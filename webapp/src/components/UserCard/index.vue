@@ -9,10 +9,10 @@
         </div>
       </div>
       <ul class="connect-user-card-options">
-        <li @click="emitVideo">
+<!--        <li @click="emitVideo">
           <font-awesome-icon v-if="enableVideo" icon="video" />
           <font-awesome-icon v-else icon="video-slash" />
-        </li>
+      </li> -->
         <li @click="emitSound">
           <font-awesome-icon v-if="!muteAudio" icon="volume-up" />
           <font-awesome-icon v-else icon="volume-mute" />
@@ -20,6 +20,10 @@
         <li @click="emitMicro">
           <font-awesome-icon v-if="!muteMicro" icon="microphone-alt" />
           <font-awesome-icon v-else icon="microphone-alt-slash" />
+        </li>
+        <li @click="emitDisconnect">
+          <font-awesome-icon v-if="connected" icon="phone" />
+          <font-awesome-icon v-else icon="phone-slash" />
         </li>
         <li>
           <font-awesome-icon icon="sliders-h" />
@@ -95,7 +99,8 @@ export default {
     ...mapState({
       muteAudio: state => state.webrtc.muteAudio,
       muteMicro: state => state.webrtc.muteMicro,
-      enableVideo: state => state.webrtc.enableVideo
+      enableVideo: state => state.webrtc.enableVideo,
+      connected: state => state.webrtc.connected
     })
   },
   created() {
@@ -104,12 +109,21 @@ export default {
   methods: {
     emitSound() {
       this.$emit("sound");
+      this.$store.commit("setMuteAudio")
     },
     emitVideo() {
       this.$store.dispatch("changeToVideo")
     },
     emitMicro() {
+      console.log("emitMicro")
       this.$emit("micro");
+      this.$store.commit("setMuteMicro")
+    },
+    emitDisconnect (){
+      let value = !this.connected
+      if (value) console.log("emitConnect")
+      else console.log("emmitDisconnected")
+      this.$store.commit("setConnected", value)
     },
     handleState(state) {
       this.userState = state;

@@ -21,11 +21,11 @@ const mutations = {
   setEnableVideo(state) {
     state.enableVideo = !state.enableVideo
   },
-  setMuteAudio(state, enable) {
-    state.muteAudio = enable
+  setMuteAudio(state) {
+    state.muteAudio = !state.muteAudio 
   },
-  setMuteMicro(state, enable) {
-    state.muteMicro = enable
+  setMuteMicro(state) {
+    state.muteMicro = !state.muteMicro
   },
   setStatusConnecting(state) {
     state.status = 'connecting'
