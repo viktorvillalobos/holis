@@ -122,7 +122,12 @@ export default {
     emitDisconnect (){
       let value = !this.connected
       if (value) console.log("emitConnect")
-      else console.log("emmitDisconnected")
+      else {
+        console.log("emmitDisconnected")
+        this.$socket.send(JSON.stringify({
+          type: "grid.clear"
+        }))
+      }
       this.$store.commit("setConnected", value)
     },
     handleState(state) {

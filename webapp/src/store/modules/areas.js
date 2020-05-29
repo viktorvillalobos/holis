@@ -5,6 +5,7 @@ const state = {
   list: [],
   changeState: null, // Message of a state change
   deleteFromState: null,  // Message of disconnect user, we need to delete from grid
+  currentUserHex: null
 }
 
 const getters = {
@@ -22,6 +23,12 @@ const getters = {
 }
 
 const mutations = {
+  setCurrentUserHex (state, hex) {
+    state.currentUserHex = hex
+  },
+  clearCurrentUserHex (state) {
+    state.currentUserHex.clear()
+  },
   setCurrent(state) {
     // TODO: Selectable area
     if (state.list) {

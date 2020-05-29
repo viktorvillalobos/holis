@@ -46,13 +46,13 @@ export default {
       draw: null,
       Grid: null,
       hex: null,
-      selectedHex: null,
       hexOver: null,
       hexTop: null,
       hexLeft: null,
       isFirefox: false,
       overOrigin: 'bottom',
-      room: null
+      room: null,
+      localUserHex: null
     }
   },
   async mounted () {
@@ -82,7 +82,8 @@ export default {
       changeState: state => state.areas.changeState,
       deleteFromState: state => state.areas.deleteFromState,
       currentArea: state => state.areas.currentArea,
-      user: state => state.app.user
+      user: state => state.app.user,
+      connected: state => state.webrtc.connected
     }),
   },
   methods: {
@@ -113,6 +114,8 @@ export default {
 
         if (isLocalUser) {
           // Solo si es el usuario actual
+          this.localUserHex = selectedHex
+          this.$store.commit('setCurrentUserHex')
           if (neighbors.length) {
             this.room = neighbors[0].user.room
             console.log(`Connectiong to ${this.room} channel`)
@@ -227,6 +230,9 @@ export default {
     }
   },
   watch: {
+    connected (value) {
+      if (!value) this.localUserHex.clear()
+    },
     size () {
       this.rectangle = this.getRectangle()
     },
