@@ -5,12 +5,18 @@ const state = {
   enableVideo: false, /// Activate video in the current call
   muteAudio: false,   // mute my audio in the current call
   muteMicro: false,    // mute my micro in the current call
-  status: 'disconnected'
+  status: 'disconnected',
+  disconnectByControl: false
 }
 
 const mutations = {
   setConnected(state, enable) {
     state.connected = enable
+    state.disconnectByControl = false
+  },
+  disconnectByControl(state) {
+    state.connected = false
+    state.disconnectByControl = true
   },
   setRoom(state, room) {
     state.room = room
@@ -21,11 +27,11 @@ const mutations = {
   setEnableVideo(state) {
     state.enableVideo = !state.enableVideo
   },
-  setMuteAudio(state, enable) {
-    state.muteAudio = enable
+  setMuteAudio(state) {
+    state.muteAudio = !state.muteAudio 
   },
-  setMuteMicro(state, enable) {
-    state.muteMicro = enable
+  setMuteMicro(state) {
+    state.muteMicro = !state.muteMicro
   },
   setStatusConnecting(state) {
     state.status = 'connecting'

@@ -67,6 +67,9 @@ class MainConsumer(NotificationMixin, GridMixin, MainConsumerBase):
         elif _type == "grid.position":
             logger.info("handling grid position")
             await self.handle_grid_position(content)
+        elif _type == "grid.clear":
+            logger.info("handling grid clear position")
+            await self.handle_clear_user_position()
         else:
             _msg = _("type not handled")
             return await self.send_json({"error": _msg})
@@ -78,7 +81,8 @@ class MainConsumer(NotificationMixin, GridMixin, MainConsumerBase):
         await self.send_me_data()
 
     async def disconnect(self, close_code):
+        await self.handle_clear_user_position()
+
         for group in self.groups:
             await self.channel_layer.group_discard(group, self.channel_name)
 
-        await self.handle_clear_user_position()
