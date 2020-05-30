@@ -393,7 +393,7 @@ msgstr ""
 
 #: apps/templates/pages/home.html:10
 msgid "CALL-TO-ACTION-HEADER"
-msgstr "Do you need effective communication just like in the office?"
+msgstr "Your office can be anywhere"
 
 #: apps/templates/pages/home.html:36
 msgid "FEATURE-1-TITLE"
@@ -409,7 +409,7 @@ msgstr "Text chat"
 
 #: apps/templates/pages/home.html:42
 msgid "FEATURE-2-CONTENT"
-msgstr "Is the person you want to communicate with busy?, leave him a message"
+msgstr "Is the person you want to communicate with busy?, leave a message"
 
 #: apps/templates/pages/home.html:46
 msgid "FEATURE-3-TITLE"
@@ -418,18 +418,18 @@ msgstr "Analytics"
 #: apps/templates/pages/home.html:47
 msgid "FEATURE-3-CONTENT"
 msgstr ""
-"Because in the information age if we did not have channels we were not at all"
+"Those are really cool, aren't they?"
 
 #: apps/templates/pages/home.html:60
 msgid "FEATURE-MAIN-TITLE"
-msgstr "Your team reach a click"
+msgstr "Your team just a click away"
 
 #: apps/templates/pages/home.html:61
 msgid "FEATURE-MAIN-CONTENT"
 msgstr ""
-"With Holis, clicking on the grid is enough to start a voice channel with "
-"your colleagues, solve doubts efficiently, casual jokes and the background "
-"noise of others working."
+"Clicking on the grid is enough to start a voice channel with "
+"your colleagues, get your doubts solved efficiently, funny conversations and the background "
+"noise of them working."
 
 #: apps/templates/pages/home.html:71
 msgid "Look how it works"
@@ -437,7 +437,7 @@ msgstr "Look how it works"
 
 #: apps/templates/pages/home.html:82
 msgid "CALL-TO-ACTION-FOOTER"
-msgstr "Are you ready to go back to your office?"
+msgstr "Are you ready to start this new experience?"
 
 #: apps/users/apps.py:7
 msgid "Users"

@@ -8760,7 +8760,9 @@ footer {
     width: 100%;
     -webkit-box-pack: center;
         -ms-flex-pack: center;
-            justify-content: center; } }
+            justify-content: center; }
+  .espazum-cta h2 {
+    text-align: center; } }
 
 .espazum-form-message {
   opacity: 0;
@@ -8780,14 +8782,14 @@ footer {
   padding: 15px;
   background-color: #5d6de8;
   padding-bottom: 0;
-  -webkit-transition: all ease .25s;
-  transition: all ease .25s;
+  -webkit-transition: all ease 0.25s;
+  transition: all ease 0.25s;
   z-index: 1; }
   .espazum-form-message.active {
     opacity: 1; }
   .espazum-form-message-msg {
     font-size: 9.6px;
-    font-size: .8rem;
+    font-size: 0.8rem;
     color: #fff;
     padding-bottom: 15px; }
     .espazum-form-message-msg h4 {
