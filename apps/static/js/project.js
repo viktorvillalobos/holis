@@ -1,6 +1,8 @@
 /* Project specific Javascript goes here. */
 
+// early access
 const BASE_URL = '/api/v1';
+const menu = document.getElementsByClassName('espazum-navbar-links')[0]
 async function getEarlyAccess(origin) {
     const form = document.getElementById(origin)
     const input = form.elements[0]
@@ -28,6 +30,12 @@ async function getEarlyAccess(origin) {
     }
 };
 
+// Navbar menu
+function handleNavMenu() {
+    console.log('hola')
+    menu.classList.toggle('active')
+}
+
 !(function (d) {
     // Handle Navbar
     const navbar = d.getElementsByClassName('espazum-navbar')[0]
@@ -38,5 +46,4 @@ async function getEarlyAccess(origin) {
             navbar.classList.remove('scrolled')
         }
     })
-    // Get early access form
 }(document));

@@ -36,9 +36,12 @@
 
   <nav class="espazum-navbar">
     <div class="container">
-      <div class="espazum-navbar-logo">
-        <img class="espazum-navbar-logo--color" src="{% static 'images/Holis.svg' %}" alt="Holis">
-        <img class="espazum-navbar-logo--white" src="{% static 'images/HolisBlanco.svg' %}" alt="Holis" />
+      <div class="espazum-navbar-mobile-container">
+        <div class="espazum-navbar-logo">
+          <img class="espazum-navbar-logo--color" src="{% static 'images/Holis.svg' %}" alt="Holis">
+          <img class="espazum-navbar-logo--white" src="{% static 'images/HolisBlanco.svg' %}" alt="Holis" />
+        </div>
+        <i onclick="handleNavMenu()" id="menu-btn" class="fas fa-bars"></i>
       </div>
 
       <ul class="espazum-navbar-links">
