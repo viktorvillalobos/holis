@@ -218,3 +218,6 @@ WEBPACK_LOADER = {
         "STATS_FILE": str(ROOT_DIR / "webapp/webpack-stats-prod.json"),
     }
 }
+
+
+EMAIL_RELAY_TOKEN = env("EMAIL_RELAY_TOKEN")
