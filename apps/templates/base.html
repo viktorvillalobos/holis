@@ -111,6 +111,17 @@
   {% compress js %}
   <script src="{% static 'js/project.js' %}"></script>
   <script type="text/javascript">window.$crisp=[];window.CRISP_WEBSITE_ID="763fd9e7-0e17-4e9b-b4f0-37b2cda5fbc8";(function(){d=document;s=d.createElement("script");s.src="https://client.crisp.chat/l.js";s.async=1;d.getElementsByTagName("head")[0].appendChild(s);})();</script>
+
+      <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-168038724-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-168038724-1');
+    </script>
+
   {% endcompress %}
   {% block javascript %}
   <!-- Your stuff: Third-party javascript libraries go here -->
