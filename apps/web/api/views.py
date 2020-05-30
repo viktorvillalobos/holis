@@ -41,8 +41,6 @@ class GetEarlyAccessAPIView(APIView):
         email = self.serializer.validated_data["email"]
         origin = self.serializer.validated_data["origin"]
 
-        logger.info(f"Sending early access email lead: {email} from {origin}")
-
         content = f"""
             email: {email}
             origin: {origin}
@@ -56,6 +54,10 @@ class GetEarlyAccessAPIView(APIView):
                 ["sales@holis.chat"],
                 fail_silently=False,
             )
+            logger.info(
+                f"Sending early access email lead: {email} from {origin}"
+            )
             return email, True
         except Exception:
+            logger.info(f"failed to send email early {email} from {origin}")
             return email, False
