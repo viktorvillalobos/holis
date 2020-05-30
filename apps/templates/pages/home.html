@@ -23,6 +23,7 @@
                 <form id="header-get-early-access">
                     <div class="espazum-inner-button-field">
                         <input class="input" type="email" placeholder="mail@mail.com">
+                        {% csrf_token %}
                         <button onclick="getEarlyAccess('header-get-early-access')" type="button"
                             class="button is-primary"> {% trans 'EARLY-ACCESS' %}</button>
                     </div>
