@@ -3,12 +3,19 @@
 // early access
 const BASE_URL = '/api/v1';
 const menu = document.getElementsByClassName('espazum-navbar-links')[0]
+const token = document.getElementsByName('csrfmiddlewaretoken')[0].value
+
 async function getEarlyAccess(origin) {
     const form = document.getElementById(origin)
     const input = form.elements[0]
     const email = input.value
     const btn = form.elements[1]
     const success = form.children[1]
+    const config = {
+      headers: {
+        'X-CSRFToken': token
+      }
+    }
     const payload = {
         email: email,
         origin: origin
@@ -16,7 +23,7 @@ async function getEarlyAccess(origin) {
 
     try {
         btn.classList.add('is-loading')
-        const res = await axios.post(`${BASE_URL}/web/get-early-access/`, payload);
+        const res = await axios.post(`${BASE_URL}/web/get-early-access/`, payload, config);
         btn.classList.remove('is-loading')
         form.reset()
         success.classList.add('active')
