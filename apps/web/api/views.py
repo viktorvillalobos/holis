@@ -27,7 +27,7 @@ class GetEarlyAccessAPIView(APIView):
         )
 
     def to_email_relay(self, email):
-        if settings.DEBUG or settings.EMAIL_RELAY_TOKEN:
+        if settings.DEBUG or not settings.EMAIL_RELAY_TOKEN:
             return
 
         URL = f"https://holis.ipzmarketing.com/api/v1/subscribers"

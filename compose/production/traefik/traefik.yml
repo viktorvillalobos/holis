@@ -46,6 +46,7 @@ http:
         - web-secure
       middlewares:
         - csrf
+        - test-compress
       service: django
       tls:
         # https://docs.traefik.io/master/routing/routers/#certresolver
@@ -70,6 +71,9 @@ http:
         certResolver: letsencrypt
 
   middlewares:
+    test-compress:
+      compress: {}
+
     redirect:
       # https://docs.traefik.io/master/middlewares/redirectscheme/
       redirectScheme:
