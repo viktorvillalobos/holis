@@ -1,9 +1,11 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import AppContainer from '@/components/AppContainer.vue'
+import Workspace from '@/components/Auth/Workspace.vue'
+import SignIn from '@/components/Auth/SignIn.vue'
 import Office from '@/views/office.vue'
 import Reports from '@/views/reports.vue'
-import Login from '@/views/login.vue'
+import Auth from '@/views/auth.vue'
 
 Vue.use(Router)
 
@@ -29,9 +31,21 @@ const router = new Router({
       ]
     },
     {
-      path: '/login',
+      path: '/auth/',
       name: '',
-      component: Login
+      component: Auth,
+      children: [
+        {
+          path: '',
+          name: 'workspace',
+          component: Workspace
+        },
+        {
+          path: ':workspaceName',
+          name: 'sign-in',
+          component: SignIn
+        }
+      ]
     }
   ]
 })
