@@ -7,7 +7,13 @@
         <label class="label">Nombre de tu espacio de trabajo</label>
       </div>
       <p class="control">
-        <input @input="error = null" v-model="workspaceName" class="input" type="text" placeholder="aguacate-inc" />
+        <input
+          @input="error = null"
+          v-model="workspaceName"
+          class="input"
+          type="text"
+          placeholder="aguacate-inc"
+        />
       </p>
     </div>
     <div v-if="error" class="notification is-danger">
@@ -34,6 +40,9 @@ export default {
     };
   },
   methods: {
+    handleCreate() {
+      this.$router.push({ name: "create-workspace" });
+    },
     handleContinue() {
       if (this.workspaceName) {
         this.$router.push({

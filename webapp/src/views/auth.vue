@@ -39,6 +39,13 @@ export default {
     .field-label {
       text-align: left;
     }
+    .file-label {
+      width: 100%;
+
+      .file-name {
+        max-width: none;
+      }
+    }
 
     .field:not(:last-child) {
       margin-bottom: 24px;
@@ -68,6 +75,44 @@ export default {
 
     & > * {
       margin-left: 16px;
+    }
+  }
+}
+
+.onboarding {
+  &-stepper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    span {
+      vertical-align: middle;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      border-radius: 50%;
+      color: #fff;
+      width: 39px;
+      height: 39px;
+      font-size: 24px;
+      margin-right: 16px;
+      background: #bdbdbd;
+    }
+
+    li {
+      display: flex;
+      align-items: center;
+
+      &.active {
+        font-size: 24px;
+        font-weight: 500;
+        span {
+          width: 59px;
+          height: 59px;
+          font-size: 48px;
+          background: $primary;
+        }
+      }
     }
   }
 }
