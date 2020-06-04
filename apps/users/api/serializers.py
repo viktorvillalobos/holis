@@ -1,10 +1,13 @@
 import logging
-from apps.users import models as users_models
+
+from django.contrib.auth import authenticate
+from django.utils.translation import gettext_lazy as _
 from rest_framework import serializers
 
-from django.core.cache import cache
+from apps.users import models as users_models
 from apps.core import models as core_models
 from apps.core.cachekeys import USER_POSITION_KEY
+from django.core.cache import cache
 
 
 logger = logging.getLogger(__name__)
@@ -96,3 +99,49 @@ class NotificationSerializer(serializers.ModelSerializer):
     class Meta:
         model = users_models.Notification
         fields = "__all__"
+
+
+class AuthEmailTokenSerializer(serializers.Serializer):
+    email = serializers.CharField(
+        label=_("Email"),
+        write_only=True
+    )
+    password = serializers.CharField(
+        label=_("Password"),
+        style={'input_type': 'password'},
+        trim_whitespace=False,
+        write_only=True
+    )
+    company = serializers.IntegerField(
+        label=_("Company"),
+        write_only=True
+    )
+    token = serializers.CharField(
+        label=_("Token"),
+        read_only=True
+    )
+
+    def validate(self, attrs):
+        email = attrs.get('email')
+        password = attrs.get('password')
+        company_id = attrs.get('company')
+
+        if email and password:
+            user = authenticate(
+                request=self.context.get('request'),
+                company_id=company_id,
+                email=email,
+                password=password)
+
+            # The authenticate call simply returns None for is_active=False
+            # users. (Assuming the default ModelBackend authentication
+            # backend.)
+            if not user:
+                msg = _('Unable to log in with provided credentials.')
+                raise serializers.ValidationError(msg, code='authorization')
+        else:
+            msg = _('Must include "email" and "password".')
+            raise serializers.ValidationError(msg, code='authorization')
+
+        attrs['user'] = user
+        return attrs

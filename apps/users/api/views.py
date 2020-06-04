@@ -1,6 +1,5 @@
-from apps.users import models
-from apps.users.api import serializers
 from django.contrib.auth import get_user_model
+from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.mixins import (
@@ -10,6 +9,9 @@ from rest_framework.mixins import (
 )
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet, ModelViewSet
+
+from apps.users import models
+from apps.users.api import serializers
 
 User = get_user_model()
 
@@ -47,3 +49,7 @@ class NotificationViewSet(ModelViewSet):
 
     def get_queryset(self, *args, **kwargs):
         return self.queryset.filter(user=self.request.user)
+
+
+class LoginAPIView(ObtainAuthToken):
+    serializer_class = serializers.AuthEmailTokenSerializer
