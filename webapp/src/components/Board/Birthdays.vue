@@ -85,7 +85,7 @@ export default {
           display: flex;
           align-items: center;
           justify-content: center;
-          background: $blue-dark;
+          background: $dark-blue;
           cursor: pointer;
         }
       }

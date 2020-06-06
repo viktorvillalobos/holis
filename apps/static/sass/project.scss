@@ -166,6 +166,12 @@ footer {
       width: 100%;
       justify-content: center;
     }
+
+    &-cta {
+      h2 {
+        text-align: center;
+      }
+    }
   }
 }
 
@@ -182,7 +188,7 @@ footer {
   padding: 15px;
   background-color: $blue;
   padding-bottom: 0;
-  transition: all ease .25s;
+  transition: all ease 0.25s;
   z-index: 1;
 
   &.active {
@@ -190,7 +196,7 @@ footer {
   }
 
   &-msg {
-    font-size: .8rem;
+    font-size: 0.8rem;
     color: #fff;
     padding-bottom: 15px;
 
