@@ -27,5 +27,8 @@ if compress_enabled; then
   python /app/manage.py compress
 fi
 
-/usr/local/bin/gunicorn config.asgi --bind 0.0.0.0:5000 --chdir=/app -k uvicorn.workers.UvicornWorker
+# Using daphne beacuse UVICORN not handle keep alive yet, maybe we can use both in future.
 
+#/usr/local/bin/gunicorn config.asgi --bind 0.0.0.0:5000 --chdir=/app -k uvicorn.workers.UvicornWorker
+
+daphne -b 0.0.0.0:5000 config.asgi:application

@@ -3,6 +3,8 @@
 -r ./base.txt
 psycopg2==2.8.5 --no-binary psycopg2  # https://github.com/psycopg/psycopg2
 sentry-sdk==0.14.3  # https://github.com/getsentry/sentry-python
+daphne==2.5.0 #https://github.com/django/daphne
+
 
 # Django
 # ------------------------------------------------------------------------------
