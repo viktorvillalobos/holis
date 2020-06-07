@@ -74,7 +74,7 @@ export default {
 
     .status-icon {
       margin-right: 4%;
-      margin-top: 4%;
+      margin-top: 4.5%;
     }
 
     .connect-area-voice-disconnect {
@@ -95,10 +95,10 @@ export default {
         
         p {
           font-weight: bolder;
-          font-size: .90rem;
+          font-size: .80rem;
         }
         span {
-          font-size: .80rem;
+          font-size: .70rem;
         }
 
       }
