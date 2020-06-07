@@ -151,7 +151,11 @@
           }
         }, 1000);
         
-        that.$emit('joined-room', stream.streamid);
+        that.$emit('joined-room', { 
+                id: stream.streamid, 
+                isLocalUser: stream.streamid === that.localStream.streamid 
+        })
+
       };
       this.rtcmConnection.onstreamended = function (stream) {
         var newList = [];
@@ -162,6 +166,10 @@
         });
         that.videoList = newList;
         that.$emit('left-room', stream.streamid);
+        that.$emit('left-room', { 
+                id: stream.streamid, 
+                isLocalUser: stream.streamid === that.localStream.streamid 
+        })
       };
     },
     methods: {
