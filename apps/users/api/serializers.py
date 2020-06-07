@@ -145,3 +145,9 @@ class AuthEmailTokenSerializer(serializers.Serializer):
 
         attrs['user'] = user
         return attrs
+
+
+class CheckCompanySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = core_models.Company
+        fields = ('id', 'name')
