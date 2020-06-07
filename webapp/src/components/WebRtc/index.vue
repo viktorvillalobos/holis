@@ -17,9 +17,10 @@
 </template>
 
 <script>
-  import RTCMultiConnection from 'rtcmulticonnection'
-  import { mapState } from 'vuex'
   require('adapterjs');
+
+  import RTCMultiConnection from '@/plugins/RTCMultiConnection'
+  import { mapState } from 'vuex'
   export default {
     name: 'vue-webrtc',
     components: {
