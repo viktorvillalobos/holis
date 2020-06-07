@@ -7,6 +7,9 @@ const token = document.getElementsByName('csrfmiddlewaretoken')[0].value
 
 async function getEarlyAccess(origin) {
     const form = document.getElementById(origin)
+    const isValid = form.checkValidity()
+    if (!isValid) return 
+
     const input = form.elements[0]
     const email = input.value
     const btn = form.elements[1]
