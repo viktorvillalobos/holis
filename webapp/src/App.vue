@@ -69,7 +69,7 @@ export default {
     onShareScreen () {
       this.img = this.$refs.webrtc.shareScreen();
     },
-    joinedRoom ({ isLocalUser }) {
+    joinedRoom ({ isLocalUser }){
       console.log('An user is joined to room')
       if (!isLocalUser) {
           const audio = new Audio('/static/sounds/in.m4a');
@@ -79,6 +79,7 @@ export default {
     leftRoom ({ isLocalUser }) {
       console.log('An user left the room')
       if (!isLocalUser) {
+          console.log('play left audio')
           const audio = new Audio('/static/sounds/out.m4a');
           audio.play()
       }

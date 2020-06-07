@@ -78,6 +78,9 @@
       })
     },
     watch: {
+      videoList (value) {
+        this.$store.dispatch('setStreams', value)
+      },
       muteAudio (value) {
         this.videoList.forEach(video => {
           if (video !== this.localVideo) video.muted = value
@@ -153,8 +156,8 @@
         }, 1000);
         
         that.$emit('joined-room', { 
-                id: stream.streamid, 
-                isLocalUser: stream.streamid === that.localStream.streamid 
+              id: stream.streamid, 
+              isLocalUser: stream.streamid === that.localStream.streamid 
         })
 
       };
@@ -166,10 +169,9 @@
           }
         });
         that.videoList = newList;
-        that.$emit('left-room', stream.streamid);
         that.$emit('left-room', { 
-                id: stream.streamid, 
-                isLocalUser: stream.streamid === that.localStream.streamid 
+            id: stream.streamid, 
+            isLocalUser: stream.streamid === that.localStream.streamid 
         })
       };
     },
