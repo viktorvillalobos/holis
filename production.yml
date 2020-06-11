@@ -72,7 +72,10 @@ services:
     image: gizmotronic/openfire:4.4.4
     volumes:
       - openfire:/var/lib/openfire
+      - /usr/share/openfire/resources/security:/usr/share/openfire/resources/security
     ports:
       - 5222:5222
       - 7777:7777
       - 9090:9090
+      - 7443:7443
+      - 7070:7070

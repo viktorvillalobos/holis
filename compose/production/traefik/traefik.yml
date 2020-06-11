@@ -52,11 +52,23 @@ http:
         # https://docs.traefik.io/master/routing/routers/#certresolver
         certResolver: letsencrypt
     
+    openfire-router:
+      rule: "Host(`chat.holis.chat`)" 
+      entryPoints:
+        - web
+      middlewares:
+        - redirect
+        - csrf
+      service: django
+
     openfire-secure-router:
       rule: "Host(`chat.holis.chat`)"
       entryPoints:
         - web-secure
       service: openfire
+      middlewares:
+        - csrf
+        - test-compress
       tls:
         # https://docs.traefik.io/master/routing/routers/#certresolver
         certResolver: letsencrypt
