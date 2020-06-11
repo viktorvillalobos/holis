@@ -15,9 +15,8 @@ export default {
       password
     })
   },
-  refresh(refresh){
-    return axios.post(`${urlBase}/token/refresh/`, {
-      refresh,
-    })
-  },
+
+  checkCompany(companyName){
+    return axios.get(`${urlBase}/check-company/${companyName}`)
+  }
 }
