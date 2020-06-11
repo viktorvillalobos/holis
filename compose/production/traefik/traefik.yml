@@ -51,6 +51,15 @@ http:
       tls:
         # https://docs.traefik.io/master/routing/routers/#certresolver
         certResolver: letsencrypt
+    
+    openfire-secure-router:
+      rule: "Host(`chat.holis.chat`)"
+      entryPoints:
+        - web-secure
+      service: openfire
+      tls:
+        # https://docs.traefik.io/master/routing/routers/#certresolver
+        certResolver: letsencrypt
 
     flower-secure-router:
       rule: "Host(`holis.chat`)"
@@ -90,6 +99,11 @@ http:
       loadBalancer:
         servers:
           - url: http://django:5000
+
+    openfire:
+      loadBalancer:
+        servers:
+          - url: http://openfire:9090
 
     flower:
       loadBalancer:
