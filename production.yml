@@ -4,6 +4,7 @@ volumes:
   production_postgres_data: {}
   production_postgres_data_backups: {}
   production_traefik: {}
+  openfire: {}
 
 services:
   django: &django
@@ -66,4 +67,12 @@ services:
     image: holis_production_flower
     command: /start-flower
 
-  
+  openfire:
+    restart: always
+    image: gizmotronic/openfire:4.4.4
+    volumes:
+      - openfire:/var/lib/openfire
+    ports:
+      - 5222:5222
+      - 7777:7777
+      - 9090:9090
