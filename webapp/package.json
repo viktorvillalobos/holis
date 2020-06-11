@@ -14,6 +14,8 @@
     "@fortawesome/free-regular-svg-icons": "^5.13.0",
     "@fortawesome/free-solid-svg-icons": "^5.13.0",
     "@fortawesome/vue-fontawesome": "^0.1.9",
+    "@xmpp/client": "^0.11.1",
+    "@xmpp/debug": "^0.11.0",
     "apexcharts": "^3.19.0",
     "axios": "^0.19.2",
     "bulma": "^0.8.2",

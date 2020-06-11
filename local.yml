@@ -75,7 +75,7 @@ services:
   
   openfire:
     restart: always
-    image: sameersbn/openfire:3.10.3-19
+    image: gizmotronic/openfire:4.4.4
     volumes:
       - openfire:/var/lib/openfire
     ports:

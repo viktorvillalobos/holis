@@ -7,6 +7,7 @@ from rest_framework.mixins import (
     ListModelMixin,
     RetrieveModelMixin,
     UpdateModelMixin,
+    CreateModelMixin,
 )
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet, ModelViewSet
@@ -15,7 +16,7 @@ User = get_user_model()
 
 
 class UserViewSet(
-    RetrieveModelMixin, ListModelMixin, UpdateModelMixin, GenericViewSet
+    RetrieveModelMixin, ListModelMixin, UpdateModelMixin, GenericViewSet,
 ):
     serializer_class = serializers.UserSerializer
     queryset = User.objects.all()
@@ -39,6 +40,9 @@ class UserViewSet(
             users, many=True, context={"request": request}
         )
         return Response(status=status.HTTP_200_OK, data=serializer.data)
+
+    def create(self, request):
+        pass
 
 
 class NotificationViewSet(ModelViewSet):
