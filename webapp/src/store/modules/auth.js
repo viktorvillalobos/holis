@@ -1,4 +1,4 @@
-import apiClient from "../../services/apiClient"
+import apiClient from "../../services/api"
 import axios from 'axios'
 
 function setDefaultHeader(jwt) {
@@ -7,7 +7,8 @@ function setDefaultHeader(jwt) {
 
 const state = {
   currentJWT: null,
-  refresh: null
+  refresh: null,
+  company: null
 }
 const getters = {
     jwt: state => state.currentJWT,
@@ -22,6 +23,9 @@ const mutations = {
   },
   setRefresh (state, token) {
     state.refresh = token
+  },
+  setCompany (state, company){
+    state.company = company
   }
 }
 
@@ -36,6 +40,15 @@ const actions = {
     const {data} = apiClient.login(username, password)
     setDefaultHeader(data.access)
     commit("setJWT", data.access)
+  },
+  async checkCompany ({commit}, {companyName}){
+    try{
+      const {data} = await apiClient.auth.checkCompany(companyName)
+      console.log('company', data)
+      commit("setCompany", data)
+    }catch(error){
+      console.error(error)
+    }
   },
 }
 

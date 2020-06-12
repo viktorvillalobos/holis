@@ -1,21 +1,27 @@
-from apps.users import models
-from apps.users.api import serializers
 from django.contrib.auth import get_user_model
+from django.shortcuts import get_object_or_404
+from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.mixins import (
     ListModelMixin,
     RetrieveModelMixin,
     UpdateModelMixin,
+    CreateModelMixin,
 )
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet, ModelViewSet
+from rest_framework import generics
+
+from apps.core import models as core_models
+from apps.users import models
+from apps.users.api import serializers
 
 User = get_user_model()
 
 
 class UserViewSet(
-    RetrieveModelMixin, ListModelMixin, UpdateModelMixin, GenericViewSet
+    RetrieveModelMixin, ListModelMixin, UpdateModelMixin, GenericViewSet,
 ):
     serializer_class = serializers.UserSerializer
     queryset = User.objects.all()
@@ -40,6 +46,9 @@ class UserViewSet(
         )
         return Response(status=status.HTTP_200_OK, data=serializer.data)
 
+    def create(self, request):
+        pass
+
 
 class NotificationViewSet(ModelViewSet):
     serializer_class = serializers.NotificationSerializer
@@ -47,3 +56,15 @@ class NotificationViewSet(ModelViewSet):
 
     def get_queryset(self, *args, **kwargs):
         return self.queryset.filter(user=self.request.user)
+
+
+class LoginAPIView(ObtainAuthToken):
+    serializer_class = serializers.AuthEmailTokenSerializer
+
+
+class CheckCompanyAPIView(generics.RetrieveAPIView):
+    serializer_class = serializers.CheckCompanySerializer
+
+    def get_object(self):
+        name = self.kwargs.get('company_name')
+        return get_object_or_404(core_models.Company, name__iexact=name)

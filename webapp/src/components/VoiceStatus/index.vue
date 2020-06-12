@@ -1,7 +1,18 @@
 <template>
-  <div :class="['connect-area-voice', {'aside-opened' : asideOpened}]">
-    <font-awesome-icon :color="icon.color" :icon="icon.icon" class="status-icon"/> 
-    <span>{{ status[0].toUpperCase() + status.slice(1,) }}</span>
+  <div class="connect-area-voice">
+
+    <div class="connect-area-voice-status">
+      <font-awesome-icon :color="icon.color" :icon="icon.icon" class="status-icon"/> 
+      <div class="connect-area-voice-status-text">
+          <p> {{ translateStatus }}</p>
+          <span>{{ streams.length }} members</span>
+      </div>
+    </div>
+
+    <div @click="disconnect" class="connect-area-voice-disconnect">
+      <font-awesome-icon v-if="connected" icon="phone-slash" />
+      <font-awesome-icon v-else icon="phone-slash" disabled color="grey"/>
+    </div>
   </div>
 </template>
 <script>
@@ -16,8 +27,22 @@ export default {
   },
   computed: {
     ...mapState({
-      status: state => state.webrtc.status
+      connected: state => state.webrtc.connected,
+      status: state => state.webrtc.status,
+      streams: state => state.webrtc.streams,
     }),
+    translateStatus () {
+      switch(this.status) {
+        case 'connected':
+          return 'Voice connected'
+        case 'connecting':
+          return 'Connecting voice'
+        case 'disconnected':
+          return 'Voice disconnected'
+        default:
+          return 'Voice disconnected'
+      }
+    },
     icon () {
       switch (this.status) {
         case 'connected':
@@ -30,26 +55,54 @@ export default {
           return { icon: 'signal', color: '#f14668' }
       }
     }
+  },
+  methods: {
+    disconnect () {
+      console.log('emit')
+      this.$emit('disconnect')
+    }
   }
 }
 </script>
 <style lang="scss" scoped>
-.connect-area-voice{
-  position: fixed;
-  bottom: 50px;
-  display: flex;
-  align-items: center;
-  left: $margin-left-container;
-  transition: $aside-transition;
-  margin-left: 10px;
 
-  &.aside-opened {
-    left: $margin-left-container-aside-opened;
-  }
+  .connect-area-voice{
+    display: flex !important;
+    justify-content: space-between !important;
+    margin-top: 3%;
+    margin-left: 2%;
 
-  .status-icon {
-    margin-right: 14%;
+    .status-icon {
+      margin-right: 4%;
+      margin-top: 4.5%;
+    }
+
+    .connect-area-voice-disconnect {
+      cursor: pointer;
+      margin-left: 3%;
+      margin-right: 3%;
+      margin-top: 2%;
+    }
+
+    .connect-area-voice-status {
+      width:80%;
+      display: flex;
+      justify-content: flex-start;
+
+      .connect-area-voice-status-text {
+        display: flex;
+        flex-direction: column;
+        
+        p {
+          font-weight: bolder;
+          font-size: .80rem;
+        }
+        span {
+          font-size: .70rem;
+        }
+
+      }
+    }
   }
-}
 
 </style>

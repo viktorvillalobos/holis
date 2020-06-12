@@ -17,9 +17,10 @@
 </template>
 
 <script>
-  import RTCMultiConnection from 'rtcmulticonnection'
-  import { mapState } from 'vuex'
   require('adapterjs');
+
+  import RTCMultiConnection from '@/plugins/RTCMultiConnection'
+  import { mapState } from 'vuex'
   export default {
     name: 'vue-webrtc',
     components: {
@@ -77,6 +78,9 @@
       })
     },
     watch: {
+      videoList (value) {
+        this.$store.dispatch('setStreams', value)
+      },
       muteAudio (value) {
         this.videoList.forEach(video => {
           if (video !== this.localVideo) video.muted = value
@@ -151,7 +155,11 @@
           }
         }, 1000);
         
-        that.$emit('joined-room', stream.streamid);
+        that.$emit('joined-room', { 
+              id: stream.streamid, 
+              isLocalUser: stream.streamid === that.localStream.streamid 
+        })
+
       };
       this.rtcmConnection.onstreamended = function (stream) {
         var newList = [];
@@ -161,7 +169,10 @@
           }
         });
         that.videoList = newList;
-        that.$emit('left-room', stream.streamid);
+        that.$emit('left-room', { 
+            id: stream.streamid, 
+            isLocalUser: stream.streamid === that.localStream.streamid 
+        })
       };
     },
     methods: {

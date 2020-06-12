@@ -6,10 +6,14 @@ const state = {
   muteAudio: false,   // mute my audio in the current call
   muteMicro: false,    // mute my micro in the current call
   status: 'disconnected',
-  disconnectByControl: false
+  disconnectByControl: false,
+  streams: []
 }
 
 const mutations = {
+  setStreams (state, streams) {
+    state.streams = streams
+  },
   setConnected(state, enable) {
     state.connected = enable
     state.disconnectByControl = false
@@ -46,6 +50,9 @@ const mutations = {
 }
 
 const actions = {
+  setStreams ({ commit }, streams) {
+    commit('setStreams', streams)
+  },
   disconnectAndConnect({ commit }, room) {
     commit("setConnected", false)
     commit("setRoom", room)

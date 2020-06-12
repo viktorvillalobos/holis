@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import app from './modules/app'
+import auth from './modules/auth'
 import announcements from './modules/announcements'
 import areas from './modules/areas'
 import chat from './modules/chat'
@@ -12,6 +13,7 @@ const store = new Vuex.Store({
   strict: true, // process.env.NODE_ENV !== 'production',
   modules: {
     app,
+    auth,
     announcements,
     areas,
     chat,
@@ -41,7 +43,7 @@ const store = new Vuex.Store({
       console.log('Socket ONMESSAGE')
       console.log(message)
       state.socket.message = message
-      
+
       switch (message.type){
         case 'notification':
           state.app.notification.show = true

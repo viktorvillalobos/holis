@@ -21,10 +21,6 @@
           <font-awesome-icon v-if="!muteMicro" icon="microphone-alt" />
           <font-awesome-icon v-else icon="microphone-alt-slash" />
         </li>
-        <li @click="emitDisconnect">
-          <font-awesome-icon v-if="connected" icon="phone-slash" />
-          <font-awesome-icon v-else icon="phone-slash" disabled color="grey"/>
-        </li>
         <li>
           <font-awesome-icon icon="sliders-h" />
         </li>
@@ -45,6 +41,7 @@
             </span>
           </button>
         </div>
+
         <div class="dropdown-menu" id="dropdown-menu2" role="menu">
           <div class="dropdown-content">
             <div v-for="(state, index) in states" :key="state" @click="handleState(state)">
@@ -55,11 +52,15 @@
         </div>
       </div>
     </div>
+
+    <VoiceStatus @disconnect="emitDisconnect"/>
+
   </div>
 </template>
 <script>
 import { mapState } from 'vuex'
 import Avatar from "@/components/Avatar"
+import VoiceStatus from "@/components/VoiceStatus"
 
 export default {
   name: "UserCard",
@@ -82,15 +83,16 @@ export default {
   },
   components: {
     Avatar,
+    VoiceStatus
   },
   data() {
     return {
       stateMenuIsActive: false,
       states: [
-        "💻 Disponible",
-        "🤝 En reunión",
-        "😋 En colación",
-        "👻 Ausente"
+        "💻 Available",
+        "🤝 Meeting",
+        "😋 Having lunch",
+        "👻 Absent"
       ],
       userState: null,
     };

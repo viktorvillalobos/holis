@@ -11,7 +11,7 @@
         </select>
       </div>
     </div>
-    <span class="tag is-primary">{{ totalUsers }} usuarios conectados</span>
+    <span class="tag is-primary">{{ totalUsers }} users in area</span>
   </div>
 </template>
 <script>

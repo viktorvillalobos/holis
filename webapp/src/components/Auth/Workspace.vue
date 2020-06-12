@@ -12,7 +12,7 @@
           v-model="workspaceName"
           class="input"
           type="text"
-          placeholder="aguacate-inc"
+          placeholder="patacon-inc"
         />
       </p>
     </div>
@@ -28,6 +28,8 @@
 </template>
 <script>
 import Btn from "@/components/Btn";
+import {mapState} from 'vuex';
+
 export default {
   name: "Workspace",
   components: {
@@ -39,20 +41,31 @@ export default {
       error: null
     };
   },
+  computed: {
+    ...mapState({
+      currentCompany: state => state.auth.company
+    })
+  },
   methods: {
     handleCreate() {
       this.$router.push({ name: "create-workspace" });
     },
-    handleContinue() {
-      if (this.workspaceName) {
-        this.$router.push({
-          name: "sign-in",
-          params: { workspaceName: this.workspaceName }
-        });
-      } else {
+    async handleContinue() {
+      if (!this.workspaceName) {
         this.error = "Debes ingresar el nombre de tu espacio de trabajo";
+        return
       }
-    }
+      await this.$store.dispatch('checkCompany', {companyName: this.workspaceName})
+
+      if(!this.currentCompany){
+        this.error = "Al parecer esta empresa aun no existe";
+        return
+      }
+      this.$router.push({
+        name: "sign-in",
+        params: { workspaceName: this.workspaceName }
+      });
+    },
   }
 };
 </script>

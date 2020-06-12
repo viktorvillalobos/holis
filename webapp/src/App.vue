@@ -7,8 +7,8 @@
       :roomId="room"
       :enableAudio="enableAudio"
       :enableVideo="enableVideo"
-      v-on:joined-room="logEvent"
-      v-on:left-room="logEvent"
+      v-on:joined-room="joinedRoom"
+      v-on:left-room="leftRoom"
       v-on:open-room="logEvent"
       v-on:share-started="logEvent"
       v-on:share-stopped="logEvent"
@@ -21,7 +21,7 @@
 
 <script>
 
-window.onbeforeunload = function(e) {
+/* window.onbeforeunload = function(e) {
     e = e || window.event;
 
     // For IE and Firefox prior to version 4
@@ -29,7 +29,7 @@ window.onbeforeunload = function(e) {
         e.returnValue = 'Sure?';
    }
    return 'Dialog text here.';
-};
+}; */ 
 
 import { mapState } from 'vuex'
 import WebRTC from "@/components/WebRtc"
@@ -66,8 +66,23 @@ export default {
     onLeave() {
       this.$refs.webrtc.leave();
     },
-    onShareScreen() {
+    onShareScreen () {
       this.img = this.$refs.webrtc.shareScreen();
+    },
+    joinedRoom ({ isLocalUser }){
+      console.log('An user is joined to room')
+      if (!isLocalUser) {
+          const audio = new Audio('/static/sounds/in.m4a');
+          audio.play()
+      }
+    },
+    leftRoom ({ isLocalUser }) {
+      console.log('An user left the room')
+      if (!isLocalUser) {
+          console.log('play left audio')
+          const audio = new Audio('/static/sounds/out.m4a');
+          audio.play()
+      }
     }
   },
   watch: {
