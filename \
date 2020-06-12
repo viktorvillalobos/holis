@@ -66,21 +66,23 @@
         <div class="espazum-exposed-wrapper">
             {% get_current_language as LANGUAGE_CODE %}
             <!-- Current language: {{ LANGUAGE_CODE }} -->
-            {% if LANGUAGE_CODE == 'en' %}
+            <img data-aos="zoom-in-up" class="espazum-exposed-notification"
+                src="{% static 'images/home/notification.svg'%}" alt="Holis">
+            <img data-aos="zoom-in-up" class="espazum-exposed-whos-talking"
+                src="{% static 'images/home/whos_talkin.svg'%}" alt="Holis">
+            <img data-aos="zoom-in-up" class="espazum-exposed-chat" src="{% static 'images/exposed_chat.png'%}"
+                alt="Holis">
+
+            {% language 'en' %}
+            {% get_current_language as LANGUAGE_CODE %}
+                <!-- Current language: {{ LANGUAGE_CODE }} -->
                 <img data-aos="zoom-in-up" class="espazum-exposed-notification"
                     src="{% static 'images/home/notification_english.svg'%}" alt="Holis">
                 <img data-aos="zoom-in-up" class="espazum-exposed-whos-talking"
                     src="{% static 'images/home/whos_talkin_english.svg'%}" alt="Holis">
                 <img data-aos="zoom-in-up" class="espazum-exposed-chat"
                     src="{% static 'images/home/exposed_chat_english.png'%}" alt="Holis">
-            {% elif LANGUAGE_CODE == 'es' %}
-                <img data-aos="zoom-in-up" class="espazum-exposed-notification"
-                    src="{% static 'images/home/notification.svg'%}" alt="Holis">
-                <img data-aos="zoom-in-up" class="espazum-exposed-whos-talking"
-                    src="{% static 'images/home/whos_talkin.svg'%}" alt="Holis">
-                <img data-aos="zoom-in-up" class="espazum-exposed-chat" src="{% static 'images/exposed_chat.png'%}"
-                    alt="Holis">
-            {% endif %}
+            {% endlanguage %}
             <img class="espazum-exposed-laptop" src="{% static 'images/laptop2.svg'%}" alt="Holis">
 
 
