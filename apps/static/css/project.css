@@ -8625,11 +8625,13 @@ h3 {
   .espazum-exposed p {
     margin-bottom: 60px; }
   .espazum-exposed-laptop {
-    max-width: 83.33%; }
+    max-width: 83.33%;
+    margin-left: 100px; }
   .espazum-exposed-wrapper {
     position: relative; }
   .espazum-exposed-notification, .espazum-exposed-whos-talking, .espazum-exposed-play-wrapper, .espazum-exposed-chat {
-    position: absolute; }
+    position: absolute;
+    max-width: 280px; }
   .espazum-exposed-notification {
     top: -54px;
     left: 9px; }

@@ -17,6 +17,7 @@
 
         &-laptop {
             max-width: 83.33%;
+            margin-left: 100px;
         }
 
         &-wrapper {
@@ -28,6 +29,7 @@
         &-play-wrapper,
         &-chat {
             position: absolute;
+            max-width: 280px;
         }
 
         &-notification {
