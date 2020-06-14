@@ -97,5 +97,5 @@ class GetChatCredentialsAPIView(views.APIView):
                 "Error changing password: user not found in xmpp server"
             )
         return Response(
-            {"credentials": generated_code, "jid": jid}, status=200
+            {"token": generated_code, "jid": jid}, status=200
         )
