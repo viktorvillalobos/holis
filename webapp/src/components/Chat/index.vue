@@ -61,6 +61,7 @@ export default {
     return {
       searchPerson: '',
       chatName: 'Juanin Juan Harry',
+      jid: '',
       messages: [
         {
           message: "Hola!",
@@ -81,10 +82,17 @@ export default {
     sendMessage(msg) {
       console.log("msg", msg);
       this.messages.push(msg);
+      console.log(this.jid)
+      const data = {
+        to: this.jid,
+        msg: msg.message
+      }
+      this.$store.dispatch('sendChatMessage', data)
     },
     setChat (user) {
       console.log('hey!')
       this.$emit('selectedChat')
+      this.jid = user.jid
       this.chatName = user.name || user.username
     }
   }

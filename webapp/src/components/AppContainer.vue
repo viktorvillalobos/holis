@@ -155,14 +155,6 @@ export default {
   methods: {
     gets () {
       this.getUsers()
-      this.getChannels()
-    },
-    getChannels() {
-      try {
-        this.$store.dispatch("getChannels");
-      } catch (e) {
-        console.log("couldnt load channels");
-      }
     },
     getUsers() {
       try {

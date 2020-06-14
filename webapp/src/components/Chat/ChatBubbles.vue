@@ -87,6 +87,7 @@ export default {
       this.$emit('asideHandle')
     },
     newChat () {
+      console.log('newChat')
       this.$emit('newChat')
     }
   }
