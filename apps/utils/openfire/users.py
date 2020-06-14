@@ -1,5 +1,5 @@
 from requests import get, put, post, delete
-from base import Base
+from .base import Base
 
 
 class Users(Base):
@@ -9,7 +9,9 @@ class Users(Base):
     SUBSCRIPTION_FROM = 2
     SUBSCRIPTION_BOTH = 3
 
-    def __init__(self, host, secret, endpoint="/plugins/restapi/v1/users"):
+    def __init__(
+        self, host=None, secret=None, endpoint="/plugins/restapi/v1/users"
+    ):
         """
         :param host: Scheme://Host/ for API requests
         :param secret: Shared secret key for API requests

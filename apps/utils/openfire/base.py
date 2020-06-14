@@ -1,6 +1,6 @@
 from django.conf import settings
 
-from exception import (
+from .exceptions import (
     IllegalArgumentException,
     UserNotFoundException,
     UserAlreadyExistsException,

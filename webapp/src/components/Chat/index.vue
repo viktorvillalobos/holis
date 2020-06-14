@@ -74,6 +74,9 @@ export default {
       users: state => state.chat.users
     })
   },
+  mounted () {
+    this.$store.dispatch('connectXMPP')
+  },
   methods: {
     sendMessage(msg) {
       console.log("msg", msg);

@@ -78,9 +78,11 @@ services:
       - openfire:/var/lib/openfire
     ports:
       - 5222:5222
+      - 7070:7070
+      - 7443:7443
+      - 5229:5229
       - 7777:7777
       - 9090:9090
-      - 7443:7443
 
   node:
     build:

@@ -53,6 +53,9 @@ class User(AbstractUser):
     avatar = ImageField(
         _("avatar"), blank=True, null=True, upload_to="avatars"
     )
+    jid = models.CharField(
+        _("Jabber ID"), blank=True, null=True, max_length=100, db_index=True
+    )
 
     objects = UserManager()
 

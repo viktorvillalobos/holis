@@ -8,9 +8,9 @@ import VueApexCharts from 'vue-apexcharts'
 import VueLodash from 'vue-lodash'
 import lodash from 'lodash'
 
-
 const moment = require('moment')
 require('moment/locale/es')
+
 
 Vue.use(require('vue-moment'), {
     moment
