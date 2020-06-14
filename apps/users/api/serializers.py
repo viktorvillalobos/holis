@@ -83,6 +83,7 @@ class UserSerializer(serializers.ModelSerializer):
             "company",
             "email",
             "name",
+            "jid",
             "room",
             "position",
             "statuses",

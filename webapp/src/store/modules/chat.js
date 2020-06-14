@@ -6,7 +6,7 @@ const state = {
   account: {
     service: "ws://localhost:7070/ws/",
     domain: "holis.local",
-    resource: "",
+    resource: "webapp",
     username: "admin",
     password: "v21146023.",
   },

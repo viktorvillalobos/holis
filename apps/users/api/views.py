@@ -1,3 +1,4 @@
+import uuid
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
 from rest_framework.authtoken.views import ObtainAuthToken
@@ -11,8 +12,9 @@ from rest_framework.mixins import (
 )
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet, ModelViewSet
-from rest_framework import generics
+from rest_framework import generics, views, exceptions
 
+from apps.utils import openfire
 from apps.core import models as core_models
 from apps.users import models
 from apps.users.api import serializers
@@ -68,3 +70,32 @@ class CheckCompanyAPIView(generics.RetrieveAPIView):
     def get_object(self):
         name = self.kwargs.get('company_name')
         return get_object_or_404(core_models.Company, name__iexact=name)
+
+
+class GetChatCredentialsAPIView(views.APIView):
+    """
+        This endpoint, emulate the generation
+        of custom password for xmpp, the password
+        must be changed every time the user login.
+
+        Steps:
+
+        1) Generate custom password.
+        2) Change the password using openfire api.
+        3) Send the password to client.
+
+    """
+
+    def get(self, request, *args, **kwargs):
+        generated_code = str(uuid.uuid4())
+        users = openfire.users.Users()
+        jid = self.request.user.jid
+        try:
+            users.update_user(jid, password=generated_code)
+        except openfire.exceptions.UserNotFoundException:
+            raise exceptions.ValidationError(
+                "Error changing password: user not found in xmpp server"
+            )
+        return Response(
+            {"credentials": generated_code, "jid": jid}, status=200
+        )
