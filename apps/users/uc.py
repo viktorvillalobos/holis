@@ -1,3 +1,4 @@
+import datetime as dt
 from apps.users.models import User
 from apps.utils import openfire
 
@@ -7,7 +8,7 @@ class UserUCBase:
 
 
 class UserCreateUC(UserUCBase):
-    def __init__(self, company, email, password, **args):
+    def __init__(self, company, email, password, birthday=None, **args):
         """
         :param company: company
         :param email: email of the user
@@ -18,6 +19,7 @@ class UserCreateUC(UserUCBase):
         self.email = email
         self.password = password
         self.username = email
+        self.birthday = birthday or dt.datetime.now().date()
 
     def execute(self):
         self.user = self.create_django_user()

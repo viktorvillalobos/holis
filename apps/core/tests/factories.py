@@ -3,6 +3,8 @@ from factory.django import DjangoModelFactory
 
 
 class CompanyFactory(DjangoModelFactory):
+    name = "Adslab"
+
     class Meta:
         model = models.Company
 

@@ -1,7 +1,17 @@
+import datetime as dt
 from typing import Any, Sequence
 
 from django.contrib.auth import get_user_model
-from factory import DjangoModelFactory, Faker, post_generation
+from factory import (
+    DjangoModelFactory,
+    Faker,
+    post_generation,
+    RelatedFactory,
+    fuzzy,
+    SubFactory
+)
+
+from apps.core.tests.factories import CompanyFactory
 
 
 class UserFactory(DjangoModelFactory):
@@ -9,7 +19,12 @@ class UserFactory(DjangoModelFactory):
     username = Faker("user_name")
     email = Faker("email")
     name = Faker("name")
-    company = Faker("company")
+    birthday = fuzzy.FuzzyDate(
+        start_date=dt.date(1970, 1, 1),
+        end_date=dt.date.today() - dt.timedelta(days=20 * 365),
+    )
+
+    company = SubFactory('apps.core.tests.factories.CompanyFactory')
 
     @post_generation
     def password(self, create: bool, extracted: Sequence[Any], **kwargs):
