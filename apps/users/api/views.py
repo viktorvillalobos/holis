@@ -72,30 +72,3 @@ class CheckCompanyAPIView(generics.RetrieveAPIView):
         return get_object_or_404(core_models.Company, name__iexact=name)
 
 
-class GetChatCredentialsAPIView(views.APIView):
-    """
-        This endpoint, emulate the generation
-        of custom password for xmpp, the password
-        must be changed every time the user login.
-
-        Steps:
-
-        1) Generate custom password.
-        2) Change the password using openfire api.
-        3) Send the password to client.
-
-    """
-
-    def get(self, request, *args, **kwargs):
-        generated_code = str(uuid.uuid4())
-        users = openfire.users.Users()
-        jid = self.request.user.jid
-        try:
-            users.update_user(jid, password=generated_code)
-        except openfire.exceptions.UserNotFoundException:
-            raise exceptions.ValidationError(
-                "Error changing password: user not found in xmpp server"
-            )
-        return Response(
-            {"token": generated_code, "jid": jid}, status=200
-        )

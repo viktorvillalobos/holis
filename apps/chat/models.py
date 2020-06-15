@@ -93,7 +93,9 @@ class MessageAttachment(TimeStampedModel):
         on_delete=models.CASCADE,
     )
     attachment = models.FileField(_("attachment"))
-    mimetype = models.CharField(_("Mimetype"), blank=True, null=True, max_length=255)
+    mimetype = models.CharField(
+        _("Mimetype"), blank=True, null=True, max_length=255
+    )
 
     tenant_id = "company_id"
 

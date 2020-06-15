@@ -82,7 +82,6 @@ export default {
     sendMessage(msg) {
       console.log("msg", msg);
       this.messages.push(msg);
-      console.log(this.jid)
       const data = {
         to: this.jid,
         msg: msg.message

@@ -90,11 +90,11 @@ const actions = {
     }
   },
   /* eslint-disable-next-line */
-  async sendChatMessage({ commit }, { to, msg }) {
+  async sendChatMessage({ state, commit }, { to, msg }) {
     console.log(`sending msg to ${ to }`)
     const message = xml(
       "message",
-      { type: "chat", to: `${to}@holis.local`},
+      { type: "chat", to: `${to}@${state.account.domain}`},
       xml("body", {}, msg),
     )
 
