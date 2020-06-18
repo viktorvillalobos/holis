@@ -2,14 +2,12 @@ import apiClient from '../../services/api'
 import { client, xml } from "@xmpp/client"
 import debug from "@xmpp/debug"
 
+const IS_PRODUCTION = process.env.NODE_ENV == 'production'
+
+const SERVER_URL = IS_PRODUCTION ? 'wss://holis.chat:7070/ws/' : 'ws://holis.local:7070/ws/'
+
 const state = {
-  account: {
-    service: "ws://localhost:7070/ws/",
-    domain: "holis.local",
-    resource: "webapp",
-    username: "admin",
-    password: "",
-  },
+  account: null,
   xmpp: null,
   users: [],
   connected: false,
@@ -42,7 +40,7 @@ const actions = {
     const { data } = await apiClient.chat.getCredentials()
 
     await commit('setAccount', {
-      service: "ws://localhost:7070/ws/",
+      service: SERVER_URL,
       domain: "holis.local",
       resource: "webapp",
       username: data.jid,
