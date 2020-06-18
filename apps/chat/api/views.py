@@ -69,12 +69,15 @@ class GetOrCreateChannelAPIView(views.APIView):
     def post(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
-        channel = (
-            chat_uc.CreateOneToOneChannelUC(
-                self.request.user.company,
-                serializer.validated_data["members"]
+        try:
+            channel = (
+                chat_uc.CreateOneToOneChannelUC(
+                    self.request.user.company,
+                    serializer.validated_data["members"],
+                )
+                .execute()
+                .get_channel()
             )
-            .execute()
-            .get_channel()
-        )
+        except chat_uc.NonExistentMemberException:
+            raise exceptions.ValidationError('Member not exist')
         return Response({"jid": channel.id}, status=200)
