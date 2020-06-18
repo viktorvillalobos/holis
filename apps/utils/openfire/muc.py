@@ -1,10 +1,15 @@
 # -*- coding: utf-8 -*-
+import logging
 from requests import get, put, post, delete
 from .base import Base
 
+logger = logging.getLogger(__name__)
+
 
 class Muc(Base):
-    def __init__(self, host=None, secret=None, endpoint='/plugins/restapi/v1/chatrooms'):
+    def __init__(
+        self, host=None, secret=None, endpoint='/plugins/restapi/v1/chatrooms'
+    ):
         """
         :param host: Scheme://Host/ for API requests
         :param secret: Shared secret key for API requests
@@ -121,14 +126,16 @@ class Muc(Base):
             'loginRestrictedToNickname': registerednickname,
             'membersOnly': membersonly,
             'moderated': moderated,
-            'broadcastPresenceRoles': {
-                'broadcastPresenceRole': broadcastroles
-            },
-            'owners': {'owner': owners},
-            'admins': {'admin': admins},
-            'members': {'member': members},
-            'outcasts': {'outcast': outcasts},
+            # 'broadcastPresenceRoles': {
+            #     'broadcastPresenceRole': broadcastroles
+            # },
+            'owners': owners,
+            'admins': admins,
+            'members': members,
+            'outcasts': outcasts,
         }
+        logger.info('---------PAYLOAD--------------')
+        logger.info(payload)
         params = {'servicename': servicename}
         return self._submit_request(
             post, self.endpoint, json=payload, params=params
@@ -228,6 +235,7 @@ class Muc(Base):
             'members': {'member': members},
             'outcasts': {'outcast': outcasts},
         }
+
         params = {'servicename': servicename}
         return self._submit_request(put, endpoint, json=payload, params=params)
 

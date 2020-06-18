@@ -1,3 +1,4 @@
+import logging
 from django.conf import settings
 
 from .exceptions import (
@@ -32,6 +33,8 @@ EXCEPTIONS_MAP = {
     "AlreadyExistsException": AlreadyExistsException,
 }
 
+logger = logging.getLogger(__name__)
+
 
 class Base(object):
     def __init__(self, host=None, secret=None, endpoint=None):
@@ -56,13 +59,14 @@ class Base(object):
         """
         r = func(headers=self.headers, url=self.host + endpoint, **kwargs)
         if r.status_code in (200, 201):
-            return r.content
             try:
                 return r.json()
             except Exception:
                 return True
         else:
             try:
+                logger.info("-------------------LOGGER")
+                logger.info(r.content)
                 exception = r.json()["exception"]
                 message = r.json()["message"]
             except Exception:

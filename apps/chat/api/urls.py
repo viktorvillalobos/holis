@@ -11,7 +11,7 @@ else:
 router.register("channels", views.ChannelViewSet, basename="channels")
 
 urlpatterns = [
-    path("get-or-create-room/<str:username>/", views.GetOrCreateRoomAPIView.as_view()),
+    path("get-or-create-channel/", views.GetOrCreateChannelAPIView.as_view()),
     path("get-chat-credentials/", views.GetChatCredentialsAPIView.as_view()),
 ]
 

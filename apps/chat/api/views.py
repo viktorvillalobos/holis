@@ -6,8 +6,11 @@ from rest_framework import status, exceptions, views
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
+from rest_framework import permissions
 
 from apps.utils import openfire
+from apps.chat import models as chat_models
+from apps.chat import uc as chat_uc
 
 logger = logging.getLogger(__name__)
 
@@ -60,15 +63,18 @@ class GetChatCredentialsAPIView(views.APIView):
         return Response({"token": generated_code, "jid": jid}, status=200)
 
 
-class GetOrCreateRoomAPIView(views.APIView):
-    def get(self, request, *args, **kwargs):
-        muc = openfire.muc.Muc()
+class GetOrCreateChannelAPIView(views.APIView):
+    serializer_class = serializers.GetOrCreateChannelSerializer
 
-        try:
-            muc = muc.get_room(self.kwargs["username"])
-        except Exception:
-            muc = muc.add_room(
-                self.kwargs["username"], persistent=True, membersonly=True
+    def post(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        channel = (
+            chat_uc.CreateOneToOneChannelUC(
+                self.request.user.company,
+                serializer.validated_data["members"]
             )
-
-        return Response({}, status=200)
+            .execute()
+            .get_channel()
+        )
+        return Response({"jid": channel.id}, status=200)

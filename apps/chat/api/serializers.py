@@ -20,3 +20,7 @@ class MessageSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Message
         fields = "__all__"
+
+
+class GetOrCreateChannelSerializer(serializers.Serializer):
+    members = serializers.ListField(child=serializers.CharField())

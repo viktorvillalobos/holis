@@ -54,7 +54,8 @@ class Channel(TimeStampedModel):
     is_public = models.BooleanField(_("is public"), default=True)
     persistent = models.BooleanField(_("is public"), default=True)
     any_can_invite = models.BooleanField(_("Any can invite"), default=True)
-    members_only = models.BooleanField(_("Any can invite"), default=False)
+    members_only = models.BooleanField(_("members only"), default=False)
+    is_one_to_one = models.BooleanField(_("is one to one"), default=False)
 
     tenant_id = "company_id"
 
