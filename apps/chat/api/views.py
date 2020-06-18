@@ -1,4 +1,5 @@
 import uuid
+import logging
 from apps.chat import models
 from apps.chat.api import serializers
 from rest_framework import status, exceptions, views
@@ -7,6 +8,8 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
 from apps.utils import openfire
+
+logger = logging.getLogger(__name__)
 
 
 class ChannelViewSet(ModelViewSet):
@@ -47,6 +50,7 @@ class GetChatCredentialsAPIView(views.APIView):
             raise exceptions.ValidationError(
                 {"jid": "User does not have JID assigned"}
             )
+
         try:
             users.update_user(jid, password=generated_code)
         except openfire.exceptions.UserNotFoundException:

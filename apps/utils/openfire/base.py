@@ -56,6 +56,7 @@ class Base(object):
         """
         r = func(headers=self.headers, url=self.host + endpoint, **kwargs)
         if r.status_code in (200, 201):
+            return r.content
             try:
                 return r.json()
             except Exception:
