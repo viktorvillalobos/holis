@@ -22,6 +22,7 @@ class UserAdmin(AdminImageMixin, auth_admin.UserAdmin):
                     "avatar",
                     "birthday",
                     "default_area",
+                    "jid"
                 )
             },
         ),

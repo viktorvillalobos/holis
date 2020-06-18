@@ -43,6 +43,10 @@ class GetChatCredentialsAPIView(views.APIView):
         generated_code = str(uuid.uuid4())
         users = openfire.users.Users()
         jid = self.request.user.jid
+        if not jid:
+            raise exceptions.ValidationError(
+                {"jid": "User does not have JID assigned"}
+            )
         try:
             users.update_user(jid, password=generated_code)
         except openfire.exceptions.UserNotFoundException:
@@ -53,13 +57,14 @@ class GetChatCredentialsAPIView(views.APIView):
 
 
 class GetOrCreateRoomAPIView(views.APIView):
-
     def get(self, request, *args, **kwargs):
         muc = openfire.muc.Muc()
 
         try:
             muc = muc.get_room(self.kwargs["username"])
         except Exception:
-            muc = muc.add_room(self.kwargs["username"], persistent=True, membersonly=True)
+            muc = muc.add_room(
+                self.kwargs["username"], persistent=True, membersonly=True
+            )
 
         return Response({}, status=200)
