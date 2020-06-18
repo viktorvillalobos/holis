@@ -2,6 +2,7 @@ import logging
 from typing import Dict
 from channels.db import database_sync_to_async
 from channels.generic.websocket import AsyncJsonWebsocketConsumer
+from django.contrib.auth.models import AnonymousUser
 from django.utils.translation import ugettext as _
 
 from apps.users.api.serializers import UserSerializer
@@ -76,13 +77,13 @@ class MainConsumer(NotificationMixin, GridMixin, MainConsumerBase):
 
     async def connect(self):
         # Join room group
-        await self.connect_to_groups()
-        await self.accept()
-        await self.send_me_data()
+        if self.scope["user"].is_authenticated:
+            await self.connect_to_groups()
+            await self.accept()
+            await self.send_me_data()
 
     async def disconnect(self, close_code):
         await self.handle_clear_user_position()
 
         for group in self.groups:
             await self.channel_layer.group_discard(group, self.channel_name)
-
