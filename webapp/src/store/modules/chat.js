@@ -144,7 +144,7 @@ const actions = {
   async sendChatMessage({ commit }, { to, msg }) {
     console.log(`sending msg to ${ to }`)
     commit('addMessage', msg)
-    await window.$xmpp.sendMessage({ to, body: msg.message, datetime: new Date() })
+    await window.$xmpp.sendMessage({ to, body: msg.message })
   },
   async getMessages({ commit }, jid) {
     commit('clearMessages')
