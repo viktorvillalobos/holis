@@ -92,11 +92,12 @@ const actions = {
     }
 
     const item = stanza.archive.item
-    console.log(stanza)
     const from = item.message.from.split('/')[0]
     const msg = {
       is_mine: state.account.jid === from,
-      message: item.message.body
+      message: item.message.body,
+      who: from.split('@')[0],
+      datetime: item.delay.timestamp
     }
     commit('addMessage', msg)
   },
@@ -126,7 +127,9 @@ const actions = {
       /* eslint-disable-next-line */
       if (true) {
         // If is the chat open
-        commit('addMessage', { message: msg.body, is_mine: false })
+        console.log('XMPP: onChat')
+        console.log(msg)
+        commit('addMessage', { message: msg.body, is_mine: false , datetime: new Date()})
       } else {
         // TODO: Send notification
         // show a notification HERE
@@ -141,7 +144,7 @@ const actions = {
   async sendChatMessage({ commit }, { to, msg }) {
     console.log(`sending msg to ${ to }`)
     commit('addMessage', msg)
-    await window.$xmpp.sendMessage({ to, body: msg.message })
+    await window.$xmpp.sendMessage({ to, body: msg.message, datetime: new Date() })
   },
   async getMessages({ commit }, jid) {
     commit('clearMessages')

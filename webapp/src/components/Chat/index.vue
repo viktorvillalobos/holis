@@ -23,10 +23,18 @@
       </card>
     </div>
     <chat-header v-if="!newChat" :chat-name="chatName" />
-    <div v-if="!newChat" class="connect-chat-body">
+    <div v-if="!newChat" 
+         class="connect-chat-body"
+        ref="chatContainer">
       <div class="nose"></div>
-      <div class="connect-chat-body-messages-wrapper">
-        <message v-for="(msg, idx) in messages" :key="idx" :msg="msg" :messageIsMine="msg.is_mine" />
+      <div  class="connect-chat-body-messages-wrapper">
+        <message v-for="(msg, idx) in messages" 
+                :key="idx" 
+                :msg="msg" 
+                :messageIsMine="msg.is_mine"
+                :who="msg.who"
+                :datetime="msg.datetime"
+        />
       </div>
     </div>
     <chat-editor v-if="!newChat" @enter="sendMessage" />
@@ -72,8 +80,16 @@ export default {
   },
   mounted () {
     this.$store.dispatch('connectXMPP')
+    this.scrollToEnd()
+  },
+  updated () {
+    this.scrollToEnd()
   },
   methods: {
+    scrollToEnd () {
+      var content = this.$refs.chatContainer
+      content.scrollTop = content.scrollHeight
+    },
     addMessage(msg) {
       this.messages.push(msg)
     },
@@ -81,7 +97,7 @@ export default {
       console.log("msg", msg);
       const data = {
         to: this.jid,
-        msg: msg
+        msg: msg,
       }
       this.$store.dispatch('sendChatMessage', data)
     },

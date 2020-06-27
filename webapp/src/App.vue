@@ -21,16 +21,8 @@
 
 <script>
 
-/* window.onbeforeunload = function(e) {
-    e = e || window.event;
-
-    // For IE and Firefox prior to version 4
-   if (e) {
-        e.returnValue = 'Sure?';
-   }
-   return 'Dialog text here.';
-}; */ 
-
+import AOS from 'aos'
+import 'aos/dist/aos.css'
 import { mapState } from 'vuex'
 import WebRTC from "@/components/WebRtc"
 
@@ -38,6 +30,9 @@ export default {
   name: "App",
   components: {
     webrtc: WebRTC
+  },
+  created () {
+    AOS.init()
   },
   computed: {
     ...mapState({

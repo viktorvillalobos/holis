@@ -62,7 +62,8 @@ export default {
     submit () {
       const msg = {
         message: this.message,
-        is_mine: true
+        is_mine: true,
+        datetime: new Date()
       }
       this.$emit('enter', msg)
 

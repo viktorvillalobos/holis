@@ -7,7 +7,7 @@
     >{{msg.message}}</div>
     <div class="connect-chat-message-user">
       <Avatar v-if="!messageIsMine" />
-      <p>{{ messageIsMine ? 'Tú' : 'Juanin Juan Harry'}} · hoy a las 16:54</p>
+      <p>{{ messageIsMine ? 'You' : who}} · {{ datetime | moment("ddd, hA")}}</p>
     </div>
   </div>
 </template>
@@ -21,6 +21,12 @@ export default {
     },
     msg: {
       type: Object
+    },
+    datetime: {
+      type: Date
+    },
+    who: {
+      type: String
     }
   },
   components: { Avatar }
