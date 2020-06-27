@@ -45,22 +45,36 @@ class GetChatCredentialsAPIView(views.APIView):
 
     """
 
-    def get(self, request, *args, **kwargs):
-        generated_code = str(uuid.uuid4())
-        users = openfire.users.Users()
-        jid = self.request.user.jid
-        if not jid:
-            raise exceptions.ValidationError(
-                {"jid": "User does not have JID assigned"}
-            )
-
+    def get_jid(self):
+        self.jid = self.request.user.jid
         try:
-            users.update_user(jid, password=generated_code)
+            self.username, self.domain = self.jid.split('@')
+        except Exception:
+            raise exceptions.ValidationError('Bad formed JID')
+
+    def generate_new_password(self):
+        users = openfire.users.Users()
+        self.generated_code = str(uuid.uuid4())
+        try:
+            users.update_user(self.username, password=self.generated_code)
         except openfire.exceptions.UserNotFoundException:
             raise exceptions.ValidationError(
                 "Error changing password: user not found in xmpp server"
             )
-        return Response({"token": generated_code, "jid": jid}, status=200)
+
+    def get(self, request, *args, **kwargs):
+        self.get_jid()
+        self.generate_new_password()
+
+        return Response(
+            {
+                "token": self.generated_code,
+                "jid": self.jid,
+                "domain": self.domain,
+                "username": self.username,
+            },
+            status=200,
+        )
 
 
 class GetOrCreateChannelAPIView(views.APIView):

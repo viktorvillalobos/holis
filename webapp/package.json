@@ -27,6 +27,7 @@
     "postcss-loader": "^3.0.0",
     "sass-loader": "^8.0.2",
     "socket.io-client": "^2.2.0",
+    "stanza": "^12.13.1",
     "svg.js": "^2.7.1",
     "v-emoji-picker": "^2.1.8",
     "vue": "^2.6.11",

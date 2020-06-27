@@ -1,10 +1,14 @@
 import apiClient from '../../services/api'
-import { client, xml } from "@xmpp/client"
-import debug from "@xmpp/debug"
+import * as XMPP from 'stanza'
 
 const IS_PRODUCTION = process.env.NODE_ENV == 'production'
 
-const SERVER_URL = IS_PRODUCTION ? 'wss://holis.chat:7070/ws/' : 'ws://holis.local:7070/ws/'
+const WS_SERVER_URL = IS_PRODUCTION 
+                          ? 'wss://holis.chat:7070/ws/'
+                          : 'ws://holis.local:7070/ws/'
+const BOSH_SERVER_URL = IS_PRODUCTION 
+                          ? 'wss://holis.chat:7070/http-bind/'
+                          : 'ws://holis.local:7070/http-bind/'
 
 const state = {
   account: null,
@@ -15,6 +19,13 @@ const state = {
   messages: []
 }
 
+const getters = {
+  JID( state ) {
+      const x = state.account
+      return `${x.username}@${x.domain}/${x.resource}`
+  } 
+}
+
 const mutations = {
   setUsers(state, list) {
     state.users = list
@@ -22,9 +33,8 @@ const mutations = {
   setAccount(state, account) {
     state.account = account
   },
-  setXMPP(state, { xmpp, isDev }) {
+  setXMPP(state, xmpp) {
     state.xmpp = xmpp
-    if (isDev) debug(xmpp, true)
   },
   setConnected(state, value){
     state.connected = value
@@ -43,117 +53,110 @@ const actions = {
     console.log(data)
     commit('setUsers', data.results)
   },
-  async connectXMPP ({ commit, dispatch }) {
+  async connectXMPP ({ commit, getters, dispatch }) {
     const { data } = await apiClient.chat.getCredentials()
 
     await commit('setAccount', {
-      service: SERVER_URL,
-      domain: "holis.local",
+      service: WS_SERVER_URL,
+      domain: data.domain,
       resource: "webapp",
-      username: data.jid,
+      username: data.username,
+      jid: data.jid,
       password: data.token,
     })
 
-    const xmpp = client(state.account)
-    window.$xmpp = xmpp
-    window.$xml = xml
+    const client = XMPP.createClient({
+          jid: getters.JID,
+          password: state.account.password,
+          transports: {
+            websocket: WS_SERVER_URL,
+            bosh: BOSH_SERVER_URL
+          }
+    })
 
-    window.$xmpp.on("error", (err) => dispatch('onError', err))
-    window.$xmpp.on("offline", () => dispatch('onDisconnected'))
-    window.$xmpp.on("stanza", async (stanza) => dispatch('onStanza', stanza))
-    window.$xmpp.on("online", async (address) => dispatch("setUserOnline", address ))
+    client.on('auth:success', () => dispatch('onAuthSuccess')) 
+    client.on('auth:failed', () => dispatch('onAuthFailed')) 
+    client.on('session:started', () => dispatch('onSessionStarted'))
+    client.on('disconnect', () => dispatch('onDisconnect'))
+    client.on('chat', msg => dispatch('onChat', msg))
+    client.on('iq', iq => dispatch('onIQ', iq))
+    client.on('presence', e => dispatch('onPresence', e))
+    client.on('stanza', e => dispatch('onStanza', e))
 
-    try {
-      await window.$xmpp.start()
-    } catch(error) {
-      console.log(error)
+    client.connect()
+    window.$xmpp = client
+  },
+  onStanza({ commit, state }, stanza) {
+    if (!stanza.archive || !stanza.archive.item) {
+      return
     }
 
+    const item = stanza.archive.item
+    console.log(stanza)
+    const from = item.message.from.split('/')[0]
+    const msg = {
+      is_mine: state.account.jid === from,
+      message: item.message.body
+    }
+    commit('addMessage', msg)
   },
   onError(error) {
     console.log(error)
   },
-  onDisconnected({ commit })  {
+  onDisconnect({ commit })  {
     commit('setConnected', false)
     console.log('Disconnected from XMPP')
   },
-  onConnected({ commit }) {
+  onAuthSuccess({ commit }) {
     commit('setConnected', true)
-    console.log('Connected to XMPP')
+    console.log('XMPP: Connected')
   },
-  async setUserOnline() {
-    // Makes itself available
-    await window.$xmpp.send(xml("presence"));
+  onSessionStarted() {
+     window.$xmpp.sendPresence()
+  },
+  onAuthFailed() {
+    console.log('XMPP: Auth failed')
   },
   /* eslint-disable-next-line */
-  onStanza({ commit }, stanza) {
-    console.log(stanza)
-    if (stanza.is("message") && stanza.attrs.type === 'chat') {
-      console.log("Te enviaron un mensaje")
-      
+  onPresence({ state }, e) {
+    console.log('XMPP: Presence')
+    console.log(e)
+  },
+  async onChat ({ commit }, msg) {
       /* eslint-disable-next-line */
       if (true) {
         // If is the chat open
-        const body = stanza.children.filter(x => x.name === 'body')[0]
-        const text = body.children[0]
-        commit('addMessage', { message: text, is_mine: false })
+        commit('addMessage', { message: msg.body, is_mine: false })
       } else {
+        // TODO: Send notification
         // show a notification HERE
       }
-
-      // await xmpp.send(xml("presence", { type: "unavailable" }));
-      // await xmpp.stop();
-    }
-
-    if (stanza.is('message') && stanza.getChild('result')) {
-      // If is a history
-      const message = stanza
-                        .getChild('result')
-                        .getChild('forwarded')
-                        .getChild('message')
-      const is_mine = message.attrs.from === window.$xmpp.jid.toString()
-      const text = message.getChild('body').getText()
-      commit('addMessage', { message: text, is_mine: is_mine })
-    }
   },
-  async sendChatMessage({ state, commit }, { to, msg }) {
+  /* eslint-disable-next-line */
+  async onIQ ({ commit }, iq) {
+    /* eslint-disable-next-line */
+    console.log('XMPP: onIQ')
+    console.log(iq)
+  },
+  async sendChatMessage({ commit }, { to, msg }) {
     console.log(`sending msg to ${ to }`)
-
     commit('addMessage', msg)
-
-    const message = xml(
-      "message",
-      { type: "chat", to: `${to}@${state.account.domain}`},
-      xml("body", {}, msg.message),
-    )
-
-    await window.$xmpp.send(message)
+    await window.$xmpp.sendMessage({ to, body: msg.message })
   },
   async getMessages({ commit }, jid) {
     commit('clearMessages')
-    console.log(`gettingMessages from ${ jid }}`)
-
-    const qry = 
-      xml('iq', {type: 'set', id: jid}, 
-        xml('query', { xmlns: 'urn:xmpp:mam:0', queryid:'f27'}, 
-            xml('x', { xmlns: 'jabber:x:data' ,type: 'submit' }, 
-              // xml('field', { var:'FORM_TYPE', type:"hidden" }, 
-              //   xml('value', 'urn:xmpp:mam:0')
-              // ),
-              // xml('field', { var:'with'}, 
-              //   xml('value', jid)
-              // )
-            )
-        )
-      )
-
-    const data = await window.$xmpp.send(qry)
-    console.log(data)
+    console.log(`gettingMessages from ${ jid }`)
+    try {
+      await window.$xmpp.searchHistory(jid)
+    } catch {
+      console.log('XMPP: Error trying get history')
+    }
   }
 }
 
 export default {
   state,
+  getters,
   mutations,
   actions
 }
