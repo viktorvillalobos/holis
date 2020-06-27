@@ -88,7 +88,7 @@ const actions = {
   /* eslint-disable-next-line */
   onStanza({ commit }, stanza) {
     console.log(stanza)
-    if (stanza.is("message")) {
+    if (stanza.is("message") && stanza.attrs.type === 'chat') {
       console.log("Te enviaron un mensaje")
       
       /* eslint-disable-next-line */
@@ -97,9 +97,23 @@ const actions = {
         const body = stanza.children.filter(x => x.name === 'body')[0]
         const text = body.children[0]
         commit('addMessage', { message: text, is_mine: false })
+      } else {
+        // show a notification HERE
       }
+
       // await xmpp.send(xml("presence", { type: "unavailable" }));
       // await xmpp.stop();
+    }
+
+    if (stanza.is('message') && stanza.getChild('result')) {
+      // If is a history
+      const message = stanza
+                        .getChild('result')
+                        .getChild('forwarded')
+                        .getChild('message')
+      const is_mine = message.attrs.from === window.$xmpp.jid.toString()
+      const text = message.getChild('body').getText()
+      commit('addMessage', { message: text, is_mine: is_mine })
     }
   },
   async sendChatMessage({ state, commit }, { to, msg }) {
@@ -118,6 +132,23 @@ const actions = {
   async getMessages({ commit }, jid) {
     commit('clearMessages')
     console.log(`gettingMessages from ${ jid }}`)
+
+    const qry = 
+      xml('iq', {type: 'set', id: jid}, 
+        xml('query', { xmlns: 'urn:xmpp:mam:0', queryid:'f27'}, 
+            xml('x', { xmlns: 'jabber:x:data' ,type: 'submit' }, 
+              // xml('field', { var:'FORM_TYPE', type:"hidden" }, 
+              //   xml('value', 'urn:xmpp:mam:0')
+              // ),
+              // xml('field', { var:'with'}, 
+              //   xml('value', jid)
+              // )
+            )
+        )
+      )
+
+    const data = await window.$xmpp.send(qry)
+    console.log(data)
   }
 }
 
