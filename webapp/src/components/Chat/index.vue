@@ -62,29 +62,26 @@ export default {
       searchPerson: '',
       chatName: 'Juanin Juan Harry',
       jid: '',
-      messages: [
-        {
-          message: "Hola!",
-          is_mine: false
-        }
-      ]
     };
   },
   computed: {
     ...mapState({
-      users: state => state.chat.users
+      users: state => state.chat.users,
+      messages: state => state.chat.messages
     })
   },
   mounted () {
     this.$store.dispatch('connectXMPP')
   },
   methods: {
+    addMessage(msg) {
+      this.messages.push(msg)
+    },
     sendMessage(msg) {
       console.log("msg", msg);
-      this.messages.push(msg);
       const data = {
         to: this.jid,
-        msg: msg.message
+        msg: msg
       }
       this.$store.dispatch('sendChatMessage', data)
     },
@@ -93,6 +90,7 @@ export default {
       this.$emit('selectedChat')
       this.jid = user.jid
       this.chatName = user.name || user.username
+      this.$store.dispatch('getMessages', this.jid)
     }
   }
 };

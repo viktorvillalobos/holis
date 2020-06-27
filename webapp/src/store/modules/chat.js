@@ -11,7 +11,8 @@ const state = {
   xmpp: null,
   users: [],
   connected: false,
-  lastRooms: []
+  lastRooms: [],
+  messages: []
 }
 
 const mutations = {
@@ -28,6 +29,12 @@ const mutations = {
   setConnected(state, value){
     state.connected = value
   },
+  addMessage(state, msg) {
+    state.messages.push(msg)
+  },
+  clearMessages(state) {
+    state.messages = []
+  }
 }
 
 const actions = {
@@ -83,20 +90,34 @@ const actions = {
     console.log(stanza)
     if (stanza.is("message")) {
       console.log("Te enviaron un mensaje")
+      
+      /* eslint-disable-next-line */
+      if (true) {
+        // If is the chat open
+        const body = stanza.children.filter(x => x.name === 'body')[0]
+        const text = body.children[0]
+        commit('addMessage', { message: text, is_mine: false })
+      }
       // await xmpp.send(xml("presence", { type: "unavailable" }));
       // await xmpp.stop();
     }
   },
-  /* eslint-disable-next-line */
   async sendChatMessage({ state, commit }, { to, msg }) {
     console.log(`sending msg to ${ to }`)
+
+    commit('addMessage', msg)
+
     const message = xml(
       "message",
       { type: "chat", to: `${to}@${state.account.domain}`},
-      xml("body", {}, msg),
+      xml("body", {}, msg.message),
     )
 
     await window.$xmpp.send(message)
+  },
+  async getMessages({ commit }, jid) {
+    commit('clearMessages')
+    console.log(`gettingMessages from ${ jid }}`)
   }
 }
 
