@@ -120,20 +120,14 @@ const actions = {
   },
   /* eslint-disable-next-line */
   onPresence({ state }, e) {
-    console.log('XMPP: Presence')
-    console.log(e)
+    // console.log('XMPP: Presence')
+    // console.log(e)
   },
   async onChat ({ commit }, msg) {
-      /* eslint-disable-next-line */
-      if (true) {
-        // If is the chat open
-        console.log('XMPP: onChat')
-        console.log(msg)
-        commit('addMessage', { message: msg.body, is_mine: false , datetime: new Date()})
-      } else {
-        // TODO: Send notification
-        // show a notification HERE
-      }
+    /* eslint-disable-next-line */
+    console.log('XMPP: onChat')
+    console.log(msg)
+    commit('addMessage', { message: msg.body, is_mine: false , datetime: new Date()})
   },
   /* eslint-disable-next-line */
   async onIQ ({ commit }, iq) {
@@ -150,7 +144,7 @@ const actions = {
     commit('clearMessages')
     console.log(`gettingMessages from ${ jid }`)
     try {
-      await window.$xmpp.searchHistory(jid)
+      await window.$xmpp.searchHistory(jid, { paging: { max: 20 } })
     } catch {
       console.log('XMPP: Error trying get history')
     }
