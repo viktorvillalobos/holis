@@ -87,8 +87,8 @@ export default {
   },
   methods: {
     scrollToEnd () {
-      var content = this.$refs.chatContainer
-      content.scrollTop = content.scrollHeight
+      const content = this.$refs.chatContainer
+      if (content) content.scrollTop = content.scrollHeight
     },
     addMessage(msg) {
       this.messages.push(msg)
