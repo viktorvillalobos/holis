@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-06-29 16:45-0400\n"
+"POT-Creation-Date: 2020-06-29 18:26-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -427,9 +427,13 @@ msgstr "Términos y condiciones"
 msgid "Privacy Policy"
 msgstr "Política de privacidad"
 
-#: apps/templates/base.html:106
+#: apps/templates/base.html:106 apps/templates/base.html:125
 msgid "All rights reserved"
 msgstr "Todos los derechos reservados"
+
+#: apps/templates/base.html:121
+msgid "is proudly designed and developed in LATAM ♥"
+msgstr "es orgullosamente diseñado y desarrollado en LATAM ♥"
 
 #: apps/templates/pages/home.html:14
 msgid "CALL-TO-ACTION-HEADER"
@@ -487,7 +491,9 @@ msgstr "Sin distracciones"
 
 #: apps/templates/pages/home.html:120
 msgid "FEATURE-4-CONTENT"
-msgstr "Con el modo sin distracciones, apaga todas las notificaciones para enfocarte al 100% en tu trabajo."
+msgstr ""
+"Con el modo sin distracciones, apaga todas las notificaciones para enfocarte "
+"al 100% en tu trabajo."
 
 #: apps/templates/pages/home.html:124
 msgid "FEATURE-5-TITLE"
@@ -503,7 +509,9 @@ msgstr "Organiza tus archivos"
 
 #: apps/templates/pages/home.html:130
 msgid "FEATURE-6-CONTENT"
-msgstr "Comparte documentos, código fuente, archivos, imagenes y hojas de calculo. Organiza todo en carpetas para que sean faciles de encontrar."
+msgstr ""
+"Comparte documentos, código fuente, archivos, imagenes y hojas de calculo. "
+"Organiza todo en carpetas para que sean faciles de encontrar."
 
 #: apps/templates/pages/home.html:143
 msgid "CALL-TO-ACTION-FOOTER"
