@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-26 22:46-0400\n"
+"POT-Creation-Date: 2020-06-29 16:45-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,97 +18,137 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: apps/chat/models.py:25 apps/chat/models.py:55 apps/chat/models.py:87
-#: apps/core/models.py:29 apps/core/models.py:63 apps/core/models.py:102
-#: apps/users/models.py:41 apps/users/models.py:94 apps/users/models.py:135
+#: apps/chat/models.py:27 apps/chat/models.py:79 apps/chat/models.py:111
+#: apps/core/models.py:31 apps/core/models.py:65 apps/core/models.py:104
+#: apps/users/models.py:41 apps/users/models.py:97 apps/users/models.py:138
 msgid "company"
 msgstr ""
 
-#: apps/chat/models.py:29
-msgid "users"
-msgstr ""
-
-#: apps/chat/models.py:32 apps/core/models.py:105
+#: apps/chat/models.py:30 apps/core/models.py:107
 msgid "title"
 msgstr ""
 
-#: apps/chat/models.py:34
+#: apps/chat/models.py:32
+msgid "subject"
+msgstr ""
+
+#: apps/chat/models.py:35
+msgid "members"
+msgstr ""
+
+#: apps/chat/models.py:38
+msgid "owners"
+msgstr ""
+
+#: apps/chat/models.py:41
+msgid "admins"
+msgstr ""
+
+#: apps/chat/models.py:44
+msgid "outcats"
+msgstr ""
+
+#: apps/chat/models.py:46
+msgid "Max users"
+msgstr ""
+
+#: apps/chat/models.py:48
+msgid "password"
+msgstr ""
+
+#: apps/chat/models.py:51
+msgid "Service Name"
+msgstr ""
+
+#: apps/chat/models.py:54 apps/chat/models.py:55
 msgid "is public"
 msgstr ""
 
-#: apps/chat/models.py:59
+#: apps/chat/models.py:56
+msgid "Any can invite"
+msgstr ""
+
+#: apps/chat/models.py:57
+msgid "members only"
+msgstr ""
+
+#: apps/chat/models.py:58
+msgid "is one to one"
+msgstr ""
+
+#: apps/chat/models.py:83
 msgid "channel"
 msgstr ""
 
-#: apps/chat/models.py:65
+#: apps/chat/models.py:89
 msgid "User"
 msgstr ""
 
-#: apps/chat/models.py:69 apps/core/models.py:106 apps/core/models.py:121
+#: apps/chat/models.py:93 apps/core/models.py:108 apps/core/models.py:123
 msgid "text"
 msgstr ""
 
-#: apps/chat/models.py:91
+#: apps/chat/models.py:115
 msgid "message"
 msgstr ""
 
-#: apps/chat/models.py:95
+#: apps/chat/models.py:119
 msgid "attachment"
 msgstr ""
 
-#: apps/chat/models.py:96
+#: apps/chat/models.py:121
 msgid "Mimetype"
 msgstr ""
 
-#: apps/chat/models.py:103
+#: apps/chat/models.py:129
 msgid "message attachment"
 msgstr ""
 
-#: apps/chat/models.py:104
+#: apps/chat/models.py:130
 msgid "message attachments"
 msgstr ""
 
-#: apps/core/models.py:19 apps/users/models.py:104
+#: apps/core/models.py:19 apps/users/models.py:107
 msgid "name"
 msgstr ""
 
-#: apps/core/models.py:20
+#: apps/core/models.py:21
 msgid "code"
 msgstr ""
 
-#: apps/core/models.py:21
+#: apps/core/models.py:23
 msgid "email"
 msgstr ""
 
-#: apps/core/models.py:22
+#: apps/core/models.py:24
 msgid "phone"
 msgstr ""
 
-#: apps/core/models.py:23
+#: apps/core/models.py:25
 msgid "logo"
 msgstr ""
 
-#: apps/core/models.py:30
+#: apps/core/models.py:32
 msgid "companies"
 msgstr ""
 
-#: apps/core/models.py:73
+#: apps/core/models.py:75
 msgid "Width"
 msgstr ""
 
-#: apps/core/models.py:74
+#: apps/core/models.py:76
 msgid "Height"
 msgstr ""
 
-#: apps/core/models.py:120
+#: apps/core/models.py:122
 msgid "Title"
 msgstr ""
 
-#: apps/core/ws/consumers/main.py:55
+#: apps/core/ws/consumers/main.py:56
 msgid "Type is required"
 msgstr ""
 
-#: apps/core/ws/consumers/main.py:71
+#: apps/core/ws/consumers/main.py:75
 msgid "type not handled"
 msgstr ""
 
@@ -362,85 +402,136 @@ msgid ""
 "mail address</a>."
 msgstr ""
 
-#: apps/templates/base.html:47 apps/templates/base.html:76
+#: apps/templates/base.html:65 apps/templates/base.html:94
 msgid "About"
 msgstr "Nosotros"
 
-#: apps/templates/base.html:50 apps/templates/base.html:77
+#: apps/templates/base.html:68 apps/templates/base.html:95
 msgid "Blog"
 msgstr ""
 
-#: apps/templates/base.html:53 apps/templates/pages/home.html:13
-#: apps/templates/pages/home.html:87
+#: apps/templates/base.html:71 apps/templates/pages/home.html:28
+#: apps/templates/pages/home.html:150
 msgid "EARLY-ACCESS"
 msgstr "Accede anticipadamente"
 
-#: apps/templates/base.html:75
+#: apps/templates/base.html:93
 msgid "Home"
-msgstr ""
+msgstr "Cómo funciona"
 
-#: apps/templates/base.html:83
+#: apps/templates/base.html:101
 msgid "Terms and Conditions"
 msgstr "Términos y condiciones"
 
-#: apps/templates/base.html:84
+#: apps/templates/base.html:102
 msgid "Privacy Policy"
 msgstr "Política de privacidad"
 
-#: apps/templates/base.html:88
+#: apps/templates/base.html:106
 msgid "All rights reserved"
 msgstr "Todos los derechos reservados"
 
-#: apps/templates/pages/home.html:10
+#: apps/templates/pages/home.html:14
 msgid "CALL-TO-ACTION-HEADER"
-msgstr "Tu oficina ahora puede estar en cualquier lugar"
+msgstr "Trabaja remotamente sin perder el espiritu de tu equipo"
 
-#: apps/templates/pages/home.html:36
+#: apps/templates/pages/home.html:61
+msgid "FEATURE-MAIN-TITLE"
+msgstr "Tu equipo al alcance de un click"
+
+#: apps/templates/pages/home.html:62
+msgid "FEATURE-MAIN-CONTENT"
+msgstr ""
+"Ni siquiera cuando se sentaban uno al lado del otro habían estado tan cerca. "
+"Con Holis hacer click en la grilla es suficiente para iniciar un canal de "
+"voz con tus compañeros, resolver dudas de forma eficiente, chistes casuales "
+"y el ruido de fondo de los demás trabajando."
+
+#: apps/templates/pages/home.html:89
+msgid "Look how it works"
+msgstr "Mira cómo funciona"
+
+#: apps/templates/pages/home.html:104
 msgid "FEATURE-1-TITLE"
 msgstr "Voz en tiempo real"
 
-#: apps/templates/pages/home.html:37
+#: apps/templates/pages/home.html:105
 msgid "FEATURE-1-CONTENT"
-msgstr "Resuelve dudas y socializacon tu equipo en cualquier momento"
+msgstr ""
+"Recupera las reuniones espontanteas que suceden en la oficina, pero ahora en "
+"forma remota."
 
-#: apps/templates/pages/home.html:41
+#: apps/templates/pages/home.html:109
 msgid "FEATURE-2-TITLE"
 msgstr "Chat de texto"
 
-#: apps/templates/pages/home.html:42
+#: apps/templates/pages/home.html:110
 msgid "FEATURE-2-CONTENT"
 msgstr ""
 "¿La persona con la que quieres comunicarte está ocupada? ¡Déjale un mensaje "
 "al chat!"
 
-#: apps/templates/pages/home.html:46
+#: apps/templates/pages/home.html:114
 msgid "FEATURE-3-TITLE"
 msgstr "Analíticas"
 
-#: apps/templates/pages/home.html:47
+#: apps/templates/pages/home.html:115
 msgid "FEATURE-3-CONTENT"
 msgstr ""
-"Porque en la era de la información si no teníamos analíticas no estas en nada"
+"Usando inteligencia artificial no invasiva, damos alertas de bajas de animo "
+"en el equipo y posible deserciones."
 
-#: apps/templates/pages/home.html:60
-msgid "FEATURE-MAIN-TITLE"
-msgstr "Tu equipo al alcance de un click"
+#: apps/templates/pages/home.html:119
+msgid "FEATURE-4-TITLE"
+msgstr "Sin distracciones"
 
-#: apps/templates/pages/home.html:61
-msgid "FEATURE-MAIN-CONTENT"
-msgstr ""
-"Ni siquiera cuando se sentaban uno al lado del tro habían estado tan cerca. "
-"Con Holis hacer click en la grilla es suficiente para iniciar un canal de "
-"voz con tus compañeros, resolver dudas de forma eficiente, chistes casuales "
-"y el ruido de fondo de los demás trabajando."
+#: apps/templates/pages/home.html:120
+msgid "FEATURE-4-CONTENT"
+msgstr "Con el modo sin distracciones, apaga todas las notificaciones para enfocarte al 100% en tu trabajo."
 
-#: apps/templates/pages/home.html:71
-msgid "Look how it works"
-msgstr "Mira cómo funciona"
+#: apps/templates/pages/home.html:124
+msgid "FEATURE-5-TITLE"
+msgstr "Cartelera"
 
-#: apps/templates/pages/home.html:82
+#: apps/templates/pages/home.html:125
+msgid "FEATURE-5-CONTENT"
+msgstr "Centraliza facilmente la información importante para tu equipo."
+
+#: apps/templates/pages/home.html:129
+msgid "FEATURE-6-TITLE"
+msgstr "Organiza tus archivos"
+
+#: apps/templates/pages/home.html:130
+msgid "FEATURE-6-CONTENT"
+msgstr "Comparte documentos, código fuente, archivos, imagenes y hojas de calculo. Organiza todo en carpetas para que sean faciles de encontrar."
+
+#: apps/templates/pages/home.html:143
 msgid "CALL-TO-ACTION-FOOTER"
-msgstr "¿Listo para ser parte de la experiencia?"
+msgstr "¿Listo para ver lo que estamos construyendo?"
+
+#: apps/users/api/serializers.py:107
+msgid "Email"
+msgstr ""
+
+#: apps/users/api/serializers.py:111
+msgid "Password"
+msgstr ""
+
+#: apps/users/api/serializers.py:117
+msgid "Company"
+msgstr ""
+
+#: apps/users/api/serializers.py:121
+msgid "Token"
+msgstr ""
+
+#: apps/users/api/serializers.py:141
+msgid "Unable to log in with provided credentials."
+msgstr ""
+
+#: apps/users/api/serializers.py:144
+msgid "Must include \"email\" and \"password\"."
+msgstr ""
 
 #: apps/users/apps.py:7
 msgid "Users"
@@ -462,35 +553,39 @@ msgstr "Cargo"
 msgid "avatar"
 msgstr ""
 
-#: apps/users/models.py:100 apps/users/models.py:139
+#: apps/users/models.py:57
+msgid "Jabber ID"
+msgstr ""
+
+#: apps/users/models.py:103 apps/users/models.py:142
 msgid "user"
 msgstr ""
 
-#: apps/users/models.py:105
+#: apps/users/models.py:108
 msgid "icon"
 msgstr ""
 
-#: apps/users/models.py:106
+#: apps/users/models.py:109
 msgid "Is active"
 msgstr ""
 
-#: apps/users/models.py:113
+#: apps/users/models.py:116
 msgid "status"
 msgstr ""
 
-#: apps/users/models.py:114
+#: apps/users/models.py:117
 msgid "statuses"
 msgstr ""
 
-#: apps/users/models.py:146
+#: apps/users/models.py:149
 msgid "unread"
 msgstr ""
 
-#: apps/users/models.py:154
+#: apps/users/models.py:157
 msgid "notification"
 msgstr ""
 
-#: apps/users/models.py:155
+#: apps/users/models.py:158
 msgid "notifications"
 msgstr ""
 
