@@ -478,7 +478,7 @@ msgstr ""
 
 #: apps/templates/pages/home.html:119
 msgid "FEATURE-4-TITLE"
-msgstr "Distraccion free mode"
+msgstr "Distraction free mode"
 
 #: apps/templates/pages/home.html:120
 msgid "FEATURE-4-CONTENT"
