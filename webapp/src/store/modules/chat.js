@@ -4,10 +4,10 @@ import * as XMPP from 'stanza'
 const IS_PRODUCTION = process.env.NODE_ENV == 'production'
 
 const WS_SERVER_URL = IS_PRODUCTION 
-                          ? 'wss://holis.chat:7070/ws/'
+                          ? 'wss://bosh.chat.holis.chat/ws/'
                           : 'ws://holis.local:7070/ws/'
 const BOSH_SERVER_URL = IS_PRODUCTION 
-                          ? 'wss://holis.chat:7070/http-bind/'
+                          ? 'wss://bosh.chat.holis.chat/http-bind/'
                           : 'ws://holis.local:7070/http-bind/'
 
 const state = {

@@ -18,6 +18,13 @@ entryPoints:
     # https
     address: ":9001"
 
+  bosh:
+    # http
+    address: ":7070"
+
+  bosh-secure:
+    # https
+    address: ":7443"
 
 certificatesResolvers:
   letsencrypt:
@@ -73,8 +80,20 @@ http:
         # https://docs.traefik.io/master/routing/routers/#certresolver
         certResolver: letsencrypt
 
+    bosh-secure-router:
+      rule: "Host(`bosh.chat.holis.chat`)"
+      entryPoints:
+        - bosh-secure
+      service: bosh
+      middlewares:
+        - csrf
+        - test-compress
+      tls:
+        # https://docs.traefik.io/master/routing/routers/#certresolver
+        certResolver: letsencrypt
+
     flower-secure-router:
-      rule: "Host(`holis.chat`)"
+      rule: "Host(`flower.holis.chat`)"
       entryPoints:
         - flower
       service: flower
@@ -126,6 +145,12 @@ http:
       loadBalancer:
         servers:
           - url: http://rtc:9001
+
+    bosh:
+      loadBalancer:
+        servers:
+          - url: http://openfire:7070
+
 
 providers:
   # https://docs.traefik.io/master/providers/file/
