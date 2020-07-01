@@ -84,10 +84,15 @@ export default {
   },
   methods: {
     emitAsideHandle () {
+      // TODO: This is for chat store
+      this.$store.commit('setAsideChat')
+      // TODO This is for apps tore.
+      // we need to fixthis
       this.$emit('asideHandle')
     },
     newChat () {
       console.log('newChat')
+      this.$store.commit('setAsideChat')
       this.$emit('newChat')
     }
   }
