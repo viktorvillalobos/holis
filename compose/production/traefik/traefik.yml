@@ -10,21 +10,9 @@ entryPoints:
     # https
     address: ":443"
 
-  flower:
-    # https
-    address: ":5555"
-
   rtc:
     # https
     address: ":9001"
-
-  bosh:
-    # http
-    address: ":7070"
-
-  bosh-secure:
-    # https
-    address: ":7443"
 
 certificatesResolvers:
   letsencrypt:
@@ -83,7 +71,7 @@ http:
     bosh-secure-router:
       rule: "Host(`bosh.chat.holis.chat`)"
       entryPoints:
-        - bosh-secure
+        - web-secure
       service: bosh
       middlewares:
         - csrf
@@ -95,7 +83,7 @@ http:
     flower-secure-router:
       rule: "Host(`flower.holis.chat`)"
       entryPoints:
-        - flower
+        - web-secure
       service: flower
       tls:
         # https://docs.traefik.io/master/routing/routers/#certresolver
