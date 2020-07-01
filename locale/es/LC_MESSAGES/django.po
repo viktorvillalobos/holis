@@ -608,38 +608,3 @@ msgstr ""
 #: config/settings/base.py:33
 msgid "Spanish"
 msgstr ""
-
-#, fuzzy
-#~| msgid "EARLY-ACCESS"
-#~ msgid "EARLY ACCESS"
-#~ msgstr "Accede anticipadamente"
-
-#~ msgid "Did you know that your office can now be anywhere?"
-#~ msgstr "Tu oficina ahora puede estar en cualquier lugar"
-
-#~ msgid "Get early access"
-#~ msgstr "Obtener acceso anticipado"
-
-#~ msgid "Realtime voice"
-#~ msgstr "Voz realtime"
-
-#~ msgid "Solve doubds and socialize with yout team at any time"
-#~ msgstr "Resuelve dudas y socializa con tu equipo en cualquier momento"
-
-#~ msgid "Is the person you want communicate with busy? Leave him a message!"
-#~ msgstr ""
-#~ "¿La persona con la que quieres comunicarte est? ocupada? ¡Déjale un "
-#~ "mensaje al chat!"
-
-#~ msgid "Analytics"
-#~ msgstr "Analíticas"
-
-#~ msgid ""
-#~ "Because in the information age if we did not have channels we were not at "
-#~ "all"
-#~ msgstr ""
-#~ "Porque en la era de la información si no teníamos analíticas no estábamos "
-#~ "en nada"
-
-#~ msgid "The best communication tool for startups"
-#~ msgstr "La mejor herramienta de comunicación para startups"
