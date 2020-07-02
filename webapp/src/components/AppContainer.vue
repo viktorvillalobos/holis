@@ -60,6 +60,32 @@
           />
         </card>
       </modal>
+
+      <div :class="['modal', {'is-active' : alert.active}]">
+        <div class="modal-background"></div>
+        <div class="modal-content">
+          <div class="notification connect-alert-notification">
+            <button @click="closeAlert" class="delete"></button>
+            <div class="connect-alert-content-wrapper">
+              <div class="connect-alert-content-icon">
+                <font-awesome-icon :icon="alert.icon" :style="{ color: '#5d6de8' }" size="4x" />
+              </div>
+              <div class="connect-alert-content">
+                <h2>{{alert.title}}</h2>
+                <p>{{alert.text}}</p>
+                <label class="checkbox">
+                  <input type="checkbox" />
+                  Remember my decision
+                </label>
+              </div>
+            </div>
+            <div class="buttons is-right">
+              <button @click="closeAlert" class="button">Cancel</button>
+              <button @click="closeAlert" class="button is-primary">I'm sure</button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     <div :class="['connect-content-wrapper', {'wrap' : $route.name !== 'office' }]">
       <router-view></router-view>
@@ -103,7 +129,7 @@ export default {
     ChatBubbles,
     Chat,
     Modal,
-    Card,
+    Card
   },
   computed: {
     ...mapState({
@@ -118,7 +144,8 @@ export default {
       notification: state => state.app.notification,
       user: state => state.app.user,
       users: state => state.chat.users,
-      areas: state => state.areas
+      areas: state => state.areas,
+      alert: state => state.app.alert
     }),
     asideLeftName() {
       if (this.isNotificationsActive) return "Notificaciones";
@@ -153,8 +180,8 @@ export default {
     this.gets();
   },
   methods: {
-    gets () {
-      this.getUsers()
+    gets() {
+      this.getUsers();
     },
     getUsers() {
       try {
@@ -193,8 +220,18 @@ export default {
       if (!this.isAsideRightActive) this.handleAsideRight();
       this.newChatActive = true;
     },
-    selectedChat () {
-      this.newChatActive = false
+    selectedChat() {
+      this.newChatActive = false;
+    },
+    closeAlert() {
+      const alert = {
+        active: false,
+        text: 'Are you sure you wanna get out of this voice channel?',
+        title: 'Wait!',
+        icon: "grin-beam-sweat"
+      };
+
+      this.$store.commit('setAlert', alert)
     }
   }
 };
@@ -216,7 +253,7 @@ body {
   font-size: 14px;
 }
 
-.connect-container * {
+.connect-container > * {
   z-index: 15;
 }
 
@@ -304,5 +341,29 @@ a {
     margin-top: 75px;
     padding: 0 20px;
   }
+}
+
+.connect-alert-content {
+  &-wrapper {
+    display: flex;
+    margin-bottom: 30px;
+  }
+
+  &-icon {
+    margin-right: 25px;
+  }
+
+  h2 {
+    font-size: 1.25rem;
+  }
+
+  .checkbox {
+    margin-top: 20px;
+  }
+}
+
+.connect-alert-notification {
+  max-width: 490px;
+  margin: 0 auto;
 }
 </style>

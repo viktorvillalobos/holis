@@ -55,7 +55,6 @@ export default {
   padding: 2px 15px 20px 15px;
   overflow: hidden;
   z-index: 99;
-
   color: #fff;
 
   .svg-wrapper {
@@ -64,6 +63,7 @@ export default {
     left: 0;
     right: 0;
     bottom: 0;
+    z-index: 15;
 
     svg {
       position: absolute;
@@ -73,9 +73,13 @@ export default {
 
   h3 {
     font-weight: 600;
+    position: relative;
+    z-index: 30;
   }
 
   .chat-actions {
+    position: relative;
+    z-index: 30;
     display: flex;
     align-items: center;
     justify-content: flex-end;
