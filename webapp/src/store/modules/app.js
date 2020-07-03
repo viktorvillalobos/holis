@@ -14,7 +14,13 @@ const state = {
     isVideoActive: false,
     isSoundActive: true,
     releases: [],
-    notifications: []
+    notifications: [],
+    alert: {
+        active: false,
+        text: 'Are you sure you wanna get out of this voice channel?',
+        title: 'Wait!',
+        icon: 'grin-beam-sweat'
+    }
 }
 
 const mutations = {
@@ -47,6 +53,9 @@ const mutations = {
     },
     setNotifications(state, payload) {
         state.notifications = payload
+    },
+    setAlert(state, payload) {
+        state.alert = payload
     }
 }
 
