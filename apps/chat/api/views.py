@@ -2,11 +2,13 @@ import uuid
 import logging
 from apps.chat import models
 from apps.chat.api import serializers
+from django.conf import settings
 from rest_framework import status, exceptions, views
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from rest_framework import permissions
+from twilio.rest import Client
 
 from apps.utils import openfire
 from apps.chat import models as chat_models
@@ -95,3 +97,13 @@ class GetOrCreateChannelAPIView(views.APIView):
         except chat_uc.NonExistentMemberException:
             raise exceptions.ValidationError('Member not exist')
         return Response({"jid": channel.id}, status=200)
+
+
+class GetTurnCredentialsAPIView(views.APIView):
+    def get(self, request, *args, **kwargs):
+        account_sid = settings.TWILIO_ACCOUNT_ID
+        auth_token = settings.TWILIO_AUTH_TOKEN
+        client = Client(account_sid, auth_token)
+        token = client.tokens.create()
+
+        return Response(token.ice_servers, status=200)
