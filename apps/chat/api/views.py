@@ -104,6 +104,6 @@ class GetTurnCredentialsAPIView(views.APIView):
         account_sid = settings.TWILIO_ACCOUNT_ID
         auth_token = settings.TWILIO_AUTH_TOKEN
         client = Client(account_sid, auth_token)
-        token = client.tokens.create()
+        token = client.tokens.create(ttl=60)
 
         return Response(token.ice_servers, status=200)

@@ -96,7 +96,7 @@
       this.rtcmConnection = new RTCMultiConnection();
       this.rtcmConnection.socketURL = this.socketURL;
 
-      const iceServers = this.getIceServers()
+      const iceServers = await this.getIceServers()
       this.rtcmConnection.iceServers = iceServers
       this.rtcmConnection.autoCreateMediaElement = false;
       this.rtcmConnection.enableLogs = this.enableLogs;
