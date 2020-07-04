@@ -137,7 +137,7 @@ export default {
           y: hexCoordinates.y, 
           room: this.room
         }
-
+        
         this.$socket.send(JSON.stringify(message))
       } 
     },

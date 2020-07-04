@@ -19,6 +19,7 @@
 <script>
   require('adapterjs');
 
+  import apiClient from '../../services/api'
   import RTCMultiConnection from '@/plugins/RTCMultiConnection'
   import { mapState } from 'vuex'
   export default {
@@ -90,17 +91,13 @@
         this.muteMyMicro(value)
       }
     },
-    mounted() {
+    async mounted() {
       var that = this;
       this.rtcmConnection = new RTCMultiConnection();
       this.rtcmConnection.socketURL = this.socketURL;
 
-      this.rtcmConnection.iceServers.push({
-          urls: 'turn:coturn.holis.chat:443',
-          credential: 'CabezaDePapa',
-          username: 'ElPinzas'
-      });
-
+      const iceServers = await this.getIceServers()
+      this.rtcmConnection.iceServers = iceServers
       this.rtcmConnection.autoCreateMediaElement = false;
       this.rtcmConnection.enableLogs = this.enableLogs;
       this.rtcmConnection.session = {
@@ -176,6 +173,10 @@
       };
     },
     methods: {
+      async getIceServers() {
+        const { data } = await apiClient.chat.getTurnCredentials()
+        return data
+      },
       muteMyMicro (mute){
         this.localStream.stream.getAudioTracks()[0].enabled = !mute
       },

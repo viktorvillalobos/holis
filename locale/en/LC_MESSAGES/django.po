@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-06-29 16:19-0400\n"
+"POT-Creation-Date: 2020-07-01 01:45-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -427,8 +427,16 @@ msgstr ""
 msgid "Privacy Policy"
 msgstr ""
 
-#: apps/templates/base.html:106
+#: apps/templates/base.html:106 apps/templates/base.html:125
 msgid "All rights reserved"
+msgstr ""
+
+#: apps/templates/base.html:116
+msgid "Questions? Need help? Email us at"
+msgstr ""
+
+#: apps/templates/base.html:121
+msgid "is proudly designed and developed in LATAM ♥"
 msgstr ""
 
 #: apps/templates/pages/home.html:14
@@ -482,7 +490,9 @@ msgstr "Distraction free mode"
 
 #: apps/templates/pages/home.html:120
 msgid "FEATURE-4-CONTENT"
-msgstr "Turn off all communications and notifications, to focus on work when you need to."
+msgstr ""
+"Turn off all communications and notifications, to focus on work when you "
+"need to."
 
 #: apps/templates/pages/home.html:124
 msgid "FEATURE-5-TITLE"
@@ -498,7 +508,9 @@ msgstr "Docs & Files"
 
 #: apps/templates/pages/home.html:130
 msgid "FEATURE-6-CONTENT"
-msgstr "Share docs, code, files, images and spreassheets. Organize in folder so they're easy to find."
+msgstr ""
+"Share docs, code, files, images and spreassheets. Organize in folder so "
+"they're easy to find."
 
 #: apps/templates/pages/home.html:143
 msgid "CALL-TO-ACTION-FOOTER"
