@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% load static i18n compress%}
+
+{% block content %}
+<section class="espazum-soon-release">
+    <div class="espazum-soon-release-title">
+        <div class="container has-text-centered">
+            <div class="columns is-centered">
+                <div class="column is-6">
+                    <h1>The only communication tool your team will ever need</h1>
+                </div>
+            </div>
+            <div class="columns is-centered">
+                <div class="column is-4">
+                    <h2>Holis provides you with everything you need to start working remotely</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="espazum-soon-release-cta">
+        <div class="container has-text-centered">
+            <div class="columns is-centered">
+                <div class="column is-6">
+                    <p><strong>Holis will be available very soon!</strong></p>
+                    <form id="header-get-early-access">
+                        <div class="espazum-inner-button-field">
+                            <input class="input" type="email" placeholder="mail@mail.com" required>
+                            {% csrf_token %}
+                            <button onclick="getEarlyAccess('header-get-early-access')" type="button"
+                                class="button is-primary"> {% trans 'EARLY-ACCESS' %}</button>
+                        </div>
+                        <div class="espazum-form-message">
+                            <div class="espazum-form-message-animation lottie">
+                                <script
+                                    src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+                                <lottie-player src="https://assets5.lottiefiles.com/packages/lf20_NcXIOl.json"
+                                    background="transparent" speed="1" style="width: 200px; height: 200px;" loop
+                                    autoplay>
+                                </lottie-player>
+                            </div>
+                            <div class="espazum-form-message-animation is-active">
+                                <img src="{% static 'images/star.svg' %}" alt="star">
+                            </div>
+                            <div class="espazum-form-message-msg lottie">
+                                <h4>Yaaaay!</h4>
+                                You are now part of our list!
+                            </div>
+                            <div class="espazum-form-message-msg is-active">
+                                Our first users will have access to ALL PRO features at an incredible price!
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="espazum-soon-release-companies">
+        <div class="container has-text-centered">
+            <div class="columns is-centered">
+                <div class="column is-6">
+                    <p>Equipos de estas empresas confían en nosotros</p>
+                    <ul>
+                        <li>
+                            <img src="{% static 'images/talana.png' %}" alt="Talana" />
+                        </li>
+                        <li>
+                            <img src="{% static 'images/adslab.png' %}" alt="Adslab" />
+                        </li>
+                        <li>
+                            <img src="{% static 'images/firesoft.png' %}" alt="Firesoft" />
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

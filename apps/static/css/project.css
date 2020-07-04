@@ -8496,62 +8496,71 @@ h3 {
     color: #fff;
     font-size: 30px; }
 
-@media screen and (max-width: 768px) {
-  .espazum-navbar {
-    position: fixed;
-    top: 0;
-    -webkit-animation-name: navbarentrance;
+/* @media screen and (max-width: 768px) {
+    .espazum {
+        &-navbar {
+            position: fixed;
+            top: 0;
             animation-name: navbarentrance;
-    -webkit-animation-duration: 0.5s;
-            animation-duration: 0.5s; }
-    .espazum-navbar .container {
-      background: linear-gradient(91deg, #6469e6 2.75%, #536fe8 98.88%);
-      -webkit-box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.25);
-              box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.25);
-      border-radius: 0px 0px 15px 15px;
-      padding: 10px 15px; }
-    .espazum-navbar .espazum-navbar-mobile-container {
-      background: linear-gradient(91deg, #6469e6 2.75%, #536fe8 98.88%);
-      width: 100%;
-      display: -webkit-box;
-      display: -ms-flexbox;
-      display: flex;
-      -webkit-box-align: center;
-          -ms-flex-align: center;
-              align-items: center;
-      -webkit-box-pack: justify;
-          -ms-flex-pack: justify;
-              justify-content: space-between;
-      position: relative;
-      z-index: 99; }
-    .espazum-navbar .espazum-navbar-logo--color {
-      display: none; }
-    .espazum-navbar .espazum-navbar-logo--white {
-      display: block; }
-    .espazum-navbar-links {
-      -webkit-transition: .6s all ease;
-      transition: .6s all ease;
-      display: block;
-      margin-top: -500px;
-      background: linear-gradient(91deg, #6469e6 2.75%, #536fe8 98.88%);
-      -webkit-box-shadow: 0px 20px 15px rgba(0, 0, 0, 0.25);
-              box-shadow: 0px 20px 15px rgba(0, 0, 0, 0.25);
-      border-radius: 0px 0px 15px 15px;
-      padding: 10px 15px;
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 55; }
-      .espazum-navbar-links li {
-        margin-left: 0;
-        padding: 15px;
-        display: block; }
-      .espazum-navbar-links.active {
-        margin-top: 35px; }
-    .espazum-navbar #menu-btn {
-      display: block; } }
+            animation-duration: 0.5s;
+            .container {
+                background: linear-gradient(91deg, #6469e6 2.75%, #536fe8 98.88%);
+                box-shadow: $box-shadow;
+                border-radius: 0px 0px 15px 15px;
+                padding: 10px 15px;
+            }
 
+            .espazum-navbar-mobile-container {
+                background: linear-gradient(91deg, #6469e6 2.75%, #536fe8 98.88%);
+                width: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                position: relative;
+                z-index: 99;
+
+            }
+
+            .espazum-navbar-logo {
+                &--color {
+                    display: none;
+                }
+                &--white {
+                    display: block;
+                }
+            }
+            &-links {
+                transition: .6s all ease;
+                display: block;
+                margin-top: -500px;
+                background: linear-gradient(91deg, #6469e6 2.75%, #536fe8 98.88%);
+                box-shadow: 0px 20px 15px rgba(0, 0, 0, 0.25);
+                border-radius: 0px 0px 15px 15px;
+                padding: 10px 15px;
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                z-index: 55;
+
+                li {
+                    margin-left: 0;
+                    padding: 15px;
+                    display: block;
+                }
+
+                &.active {
+                    margin-top: 35px;
+                }
+            }
+
+            #menu-btn {
+                display: block;
+            }
+        }
+    }
+}
+*/
 .espazum-hero {
   position: relative;
   padding-top: 148px;
@@ -8677,6 +8686,71 @@ h3 {
 @media screen and (max-width: 900px) {
   .espazum-exposed-wrapper {
     display: none; } }
+
+.espazum-soon-release {
+  background-image: url(../images/clear_bg.svg);
+  background-size: 90%;
+  background-repeat: no-repeat;
+  height: 100vh;
+  padding-top: 15vh; }
+  .espazum-soon-release-title h1 {
+    font-size: 34.5px;
+    font-size: 2.875rem;
+    line-height: 39.75px;
+    line-height: 3.3125rem;
+    font-weight: bold; }
+  .espazum-soon-release-title h2 {
+    font-weight: normal;
+    font-size: 16.5px;
+    font-size: 1.375rem;
+    line-height: 18.75px;
+    line-height: 1.5625rem; }
+  .espazum-soon-release-cta {
+    margin-top: 60px; }
+    .espazum-soon-release-cta p {
+      margin-bottom: 15px; }
+    .espazum-soon-release-cta .espazum-inner-button-field input {
+      left: 0; }
+    .espazum-soon-release-cta .espazum-form-message {
+      opacity: 1;
+      top: 0;
+      height: 140px;
+      background-color: #6781EF; }
+      .espazum-soon-release-cta .espazum-form-message-animation, .espazum-soon-release-cta .espazum-form-message-msg {
+        opacity: 0;
+        -webkit-transition: .25s all ease;
+        transition: .25s all ease; }
+        .espazum-soon-release-cta .espazum-form-message-animation.is-active, .espazum-soon-release-cta .espazum-form-message-msg.is-active {
+          opacity: 1; }
+      .espazum-soon-release-cta .espazum-form-message-animation:not(.lottie) {
+        position: absolute;
+        left: 20px; }
+      .espazum-soon-release-cta .espazum-form-message-msg:not(.lottie) {
+        position: absolute;
+        left: 110px;
+        width: calc(100% - 110px);
+        text-align: left;
+        padding-right: 5px;
+        font-weight: 500;
+        vertical-align: middle;
+        font-size: 12.24px;
+        font-size: 1.02rem; }
+  .espazum-soon-release-companies {
+    margin-top: 30px; }
+    .espazum-soon-release-companies ul {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-align: center;
+          -ms-flex-align: center;
+              align-items: center;
+      -webkit-box-pack: justify;
+          -ms-flex-pack: justify;
+              justify-content: space-between;
+      width: 100%;
+      margin-top: 20px; }
+      .espazum-soon-release-companies ul li {
+        max-width: calc((100% / 3) - 10px); }
 
 .border-right {
   border-right: 1px solid #c4c4c4; }

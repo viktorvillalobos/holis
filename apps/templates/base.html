@@ -51,12 +51,12 @@
     <div class="container">
       <div class="espazum-navbar-mobile-container">
         <div class="espazum-navbar-logo">
-          <img class="espazum-navbar-logo--color" src="{% static 'images/Holis.svg' %}" alt="Holis">
-          <img class="espazum-navbar-logo--white" src="{% static 'images/HolisBlanco.svg' %}" alt="Holis" />
+          <img class="espazum-navbar-logo--color" src="{% static 'images/logo/logo.svg' %}" alt="Holis">
+          <img class="espazum-navbar-logo--white" src="{% static 'images/logo/logo.svg' %}" alt="Holis" />
         </div>
         <i onclick="handleNavMenu()" id="menu-btn" class="fas fa-bars"></i>
       </div>
-
+      {% comment %}
       <ul class="espazum-navbar-links">
         <li>
             <a href="/">Home</a>
@@ -71,6 +71,7 @@
           <a class="button" href="#cta-get-early-access">{% trans 'EARLY-ACCESS' %}</a>
         </li>
       </ul>
+      {% endcomment %}
     </div>
   </nav>
 
@@ -84,6 +85,7 @@
   {% block content %}
   {% endblock content %}
 
+  {% comment %}
   <footer>
     <div class="container">
       <div class="columns">
@@ -127,6 +129,7 @@
         </div>
     </div>
   </footer>
+  {% endcomment %}
 
   {% block modal %}{% endblock modal %}
 
