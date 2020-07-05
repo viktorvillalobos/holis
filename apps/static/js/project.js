@@ -37,13 +37,13 @@ async function getEarlyAccess(origin) {
         successSoonAnimation[1].classList.toggle('is-active')
         successSoonMsg[0].classList.toggle('is-active')
         successSoonMsg[1].classList.toggle('is-active')
-        setTimeout(() => {
+        /* setTimeout(() => {
             success.classList.remove('active')
             successSoonAnimation[0].classList.toggle('is-active')
             successSoonAnimation[1].classList.toggle('is-active')
             successSoonMsg[0].classList.toggle('is-active')
             successSoonMsg[1].classList.toggle('is-active')
-        }, 5000)
+        }, 5000) */
         return res;
     } catch (e) {
         btn.classList.remove('is-loading')
@@ -59,13 +59,13 @@ function handleNavMenu() {
 !(function (d) {
     // Handle Navbar
     const navbar = d.getElementsByClassName('espazum-navbar')[0]
-    window.addEventListener('scroll', function () {
+    /* window.addEventListener('scroll', function () {
         if (window.scrollY > 80) {
             navbar.classList.add('scrolled')
         } else {
             navbar.classList.remove('scrolled')
         }
-    })
+    }) */
 
 
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
