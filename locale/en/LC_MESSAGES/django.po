@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-07-01 01:45-0400\n"
+"POT-Creation-Date: 2020-07-04 20:35-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -402,46 +402,18 @@ msgid ""
 "mail address</a>."
 msgstr ""
 
-#: apps/templates/base.html:65 apps/templates/base.html:94
-msgid "About"
-msgstr ""
-
-#: apps/templates/base.html:68 apps/templates/base.html:95
-msgid "Blog"
-msgstr ""
-
-#: apps/templates/base.html:71 apps/templates/pages/home.html:28
-#: apps/templates/pages/home.html:150
-msgid "EARLY-ACCESS"
-msgstr "Get early access"
-
-#: apps/templates/base.html:93
-msgid "Home"
-msgstr "How it works"
-
-#: apps/templates/base.html:101
-msgid "Terms and Conditions"
-msgstr ""
-
-#: apps/templates/base.html:102
-msgid "Privacy Policy"
-msgstr ""
-
-#: apps/templates/base.html:106 apps/templates/base.html:125
-msgid "All rights reserved"
-msgstr ""
-
-#: apps/templates/base.html:116
-msgid "Questions? Need help? Email us at"
-msgstr ""
-
-#: apps/templates/base.html:121
-msgid "is proudly designed and developed in LATAM ♥"
+#: apps/templates/base.html:8 apps/templates/pages/soon.html:10
+msgid "The only communication tool your team will ever need"
 msgstr ""
 
 #: apps/templates/pages/home.html:14
 msgid "CALL-TO-ACTION-HEADER"
 msgstr "Work remotely without losing team spirit"
+
+#: apps/templates/pages/home.html:28 apps/templates/pages/home.html:150
+#: apps/templates/pages/soon.html:30
+msgid "EARLY-ACCESS"
+msgstr "Get early access"
 
 #: apps/templates/pages/home.html:61
 msgid "FEATURE-MAIN-TITLE"
@@ -515,6 +487,27 @@ msgstr ""
 #: apps/templates/pages/home.html:143
 msgid "CALL-TO-ACTION-FOOTER"
 msgstr "Ready to see what we're building?"
+
+#: apps/templates/pages/soon.html:15
+msgid "Holis provides you with everything you need to start working remotely"
+msgstr ""
+
+#: apps/templates/pages/soon.html:24
+msgid "Holis will be available very soon!"
+msgstr ""
+
+#: apps/templates/pages/soon.html:46
+msgid "You are now part of our list!"
+msgstr ""
+
+#: apps/templates/pages/soon.html:49
+msgid ""
+"Our first users will have access to ALL PRO features at an incredible price!"
+msgstr ""
+
+#: apps/templates/pages/soon.html:61
+msgid "Teams from these companies trust in us"
+msgstr ""
 
 #: apps/users/api/serializers.py:107
 msgid "Email"
@@ -607,6 +600,9 @@ msgstr ""
 #: config/settings/base.py:33
 msgid "Spanish"
 msgstr ""
+
+#~ msgid "Home"
+#~ msgstr "How it works"
 
 #, fuzzy
 #~| msgid "EARLY-ACCESS"
