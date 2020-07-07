@@ -2,7 +2,7 @@ import uuid
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
 from rest_framework.authtoken.views import ObtainAuthToken
-from rest_framework import status
+from rest_framework import status, permissions
 from rest_framework.decorators import action
 from rest_framework.mixins import (
     ListModelMixin,
@@ -66,6 +66,7 @@ class LoginAPIView(ObtainAuthToken):
 
 class CheckCompanyAPIView(generics.RetrieveAPIView):
     serializer_class = serializers.CheckCompanySerializer
+    permission_classes = [permissions.AllowAny]
 
     def get_object(self):
         name = self.kwargs.get('company_name')

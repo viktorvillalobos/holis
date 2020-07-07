@@ -73,17 +73,8 @@ export default {
     },
     async handleSignIn() {
       if (this.password && this.email) {
-        try {
           const instance = {password: this.password, email: this.email}
           await this.$store.dispatch('login', instance)
-        } catch (e) {
-          let errors = ''
-          Object.keys(e.response.data).forEach( x => {
-            errors += e.response.data[x] + '\n'
-          })
-
-          this.error = errors
-        }
       } else {
         this.error = "Debes ingresar tu email y contraseña";
       }
