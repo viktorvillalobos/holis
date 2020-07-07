@@ -8,8 +8,8 @@ from django.views.generic import TemplateView
 class SoonTemplateView(TemplateView):
     template_name = "pages/soon.html"
 
-    def dispatch(self, request, *args, **kwargs):
-        if not request.GET.get("no_redirect") and request.user.is_authenticated:
-            return redirect(reverse('webapp'))
+    # def dispatch(self, request, *args, **kwargs):
+    #     if not request.GET.get("no_redirect") and request.user.is_authenticated:
+    #         return redirect(reverse('webapp'))
 
-        return super().dispatch(request, *args, **kwargs)
+    #     return super().dispatch(request, *args, **kwargs)
