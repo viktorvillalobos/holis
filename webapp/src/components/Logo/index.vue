@@ -1,6 +1,6 @@
 <template>
   <div :class="['connect-logo-wrapper', {'aside-opened' : asideOpened}]">
-    <img class="connect-logo-company" src="/static/images/Holis.svg" alt="espazum logo" width="120"/>
+    <img class="connect-logo-company" src="/static/images/logo/logo.svg" alt="espazum logo" width="120"/>
     <span class="connect-separator">|</span>
     <h1 class="connect-company">{{ company.name }}</h1>
   </div>

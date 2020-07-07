@@ -42,6 +42,7 @@
   </form>
 </template>
 <script>
+import {mapState} from 'vuex'
 import Btn from "@/components/Btn";
 export default {
   name: "Workspace",
@@ -55,13 +56,25 @@ export default {
       error: null
     };
   },
+  computed: {
+    ...mapState({
+      company: state => state.auth.company
+    })
+  },
+  created () {
+    if (!this.company) this.checkCompany()
+  },
   methods: {
     handleBack() {
       this.$router.push({ name: "workspace" });
     },
-    handleSignIn() {
+    async checkCompany () {
+      await this.$store.dispatch('checkCompany', {companyName: this.$route.params.workspaceName})
+    },
+    async handleSignIn() {
       if (this.password && this.email) {
-        this.$router.push({ name: "office" });
+          const instance = {password: this.password, email: this.email}
+          await this.$store.dispatch('login', instance)
       } else {
         this.error = "Debes ingresar tu email y contraseña";
       }

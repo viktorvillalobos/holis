@@ -1,28 +1,21 @@
 import apiClient from "../../services/api"
 import axios from 'axios'
 
-function setDefaultHeader(jwt) {
-    axios.defaults.headers.common['Authorization'] = `Bearer ${jwt}`
+function setDefaultHeader(token) {
+    axios.defaults.headers.common['Authorization'] = `Basic ${token}`
 }
 
 const state = {
-  currentJWT: null,
-  refresh: null,
+  token: null,
   company: null
 }
 const getters = {
     jwt: state => state.currentJWT,
-    jwtData: (state, getters) => state.currentJWT ? JSON.parse(atob(getters.jwt.split('.')[1])) : null,
-    jwtSubject: (state, getters) => getters.jwtData ? getters.jwtData.sub : null,
-    jwtIssuer: (state, getters) => getters.jwtData ? getters.jwtData.iss : null
 }
 
 const mutations = {
-  setJWT (state, jwt) {
-    state.currentJWT = jwt
-  },
-  setRefresh (state, token) {
-    state.refresh = token
+  setToken (state, token) {
+    state.token = token
   },
   setCompany (state, company){
     state.company = company
@@ -30,16 +23,13 @@ const mutations = {
 }
 
 const actions = {
-  login ({commit}, {username, password}) {
-    const {data} = apiClient.login(username, password)
-    setDefaultHeader(data.access)
-    commit("setJWT", data.access)
-    commit("setRefresh", data.refresh)
-  },
-  refresh ({commit}, {username, password}) {
-    const {data} = apiClient.login(username, password)
-    setDefaultHeader(data.access)
-    commit("setJWT", data.access)
+  async login ({state, commit}, {email, password}) {
+    const { data } = await apiClient.auth.login(email, password, state.company.id)
+    commit("setToken", data.token)
+    localStorage.setItem('token', data.token)
+    setDefaultHeader(data.token)
+    document.cookie = `X-WS-Authorization=${data.token}; path=/`
+    return data
   },
   async checkCompany ({commit}, {companyName}){
     try{
