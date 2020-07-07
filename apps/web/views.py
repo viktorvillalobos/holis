@@ -1,6 +1,6 @@
-from django.views.generic import TemplateView
 from django.shortcuts import redirect
 from django.urls import reverse
+from django.views.generic import TemplateView
 
 # Create your views here.
 

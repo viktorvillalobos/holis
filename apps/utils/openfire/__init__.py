@@ -1,2 +1,2 @@
-from .users import * # noqa
-from .muc import * # noqa
+from .muc import *  # noqa
+from .users import *  # noqa

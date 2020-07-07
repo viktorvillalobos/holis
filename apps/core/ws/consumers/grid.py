@@ -1,10 +1,10 @@
 import logging
-from typing import Dict, Tuple, Optional
+from typing import Dict, Optional, Tuple
+
+from apps.core import models as core_models
+from apps.core.uc import area_uc
 from channels.db import database_sync_to_async
 from django.core.cache import cache
-
-from apps.core.uc import area_uc
-from apps.core import models as core_models
 
 logger = logging.getLogger(__name__)
 

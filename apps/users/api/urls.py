@@ -15,8 +15,6 @@ router.register("notifications", views.NotificationViewSet)
 urlpatterns = [
     path("check-company/<str:company_name>/", views.CheckCompanyAPIView.as_view()),
     path("login/", views.LoginAPIView.as_view()),
-    path("token/", jwt_views.TokenObtainPairView.as_view(), name="token_obtain_pair",),
-    path("token/refresh/", jwt_views.TokenRefreshView.as_view(), name="token_refresh",),
 ]
 
 

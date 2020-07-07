@@ -1,9 +1,9 @@
 import datetime as dt
 import uuid
-from django.db import DatabaseError, transaction
 
 from apps.users.models import User
 from apps.utils import openfire
+from django.db import DatabaseError, transaction
 
 
 class UserCreationXMPPError(Exception):

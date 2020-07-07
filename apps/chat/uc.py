@@ -1,10 +1,9 @@
 import uuid
-from django.db import DatabaseError, transaction, models
 
-
-from apps.utils import openfire
 from apps.chat import models as chat_models
 from apps.users import models as users_models
+from apps.utils import openfire
+from django.db import DatabaseError, models, transaction
 
 
 class ChannelCreationXMPPError(Exception):

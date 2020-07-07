@@ -4,8 +4,7 @@ from django.utils.translation import gettext_lazy as _
 from django_countries.fields import CountryField
 from model_utils.models import TimeStampedModel
 from mptt.models import MPTTModel, TreeForeignKey
-from sorl.thumbnail import get_thumbnail
-from sorl.thumbnail import ImageField
+from sorl.thumbnail import ImageField, get_thumbnail
 
 # Create your models here.
 

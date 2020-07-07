@@ -1,25 +1,23 @@
-import uuid
 import logging
-from apps.chat import models
+import uuid
+
+from apps.chat import models as chat_models
+from apps.chat import uc as chat_uc
 from apps.chat.api import serializers
+from apps.utils import openfire
 from django.conf import settings
-from rest_framework import status, exceptions, views
+from rest_framework import exceptions, status, views
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
-from rest_framework import permissions
 from twilio.rest import Client
-
-from apps.utils import openfire
-from apps.chat import models as chat_models
-from apps.chat import uc as chat_uc
 
 logger = logging.getLogger(__name__)
 
 
 class ChannelViewSet(ModelViewSet):
     serializer_class = serializers.ChannelSerializer
-    queryset = models.Channel.objects.all()
+    queryset = chat_models.Channel.objects.all()
 
     def get_queryset(self):
         return self.queryset.filter(company__id=self.request.user.company_id)

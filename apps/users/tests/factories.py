@@ -1,17 +1,16 @@
 import datetime as dt
 from typing import Any, Sequence
 
+from apps.core.tests.factories import CompanyFactory
 from django.contrib.auth import get_user_model
 from factory import (
     DjangoModelFactory,
     Faker,
-    post_generation,
     RelatedFactory,
+    SubFactory,
     fuzzy,
-    SubFactory
+    post_generation,
 )
-
-from apps.core.tests.factories import CompanyFactory
 
 
 class UserFactory(DjangoModelFactory):

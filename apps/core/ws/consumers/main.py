@@ -1,11 +1,11 @@
 import logging
 from typing import Dict
+
+from apps.users.api.serializers import UserSerializer
 from channels.db import database_sync_to_async
 from channels.generic.websocket import AsyncJsonWebsocketConsumer
 from django.contrib.auth.models import AnonymousUser
 from django.utils.translation import ugettext as _
-
-from apps.users.api.serializers import UserSerializer
 
 from .grid import GridMixin
 from .notifications import NotificationMixin

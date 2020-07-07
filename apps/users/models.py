@@ -1,6 +1,6 @@
 import datetime as dt
+
 import requests
-from sorl.thumbnail import ImageField
 from birthday.fields import BirthdayField
 from birthday.managers import BirthdayManager
 from django.contrib.auth.models import AbstractUser, UserManager
@@ -8,7 +8,7 @@ from django.db import models
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 from model_utils.models import TimeStampedModel
-from sorl.thumbnail import get_thumbnail
+from sorl.thumbnail import ImageField, get_thumbnail
 
 
 class UserManager(BirthdayManager, UserManager):

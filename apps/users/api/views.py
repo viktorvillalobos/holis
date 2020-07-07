@@ -1,23 +1,16 @@
 import uuid
-from django.contrib.auth import get_user_model
-from django.shortcuts import get_object_or_404
-from rest_framework.authtoken.views import ObtainAuthToken
-from rest_framework import status
-from rest_framework.decorators import action
-from rest_framework.mixins import (
-    ListModelMixin,
-    RetrieveModelMixin,
-    UpdateModelMixin,
-    CreateModelMixin,
-)
-from rest_framework.response import Response
-from rest_framework.viewsets import GenericViewSet, ModelViewSet
-from rest_framework import generics, views, exceptions
 
-from apps.utils import openfire
 from apps.core import models as core_models
 from apps.users import models
 from apps.users.api import serializers
+from django.contrib.auth import get_user_model
+from django.shortcuts import get_object_or_404
+from rest_framework import generics, status
+from rest_framework.authtoken.views import ObtainAuthToken
+from rest_framework.decorators import action
+from rest_framework.mixins import ListModelMixin, RetrieveModelMixin, UpdateModelMixin
+from rest_framework.response import Response
+from rest_framework.viewsets import GenericViewSet, ModelViewSet
 
 User = get_user_model()
 
@@ -70,5 +63,3 @@ class CheckCompanyAPIView(generics.RetrieveAPIView):
     def get_object(self):
         name = self.kwargs.get('company_name')
         return get_object_or_404(core_models.Company, name__iexact=name)
-
-

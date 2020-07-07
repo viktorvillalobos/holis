@@ -1,14 +1,12 @@
 import logging
 
-from django.contrib.auth import authenticate
-from django.utils.translation import gettext_lazy as _
-from rest_framework import serializers
-
-from apps.users import models as users_models
 from apps.core import models as core_models
 from apps.core.cachekeys import USER_POSITION_KEY
+from apps.users import models as users_models
+from django.contrib.auth import authenticate
 from django.core.cache import cache
-
+from django.utils.translation import gettext_lazy as _
+from rest_framework import serializers
 
 logger = logging.getLogger(__name__)
 

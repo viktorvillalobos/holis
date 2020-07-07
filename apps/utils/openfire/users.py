@@ -1,4 +1,5 @@
-from requests import get, put, post, delete
+from requests import delete, get, post, put
+
 from .base import Base
 
 

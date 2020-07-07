@@ -3,7 +3,6 @@ from typing import Dict, List
 from apps.core.tests.factories import AreaFactory
 from apps.core.uc.area_uc import GetStateAreaUC
 
-
 # class TestGetUsersAreaUC:
 #     def test_execute(self) -> None:
 #         item: Dict = {
