@@ -233,3 +233,5 @@ OPENFIRE_SECRET = env("OPENFIRE_SECRET")
 
 
 CORS_ORIGIN_WHITELIST = ["https://app.holis.chat"]
+
+SESSION_COOKIE_DOMAIN = ".holis.chat"
