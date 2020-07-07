@@ -30,11 +30,12 @@ const mutations = {
 }
 
 const actions = {
-  login ({commit}, {username, password}) {
-    const {data} = apiClient.login(username, password)
-    setDefaultHeader(data.access)
-    commit("setJWT", data.access)
-    commit("setRefresh", data.refresh)
+  login ({state}, {email, password}) {
+    const data = apiClient.auth.login(email, password, state.company.id)
+    // setDefaultHeader(data.access)
+    // commit("setJWT", data.access)
+    // commit("setRefresh", data.refresh)
+    return data
   },
   refresh ({commit}, {username, password}) {
     const {data} = apiClient.login(username, password)

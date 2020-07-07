@@ -9,10 +9,11 @@ import { urlBase } from '../config'
   * * * * * * * * * * * * * * * * * * *  * */
 
 export default {
-  login(username, password){
-    return axios.post(`${urlBase}/token/`, {
-      username,
-      password
+  login(email, password, company){
+    return axios.post(`${urlBase}/login/`, {
+      email,
+      password,
+      company
     })
   },
 

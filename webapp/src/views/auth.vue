@@ -1,7 +1,7 @@
 <template>
   <div class="auth-wrapper" :style="`background-image: url(${bg})`">
     <card class="auth-card">
-      <img class="auth-logo" src="/static/images/Holis.svg" />
+      <img class="auth-logo" src="/static/images/logo/logo.svg" />
       <router-view />
     </card>
   </div>
