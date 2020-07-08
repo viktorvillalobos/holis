@@ -16,12 +16,12 @@ class SoonTemplateView(TemplateView):
 
 
 class CheckCompanyView(TemplateView):
-    template_name = "pages/auth/check_company.html"
+    template_name = "auth/check_company.html"
 
 
 class LoginView(TemplateView):
-    template_name = "pages/auth/login.html"
+    template_name = "auth/login.html"
 
 
 class RegistrationView(TemplateView):
-    template_name = "pages/auth/signup.html"
+    template_name = "auth/signup.html"
