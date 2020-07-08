@@ -8364,3 +8364,121 @@ label.panel-block {
   background-color: #fafafa;
   padding: 48px 24px 96px;
   padding: 3rem 1.5rem 6rem; }
+
+.auth-wrapper {
+  padding-top: 130px;
+  min-height: 100vh;
+  background-size: 100%; }
+
+.auth-card {
+  width: 834px;
+  margin: 0 auto;
+  padding: 40px 65px;
+  position: relative; }
+  .auth-card .field-label {
+    text-align: left; }
+  .auth-card .file-label {
+    width: 100%; }
+    .auth-card .file-label .file-name {
+      max-width: none; }
+  .auth-card .field:not(:last-child) {
+    margin-bottom: 24px; }
+  .auth-card form {
+    margin: 0 auto;
+    max-width: 70%; }
+    .auth-card form h3 {
+      font-size: 24px;
+      font-size: 1.5rem;
+      font-weight: 500;
+      margin-bottom: 24px; }
+
+.auth-logo {
+  position: absolute;
+  top: -49px;
+  left: 18px; }
+
+.auth-options {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end; }
+  .auth-options > * {
+    margin-left: 16px; }
+
+.onboarding-stepper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between; }
+  .onboarding-stepper span {
+    vertical-align: middle;
+    display: -webkit-inline-box;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    font-weight: 700;
+    border-radius: 50%;
+    color: #fff;
+    width: 39px;
+    height: 39px;
+    font-size: 24px;
+    margin-right: 16px;
+    background: #bdbdbd; }
+  .onboarding-stepper li {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center; }
+    .onboarding-stepper li.active {
+      font-size: 24px;
+      font-weight: 500; }
+      .onboarding-stepper li.active span {
+        width: 59px;
+        height: 59px;
+        font-size: 48px;
+        background: #5d6de8; }
+
+.connect-card {
+  -webkit-box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
+          box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  background-color: #fff; }
+  .connect-card--outline {
+    -webkit-box-shadow: none;
+            box-shadow: none;
+    border: 1px solid #C4C4C4; }
+  .connect-card-actions {
+    display: -webkit-inline-box;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: end;
+        -ms-flex-pack: end;
+            justify-content: flex-end; }
+
+.holis-login-wrap form {
+  display: none; }
+  .holis-login-wrap form.is-active {
+    display: block; }
+    .holis-login-wrap form.is-active .control.has-icons-right .input {
+      padding-right: 96px;
+      padding-right: 6rem; }
+    .holis-login-wrap form.is-active .control.has-icons-right .icon {
+      width: 104px;
+      width: 6.5rem; }

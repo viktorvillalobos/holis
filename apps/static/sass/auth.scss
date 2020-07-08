@@ -5,6 +5,9 @@
 ////////////////////////////////
 //Variables//
 ////////////////////////////////
+$card-box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
+$card-border-radius: 4px;
+$medium-gray: #C4C4C4;
 
 // Alert colors
 ////////////////////////////////
@@ -13,3 +16,131 @@
 
 @import "./vars";
 @import "./bulma/bulma.sass";
+
+.auth {
+    &-wrapper {
+        padding-top: 130px;
+        min-height: 100vh;
+        background-size: 100%;
+    }
+
+    &-card {
+        width: 834px;
+        margin: 0 auto;
+        padding: 40px 65px;
+        position: relative;
+
+        .field-label {
+            text-align: left;
+        }
+        .file-label {
+            width: 100%;
+
+            .file-name {
+                max-width: none;
+            }
+        }
+
+        .field:not(:last-child) {
+            margin-bottom: 24px;
+        }
+
+        form {
+            margin: 0 auto;
+            max-width: 70%;
+
+            h3 {
+                font-size: 1.5rem;
+                font-weight: 500;
+                margin-bottom: 24px;
+            }
+        }
+    }
+
+    &-logo {
+        position: absolute;
+        top: -49px;
+        left: 18px;
+    }
+
+    &-options {
+        display: flex;
+        justify-content: flex-end;
+
+        & > * {
+            margin-left: 16px;
+        }
+    }
+}
+
+.onboarding {
+    &-stepper {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        span {
+            vertical-align: middle;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            border-radius: 50%;
+            color: #fff;
+            width: 39px;
+            height: 39px;
+            font-size: 24px;
+            margin-right: 16px;
+            background: #bdbdbd;
+        }
+
+        li {
+            display: flex;
+            align-items: center;
+
+            &.active {
+                font-size: 24px;
+                font-weight: 500;
+                span {
+                    width: 59px;
+                    height: 59px;
+                    font-size: 48px;
+                    background: $primary;
+                }
+            }
+        }
+    }
+}
+
+.connect-card {
+    box-shadow: $card-box-shadow;
+    border-radius: $card-border-radius;
+    background-color: #fff;
+
+    &--outline {
+        box-shadow: none;
+        border: 1px solid $medium-gray;
+    }
+
+    &-actions {
+        display: inline-flex;
+        align-items: center;
+        justify-content: flex-end;
+    }
+}
+
+.holis-login-wrap {
+    form {
+        display: none;
+
+        &.is-active {
+            display: block;
+
+            .control.has-icons-right .input {
+                padding-right: 6rem;
+            }
+            .control.has-icons-right .icon {
+                width: 6.5rem;
+            }
+        }
+    }
+}
