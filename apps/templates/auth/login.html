@@ -1,0 +1,27 @@
+<div class="login-panel">
+    
+    <form method="post" role="form">
+        {% csrf_token %}
+        {{ form.email }}
+        {{ form.password  }}
+        {{ form.company }}
+        <input type="submit" value="Login"/>
+    </form>
+
+    {% if form.errors %}
+        {% for field in form %}
+                {% for error in field.errors %}
+                <div class="alert alert-danger">
+                    <strong>{{ error|escape  }}</strong>
+                                </div>
+                                        {% endfor %}
+                                            {% endfor %}
+                                                {% for error in form.non_field_errors %}
+                                                <div class="alert alert-danger">
+                                                    <strong>{{ error|escape  }}</strong>
+                                                            </div>
+                                                                {% endfor %}
+                                                                {% endif %}</strong></div></strong></div>
+</div>
+</form>
+</div>

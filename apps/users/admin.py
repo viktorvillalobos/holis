@@ -17,6 +17,7 @@ class UserAdmin(AdminImageMixin, auth_admin.UserAdmin):
             "Profile",
             {
                 "fields": (
+                    "company",
                     "name",
                     "position",
                     "avatar",
