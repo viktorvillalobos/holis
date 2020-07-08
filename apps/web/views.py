@@ -13,3 +13,15 @@ class SoonTemplateView(TemplateView):
     #         return redirect(reverse('webapp'))
 
     #     return super().dispatch(request, *args, **kwargs)
+
+
+class CheckCompanyView(TemplateView):
+    template_name = "pages/auth/check_company.html"
+
+
+class LoginView(TemplateView):
+    template_name = "pages/auth/login.html"
+
+
+class RegistrationView(TemplateView):
+    template_name = "pages/auth/signup.html"
