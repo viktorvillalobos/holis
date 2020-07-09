@@ -27,6 +27,7 @@ const state = {
   connected: false,
   lastRooms: [],
   messages: [],
+  tempMessages: [],
   activeChat: null,
   asideOpen: false,
   lastBatch: null,
@@ -41,8 +42,11 @@ const getters = {
 }
 
 const mutations = {
-  setLastBach (state, batch) {
+  setLastBatch (state, batch) {
     state.lastBatch = batch
+  },
+  clearLastBatch (state) {
+    state.lastBatch = null
   },
   blockScroll (state) {
     state.allowScrollToEnd = false
@@ -62,8 +66,17 @@ const mutations = {
   setChatConnected (state, value) {
     state.connected = value
   },
-  addMessage (state, msg, unshift) {
+  addMessage (state, msg) {
     state.messages.push(msg)
+  },
+  setMessages (state, lst) {
+    state.messages = lst
+  },
+  addTempMessage (state, msg) {
+    state.tempMessages.push(msg)
+  },
+  clearTempMessages (state) {
+    state.tempMessages = []
   },
   unshiftMessage (state, msg) {
     state.messages.unshift(msg)
@@ -121,21 +134,30 @@ const actions = {
   },
   onStanza ({ commit, state, dispatch }, stanza) {
     console.log(stanza)
-    if (stanza.archive && stanza.archive.item) {
-      const item = stanza.archive.item
-      const from = item.message.from.split('/')[0]
-      const msg = {
-        is_mine: state.account.jid === from,
-        message: item.message.body,
-        who: from.split('@')[0],
-        datetime: item.delay.timestamp
-      }
-      commit('unshiftMessage', msg)
+    if (stanza.archive) {
+      dispatch('onHistory', stanza)
     }
 
     if (stanza.type === 'chat') {
       dispatch('onChat', stanza)
     }
+  },
+  onHistory ({ commit, state, dispatch }, stanza) {
+    if (stanza.type === 'result') {
+      commit('setMessages', [...state.tempMessages, ...state.messages])
+      commit('clearTempMessages')
+      return
+    }
+
+    const item = stanza.archive.item
+    const from = item.message.from.split('/')[0]
+    const msg = {
+      is_mine: state.account.jid === from,
+      message: item.message.body,
+      who: from.split('@')[0],
+      datetime: item.delay.timestamp
+    }
+    commit('addTempMessage', msg)
   },
   onError (error) {
     console.log(error)
@@ -183,10 +205,11 @@ const actions = {
     if (jid !== state.activeChat) {
       commit('clearMessages')
       commit('unBlockScroll')
+      commit('setActiveChat', jid)
+      commit('clearLastBatch')
     } else {
       commit('blockScroll')
     }
-    commit('setActiveChat', jid)
 
     const before = state.lastBatch !== null ? state.lastBatch.paging.first : ''
     console.log(`Loading messages from #${before}`)
@@ -196,7 +219,7 @@ const actions = {
         before: before
       }
     })
-    commit('setLastBach', batch)
+    commit('setLastBatch', batch)
   }
 }
 
