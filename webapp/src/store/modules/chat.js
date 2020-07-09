@@ -28,7 +28,8 @@ const state = {
   lastRooms: [],
   messages: [],
   activeChat: null,
-  asideOpen: false
+  asideOpen: false,
+  lastBatch: null
 }
 
 const getters = {
@@ -39,6 +40,9 @@ const getters = {
 }
 
 const mutations = {
+  setLastBach(state, batch) {
+    state.lastBatch = batch
+  },
   setUsers(state, list) {
     state.users = list
   },
@@ -166,15 +170,16 @@ const actions = {
     commit('addMessage', msg)
     await window.$xmpp.sendMessage({ to, body: msg.message, type: 'chat' })
   },
-  async getMessages({ commit }, jid) {
+  async getMessages({ commit, state }, jid) {
     commit('clearMessages')
     commit('setActiveChat', jid)
-    console.log(`gettingMessages from ${ jid }`)
-    try {
-      await window.$xmpp.searchHistory(jid, { paging: { max: 20, before: '' } })
-    } catch {
-      console.log('XMPP: Error trying get history')
-    }
+    const batch = await window.$xmpp.searchHistory(jid, {
+      paging: {
+        max: 20, 
+        before: state.lastBatch
+      } 
+    })
+    commit ('setLastBach', batch)
   }
 }
 

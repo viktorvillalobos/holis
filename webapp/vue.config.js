@@ -15,7 +15,11 @@ module.exports = {
     }
   },
   devServer: {
-    disableHostCheck: true
+    disableHostCheck: true,
+    overlay: {
+      warnings: true,
+      errors: true
+    }
   },
   chainWebpack: config => {
     config.optimization

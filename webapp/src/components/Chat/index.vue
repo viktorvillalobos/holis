@@ -27,6 +27,7 @@
          class="connect-chat-body"
         ref="chatContainer">
       <div class="nose"></div>
+      <span class="connect-chat-load-more">Load history</span>
       <div  class="connect-chat-body-messages-wrapper">
         <message v-for="(msg, idx) in messages" 
                 :key="idx" 
@@ -118,6 +119,15 @@ export default {
   position: relative;
   height: 100%;
   box-sizing: border-box;
+
+  &-load-more {
+    color: #4f4f4f;
+    text-align:center;
+    cursor: pointer;
+    text-decoration: underline;
+    font-size: 0.8rem;
+    margin-bottom: 2%;
+  }
 
   &-new {
     padding: 4px 15px;
