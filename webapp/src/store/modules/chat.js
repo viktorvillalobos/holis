@@ -29,7 +29,8 @@ const state = {
   messages: [],
   activeChat: null,
   asideOpen: false,
-  lastBatch: null
+  lastBatch: null,
+  allowScrollToEnd: true
 }
 
 const getters = {
@@ -43,6 +44,12 @@ const mutations = {
   setLastBach (state, batch) {
     state.lastBatch = batch
   },
+  blockScroll (state) {
+    state.allowScrollToEnd = false
+  },
+  unBlockScroll (state) {
+    state.allowScrollToEnd = true
+  },
   setUsers (state, list) {
     state.users = list
   },
@@ -55,8 +62,11 @@ const mutations = {
   setChatConnected (state, value) {
     state.connected = value
   },
-  addMessage (state, msg) {
+  addMessage (state, msg, unshift) {
     state.messages.push(msg)
+  },
+  unshiftMessage (state, msg) {
+    state.messages.unshift(msg)
   },
   clearMessages (state) {
     state.messages = []
@@ -120,7 +130,7 @@ const actions = {
         who: from.split('@')[0],
         datetime: item.delay.timestamp
       }
-      commit('addMessage', msg)
+      commit('unshiftMessage', msg)
     }
 
     if (stanza.type === 'chat') {
@@ -151,8 +161,8 @@ const actions = {
   },
   async onChat ({ commit }, msg) {
     /* eslint-disable-next-line */
-    console.log('XMPP: onChat')
-    console.log(msg)
+    // console.log('XMPP: onChat')
+    // console.log(msg)
     if (!compareJIDs(msg.from, state.activeChat)) {
       alert(`Haz recibido un mensaje de ${msg.from}`)
     } else {
@@ -162,8 +172,6 @@ const actions = {
   /* eslint-disable-next-line */
   async onIQ ({ commit }, iq) {
     /* eslint-disable-next-line */
-    console.log('XMPP: onIQ')
-    console.log(iq)
   },
   async sendChatMessage ({ commit }, { to, msg }) {
     console.log(`sending msg to ${to}`)
@@ -171,12 +179,21 @@ const actions = {
     await window.$xmpp.sendMessage({ to, body: msg.message, type: 'chat' })
   },
   async getMessages ({ commit, state }, jid) {
-    commit('clearMessages')
+    jid = jid || state.activeChat
+    if (jid !== state.activeChat) {
+      commit('clearMessages')
+      commit('unBlockScroll')
+    } else {
+      commit('blockScroll')
+    }
     commit('setActiveChat', jid)
+
+    const before = state.lastBatch !== null ? state.lastBatch.paging.first : ''
+    console.log(`Loading messages from #${before}`)
     const batch = await window.$xmpp.searchHistory(jid, {
       paging: {
         max: 20,
-        before: state.lastBatch
+        before: before
       }
     })
     commit('setLastBach', batch)

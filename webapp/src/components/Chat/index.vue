@@ -27,7 +27,7 @@
          class="connect-chat-body"
         ref="chatContainer">
       <div class="nose"></div>
-      <span class="connect-chat-load-more">Load history</span>
+      <span class="connect-chat-load-more" @click="loadHistory()">Load history</span>
       <div  class="connect-chat-body-messages-wrapper">
         <message v-for="(msg, idx) in messages"
                 :key="idx"
@@ -76,7 +76,8 @@ export default {
   computed: {
     ...mapState({
       users: state => state.chat.users,
-      messages: state => state.chat.messages
+      messages: state => state.chat.messages,
+      allowScrollToEnd: state => state.chat.allowScrollToEnd
     })
   },
   mounted () {
@@ -84,9 +85,14 @@ export default {
     this.scrollToEnd()
   },
   updated () {
-    this.scrollToEnd()
+    if (this.allowScrollToEnd) {
+      this.scrollToEnd()
+    }
   },
   methods: {
+    loadHistory () {
+      this.$store.dispatch('getMessages')
+    },
     scrollToEnd () {
       const content = this.$refs.chatContainer
       if (content) content.scrollTop = content.scrollHeight
