@@ -3,13 +3,13 @@ import axios from 'axios'
 
 import { urlBase } from '../config'
 
-  /* * * * * * * * * * * * * * * * * * * * *
+/* * * * * * * * * * * * * * * * * * * * *
   * We are using Django SESSION for login  *
   * but this allow to login using JWT      *
   * * * * * * * * * * * * * * * * * * *  * */
 
 export default {
-  login(email, password, company){
+  login (email, password, company) {
     return axios.post(`${urlBase}/login/`, {
       email,
       password,
@@ -17,7 +17,7 @@ export default {
     })
   },
 
-  checkCompany(companyName){
+  checkCompany (companyName) {
     return axios.get(`${urlBase}/check-company/${companyName}`)
   }
 }

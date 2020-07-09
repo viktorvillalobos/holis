@@ -59,11 +59,11 @@
 </template>
 <script>
 import { mapState } from 'vuex'
-import Avatar from "@/components/Avatar"
-import VoiceStatus from "@/components/VoiceStatus"
+import Avatar from '@/components/Avatar'
+import VoiceStatus from '@/components/VoiceStatus'
 
 export default {
-  name: "UserCard",
+  name: 'UserCard',
   props: {
     float: {
       type: Boolean
@@ -85,17 +85,17 @@ export default {
     Avatar,
     VoiceStatus
   },
-  data() {
+  data () {
     return {
       stateMenuIsActive: false,
       states: [
-        "💻 Available",
-        "🤝 Meeting",
-        "😋 Having lunch",
-        "👻 Absent"
+        '💻 Available',
+        '🤝 Meeting',
+        '😋 Having lunch',
+        '👻 Absent'
       ],
-      userState: null,
-    };
+      userState: null
+    }
   },
   computed: {
     ...mapState({
@@ -105,36 +105,36 @@ export default {
       connected: state => state.webrtc.connected
     })
   },
-  created() {
-    this.userState = this.states[0];
+  created () {
+    this.userState = this.states[0]
   },
   methods: {
-    emitSound() {
-      this.$emit("sound");
-      this.$store.commit("setMuteMicro")
-      this.$store.commit("setMuteAudio")
+    emitSound () {
+      this.$emit('sound')
+      this.$store.commit('setMuteMicro')
+      this.$store.commit('setMuteAudio')
     },
-    emitVideo() {
-      this.$store.dispatch("changeToVideo")
+    emitVideo () {
+      this.$store.dispatch('changeToVideo')
     },
-    emitMicro() {
-      console.log("emitMicro")
-      this.$emit("micro");
-      this.$store.commit("setMuteMicro")
+    emitMicro () {
+      console.log('emitMicro')
+      this.$emit('micro')
+      this.$store.commit('setMuteMicro')
     },
-    emitDisconnect (){
-      console.log("emmitDisconnected")
+    emitDisconnect () {
+      console.log('emmitDisconnected')
       this.$socket.send(JSON.stringify({
-        type: "grid.clear"
+        type: 'grid.clear'
       }))
-      this.$store.commit("disconnectByControl")
+      this.$store.commit('disconnectByControl')
     },
-    handleState(state) {
-      this.userState = state;
-      this.stateMenuIsActive = false;
-    },
+    handleState (state) {
+      this.userState = state
+      this.stateMenuIsActive = false
+    }
   }
-};
+}
 </script>
 <style lang="scss" scoped>
 .connect-user-card {

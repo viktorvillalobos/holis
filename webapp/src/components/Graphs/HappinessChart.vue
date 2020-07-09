@@ -62,61 +62,61 @@
   </div>
 </template>
 <script>
-import Btn from "@/components/Btn";
+import Btn from '@/components/Btn'
 export default {
-  name: "HappinessChart",
+  name: 'HappinessChart',
   components: {
     Btn
   },
-  data() {
+  data () {
     return {
       series: [
         {
-          name: "felices",
+          name: 'felices',
           data: [31, 40, 28, 51, 42, 109, 100]
         },
         {
-          name: "neutrales",
+          name: 'neutrales',
           data: [0, 5, 3, 8, 10, 1, 3]
         },
         {
-          name: "infelices",
+          name: 'infelices',
           data: [13, 24, 10, 8, 6, 35, 50]
         }
       ],
       chartOptions: {
         chart: {
           height: 350,
-          type: "area"
+          type: 'area'
         },
         dataLabels: {
           enabled: false
         },
         colors: ['#4cf25d', '#e0e0e0', '#ffa439'],
         stroke: {
-          curve: "smooth"
+          curve: 'smooth'
         },
         xaxis: {
-          type: "datetime",
+          type: 'datetime',
           categories: [
-            "2018-09-19T00:00:00.000Z",
-            "2018-09-19T01:30:00.000Z",
-            "2018-09-19T02:30:00.000Z",
-            "2018-09-19T03:30:00.000Z",
-            "2018-09-19T04:30:00.000Z",
-            "2018-09-19T05:30:00.000Z",
-            "2018-09-19T06:30:00.000Z"
+            '2018-09-19T00:00:00.000Z',
+            '2018-09-19T01:30:00.000Z',
+            '2018-09-19T02:30:00.000Z',
+            '2018-09-19T03:30:00.000Z',
+            '2018-09-19T04:30:00.000Z',
+            '2018-09-19T05:30:00.000Z',
+            '2018-09-19T06:30:00.000Z'
           ]
         },
         tooltip: {
           x: {
-            format: "dd/MM/yy HH:mm"
+            format: 'dd/MM/yy HH:mm'
           }
         }
       }
-    };
+    }
   }
-};
+}
 </script>
 <style lang="scss" scoped>
 .connect-happiness-chart {

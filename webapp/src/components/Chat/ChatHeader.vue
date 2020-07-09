@@ -38,10 +38,10 @@ export default {
   props: {
     chatName: {
       type: String,
-      default: "Chat name"
+      default: 'Chat name'
     }
   }
-};
+}
 </script>
 <style lang="scss" scoped>
 .connect-chat-header {

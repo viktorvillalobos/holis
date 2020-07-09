@@ -13,22 +13,18 @@ import Auth from '@/views/auth.vue'
 Vue.use(Router)
 const ifNotAuthenticated = (to, from, next) => {
   if (!localStorage.getItem('token')) {
-        next()
-        return
-      
+    next()
+    return
   }
-    next('/')
-  
+  next('/')
 }
 
 const ifAuthenticated = (to, from, next) => {
   if (localStorage.getItem('token')) {
-        next()
-        return
-      
+    next()
+    return
   }
-    next('/auth/s/')
-  
+  next('/auth/s/')
 }
 
 const router = new Router({

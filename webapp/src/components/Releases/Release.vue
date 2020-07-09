@@ -11,13 +11,13 @@
 </template>
 <script>
 export default {
-  name: "Release",
+  name: 'Release',
   props: {
     release: {
       type: Object
     }
   }
-};
+}
 </script>
 <style lang="scss">
 .message {

@@ -1,19 +1,20 @@
 const BundleTracker = require('webpack-bundle-tracker')
 
-
 const webpackFile = process.env.NODE_ENV === 'production' ? '../webapp/webpack-stats-prod.json' : 'webpack-stats.json'
 
 module.exports = {
   publicPath: process.env.NODE_ENV === 'production' ? '/static/bundle_webapp/' : 'http://holis.local:8080/',
   outputDir: './assets/bundle_webapp/',
   assetsDir: 'assets/',
+
   css: {
     loaderOptions: {
       scss: {
-        prependData: `@import "~@/_import.scss";`
+        prependData: '@import "~@/_import.scss";'
       }
     }
   },
+
   devServer: {
     disableHostCheck: true,
     overlay: {
@@ -21,6 +22,7 @@ module.exports = {
       errors: true
     }
   },
+
   chainWebpack: config => {
     config.optimization
       .splitChunks(false)
@@ -49,10 +51,13 @@ module.exports = {
       }])
     }
   },
+
   configureWebpack: {
     output: {
       filename: '[name].[hash].js',
       chunkFilename: '[name].[hash].js'
     }
-  }
+  },
+
+  lintOnSave: false
 }

@@ -12,9 +12,9 @@
   </div>
 </template>
 <script>
-import Avatar from "@/components/Avatar";
+import Avatar from '@/components/Avatar'
 export default {
-  name: "Message",
+  name: 'Message',
   props: {
     messageIsMine: {
       type: Boolean
@@ -30,7 +30,7 @@ export default {
     }
   },
   components: { Avatar }
-};
+}
 </script>
 <style lang="scss">
 .connect-chat-message {

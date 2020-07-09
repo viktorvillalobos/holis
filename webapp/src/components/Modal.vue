@@ -9,7 +9,7 @@
 </template>
 <script>
 export default {
-  name: "Modal",
+  name: 'Modal',
   props: {
     active: {
       type: Boolean,
@@ -17,11 +17,11 @@ export default {
     }
   },
   methods: {
-    emitClose() {
-      this.$emit("close");
+    emitClose () {
+      this.$emit('close')
     }
   }
-};
+}
 </script>
 <style lang="scss" scoped>
 .delete::before,

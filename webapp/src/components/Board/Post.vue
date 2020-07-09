@@ -33,9 +33,9 @@
   </div>
 </template>
 <script>
-import Avatar from "@/components/Avatar";
+import Avatar from '@/components/Avatar'
 export default {
-  name: "Post",
+  name: 'Post',
   props: {
     isPinned: {
       type: Boolean,
@@ -51,32 +51,32 @@ export default {
   components: {
     Avatar
   },
-  data() {
+  data () {
     return {
       expanded: false
-    };
+    }
   },
   computed: {
-    postContentToShow() {
+    postContentToShow () {
       if (this.post.text) {
         if (this.post.text.length > 140) {
-          if (this.expanded) return this.post.text;
+          if (this.expanded) return this.post.text
 
-          if (!this.expanded) return `${this.post.text.substring(0, 140)}...`;
+          if (!this.expanded) return `${this.post.text.substring(0, 140)}...`
         } else {
-          return this.post.text;
+          return this.post.text
         }
       }
 
-      return "";
+      return ''
     }
   },
   methods: {
-    handlePinPost() {
-      this.$emit("pin");
+    handlePinPost () {
+      this.$emit('pin')
     }
   }
-};
+}
 </script>
 <style lang="scss" scoped>
 .connect-board-post {

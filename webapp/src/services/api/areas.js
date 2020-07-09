@@ -4,7 +4,7 @@ import axios from 'axios'
 import { urlBase } from '../config'
 
 export default {
-  list(){
+  list () {
     return axios.get(`${urlBase}/areas/`)
-  },
+  }
 }

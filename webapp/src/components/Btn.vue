@@ -3,8 +3,8 @@
     <div
       @click="$emit('btn-click')"
       :class="[
-    'connect-btn', 
-    {'connect-btn--outline' : outline}, 
+    'connect-btn',
+    {'connect-btn--outline' : outline},
     {'connect-btn--dropdown' : dropdown},
     {'connect-btn--flat' : flat},
     {'connect-btn--primary' : primary},
@@ -35,7 +35,7 @@
  * The best button in the world
  * @displayName Button
  */
-import Card from "@/components/Card";
+import Card from '@/components/Card'
 export default {
   props: {
     /**
@@ -97,12 +97,12 @@ export default {
   components: {
     Card
   },
-  data() {
+  data () {
     return {
       dropdownActive: false
-    };
+    }
   }
-};
+}
 </script>
 <style lang="scss">
 .connect-btn {

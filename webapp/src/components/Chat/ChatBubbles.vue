@@ -69,10 +69,10 @@
   </ul>
 </template>
 <script>
-import Avatar from "@/components/Avatar";
-import Btn from "@/components/Btn";
+import Avatar from '@/components/Avatar'
+import Btn from '@/components/Btn'
 export default {
-  name: "ChatBubbles",
+  name: 'ChatBubbles',
   props: {
     asideOpened: {
       type: Boolean
@@ -96,7 +96,7 @@ export default {
       this.$emit('newChat')
     }
   }
-};
+}
 </script>
 <style lang="scss" scoped>
 .connect-chat-bubbles {

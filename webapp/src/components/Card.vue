@@ -9,14 +9,14 @@
  * @displayName Card
  */
 export default {
-  name: "card",
+  name: 'card',
   props: {
     outline: {
       type: Boolean,
       default: false
     }
   }
-};
+}
 </script>
 <style lang="scss" scoped>
 .connect-card {

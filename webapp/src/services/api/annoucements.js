@@ -3,10 +3,10 @@ import axios from 'axios'
 import { urlBase } from '../config'
 
 export default {
-  getBirthdays() {
+  getBirthdays () {
     return axios.get(`${urlBase}/users/birthdays/`)
   },
-  getList(){
+  getList () {
     return axios.get(`${urlBase}/announcements/`)
   },
   postAnnouncement (payload) {

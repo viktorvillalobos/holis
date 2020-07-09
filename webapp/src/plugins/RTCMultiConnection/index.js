@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 // Last time updated: 2019-06-15 4:26:11 PM UTC
 
@@ -11,7 +11,6 @@
 // Muaz Khan     - www.MuazKhan.com
 // MIT License   - www.WebRTC-Experiment.com/licence
 // --------------------------------------------------
-
 
 /* eslint-disable */
 const io = require('socket.io-client')

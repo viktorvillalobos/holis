@@ -24,10 +24,10 @@
 import AOS from 'aos'
 import 'aos/dist/aos.css'
 import { mapState } from 'vuex'
-import WebRTC from "@/components/WebRtc"
+import WebRTC from '@/components/WebRtc'
 
 export default {
-  name: "App",
+  name: 'App',
   components: {
     webrtc: WebRTC
   },
@@ -42,52 +42,52 @@ export default {
       muteMicro: state => state.webrtc.muteMicro,
       enableAudio: state => state.webrtc.enableAudio,
       enableVideo: state => state.webrtc.enableVideo,
-      float : state => state.app.isAsideRightActive,
+      float: state => state.app.isAsideRightActive
     })
   },
   methods: {
-    logEvent(event) {
-      console.log("Event : ", event);
+    logEvent (event) {
+      console.log('Event : ', event)
     },
-    onError(error, stream) {
-      console.log("On Error Event", error, stream);
+    onError (error, stream) {
+      console.log('On Error Event', error, stream)
     },
-    onCapture() {
-      this.img = this.$refs.webrtc.capture();
+    onCapture () {
+      this.img = this.$refs.webrtc.capture()
     },
-    onJoin() {
-      console.log("Join to the connection");
+    onJoin () {
+      console.log('Join to the connection')
     },
-    onLeave() {
-      this.$refs.webrtc.leave();
+    onLeave () {
+      this.$refs.webrtc.leave()
     },
     onShareScreen () {
-      this.img = this.$refs.webrtc.shareScreen();
+      this.img = this.$refs.webrtc.shareScreen()
     },
-    joinedRoom ({ isLocalUser }){
+    joinedRoom ({ isLocalUser }) {
       console.log('An user is joined to room')
       if (!isLocalUser) {
-          const audio = new Audio('/static/sounds/in.m4a');
-          audio.play()
+        const audio = new Audio('/static/sounds/in.m4a')
+        audio.play()
       }
     },
     leftRoom ({ isLocalUser }) {
       console.log('An user left the room')
       if (!isLocalUser) {
-          console.log('play left audio')
-          const audio = new Audio('/static/sounds/out.m4a');
-          audio.play()
+        console.log('play left audio')
+        const audio = new Audio('/static/sounds/out.m4a')
+        audio.play()
       }
     }
   },
   watch: {
-    connected(value) {
+    connected (value) {
       console.log('Changing Connected Watcher in Office')
-      if (value) this.$refs.webrtc.join();
-      else this.$refs.webrtc.leave();
+      if (value) this.$refs.webrtc.join()
+      else this.$refs.webrtc.leave()
     }
   }
-};
+}
 </script>
 
 <style lang="scss">

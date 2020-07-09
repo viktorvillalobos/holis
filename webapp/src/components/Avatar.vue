@@ -12,14 +12,14 @@
  * @displayName Avatar
  */
 export default {
-  name: "avatar",
+  name: 'avatar',
   props: {
     /**
      * The route where the img of the avatar is hosted
      */
     img: {
       type: String,
-      default: "https://api.adorable.io/avatars/71/abott@adorable.png"
+      default: 'https://api.adorable.io/avatars/71/abott@adorable.png'
     },
     /**
      * A text that will be rendered under the avatar
@@ -41,7 +41,7 @@ export default {
       type: Boolean
     }
   }
-};
+}
 </script>
 <style lang="scss" scoped>
 .connect-avatar {
