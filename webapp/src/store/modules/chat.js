@@ -133,7 +133,7 @@ const actions = {
     window.$xmpp = client
   },
   onStanza ({ commit, state, dispatch }, stanza) {
-    console.log(stanza)
+    // console.log(stanza)
     if (stanza.archive) {
       dispatch('onHistory', stanza)
     }

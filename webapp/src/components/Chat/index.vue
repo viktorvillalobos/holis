@@ -25,6 +25,7 @@
     <chat-header v-if="!newChat" :chat-name="chatName" />
     <div v-if="!newChat"
          class="connect-chat-body"
+          v-on:scroll.passive="handleScroll"
         ref="chatContainer">
       <div class="nose"></div>
       <span class="connect-chat-load-more" @click="loadHistory()">Load history</span>
@@ -90,6 +91,15 @@ export default {
     }
   },
   methods: {
+    handleScroll (e) {
+      const content = this.$refs.chatContainer
+      if (content && content.scrollTop === 0) {
+        setTimeout(() => {
+          this.loadHistory()
+          content.scrollTop = 1200
+        }, 400)
+      }
+    },
     loadHistory () {
       this.$store.dispatch('getMessages')
     },
