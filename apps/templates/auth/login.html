@@ -1,27 +1,61 @@
-<div class="login-panel">
+{% extends "base_auth.html" %}
 
-    <form method="post" role="form">
+{% block content %}
+<div class="holis-login-wrap">
+    <form onsubmit="return handleContinueLogin(event)"
+        class="holis-login-form {% if not form.errors %}is-active{%endif%}" id="checkForm">
+        <h3>Log into your workspace 👋</h3>
         {% csrf_token %}
-        {{ form.email }}
-        {{ form.password  }}
-        {{ form.company }}
-        <input type="submit" value="Login"/>
+        <div class="field">
+            <label class="label" to="company-check">Your workspace</label>
+            <p class="control has-icons-right">
+                <input class="input" type="text" placeholder="patacon-inc" name="company-check" required />
+                <span class="icon is-small is-right">
+                    .holis.chat
+                </span>
+            </p>
+        </div>
+        <div class="notification js-notifications is-danger">
+        </div>
+        <div class="auth-options">
+            <a class="button is-primary is-inverted" href="#">Create a new workspace</a>
+            <a id="buttonContinue" class="button is-primary" onclick="handleContinueLogin()">Continue</a>
+        </div>
     </form>
-
-    {% if form.errors %}
+    <form class="holis-login-form {% if form.errors %}is-active{%endif%}" id="loginForm" method="post" role="form">
+        <h3>Log into <span id="companyName"></span> 👋</h3>
+        {% csrf_token %}
+        <div class="field">
+            <label class="label" to="email">Your email</label>
+            <input class="input" type="email" placeholder="Ex.: juaninjuanharry@31minutos.com" name="email" required />
+        </div>
+        <div class="field">
+            <label class="label" to="email">Your password</label>
+            <input class="input" type="password" placeholder="******" name="password" required />
+        </div>
+        <input class="input" type="hidden" name="company" value="" />
+        <div class="notification js-notifications is-danger">
+        </div>
+        {% if form.errors %}
         {% for field in form %}
-                {% for error in field.errors %}
-                <div class="alert alert-danger">
-                    <strong>{{ error|escape  }}</strong>
-                                </div>
-                                        {% endfor %}
-                                            {% endfor %}
-                                                {% for error in form.non_field_errors %}
-                                                <div class="alert alert-danger">
-                                                    <strong>{{ error|escape  }}</strong>
-                                                            </div>
-                                                                {% endfor %}
-                                                                {% endif %}</strong></div></strong></div>
+        {% for error in field.errors %}
+        <div class="notification is-danger is-active">
+            <strong>{{ error|escape  }}</strong>
+        </div>
+        {% endfor %}
+        {% endfor %}
+        {% for error in form.non_field_errors %}
+        <div class="notification is-danger is-active">
+            <strong>{{ error|escape  }}</strong>
+        </div>
+        {% endfor %}
+        {% endif %}
+        <div class="auth-options"></div>
+        <a class="button is-primary is-inverted" onclick="handleGoBack()">Return</a>
+        <input class="button is-primary" type="submit" value="Log In" />
+    </form>
+    </form>
 </div>
 </form>
 </div>
+{% endblock %}
