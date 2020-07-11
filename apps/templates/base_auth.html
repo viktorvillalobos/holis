@@ -61,6 +61,33 @@
             {% endblock content %}
         </div>
     </div>
+<!-- Le javascript
+    ================================================== -->
+  <!-- Placed at the end of the document so the pages load faster -->
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  {% compress js %}
+      <script src="{% static 'js/auth.js' %}"></script>
+  {% endcompress %}
+  {% block javascript %}
+  <!-- Your stuff: Third-party javascript libraries go here -->
+  {% endblock javascript %}
+    
+    {% comment %}
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-168038724-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-168038724-1');
+    </script>
+    <script src="https://www.googleoptimize.com/optimize.js?id=OPT-MDP3H6T"></script>
+    {% endcomment %}
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5K25TK2"
+                      height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) --></noscript>
 </body>
 
 </html>

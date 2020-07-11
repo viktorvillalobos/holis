@@ -6,15 +6,15 @@
   </div>
 </template>
 <script>
-import { mapState } from "vuex";
-import Notification from "./Notification";
+import { mapState } from 'vuex'
+import Notification from './Notification'
 export default {
-  name: "NotificationsList",
+  name: 'NotificationsList',
   components: {
     Notification
   },
-  created() {
-    this.getNotifications();
+  created () {
+    this.getNotifications()
   },
   computed: {
     ...mapState({
@@ -22,15 +22,15 @@ export default {
     })
   },
   methods: {
-    getNotifications() {
+    getNotifications () {
       try {
-        this.$store.dispatch("getNotifications");
+        this.$store.dispatch('getNotifications')
       } catch (e) {
-        console.log("couldnt load notifications");
+        console.log('couldnt load notifications')
       }
     }
   }
-};
+}
 </script>
 <style lang="scss" scoped>
 .connect-notification-list {

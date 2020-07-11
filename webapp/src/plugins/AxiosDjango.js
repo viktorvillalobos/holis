@@ -10,10 +10,10 @@ const AxiosDjango = {
     const token = localStorage.getItem('token')
     if (token) {
       console.log(window.csrf.value)
-      Axios.defaults.headers.common['Authorization'] = `Token ${token}`;
+      Axios.defaults.headers.common.Authorization = `Token ${token}`
     }
     Vue.$axios = Axios
   }
-};
+}
 
 export default AxiosDjango

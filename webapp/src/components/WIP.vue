@@ -9,8 +9,8 @@
 </template>
 <script>
 export default {
-  name: "WIP"
-};
+  name: 'WIP'
+}
 </script>
 <style lang="scss" scoped>
 .connect-WIP {

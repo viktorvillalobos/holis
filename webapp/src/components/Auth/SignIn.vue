@@ -42,19 +42,19 @@
   </form>
 </template>
 <script>
-import {mapState} from 'vuex'
-import Btn from "@/components/Btn";
+import { mapState } from 'vuex'
+import Btn from '@/components/Btn'
 export default {
-  name: "Workspace",
+  name: 'Workspace',
   components: {
     Btn
   },
-  data() {
+  data () {
     return {
       email: null,
       password: null,
       error: null
-    };
+    }
   },
   computed: {
     ...mapState({
@@ -65,20 +65,20 @@ export default {
     if (!this.company) this.checkCompany()
   },
   methods: {
-    handleBack() {
-      this.$router.push({ name: "workspace" });
+    handleBack () {
+      this.$router.push({ name: 'workspace' })
     },
     async checkCompany () {
-      await this.$store.dispatch('checkCompany', {companyName: this.$route.params.workspaceName})
+      await this.$store.dispatch('checkCompany', { companyName: this.$route.params.workspaceName })
     },
-    async handleSignIn() {
+    async handleSignIn () {
       if (this.password && this.email) {
-          const instance = {password: this.password, email: this.email}
-          await this.$store.dispatch('login', instance)
+        const instance = { password: this.password, email: this.email }
+        await this.$store.dispatch('login', instance)
       } else {
-        this.error = "Debes ingresar tu email y contraseña";
+        this.error = 'Debes ingresar tu email y contraseña'
       }
     }
   }
-};
+}
 </script>

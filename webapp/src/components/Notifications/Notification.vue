@@ -21,10 +21,10 @@
   </div>
 </template>
 <script>
-import Card from "@/components/Card";
-import Btn from "@/components/Btn";
+import Card from '@/components/Card'
+import Btn from '@/components/Btn'
 export default {
-  name: "NotificationCard",
+  name: 'NotificationCard',
   props: {
     active: {
       type: Boolean,
@@ -42,11 +42,11 @@ export default {
     Btn
   },
   methods: {
-    handleClose() {
-      this.$emit("close");
+    handleClose () {
+      this.$emit('close')
     }
   }
-};
+}
 </script>
 <style lang="scss">
 .connect-notification {

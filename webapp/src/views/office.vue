@@ -4,14 +4,14 @@
   </div>
 </template>
 <script>
-import HexagonalGrid from "@/components/HexagonalGrid"
+import HexagonalGrid from '@/components/HexagonalGrid'
 
 export default {
-  name: "Office",
+  name: 'Office',
   components: {
-    HexagonalGrid,
-  },
-};
+    HexagonalGrid
+  }
+}
 </script>
 <style lang="scss">
 .connect-office-view {

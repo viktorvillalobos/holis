@@ -42,6 +42,7 @@ class MainConsumerBase(AsyncJsonWebsocketConsumer):
             await self.channel_layer.group_add(group, self.channel_name)
 
 
+
 class MainConsumer(NotificationMixin, GridMixin, MainConsumerBase):
     async def receive_json(self, content):
         """

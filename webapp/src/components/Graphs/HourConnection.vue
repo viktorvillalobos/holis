@@ -43,18 +43,18 @@
   </div>
 </template>
 <script>
-import Btn from "@/components/Btn";
+import Btn from '@/components/Btn'
 export default {
-  name: "HourConnection",
+  name: 'HourConnection',
   components: {
     Btn
   },
-  data() {
+  data () {
     return {
       publicPath: process.env.BASE_URL
-    };
+    }
   }
-};
+}
 </script>
 <style lang="scss" scoped>
 .connect-hour-connection {

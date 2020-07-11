@@ -27,24 +27,24 @@
   </div>
 </template>
 <script>
-import Card from "@/components/Card";
+import Card from '@/components/Card'
 
-import HourConnection from "@/components/Graphs/HourConnection";
-import ParticipationChart from "@/components/Graphs/ParticipationChart";
-import HappinessChart from "@/components/Graphs/HappinessChart";
+import HourConnection from '@/components/Graphs/HourConnection'
+import ParticipationChart from '@/components/Graphs/ParticipationChart'
+import HappinessChart from '@/components/Graphs/HappinessChart'
 export default {
-  name: "Reportes",
+  name: 'Reportes',
   components: {
     Card,
     HourConnection,
     ParticipationChart,
     HappinessChart
   },
-  data() {
+  data () {
     return {
       options: {
         chart: {
-          id: "vuechart-example"
+          id: 'vuechart-example'
         },
         xaxis: {
           categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998]
@@ -52,13 +52,13 @@ export default {
       },
       series: [
         {
-          name: "series-1",
+          name: 'series-1',
           data: [30, 40, 45, 50, 49, 60, 70, 91]
         }
       ]
-    };
+    }
   }
-};
+}
 </script>
 <style lang="scss">
 .card-actions {

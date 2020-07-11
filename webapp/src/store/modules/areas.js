@@ -1,18 +1,18 @@
-import apiClient from "../../services/api"
+import apiClient from '../../services/api'
 
 const state = {
   currentArea: null, // Initial state called from rest
   list: [],
   changeState: null, // Message of a state change
-  deleteFromState: null,  // Message of disconnect user, we need to delete from grid
+  deleteFromState: null, // Message of disconnect user, we need to delete from grid
   currentUserHex: null
 }
 
 const getters = {
-  currentState(state) {
+  currentState (state) {
     return state.currentArea ? state.currentArea.state : []
   },
-  occupedPoints(state) {
+  occupedPoints (state) {
     const areaState = state.currentArea ? state.currentArea.state : []
     return areaState
       ? areaState.map((item) => {
@@ -29,21 +29,21 @@ const mutations = {
   clearCurrentUserHex (state) {
     state.currentUserHex.clear()
   },
-  setCurrent(state) {
+  setCurrent (state) {
     // TODO: Selectable area
     if (state.list) {
       state.currentArea = state.list[0]
     }
   },
-  setNewCurrent(state, payload) {
+  setNewCurrent (state, payload) {
     state.currentArea = payload
   },
-  setAreas(state, areas) {
+  setAreas (state, areas) {
     state.list = areas
   },
-  setCurrentState(state, change) {
+  setCurrentState (state, change) {
     /* When a new position is received we neeed to updeda
-      * the currentArea.state        
+      * the currentArea.state
       * we need to find the last point to release
       * and then occuped the new
       * */
@@ -52,7 +52,7 @@ const mutations = {
 }
 
 const actions = {
-  async getAreas({ commit }) {
+  async getAreas ({ commit }) {
     const { data } = await apiClient.areas.list()
     commit('setAreas', data.results)
     commit('setCurrent')
@@ -66,5 +66,5 @@ export default {
   state,
   getters,
   mutations,
-  actions,
+  actions
 }

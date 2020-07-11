@@ -11,9 +11,9 @@
 </template>
 
 <script>
-import Card from "@/components/Card";
+import Card from '@/components/Card'
 export default {
-  name: "AsideLeft",
+  name: 'AsideLeft',
   components: {
     Card
   },
@@ -26,7 +26,7 @@ export default {
       default: 'Aside'
     }
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>

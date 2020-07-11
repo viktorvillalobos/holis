@@ -7,19 +7,19 @@
   </div>
 </template>
 <script>
-import Card from "@/components/Card";
-import authBg from "@/assets/bg.svg";
+import Card from '@/components/Card'
+import authBg from '@/assets/bg.svg'
 export default {
-  name: "Login",
+  name: 'Login',
   components: {
     Card
   },
-  data() {
+  data () {
     return {
       bg: authBg
-    };
+    }
   }
-};
+}
 </script>
 
 <style lang="scss">

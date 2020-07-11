@@ -12,7 +12,7 @@
  * @displayName Logo
  */
 export default {
-  name: "Logo",
+  name: 'Logo',
   props: {
     /**
      * The data of the company name and logo, if logo is not provided it will be replaced by the company name as text
@@ -21,9 +21,9 @@ export default {
       type: Object,
       default: () => {
         return {
-          name: "Tacata Inc.",
+          name: 'Tacata Inc.',
           logo: null
-        };
+        }
       }
     },
     asideOpened: {
@@ -35,7 +35,7 @@ export default {
       return `| ${this.company.name}`
     }
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>
@@ -72,7 +72,6 @@ export default {
   }
 
 }
-
 
 .connect-logo-company {
   margin-top: 4%;

@@ -2,11 +2,12 @@
 
 {% block content %}
 <div class="holis-login-wrap">
-    <form class="is-active" id="checkForm">
-        <h3>Inicia sesión en tu espacio de trabajo 👋</h3>
+    <form onsubmit="return handleContinueLogin(event)"
+        class="holis-login-form {% if not form.errors %}is-active{%endif%}" id="checkForm">
+        <h3>Log into your workspace 👋</h3>
         {% csrf_token %}
         <div class="field">
-            <label class="label" to="company-check">Tu espacio de trabajo</label>
+            <label class="label" to="company-check">Your workspace</label>
             <p class="control has-icons-right">
                 <input class="input" type="text" placeholder="patacon-inc" name="company-check" required />
                 <span class="icon is-small is-right">
@@ -14,43 +15,47 @@
                 </span>
             </p>
         </div>
+        <div class="notification js-notifications is-danger">
+        </div>
         <div class="auth-options">
-            <a class="button is-primary is-inverted" href="#">Crea un nuevo espacio de trabajo</a>
-            <a class="button is-primary" onclick="handleContinue()">Continuar</a>
+            <a class="button is-primary is-inverted" href="#">Create a new workspace</a>
+            <a id="buttonContinue" class="button is-primary" onclick="handleContinueLogin()">Continue</a>
         </div>
     </form>
-    <form id="loginForm" method="post" role="form">
-        <h3>Inicia sesión en <span id="companyName"></span> 👋</h3>
+    <form class="holis-login-form {% if form.errors %}is-active{%endif%}" id="loginForm" method="post" role="form">
+        <h3>Log into <span id="companyName"></span> 👋</h3>
         {% csrf_token %}
         <div class="field">
-            <label class="label" to="email">Tu email</label>
+            <label class="label" to="email">Your email</label>
             <input class="input" type="email" placeholder="Ex.: juaninjuanharry@31minutos.com" name="email" required />
         </div>
         <div class="field">
-            <label class="label" to="email">Tu password</label>
+            <label class="label" to="email">Your password</label>
             <input class="input" type="password" placeholder="******" name="password" required />
         </div>
         <input class="input" type="hidden" name="company" value="" />
-        <input class="button is-primary" type="submit" value="Login" />
+        <div class="notification js-notifications is-danger">
+        </div>
+        {% if form.errors %}
+        {% for field in form %}
+        {% for error in field.errors %}
+        <div class="notification is-danger is-active">
+            <strong>{{ error|escape  }}</strong>
+        </div>
+        {% endfor %}
+        {% endfor %}
+        {% for error in form.non_field_errors %}
+        <div class="notification is-danger is-active">
+            <strong>{{ error|escape  }}</strong>
+        </div>
+        {% endfor %}
+        {% endif %}
+        <div class="auth-options"></div>
+        <a class="button is-primary is-inverted" onclick="handleGoBack()">Return</a>
+        <input class="button is-primary" type="submit" value="Log In" />
     </form>
-
-    {% if form.errors %}
-    {% for field in form %}
-    {% for error in field.errors %}
-    <div class="alert alert-danger">
-        <strong>{{ error|escape  }}</strong>
-    </div>
-    {% endfor %}
-    {% endfor %}
-    {% for error in form.non_field_errors %}
-    <div class="alert alert-danger">
-        <strong>{{ error|escape  }}</strong>
-    </div>
-    {% endfor %}
-    {% endif %}</strong>
-</div></strong></div>
-{% endblock %}
-
+    </form>
 </div>
 </form>
 </div>
+{% endblock %}

@@ -1,10 +1,10 @@
 const state = {
   room: null, // Current room id
-  connected: false,   // Connected to a room
-  enableAudio: true,  // Activate audio in the current room
+  connected: false, // Connected to a room
+  enableAudio: true, // Activate audio in the current room
   enableVideo: false, /// Activate video in the current call
-  muteAudio: false,   // mute my audio in the current call
-  muteMicro: false,    // mute my micro in the current call
+  muteAudio: false, // mute my audio in the current call
+  muteMicro: false, // mute my micro in the current call
   status: 'disconnected',
   disconnectByControl: false,
   streams: []
@@ -14,38 +14,38 @@ const mutations = {
   setStreams (state, streams) {
     state.streams = streams
   },
-  setConnected(state, enable) {
+  setConnected (state, enable) {
     state.connected = enable
     state.disconnectByControl = false
   },
-  disconnectByControl(state) {
+  disconnectByControl (state) {
     state.connected = false
     state.disconnectByControl = true
   },
-  setRoom(state, room) {
+  setRoom (state, room) {
     state.room = room
   },
-  setEnableAudio(state) {
+  setEnableAudio (state) {
     state.enableAudio = !state.enableVideo
   },
-  setEnableVideo(state) {
+  setEnableVideo (state) {
     state.enableVideo = !state.enableVideo
   },
-  setMuteAudio(state) {
-    state.muteAudio = !state.muteAudio 
+  setMuteAudio (state) {
+    state.muteAudio = !state.muteAudio
   },
-  setMuteMicro(state) {
+  setMuteMicro (state) {
     state.muteMicro = !state.muteMicro
   },
-  setStatusConnecting(state) {
+  setStatusConnecting (state) {
     state.status = 'connecting'
   },
-  setStatusConnected(state) {
+  setStatusConnected (state) {
     state.status = 'connected'
   },
-  setStatusDisconnected(state) {
+  setStatusDisconnected (state) {
     state.status = 'disconnected'
-  },
+  }
 
 }
 
@@ -53,23 +53,22 @@ const actions = {
   setStreams ({ commit }, streams) {
     commit('setStreams', streams)
   },
-  disconnectAndConnect({ commit }, room) {
-    commit("setConnected", false)
-    commit("setRoom", room)
-    commit("setStatusConnecting")
+  disconnectAndConnect ({ commit }, room) {
+    commit('setConnected', false)
+    commit('setRoom', room)
+    commit('setStatusConnecting')
 
-    setTimeout(() => { 
-      commit("setConnected", true)
+    setTimeout(() => {
+      commit('setConnected', true)
     }, 4000)
-
   },
-  changeToVideo({ commit }) {
-    commit("setEnableVideo")
-    commit("setConnected", false)
+  changeToVideo ({ commit }) {
+    commit('setEnableVideo')
+    commit('setConnected', false)
 
-    commit("setConnected", false)
-    setTimeout(() => { 
-      commit("setConnected", true)
+    commit('setConnected', false)
+    setTimeout(() => {
+      commit('setConnected', true)
     }, 4000)
   }
 }
@@ -79,4 +78,3 @@ export default {
   mutations,
   actions
 }
-

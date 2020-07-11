@@ -87,16 +87,16 @@
   </div>
 </template>
 <script>
-import Btn from "@/components/Btn";
+import Btn from '@/components/Btn'
 export default {
-  name: "WhoYou",
+  name: 'WhoYou',
   components: {
     Btn
   },
-  data() {
+  data () {
     return {
-      error: "Esto es un error"
-    };
+      error: 'Esto es un error'
+    }
   }
-};
+}
 </script>

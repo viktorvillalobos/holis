@@ -1,20 +1,20 @@
 import apiClient from '../../services/api'
 import * as XMPP from 'stanza'
 
-const IS_PRODUCTION = process.env.NODE_ENV == 'production'
+const IS_PRODUCTION = process.env.NODE_ENV === 'production'
 
-const WS_SERVER_URL = IS_PRODUCTION 
-                          ? 'wss://bosh.chat.holis.chat/ws/'
-                          : 'ws://holis.local:7070/ws/'
-const BOSH_SERVER_URL = IS_PRODUCTION 
-                          ? 'wss://bosh.chat.holis.chat/http-bind/'
-                          : 'ws://holis.local:7070/http-bind/'
+const WS_SERVER_URL = IS_PRODUCTION
+  ? 'wss://bosh.chat.holis.chat/ws/'
+  : 'ws://holis.local:7070/ws/'
+const BOSH_SERVER_URL = IS_PRODUCTION
+  ? 'wss://bosh.chat.holis.chat/http-bind/'
+  : 'ws://holis.local:7070/http-bind/'
 
-function compareJIDs(id1, id2) {
+function compareJIDs (id1, id2) {
   try {
     const username = id1.split('@')[0]
     const username2 = id2.split('@')[0]
-    return username == username2
+    return username === username2
   } catch {
     return false
   }
@@ -27,48 +27,75 @@ const state = {
   connected: false,
   lastRooms: [],
   messages: [],
+  tempMessages: [],
   activeChat: null,
-  asideOpen: false
+  asideOpen: false,
+  lastBatch: null,
+  allowScrollToEnd: true
 }
 
 const getters = {
-  JID( state ) {
-      const x = state.account
-      return `${x.username}@${x.domain}/${x.resource}`
+  JID (state) {
+    const x = state.account
+    return `${x.username}@${x.domain}/${x.resource}`
   }
 }
 
 const mutations = {
-  setUsers(state, list) {
+  setLastBatch (state, batch) {
+    state.lastBatch = batch
+  },
+  clearLastBatch (state) {
+    state.lastBatch = null
+  },
+  blockScroll (state) {
+    state.allowScrollToEnd = false
+  },
+  unBlockScroll (state) {
+    state.allowScrollToEnd = true
+  },
+  setUsers (state, list) {
     state.users = list
   },
-  setAccount(state, account) {
+  setAccount (state, account) {
     state.account = account
   },
-  setXMPP(state, xmpp) {
+  setXMPP (state, xmpp) {
     state.xmpp = xmpp
   },
-  setChatConnected(state, value){
+  setChatConnected (state, value) {
     state.connected = value
   },
-  addMessage(state, msg) {
+  addMessage (state, msg) {
     state.messages.push(msg)
   },
-  clearMessages(state) {
+  setMessages (state, lst) {
+    state.messages = lst
+  },
+  addTempMessage (state, msg) {
+    state.tempMessages.push(msg)
+  },
+  clearTempMessages (state) {
+    state.tempMessages = []
+  },
+  unshiftMessage (state, msg) {
+    state.messages.unshift(msg)
+  },
+  clearMessages (state) {
     state.messages = []
   },
-  setActiveChat(state, jid) {
+  setActiveChat (state, jid) {
     state.activeChat = jid
   },
-  setAsideChat(state) {
+  setAsideChat (state) {
     state.asideOpen = !state.asideOpen
     if (!state.asideOpen) state.activeChat = null
   }
 }
 
 const actions = {
-  async getUsers({ commit }) {
-    const {data} = await apiClient.chat.getUsers()
+  async getUsers ({ commit }) {
+    const { data } = await apiClient.chat.getUsers()
     console.log(data)
     commit('setUsers', data.results)
   },
@@ -78,23 +105,23 @@ const actions = {
     await commit('setAccount', {
       service: WS_SERVER_URL,
       domain: data.domain,
-      resource: "webapp",
+      resource: 'webapp',
       username: data.username,
       jid: data.jid,
-      password: data.token,
+      password: data.token
     })
 
     const client = XMPP.createClient({
-          jid: getters.JID,
-          password: state.account.password,
-          transports: {
-            websocket: WS_SERVER_URL,
-            bosh: BOSH_SERVER_URL
-          }
+      jid: getters.JID,
+      password: state.account.password,
+      transports: {
+        websocket: WS_SERVER_URL,
+        bosh: BOSH_SERVER_URL
+      }
     })
 
-    client.on('auth:success', () => dispatch('onAuthSuccess')) 
-    client.on('auth:failed', () => dispatch('onAuthFailed')) 
+    client.on('auth:success', () => dispatch('onAuthSuccess'))
+    client.on('auth:failed', () => dispatch('onAuthFailed'))
     client.on('session:started', () => dispatch('onSessionStarted'))
     client.on('disconnect', () => dispatch('onDisconnect'))
     // client.on('chat', msg => dispatch('onChat', msg))
@@ -105,39 +132,48 @@ const actions = {
     client.connect()
     window.$xmpp = client
   },
-  onStanza({ commit, state, dispatch }, stanza) {
-    console.log(stanza)
-    if (stanza.archive  && stanza.archive.item) {
-      const item = stanza.archive.item
-      const from = item.message.from.split('/')[0]
-      const msg = {
-        is_mine: state.account.jid === from,
-        message: item.message.body,
-        who: from.split('@')[0],
-        datetime: item.delay.timestamp
-      }
-      commit('addMessage', msg)
+  onStanza ({ commit, state, dispatch }, stanza) {
+    // console.log(stanza)
+    if (stanza.archive) {
+      dispatch('onHistory', stanza)
     }
 
-    if (stanza.type == 'chat') {
+    if (stanza.type === 'chat') {
       dispatch('onChat', stanza)
     }
   },
-  onError(error) {
+  onHistory ({ commit, state, dispatch }, stanza) {
+    if (stanza.type === 'result') {
+      commit('setMessages', [...state.tempMessages, ...state.messages])
+      commit('clearTempMessages')
+      return
+    }
+
+    const item = stanza.archive.item
+    const from = item.message.from.split('/')[0]
+    const msg = {
+      is_mine: state.account.jid === from,
+      message: item.message.body,
+      who: from.split('@')[0],
+      datetime: item.delay.timestamp
+    }
+    commit('addTempMessage', msg)
+  },
+  onError (error) {
     console.log(error)
   },
-  onDisconnect({ commit })  {
+  onDisconnect ({ commit }) {
     commit('setChatConnected', false)
     console.log('Disconnected from XMPP')
   },
-  onAuthSuccess({ commit }) {
+  onAuthSuccess ({ commit }) {
     commit('setChatConnected', true)
     console.log('XMPP: Connected')
   },
-  onSessionStarted() {
-     window.$xmpp.sendPresence()
+  onSessionStarted () {
+    window.$xmpp.sendPresence()
   },
-  onAuthFailed() {
+  onAuthFailed () {
     console.log('XMPP: Auth failed')
   },
   /* eslint-disable-next-line */
@@ -147,34 +183,43 @@ const actions = {
   },
   async onChat ({ commit }, msg) {
     /* eslint-disable-next-line */
-    console.log('XMPP: onChat')
-    console.log(msg)
+    // console.log('XMPP: onChat')
+    // console.log(msg)
     if (!compareJIDs(msg.from, state.activeChat)) {
       alert(`Haz recibido un mensaje de ${msg.from}`)
     } else {
-      commit('addMessage', { message: msg.body, is_mine: false , datetime: new Date()})
-    } 
+      commit('addMessage', { message: msg.body, is_mine: false, datetime: new Date() })
+    }
   },
   /* eslint-disable-next-line */
   async onIQ ({ commit }, iq) {
     /* eslint-disable-next-line */
-    console.log('XMPP: onIQ')
-    console.log(iq)
   },
-  async sendChatMessage({ commit }, { to, msg }) {
-    console.log(`sending msg to ${ to }`)
+  async sendChatMessage ({ commit }, { to, msg }) {
+    console.log(`sending msg to ${to}`)
     commit('addMessage', msg)
     await window.$xmpp.sendMessage({ to, body: msg.message, type: 'chat' })
   },
-  async getMessages({ commit }, jid) {
-    commit('clearMessages')
-    commit('setActiveChat', jid)
-    console.log(`gettingMessages from ${ jid }`)
-    try {
-      await window.$xmpp.searchHistory(jid, { paging: { max: 20, before: '' } })
-    } catch {
-      console.log('XMPP: Error trying get history')
+  async getMessages ({ commit, state }, jid) {
+    jid = jid || state.activeChat
+    if (jid !== state.activeChat) {
+      commit('clearMessages')
+      commit('unBlockScroll')
+      commit('setActiveChat', jid)
+      commit('clearLastBatch')
+    } else {
+      commit('blockScroll')
     }
+
+    const before = state.lastBatch !== null ? state.lastBatch.paging.first : ''
+    console.log(`Loading messages from #${before}`)
+    const batch = await window.$xmpp.searchHistory(jid, {
+      paging: {
+        max: 20,
+        before: before
+      }
+    })
+    commit('setLastBatch', batch)
   }
 }
 

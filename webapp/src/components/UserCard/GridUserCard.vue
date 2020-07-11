@@ -20,33 +20,33 @@
   </div>
 </template>
 <script>
-import Avatar from "@/components/Avatar";
-import Btn from "@/components/Btn";
+import Avatar from '@/components/Avatar'
+import Btn from '@/components/Btn'
 export default {
-  name: "GridUserCard",
+  name: 'GridUserCard',
   props: {
     origin: {
       type: String,
-      default: "top"
+      default: 'top'
     },
     name: {
       type: String,
-      default: "Johana Daivis"
+      default: 'Johana Daivis'
     },
     position: {
       type: String,
-      default: "UX / UI Desginer"
+      default: 'UX / UI Desginer'
     },
     img: {
       type: String,
-      default: "https://api.adorable.io/avatars/71/abott@adorable.png"
+      default: 'https://api.adorable.io/avatars/71/abott@adorable.png'
     }
   },
   components: {
     Avatar,
     Btn
   }
-};
+}
 </script>
 <style lang="scss" scoped>
 .connect-grid-user-card {

@@ -43,21 +43,21 @@
   </div>
 </template>
 <script>
-import VEmojiPicker from "v-emoji-picker";
+import VEmojiPicker from 'v-emoji-picker'
 export default {
   components: {
     VEmojiPicker
   },
-  data() {
+  data () {
     return {
       showEmojiPicker: false,
-      message: ""
-    };
+      message: ''
+    }
   },
   methods: {
-    selectEmoji(emoji) {
-      this.message = this.message + emoji.data;
-      this.showEmojiPicker = false;
+    selectEmoji (emoji) {
+      this.message = this.message + emoji.data
+      this.showEmojiPicker = false
     },
     submit () {
       const msg = {
@@ -70,7 +70,7 @@ export default {
       this.message = ''
     }
   }
-};
+}
 </script>
 <style lang="scss" scoped>
 .field:not(:last-child) {

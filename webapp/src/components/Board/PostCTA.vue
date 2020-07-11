@@ -5,23 +5,23 @@
   </div>
 </template>
 <script>
-import Btn from "@/components/Btn";
-import CTABg from "@/assets/boardWaves.svg"
+import Btn from '@/components/Btn'
+import CTABg from '@/assets/boardWaves.svg'
 export default {
   components: {
     Btn
   },
-  data() {
+  data () {
     return {
       CTABg
     }
   },
   methods: {
-    emitAction() {
+    emitAction () {
       this.$emit('action')
     }
   }
-};
+}
 </script>
 <style lang="scss" scoped>
 .connect-board-post-cta {

@@ -143,4 +143,12 @@ $medium-gray: #C4C4C4;
             }
         }
     }
+
+    .notification {
+        display: none;
+
+        &.is-active {
+            display: block;
+        }
+    }
 }

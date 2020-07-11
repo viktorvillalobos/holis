@@ -10,10 +10,10 @@
   </div>
 </template>
 <script>
-import Avatar from "@/components/Avatar";
-import birthdayPng from "@/assets/birthday.png";
+import Avatar from '@/components/Avatar'
+import birthdayPng from '@/assets/birthday.png'
 export default {
-  name: "Birthdays",
+  name: 'Birthdays',
   components: {
     Avatar
   },
@@ -23,36 +23,36 @@ export default {
       default: () => []
     }
   },
-  data() {
+  data () {
     return {
       birthdayLogo: birthdayPng
-    };
+    }
   },
   computed: {
-    filteredList() {
-      return this.list.slice(0, 4);
+    filteredList () {
+      return this.list.slice(0, 4)
     },
-    howManyMore() {
-      const length = this.list.length - 4;
+    howManyMore () {
+      const length = this.list.length - 4
 
-      if (length > 99) return "+99";
-      return length;
+      if (length > 99) return '+99'
+      return length
     }
   },
   methods: {
-    when(brth) {
-      const currentYear = new Date().getFullYear();
-      const brthFormat = `${currentYear}${brth.substring(4)}`;
+    when (brth) {
+      const currentYear = new Date().getFullYear()
+      const brthFormat = `${currentYear}${brth.substring(4)}`
       return this.$moment(brthFormat).calendar(null, {
-        sameDay: "[Hoy]",
-        nextDay: "[Mañana]",
-        nextWeek: "DD/MM",
-        nextMonth: "DD/MM",
-        sameElse: "L"
-      });
+        sameDay: '[Hoy]',
+        nextDay: '[Mañana]',
+        nextWeek: 'DD/MM',
+        nextMonth: 'DD/MM',
+        sameElse: 'L'
+      })
     }
   }
-};
+}
 </script>
 <style lang="scss" scoped>
 .connect-birthday {

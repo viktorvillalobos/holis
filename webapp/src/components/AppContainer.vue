@@ -93,28 +93,28 @@
   </div>
 </template>
 <script>
-import ToolsMenu from "@/components/ToolsMenu";
-import Logo from "@/components/Logo";
-import NotificationCard from "@/components/Notifications/NotificationCard";
-import Notifications from "@/components/Notifications";
-import AsideLeft from "@/components/AsideLeft";
-import AsideRight from "@/components/AsideRight";
-import Board from "@/components/Board";
-import AreaOptions from "@/components/AreaOptions";
-import Releases from "@/components/Releases";
+import ToolsMenu from '@/components/ToolsMenu'
+import Logo from '@/components/Logo'
+import NotificationCard from '@/components/Notifications/NotificationCard'
+import Notifications from '@/components/Notifications'
+import AsideLeft from '@/components/AsideLeft'
+import AsideRight from '@/components/AsideRight'
+import Board from '@/components/Board'
+import AreaOptions from '@/components/AreaOptions'
+import Releases from '@/components/Releases'
 
-import UserCard from "@/components/UserCard";
-import ChatBubbles from "@/components/Chat/ChatBubbles";
-import Chat from "@/components/Chat";
-import Modal from "@/components/Modal";
-import Card from "@/components/Card";
+import UserCard from '@/components/UserCard'
+import ChatBubbles from '@/components/Chat/ChatBubbles'
+import Chat from '@/components/Chat'
+import Modal from '@/components/Modal'
+import Card from '@/components/Card'
 
-import { mapState } from "vuex";
+import { mapState } from 'vuex'
 
-import modalMask from "@/assets/modalMask.svg";
+import modalMask from '@/assets/modalMask.svg'
 
 export default {
-  name: "AppContainer",
+  name: 'AppContainer',
   components: {
     ToolsMenu,
     Logo,
@@ -147,94 +147,94 @@ export default {
       areas: state => state.areas,
       alert: state => state.app.alert
     }),
-    asideLeftName() {
-      if (this.isNotificationsActive) return "Notificaciones";
+    asideLeftName () {
+      if (this.isNotificationsActive) return 'Notificaciones'
 
-      if (this.isBoardActive) return "Cartelera";
+      if (this.isBoardActive) return 'Cartelera'
 
-      if (this.isReleasesActive) return "Novedades";
+      if (this.isReleasesActive) return 'Novedades'
 
-      return "Aside";
+      return 'Aside'
     },
-    company() {
+    company () {
       return {
         name: this.user ? this.user.company.name : null,
         logo: this.user ? this.user.company.logo_thumb : null
-      };
+      }
     }
   },
-  data() {
+  data () {
     return {
       showNotification: false,
       firstTime: false,
       publicPath: process.env.BASE_URL,
       modalMask,
       newChatActive: false
-    };
-  },
-  created() {},
-  mounted() {
-    if (!localStorage.firstTime) {
-      this.firstTime = true;
     }
-    this.gets();
+  },
+  created () {},
+  mounted () {
+    if (!localStorage.firstTime) {
+      this.firstTime = true
+    }
+    this.gets()
   },
   methods: {
-    gets() {
-      this.getUsers();
+    gets () {
+      this.getUsers()
     },
-    getUsers() {
+    getUsers () {
       try {
-        this.$store.dispatch("getUsers");
+        this.$store.dispatch('getUsers')
       } catch (e) {
-        console.log("couldnt load users");
+        console.log('couldnt load users')
       }
     },
-    handleAsideLeft() {
-      this.$store.commit("setAsideLeftActive");
+    handleAsideLeft () {
+      this.$store.commit('setAsideLeftActive')
     },
-    handleAsideRight() {
-      this.$store.commit("setAsideRightActive");
+    handleAsideRight () {
+      this.$store.commit('setAsideRightActive')
     },
-    handleVideo() {
-      this.$store.commit("setVideoActive");
+    handleVideo () {
+      this.$store.commit('setVideoActive')
     },
-    handleMicro() {
-      this.$store.commit("setMicroActive");
+    handleMicro () {
+      this.$store.commit('setMicroActive')
     },
-    handleSound() {
-      this.$store.commit("setSoundActive");
+    handleSound () {
+      this.$store.commit('setSoundActive')
     },
-    handleNotification() {
-      this.showNotification = !this.showNotification;
+    handleNotification () {
+      this.showNotification = !this.showNotification
     },
-    handleFirstTime() {
-      localStorage.firstTime = false;
-      this.firstTime = false;
+    handleFirstTime () {
+      localStorage.firstTime = false
+      this.firstTime = false
     },
-    changedArea(area) {
-      const filtered = this.areas.list.filter(x => x.name === area);
-      if (filtered[0]) this.$store.commit("setNewCurrent", filtered[0]);
+    changedArea (area) {
+      const filtered = this.areas.list.filter(x => x.name === area)
+      if (filtered[0]) this.$store.commit('setNewCurrent', filtered[0])
     },
-    newChat() {
-      if (!this.isAsideRightActive) this.handleAsideRight();
-      this.newChatActive = true;
+    newChat () {
+      if (!this.isAsideRightActive) this.handleAsideRight()
+      this.newChatActive = true
     },
-    selectedChat() {
-      this.newChatActive = false;
+    selectedChat () {
+      this.newChatActive = false
     },
-    closeAlert() {
+    closeAlert () {
       const alert = {
         active: false,
         text: 'Are you sure you wanna get out of this voice channel?',
         title: 'Wait!',
-        icon: "grin-beam-sweat"
-      };
+        icon: 'grin-beam-sweat'
+      }
 
       this.$store.commit('setAlert', alert)
     }
   }
-};
+}
 </script>
 <style lang="scss">
 .connect-office-view {

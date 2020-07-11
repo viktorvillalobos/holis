@@ -15,9 +15,9 @@
   </div>
 </template>
 <script>
-import Btn from "@/components/Btn";
+import Btn from '@/components/Btn'
 export default {
-  name: "PostEditor",
+  name: 'PostEditor',
   props: {
     instance: {
       type: Object
@@ -27,15 +27,15 @@ export default {
     Btn
   },
   methods: {
-    handleClose() {
-      this.$emit("close");
+    handleClose () {
+      this.$emit('close')
     },
     submit () {
       this.$store.dispatch('postAnnouncement', this.instance)
       this.handleClose()
     }
   }
-};
+}
 </script>
 <style lang="scss" scoped>
 .connect-board-post-editor {

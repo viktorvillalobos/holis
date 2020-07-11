@@ -1,11 +1,10 @@
 import logging
-from django.shortcuts import redirect
-from django.urls import reverse
-from django.views.generic import TemplateView, FormView
-from apps.web.forms import LoginForm
-from django.utils.translation import gettext_lazy as _
-from django.contrib.auth import authenticate, login
+
 from apps.core import models as core_models
+from apps.web.forms import LoginForm
+from django.contrib.auth import authenticate, login
+from django.utils.translation import gettext_lazy as _
+from django.views.generic import FormView, TemplateView
 
 # Create your views here.
 
@@ -14,12 +13,6 @@ logger = logging.getLogger(__name__)
 
 class SoonTemplateView(TemplateView):
     template_name = "pages/soon.html"
-
-    # def dispatch(self, request, *args, **kwargs):
-    #     if not request.GET.get("no_redirect") and request.user.is_authenticated:
-    #         return redirect(reverse('webapp'))
-
-    #     return super().dispatch(request, *args, **kwargs)
 
 
 class CheckCompanyView(TemplateView):

@@ -5,9 +5,9 @@
 </template>
 
 <script>
-import Card from "@/components/Card";
+import Card from '@/components/Card'
 export default {
-  name: "AsideRight",
+  name: 'AsideRight',
   components: {
     Card
   },
@@ -16,7 +16,7 @@ export default {
       type: Boolean
     }
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>

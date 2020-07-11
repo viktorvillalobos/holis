@@ -50,6 +50,13 @@
   {% endcompress %}
   {% endblock %}
   <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+  <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-5K25TK2');</script>
+    <!-- End Google Tag Manager --></script>
 </head>
 
 <body>
@@ -63,22 +70,6 @@
         </div>
         <i onclick="handleNavMenu()" id="menu-btn" class="fas fa-bars"></i>
       </div>
-      {% comment %}
-      <ul class="espazum-navbar-links">
-        <li>
-            <a href="/">Home</a>
-        </li>
-        <!-- <li> -->
-        <!--   <a href="/">{% trans 'About' %}</a> -->
-        <!-- </li> -->
-        <li>
-          <a target="_blank" href="https://medium.com/@holischat">{% trans 'Blog' %}</a>
-        </li>
-        <li>
-          <a class="button" href="#cta-get-early-access">{% trans 'EARLY-ACCESS' %}</a>
-        </li>
-      </ul>
-      {% endcomment %}
     </div>
   </nav>
 
@@ -92,52 +83,6 @@
   {% block content %}
   {% endblock content %}
 
-  {% comment %}
-  <footer>
-    <div class="container">
-      <div class="columns">
-        <div class="column is-2">
-          <b>Company</b>
-          <ul>
-            <li><a href="#">{% trans 'Home' %}</a></li>
-            <!-- <li><a href="#">{% trans 'About' %}</a></li> -->
-            <li><a href="https://medium.com/@holischat">{% trans 'Blog' %}</a></li>
-          </ul>
-        </div>
-        <div class="column is-2">
-          <!-- <b>Legal</b> -->
-          <!-- <ul> -->
-          <!--   <li><a href="#">{% trans 'Terms and Conditions' %}</a></li> -->
-          <!--   <li><a href="#">{% trans 'Privacy Policy' %}</a></li> -->
-          <!-- </ul> -->
-        </div>
-        <div class="column is-8 has-text-right">
-          <!-- <p class="espazum-credits">{% trans 'All rights reserved' %} <img src="{% static 'images/HolisBlanco.svg' %}" -->
-          <ul class="espazum-rrss">
-            <li><a target="_blank" href="https://instagram.com/holischat"><i class="fab fa-3x fa-instagram"></i></a></li>
-            <li><a target="_blank" href="https://www.facebook.com/holischat"><i class="fab fa-3x fa-facebook"></i></a></li>
-            <li><a target="_blank" href="https://www.twitter.com/holischat"><i class="fab fa-3x fa-twitter"></i></a></li>
-          </ul>
-        </div>
-      </div>
-        <div class="columns has-text-centered">
-            <div class="column is-12">
-                {% trans 'Questions? Need help? Email us at' %} <a href="mailto:support@holis.chat"><b>support@holis.chat</b></a>
-            </div>
-        </div>
-        <div class="columns has-text-centered">
-            <div class="column is-12">
-                <b>Holis</b> {% trans 'is proudly designed and developed in LATAM ♥' %}<div>
-        </div>
-        <div class="columns has-text-centered">
-            <div class="column is-12">
-                Copyright ©2020 Adslab SpA, {% trans 'All rights reserved' %}
-            <div>
-        </div>
-    </div>
-  </footer>
-  {% endcomment %}
-
   {% block modal %}{% endblock modal %}
 
   <!-- Le javascript
@@ -145,15 +90,13 @@
   <!-- Placed at the end of the document so the pages load faster -->
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   {% compress js %}
-  <script src="{% static 'js/project.js' %}"></script>
-  <script type="text/javascript">window.$crisp=[];window.CRISP_WEBSITE_ID="763fd9e7-0e17-4e9b-b4f0-37b2cda5fbc8";(function(){d=document;s=d.createElement("script");s.src="https://client.crisp.chat/l.js";s.async=1;d.getElementsByTagName("head")[0].appendChild(s);})();</script>
-
-
+      <script src="{% static 'js/project.js' %}"></script>
   {% endcompress %}
   {% block javascript %}
   <!-- Your stuff: Third-party javascript libraries go here -->
   {% endblock javascript %}
-
+    
+    {% comment %}
         <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-168038724-1"></script>
     <script>
@@ -163,6 +106,12 @@
 
       gtag('config', 'UA-168038724-1');
     </script>
+    <script src="https://www.googleoptimize.com/optimize.js?id=OPT-MDP3H6T"></script>
+    {% endcomment %}
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5K25TK2"
+                      height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) --></noscript>
 </body>
 
 </html>

@@ -18,7 +18,7 @@
 import { mapState } from 'vuex'
 
 export default {
-  name: "AreaOptions",
+  name: 'AreaOptions',
   props: {
     asideOpened: {
       type: Boolean
@@ -42,11 +42,11 @@ export default {
     }
   },
   methods: {
-    emitChange(event) {
-      this.$emit("change", event.target.value);
+    emitChange (event) {
+      this.$emit('change', event.target.value)
     }
   }
-};
+}
 </script>
 <style lang="scss" scoped>
 .connect-area-options {

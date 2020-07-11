@@ -27,10 +27,10 @@
   </div>
 </template>
 <script>
-import { mapState } from "vuex";
-import Card from "@/components/Card.vue";
+import { mapState } from 'vuex'
+import Card from '@/components/Card.vue'
 export default {
-  name: "ToolsMenu",
+  name: 'ToolsMenu',
   components: {
     Card
   },
@@ -39,8 +39,8 @@ export default {
       type: Boolean
     }
   },
-  data() {
-    return {};
+  data () {
+    return {}
   },
   computed: {
     ...mapState({
@@ -50,36 +50,31 @@ export default {
     })
   },
   methods: {
-    handleBoard() {
-      if (this.isNotificationsActive)
-        this.$store.commit("setNotificationsActive");
-      if (this.isReleasesActive) this.$store.commit("setReleasesActive");
-      if (!this.asideOpened || this.isBoardActive)
-        this.$store.commit("setAsideLeftActive");
-      this.$store.commit("setBoardActive");
+    handleBoard () {
+      if (this.isNotificationsActive) { this.$store.commit('setNotificationsActive') }
+      if (this.isReleasesActive) this.$store.commit('setReleasesActive')
+      if (!this.asideOpened || this.isBoardActive) { this.$store.commit('setAsideLeftActive') }
+      this.$store.commit('setBoardActive')
       this.$store.dispatch('getList')
       this.$store.dispatch('getBirthdays')
     },
-    handleNotifications() {
-      if (this.isBoardActive) this.$store.commit("setBoardActive");
-      if (this.isReleasesActive) this.$store.commit("setReleasesActive");
-      if (!this.asideOpened || this.isNotificationsActive)
-        this.$store.commit("setAsideLeftActive");
-      this.$store.commit("setNotificationsActive");
+    handleNotifications () {
+      if (this.isBoardActive) this.$store.commit('setBoardActive')
+      if (this.isReleasesActive) this.$store.commit('setReleasesActive')
+      if (!this.asideOpened || this.isNotificationsActive) { this.$store.commit('setAsideLeftActive') }
+      this.$store.commit('setNotificationsActive')
     },
-    handleReleases() {
-      if (this.isBoardActive) this.$store.commit("setBoardActive");
-      if (this.isNotificationsActive)
-        this.$store.commit("setNotificationsActive");
-      if (!this.asideOpened || this.isReleasesActive)
-        this.$store.commit("setAsideLeftActive");
-      this.$store.commit("setReleasesActive");
+    handleReleases () {
+      if (this.isBoardActive) this.$store.commit('setBoardActive')
+      if (this.isNotificationsActive) { this.$store.commit('setNotificationsActive') }
+      if (!this.asideOpened || this.isReleasesActive) { this.$store.commit('setAsideLeftActive') }
+      this.$store.commit('setReleasesActive')
     },
-    goTo(to) {
-      this.$router.push({ name: to });
+    goTo (to) {
+      this.$router.push({ name: to })
     }
   }
-};
+}
 </script>
 <style lang="scss" scoped>
 .connect-menu {

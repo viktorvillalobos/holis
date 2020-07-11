@@ -2,7 +2,7 @@
   <div class="connect-area-voice">
 
     <div class="connect-area-voice-status">
-      <font-awesome-icon :color="icon.color" :icon="icon.icon" class="status-icon"/> 
+      <font-awesome-icon :color="icon.color" :icon="icon.icon" class="status-icon"/>
       <div class="connect-area-voice-status-text">
           <p> {{ translateStatus }}</p>
           <span>{{ streams.length }} members</span>
@@ -19,20 +19,20 @@
 import { mapState } from 'vuex'
 
 export default {
-  name: "VoiceStatus",
+  name: 'VoiceStatus',
   props: {
     asideOpened: {
       type: Boolean
-    },
+    }
   },
   computed: {
     ...mapState({
       connected: state => state.webrtc.connected,
       status: state => state.webrtc.status,
-      streams: state => state.webrtc.streams,
+      streams: state => state.webrtc.streams
     }),
     translateStatus () {
-      switch(this.status) {
+      switch (this.status) {
         case 'connected':
           return 'Voice connected'
         case 'connecting':
@@ -92,7 +92,7 @@ export default {
       .connect-area-voice-status-text {
         display: flex;
         flex-direction: column;
-        
+
         p {
           font-weight: bolder;
           font-size: .80rem;

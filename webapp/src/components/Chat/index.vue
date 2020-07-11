@@ -23,14 +23,16 @@
       </card>
     </div>
     <chat-header v-if="!newChat" :chat-name="chatName" />
-    <div v-if="!newChat" 
+    <div v-if="!newChat"
          class="connect-chat-body"
+          v-on:scroll.passive="handleScroll"
         ref="chatContainer">
       <div class="nose"></div>
+      <span class="connect-chat-load-more" @click="loadHistory()">Load history</span>
       <div  class="connect-chat-body-messages-wrapper">
-        <message v-for="(msg, idx) in messages" 
-                :key="idx" 
-                :msg="msg" 
+        <message v-for="(msg, idx) in messages"
+                :key="idx"
+                :msg="msg"
                 :messageIsMine="msg.is_mine"
                 :who="msg.who"
                 :datetime="msg.datetime"
@@ -42,16 +44,16 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState } from 'vuex'
 
-import ChatHeader from "./ChatHeader";
-import ChatEditor from "./ChatEditor";
-import Message from "./Message";
-import Avatar from "@/components/Avatar";
-import Card from "@/components/Card";
+import ChatHeader from './ChatHeader'
+import ChatEditor from './ChatEditor'
+import Message from './Message'
+import Avatar from '@/components/Avatar'
+import Card from '@/components/Card'
 
 export default {
-  name: "Chat",
+  name: 'Chat',
   components: {
     ChatHeader,
     ChatEditor,
@@ -65,17 +67,18 @@ export default {
       default: false
     }
   },
-  data() {
+  data () {
     return {
       searchPerson: '',
       chatName: 'Juanin Juan Harry',
-      jid: '',
-    };
+      jid: ''
+    }
   },
   computed: {
     ...mapState({
       users: state => state.chat.users,
-      messages: state => state.chat.messages
+      messages: state => state.chat.messages,
+      allowScrollToEnd: state => state.chat.allowScrollToEnd
     })
   },
   mounted () {
@@ -83,21 +86,35 @@ export default {
     this.scrollToEnd()
   },
   updated () {
-    this.scrollToEnd()
+    if (this.allowScrollToEnd) {
+      this.scrollToEnd()
+    }
   },
   methods: {
+    handleScroll (e) {
+      const content = this.$refs.chatContainer
+      if (content && content.scrollTop === 0) {
+        setTimeout(() => {
+          this.loadHistory()
+          content.scrollTop = 1200
+        }, 400)
+      }
+    },
+    loadHistory () {
+      this.$store.dispatch('getMessages')
+    },
     scrollToEnd () {
       const content = this.$refs.chatContainer
       if (content) content.scrollTop = content.scrollHeight
     },
-    addMessage(msg) {
+    addMessage (msg) {
       this.messages.push(msg)
     },
-    sendMessage(msg) {
-      console.log("msg", msg);
+    sendMessage (msg) {
+      console.log('msg', msg)
       const data = {
         to: this.jid,
-        msg: msg,
+        msg: msg
       }
       this.$store.dispatch('sendChatMessage', data)
     },
@@ -109,7 +126,7 @@ export default {
       this.$store.dispatch('getMessages', this.jid)
     }
   }
-};
+}
 </script>
 
 <style lang="scss">
@@ -118,6 +135,15 @@ export default {
   position: relative;
   height: 100%;
   box-sizing: border-box;
+
+  &-load-more {
+    color: #4f4f4f;
+    text-align:center;
+    cursor: pointer;
+    text-decoration: underline;
+    font-size: 0.8rem;
+    margin-bottom: 2%;
+  }
 
   &-new {
     padding: 4px 15px;

@@ -31,15 +31,15 @@
   </div>
 </template>
 <script>
-import Btn from "@/components/Btn";
-import Avatar from "@/components/Avatar";
+import Btn from '@/components/Btn'
+import Avatar from '@/components/Avatar'
 export default {
-  name: "PaticipationChart",
+  name: 'PaticipationChart',
   components: {
     Avatar,
     Btn
   },
-  data() {
+  data () {
     return {
       series: [
         {
@@ -48,7 +48,7 @@ export default {
       ],
       chartOptions: {
         chart: {
-          type: "bar",
+          type: 'bar',
           height: 350
         },
         plotOptions: {
@@ -61,17 +61,17 @@ export default {
         },
         xaxis: {
           categories: [
-            "Pablo el Feliz",
-            "Carla Honrada",
-            "Pedro el Escamoso",
-            "Mateo el Perezoso",
-            "Benito el Divertido"
+            'Pablo el Feliz',
+            'Carla Honrada',
+            'Pedro el Escamoso',
+            'Mateo el Perezoso',
+            'Benito el Divertido'
           ]
         }
       }
-    };
+    }
   }
-};
+}
 </script>
 <style lang="scss" scoped>
 .connect-participation-chart {

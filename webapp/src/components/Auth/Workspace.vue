@@ -27,19 +27,19 @@
   </form>
 </template>
 <script>
-import Btn from "@/components/Btn";
-import {mapState} from 'vuex';
+import Btn from '@/components/Btn'
+import { mapState } from 'vuex'
 
 export default {
-  name: "Workspace",
+  name: 'Workspace',
   components: {
     Btn
   },
-  data() {
+  data () {
     return {
       workspaceName: null,
       error: null
-    };
+    }
   },
   computed: {
     ...mapState({
@@ -47,25 +47,25 @@ export default {
     })
   },
   methods: {
-    handleCreate() {
-      this.$router.push({ name: "create-workspace" });
+    handleCreate () {
+      this.$router.push({ name: 'create-workspace' })
     },
-    async handleContinue() {
+    async handleContinue () {
       if (!this.workspaceName) {
-        this.error = "Debes ingresar el nombre de tu espacio de trabajo";
+        this.error = 'Debes ingresar el nombre de tu espacio de trabajo'
         return
       }
-      await this.$store.dispatch('checkCompany', {companyName: this.workspaceName})
+      await this.$store.dispatch('checkCompany', { companyName: this.workspaceName })
 
-      if(!this.currentCompany){
-        this.error = "Al parecer esta empresa aun no existe";
+      if (!this.currentCompany) {
+        this.error = 'Al parecer esta empresa aun no existe'
         return
       }
       this.$router.push({
-        name: "sign-in",
+        name: 'sign-in',
         params: { workspaceName: this.workspaceName }
-      });
-    },
+      })
+    }
   }
-};
+}
 </script>
