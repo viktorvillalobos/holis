@@ -14,6 +14,8 @@ urlpatterns = [
     path("get-or-create-channel/", views.GetOrCreateChannelAPIView.as_view()),
     path("get-chat-credentials/", views.GetChatCredentialsAPIView.as_view()),
     path("get-turn-credentials/", views.GetTurnCredentialsAPIView.as_view()),
+    path("upload-file/", views.UploadFileAPIView.as_view()),
+    path("recent-chats/", views.RecentChatsAPIView.as_view()),
 ]
 
 urlpatterns += router.urls

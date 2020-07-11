@@ -105,3 +105,11 @@ class GetTurnCredentialsAPIView(views.APIView):
         token = client.tokens.create(ttl=60)
 
         return Response(token.ice_servers, status=200)
+
+
+class UploadFileAPIView(views.APIView):
+    pass
+
+
+class RecentChatsAPIView(views.APIView):
+    pass

@@ -28,10 +28,7 @@ TIME_ZONE = "UTC"
 # https://docs.djangoproject.com/en/dev/ref/settings/#language-code
 LANGUAGE_CODE = "en-us"
 
-LANGUAGES = (
-    ('en', _("English")),
-    ('es', _("Spanish"))
-)
+LANGUAGES = (('en', _("English")), ('es', _("Spanish")))
 # https://docs.djangoproject.com/en/dev/ref/settings/#site-id
 SITE_ID = 1
 # https://docs.djangoproject.com/en/dev/ref/settings/#use-i18n
@@ -46,7 +43,10 @@ LOCALE_PATHS = [str(ROOT_DIR / "locale")]
 # DATABASES
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#databases
-DATABASES = {"default": env.db("DATABASE_URL")}
+DATABASES = {
+    "default": env.db("DATABASE_URL"),
+    "openfire": env.db("OPENFIRE_DATABASE_URL"),
+}
 DATABASES["default"]["ATOMIC_REQUESTS"] = True
 
 # URLS
