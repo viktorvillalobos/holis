@@ -182,12 +182,20 @@ export default {
   methods: {
     gets () {
       this.getUsers()
+      this.getRecents()
     },
     getUsers () {
       try {
         this.$store.dispatch('getUsers')
       } catch (e) {
         console.log('couldnt load users')
+      }
+    },
+    getRecents  () {
+      try {
+        this.$store.dispatch('getRecents')
+      } catch (e) {
+        console.log('couldnt load recents')
       }
     },
     handleAsideLeft () {

@@ -4,6 +4,8 @@ import uuid
 from apps.chat import uc as chat_uc
 from apps.chat.api import serializers
 from apps.utils import openfire
+from apps.chat.models import openfire as of_models
+from apps.users import models as users_models
 from django.conf import settings
 from rest_framework import exceptions, views
 from rest_framework.response import Response
@@ -93,4 +95,15 @@ class UploadFileAPIView(views.APIView):
 
 
 class RecentChatsAPIView(views.APIView):
-    pass
+    def get(self, request, *args, **kwargs):
+        ids = list(
+            set(
+                of_models.OfMessageArchive.objects.using("openfire")
+                .order_by("-messageid")
+                .values_list("fromjid", flat=True)
+            )
+        )
+
+        users = users_models.User.objects.filter(jid__in=ids)[:3]
+        results = [{"jid": x.jid, "name": x.name, "avatar_thumb": x.avatar_thumb} for x in users]
+        return Response(results, status=200)

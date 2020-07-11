@@ -55,22 +55,16 @@
         <font-awesome-icon icon="comment-medical" />
       </Btn>
     </li>
-    <li>
-      <Avatar />
-    </li>
-
-    <li>
-      <Avatar />
-    </li>
-
-    <li>
-      <Avatar />
+    <li v-for="recent in recents" :key="recent.jid">
+      <Avatar :img="recent.avatar_thumb" :text="recent.name"/>
     </li>
   </ul>
 </template>
 <script>
 import Avatar from '@/components/Avatar'
 import Btn from '@/components/Btn'
+import { mapState } from 'vuex'
+
 export default {
   name: 'ChatBubbles',
   props: {
@@ -81,6 +75,11 @@ export default {
   components: {
     Avatar,
     Btn
+  },
+  computed: {
+    ...mapState({
+      recents: state => state.chat.recents
+    })
   },
   methods: {
     emitAsideHandle () {

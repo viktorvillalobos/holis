@@ -86,7 +86,7 @@ class OfId(models.Model):
 
 
 class OfMessageArchive(models.Model):
-    messageid = models.BigIntegerField(blank=True, null=True)
+    messageid = models.BigIntegerField(primary_key=True)
     conversationid = models.IntegerField()
     fromjid = models.CharField(max_length=1024)
     fromjidresource = models.CharField(max_length=1024, blank=True, null=True)
