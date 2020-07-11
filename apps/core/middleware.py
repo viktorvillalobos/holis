@@ -3,12 +3,13 @@
 """
 
 import logging
-from django.db import close_old_connections
+
 from channels.auth import AuthMiddlewareStack
 from channels.db import database_sync_to_async
-from rest_framework.authtoken.models import Token
 from django.contrib.auth.models import AnonymousUser
 from django.core.cache import cache
+from django.db import close_old_connections
+from rest_framework.authtoken.models import Token
 
 logger = logging.getLogger(__name__)
 
