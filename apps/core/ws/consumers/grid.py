@@ -1,3 +1,4 @@
+import datetime as dt
 import logging
 from typing import Dict, Optional, Tuple
 
@@ -59,7 +60,7 @@ class GridMixin:
         message["state"] = serialized_state
         cache.set(
             USER_POSITION_KEY.format(user.id),
-            {"area_id": area, "x": x, "y": y, "room": room},
+            {"area_id": area, "x": x, "y": y, "room": room, "timestamp": dt.datetime.now()},
         )
         logger.info("cache saved")
         await self.notify_change_position(message)
