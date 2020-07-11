@@ -63,4 +63,4 @@ class CheckCompanyAPIView(generics.RetrieveAPIView):
 
     def get_object(self):
         name = self.kwargs.get('company_name')
-        return get_object_or_404(core_models.Company, name__iexact=name)
+        return get_object_or_404(core_models.Company, code__iexact=name)
