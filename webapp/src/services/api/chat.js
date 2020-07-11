@@ -11,7 +11,7 @@ export default {
     return axios.get(`${urlBase}/chat/get-turn-credentials/`)
   },
   getUsers () {
-    return axios.get(`${urlBase}/users/`, { params: { limit: 999 } })
+    return axios.get(`${urlBase}/users/list/`, { params: { limit: 999 } })
   },
   getRecents () {
     return axios.get(`${urlBase}/chat/recents/`)

@@ -100,10 +100,17 @@ class RecentChatsAPIView(views.APIView):
             set(
                 of_models.OfMessageArchive.objects.using("openfire")
                 .order_by("-messageid")
-                .values_list("fromjid", flat=True)
+                .values_list("fromjid", "tojid")
             )
         )
 
+        ids = list(
+            set([i for sub in ids for i in sub if i != self.request.user.jid])
+        )
+
         users = users_models.User.objects.filter(jid__in=ids)[:3]
-        results = [{"jid": x.jid, "name": x.name, "avatar_thumb": x.avatar_thumb} for x in users]
+        results = [
+            {"jid": x.jid, "name": x.name, "avatar_thumb": x.avatar_thumb}
+            for x in users
+        ]
         return Response(results, status=200)

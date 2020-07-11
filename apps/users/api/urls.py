@@ -8,7 +8,7 @@ if settings.DEBUG:
 else:
     router = SimpleRouter()
 
-router.register("users", views.UserViewSet)
+router.register("list", views.UserViewSet)
 router.register("notifications", views.NotificationViewSet)
 
 urlpatterns = [
