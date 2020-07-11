@@ -28,6 +28,7 @@ const state = {
   lastRooms: [],
   messages: [],
   tempMessages: [],
+  recents: [],
   activeChat: null,
   asideOpen: false,
   lastBatch: null,
@@ -44,6 +45,9 @@ const getters = {
 const mutations = {
   setLastBatch (state, batch) {
     state.lastBatch = batch
+  },
+  setRecents (state, recents) {
+    state.recents = recents
   },
   clearLastBatch (state) {
     state.lastBatch = null
@@ -96,8 +100,11 @@ const mutations = {
 const actions = {
   async getUsers ({ commit }) {
     const { data } = await apiClient.chat.getUsers()
-    console.log(data)
     commit('setUsers', data.results)
+  },
+  async getRecents ({ commit }) {
+    const { data } = await apiClient.chat.getRecents()
+    commit('setRecents', data)
   },
   async connectXMPP ({ commit, getters, dispatch }) {
     const { data } = await apiClient.chat.getCredentials()

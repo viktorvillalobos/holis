@@ -28,7 +28,7 @@
           v-on:scroll.passive="handleScroll"
         ref="chatContainer">
       <div class="nose"></div>
-      <span class="connect-chat-load-more" @click="loadHistory()">Load history</span>
+      <span v-if="lastBatch" class="connect-chat-load-more" @click="loadHistory()">Load history</span>
       <div  class="connect-chat-body-messages-wrapper">
         <message v-for="(msg, idx) in messages"
                 :key="idx"
@@ -78,6 +78,7 @@ export default {
     ...mapState({
       users: state => state.chat.users,
       messages: state => state.chat.messages,
+      lastBatch: state => state.chat.lastBatch,
       allowScrollToEnd: state => state.chat.allowScrollToEnd
     })
   },

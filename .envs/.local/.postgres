@@ -5,3 +5,6 @@ POSTGRES_PORT=5432
 POSTGRES_DB=holis
 POSTGRES_USER=holis
 POSTGRES_PASSWORD=holis
+
+
+OPENFIRE_DATABASE_URL=postgres://holis:holis@postgres:5432/openfire

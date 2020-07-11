@@ -1,34 +1,17 @@
 import logging
 import uuid
 
-from apps.chat import models as chat_models
 from apps.chat import uc as chat_uc
 from apps.chat.api import serializers
 from apps.utils import openfire
+from apps.chat.models import openfire as of_models
+from apps.users import models as users_models
 from django.conf import settings
-from rest_framework import exceptions, status, views
-from rest_framework.decorators import action
+from rest_framework import exceptions, views
 from rest_framework.response import Response
-from rest_framework.viewsets import ModelViewSet
 from twilio.rest import Client
 
 logger = logging.getLogger(__name__)
-
-
-class ChannelViewSet(ModelViewSet):
-    serializer_class = serializers.ChannelSerializer
-    queryset = chat_models.Channel.objects.all()
-
-    def get_queryset(self):
-        return self.queryset.filter(company__id=self.request.user.company_id)
-
-    @action(detail=True, methods=["get"])
-    def messages(self, request, pk):
-        channel = self.get_object()
-        serializer = serializers.MessageSerializer(
-            channel.messages.all(), many=True
-        )
-        return Response(status=status.HTTP_200_OK, data=serializer.data)
 
 
 class GetChatCredentialsAPIView(views.APIView):
@@ -77,24 +60,24 @@ class GetChatCredentialsAPIView(views.APIView):
         )
 
 
-class GetOrCreateChannelAPIView(views.APIView):
-    serializer_class = serializers.GetOrCreateChannelSerializer
+# class GetOrCreateChannelAPIView(views.APIView):
+#     serializer_class = serializers.GetOrCreateChannelSerializer
 
-    def post(self, request, *args, **kwargs):
-        serializer = self.serializer_class(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        try:
-            channel = (
-                chat_uc.CreateOneToOneChannelUC(
-                    self.request.user.company,
-                    serializer.validated_data["members"],
-                )
-                .execute()
-                .get_channel()
-            )
-        except chat_uc.NonExistentMemberException:
-            raise exceptions.ValidationError('Member not exist')
-        return Response({"jid": channel.id}, status=200)
+#     def post(self, request, *args, **kwargs):
+#         serializer = self.serializer_class(data=request.data)
+#         serializer.is_valid(raise_exception=True)
+#         try:
+#             channel = (
+#                 chat_uc.CreateOneToOneChannelUC(
+#                     self.request.user.company,
+#                     serializer.validated_data["members"],
+#                 )
+#                 .execute()
+#                 .get_channel()
+#             )
+#         except chat_uc.NonExistentMemberException:
+#             raise exceptions.ValidationError('Member not exist')
+#         return Response({"jid": channel.id}, status=200)
 
 
 class GetTurnCredentialsAPIView(views.APIView):
@@ -105,3 +88,29 @@ class GetTurnCredentialsAPIView(views.APIView):
         token = client.tokens.create(ttl=60)
 
         return Response(token.ice_servers, status=200)
+
+
+class UploadFileAPIView(views.APIView):
+    pass
+
+
+class RecentChatsAPIView(views.APIView):
+    def get(self, request, *args, **kwargs):
+        ids = list(
+            set(
+                of_models.OfMessageArchive.objects.using("openfire")
+                .order_by("-messageid")
+                .values_list("fromjid", "tojid")
+            )
+        )
+
+        ids = list(
+            set([i for sub in ids for i in sub if i != self.request.user.jid])
+        )
+
+        users = users_models.User.objects.filter(jid__in=ids)[:3]
+        results = [
+            {"jid": x.jid, "name": x.name, "avatar_thumb": x.avatar_thumb}
+            for x in users
+        ]
+        return Response(results, status=200)
