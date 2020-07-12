@@ -235,5 +235,5 @@ OPENFIRE_SECRET = env("OPENFIRE_SECRET")
 
 
 CORS_ORIGIN_REGEX_WHITELIST = [
-    r"^https://\w+\.holis\.chat$",
+    r"^https://[a-z0-9-]+.holis\.chat$",
 ]

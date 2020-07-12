@@ -13,7 +13,14 @@ from django.views.generic import FormView, TemplateView
 logger = logging.getLogger(__name__)
 
 
-class SoonTemplateView(TemplateView):
+class RedirectToAppMixin:
+    def dispatch(self, request, *args, **kwargs):
+        if self.request.company:
+            return redirect(reverse("webapp"))
+        return super().dispatch(request, *args, **kwargs)
+
+
+class SoonTemplateView(RedirectToAppMixin, TemplateView):
     template_name = "pages/soon.html"
 
 

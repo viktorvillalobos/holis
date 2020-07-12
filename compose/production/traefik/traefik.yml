@@ -29,7 +29,7 @@ certificatesResolvers:
 http:
   routers:
     web-router:
-      rule: "Host(`holis.chat`) || Host(`www.holis.chat`) || HostRegexp(`{subdomain:[a-z]+}.holis.chat`)" 
+      rule: "Host(`holis.chat`) || Host(`www.holis.chat`) || HostRegexp(`{subdomain:[a-z0-9-]+}.holis.chat`)" 
       entryPoints:
         - web
       middlewares:
@@ -38,7 +38,7 @@ http:
       service: django
 
     web-secure-router:
-      rule: "Host(`holis.chat`) || Host(`www.holis.chat`)  || HostRegexp(`{subdomain:[a-z]+}.holis.chat`)"
+      rule: "Host(`holis.chat`) || Host(`www.holis.chat`)  || HostRegexp(`{subdomain:[a-z0-9-]+}.holis.chat`)"
       entryPoints:
         - web-secure
       middlewares:
