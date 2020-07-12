@@ -31,7 +31,9 @@ Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 Vue.use(AxiosDjango)
 
-const socket = process.env.NODE_ENV === 'production' ? 'wss://holis.chat' : 'ws://holis.local:8000'
+const socket = process.env.NODE_ENV === 'production'
+  ? `wss://${location.hostname}:${location.port}`
+  : `ws://${location.hostname}:${location.port}`
 
 Vue.use(VueNativeSock, socket, {
   store: store,

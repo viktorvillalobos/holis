@@ -67,6 +67,6 @@ async function handleContinueLogin(e) {
 function handleGoBack() {
     const form = document.getElementById('loginForm')
     form.reset()
-    handleBackAndForth()
+    window.location.href = `${location.protocol}//${location.hostname}:${location.port}/check-company/`
     showHideErrors(null)
 }
