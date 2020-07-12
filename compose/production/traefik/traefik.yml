@@ -21,13 +21,15 @@ certificatesResolvers:
       email: "viktor@adslab.io"
       storage: /etc/traefik/acme/acme.json
       # https://docs.traefik.io/master/https/acme/#httpchallenge
-      httpChallenge:
-        entryPoint: web
+      #httpChallenge:
+      #  entryPoint: web
+      dnsChallenge:
+         provider: cloudflare
 
 http:
   routers:
     web-router:
-      rule: "Host(`holis.chat`) || Host(`www.holis.chat`)"
+      rule: "Host(`holis.chat`) || Host(`www.holis.chat`) || HostRegexp(`{subdomain:[a-z]+}.holis.chat`)" 
       entryPoints:
         - web
       middlewares:
@@ -36,7 +38,7 @@ http:
       service: django
 
     web-secure-router:
-      rule: "Host(`holis.chat`) || Host(`www.holis.chat`)"
+      rule: "Host(`holis.chat`) || Host(`www.holis.chat`)  || HostRegexp(`{subdomain:[a-z]+}.holis.chat`)"
       entryPoints:
         - web-secure
       middlewares:
@@ -45,7 +47,8 @@ http:
       service: django
       tls:
         # https://docs.traefik.io/master/routing/routers/#certresolver
-        certResolver: letsencryptdomains:
+        certResolver: letsencrypt
+        domains:
           - main: "holis.chat"
             sans:
               - "*.holis.chat"
