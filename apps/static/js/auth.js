@@ -10,7 +10,7 @@ async function checkCompany(val) {
         return false
     } else {
         try {
-            const { data } = await axios.get(`${BASE_URL}/check-company/${val}`)
+            const { data } = await axios.get(`${BASE_URL}/users/check-company/${val}`)
             if (data.id) {
                 company = data
                 companyName.innerText = data.name
