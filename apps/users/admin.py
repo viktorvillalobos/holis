@@ -8,10 +8,38 @@ from sorl.thumbnail.admin import AdminImageMixin
 User = get_user_model()
 
 
+class UserCreateForm(UserCreationForm):
+    class Meta:
+        model = User
+        fields = (
+            "username",
+            "name",
+            "company",
+            "jid",
+        )
+
+
 @admin.register(User)
 class UserAdmin(AdminImageMixin, auth_admin.UserAdmin):
     form = UserChangeForm
-    add_form = UserCreationForm
+    add_form = UserCreateForm
+    add_fieldsets = (
+        (
+            "Basic",
+            {
+                "classes": ("wide",),
+                "fields": ("company", "username", "password1", "password2"),
+            },
+        ),
+        (
+            "Profile",
+            {
+                "classes": ("wide",),
+                "fields": ("jid", "name"),
+            },
+        ),
+    )
+
     fieldsets = (
         (
             "Profile",
@@ -23,7 +51,7 @@ class UserAdmin(AdminImageMixin, auth_admin.UserAdmin):
                     "avatar",
                     "birthday",
                     "default_area",
-                    "jid"
+                    "jid",
                 )
             },
         ),

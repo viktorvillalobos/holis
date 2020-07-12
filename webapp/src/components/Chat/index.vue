@@ -28,7 +28,7 @@
           v-on:scroll.passive="handleScroll"
         ref="chatContainer">
       <div class="nose"></div>
-      <span v-if="lastBatch" class="connect-chat-load-more" @click="loadHistory()">Load history</span>
+      <span v-if="lastBatch && !lastBatch.complete" class="connect-chat-load-more" @click="loadHistory()">Load history</span>
       <div  class="connect-chat-body-messages-wrapper">
         <message v-for="(msg, idx) in messages"
                 :key="idx"
@@ -94,7 +94,7 @@ export default {
   methods: {
     handleScroll (e) {
       const content = this.$refs.chatContainer
-      if (content && content.scrollTop === 0) {
+      if (content && content.scrollTop === 0 && this.lastBatch && !this.lastBatch.complete) {
         setTimeout(() => {
           this.loadHistory()
           content.scrollTop = 1200
@@ -102,7 +102,7 @@ export default {
       }
     },
     loadHistory () {
-      this.$store.dispatch('getMessages')
+      if (!this.lastBatch.complete) this.$store.dispatch('getMessages')
     },
     scrollToEnd () {
       const content = this.$refs.chatContainer

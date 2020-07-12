@@ -24,7 +24,7 @@ class UserViewSet(
     filterset_fields = ("name", "email", "username")
 
     def get_queryset(self, *args, **kwargs):
-        return self.queryset.all()
+        return self.queryset.exclude(id=self.request.user.id)
 
     @action(detail=False, methods=["GET"])
     def me(self, request):
