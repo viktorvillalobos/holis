@@ -45,8 +45,11 @@ http:
       service: django
       tls:
         # https://docs.traefik.io/master/routing/routers/#certresolver
-        certResolver: letsencrypt
-    
+        certResolver: letsencryptdomains:
+          - main: "holis.chat"
+            sans:
+              - "*.holis.chat"
+
     openfire-router:
       rule: "Host(`chat.holis.chat`)" 
       entryPoints:
