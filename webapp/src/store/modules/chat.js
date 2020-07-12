@@ -150,6 +150,7 @@ const actions = {
     }
   },
   onHistory ({ commit, state, dispatch }, stanza) {
+    console.log(stanza)
     if (stanza.type === 'result') {
       commit('setMessages', [...state.tempMessages, ...state.messages])
       commit('clearTempMessages')
@@ -159,6 +160,7 @@ const actions = {
     const item = stanza.archive.item
     const from = item.message.from.split('/')[0]
     const msg = {
+      id: item.message.id,
       is_mine: state.account.jid === from,
       message: item.message.body,
       who: from.split('@')[0],

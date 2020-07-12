@@ -30,8 +30,9 @@
       <div class="nose"></div>
       <span v-if="lastBatch && !lastBatch.complete" class="connect-chat-load-more" @click="loadHistory()">Load history</span>
       <div  class="connect-chat-body-messages-wrapper">
-        <message v-for="(msg, idx) in messages"
-                :key="idx"
+        <message v-for="msg in messages"
+                :key="msg.id"
+                :id="msg.id"
                 :msg="msg"
                 :messageIsMine="msg.is_mine"
                 :who="msg.who"

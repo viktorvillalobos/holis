@@ -27,6 +27,9 @@ export default {
     },
     who: {
       type: String
+    },
+    id: {
+      type: String
     }
   },
   components: { Avatar }

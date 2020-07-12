@@ -2,13 +2,130 @@
   <div class="connect-chat-editor">
     <div class="field">
       <p class="control has-icons-left has-icons-right">
-        <input
-          v-model="message"
-          class="input is-small"
-          type="text"
-          placeholder="Escribe tu mensaje..."
-           v-on:keyup.enter="submit"
-        />
+      <editor-content class="editor__content" :editor="editor" />
+      <editor-menu-bar :editor="editor">
+          <div class="menubar" slot-scope="{ commands, isActive }">
+            <button
+              class="menubar__button"
+              :class="{ 'is-active': isActive.bold() }"
+              @click="commands.bold"
+            >
+            <font-awesome-icon icon="bold"/>
+            </button>
+
+            <button
+              class="menubar__button"
+              :class="{ 'is-active': isActive.italic() }"
+              @click="commands.italic"
+            >
+              <font-awesome-icon icon="italic"/>
+            </button>
+
+            <button
+              class="menubar__button"
+              :class="{ 'is-active': isActive.strike() }"
+              @click="commands.strike"
+            >
+              <font-awesome-icon icon="strikethrough"/>
+            </button>
+
+            <button
+              class="menubar__button"
+              :class="{ 'is-active': isActive.underline() }"
+              @click="commands.underline"
+            >
+              <font-awesome-icon icon="underline"/>
+            </button>
+
+            <button
+              class="menubar__button"
+              :class="{ 'is-active': isActive.code() }"
+              @click="commands.code"
+            >
+              <font-awesome-icon icon="code"/>
+            </button>
+
+            <button
+              class="menubar__button"
+              :class="{ 'is-active': isActive.paragraph() }"
+              @click="commands.paragraph"
+            >
+              <font-awesome-icon icon="paragraph"/>
+            </button>
+
+            <button
+              class="menubar__button"
+              :class="{ 'is-active': isActive.heading({ level: 1 }) }"
+              @click="commands.heading({ level: 1 })"
+            >
+              H1
+            </button>
+
+            <button
+              class="menubar__button"
+              :class="{ 'is-active': isActive.heading({ level: 2 }) }"
+              @click="commands.heading({ level: 2 })"
+            >
+              H2
+            </button>
+
+            <button
+              class="menubar__button"
+              :class="{ 'is-active': isActive.heading({ level: 3 }) }"
+              @click="commands.heading({ level: 3 })"
+            >
+              H3
+            </button>
+
+            <button
+              class="menubar__button"
+              :class="{ 'is-active': isActive.bullet_list() }"
+              @click="commands.bullet_list"
+            >
+              <font-awesome-icon icon="list-ul"/>
+            </button>
+
+            <button
+              class="menubar__button"
+              :class="{ 'is-active': isActive.ordered_list() }"
+              @click="commands.ordered_list"
+            >
+              <font-awesome-icon icon="list-ol"/>
+              <icon name="ol" />
+            </button>
+
+            <button
+              class="menubar__button"
+              :class="{ 'is-active': isActive.blockquote() }"
+              @click="commands.blockquote"
+            >
+              <font-awesome-icon icon="quote-left"/>
+            </button>
+
+            <button
+              class="menubar__button"
+              :class="{ 'is-active': isActive.code_block() }"
+              @click="commands.code_block"
+            >
+              <font-awesome-icon icon="code"/>
+            </button>
+
+            <button
+              class="menubar__button"
+              @click="commands.undo"
+            >
+              <font-awesome-icon icon="undo"/>
+            </button>
+
+            <button
+              class="menubar__button"
+              @click="commands.redo"
+            >
+              <font-awesome-icon icon="redo"/>
+            </button>
+
+          </div>
+    </editor-menu-bar>
         <span class="icon-wrapper-files">
           <svg
             width="25"
@@ -44,15 +161,67 @@
 </template>
 <script>
 import VEmojiPicker from 'v-emoji-picker'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { Editor, EditorContent, EditorMenuBar } from 'tiptap'
+import {
+  Blockquote,
+  CodeBlock,
+  HardBreak,
+  Heading,
+  HorizontalRule,
+  OrderedList,
+  BulletList,
+  ListItem,
+  TodoItem,
+  TodoList,
+  Bold,
+  Code,
+  Italic,
+  Link,
+  Strike,
+  Underline,
+  History
+} from 'tiptap-extensions'
+
 export default {
   components: {
-    VEmojiPicker
+    VEmojiPicker,
+    EditorContent,
+    EditorMenuBar,
+    FontAwesomeIcon
   },
   data () {
     return {
       showEmojiPicker: false,
-      message: ''
+      message: '',
+      editor: new Editor({
+        extensions: [
+          new Blockquote(),
+          new BulletList(),
+          new CodeBlock(),
+          new HardBreak(),
+          new Heading({ levels: [1, 2, 3] }),
+          new HorizontalRule(),
+          new ListItem(),
+          new OrderedList(),
+          new TodoItem(),
+          new TodoList(),
+          new Link(),
+          new Bold(),
+          new Code(),
+          new Italic(),
+          new Strike(),
+          new Underline(),
+          new History()
+        ],
+        content: 'This is a test'
+      })
     }
+  },
+  mounted () {
+  },
+  beforeDestroy () {
+    this.editor.destroy()
   },
   methods: {
     selectEmoji (emoji) {
