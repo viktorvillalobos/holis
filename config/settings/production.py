@@ -23,9 +23,9 @@ DATABASES = {}
 DATABASES["default"] = env.db("DATABASE_URL")  # noqa F405
 DATABASES["openfire"] = env.db("OPENFIRE_DATABASE_URL")  # noqa F405
 DATABASES["default"]["ATOMIC_REQUESTS"] = True  # noqa F405
-DATABASES["default"]["CONN_MAX_AGE"] = env.int( # noqa F405
+DATABASES["default"]["CONN_MAX_AGE"] = env.int(  # noqa F405
     "CONN_MAX_AGE", default=60
-)  
+)
 
 # CACHES
 # ------------------------------------------------------------------------------
@@ -234,6 +234,6 @@ OPENFIRE_HOST = env("OPENFIRE_HOST")
 OPENFIRE_SECRET = env("OPENFIRE_SECRET")
 
 
-CORS_ORIGIN_WHITELIST = ["https://app.holis.chat"]
-
-SESSION_COOKIE_DOMAIN = ".holis.chat"
+CORS_ORIGIN_REGEX_WHITELIST = [
+    r"^https://\w+\.holis\.chat$",
+]
