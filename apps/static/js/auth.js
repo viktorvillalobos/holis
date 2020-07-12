@@ -2,33 +2,27 @@ const BASE_URL = '/api/v1',
     token = document.getElementsByName('csrfmiddlewaretoken')[0].value;
 let company;
 
-async function checkCompany(val) {
-    const companyName = document.getElementById('companyName'),
-        inputCompany = document.getElementsByName('company')[0];
-
+async function getCompany(val) {
     if (!val) {
         return false
     } else {
         try {
-            const { data } = await axios.get(`${BASE_URL}/users/check-company/${val}`)
+            const { data } = await axios.get(`${BASE_URL}/users/check-company/${val}/`)
             if (data.id) {
-                company = data
-                companyName.innerText = data.name
-                inputCompany.value = data.id
-                return true
+                return data
             } else {
-                return false
+                return null
             }
         } catch (e) {
-            return false
+            console.log(e)
+            return null
         }
     }
 }
 
-function handleBackAndForth() {
+function handleBackAndForth(company) {
     const loginForms = document.getElementsByClassName('holis-login-form')
-    loginForms[0].classList.toggle('is-active')
-    loginForms[1].classList.toggle('is-active')
+    window.location.href = `${location.protocol}//${company.code}.${location.hostname}:${location.port}/login/`
 }
 
 function showHideErrors(error) {
@@ -57,11 +51,11 @@ async function handleContinueLogin(e) {
         return
     }
     btn.classList.toggle('is-loading')
-    const validate = await checkCompany(companyValue)
+    const company = await getCompany(companyValue)
     btn.classList.toggle('is-loading')
 
-    if (validate) {
-        handleBackAndForth()
+    if (company) {
+        handleBackAndForth(company)
         showHideErrors(null)
         form.reset()
     } else {

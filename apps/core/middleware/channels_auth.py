@@ -17,8 +17,8 @@ logger = logging.getLogger(__name__)
 @database_sync_to_async
 def get_user_from_token(token_key):
     if isinstance(token_key, bytes):
-        token_key = token_key.decode() #Dcode if is bytes
-    
+        token_key = token_key.decode()  # Dcode if is bytes
+
     user_from_cache = cache.get(f'ws-{token_key}')
 
     if user_from_cache:
@@ -27,7 +27,7 @@ def get_user_from_token(token_key):
 
     try:
         user = Token.objects.get(key=token_key).user
-        cache.set(f'ws-{token_key}', user, 60*60)
+        cache.set(f'ws-{token_key}', user, 60 * 60)
     except Token.DoesNotExist:
         return AnonymousUser()
 
@@ -36,6 +36,7 @@ class TokenAuthMiddleware:
     """
         Token authorization middleware for Django Channels 2
     """
+
     def __init__(self, inner):
         self.inner = inner
 

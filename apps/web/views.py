@@ -1,6 +1,8 @@
 import logging
 
 from apps.core import models as core_models
+from django.urls import reverse
+from django.shortcuts import redirect
 from apps.web.forms import LoginForm
 from django.contrib.auth import authenticate, login
 from django.utils.translation import gettext_lazy as _
@@ -22,31 +24,25 @@ class CheckCompanyView(TemplateView):
 class LoginView(FormView):
     form_class = LoginForm
     template_name = "auth/login.html"
-    success_url = '/app/'
+    success_url = "/app/"
 
-    def get_company(self, pk):
-        return core_models.Company.objects.filter(pk=pk).first()
+    def dispatch(self, request, *args, **kwargs):
+        if not self.request.company:
+            return redirect(reverse("web:check-company"))
+
+        return super().dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
-        email = form.cleaned_data['email']
-        password = form.cleaned_data['password']
-        company = form.cleaned_data['company']
+        email = form.cleaned_data["email"]
+        password = form.cleaned_data["password"]
 
-        company = self.get_company(company)
-
-        if not company:
-            form.add_error('company', _('Company does not exists'))
-            return super().form_invalid(form)
-
-        user = authenticate(
-            self.request, company_id=company.id, email=email, password=password
-        )
+        user = authenticate(self.request, email=email, password=password,)
 
         if user is not None:
             login(self.request, user)
             return super().form_valid(form)
 
-        form.add_error('password', _('Invalid user or password'))
+        form.add_error("password", _("Invalid user or password"))
         return super().form_invalid(form)
 
 

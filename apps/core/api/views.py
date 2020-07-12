@@ -16,7 +16,7 @@ class AreaViewSet(ModelViewSet):
     queryset = core_models.Area.objects.all()
 
     def get_queryset(self, *args, **kwargs):
-        return self.queryset.filter(company__pk=self.request.user.company_id)
+        return self.queryset.filter(company=self.request.company)
 
 
 class AnnouncementViewSet(ModelViewSet):
@@ -25,7 +25,7 @@ class AnnouncementViewSet(ModelViewSet):
     permission_classes = (AllowAny,)
 
     def get_queryset(self):
-        return self.queryset.filter(company__pk=self.request.user.company_id)
+        return self.queryset.filter(company=self.request.company)
 
 
 class ChangeLogViewSet(ModelViewSet):

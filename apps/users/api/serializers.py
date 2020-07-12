@@ -107,7 +107,7 @@ class AuthEmailTokenSerializer(serializers.Serializer):
     )
     password = serializers.CharField(
         label=_("Password"),
-        style={'input_type': 'password'},
+        style={"input_type": "password"},
         trim_whitespace=False,
         write_only=True
     )
@@ -121,13 +121,13 @@ class AuthEmailTokenSerializer(serializers.Serializer):
     )
 
     def validate(self, attrs):
-        email = attrs.get('email')
-        password = attrs.get('password')
-        company_id = attrs.get('company')
+        email = attrs.get("email")
+        password = attrs.get("password")
+        company_id = attrs.get("company")
 
         if email and password:
             user = authenticate(
-                request=self.context.get('request'),
+                request=self.context.get("request"),
                 company_id=company_id,
                 email=email,
                 password=password)
@@ -136,17 +136,17 @@ class AuthEmailTokenSerializer(serializers.Serializer):
             # users. (Assuming the default ModelBackend authentication
             # backend.)
             if not user:
-                msg = _('Unable to log in with provided credentials.')
-                raise serializers.ValidationError(msg, code='authorization')
+                msg = _("Unable to log in with provided credentials.")
+                raise serializers.ValidationError(msg, code="authorization")
         else:
-            msg = _('Must include "email" and "password".')
-            raise serializers.ValidationError(msg, code='authorization')
+            msg = _("Must include 'email' and 'password'.")
+            raise serializers.ValidationError(msg, code="authorization")
 
-        attrs['user'] = user
+        attrs["user"] = user
         return attrs
 
 
 class CheckCompanySerializer(serializers.ModelSerializer):
     class Meta:
         model = core_models.Company
-        fields = ('id', 'name')
+        fields = ("id", "name", "code")

@@ -2,28 +2,8 @@
 
 {% block content %}
 <div class="holis-login-wrap">
-    <form onsubmit="return handleContinueLogin(event)"
-        class="holis-login-form {% if not form.errors %}is-active{%endif%}" id="checkForm">
-        <h3>Log into your workspace 👋</h3>
-        {% csrf_token %}
-        <div class="field">
-            <label class="label" to="company-check">Your workspace</label>
-            <p class="control has-icons-right">
-                <input class="input" type="text" placeholder="patacon-inc" name="company-check" required />
-                <span class="icon is-small is-right">
-                    .holis.chat
-                </span>
-            </p>
-        </div>
-        <div class="notification js-notifications is-danger">
-        </div>
-        <div class="auth-options">
-            <a class="button is-primary is-inverted" href="#">Create a new workspace</a>
-            <a id="buttonContinue" class="button is-primary" onclick="handleContinueLogin()">Continue</a>
-        </div>
-    </form>
-    <form class="holis-login-form {% if form.errors %}is-active{%endif%}" id="loginForm" method="post" role="form">
-        <h3>Log into <span id="companyName"></span> 👋</h3>
+    <form class="holis-login-form is-active" id="loginForm" method="post" role="form">
+        <h3>Log into <span id="companyName"> {{ request.company.name }}</span> 👋</h3>
         {% csrf_token %}
         <div class="field">
             <label class="label" to="email">Your email</label>
