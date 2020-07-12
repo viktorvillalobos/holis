@@ -140,7 +140,7 @@ export default {
 .connect-user-card {
   position: fixed;
   top: 7px;
-  right: 341px;
+  right: $margin-right-container-aside-opened;
   width: 326px;
   padding: 15px 8px 15px;
   transition: $aside-transition;
@@ -185,7 +185,7 @@ export default {
   }
 
   &--floats {
-    right: 8px;
+    right: $margin-left-container ;
   }
 }
 

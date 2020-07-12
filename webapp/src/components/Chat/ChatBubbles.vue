@@ -101,7 +101,7 @@ export default {
 .connect-chat-bubbles {
   position: fixed;
   bottom: 11px;
-  right: 16px;
+  right: $margin-left-container;
   width: 45px;
   list-style: none;
   padding: 0;
@@ -111,7 +111,7 @@ export default {
   transition: $aside-transition;
 
   &.aside-opened {
-    right: 341px;
+    right: $margin-right-container-aside-opened;
   }
 
   li {

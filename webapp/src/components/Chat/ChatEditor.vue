@@ -2,15 +2,14 @@
   <div class="connect-chat-editor">
     <div class="field">
       <p class="control has-icons-left has-icons-right">
-      <editor-content class="editor__content" :editor="editor" />
-      <editor-menu-bar :editor="editor">
+        <editor-menu-bar :editor="editor">
           <div class="menubar" slot-scope="{ commands, isActive }">
             <button
               class="menubar__button"
               :class="{ 'is-active': isActive.bold() }"
               @click="commands.bold"
             >
-            <font-awesome-icon icon="bold"/>
+              <font-awesome-icon icon="bold" />
             </button>
 
             <button
@@ -18,7 +17,7 @@
               :class="{ 'is-active': isActive.italic() }"
               @click="commands.italic"
             >
-              <font-awesome-icon icon="italic"/>
+              <font-awesome-icon icon="italic" />
             </button>
 
             <button
@@ -26,7 +25,7 @@
               :class="{ 'is-active': isActive.strike() }"
               @click="commands.strike"
             >
-              <font-awesome-icon icon="strikethrough"/>
+              <font-awesome-icon icon="strikethrough" />
             </button>
 
             <button
@@ -34,7 +33,7 @@
               :class="{ 'is-active': isActive.underline() }"
               @click="commands.underline"
             >
-              <font-awesome-icon icon="underline"/>
+              <font-awesome-icon icon="underline" />
             </button>
 
             <button
@@ -42,39 +41,7 @@
               :class="{ 'is-active': isActive.code() }"
               @click="commands.code"
             >
-              <font-awesome-icon icon="code"/>
-            </button>
-
-            <button
-              class="menubar__button"
-              :class="{ 'is-active': isActive.paragraph() }"
-              @click="commands.paragraph"
-            >
-              <font-awesome-icon icon="paragraph"/>
-            </button>
-
-            <button
-              class="menubar__button"
-              :class="{ 'is-active': isActive.heading({ level: 1 }) }"
-              @click="commands.heading({ level: 1 })"
-            >
-              H1
-            </button>
-
-            <button
-              class="menubar__button"
-              :class="{ 'is-active': isActive.heading({ level: 2 }) }"
-              @click="commands.heading({ level: 2 })"
-            >
-              H2
-            </button>
-
-            <button
-              class="menubar__button"
-              :class="{ 'is-active': isActive.heading({ level: 3 }) }"
-              @click="commands.heading({ level: 3 })"
-            >
-              H3
+              <font-awesome-icon icon="code" />
             </button>
 
             <button
@@ -82,7 +49,7 @@
               :class="{ 'is-active': isActive.bullet_list() }"
               @click="commands.bullet_list"
             >
-              <font-awesome-icon icon="list-ul"/>
+              <font-awesome-icon icon="list-ul" />
             </button>
 
             <button
@@ -90,7 +57,7 @@
               :class="{ 'is-active': isActive.ordered_list() }"
               @click="commands.ordered_list"
             >
-              <font-awesome-icon icon="list-ol"/>
+              <font-awesome-icon icon="list-ol" />
               <icon name="ol" />
             </button>
 
@@ -99,7 +66,7 @@
               :class="{ 'is-active': isActive.blockquote() }"
               @click="commands.blockquote"
             >
-              <font-awesome-icon icon="quote-left"/>
+              <font-awesome-icon icon="quote-left" />
             </button>
 
             <button
@@ -107,25 +74,19 @@
               :class="{ 'is-active': isActive.code_block() }"
               @click="commands.code_block"
             >
-              <font-awesome-icon icon="code"/>
+              <font-awesome-icon icon="code" />
             </button>
 
-            <button
-              class="menubar__button"
-              @click="commands.undo"
-            >
-              <font-awesome-icon icon="undo"/>
+            <button class="menubar__button" @click="commands.undo">
+              <font-awesome-icon icon="undo" />
             </button>
 
-            <button
-              class="menubar__button"
-              @click="commands.redo"
-            >
-              <font-awesome-icon icon="redo"/>
+            <button class="menubar__button" @click="commands.redo">
+              <font-awesome-icon icon="redo" />
             </button>
-
           </div>
-    </editor-menu-bar>
+        </editor-menu-bar>
+        <editor-content class="editor__content" :editor="editor" />
         <span class="icon-wrapper-files">
           <svg
             width="25"
@@ -160,9 +121,9 @@
   </div>
 </template>
 <script>
-import VEmojiPicker from 'v-emoji-picker'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { Editor, EditorContent, EditorMenuBar } from 'tiptap'
+import VEmojiPicker from "v-emoji-picker";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import { Editor, EditorContent, EditorMenuBar } from "tiptap";
 import {
   Blockquote,
   CodeBlock,
@@ -181,7 +142,7 @@ import {
   Strike,
   Underline,
   History
-} from 'tiptap-extensions'
+} from "tiptap-extensions";
 
 export default {
   components: {
@@ -190,10 +151,10 @@ export default {
     EditorMenuBar,
     FontAwesomeIcon
   },
-  data () {
+  data() {
     return {
       showEmojiPicker: false,
-      message: '',
+      message: "",
       editor: new Editor({
         extensions: [
           new Blockquote(),
@@ -214,32 +175,31 @@ export default {
           new Underline(),
           new History()
         ],
-        content: 'This is a test'
+        content: "This is a test"
       })
-    }
+    };
   },
-  mounted () {
-  },
-  beforeDestroy () {
-    this.editor.destroy()
+  mounted() {},
+  beforeDestroy() {
+    this.editor.destroy();
   },
   methods: {
-    selectEmoji (emoji) {
-      this.message = this.message + emoji.data
-      this.showEmojiPicker = false
+    selectEmoji(emoji) {
+      this.message = this.message + emoji.data;
+      this.showEmojiPicker = false;
     },
-    submit () {
+    submit() {
       const msg = {
         message: this.message,
         is_mine: true,
         datetime: new Date()
-      }
-      this.$emit('enter', msg)
+      };
+      this.$emit("enter", msg);
 
-      this.message = ''
+      this.message = "";
     }
   }
-}
+};
 </script>
 <style lang="scss" scoped>
 .field:not(:last-child) {
@@ -288,6 +248,12 @@ export default {
 
   .icon-wrapper-emoji {
     right: 0;
+  }
+
+  .menubar__button {
+    border: 0;
+    background: transparent;
+    color: $gray;
   }
 }
 
