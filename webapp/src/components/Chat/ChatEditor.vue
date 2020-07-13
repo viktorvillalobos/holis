@@ -76,14 +76,6 @@
             >
               <font-awesome-icon icon="code" />
             </button>
-
-            <button class="menubar__button" @click="commands.undo">
-              <font-awesome-icon icon="undo" />
-            </button>
-
-            <button class="menubar__button" @click="commands.redo">
-              <font-awesome-icon icon="redo" />
-            </button>
           </div>
         </editor-menu-bar>
         <editor-content class="editor__content" :editor="editor" />
@@ -218,9 +210,10 @@ export default {
     font-size: 10px;
   }
 
-  input {
+  .field {
     background: $light-gray;
     border: 0;
+    border-radius:4px;
   }
 
   [class*="icon-wrapper"] {
@@ -250,10 +243,26 @@ export default {
     right: 0;
   }
 
+  .editor__content {
+    padding-left: 35px;
+  }
+
+  .menubar {
+    padding-left: 35px;
+  }
+
   .menubar__button {
     border: 0;
     background: transparent;
     color: $gray;
+    padding-top: 0;
+    scroll-padding-bottom: 4px;
+    border-radius: 4px;
+
+    &:hover {
+      cursor: pointer;
+      background: $lighter-gray;
+    }
   }
 }
 

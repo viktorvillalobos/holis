@@ -202,7 +202,7 @@ export default {
   }
 
   &-body {
-    height: calc(100vh - 50px);
+    height: calc(100vh - 70px);
     overflow-y: scroll;
     padding: 40px 15px 0 15px;
     box-sizing: border-box;

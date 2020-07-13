@@ -21,7 +21,7 @@ export default {
 
 <style lang="scss" scoped>
 .connect-aside-right {
-  width: $aside-width;
+  width: $aside-right-width;
   position: fixed;
   top: 0;
   right: 0;
