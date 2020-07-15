@@ -134,7 +134,6 @@ class BaseAreaUC(AbstractModelUC):
         return np.argwhere(self.state["id"] == user.id)
 
     def clear_current_user_position(self, user: User):
-        logger.info("clear_current_user_position")
         try:
             x, y = self.get_user_position(user)[0]
         except IndexError:

@@ -42,21 +42,17 @@ class MainConsumerBase(AsyncJsonWebsocketConsumer):
             await self.channel_layer.group_add(group, self.channel_name)
 
 
-
 class MainConsumer(NotificationMixin, GridMixin, MainConsumerBase):
     async def receive_json(self, content):
         """
             This method receive jsons for clients, and
             distribute in diferent methods
         """
-        logger.info(content)
         try:
             _type = content["type"]
         except KeyError:
             _type = "error"
             _msg = _("Type is required")
-
-        logger.info(_type)
 
         if _type == "error":
             return await self.send_json({"error": _msg})
@@ -67,10 +63,8 @@ class MainConsumer(NotificationMixin, GridMixin, MainConsumerBase):
             }
             return await self.notification(message)
         elif _type == "grid.position":
-            logger.info("handling grid position")
             await self.handle_grid_position(content)
         elif _type == "grid.clear":
-            logger.info("handling grid clear position")
             await self.handle_clear_user_position()
         else:
             _msg = _("type not handled")

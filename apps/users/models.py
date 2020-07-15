@@ -105,6 +105,7 @@ class Status(TimeStampedModel):
         on_delete=models.CASCADE,
     )
     text = models.CharField(_("name"), max_length=100)
+    icon_text = models.CharField(_("icon text"), max_length=20, blank=True)
     icon = models.ImageField(_("icon"), null=True, blank=True)
     is_active = models.BooleanField(_("Is active"), default=True)
 

@@ -15,5 +15,5 @@ export default {
   },
   getRecents () {
     return axios.get(`${urlBase}/chat/recents/`)
-  }
+  },
 }

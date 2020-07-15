@@ -1,7 +1,7 @@
 import datetime as dt
 import uuid
 
-from apps.users.models import User
+from apps.users.models import User, Status
 from apps.utils import openfire
 from django.db import DatabaseError, transaction
 
@@ -38,13 +38,14 @@ class UserCreateUC(UserUCBase):
         sid = transaction.savepoint()
 
         try:
-            self._create_django_user = self.create_django_user()
+            user = self.create_django_user()
         except DatabaseError as ex:
             raise UserCreationDBError(str(ex))
 
         try:
             self._create_xmpp_user()
             self._add_user_to_group()
+            self._create_base_statuses(user)
             transaction.savepoint_commit(sid)
         except Exception:
             transaction.savepoint_rollback(sid)
@@ -66,3 +67,39 @@ class UserCreateUC(UserUCBase):
     def _add_user_to_group(self):
         client = openfire.Users()
         client.add_user_groups(self.jid, [self.company.code])
+
+    def _create_base_statuses(self, user):
+        base = [
+            {
+                "company": self.company,
+                "user": user,
+                "icon": "💻",
+                "text": "Available",
+                "is_active": True,
+            },
+            {
+                "company": self.company,
+                "user": user,
+                "icon": "🤝",
+                "text": "Metting",
+                "is_active": False,
+            },
+            {
+                "company": self.company,
+                "user": user,
+                "icon": "😋",
+                "text": "Having launch",
+                "is_active": False,
+            },
+            {
+                "company": self.company,
+                "user": user,
+                "icon": "👻",
+                "text": "Absent",
+                "is_active": False,
+            },
+        ]
+
+        objects = [Status(**x) for x in base]
+
+        Status.objects.bulk_create(objects)

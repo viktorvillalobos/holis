@@ -23,7 +23,9 @@ class GridMixin:
         return old_point, uc.get_serialized_connected()
 
     @database_sync_to_async
-    def clear_position(self, area_id: int, x: int, y: int, room: str):
+    def clear_position(
+        self, area_id: int, x: int, y: int, room: str, timestamp: dt.datetime
+    ):
         area = core_models.Area.objects.get(id=area_id)
         uc = area_uc.ClearStateAreaUC(area)
         uc.execute(self.scope["user"])
@@ -37,8 +39,6 @@ class GridMixin:
 
     async def notify_change_position(self, message):
         message["user"] = await self.serialize_user_data(self.scope["user"])
-        logger.info("notify_change_position")
-        logger.info(message)
         await self.channel_layer.group_send(self.company_channel, message)
 
     async def notify_user_disconnect(self, message):
@@ -46,8 +46,6 @@ class GridMixin:
         await self.channel_layer.group_send(self.company_channel, message)
 
     async def handle_grid_position(self, message: Dict) -> None:
-        logger.info("handle_grid_position")
-        logger.info(message)
         user = self.scope["user"]
         area: int = message["area"]
         x: int = message["x"]
@@ -60,9 +58,14 @@ class GridMixin:
         message["state"] = serialized_state
         cache.set(
             USER_POSITION_KEY.format(user.id),
-            {"area_id": area, "x": x, "y": y, "room": room, "timestamp": dt.datetime.now()},
+            {
+                "area_id": area,
+                "x": x,
+                "y": y,
+                "room": room,
+                "timestamp": str(dt.datetime.now()),
+            },
         )
-        logger.info("cache saved")
         await self.notify_change_position(message)
 
     async def handle_clear_user_position(self):
@@ -72,9 +75,6 @@ class GridMixin:
         user = self.scope["user"]
         key = USER_POSITION_KEY.format(user.id)
         position: Dict = cache.get(key)
-        logger.info("handle_clear_user_position")
-        logger.info(key)
-        logger.info(position)
         if position:
 
             state = await self.clear_position(**position)

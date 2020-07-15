@@ -35,7 +35,7 @@
             aria-haspopup="true"
             aria-controls="dropdown-menu2"
           >
-            <span>{{userState}}</span>
+            <span v-if="userState">{{ userState.icon_text }} {{userState.text}}</span>
             <span class="icon is-small">
               <font-awesome-icon icon="angle-down" />
             </span>
@@ -43,9 +43,9 @@
         </div>
 
         <div class="dropdown-menu" id="dropdown-menu2" role="menu">
-          <div class="dropdown-content">
-            <div v-for="(state, index) in states" :key="state" @click="handleState(state)">
-              <div class="dropdown-item">{{state}}</div>
+          <div v-if="user" class="dropdown-content">
+            <div  v-for="(state, index) in user.statuses" :key="state" @click="handleState(state)">
+              <div class="dropdown-item">{{ state.icon_text }} {{state.text}}</div>
               <hr v-if="index + 1 !== states.length" class="dropdown-divider" />
             </div>
           </div>
@@ -105,8 +105,7 @@ export default {
       connected: state => state.webrtc.connected
     })
   },
-  created () {
-    this.userState = this.states[0]
+  mounted () {
   },
   methods: {
     emitSound () {
@@ -132,6 +131,11 @@ export default {
     handleState (state) {
       this.userState = state
       this.stateMenuIsActive = false
+    }
+  },
+  watch: {
+    user (value) {
+      this.userState = value.statuses.filter(x => x.is_active === true)[0]
     }
   }
 }
