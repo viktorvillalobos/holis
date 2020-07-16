@@ -51,24 +51,12 @@ export default {
       isFirefox: false,
       overOrigin: 'bottom',
       room: null,
-      localUserHex: null
+      localUserHex: null,
+      neighbors: null
     }
   },
   async mounted () {
-    /*
-      Grid Creation
-
-      draw = SVG.JS Library Draw object, can be replaced by PixiJS.
-      hex = HoneyCombJS ExtendHex, define a HEX object.
-      Grid = is a grid object factory, used to define grids.
-      rectangle = is a like rectangle grid defined by the Grid
-    */
-
-    this.draw = SVG(this.$refs.grid)
-    this.hex = hex.getHex(this.draw, this.size)
-    this.Grid = defineGrid(this.hex)
-    this.rectangle = this.getRectangle()
-
+    this.initGrid()
     this.isFirefox = window.navigator.userAgent.toLowerCase().indexOf('firefox') > -1
     this.setScroll()
 
@@ -87,6 +75,20 @@ export default {
     })
   },
   methods: {
+    initGrid () {
+      /*
+        Grid Creation
+
+        draw = SVG.JS Library Draw object, can be replaced by PixiJS.
+        hex = HoneyCombJS ExtendHex, define a HEX object.
+        Grid = is a grid object factory, used to define grids.
+        rectangle = is a like rectangle grid defined by the Grid
+      */
+      this.draw = SVG(this.$refs.grid)
+      this.hex = hex.getHex(this.draw, this.size)
+      this.Grid = defineGrid(this.hex)
+      this.rectangle = this.getRectangle()
+    },
     onClick (e) {
       const { x, y } = this.getOffset(e)
       if (!this.isOverlaped([x, y])) {
@@ -108,36 +110,41 @@ export default {
       const selectedHex = this.rectangle.get(hexCoordinates)
       if (selectedHex) {
         selectedHex.filled(user)
-        const neighbors = this.rectangle
-          .neighborsOf(selectedHex)
-          .filter(hex => hex.user !== null)
-
         if (isLocalUser) {
-          // Solo si es el usuario actual
-          this.localUserHex = selectedHex
-          this.$store.commit('setCurrentUserHex')
-          if (neighbors.length) {
-            this.room = neighbors[0].user.room
-            console.log(`Connectiong to ${this.room} channel`)
-          } else {
-            this.room = this.uuidv4()
-            console.log(`Creating new channel ${this.room} channel`)
-          }
-          this.$store.dispatch('disconnectAndConnect', this.room)
+          this.setNeighbors(selectedHex)
+          this.connectToWebRTC(selectedHex)
+          this.sendChangePositionNotification(hexCoordinates)
         }
       }
-
-      if (isLocalUser) {
-        const message = {
-          type: 'grid.position',
-          area: this.currentArea.id,
-          x: hexCoordinates.x,
-          y: hexCoordinates.y,
-          room: this.room
-        }
-
-        this.$socket.send(JSON.stringify(message))
+    },
+    setNeighbors (selectedHex) {
+      this.neighbors = this.rectangle
+        .neighborsOf(selectedHex)
+        .filter(hex => hex.user !== null)
+    },
+    connectToWebRTC (selectedHex) {
+      // Solo si es el usuario actual
+      this.localUserHex = selectedHex
+      this.$store.commit('setCurrentUserHex')
+      if (this.neighbors.length) {
+        this.room = this.neighbors[0].user.room
+        console.log(`Connectiong to ${this.room} channel`)
+      } else {
+        this.room = this.uuidv4()
+        console.log(`Creating new channel ${this.room} channel`)
       }
+      this.$store.dispatch('disconnectAndConnect', this.room)
+    },
+    sendChangePositionNotification (hexCoordinates) {
+      const message = {
+        type: 'grid.position',
+        area: this.currentArea.id,
+        x: hexCoordinates.x,
+        y: hexCoordinates.y,
+        room: this.room
+      }
+
+      this.$socket.send(JSON.stringify(message))
     },
     getOffset (e) {
       /* LayerX and LayerY Works well in chrome and firefox */
@@ -182,13 +189,11 @@ export default {
         }
       })
     },
-    clearOthersFromGrid () {
-
-    },
     clearUserFromGrid (userId) {
       /* remove an user from grid
         user: = user instance or userstat
         */
+      console.log(`Clear user # ${userId}`)
       this.rectangle
         .filter(x => x && x.user && x.user.id === userId)
         .forEach(x => x.clear())
@@ -202,6 +207,12 @@ export default {
     },
     async loadInitialState () {
       await this.$store.dispatch('getAreas')
+      this.paintAllState()
+    },
+    clearAllState () {
+      this.rectangle.filter(x => x.user).forEach(x => x.clear())
+    },
+    paintAllState () {
       this.currentState.forEach(userPosition => {
         const selectedHex = this.rectangle.get([userPosition.x, userPosition.y])
         if (selectedHex) {
@@ -235,11 +246,12 @@ export default {
     changeState ({ user, state }) {
       /* This is executed when a notification of user
         change is received */
-      if (user.id === window.user_id) {
+      const isLocalUser = user.id === window.user_id
+
+      if (isLocalUser) {
         this.$store.dispatch('setCurrentState', state)
         return
       }
-
       state
         .filter(x => x.id !== window.user_id)
         .forEach(userState => {
