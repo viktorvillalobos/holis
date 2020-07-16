@@ -44,9 +44,9 @@
 
         <div class="dropdown-menu" id="dropdown-menu2" role="menu">
           <div v-if="user" class="dropdown-content">
-            <div  v-for="(state, index) in user.statuses" :key="state" @click="handleState(state)">
+            <div  v-for="(state, index) in user.statuses" :key="state.id" @click="handleState(state)">
               <div class="dropdown-item">{{ state.icon_text }} {{state.text}}</div>
-              <hr v-if="index + 1 !== states.length" class="dropdown-divider" />
+              <hr v-if="index + 1 !== user.statuses.length" class="dropdown-divider" />
             </div>
           </div>
         </div>
@@ -61,6 +61,7 @@
 import { mapState } from 'vuex'
 import Avatar from '@/components/Avatar'
 import VoiceStatus from '@/components/VoiceStatus'
+import apiClient from '@/services/api'
 
 export default {
   name: 'UserCard',
@@ -131,6 +132,20 @@ export default {
     handleState (state) {
       this.userState = state
       this.stateMenuIsActive = false
+      this.sendStatusChange(state)
+    },
+    async sendStatusChange (state) {
+      console.log('Sending Status Change')
+      console.log(state)
+      await apiClient.app.setStatus(state.id)
+
+      const message = {
+        type: 'user.status',
+        user: this.user,
+        status: state
+      }
+
+      this.$socket.send(JSON.stringify(message))
     }
   },
   watch: {

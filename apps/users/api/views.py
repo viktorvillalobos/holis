@@ -70,3 +70,16 @@ class CheckCompanyAPIView(generics.RetrieveAPIView):
         return get_object_or_404(core_models.Company, code__iexact=name)
 
 
+class SetStatusAPIView(views.APIView):
+    serializer_class = serializers.SetStatusSerializer
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=self.request.data)
+        serializer.is_valid(raise_exception=True)
+
+        status_id = serializer.validated_data["status_id"]
+        models.Status.objects.filter(user=self.request.user).update(is_active=False)
+        status = models.Status.objects.get(id=status_id)
+        status.is_active = True
+        status.save()
+        return Response(status=200)

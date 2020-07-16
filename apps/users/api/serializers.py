@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 class StatusSerializer(serializers.ModelSerializer):
     class Meta:
         model = users_models.Status
-        fields = ["text", "icon", "icon_text", "is_active"]
+        fields = ["text", "icon", "icon_text", "is_active", "id"]
 
 
 class CompanyField(serializers.Field):
@@ -149,3 +149,7 @@ class CheckCompanySerializer(serializers.ModelSerializer):
     class Meta:
         model = core_models.Company
         fields = ("id", "name", "code")
+
+
+class SetStatusSerializer(serializers.Serializer):
+    status_id = serializers.IntegerField()

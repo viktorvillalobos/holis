@@ -66,6 +66,8 @@ class MainConsumer(NotificationMixin, GridMixin, MainConsumerBase):
             await self.handle_grid_position(content)
         elif _type == "grid.clear":
             await self.handle_clear_user_position()
+        elif _type == "grid.status":
+            await self.handle_status(content)
         else:
             _msg = _("type not handled")
             return await self.send_json({"error": _msg})

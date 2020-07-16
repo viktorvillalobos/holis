@@ -82,3 +82,7 @@ class GridMixin:
                 {"type": "grid.disconnect", "state": state, **position}
             )
             cache.delete(USER_POSITION_KEY.format(user.id))
+
+    async def handle_status(self, message):
+        logger.info("HANDLE STATUS")
+        logger.info(message)
