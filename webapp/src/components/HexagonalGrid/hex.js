@@ -81,13 +81,14 @@ function getHex (vmDraw, size) {
     clearStatus () {
       if (this.status) this.status.node.remove()
     },
-    addStatus () {
+    addStatus (status) {
+      status = status || this.user.status
       const position = this.toPoint()
       const centerPosition = this.center().add(position)
       const fontSize = 16
       if (this.user && this.user.status) {
         this.status = vmDraw
-          .text(this.user.status.icon_text)
+          .text(status.icon_text)
           .font({
             size: fontSize,
             anchor: 'middle',

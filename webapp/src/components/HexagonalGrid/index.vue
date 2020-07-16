@@ -67,6 +67,7 @@ export default {
     ...mapState({
       // This is filled by WS message
       changeState: state => state.areas.changeState,
+      changeStatus: state => state.areas.changeStatus,
       deleteFromState: state => state.areas.deleteFromState,
       currentArea: state => state.areas.currentArea,
       user: state => state.app.user,
@@ -242,6 +243,11 @@ export default {
     },
     size () {
       this.rectangle = this.getRectangle()
+    },
+    changeStatus ({ user, status }) {
+      const hex = this.rectangle.filter(hex => hex.user && hex.user.id === user.id)[0]
+      hex.clearStatus()
+      hex.addStatus(status)
     },
     changeState ({ user, state }) {
       /* This is executed when a notification of user

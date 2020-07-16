@@ -37,11 +37,18 @@ class GridMixin:
     async def grid_disconnect(self, message):
         await self.send_json(message)
 
+    async def grid_status(self, message):
+        await self.send_json(message)
+
     async def notify_change_position(self, message):
         message["user"] = await self.serialize_user_data(self.scope["user"])
         await self.channel_layer.group_send(self.company_channel, message)
 
     async def notify_user_disconnect(self, message):
+        message["user"] = await self.serialize_user_data(self.scope["user"])
+        await self.channel_layer.group_send(self.company_channel, message)
+
+    async def notify_user_status(self, message):
         message["user"] = await self.serialize_user_data(self.scope["user"])
         await self.channel_layer.group_send(self.company_channel, message)
 
@@ -86,3 +93,5 @@ class GridMixin:
     async def handle_status(self, message):
         logger.info("HANDLE STATUS")
         logger.info(message)
+
+        await self.notify_user_status(message)

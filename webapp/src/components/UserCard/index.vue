@@ -140,12 +140,12 @@ export default {
       await apiClient.app.setStatus(state.id)
 
       const message = {
-        type: 'user.status',
+        type: 'grid.status',
         user: this.user,
         status: state
       }
 
-      this.$socket.send(JSON.stringify(message))
+      this.$socket.sendObj(message)
     }
   },
   watch: {

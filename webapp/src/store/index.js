@@ -59,6 +59,10 @@ const store = new Vuex.Store({
         case 'grid.disconnect':
           state.areas.deleteFromState = message
           break
+
+        case 'grid.status':
+          state.areas.changeStatus = message
+          break
       }
     },
     // mutations for reconnect methods
