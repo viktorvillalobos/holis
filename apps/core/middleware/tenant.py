@@ -32,11 +32,11 @@ class HolisTenantMiddleware(django.utils.deprecation.MiddlewareMixin):
 
         code = hostname.split(".")[0]
         TenantModel = Company
-
+        
         if code in ("holis", "holis"):
             request.company = None
             return
-
+        
         try:
             # get_tenant must be implemented by extending this class.
             tenant = self.get_tenant(TenantModel, code, request)
