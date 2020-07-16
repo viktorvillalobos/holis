@@ -85,19 +85,16 @@ function getHex (vmDraw, size) {
       const position = this.toPoint()
       const centerPosition = this.center().add(position)
       const fontSize = 16
-      if (this.user) {
-        const status = this.user.statuses.filter(x => x.is_active)[0]
-        if (status) {
-          this.status = vmDraw
-            .text(status.icon_text)
-            .font({
-              size: fontSize,
-              anchor: 'middle',
-              leading: 1.4,
-              fill: 'black'
-            })
-            .translate(centerPosition.x + 10, centerPosition.y - 35 - fontSize)
-        }
+      if (this.user && this.user.status) {
+        this.status = vmDraw
+          .text(this.user.status.icon_text)
+          .font({
+            size: fontSize,
+            anchor: 'middle',
+            leading: 1.4,
+            fill: 'black'
+          })
+          .translate(centerPosition.x + 10, centerPosition.y - 35 - fontSize)
       }
     }
   })

@@ -50,11 +50,17 @@ class UserCompanySerializer(serializers.ModelSerializer):
             return obj.logo_thumb
 
 
+class ActiveStatusSerializer(serializers.Serializer):
+    text = serializers.CharField()
+    icon_text = serializers.CharField()
+
+
 class UserSerializer(serializers.ModelSerializer):
     statuses = StatusSerializer(many=True)
     company = UserCompanySerializer(read_only=True)
     avatar_thumb = serializers.SerializerMethodField()
     room = serializers.SerializerMethodField()
+    status = ActiveStatusSerializer(source="current_status")
 
     def get_avatar_thumb(self, obj):
         if not obj.avatar_thumb:
@@ -91,6 +97,7 @@ class UserSerializer(serializers.ModelSerializer):
             "avatar_thumb",
             "is_staff",
             "is_superuser",
+            "status"
         ]
 
 

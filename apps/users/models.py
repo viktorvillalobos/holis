@@ -70,7 +70,11 @@ class User(AbstractUser):
 
     @property
     def current_status(self):
-        return self.statuses.filter(is_active=True).first()
+        status = self.statuses.filter(is_active=True).first()
+        return {
+            "icon_text": status.icon_text,
+            "text": status.text
+        }
 
     def save(self, *args, **kwargs):
         # if not self.avatar:

@@ -3,6 +3,7 @@
 """
 import logging
 from typing import Dict, List, Tuple
+from ast import literal_eval
 
 import numpy as np
 from apps.core.uc.abstracts import AbstractModelUC
@@ -104,7 +105,7 @@ class BaseAreaUC(AbstractModelUC):
             item["id"] = int(self.state[x, y][0])
             item["name"] = self.state[x, y][1]
             item["last_name"] = self.state[x, y][2]
-            item["status"] = self.state[x, y][3]
+            item["status"] = literal_eval(self.state[x, y][3])
             item["position"] = self.state[x, y][4]
             item["avatar"] = self.state[x, y][5]
             item["room"] = self.state[x, y][6]
