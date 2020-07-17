@@ -93,14 +93,26 @@ class SignUpStep3(GetObjectByUUIDMixin, UpdateView):
     model = Lead
     fields = ["company_name"]
 
+    def get_success_url(self, **kwargs):
+        return reverse_lazy(
+            "web:signup-step-4", kwargs={"pk": self.kwargs["pk"]}
+        )
+
 
 class SignUpStep4(GetObjectByUUIDMixin, UpdateView):
     template_name = "auth/signup/step4.html"
     model = Lead
     fields = ["name", "position", "avatar"]
+    success_url = reverse_lazy("web:signup-step-5")
+
+    def get_success_url(self, **kwargs):
+        return reverse_lazy(
+            "web:signup-step-5", kwargs={"pk": self.kwargs["pk"]}
+        )
 
 
 class SignUpStep5(GetObjectByUUIDMixin, UpdateView):
     template_name = "auth/signup/step5.html"
     model = Lead
     fields = ["invitations"]
+    success_url = reverse_lazy("webapp")
