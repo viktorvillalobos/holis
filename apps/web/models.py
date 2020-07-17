@@ -16,6 +16,9 @@ class Lead(TimeStampedModel):
     company_name = models.CharField(
         _("Company name"), blank=True, null=True, max_length=100
     )
+    company_code = models.CharField(
+        _("Company code"), blank=True, null=True, max_length=20
+    )
     name = models.CharField(
         _("User name"), blank=True, null=True, max_length=100
     )

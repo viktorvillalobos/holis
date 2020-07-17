@@ -12,15 +12,13 @@ class LoginForm(forms.Form):
     password = forms.CharField()
 
 
-class SignUpStep1(forms.ModelForm):
+class SignUpStep1Form(forms.ModelForm):
     class Meta:
         fields = ["email"]
         model = Lead
 
     def send_email(self, request):
-        logger.info("SENDING EMAIL")
         root = request.build_absolute_uri('/')[:-1].strip("/")
-        logger.info(self.instance.secret)
         content = f"""
             Activate: {root}/signup/step3/{self.instance.secret}/
         """
