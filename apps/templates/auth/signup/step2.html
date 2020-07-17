@@ -1,1 +1,15 @@
-Felicitaciones! :D
+{% extends "base_auth_nocard.html" %}
+
+{% load static i18n %}
+
+{% block content %}
+<div class="auth-message">
+    <p>
+        {% trans 'One of our carrier pigeons has already left an email in your inbox, check it out!' %}
+    </p>
+    <img src="{% static 'images/messenger_pigeon.svg' %}" />
+    <p class="gray-text">
+        {% trans '(Sometimes they get a little confused and leave them in the' %} <strong>spam</strong> {% trans 'folder, they do their best!)' %}
+    </p>
+</div>
+{% endblock %}

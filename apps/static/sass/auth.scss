@@ -7,7 +7,7 @@
 ////////////////////////////////
 $card-box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
 $card-border-radius: 4px;
-$medium-gray: #C4C4C4;
+$medium-gray: #c4c4c4;
 
 // Alert colors
 ////////////////////////////////
@@ -16,12 +16,16 @@ $medium-gray: #C4C4C4;
 
 @import "./vars";
 @import "./bulma/bulma.sass";
+@import "./inputs";
 
 .auth {
     &-wrapper {
         padding-top: 130px;
         min-height: 100vh;
         background-size: 100%;
+        background-image: url(../images/clear_bg.svg);
+        background-size: 90%;
+        background-repeat: no-repeat;
     }
 
     &-card {
@@ -57,10 +61,35 @@ $medium-gray: #C4C4C4;
         }
     }
 
+    &-content {
+        width: 522px;
+        max-width: 98%;
+        margin: 0 auto;
+        text-align: center;
+
+
+        .button {
+            border-radius: 14px;
+        }
+
+        .espazum-inner-button-field {
+            margin-top: 50px;
+            .button {
+                border-top-left-radius: 0;
+                border-bottom-left-radius: 0;
+            }
+        }
+    }
+
     &-logo {
         position: absolute;
         top: -49px;
         left: 18px;
+
+        &.no-absolute {
+            position: static;
+            margin: 15px auto;
+        }
     }
 
     &-options {
@@ -69,6 +98,12 @@ $medium-gray: #C4C4C4;
 
         & > * {
             margin-left: 16px;
+        }
+    }
+
+    &-message {
+        > * {
+            margin-bottom: 35px; 
         }
     }
 }
@@ -151,4 +186,8 @@ $medium-gray: #C4C4C4;
             display: block;
         }
     }
+}
+
+.gray-text {
+    color: #828282;
 }

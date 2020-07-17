@@ -8365,10 +8365,32 @@ label.panel-block {
   padding: 48px 24px 96px;
   padding: 3rem 1.5rem 6rem; }
 
+.espazum-inner-button-field {
+  position: relative;
+  z-index: 4; }
+  .espazum-inner-button-field .input {
+    -webkit-box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.25);
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.25);
+    position: absolute;
+    border-radius: 16px;
+    height: 45px;
+    left: 0; }
+  .espazum-inner-button-field .button {
+    position: absolute;
+    right: 0;
+    -webkit-box-shadow: none;
+            box-shadow: none;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    height: 45px; }
+
 .auth-wrapper {
   padding-top: 130px;
   min-height: 100vh;
-  background-size: 100%; }
+  background-size: 100%;
+  background-image: url(../images/clear_bg.svg);
+  background-size: 90%;
+  background-repeat: no-repeat; }
 
 .auth-card {
   width: 834px;
@@ -8392,10 +8414,26 @@ label.panel-block {
       font-weight: 500;
       margin-bottom: 24px; }
 
+.auth-content {
+  width: 522px;
+  max-width: 98%;
+  margin: 0 auto;
+  text-align: center; }
+  .auth-content .button {
+    border-radius: 14px; }
+  .auth-content .espazum-inner-button-field {
+    margin-top: 50px; }
+    .auth-content .espazum-inner-button-field .button {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0; }
+
 .auth-logo {
   position: absolute;
   top: -49px;
   left: 18px; }
+  .auth-logo.no-absolute {
+    position: static;
+    margin: 15px auto; }
 
 .auth-options {
   display: -webkit-box;
@@ -8406,6 +8444,9 @@ label.panel-block {
           justify-content: flex-end; }
   .auth-options > * {
     margin-left: 16px; }
+
+.auth-message > * {
+  margin-bottom: 35px; }
 
 .onboarding-stepper {
   display: -webkit-box;
@@ -8460,7 +8501,7 @@ label.panel-block {
   .connect-card--outline {
     -webkit-box-shadow: none;
             box-shadow: none;
-    border: 1px solid #C4C4C4; }
+    border: 1px solid #c4c4c4; }
   .connect-card-actions {
     display: -webkit-inline-box;
     display: -ms-inline-flexbox;
@@ -8487,3 +8528,6 @@ label.panel-block {
   display: none; }
   .holis-login-wrap .notification.is-active {
     display: block; }
+
+.gray-text {
+  color: #828282; }
