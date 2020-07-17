@@ -71,12 +71,16 @@ class SignUpStep1(FormView):
     success_url = reverse_lazy("web:signup-step-2")
 
     def form_valid(self, form):
-        lead = Lead.objects.filter(email=form.cleaned_data.get("email"))
+        lead = Lead.objects.filter(
+            email=form.cleaned_data.get("email")
+        ).first()
 
         if not lead:
             form.save()
+        else:
+            form = self.form_class(instance=lead)
 
-        form.send_email()
+        form.send_email(self.request)
         return super().form_valid(form)
 
 
