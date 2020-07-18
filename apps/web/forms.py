@@ -49,11 +49,16 @@ class SignUpStep3Form(forms.ModelForm):
     def clean(self):
         cleaned_data = super().clean()
 
+        if not cleaned_data["company_code"]:
+            cleaned_data["company_code"] = (
+                cleaned_data["company_name"].strip().lower().replace(" ", "-")
+            )
+
         if core_models.Company.objects.filter(
             code=cleaned_data["company_code"]
         ).exists():
             self.add_error(
                 'company_code',
-                _("This company code is already used, please user other"),
+                _("This company code is already used, please use other"),
             )
         return cleaned_data
