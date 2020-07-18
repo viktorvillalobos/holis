@@ -91,7 +91,7 @@ class SignUpStep2(TemplateView):
 class SignUpStep3(GetObjectByUUIDMixin, UpdateView):
     template_name = "auth/signup/step3.html"
     model = Lead
-    fields = ["company_name", "company_code"]
+    form_class = forms.SignUpStep3Form
 
     def get_success_url(self, **kwargs):
         return reverse_lazy(

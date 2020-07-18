@@ -1,7 +1,9 @@
 import logging
 from django import forms
+from django.utils.translation import gettext_lazy as _
 from django.core.mail import send_mail
 from apps.web.models import Lead
+from apps.core import models as core_models
 
 
 logger = logging.getLogger(__name__)
@@ -37,3 +39,21 @@ class SignUpStep1Form(forms.ModelForm):
         except Exception as ex:
             logger.info(f"failed to send email early {self.instance.email}")
             logger.info(str(ex))
+
+
+class SignUpStep3Form(forms.ModelForm):
+    class Meta:
+        fields = ["company_name", "company_code"]
+        model = Lead
+
+    def clean(self):
+        cleaned_data = super().clean()
+
+        if core_models.Company.objects.filter(
+            code=cleaned_data["company_code"]
+        ).exists():
+            self.add_error(
+                'company_code',
+                _("This company code is already used, please user other"),
+            )
+        return cleaned_data
