@@ -163,7 +163,7 @@ $medium-gray: #c4c4c4;
     }
 }
 
-.holis-login-wrap {
+.holis-login-wrap, .holis-signup-wrap {
     form {
         display: none;
 
@@ -184,6 +184,32 @@ $medium-gray: #c4c4c4;
 
         &.is-active {
             display: block;
+        }
+    }
+}
+
+.holis-stepper {
+    display: flex;
+    margin-bottom: 30px;
+    
+    &-number {
+        background-color: $primary;
+        color: #fff;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 48px;
+    }
+
+    &-text {
+        margin-left: 15px;
+        h2 {
+            font-size: 24px;
+            font-weight: 500;
         }
     }
 }
