@@ -70,3 +70,44 @@ function handleGoBack() {
     window.location.href = `${location.protocol}//${location.hostname}:${location.port}/check-company/`
     showHideErrors(null)
 }
+
+function stringToSlug (str) {
+    str = str.replace(/^\s+|\s+$/g, ''); // trim
+    str = str.toLowerCase();
+  
+    // remove accents, swap ñ for n, etc
+    var from = "àáäâèéëêìíïîòóöôùúüûñç·/_,:;";
+    var to   = "aaaaeeeeiiiioooouuuunc------";
+    for (var i=0, l=from.length ; i<l ; i++) {
+        str = str.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i));
+    }
+
+    str = str.replace(/[^a-z0-9 -]/g, '') // remove invalid chars
+        .replace(/\s+/g, '-') // collapse whitespace and replace by -
+        .replace(/-+/g, '-'); // collapse dashes
+
+    return str;
+}
+
+(function handleCompanyCode() {
+    const input = document.getElementById('id_company_name'),
+        subdomainField = document.getElementById('subdomain-field'),
+        subdomain = document.getElementById('subdomain')
+
+    subdomainField.style.display = 'none'
+
+    input.addEventListener('input', function (e) {
+        suggestCompanyCode(e.srcElement.value, subdomain)
+    })
+}())
+
+async function suggestCompanyCode(val, setter) {
+    try {
+        const { data } = await axios.get(`${BASE_URL}/users/suggest-company-code/?company_name=${val}`)
+        setter.innerText = stringToSlug(val)
+        console.log(data)
+    } catch ({response}) {
+        const {data} = response
+        setter.innerText = data.recommendations[0]
+    }
+}

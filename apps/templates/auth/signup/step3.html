@@ -1,5 +1,5 @@
 {% extends "base_auth.html" %}
-
+{% load static i18n %}
 {% block content %}
 <div class="holis-signup-wrap">
     <form class="is-active" action="." method="POST">
@@ -13,11 +13,24 @@
             </div>
         </div>
         {% csrf_token %}
-        <div class="field">
-            <label class="label" to="email">El nombre de tu equipo o empresa</label>
-            <input class="input" type="text" name="company_name" maxlength="100" id="id_company_name" required>
+        <div class="holis-field-message">
+            <div class="field">
+                <label class="label" to="email">El nombre de tu equipo o empresa</label>
+                <input class="input" type="text" name="company_name" maxlength="100" id="id_company_name" required>
+            </div>
+
+            <div class="holis-form-message">
+                <div class="holis-form-message-animation is-active">
+                    <img src="{% static 'images/Startup.svg' %}" alt="startup">
+                </div>
+                <div class="holis-form-message-msg is-active">
+                    <p>Tu subdominio será <span id="subdomain"></span>.holis.chat</p>
+                    <small>¿No te gusta este subdominio? <a href="#">Puedes cambiarlo</a></small>
+                </div>
+            </div>
         </div>
-        <div class="field">
+
+        <div id="subdomain-field" class="field">
             <label class="label" to="email">Tu subdominio</label>
             <p class="control has-icons-right">
                 <input class="input" type="text" name="company_code" maxlength="20" id="id_company_code">
