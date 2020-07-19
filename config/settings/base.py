@@ -28,7 +28,7 @@ TIME_ZONE = "UTC"
 # https://docs.djangoproject.com/en/dev/ref/settings/#language-code
 LANGUAGE_CODE = "en-us"
 
-LANGUAGES = (('en', _("English")), ('es', _("Spanish")))
+LANGUAGES = (("en", _("English")), ("es", _("Spanish")))
 # https://docs.djangoproject.com/en/dev/ref/settings/#site-id
 SITE_ID = 1
 # https://docs.djangoproject.com/en/dev/ref/settings/#use-i18n
@@ -85,6 +85,7 @@ THIRD_PARTY_APPS = [
     "webpack_loader",
     "sorl.thumbnail",
     "django_filters",
+    "pwa",
 ]
 
 LOCAL_APPS = [
@@ -330,8 +331,8 @@ REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": (
         "rest_framework.permissions.IsAuthenticated",
     ),
-    'DEFAULT_FILTER_BACKENDS': (
-        'django_filters.rest_framework.DjangoFilterBackend',
+    "DEFAULT_FILTER_BACKENDS": (
+        "django_filters.rest_framework.DjangoFilterBackend",
     ),
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
     "PAGE_SIZE": 20,
@@ -346,17 +347,51 @@ CHANNEL_LAYERS = {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
             "hosts": [("redis", 6379)],
-            'capacity': 1500,
-            'expiry': 20,
+            "capacity": 1500,
+            "expiry": 20,
         },
     },
 }
 
 
-THUMBNAIL_FORMAT = 'PNG'
+THUMBNAIL_FORMAT = "PNG"
 
 
 # Twilio
 
 TWILIO_ACCOUNT_ID = env("TWILIO_ACCOUNT_ID")
 TWILIO_AUTH_TOKEN = env("TWILIO_AUTH_TOKEN")
+
+
+# PWA
+
+PWA_APP_NAME = "Holis"
+PWA_APP_DESCRIPTION = "Holis"
+PWA_APP_THEME_COLOR = "#0A0302"
+PWA_APP_BACKGROUND_COLOR = "#ffffff"
+PWA_APP_DISPLAY = "standalone"
+PWA_APP_SCOPE = "/"
+PWA_APP_ORIENTATION = "any"
+PWA_APP_START_URL = "/"
+PWA_APP_STATUS_BAR_COLOR = "default"
+PWA_APP_ICONS = [
+    {
+        "src": "/static/images/favicons/android-icon-36x36.png",
+        "sizes": "36x36",
+    },
+    {
+        "src": "/static/images/favicons/android-icon-192x192.png",
+        "sizes": "192x192",
+    },
+]
+PWA_APP_ICONS_APPLE = [
+    {"src": "/static/images/favicons/apple-icon.png", "sizes": "180x180"}
+]
+PWA_APP_SPLASH_SCREEN = [
+    {
+        "src": "/static/images/icons/splash-640x1136.png",
+        "media": "(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)",
+    }
+]
+PWA_APP_DIR = "ltr"
+PWA_APP_LANG = "en-US"

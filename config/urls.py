@@ -8,6 +8,7 @@ from django.views import defaults as default_views
 from rest_framework.authtoken.views import obtain_auth_token
 
 urlpatterns = [
+    path('', include('pwa.urls')),
     # Django Admin, use {% url 'admin:index' %}
     path(settings.ADMIN_URL, admin.site.urls),
     # User management
