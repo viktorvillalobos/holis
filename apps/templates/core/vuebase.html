@@ -20,6 +20,9 @@
     <link rel="icon" type="image/png" sizes="96x96" href="{% static 'images/favicons/favicon-96x96.png' %}">
     <link rel="icon" type="image/png" sizes="16x16" href="{% static 'images/favicons/favicon-16x16.png' %}">
     <link rel="manifest" href="{% static 'images/favicons/manifest.json' %}">
+    <script>
+        var user_id = {{ request.user.id }};
+    </script>
 
     <style>
         .loader-wrap {
@@ -48,9 +51,6 @@
     {% block render %}
     {% endblock %}
     
-    <script>
-        var user_id = {{ request.user.id }};
-    </script>
     
     <script>
     </script>

@@ -5,7 +5,7 @@
       <font-awesome-icon :color="icon.color" :icon="icon.icon" class="status-icon"/>
       <div class="connect-area-voice-status-text">
           <p> {{ translateStatus }}</p>
-          <span>{{ streams.length }} members</span>
+          <span>{{ streamsCount }} members</span>
       </div>
     </div>
 
@@ -29,7 +29,7 @@ export default {
     ...mapState({
       connected: state => state.webrtc.connected,
       status: state => state.webrtc.status,
-      streams: state => state.webrtc.streams
+      streamsCount: state => state.webrtc.streamsCount
     }),
     translateStatus () {
       switch (this.status) {
