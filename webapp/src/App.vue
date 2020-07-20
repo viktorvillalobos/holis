@@ -78,7 +78,7 @@ export default {
         audio.play()
       }
     }
-  },
+  }
 }
 </script>
 

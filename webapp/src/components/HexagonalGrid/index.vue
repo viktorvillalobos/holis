@@ -72,7 +72,8 @@ export default {
       currentArea: state => state.areas.currentArea,
       user: state => state.app.user,
       connected: state => state.webrtc.connected,
-      disconnectByControl: state => state.webrtc.disconnectByControl
+      disconnectByControl: state => state.webrtc.disconnectByControl,
+      userSpeaking: state => state.webrtc.userSpeaking
     })
   },
   methods: {
@@ -238,6 +239,13 @@ export default {
     }
   },
   watch: {
+    userSpeaking: {
+      handler (value) {
+        const hex = this.rectangle.filter(x => x.user && x.user.id === value.userId)[0]
+        value.active ? hex.animateVoice() : hex.clearVoiceAnimation()
+      },
+      deep: true
+    },
     connected (value) {
       if (!value && this.disconnectByControl) this.localUserHex.clear()
     },

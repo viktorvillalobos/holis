@@ -7,10 +7,14 @@ const state = {
   muteMicro: false, // mute my micro in the current call
   status: 'disconnected',
   disconnectByControl: false,
-  streamsCount: 0
+  streamsCount: 0,
+  userSpeaking: null
 }
 
 const mutations = {
+  setUserSpeaking (state, obj) {
+    state.userSpeaking = obj
+  },
   setStreamsCount (state, count) {
     state.streamsCount = count
   },
@@ -50,6 +54,9 @@ const mutations = {
 }
 
 const actions = {
+  userIsSpeaking ({ commit }, userSpeakingObj) {
+    commit('setUserSpeaking', userSpeakingObj)
+  },
   setStreamsCount ({ commit }, count) {
     commit('setStreamsCount', count)
   },

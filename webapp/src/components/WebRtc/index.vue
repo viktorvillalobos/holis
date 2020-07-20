@@ -110,6 +110,7 @@ export default {
     var that = this
     this.rtcmConnection = new RTCMultiConnection()
     this.rtcmConnection.socketURL = this.socketURL
+    this.rtcmConnection.userid = window.user_id
 
     const iceServers = await this.getIceServers()
     this.rtcmConnection.iceServers = iceServers
@@ -165,14 +166,11 @@ export default {
         })
       }, 1000)
 
-    /*
       that.initHark({
         stream: stream.stream,
         streamedObject: stream,
         connection: that.rtcmConnection
       })
-
- */
     }
     this.rtcmConnection.onstreamended = function (stream) {
       var newList = []
@@ -189,16 +187,17 @@ export default {
     }
 
     this.rtcmConnection.onspeaking = function (stream) {
-      console.log('ON SPEAKING')
-      if (that.rtcmConnection.numberOfConnectedUsers > 0) {
-        console.log('ON SPEAKING')
-        console.log(e)
-      }
+      console.log('ON SPEAKING OUT')
+      console.log(stream)
+      that.$store.dispatch('userIsSpeaking', { userId: stream.userid, active: true })
     }
 
-    this.rtcmConnection.onsilence = function (e) {
+    this.rtcmConnection.onsilence = function (stream) {
       // e.streamid, e.userid, e.stream, etc.
       // e.mediaElement.style.border = ''
+      console.log('ON SILENCE')
+      console.log(stream)
+      that.$store.dispatch('userIsSpeaking', { userId: stream.userid, active: false })
     }
 
     this.rtcmConnection.onvolumechange = function (event) {
