@@ -37,7 +37,6 @@ export default {
   computed: {
     ...mapState({
       room: state => state.webrtc.room,
-      connected: state => state.webrtc.connected,
       muteAudio: state => state.webrtc.muteAudio,
       muteMicro: state => state.webrtc.muteMicro,
       enableAudio: state => state.webrtc.enableAudio,
@@ -80,13 +79,6 @@ export default {
       }
     }
   },
-  watch: {
-    connected (value) {
-      console.log('Changing Connected Watcher in Office')
-      if (value) this.$refs.webrtc.join()
-      else this.$refs.webrtc.leave()
-    }
-  }
 }
 </script>
 
