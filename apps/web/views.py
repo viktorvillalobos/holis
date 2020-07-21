@@ -7,6 +7,7 @@ from apps.web.forms import LoginForm
 from django.contrib.auth import authenticate, login
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import FormView, TemplateView
+from django.http import HttpResponseRedirect
 
 # Create your views here.
 
@@ -15,8 +16,13 @@ logger = logging.getLogger(__name__)
 
 class RedirectToAppMixin:
     def dispatch(self, request, *args, **kwargs):
-        if self.request.company:
-            return redirect(reverse("webapp"))
+        if self.request.user.is_authenticated:
+            # return redirect(reverse("webapp"))
+            host = request.META.get('HTTP_HOST', '')
+            scheme_url = request.is_secure() and "https" or "http"
+            url = f"{scheme_url}://{self.request.user.company.code}.{host}/app/"
+            return HttpResponseRedirect(url)
+
         return super().dispatch(request, *args, **kwargs)
 
 

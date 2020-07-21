@@ -237,3 +237,5 @@ OPENFIRE_SECRET = env("OPENFIRE_SECRET")
 CORS_ORIGIN_REGEX_WHITELIST = [
     r"^https://[a-z0-9-]+.holis\.chat$",
 ]
+
+SESSION_COOKIE_DOMAIN = ".holis.chat"

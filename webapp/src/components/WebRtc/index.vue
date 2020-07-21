@@ -206,7 +206,6 @@ export default {
   },
   methods: {
     initHark (args) {
-      console.log('INIT HARK')
       const connection = args.connection
       const streamedObject = args.streamedObject
       const stream = args.stream
