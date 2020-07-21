@@ -20,14 +20,35 @@ class RedirectToAppMixin:
             # return redirect(reverse("webapp"))
             host = request.META.get('HTTP_HOST', '')
             scheme_url = request.is_secure() and "https" or "http"
-            url = f"{scheme_url}://{self.request.user.company.code}.{host}/app/"
+            url = (
+                f"{scheme_url}://{self.request.user.company.code}.{host}/app/"
+            )
             return HttpResponseRedirect(url)
+
+        subdomain = request.META["HTTP_HOST"].split(".")[0]
+        if subdomain != "holis":
+            return redirect(reverse("web:login"))
 
         return super().dispatch(request, *args, **kwargs)
 
 
 class SoonTemplateView(RedirectToAppMixin, TemplateView):
     template_name = "pages/soon.html"
+
+
+class PWAView(TemplateView):
+    template_name = "pages/soon.html"
+
+    def dispatch(self, request, *args, **kwargs):
+        if self.request.user.is_authenticated:
+            host = request.META.get('HTTP_HOST', '')
+            scheme_url = request.is_secure() and "https" or "http"
+            url = (
+                f"{scheme_url}://{self.request.user.company.code}.{host}/app/"
+            )
+            return HttpResponseRedirect(url)
+
+        return redirect(reverse("web:check-company"))
 
 
 class CheckCompanyView(TemplateView):
