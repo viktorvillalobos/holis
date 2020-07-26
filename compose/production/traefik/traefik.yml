@@ -65,7 +65,7 @@ http:
     flower-router:
       rule: "Host(`flower.x.holis.chat`)"
       entryPoints:
-        - web-secure
+        - web
       middlewares:
         - redirect
         - csrf
