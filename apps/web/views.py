@@ -16,20 +16,24 @@ logger = logging.getLogger(__name__)
 
 class RedirectToAppMixin:
     def dispatch(self, request, *args, **kwargs):
-        if self.request.user.is_authenticated:
-            # return redirect(reverse("webapp"))
-            host = request.META.get('HTTP_HOST', '')
-            scheme_url = request.is_secure() and "https" or "http"
-            url = (
-                f"{scheme_url}://{self.request.user.company.code}.{host}/app/"
-            )
-            return HttpResponseRedirect(url)
+        host = request.META.get('HTTP_HOST', '')
+        is_subdomain = len(host.split('.')) > 2
 
-        subdomain = request.META["HTTP_HOST"].split(".")[0]
-        if subdomain != "holis":
+        if is_subdomain and self.request.user.is_authenticated:
+            return redirect(reverse("webapp"))
+
+        if not is_subdomain and self.request.user.is_authenticated:
+            return self.redirect_from_subdomain(host)
+
+        if is_subdomain and self.request.user.is_anonymous:
             return redirect(reverse("web:login"))
 
         return super().dispatch(request, *args, **kwargs)
+
+    def redirect_from_subdomain(self, host):
+        scheme_url = self.request.is_secure() and "https" or "http"
+        url = f"{scheme_url}://{self.request.user.company.code}.{host}/app/"
+        return HttpResponseRedirect(url)
 
 
 class SoonTemplateView(RedirectToAppMixin, TemplateView):
