@@ -7,6 +7,7 @@ from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
 
 from apps.core.uc.area_uc import ClearStateAreaUC
+from apps.users.models import User
 
 channel_layer = get_channel_layer()
 
@@ -19,10 +20,13 @@ def check_company_areas(company_id: str) -> None:
     logger.info('check_company_areas')
 
     result = []
-    for user in company.users.exclude(last_seen=None, current_area=None).filter(
-        last_seen__lt=timezone.now() - dt.timedelta(seconds=60)
-    ):
-        logger.info(f'PURGE USER {user}')
+    query = (
+        User.objects.filter(company=company)
+        .filter(last_seen__lt=timezone.now() - dt.timedelta(seconds=60))
+        .exclude(last_seen__isnull=True, current_area__isnull=True)
+    )
+
+    for user in query:
         async_to_sync(channel_layer.group_send)(
             f"company-{company.id}",
             {"type": "force.disconnect", "user_id": user.id},
