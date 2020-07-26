@@ -14,6 +14,11 @@ entryPoints:
     # https
     address: ":9001"
 
+  flower-secure:
+    # https
+    address: ":5555"
+
+
 certificatesResolvers:
   letsencrypt:
     # https://docs.traefik.io/master/https/acme/#lets-encrypt
@@ -63,9 +68,9 @@ http:
         certResolver: letsencrypt
 
     flower-secure-router:
-      rule: "Host(`flower.x.holis.chat`)"
+      rule: "Host(`holis.chat`)"
       entryPoints:
-        - web-secure
+        - flower-secure
       service: flower
       tls:
         # https://docs.traefik.io/master/routing/routers/#certresolver
