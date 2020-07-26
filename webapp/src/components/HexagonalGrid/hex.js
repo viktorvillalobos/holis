@@ -131,7 +131,7 @@ function getHex (vmDraw, size) {
       const position = this.toPoint()
       const centerPosition = this.center().add(position)
       const fontSize = 16
-      if (this.user && this.user.status) {
+      if (this.user && this.user.status && this.user.status.icon_text) {
         this.status = vmDraw
           .text(status.icon_text)
           .font({

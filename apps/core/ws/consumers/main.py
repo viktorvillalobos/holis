@@ -68,6 +68,10 @@ class MainConsumer(NotificationMixin, GridMixin, MainConsumerBase):
             await self.handle_clear_user_position()
         elif _type == "grid.status":
             await self.handle_status(content)
+        elif _type == "grid.heartbeat":
+            await self.handle_heartbeat(content)
+        elif _type == "grid.force.disconnect":
+            await self.force_disconnect(content)
         else:
             _msg = _("type not handled")
             return await self.send_json({"error": _msg})
@@ -84,3 +88,10 @@ class MainConsumer(NotificationMixin, GridMixin, MainConsumerBase):
 
         for group in self.groups:
             await self.channel_layer.group_discard(group, self.channel_name)
+
+    async def force_disconnect(self, message):
+        logger.info("force_disconnect")
+        logger.info(message)
+        user_id = message.get('user_id')
+        if user_id:
+            await self.handle_clear_user_position(user_id=user_id)

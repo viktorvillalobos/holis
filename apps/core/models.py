@@ -89,10 +89,11 @@ class Area(MPTTModel):
 
     @property
     def users_online(self):
-        from apps.core.uc import area_uc
+        # from apps.core.uc import area_uc
 
-        uc = area_uc.GetStateAreaUC(self)
-        return len(uc.connected_idxs)
+        # uc = area_uc.GetStateAreaUC(self)
+        # return len(uc.connected_idxs)
+        return len(self.state)
 
 
 class Announcement(TimeStampedModel):

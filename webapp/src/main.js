@@ -43,8 +43,11 @@ Vue.use(VueNativeSock, socket, {
   reconnectionDelay: 3000 // (Number) how long to initially wait before attempting a new (1000)
 })
 
-new Vue({
+const app = new Vue({
   router,
   store,
   render: h => h(App)
 }).$mount('#app')
+
+
+store.$app = app
