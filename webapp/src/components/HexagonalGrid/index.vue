@@ -278,8 +278,15 @@ export default {
     },
     deleteFromState ({ user, state }) {
       // Remove user from state
+      console.log('DELETE FROM STATE')
+      console.log(user)
+      console.log(state)
       this.clearUserFromGrid(user.id)
       this.$store.dispatch('setCurrentState', state)
+
+      if (user.id === window.user_id) {
+        this.$store.commit('disconnectByControl')
+      }
     }
   }
 }
