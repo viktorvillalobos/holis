@@ -95,9 +95,13 @@ class GridMixin:
         """
             Executed when the user is disconnected
         """
+        logger.info('HANDLE CLEAR USER POSITION')
         user_id = user_id or self.scope["user"].id
+        logger.info(user_id)
         key = USER_POSITION_KEY.format(user_id)
         position: Dict = cache.get(key)
+        logger.info('POSITION')
+        logger.info(position)
         if position:
 
             state = await self.clear_position(**position)

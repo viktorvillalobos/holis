@@ -61,6 +61,11 @@ export default {
     this.setScroll()
 
     await this.loadInitialState()
+
+    setInterval(async () => {
+      console.log(`Refreshing State ${new Date()}`)
+      await this.loadInitialState()
+    }, 60000)
   },
   computed: {
     ...mapGetters(['currentState', 'occupedPoints']),
@@ -216,8 +221,18 @@ export default {
     },
     paintAllState () {
       this.currentState.forEach(userPosition => {
+        // Verificar que no esta aquí, puede ser que se haya bugueado.
+        const exists = this.rectangle.filter(x => x.user && x.user.id === userPosition.id)[0]
+
+        // Fill
         const selectedHex = this.rectangle.get([userPosition.x, userPosition.y])
-        if (selectedHex) {
+
+        if (!exists && selectedHex) {
+          selectedHex.filled(userPosition)
+        }
+
+        if (exists && selectedHex && ((exists.x !== selectedHex.x) || (exists.y !== selectedHex.y))) {
+          exists.clear()
           selectedHex.filled(userPosition)
         }
       })
