@@ -104,6 +104,11 @@ class User(AbstractUser):
         self.current_area = area
         self.save()
 
+    def disconnect(self):
+        self.last_seen = None
+        self.current_area = None
+        self.save()
+
     def save(self, *args, **kwargs):
         # if not self.avatar:
         #     self.avatar = self.get_monster()

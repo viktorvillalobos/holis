@@ -148,4 +148,5 @@ class ClearStateAreaUC(BaseAreaUC):
     """
 
     def execute(self, user: User):
+        user.disconnect()
         self.clear_current_user_position(user)

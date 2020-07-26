@@ -19,7 +19,7 @@ def check_company_areas(company_id: str) -> None:
     logger.info('check_company_areas')
 
     result = []
-    for user in company.users.filter(
+    for user in company.users.exclude(last_seen=None).filter(
         last_seen__lt=timezone.now() - dt.timedelta(seconds=60)
     ):
         logger.info(f'PURGE USER {user}')
