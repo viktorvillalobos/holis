@@ -28,30 +28,6 @@ certificatesResolvers:
 
 http:
   routers:
-    web-router:
-      rule: "Host(`holis.chat`) || Host(`www.holis.chat`) || HostRegexp(`{subdomain:[a-z0-9-]+}.holis.chat`)" 
-      entryPoints:
-        - web
-      middlewares:
-        - redirect
-        - csrf
-      service: django
-
-    web-secure-router:
-      rule: "Host(`holis.chat`) || Host(`www.holis.chat`)  || HostRegexp(`{subdomain:[a-z0-9-]+}.holis.chat`)"
-      entryPoints:
-        - web-secure
-      middlewares:
-        - csrf
-        - test-compress
-      service: django
-      tls:
-        # https://docs.traefik.io/master/routing/routers/#certresolver
-        certResolver: letsencrypt
-        domains:
-          - main: "holis.chat"
-            sans:
-              - "*.holis.chat"
 
     openfire-router:
       rule: "Host(`chat.holis.chat`)" 
@@ -94,7 +70,7 @@ http:
       tls:
         # https://docs.traefik.io/master/routing/routers/#certresolver
         certResolver: letsencrypt
-    
+
     rtc:
       rule: "Host(`holis.chat`)"
       entryPoints:
@@ -103,6 +79,31 @@ http:
       tls:
         # https://docs.traefik.io/master/routing/routers/#certresolver
         certResolver: letsencrypt
+
+    web-router:
+      rule: "Host(`holis.chat`) || Host(`www.holis.chat`) || HostRegexp(`{subdomain:[a-z0-9-]+}.holis.chat`)" 
+      entryPoints:
+        - web
+      middlewares:
+        - redirect
+        - csrf
+      service: django
+
+    web-secure-router:
+      rule: "Host(`holis.chat`) || Host(`www.holis.chat`)  || HostRegexp(`{subdomain:[a-z0-9-]+}.holis.chat`)"
+      entryPoints:
+        - web-secure
+      middlewares:
+        - csrf
+        - test-compress
+      service: django
+      tls:
+        # https://docs.traefik.io/master/routing/routers/#certresolver
+        certResolver: letsencrypt
+        domains:
+          - main: "holis.chat"
+            sans:
+              - "*.holis.chat"
 
   middlewares:
     test-compress:
