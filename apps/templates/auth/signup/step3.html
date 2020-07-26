@@ -13,7 +13,7 @@
             </div>
         </div>
         {% csrf_token %}
-        <div class="holis-field-message">
+        <div  id="companyNameField" class="holis-field-message">
             <div class="field">
                 <label class="label" to="email">El nombre de tu equipo o empresa</label>
                 <input class="input" type="text" name="company_name" maxlength="100" id="id_company_name" required>
@@ -25,7 +25,7 @@
                 </div>
                 <div class="holis-form-message-msg is-active">
                     <p>Tu subdominio será <span id="subdomain"></span>.holis.chat</p>
-                    <small>¿No te gusta este subdominio? <a href="#">Puedes cambiarlo</a></small>
+                    <small>¿No te gusta este subdominio? <a onclick="handleSubdomainChange()" href="#">Puedes cambiarlo</a></small>
                 </div>
             </div>
         </div>

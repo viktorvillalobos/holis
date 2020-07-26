@@ -71,14 +71,14 @@ function handleGoBack() {
     showHideErrors(null)
 }
 
-function stringToSlug (str) {
+function stringToSlug(str) {
     str = str.replace(/^\s+|\s+$/g, ''); // trim
     str = str.toLowerCase();
-  
+
     // remove accents, swap ñ for n, etc
     var from = "àáäâèéëêìíïîòóöôùúüûñç·/_,:;";
-    var to   = "aaaaeeeeiiiioooouuuunc------";
-    for (var i=0, l=from.length ; i<l ; i++) {
+    var to = "aaaaeeeeiiiioooouuuunc------";
+    for (var i = 0, l = from.length; i < l; i++) {
         str = str.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i));
     }
 
@@ -92,12 +92,19 @@ function stringToSlug (str) {
 (function handleCompanyCode() {
     const input = document.getElementById('id_company_name'),
         subdomainField = document.getElementById('subdomain-field'),
-        subdomain = document.getElementById('subdomain')
+        subdomain = document.getElementById('subdomain'),
+        companyNameField = document.getElementById('companyNameField')
 
     subdomainField.style.display = 'none'
 
     input.addEventListener('input', function (e) {
         suggestCompanyCode(e.srcElement.value, subdomain)
+
+        if (e.srcElement.value && e.srcElement.value !== '') {
+            companyNameField.classList.add('is-active')
+        } else {
+            companyNameField.classList.remove('is-active')
+        }
     })
 }())
 
@@ -106,8 +113,20 @@ async function suggestCompanyCode(val, setter) {
         const { data } = await axios.get(`${BASE_URL}/users/suggest-company-code/?company_name=${val}`)
         setter.innerText = stringToSlug(val)
         console.log(data)
-    } catch ({response}) {
-        const {data} = response
+    } catch ({ response }) {
+        const { data } = response
         setter.innerText = data.recommendations[0]
+    }
+}
+
+function handleSubdomainChange() {
+    const subdomainField = document.getElementById('subdomain-field'),
+        companyNameField = document.getElementById('companyNameField');
+
+    if (subdomainField.style.display === 'none') {
+        subdomainField.style.display = 'block'
+        companyNameField.classList.remove('is-active')
+    } else {
+        subdomainField.style.display = 'none'
     }
 }

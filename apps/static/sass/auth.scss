@@ -27,32 +27,32 @@ $medium-gray: #c4c4c4;
         background-size: 90%;
         background-repeat: no-repeat;
     }
-
+    
     &-card {
         width: 834px;
         margin: 0 auto;
         padding: 40px 65px;
         position: relative;
-
+        
         .field-label {
             text-align: left;
         }
         .file-label {
             width: 100%;
-
+            
             .file-name {
                 max-width: none;
             }
         }
-
+        
         .field:not(:last-child) {
             margin-bottom: 24px;
         }
-
+        
         form {
             margin: 0 auto;
             max-width: 70%;
-
+            
             h3 {
                 font-size: 1.5rem;
                 font-weight: 500;
@@ -60,18 +60,18 @@ $medium-gray: #c4c4c4;
             }
         }
     }
-
+    
     &-content {
         width: 522px;
         max-width: 98%;
         margin: 0 auto;
         text-align: center;
-
-
+        
+        
         .button {
             border-radius: 14px;
         }
-
+        
         .espazum-inner-button-field {
             margin-top: 50px;
             .button {
@@ -80,27 +80,27 @@ $medium-gray: #c4c4c4;
             }
         }
     }
-
+    
     &-logo {
         position: absolute;
         top: -49px;
         left: 18px;
-
+        
         &.no-absolute {
             position: static;
             margin: 15px auto;
         }
     }
-
+    
     &-options {
         display: flex;
         justify-content: flex-end;
-
+        
         & > * {
             margin-left: 16px;
         }
     }
-
+    
     &-message {
         > * {
             margin-bottom: 35px; 
@@ -127,11 +127,11 @@ $medium-gray: #c4c4c4;
             margin-right: 16px;
             background: #bdbdbd;
         }
-
+        
         li {
             display: flex;
             align-items: center;
-
+            
             &.active {
                 font-size: 24px;
                 font-weight: 500;
@@ -150,12 +150,12 @@ $medium-gray: #c4c4c4;
     box-shadow: $card-box-shadow;
     border-radius: $card-border-radius;
     background-color: #fff;
-
+    
     &--outline {
         box-shadow: none;
         border: 1px solid $medium-gray;
     }
-
+    
     &-actions {
         display: inline-flex;
         align-items: center;
@@ -166,10 +166,10 @@ $medium-gray: #c4c4c4;
 .holis-login-wrap, .holis-signup-wrap {
     form {
         display: none;
-
+        
         &.is-active {
             display: block;
-
+            
             .control.has-icons-right .input {
                 padding-right: 6rem;
             }
@@ -178,10 +178,10 @@ $medium-gray: #c4c4c4;
             }
         }
     }
-
+    
     .notification {
         display: none;
-
+        
         &.is-active {
             display: block;
         }
@@ -204,7 +204,7 @@ $medium-gray: #c4c4c4;
         font-weight: 700;
         font-size: 48px;
     }
-
+    
     &-text {
         margin-left: 15px;
         h2 {

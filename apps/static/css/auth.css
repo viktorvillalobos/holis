@@ -8386,13 +8386,20 @@ label.panel-block {
 
 .holis-field-message {
   position: relative;
-  height: 170px; }
+  height: 90px; }
   .holis-field-message .field {
     position: absolute;
     z-index: 3;
     width: 100%; }
+  .holis-field-message.is-active {
+    height: 170px; }
+    .holis-field-message.is-active .holis-form-message {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex; }
 
 .holis-form-message {
+  display: none;
   position: absolute;
   z-index: 1;
   opacity: 1;
@@ -8404,9 +8411,6 @@ label.panel-block {
   height: 120px;
   background-color: #6781EF;
   border-radius: 4px;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
