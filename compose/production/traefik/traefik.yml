@@ -63,7 +63,7 @@ http:
         certResolver: letsencrypt
 
     flower-secure-router:
-      rule: "Host(`flower.holis.chat`)"
+      rule: "Host(`flower.x.holis.chat`)"
       entryPoints:
         - web-secure
       service: flower
