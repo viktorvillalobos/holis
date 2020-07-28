@@ -1,6 +1,6 @@
 const BASE_URL = '/api/v1',
     token = document.getElementsByName('csrfmiddlewaretoken')[0].value;
-let company;
+let company, inputsCounter = 2;
 
 async function getCompany(val) {
     if (!val) {
@@ -129,4 +129,41 @@ function handleSubdomainChange() {
     } else {
         subdomainField.style.display = 'none'
     }
+}
+
+function handleInvitationInputs() {
+    const inputsWrapper = document.getElementById('inputsWrapper')
+    let div = document.createElement('div'),
+        input = document.createElement('input'),
+        label = document.createElement('label')
+
+    div.classList.add('field')
+
+    label.classList.add('label')
+    label.innerText = `Email de tu compañero`
+
+    input.classList.add('input')
+    input.type = 'email'
+    input.id = `email${inputsCounter + 1}`
+    input.placeholder = 'Ej. juaninjuanharry@mail.com'
+
+    div.appendChild(label)
+    div.appendChild(input)
+    inputsWrapper.appendChild(div);
+    inputsCounter++;
+}
+
+
+function handleFinishInvitations(e) {
+    if (e) e.preventDefault();
+    const form = document.forms[0],
+        input = document.getElementById('id_invitations');
+
+    input.value = ''
+
+    for (let i = 2; i < inputsCounter + 2; i++) {
+        if (form[i].value && form[i].value !== '') input.value += `"${form[i].value}",`
+    }
+
+    form.submit()
 }

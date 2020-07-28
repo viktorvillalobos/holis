@@ -8477,7 +8477,8 @@ label.panel-block {
   display: flex;
   -webkit-box-pack: end;
       -ms-flex-pack: end;
-          justify-content: flex-end; }
+          justify-content: flex-end;
+  margin: 15px 0; }
   .auth-options > * {
     margin-left: 16px; }
 

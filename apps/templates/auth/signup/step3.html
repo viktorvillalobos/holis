@@ -15,7 +15,7 @@
         {% csrf_token %}
         <div  id="companyNameField" class="holis-field-message">
             <div class="field">
-                <label class="label" to="email">El nombre de tu equipo o empresa</label>
+                <label class="label" to="company_name">El nombre de tu equipo o empresa</label>
                 <input class="input" type="text" name="company_name" maxlength="100" id="id_company_name" required>
             </div>
 
@@ -31,7 +31,7 @@
         </div>
 
         <div id="subdomain-field" class="field">
-            <label class="label" to="email">Tu subdominio</label>
+            <label class="label" to="company_code">Tu subdominio</label>
             <p class="control has-icons-right">
                 <input class="input" type="text" name="company_code" maxlength="20" id="id_company_code">
                 <span class="icon is-small is-right">
