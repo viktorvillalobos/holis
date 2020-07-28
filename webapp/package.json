@@ -65,7 +65,7 @@
       "node": true
     },
     "extends": [
-      "plugin:vue/essential",
+      "plugin:vue/comment-directive",
       "eslint:recommended",
       "@vue/standard"
     ],
