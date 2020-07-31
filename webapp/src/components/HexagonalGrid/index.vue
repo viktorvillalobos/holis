@@ -164,8 +164,14 @@ export default {
       if (hex && hex.user) {
         this.setHexOverPosition(hex, x, y)
       } else {
-        this.setHexOverPosition(null, null, null)
+        // this.setHexOverPosition(null, null, null)
+        this.clearHexOver()
       }
+    },
+    clearHexOver () {
+      this.hexOver = null
+      this.hexLeft = 0
+      this.hexTop = 0
     },
     setHexOverPosition: _.debounce(function (hex, x, y) {
       /*
