@@ -164,7 +164,13 @@ function handleFinishInvitations(e) {
     input.value = ''
 
     for (let i = 2; i < inputsCounter + 2; i++) {
-        if (form[i].value && form[i].value !== '') input.value += `"${form[i].value}",`
+        if (form[i].value && form[i].value !== '') {
+            if (i === inputsCounter + 1) {
+                input.value += `${form[i].value}`
+            } else {
+                input.value += `${form[i].value},`
+            }
+        }
     }
 
     form.submit()
