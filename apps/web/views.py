@@ -145,5 +145,5 @@ class SignUpStep4(GetObjectByUUIDMixin, UpdateView):
 class SignUpStep5(GetObjectByUUIDMixin, UpdateView):
     template_name = "auth/signup/step5.html"
     model = Lead
-    fields = ["invitations"]
+    form_class = forms.SignUpStep5Form
     success_url = '/app'

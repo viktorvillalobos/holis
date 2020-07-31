@@ -1,6 +1,7 @@
 import logging
 from django import forms
 from django.utils.translation import gettext_lazy as _
+from django.contrib.postgres.forms import SimpleArrayField
 from django.core.mail import send_mail
 from apps.web.models import Lead
 from apps.core import models as core_models
@@ -80,7 +81,16 @@ class SignUpStep4Form(forms.ModelForm):
 
         if password != confirm_password:
             self.add_error(
-                'password',
-                _("password and confirm_password does not match"),
+                'password', _("password and confirm_password does not match"),
             )
         return cleaned_data
+
+
+class SignUpStep5Form(forms.ModelForm):
+    invitations = SimpleArrayField(
+        forms.CharField(max_length=100), required=False
+    )
+
+    class Meta:
+        fields = ["invitations"]
+        model = Lead
