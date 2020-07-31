@@ -5,7 +5,10 @@ from django.contrib.postgres.forms import SimpleArrayField
 from django.core.mail import send_mail
 from apps.web.models import Lead
 from apps.core import models as core_models
+from django.contrib.auth.hashers import make_password
 
+from apps.core.uc.company import CreateCompany
+from apps.users.uc import CreateUser
 
 logger = logging.getLogger(__name__)
 
@@ -83,6 +86,8 @@ class SignUpStep4Form(forms.ModelForm):
             self.add_error(
                 'password', _("password and confirm_password does not match"),
             )
+
+        cleaned_data["password"] = make_password(password)
         return cleaned_data
 
 
@@ -94,3 +99,22 @@ class SignUpStep5Form(forms.ModelForm):
     class Meta:
         fields = ["invitations"]
         model = Lead
+
+    def save(self):
+        lead = super().save()
+        create_company = CreateCompany(
+            lead.company_name, lead.company_code, lead.email
+        )
+        company = create_company.execute()
+
+        create_user = CreateUser(
+            company,
+            lead.email,
+            lead.password,
+            name=lead.name,
+            avatar=lead.avatar,
+            position=lead.position
+        )
+        create_user.execute()
+
+        return lead
