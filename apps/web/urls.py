@@ -12,6 +12,7 @@ urlpatterns = [
         name="check-company",
     ),
     path("login/", views.LoginView.as_view(), name="login",),
+    path("start-pwa/", views.PWAView.as_view(), name="start-pwa",),
     path(
         "before/",
         TemplateView.as_view(template_name="pages/home.html"),

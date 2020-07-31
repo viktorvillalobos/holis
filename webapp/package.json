@@ -22,6 +22,7 @@
     "bulma": "^0.8.2",
     "core-js": "^3.6.4",
     "css-loader": "^3.5.3",
+    "hark": "^1.2.3",
     "honeycomb-grid": "^3.1.5",
     "lodash": "^4.17.15",
     "node-sass": "^4.14.0",
@@ -64,7 +65,7 @@
       "node": true
     },
     "extends": [
-      "plugin:vue/essential",
+      "plugin:vue/comment-directive",
       "eslint:recommended",
       "@vue/standard"
     ],

@@ -208,6 +208,11 @@ const actions = {
     await window.$xmpp.sendMessage({ to, body: msg.message, type: 'chat' })
   },
   async getMessages ({ commit, state }, jid) {
+    if (!jid) {
+      console.error('NULL JID')
+      return
+    }
+
     jid = jid || state.activeChat
     if (jid !== state.activeChat) {
       commit('clearMessages')

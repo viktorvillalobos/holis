@@ -10,6 +10,7 @@ from django.contrib.auth import authenticate, login
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import FormView, TemplateView
 from apps.web.models import Lead
+from django.http import HttpResponseRedirect
 
 # Create your views here.
 
@@ -18,13 +19,43 @@ logger = logging.getLogger(__name__)
 
 class RedirectToAppMixin:
     def dispatch(self, request, *args, **kwargs):
-        if self.request.company:
+        host = request.META.get('HTTP_HOST', '')
+        is_subdomain = len(host.split('.')) > 2
+
+        if is_subdomain and self.request.user.is_authenticated:
             return redirect(reverse("webapp"))
+
+        if not is_subdomain and self.request.user.is_authenticated:
+            return self.redirect_from_subdomain(host)
+
+        if is_subdomain and self.request.user.is_anonymous:
+            return redirect(reverse("web:login"))
+
         return super().dispatch(request, *args, **kwargs)
+
+    def redirect_from_subdomain(self, host):
+        scheme_url = self.request.is_secure() and "https" or "http"
+        url = f"{scheme_url}://{self.request.user.company.code}.{host}/app/"
+        return HttpResponseRedirect(url)
 
 
 class SoonTemplateView(RedirectToAppMixin, TemplateView):
     template_name = "pages/soon.html"
+
+
+class PWAView(TemplateView):
+    template_name = "pages/soon.html"
+
+    def dispatch(self, request, *args, **kwargs):
+        if self.request.user.is_authenticated:
+            host = request.META.get('HTTP_HOST', '')
+            scheme_url = request.is_secure() and "https" or "http"
+            url = (
+                f"{scheme_url}://{self.request.user.company.code}.{host}/app/"
+            )
+            return HttpResponseRedirect(url)
+
+        return redirect(reverse("web:check-company"))
 
 
 class CheckCompanyView(TemplateView):

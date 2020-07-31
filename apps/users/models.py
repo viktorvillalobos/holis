@@ -7,6 +7,7 @@ from django.contrib.auth.models import AbstractUser, UserManager
 from django.db import models
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
+from django.utils import timezone
 from model_utils.models import TimeStampedModel
 from sorl.thumbnail import ImageField, get_thumbnail
 
@@ -46,7 +47,18 @@ class User(AbstractUser):
         _("position"), blank=True, null=True, max_length=100
     )
     default_area = models.ForeignKey(
-        "core.Area", blank=True, null=True, on_delete=models.SET_NULL,
+        "core.Area",
+        blank=True,
+        null=True,
+        on_delete=models.SET_NULL,
+        related_name="defaults",
+    )
+    current_area = models.ForeignKey(
+        "core.Area",
+        blank=True,
+        null=True,
+        on_delete=models.SET_NULL,
+        related_name="currents",
     )
     birthday = BirthdayField()
 
@@ -56,6 +68,7 @@ class User(AbstractUser):
     jid = models.CharField(
         _("Jabber ID"), blank=True, null=True, max_length=100, db_index=True
     )
+    last_seen = models.DateTimeField(_("Last Seen"), null=True, blank=True)
 
     objects = UserManager()
 
@@ -77,8 +90,24 @@ class User(AbstractUser):
         return {
             "id": status.id,
             "icon_text": status.icon_text,
-            "text": status.text
+            "text": status.text,
         }
+
+    def touch(self, ts=None, area=None):
+        """
+            Hearbeat
+            ts: datetime
+        """
+        area = area or self.current_area
+        ts = ts or timezone.now()
+        self.last_seen = ts
+        self.current_area = area
+        self.save()
+
+    def disconnect(self):
+        self.last_seen = None
+        self.current_area = None
+        self.save()
 
     def save(self, *args, **kwargs):
         # if not self.avatar:

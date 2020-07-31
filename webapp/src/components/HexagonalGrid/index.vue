@@ -1,18 +1,26 @@
 <template>
-  <div
-    id="grid"
-    ref="grid"
-    class="hex-grid"
-    @mouseover="onMouseOver($event)"
-    @click="onClick($event)">
+  <div>
+    <div
+      id="grid"
+      ref="grid"
+      class="hex-grid"
+      @mouseover="onMouseOver($event)"
+      @click="onClick($event)">
 
-    <GridUserCard
-      :style="`top: ${hexTop}px; left: ${hexLeft}px`"
-      :name="hexOver && hexOver.user ? hexOver.user.name : 'Secret Name'"
-      :position="hexOver && hexOver.user ? hexOver.user.position : 'Cargo no definido'"
-      :img="hexOver && hexOver.user ? hexOver.user.avatar || hexOver.user.avatar_thumb : null"
-      :origin="overOrigin"
-      v-if="hexOver && hexOver.user"/>
+    </div>
+        <GridUserCard
+          :style="`top: ${hexTop}px; left: ${hexLeft}px`"
+          :isLocalUser="hexOver ? hexOver.isLocalUser : false"
+          :name="hexOver && hexOver.user ? hexOver.user.name : 'Secret Name'"
+          :user="hexOver && hexOver.user ? hexOver.user : null"
+          :position="hexOver && hexOver.user ? hexOver.user.position : 'Cargo no definido'"
+          :status="hexOver && hexOver.user ? hexOver.user.status : 'Working'"
+          :img="hexOver && hexOver.user ? hexOver.user.avatar || hexOver.user.avatar_thumb : null"
+          :origin="overOrigin"
+          @onMouseOver="onGridUserCardOver(true)"
+          @onMouseLeave="onGridUserCardOver(false)"
+          @onChat="onChat"
+          v-if="hexOver && hexOver.user"/>
   </div>
 </template>
 
@@ -52,7 +60,8 @@ export default {
       overOrigin: 'bottom',
       room: null,
       localUserHex: null,
-      neighbors: null
+      neighbors: null,
+      gridOver: false
     }
   },
   async mounted () {
@@ -61,6 +70,11 @@ export default {
     this.setScroll()
 
     await this.loadInitialState()
+
+    setInterval(async () => {
+      console.log(`Refreshing State ${new Date()}`)
+      await this.loadInitialState()
+    }, 60000)
   },
   computed: {
     ...mapGetters(['currentState', 'occupedPoints']),
@@ -72,10 +86,14 @@ export default {
       currentArea: state => state.areas.currentArea,
       user: state => state.app.user,
       connected: state => state.webrtc.connected,
-      disconnectByControl: state => state.webrtc.disconnectByControl
+      disconnectByControl: state => state.webrtc.disconnectByControl,
+      userSpeaking: state => state.webrtc.userSpeaking
     })
   },
   methods: {
+    onChat (user) {
+      console.log(`Opening a chat with ${user.name}`)
+    },
     initGrid () {
       /*
         Grid Creation
@@ -110,7 +128,7 @@ export default {
     selectCellByCoordinates (hexCoordinates, user, isLocalUser) {
       const selectedHex = this.rectangle.get(hexCoordinates)
       if (selectedHex) {
-        selectedHex.filled(user)
+        selectedHex.filled(user, isLocalUser)
         if (isLocalUser) {
           this.setNeighbors(selectedHex)
           this.connectToWebRTC(selectedHex)
@@ -151,6 +169,9 @@ export default {
       /* LayerX and LayerY Works well in chrome and firefox */
       if (this.isFirefox) { return { x: e.layerX, y: e.layerY } } else { return { x: e.offsetX, y: e.offsetY } }
     },
+    onGridUserCardOver (active) {
+      this.gridOver = active
+    },
     onMouseOver (e) {
       const { x, y } = this.getOffset(e)
       const hexCoordinates = this.Grid.pointToHex([x, y])
@@ -158,7 +179,14 @@ export default {
       if (hex && hex.user) {
         this.setHexOverPosition(hex, x, y)
       } else {
-        this.setHexOverPosition(null, null, null)
+        this.clearHexOver()
+      }
+    },
+    clearHexOver () {
+      if (!this.gridOver) {
+        this.hexOver = null
+        this.hexLeft = 0
+        this.hexTop = 0
       }
     },
     setHexOverPosition: _.debounce(function (hex, x, y) {
@@ -215,8 +243,18 @@ export default {
     },
     paintAllState () {
       this.currentState.forEach(userPosition => {
+        // Verificar que no esta aquí, puede ser que se haya bugueado.
+        const exists = this.rectangle.filter(x => x.user && x.user.id === userPosition.id)[0]
+
+        // Fill
         const selectedHex = this.rectangle.get([userPosition.x, userPosition.y])
-        if (selectedHex) {
+
+        if (!exists && selectedHex) {
+          selectedHex.filled(userPosition)
+        }
+
+        if (exists && selectedHex && ((exists.x !== selectedHex.x) || (exists.y !== selectedHex.y))) {
+          exists.clear()
           selectedHex.filled(userPosition)
         }
       })
@@ -238,6 +276,13 @@ export default {
     }
   },
   watch: {
+    userSpeaking: {
+      handler (value) {
+        const hex = this.rectangle.filter(x => x.user && x.user.id === value.userId)[0]
+        value.active ? hex.animateVoice() : hex.clearVoiceAnimation()
+      },
+      deep: true
+    },
     connected (value) {
       if (!value && this.disconnectByControl) this.localUserHex.clear()
     },
@@ -270,8 +315,15 @@ export default {
     },
     deleteFromState ({ user, state }) {
       // Remove user from state
+      console.log('DELETE FROM STATE')
+      console.log(user)
+      console.log(state)
       this.clearUserFromGrid(user.id)
       this.$store.dispatch('setCurrentState', state)
+
+      if (user.id === window.user_id) {
+        this.$store.commit('disconnectByControl')
+      }
     }
   }
 }

@@ -11,21 +11,6 @@ import Reports from '@/views/reports.vue'
 import Auth from '@/views/auth.vue'
 
 Vue.use(Router)
-// const ifNotAuthenticated = (to, from, next) => {
-//   if (!localStorage.getItem('token')) {
-//     next()
-//     return
-//   }
-//   next('/')
-// }
-
-// const ifAuthenticated = (to, from, next) => {
-//   if (localStorage.getItem('token')) {
-//     next()
-//     return
-//   }
-//   next('/auth/s/')
-// }
 
 const router = new Router({
   // mode: 'history',
@@ -83,10 +68,5 @@ const router = new Router({
   ]
 })
 
-// router.beforeEach((to, from, next) => {
-//   console.log(to)
-//   console.log(from)
-//   console.log(next)
-// })
 
 export default router

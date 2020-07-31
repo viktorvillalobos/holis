@@ -20,6 +20,7 @@
 import apiClient from '../../services/api'
 import RTCMultiConnection from '@/plugins/RTCMultiConnection'
 import { mapState } from 'vuex'
+import hark from 'hark'
 
 require('adapterjs')
 export default {
@@ -68,19 +69,33 @@ export default {
       localVideo: null,
       videoList: [],
       canvas: null,
-      streams: [],
-      localStream: null
+      streams: []
     }
   },
   computed: {
     ...mapState({
       muteAudio: state => state.webrtc.muteAudio,
-      muteMicro: state => state.webrtc.muteMicro
-    })
+      muteMicro: state => state.webrtc.muteMicro,
+      connected: state => state.webrtc.connected,
+    }),
+    localStream () {
+      if (!this.rtcmConnection || !this.rtcmConnection.streamEvents) return null
+
+      return Object.values(this.rtcmConnection.streamEvents).filter(x => x.type === 'local')[0]
+    }
   },
   watch: {
-    videoList (value) {
-      this.$store.dispatch('setStreams', value)
+    connected (value) {
+      console.log('Changing Connected Watcher in Office')
+      if (value) {
+        this.join()
+      } else {
+        this.streams = []
+        this.leave()
+      }
+    },
+    streams (value) {
+      this.$store.dispatch('setStreamsCount', value.length + 1)
     },
     muteAudio (value) {
       this.videoList.forEach(video => {
@@ -95,6 +110,7 @@ export default {
     var that = this
     this.rtcmConnection = new RTCMultiConnection()
     this.rtcmConnection.socketURL = this.socketURL
+    this.rtcmConnection.userid = window.user_id
 
     const iceServers = await this.getIceServers()
     this.rtcmConnection.iceServers = iceServers
@@ -131,10 +147,6 @@ export default {
           muted: muted
         }
 
-        if (stream.type === 'local') {
-          that.localVideo = video
-          that.localStream = stream
-        }
         // This need to be unificated
         that.videoList.push(video)
         that.streams.push(stream)
@@ -147,11 +159,17 @@ export default {
             break
           }
         }
+
+        that.$emit('joined-room', {
+          id: stream.streamid,
+          isLocalUser: stream.streamid === that.localStream.streamid
+        })
       }, 1000)
 
-      that.$emit('joined-room', {
-        id: stream.streamid,
-        isLocalUser: stream.streamid === that.localStream.streamid
+      that.initHark({
+        stream: stream.stream,
+        streamedObject: stream,
+        connection: that.rtcmConnection
       })
     }
     this.rtcmConnection.onstreamended = function (stream) {
@@ -167,8 +185,48 @@ export default {
         isLocalUser: stream.streamid === that.localStream.streamid
       })
     }
+
+    this.rtcmConnection.onspeaking = function (stream) {
+      console.log('ON SPEAKING OUT')
+      console.log(stream)
+      that.$store.dispatch('userIsSpeaking', { userId: stream.userid, active: true })
+    }
+
+    this.rtcmConnection.onsilence = function (stream) {
+      // e.streamid, e.userid, e.stream, etc.
+      // e.mediaElement.style.border = ''
+      console.log('ON SILENCE')
+      console.log(stream)
+      that.$store.dispatch('userIsSpeaking', { userId: stream.userid, active: false })
+    }
+
+    this.rtcmConnection.onvolumechange = function (event) {
+      // event.mediaElement.style.borderWidth = event.volume
+    }
   },
   methods: {
+    initHark (args) {
+      const connection = args.connection
+      const streamedObject = args.streamedObject
+      const stream = args.stream
+
+      const options = {}
+      const speechEvents = hark(stream, options)
+
+      speechEvents.on('speaking', function () {
+        connection.onspeaking(streamedObject)
+      })
+
+      speechEvents.on('stopped_speaking', function () {
+        connection.onsilence(streamedObject)
+      })
+
+      speechEvents.on('volume_change', function (volume, threshold) {
+        streamedObject.volume = volume
+        streamedObject.threshold = threshold
+        connection.onvolumechange(streamedObject)
+      })
+    },
     async getIceServers () {
       const { data } = await apiClient.chat.getTurnCredentials()
       return data

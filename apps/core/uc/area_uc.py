@@ -2,14 +2,19 @@
     UseCases for Area
 """
 import logging
+import collections
 from typing import Dict, List, Tuple
 from ast import literal_eval
 
 import numpy as np
 from apps.core.uc.abstracts import AbstractModelUC
+from apps.core.uc.item import AreaItem
 from apps.users.models import User
 
 logger = logging.getLogger(__name__)
+
+
+Point = collections.namedtuple('Point', 'x y')
 
 
 class BaseAreaUC(AbstractModelUC):
@@ -54,95 +59,70 @@ class BaseAreaUC(AbstractModelUC):
         ('is_online', np.bool_),
     ]
 
-    def convert_to_tuple(self, _list: List) -> List[List[Tuple]]:
-        # TODO: Esto no deberia ser obligatorio, no entiendo porque
-        # es ineficiente, cambiar urgente.
-        result = []
-        for x in _list:
-            sublist = []
-            for y in x:
-                sublist.append(tuple(y))
-            result.append(sublist)
-        return result
-
     def get_or_create_state(self) -> Tuple[bool, np.ndarray]:
+        logger.info('GET_OR_CREATE_STATE')
         if not self.instance.state:
+            logger.info('STATE IS EMPTY')
             return (
                 True,
-                np.zeros(
-                    (self.instance.width, self.instance.height),
-                    dtype=self.dtype,
-                ),
+                [
+                    [AreaItem.zero() for x in range(self.instance.width)]
+                    for x in range(self.instance.height)
+                ],
             )
 
-        if len(self.instance.state[0][0]) != len(self.dtype):
-            logger.info("Converting to new dtype")
-            # TODO: Convert changes, handle migrations
-            # in dtype for now we recreate the area
-            return (
-                True,
-                np.zeros(
-                    (self.instance.width, self.instance.height),
-                    dtype=self.dtype,
-                ),
-            )
-
-        converted = self.convert_to_tuple(self.instance.state)
-        return False, np.array(converted, dtype=self.dtype)
+        return (
+            False,
+            [
+                [AreaItem.from_dict(x) for x in row]
+                for row in self.instance.state
+            ],
+        )
 
     def save_state(self):
-        self.instance.state = self.state.tolist()
+        self.instance.state = [
+            [x.to_dict() for x in row] for row in self.state
+        ]
         self.instance.save()
 
     @property
-    def connected_idxs(self):
-        return np.argwhere(self.state["id"] != 0)
+    def connected_idxs(self) -> dict:
+        logger.info('connected_idxs')
+        result = []
+        for row in self.state:
+            result += [x for x in row if x.id != 0]
+
+        return result
 
     def get_serialized_connected(self):
-        serialized = []
-        for x, y in self.connected_idxs:
-            item = {}
-            item["id"] = int(self.state[x, y][0])
-            item["name"] = self.state[x, y][1]
-            item["last_name"] = self.state[x, y][2]
-            item["status"] = literal_eval(self.state[x, y][3])
-            item["position"] = self.state[x, y][4]
-            item["avatar"] = self.state[x, y][5]
-            item["room"] = self.state[x, y][6]
-            item["is_online"] = True
-            item["x"] = int(x)
-            item["y"] = int(y)
-            serialized.append(item)
-
-        return serialized
-
-    def get_record_from_user(self, user: User, x: int, y: int, room: str) -> Tuple:
-        return (
-            user.id,
-            user.name,
-            user.last_name,
-            user.current_status,
-            user.position,
-            user.avatar_thumb,
-            room,
-            True,
-        )
+        return [x.to_dict() for x in self.connected_idxs]
 
     def get_empty_record(self):
-        return (0, '', '', '', '', '', '', False)
+        return AreaItem.zero()
 
-    def get_user_position(self, user: User):
-        return np.argwhere(self.state["id"] == user.id)
+    def get_user_position(self, user: User) -> dict:
+        logger.info('get_user_position')
+        x_pos = 0
+        y_pos = 0
+
+        for x, row in enumerate(self.state):
+            for y, column in enumerate(row):
+                if user.id == column.id:
+                    x_pos = x
+                    y_pos = y
+                    break
+
+        return Point(x=x_pos, y=y_pos)
 
     def clear_current_user_position(self, user: User):
         try:
-            x, y = self.get_user_position(user)[0]
+            point = self.get_user_position(user)
         except IndexError:
             return None
         else:
-            self.state[x, y] = self.get_empty_record()
+            self.state[point.x][point.y] = self.get_empty_record()
             self.save_state()
-            return int(x), int(y)
+            return point
 
 
 class GetStateAreaUC(BaseAreaUC):
@@ -156,10 +136,10 @@ class SaveStateAreaUC(BaseAreaUC):
     """
 
     def execute(self, user: User, x: int, y: int, room: str) -> List:
-        positions = self.clear_current_user_position(user)
-        self.state[x, y] = self.get_record_from_user(user, x, y, room)
+        point = self.clear_current_user_position(user)
+        self.state[x][y] = AreaItem.from_user(user, x, y, room)
         self.save_state()
-        return positions
+        return point
 
 
 class ClearStateAreaUC(BaseAreaUC):
@@ -168,4 +148,5 @@ class ClearStateAreaUC(BaseAreaUC):
     """
 
     def execute(self, user: User):
+        user.disconnect()
         self.clear_current_user_position(user)
