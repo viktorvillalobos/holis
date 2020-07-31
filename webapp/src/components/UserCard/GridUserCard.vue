@@ -1,5 +1,7 @@
 <template>
-  <div :class="['connect-grid-user-card', origin]">
+  <div :class="['connect-grid-user-card', origin]" 
+        @mouseover="onMouseOver()" 
+        @mouseleave="onMouseLeave()">
     <img src="@/assets/gridUserCardWaves.svg" class="connect-grid-user-card-waves" />
     <div class="connect-grid-user-card-content">
       <Avatar big
@@ -22,6 +24,7 @@
 <script>
 import Avatar from '@/components/Avatar'
 import Btn from '@/components/Btn'
+import _ from 'lodash'
 export default {
   name: 'GridUserCard',
   props: {
@@ -45,6 +48,14 @@ export default {
   components: {
     Avatar,
     Btn
+  },
+  methods: {
+    onMouseOver: _.debounce(function() {
+      this.$emit('onMouseOver')
+    }, 200),
+    onMouseLeave: _.debounce(function() {
+      this.$emit('onMouseLeave')
+    }, 200)
   }
 }
 </script>
