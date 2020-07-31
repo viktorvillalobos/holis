@@ -62,3 +62,22 @@ class SignUpStep3Form(forms.ModelForm):
                 _("This company code is already used, please use other"),
             )
         return cleaned_data
+
+
+class SignUpStep4Form(forms.ModelForm):
+    class Meta:
+        fields = ["name", "position", "avatar", "password"]
+        model = Lead
+
+    def clean(self):
+        cleaned_data = super().clean()
+
+        password = cleaned_data.get('password')
+        confirm_password = cleaned_data.get('confirm_password')
+
+        if password != confirm_password:
+            self.add_error(
+                'password',
+                _("password and confirm_password does not match"),
+            )
+        return cleaned_data

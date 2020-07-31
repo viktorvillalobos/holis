@@ -13,6 +13,9 @@ class Lead(TimeStampedModel):
     """
 
     email = models.EmailField(_("Email"))
+    password = models.CharField(
+        _("Password"), max_length=255, blank=True, null=True
+    )
     company_name = models.CharField(
         _("Company name"), blank=True, null=True, max_length=100
     )

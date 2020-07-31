@@ -4,7 +4,7 @@ from apps.core import models as core_models
 from django.urls import reverse
 from django.shortcuts import redirect
 from apps.web import forms
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.views.generic.edit import CreateView, UpdateView
 from django.contrib.auth import authenticate, login
 from django.utils.translation import gettext_lazy as _
@@ -102,7 +102,7 @@ class SignUpStep3(GetObjectByUUIDMixin, UpdateView):
 class SignUpStep4(GetObjectByUUIDMixin, UpdateView):
     template_name = "auth/signup/step4.html"
     model = Lead
-    fields = ["name", "position", "avatar"]
+    form_class = forms.SignUpStep4Form
     success_url = reverse_lazy("web:signup-step-5")
 
     def get_success_url(self, **kwargs):
