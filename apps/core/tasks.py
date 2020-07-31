@@ -32,7 +32,7 @@ def check_company_areas(company_id: str) -> None:
             {"type": "force.disconnect", "user_id": user.id},
         )
         result.append(user.id)
-
+        
         uc = ClearStateAreaUC(user.current_area)
         uc.execute(user)
 
