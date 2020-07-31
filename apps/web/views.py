@@ -146,4 +146,4 @@ class SignUpStep5(GetObjectByUUIDMixin, UpdateView):
     template_name = "auth/signup/step5.html"
     model = Lead
     fields = ["invitations"]
-    success_url = reverse_lazy("webapp")
+    success_url = '/app'
