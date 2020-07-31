@@ -211,3 +211,13 @@ function handlePasswordValidation(val) {
         lettersPill.style.textDecoration = ''
     }
 }
+
+
+function handleSkipInvitations() {
+    const form = document.forms[0],
+        input = document.getElementById('id_invitations');
+
+    input.value = ''
+
+    form.submit()
+}
