@@ -1,0 +1,50 @@
+{% extends "base_auth.html" %}
+{% load static i18n %}
+{% block content %}
+<div class="holis-signup-wrap">
+    <form class="is-active" action="." method="POST">
+        <div class="holis-stepper">
+            <div class="holis-stepper-number">
+                1
+            </div>
+            <div class="holis-stepper-text">
+                <h2>{% trans 'Tell us about your team' %}</h2>
+                <p>{% trans 'Step 1 of 3'%}</p>
+            </div>
+        </div>
+        {% csrf_token %}
+        <div  id="companyNameField" class="holis-field-message">
+            <div class="field">
+                <label class="label" to="company_name">{% trans 'Name of your team or company' %}</label>
+                <input class="input" type="text" name="company_name" maxlength="100" id="id_company_name" required>
+            </div>
+
+            <div class="holis-form-message">
+                <div class="holis-form-message-animation is-active">
+                    <img src="{% static 'images/rocket.svg' %}" alt="startup">
+                </div>
+                <div class="holis-form-message-msg is-active">
+                    <p>{% trans 'Your team\'s subdomain will be' %} <span id="subdomain"></span>.holis.chat</p>
+                    <small>{% trans 'Don\'t you like this subdomain?' %}' <a onclick="handleSubdomainChange()" href="#">{% trans 'You can change it' %}</a></small>
+                </div>
+            </div>
+        </div>
+
+        <div id="subdomain-field" class="field">
+            <label class="label" to="company_code">{% trans 'Your team\'s subdomain' %}</label>
+            <p class="control has-icons-right">
+                <input class="input" type="text" name="company_code" maxlength="20" id="id_company_code">
+                <span class="icon is-small is-right">
+                    .holis.chat
+                </span>
+            </p>
+        </div>
+        <div class="field">
+            <p>{% trans 'By cotinuing you are accepting our' %} <a href="#">{% trans 'terms and conditions' %}</a></p>
+        </div>
+        <div class="auth-options">
+            <button class="button is-primary" type="submit">{% trans 'Continue' %}</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

@@ -10,6 +10,7 @@ import numpy as np
 from apps.core.uc.abstracts import AbstractModelUC
 from apps.core.uc.item import AreaItem
 from apps.users.models import User
+from apps.core.models import Area
 
 logger = logging.getLogger(__name__)
 
@@ -43,6 +44,7 @@ class BaseAreaUC(AbstractModelUC):
     """
 
     def __init__(self, instance) -> None:
+        assert isinstance(instance, Area)
         self.instance = instance
         created, self.state = self.get_or_create_state()
         if created:

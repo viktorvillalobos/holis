@@ -3,10 +3,13 @@ import logging
 from apps.core import models as core_models
 from django.urls import reverse
 from django.shortcuts import redirect
-from apps.web.forms import LoginForm
+from apps.web import forms
+from django.urls import reverse_lazy, reverse
+from django.views.generic.edit import CreateView, UpdateView
 from django.contrib.auth import authenticate, login
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import FormView, TemplateView
+from apps.web.models import Lead
 from django.http import HttpResponseRedirect
 
 # Create your views here.
@@ -60,7 +63,7 @@ class CheckCompanyView(TemplateView):
 
 
 class LoginView(FormView):
-    form_class = LoginForm
+    form_class = forms.LoginForm
     template_name = "auth/login.html"
     success_url = "/app/"
 
@@ -86,3 +89,61 @@ class LoginView(FormView):
 
 class RegistrationView(TemplateView):
     template_name = "auth/signup.html"
+
+
+class GetObjectByUUIDMixin:
+    def get_object(self):
+        return Lead.objects.get(secret=self.kwargs["pk"])
+
+
+class SignUpStep1(FormView):
+    template_name = "auth/signup/step1.html"
+    form_class = forms.SignUpStep1Form
+    success_url = reverse_lazy("web:signup-step-2")
+
+    def form_valid(self, form):
+        lead = Lead.objects.filter(
+            email=form.cleaned_data.get("email")
+        ).first()
+
+        if not lead:
+            form.save()
+        else:
+            form = self.form_class(instance=lead)
+
+        form.send_email(self.request)
+        return super().form_valid(form)
+
+
+class SignUpStep2(TemplateView):
+    template_name = "auth/signup/step2.html"
+
+
+class SignUpStep3(GetObjectByUUIDMixin, UpdateView):
+    template_name = "auth/signup/step3.html"
+    model = Lead
+    form_class = forms.SignUpStep3Form
+
+    def get_success_url(self, **kwargs):
+        return reverse_lazy(
+            "web:signup-step-4", kwargs={"pk": self.kwargs["pk"]}
+        )
+
+
+class SignUpStep4(GetObjectByUUIDMixin, UpdateView):
+    template_name = "auth/signup/step4.html"
+    model = Lead
+    form_class = forms.SignUpStep4Form
+    success_url = reverse_lazy("web:signup-step-5")
+
+    def get_success_url(self, **kwargs):
+        return reverse_lazy(
+            "web:signup-step-5", kwargs={"pk": self.kwargs["pk"]}
+        )
+
+
+class SignUpStep5(GetObjectByUUIDMixin, UpdateView):
+    template_name = "auth/signup/step5.html"
+    model = Lead
+    form_class = forms.SignUpStep5Form
+    success_url = '/app'

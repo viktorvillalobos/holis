@@ -1,5 +1,6 @@
 import datetime as dt
 from django.utils import timezone
+from django.db.models import Q
 from celery import shared_task
 from celery.utils.log import get_task_logger
 from apps.core.models import Company
@@ -23,7 +24,7 @@ def check_company_areas(company_id: str) -> None:
     query = (
         User.objects.filter(company=company)
         .filter(last_seen__lt=timezone.now() - dt.timedelta(seconds=60))
-        .exclude(last_seen__isnull=True, current_area__isnull=True)
+        .exclude(Q(last_seen=None) | Q(current_area=None))
     )
 
     for user in query:
