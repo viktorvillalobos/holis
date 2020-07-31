@@ -65,6 +65,9 @@ class SignUpStep3Form(forms.ModelForm):
 
 
 class SignUpStep4Form(forms.ModelForm):
+    password = forms.CharField(widget=forms.PasswordInput())
+    confirm_password = forms.CharField(widget=forms.PasswordInput())
+
     class Meta:
         fields = ["name", "position", "avatar", "password"]
         model = Lead
