@@ -278,3 +278,6 @@ apps/media/
 .envs/*
 !.envs/.local/
 webpack-stats.json
+
+
+.history/
