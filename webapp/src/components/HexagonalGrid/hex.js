@@ -2,6 +2,7 @@ import { extendHex } from 'honeycomb-grid'
 
 function getHex (vmDraw, size) {
   return extendHex({
+    isLocalUser: false,
     size: size,
     user: null,
     image: null,
@@ -25,7 +26,8 @@ function getHex (vmDraw, size) {
         .fill({ opacity: 0, color: 'none' })
     },
 
-    filled (user) {
+    filled (user, isLocalUser) {
+      this.isLocalUser = isLocalUser
       this.user = user
       this.draw
         .stop(true, true)

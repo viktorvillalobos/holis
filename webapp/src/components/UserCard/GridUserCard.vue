@@ -10,13 +10,13 @@
         <h3>{{ name }}</h3>
         <p class="position">{{ position }}</p>
         <p class="status">
-          <font-awesome-icon icon="handshake" />En reunión
+          {{ status.icon_text }} {{ status.text }}
         </p>
       </div>
     </div>
     <ul class="connect-grid-user-card-actions">
-      <li>
-        <Btn primary>Chat</Btn>
+      <li v-if="!isLocalUser">
+        <Btn primary @btn-click="onChat()">Chat</Btn>
       </li>
     </ul>
   </div>
@@ -32,6 +32,10 @@ export default {
       type: String,
       default: 'top'
     },
+    isLocalUser: {
+      type: Boolean,
+      default: false
+    },
     name: {
       type: String,
       default: 'Johana Daivis'
@@ -40,9 +44,21 @@ export default {
       type: String,
       default: 'UX / UI Desginer'
     },
+    status: {
+      type: Object,
+      default: () => {
+        return {'text': 'working', 'icon': ''}
+      }
+    },
     img: {
       type: String,
       default: 'https://api.adorable.io/avatars/71/abott@adorable.png'
+    },
+    user: {
+      type: Object,
+      default: () => {
+        return null
+      }
     }
   },
   components: {
@@ -50,6 +66,9 @@ export default {
     Btn
   },
   methods: {
+    onChat() {
+      this.$emit('onChat', this.user)
+    },
     onMouseOver: _.debounce(function() {
       this.$emit('onMouseOver')
     }, 200),

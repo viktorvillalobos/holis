@@ -1,4 +1,5 @@
 <template>
+  <div>
     <div
       id="grid"
       ref="grid"
@@ -6,16 +7,21 @@
       @mouseover="onMouseOver($event)"
       @click="onClick($event)">
 
+    </div>
         <GridUserCard
           :style="`top: ${hexTop}px; left: ${hexLeft}px`"
+          :isLocalUser="hexOver ? hexOver.isLocalUser : false"
           :name="hexOver && hexOver.user ? hexOver.user.name : 'Secret Name'"
+          :user="hexOver && hexOver.user ? hexOver.user : null"
           :position="hexOver && hexOver.user ? hexOver.user.position : 'Cargo no definido'"
+          :status="hexOver && hexOver.user ? hexOver.user.status : 'Working'"
           :img="hexOver && hexOver.user ? hexOver.user.avatar || hexOver.user.avatar_thumb : null"
           :origin="overOrigin"
           @onMouseOver="onGridUserCardOver(true)"
           @onMouseLeave="onGridUserCardOver(false)"
+          @onChat="onChat"
           v-if="hexOver && hexOver.user"/>
-    </div>
+  </div>
 </template>
 
 <script>
@@ -85,6 +91,9 @@ export default {
     })
   },
   methods: {
+    onChat (user) {
+      console.log(`Opening a chat with ${user.name}`)
+    },
     initGrid () {
       /*
         Grid Creation
@@ -119,7 +128,7 @@ export default {
     selectCellByCoordinates (hexCoordinates, user, isLocalUser) {
       const selectedHex = this.rectangle.get(hexCoordinates)
       if (selectedHex) {
-        selectedHex.filled(user)
+        selectedHex.filled(user, isLocalUser)
         if (isLocalUser) {
           this.setNeighbors(selectedHex)
           this.connectToWebRTC(selectedHex)
@@ -161,8 +170,6 @@ export default {
       if (this.isFirefox) { return { x: e.layerX, y: e.layerY } } else { return { x: e.offsetX, y: e.offsetY } }
     },
     onGridUserCardOver (active) {
-      console.log("onGridUserCardOver")
-      console.log(active)
       this.gridOver = active
     },
     onMouseOver (e) {
@@ -175,13 +182,13 @@ export default {
         this.clearHexOver()
       }
     },
-    clearHexOver: _.debounce(function () {
+    clearHexOver () {
       if (!this.gridOver) {
         this.hexOver = null
         this.hexLeft = 0
         this.hexTop = 0
       }
-    }, 200),
+    },
     setHexOverPosition: _.debounce(function (hex, x, y) {
       /*
         setHexOverPosition
