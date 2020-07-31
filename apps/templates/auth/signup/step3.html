@@ -13,7 +13,7 @@
             </div>
         </div>
         {% csrf_token %}
-        <div  id="companyNameField" class="holis-field-message">
+        <div id="companyNameField" class="holis-field-message">
             <div class="field">
                 <label class="label" to="company_name">{% trans 'Name of your team or company' %}</label>
                 <input class="input" type="text" name="company_name" maxlength="100" id="id_company_name" required>
@@ -25,7 +25,8 @@
                 </div>
                 <div class="holis-form-message-msg is-active">
                     <p>{% trans 'Your team\'s subdomain will be' %} <span id="subdomain"></span>.holis.chat</p>
-                    <small>{% trans 'Don\'t you like this subdomain?' %}' <a onclick="handleSubdomainChange()" href="#">{% trans 'You can change it' %}</a></small>
+                    <small>{% trans 'Don\'t you like this subdomain?' %}' <a onclick="handleSubdomainChange()"
+                            href="#">{% trans 'You can change it' %}</a></small>
                 </div>
             </div>
         </div>
@@ -42,6 +43,20 @@
         <div class="field">
             <p>{% trans 'By cotinuing you are accepting our' %} <a href="#">{% trans 'terms and conditions' %}</a></p>
         </div>
+        {% if form.errors %}
+        {% for field in form %}
+        {% for error in field.errors %}
+        <div class="notification is-danger is-active">
+            <strong>{{ error|escape  }}</strong>
+        </div>
+        {% endfor %}
+        {% endfor %}
+        {% for error in form.non_field_errors %}
+        <div class="notification is-danger is-active">
+            <strong>{{ error|escape  }}</strong>
+        </div>
+        {% endfor %}
+        {% endif %}
         <div class="auth-options">
             <button class="button is-primary" type="submit">{% trans 'Continue' %}</button>
         </div>

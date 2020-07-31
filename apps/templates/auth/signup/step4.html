@@ -47,7 +47,7 @@
                 <label class="label" to="company_name">{% trans 'Your password' %}</label>
                 <p class="control has-icons-right">
                     <input class="input" oninput="handlePasswordValidation(this.value)" type="password"
-                        placeholder="*******">
+                        placeholder="*******" name="password">
                     <span class="icon is-right">
                         <i class="fa fa-eye"></i>
                     </span>
@@ -70,8 +70,22 @@
         </div>
         <div class="field">
             <label class="label" to="company_name">{% trans 'Repeat your password' %}</label>
-            <input class="input" type="password" placeholder="*******">
+            <input class="input" type="password" placeholder="*******" name="confirm_password">
         </div>
+        {% if form.errors %}
+        {% for field in form %}
+        {% for error in field.errors %}
+        <div class="notification is-danger is-active">
+            <strong>{{ error|escape  }}</strong>
+        </div>
+        {% endfor %}
+        {% endfor %}
+        {% for error in form.non_field_errors %}
+        <div class="notification is-danger is-active">
+            <strong>{{ error|escape  }}</strong>
+        </div>
+        {% endfor %}
+        {% endif %}
         <div class="auth-options">
             <button class="button is-primary" type="submit">{% trans 'Continue' %}</button>
         </div>

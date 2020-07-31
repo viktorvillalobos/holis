@@ -95,17 +95,19 @@ function stringToSlug(str) {
         subdomain = document.getElementById('subdomain'),
         companyNameField = document.getElementById('companyNameField')
 
-    subdomainField.style.display = 'none'
+    if (subdomainField) subdomainField.style.display = 'none'
 
-    input.addEventListener('input', function (e) {
-        suggestCompanyCode(e.srcElement.value, subdomain)
+    if (input) {
+        input.addEventListener('input', function (e) {
+            suggestCompanyCode(e.srcElement.value, subdomain)
 
-        if (e.srcElement.value && e.srcElement.value !== '') {
-            companyNameField.classList.add('is-active')
-        } else {
-            companyNameField.classList.remove('is-active')
-        }
-    })
+            if (e.srcElement.value && e.srcElement.value !== '') {
+                companyNameField.classList.add('is-active')
+            } else {
+                companyNameField.classList.remove('is-active')
+            }
+        })
+    }
 }())
 
 async function suggestCompanyCode(val, setter) {
@@ -175,9 +177,9 @@ function handleFileInput(e) {
 
 function handlePasswordValidation(val) {
     const passwordField = document.getElementById('passwordField'),
-    lettersPill = document.getElementById('pass-letters'),
-    numbersPill = document.getElementById('pass-numbers'),
-    specialPill = document.getElementById('pass-special');
+        lettersPill = document.getElementById('pass-letters'),
+        numbersPill = document.getElementById('pass-numbers'),
+        specialPill = document.getElementById('pass-special');
 
     if (val) {
         passwordField.classList.add('is-active')
@@ -190,13 +192,13 @@ function handlePasswordValidation(val) {
     } else {
         specialPill.style.textDecoration = ''
     }
-    
+
     if (/\d/.test(val)) {
         numbersPill.style.textDecoration = 'line-through'
     } else {
         numbersPill.style.textDecoration = ''
     }
-    
+
     if (/[a-zA-Z]/.test(val)) {
         lettersPill.style.textDecoration = 'line-through'
     } else {
