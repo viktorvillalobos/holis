@@ -1,0 +1,46 @@
+{% extends "base_auth.html" %}
+{% load static i18n %}
+{% block content %}
+<div class="holis-signup-wrap">
+    <form class="is-active" action="." method="POST">
+        <div class="holis-stepper">
+            <div class="holis-stepper-number">
+                2
+            </div>
+            <div class="holis-stepper-text">
+                <h2>{% trans 'Tell us about you' %}</h2>
+                <p>{% trans 'Step 2 of 3' %}</p>
+            </div>
+        </div>
+        {% csrf_token %}
+        <div class="field">
+            <label class="label" to="id_name">{% trans 'Your name' %}</label>
+            <input class="input" type="text" name="name" placeholder="{% trans 'Ex. Juanin Juan Harry' %}" maxlength="100" id="id_name">
+        </div>
+        <div class="field">
+            <label class="label" to="id_position">{% trans 'Your position' %}</label>
+            <input class="input" type="text" name="position" placeholder="Ej: News producer, Studios's coordinator" maxlength="50" id="id_position">
+        </div>
+        <div class="field">
+            <label class="label" to="id_avatar">Tu foto</label>
+            <div class="file has-name">
+                <label class="file-label">
+                    <input class="file-input" onchange="handleFileInput(this.files)" type="file" name="avatar" accept="image/*" id="id_avatar">
+                    <span class="file-cta">
+                        <span class="file-icon">
+                            <i class="fas fa-upload"></i>
+                        </span>
+                        <span class="file-label">
+                            Choose a file…
+                        </span>
+                    </span>
+                    <span id="fileName" class="file-name">(That one picture you really like)</span>
+                </label>
+            </div>
+        </div>
+        <div class="auth-options">
+            <button class="button is-primary" type="submit">Continue</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

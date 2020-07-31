@@ -1,0 +1,29 @@
+{% extends "base_auth.html" %}
+{% load static i18n %}
+{% block content %}
+<div class="holis-signup-wrap">
+    <form class="is-active" action="." method="POST">
+        <div class="holis-stepper">
+            <div class="holis-stepper-number">
+                3
+            </div>
+            <div class="holis-stepper-text">
+                <h2>¡Invita a tu equipo!</h2>
+                <p>Paso 3 de 3</p>
+            </div>
+        </div>
+        <p><a href="/">Holis</a> está creado para compartir, invita a tu equipo ¡Y comiencen la experiencia!</p>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <div class="auth-options">
+            <button class="button is-primary" type="submit">Continue</button>
+        </div>
+        <div class="auth-options">
+            <button class="button is-primary" type="submit">Continue</button>
+        </div>
+        <div class="auth-options">
+            <button class="button is-primary" type="submit">Continue</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

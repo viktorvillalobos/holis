@@ -8438,7 +8438,8 @@ label.panel-block {
   .auth-card .file-label {
     width: 100%; }
     .auth-card .file-label .file-name {
-      max-width: none; }
+      max-width: none;
+      width: 100%; }
   .auth-card .field:not(:last-child) {
     margin-bottom: 24px; }
   .auth-card form {
