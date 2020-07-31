@@ -51,7 +51,7 @@
         {% endfor %}
         {% endif %}
         <div class="auth-options">
-            <button class="button is-primary is-outlined">{% trans 'Skip' %}</button>
+            <button onclick="handleSkipInvitations()" class="button is-primary is-outlined">{% trans 'Skip' %}</button>
             <a class="button is-primary" onclick="handleFinishInvitations()">{% trans 'Finish' %}</a>
         </div>
     </form>
