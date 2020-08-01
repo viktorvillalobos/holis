@@ -32,7 +32,9 @@ const state = {
   activeChat: null,
   asideOpen: false,
   lastBatch: null,
-  allowScrollToEnd: true
+  allowScrollToEnd: true,
+  currentChatName: 'Juaning Juan Harry',
+  currentChatJID: ''
 }
 
 const getters = {
@@ -43,6 +45,12 @@ const getters = {
 }
 
 const mutations = {
+  setCurrentChatName (state, name) {
+    state.currentChatName = name
+  },
+  setCurrentChatJID (state, jid) {
+    state.currentChatJID = jid
+  },
   setLastBatch (state, batch) {
     state.lastBatch = batch
   },
@@ -208,12 +216,13 @@ const actions = {
     await window.$xmpp.sendMessage({ to, body: msg.message, type: 'chat' })
   },
   async getMessages ({ commit, state }, jid) {
+    jid = jid || this.currentChatJID || state.activeChat
+    console.log('GET MESSAGES FROM: ' +  jid)
     if (!jid) {
       console.error('NULL JID')
       return
     }
 
-    jid = jid || state.activeChat
     if (jid !== state.activeChat) {
       commit('clearMessages')
       commit('unBlockScroll')

@@ -22,7 +22,7 @@
         </ul>
       </card>
     </div>
-    <chat-header v-if="!newChat" :chat-name="chatName" />
+    <chat-header v-if="!newChat" :chat-name="currentChatName" />
     <div v-if="!newChat"
          class="connect-chat-body"
           v-on:scroll.passive="handleScroll"
@@ -79,7 +79,9 @@ export default {
       users: state => state.chat.users,
       messages: state => state.chat.messages,
       lastBatch: state => state.chat.lastBatch,
-      allowScrollToEnd: state => state.chat.allowScrollToEnd
+      allowScrollToEnd: state => state.chat.allowScrollToEnd,
+      currentChatJID: state => state.chat.currentChatJID,
+      currentChatName: state => state.chat.currentChatName,
     })
   },
   mounted () {
@@ -114,7 +116,7 @@ export default {
     sendMessage (msg) {
       console.log('msg', msg)
       const data = {
-        to: this.jid,
+        to: this.currentChatJID,
         msg: msg
       }
       this.$store.dispatch('sendChatMessage', data)
@@ -122,9 +124,9 @@ export default {
     setChat (user) {
       console.log('hey!')
       this.$emit('selectedChat')
-      this.jid = user.jid
-      this.chatName = user.name || user.username
-      this.$store.dispatch('getMessages', this.jid)
+      this.$store.commit('setCurrentChatName', user.name || user.username)
+      this.$store.commit('setCurrentChatJID', user.jid)
+      this.$store.dispatch('getMessages', user.jid)
     }
   }
 }
