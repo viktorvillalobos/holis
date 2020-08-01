@@ -50,17 +50,6 @@ class BaseAreaUC(AbstractModelUC):
         if created:
             self.save_state()
 
-    dtype = [
-        ('id', np.int32),
-        ('name', (np.str_, 100)),
-        ('last_name', (np.str_, 100)),
-        ('status', (np.str_, 100)),
-        ('position', (np.str_, 100)),
-        ('avatar', (np.str_, 255)),
-        ('room', (np.str_, 255)),
-        ('is_online', np.bool_),
-    ]
-
     def get_or_create_state(self) -> Tuple[bool, np.ndarray]:
         logger.info('GET_OR_CREATE_STATE')
         if not self.instance.state:

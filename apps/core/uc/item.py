@@ -65,6 +65,7 @@ class AreaItem:
     room: str
     is_online: bool
     last_seen: datetime.datetime
+    jid: str
 
     @staticmethod
     def zero() -> 'AreaItem':
@@ -80,6 +81,7 @@ class AreaItem:
             last_seen=None,
             x=0,
             y=0,
+            jid=""
         )
 
     @staticmethod
@@ -100,6 +102,7 @@ class AreaItem:
             if obj.get("last_seen")
             else None
         )
+        jid = from_str(obj.get("jid"))
 
         return AreaItem(
             id=id,
@@ -113,6 +116,7 @@ class AreaItem:
             last_seen=last_seen,
             x=x,
             y=y,
+            jid=jid
         )
 
     @staticmethod
@@ -129,6 +133,7 @@ class AreaItem:
             last_seen=User.last_seen,
             x=x,
             y=y,
+            jid=User.jid
         )
 
     def to_dict(self) -> dict:
@@ -144,6 +149,7 @@ class AreaItem:
         result["room"] = from_str(self.room)
         result["is_online"] = from_bool(self.is_online or True)
         result["last_seen"] = from_datetime(self.last_seen)
+        result["jid"] = from_str(self.jid)
         return result
 
 
