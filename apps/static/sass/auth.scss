@@ -7,7 +7,7 @@
 ////////////////////////////////
 $card-box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
 $card-border-radius: 4px;
-$medium-gray: #C4C4C4;
+$medium-gray: #c4c4c4;
 
 // Alert colors
 ////////////////////////////////
@@ -16,39 +16,44 @@ $medium-gray: #C4C4C4;
 
 @import "./vars";
 @import "./bulma/bulma.sass";
+@import "./inputs";
 
 .auth {
     &-wrapper {
         padding-top: 130px;
         min-height: 100vh;
         background-size: 100%;
+        background-image: url(../images/clear_bg.svg);
+        background-size: 90%;
+        background-repeat: no-repeat;
     }
-
+    
     &-card {
         width: 834px;
         margin: 0 auto;
         padding: 40px 65px;
         position: relative;
-
+        
         .field-label {
             text-align: left;
         }
         .file-label {
             width: 100%;
-
+            
             .file-name {
                 max-width: none;
+                width: 100%;
             }
         }
-
+        
         .field:not(:last-child) {
             margin-bottom: 24px;
         }
-
+        
         form {
             margin: 0 auto;
             max-width: 70%;
-
+            
             h3 {
                 font-size: 1.5rem;
                 font-weight: 500;
@@ -56,19 +61,51 @@ $medium-gray: #C4C4C4;
             }
         }
     }
-
+    
+    &-content {
+        width: 522px;
+        max-width: 98%;
+        margin: 0 auto;
+        text-align: center;
+        
+        
+        .button {
+            border-radius: 14px;
+        }
+        
+        .espazum-inner-button-field {
+            margin-top: 50px;
+            .button {
+                border-top-left-radius: 0;
+                border-bottom-left-radius: 0;
+            }
+        }
+    }
+    
     &-logo {
         position: absolute;
         top: -49px;
         left: 18px;
+        
+        &.no-absolute {
+            position: static;
+            margin: 15px auto;
+        }
     }
-
+    
     &-options {
         display: flex;
         justify-content: flex-end;
-
+        margin: 15px 0;
+        
         & > * {
             margin-left: 16px;
+        }
+    }
+    
+    &-message {
+        > * {
+            margin-bottom: 35px; 
         }
     }
 }
@@ -92,11 +129,11 @@ $medium-gray: #C4C4C4;
             margin-right: 16px;
             background: #bdbdbd;
         }
-
+        
         li {
             display: flex;
             align-items: center;
-
+            
             &.active {
                 font-size: 24px;
                 font-weight: 500;
@@ -115,12 +152,12 @@ $medium-gray: #C4C4C4;
     box-shadow: $card-box-shadow;
     border-radius: $card-border-radius;
     background-color: #fff;
-
+    
     &--outline {
         box-shadow: none;
         border: 1px solid $medium-gray;
     }
-
+    
     &-actions {
         display: inline-flex;
         align-items: center;
@@ -128,13 +165,13 @@ $medium-gray: #C4C4C4;
     }
 }
 
-.holis-login-wrap {
+.holis-login-wrap, .holis-signup-wrap {
     form {
         display: none;
-
+        
         &.is-active {
             display: block;
-
+            
             .control.has-icons-right .input {
                 padding-right: 6rem;
             }
@@ -143,12 +180,42 @@ $medium-gray: #C4C4C4;
             }
         }
     }
-
+    
     .notification {
         display: none;
-
+        
         &.is-active {
             display: block;
         }
     }
+}
+
+.holis-stepper {
+    display: flex;
+    margin-bottom: 30px;
+    
+    &-number {
+        background-color: $primary;
+        color: #fff;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 48px;
+    }
+    
+    &-text {
+        margin-left: 15px;
+        h2 {
+            font-size: 24px;
+            font-weight: 500;
+        }
+    }
+}
+
+.gray-text {
+    color: #828282;
 }

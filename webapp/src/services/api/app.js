@@ -9,5 +9,8 @@ export default {
   },
   getNotifications () {
     return axios.get(`${urlBase}/users/notifications/`, { params: { limit: 999 } })
+  },
+  setStatus (statusId) {
+    return axios.post(`${urlBase}/users/set-status/`, { status_id: statusId })
   }
 }

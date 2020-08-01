@@ -1,5 +1,7 @@
 <template>
-  <div :class="['connect-grid-user-card', origin]">
+  <div :class="['connect-grid-user-card', origin]" 
+        @mouseover="onMouseOver()" 
+        @mouseleave="onMouseLeave()">
     <img src="@/assets/gridUserCardWaves.svg" class="connect-grid-user-card-waves" />
     <div class="connect-grid-user-card-content">
       <Avatar big
@@ -8,13 +10,13 @@
         <h3>{{ name }}</h3>
         <p class="position">{{ position }}</p>
         <p class="status">
-          <font-awesome-icon icon="handshake" />En reunión
+          {{ status.icon_text }} {{ status.text }}
         </p>
       </div>
     </div>
     <ul class="connect-grid-user-card-actions">
-      <li>
-        <Btn primary>Chat</Btn>
+      <li v-if="!isLocalUser">
+        <Btn primary @btn-click="onChat()">Chat</Btn>
       </li>
     </ul>
   </div>
@@ -22,12 +24,17 @@
 <script>
 import Avatar from '@/components/Avatar'
 import Btn from '@/components/Btn'
+import _ from 'lodash'
 export default {
   name: 'GridUserCard',
   props: {
     origin: {
       type: String,
       default: 'top'
+    },
+    isLocalUser: {
+      type: Boolean,
+      default: false
     },
     name: {
       type: String,
@@ -37,14 +44,37 @@ export default {
       type: String,
       default: 'UX / UI Desginer'
     },
+    status: {
+      type: Object,
+      default: () => {
+        return {'text': 'working', 'icon': ''}
+      }
+    },
     img: {
       type: String,
       default: 'https://api.adorable.io/avatars/71/abott@adorable.png'
+    },
+    user: {
+      type: Object,
+      default: () => {
+        return null
+      }
     }
   },
   components: {
     Avatar,
     Btn
+  },
+  methods: {
+    onChat() {
+      this.$emit('onChat', this.user)
+    },
+    onMouseOver: _.debounce(function() {
+      this.$emit('onMouseOver')
+    }, 200),
+    onMouseLeave: _.debounce(function() {
+      this.$emit('onMouseLeave')
+    }, 200)
   }
 }
 </script>

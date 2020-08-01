@@ -89,11 +89,13 @@ export default {
   },
   computed: {
     ...mapState({
-      users: (state) => state.chat.users,
-      messages: (state) => state.chat.messages,
-      lastBatch: (state) => state.chat.lastBatch,
-      allowScrollToEnd: (state) => state.chat.allowScrollToEnd,
-    }),
+      users: state => state.chat.users,
+      messages: state => state.chat.messages,
+      lastBatch: state => state.chat.lastBatch,
+      allowScrollToEnd: state => state.chat.allowScrollToEnd,
+      currentChatJID: state => state.chat.currentChatJID,
+      currentChatName: state => state.chat.currentChatName,
+    })
   },
   mounted() {
     this.$store.dispatch("connectXMPP");
@@ -132,20 +134,20 @@ export default {
     sendMessage(msg) {
       console.log("msg", msg);
       const data = {
-        to: this.jid,
-        msg: msg,
-      };
-      this.$store.dispatch("sendChatMessage", data);
+        to: this.currentChatJID,
+        msg: msg
+      }
+      this.$store.dispatch('sendChatMessage', data)
     },
-    setChat(user) {
-      console.log("hey!");
-      this.$emit("selectedChat");
-      this.jid = user.jid;
-      this.chatName = user.name || user.username;
-      this.$store.dispatch("getMessages", this.jid);
-    },
-  },
-};
+    setChat (user) {
+      console.log('hey!')
+      this.$emit('selectedChat')
+      this.$store.commit('setCurrentChatName', user.name || user.username)
+      this.$store.commit('setCurrentChatJID', user.jid)
+      this.$store.dispatch('getMessages', user.jid)
+    }
+  }
+}
 </script>
 
 <style lang="scss">

@@ -42,21 +42,17 @@ class MainConsumerBase(AsyncJsonWebsocketConsumer):
             await self.channel_layer.group_add(group, self.channel_name)
 
 
-
 class MainConsumer(NotificationMixin, GridMixin, MainConsumerBase):
     async def receive_json(self, content):
         """
             This method receive jsons for clients, and
             distribute in diferent methods
         """
-        logger.info(content)
         try:
             _type = content["type"]
         except KeyError:
             _type = "error"
             _msg = _("Type is required")
-
-        logger.info(_type)
 
         if _type == "error":
             return await self.send_json({"error": _msg})
@@ -67,11 +63,15 @@ class MainConsumer(NotificationMixin, GridMixin, MainConsumerBase):
             }
             return await self.notification(message)
         elif _type == "grid.position":
-            logger.info("handling grid position")
             await self.handle_grid_position(content)
         elif _type == "grid.clear":
-            logger.info("handling grid clear position")
             await self.handle_clear_user_position()
+        elif _type == "grid.status":
+            await self.handle_status(content)
+        elif _type == "grid.heartbeat":
+            await self.handle_heartbeat(content)
+        elif _type == "grid.force.disconnect":
+            await self.force_disconnect(content)
         else:
             _msg = _("type not handled")
             return await self.send_json({"error": _msg})
@@ -88,3 +88,10 @@ class MainConsumer(NotificationMixin, GridMixin, MainConsumerBase):
 
         for group in self.groups:
             await self.channel_layer.group_discard(group, self.channel_name)
+
+    async def force_disconnect(self, message):
+        logger.info("force_disconnect")
+        logger.info(message)
+        user_id = message.get('user_id')
+        if user_id:
+            await self.handle_clear_user_position(user_id=user_id)

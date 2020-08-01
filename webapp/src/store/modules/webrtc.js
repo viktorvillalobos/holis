@@ -7,12 +7,16 @@ const state = {
   muteMicro: false, // mute my micro in the current call
   status: 'disconnected',
   disconnectByControl: false,
-  streams: []
+  streamsCount: 0,
+  userSpeaking: null
 }
 
 const mutations = {
-  setStreams (state, streams) {
-    state.streams = streams
+  setUserSpeaking (state, obj) {
+    state.userSpeaking = obj
+  },
+  setStreamsCount (state, count) {
+    state.streamsCount = count
   },
   setConnected (state, enable) {
     state.connected = enable
@@ -50,17 +54,22 @@ const mutations = {
 }
 
 const actions = {
-  setStreams ({ commit }, streams) {
-    commit('setStreams', streams)
+  userIsSpeaking ({ commit }, userSpeakingObj) {
+    commit('setUserSpeaking', userSpeakingObj)
+  },
+  setStreamsCount ({ commit }, count) {
+    commit('setStreamsCount', count)
   },
   disconnectAndConnect ({ commit }, room) {
+    commit('setStreamsCount', 0)
     commit('setConnected', false)
     commit('setRoom', room)
     commit('setStatusConnecting')
 
     setTimeout(() => {
+      commit('setStreamsCount', 1)
       commit('setConnected', true)
-    }, 4000)
+    }, 2000)
   },
   changeToVideo ({ commit }) {
     commit('setEnableVideo')

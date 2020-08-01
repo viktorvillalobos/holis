@@ -14,12 +14,12 @@ class Company(TimeStampedModel):
         Tenant model
     """
 
-    country = CountryField()
     name = models.CharField(_("name"), max_length=50, db_index=True)
     code = models.CharField(
         _("code"), max_length=50, db_index=True, unique=True
     )
     email = models.EmailField(_("email"), null=True, blank=True)
+    country = CountryField(null=True, blank=True)
     phone = models.CharField(_("phone"), max_length=20, null=True, blank=True)
     logo = ImageField(_("logo"), blank=True, null=True, upload_to="logo")
 
@@ -89,10 +89,11 @@ class Area(MPTTModel):
 
     @property
     def users_online(self):
-        from apps.core.uc import area_uc
+        # from apps.core.uc import area_uc
 
-        uc = area_uc.GetStateAreaUC(self)
-        return len(uc.connected_idxs)
+        # uc = area_uc.GetStateAreaUC(self)
+        # return len(uc.connected_idxs)
+        return len(self.state)
 
 
 class Announcement(TimeStampedModel):

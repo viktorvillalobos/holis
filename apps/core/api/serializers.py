@@ -41,7 +41,7 @@ class UserField(serializers.Field):
         return {
             "name": user.name,
             "position": user.position,
-            "avatar": user.avatar.url,
+            "avatar": user.avatar.url if user.avatar else None,
             "avatar_thumb": user.avatar_thumb,
         }
 

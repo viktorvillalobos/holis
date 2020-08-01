@@ -30,6 +30,14 @@ const store = new Vuex.Store({
     SOCKET_ONOPEN (state, is_active) {
       console.log('Socket ONOPEN')
       state.socket.isConnected = is_active
+
+      setInterval(() => {
+        console.log('heartbeat')
+
+        this.$app.$socket.sendObj({
+          type: 'grid.heartbeat'
+        })
+      }, 30000)
     },
     /* eslint-disable-next-line */
     SOCKET_ONCLOSE (state, event)  {
@@ -58,6 +66,10 @@ const store = new Vuex.Store({
           break
         case 'grid.disconnect':
           state.areas.deleteFromState = message
+          break
+
+        case 'grid.status':
+          state.areas.changeStatus = message
           break
       }
     },

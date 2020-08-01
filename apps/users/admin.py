@@ -19,8 +19,13 @@ class UserCreateForm(UserCreationForm):
         )
 
 
+class StatusInline(admin.TabularInline):
+    model = models.Status
+
+
 @admin.register(User)
 class UserAdmin(AdminImageMixin, auth_admin.UserAdmin):
+    inlines = [StatusInline]
     form = UserChangeForm
     add_form = UserCreateForm
     add_fieldsets = (
@@ -31,13 +36,7 @@ class UserAdmin(AdminImageMixin, auth_admin.UserAdmin):
                 "fields": ("company", "username", "password1", "password2"),
             },
         ),
-        (
-            "Profile",
-            {
-                "classes": ("wide",),
-                "fields": ("jid", "name"),
-            },
-        ),
+        ("Profile", {"classes": ("wide",), "fields": ("jid", "name")},),
     )
 
     fieldsets = (

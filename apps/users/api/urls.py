@@ -14,6 +14,12 @@ router.register("notifications", views.NotificationViewSet)
 urlpatterns = [
     path("check-company/<str:company_name>/", views.CheckCompanyAPIView.as_view()),
     path("login/", views.LoginAPIView.as_view()),
+    path("set-status/", views.SetStatusAPIView.as_view()),
+    path(
+        "suggest-company-code/",
+        views.SuggestCompanyCodeAPIView.as_view(),
+        name="suggest-company-code",
+    ),
 ]
 
 

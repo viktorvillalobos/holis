@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 class StatusSerializer(serializers.ModelSerializer):
     class Meta:
         model = users_models.Status
-        fields = ["text", "icon", "is_active"]
+        fields = ["text", "icon", "icon_text", "is_active", "id"]
 
 
 class CompanyField(serializers.Field):
@@ -50,11 +50,17 @@ class UserCompanySerializer(serializers.ModelSerializer):
             return obj.logo_thumb
 
 
+class ActiveStatusSerializer(serializers.Serializer):
+    text = serializers.CharField()
+    icon_text = serializers.CharField()
+
+
 class UserSerializer(serializers.ModelSerializer):
-    statuses = StatusSerializer(many=True, read_only=True)
+    statuses = StatusSerializer(many=True)
     company = UserCompanySerializer(read_only=True)
     avatar_thumb = serializers.SerializerMethodField()
     room = serializers.SerializerMethodField()
+    status = ActiveStatusSerializer(source="current_status")
 
     def get_avatar_thumb(self, obj):
         if not obj.avatar_thumb:
@@ -90,7 +96,8 @@ class UserSerializer(serializers.ModelSerializer):
             "avatar",
             "avatar_thumb",
             "is_staff",
-            "is_superuser"
+            "is_superuser",
+            "status"
         ]
 
 
@@ -101,24 +108,15 @@ class NotificationSerializer(serializers.ModelSerializer):
 
 
 class AuthEmailTokenSerializer(serializers.Serializer):
-    email = serializers.CharField(
-        label=_("Email"),
-        write_only=True
-    )
+    email = serializers.CharField(label=_("Email"), write_only=True)
     password = serializers.CharField(
         label=_("Password"),
         style={"input_type": "password"},
         trim_whitespace=False,
-        write_only=True
+        write_only=True,
     )
-    company = serializers.IntegerField(
-        label=_("Company"),
-        write_only=True
-    )
-    token = serializers.CharField(
-        label=_("Token"),
-        read_only=True
-    )
+    company = serializers.IntegerField(label=_("Company"), write_only=True)
+    token = serializers.CharField(label=_("Token"), read_only=True)
 
     def validate(self, attrs):
         email = attrs.get("email")
@@ -130,7 +128,8 @@ class AuthEmailTokenSerializer(serializers.Serializer):
                 request=self.context.get("request"),
                 company_id=company_id,
                 email=email,
-                password=password)
+                password=password,
+            )
 
             # The authenticate call simply returns None for is_active=False
             # users. (Assuming the default ModelBackend authentication
@@ -150,3 +149,7 @@ class CheckCompanySerializer(serializers.ModelSerializer):
     class Meta:
         model = core_models.Company
         fields = ("id", "name", "code")
+
+
+class SetStatusSerializer(serializers.Serializer):
+    status_id = serializers.IntegerField()
