@@ -4,7 +4,8 @@
   >
     <div
       :class="['connect-chat-message', {'connect-chat-message--mine' : messageIsMine}]"
-    >{{msg.message}}</div>
+      v-html="msg.message"
+    ></div>
     <div class="connect-chat-message-user">
       <Avatar v-if="!messageIsMine" />
       <p>{{ messageIsMine ? 'You' : who}} · {{ datetime | moment("ddd, hA")}}</p>
@@ -43,12 +44,23 @@ export default {
   border-radius: 8px 8px 8px 0;
   font-size: 13px;
 
+  * {
+    color: #fff;
+  }
+
+  pre {
+    background: $dark-blue;
+    border-radius:4px ;
+  }
+  
+
   &--mine {
     border-radius: 8px 8px 0 8px;
   }
 
   &-wrapper {
-    width: 262px;
+    min-width: 262px;
+    max-width: 90%;
     margin-bottom: 10px;
 
     &--mine {

@@ -21,6 +21,7 @@ export default {
   left: 0;
   right: 0;
   z-index: 1;
+  overflow: hidden;
 }
 
 .video-list {
