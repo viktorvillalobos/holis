@@ -29,14 +29,27 @@ class HolisTenantMiddleware(django.utils.deprecation.MiddlewareMixin):
 
     def process_request(self, request):
         hostname = self.hostname_from_request(request)
+        is_subdomain = len(hostname.split('.')) > 2
 
         code = hostname.split(".")[0]
         TenantModel = Company
-        
-        if code in ("holis", "holis"):
+
+        if not is_subdomain:
             request.company = None
             return
-        
+
+        logger.info("TENANT")
+        logger.info(code)
+
+        logger.info("user")
+        logger.info(request.user)
+
+        logger.info("company")
+        logger.info(request.user.company)
+
+        if request.user.company.code != code:
+            raise Http404
+
         try:
             # get_tenant must be implemented by extending this class.
             tenant = self.get_tenant(TenantModel, code, request)
