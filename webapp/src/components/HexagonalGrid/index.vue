@@ -93,6 +93,8 @@ export default {
   methods: {
     onChat (user) {
       console.log(`Opening a chat with ${user.name}`)
+      this.$store.commit('setAsideChat')
+      this.$emit('newChat')
     },
     initGrid () {
       /*

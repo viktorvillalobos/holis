@@ -51,9 +51,7 @@ class BaseAreaUC(AbstractModelUC):
             self.save_state()
 
     def get_or_create_state(self) -> Tuple[bool, np.ndarray]:
-        logger.info('GET_OR_CREATE_STATE')
         if not self.instance.state:
-            logger.info('STATE IS EMPTY')
             return (
                 True,
                 [
