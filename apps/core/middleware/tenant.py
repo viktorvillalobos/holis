@@ -38,7 +38,7 @@ class HolisTenantMiddleware(django.utils.deprecation.MiddlewareMixin):
             request.company = None
             return
 
-        if request.user.company.code != code:
+        if request.user.is_authenticated and request.user.company.code != code:
             raise Http404
 
         try:

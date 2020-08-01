@@ -133,7 +133,7 @@ class AreaItem:
             last_seen=User.last_seen,
             x=x,
             y=y,
-            jid=User.jid
+            jid=User.jid or ""
         )
 
     def to_dict(self) -> dict:
