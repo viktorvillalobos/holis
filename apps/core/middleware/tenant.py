@@ -38,15 +38,6 @@ class HolisTenantMiddleware(django.utils.deprecation.MiddlewareMixin):
             request.company = None
             return
 
-        logger.info("TENANT")
-        logger.info(code)
-
-        logger.info("user")
-        logger.info(request.user)
-
-        logger.info("company")
-        logger.info(request.user.company)
-
         if request.user.company.code != code:
             raise Http404
 
