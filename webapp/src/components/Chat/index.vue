@@ -1,5 +1,5 @@
 <template>
-  <div class="connect-chat">
+  <div class="connect-chat" :style="`background-image: url(${patternChat})`">
     <div v-if="newChat" class="connect-chat-new">
       <h3>Nuevo mensaje</h3>
       <div class="field is-horizontal">
@@ -17,118 +17,135 @@
       <card class="connect-chat-new-frequent-chats">
         <ul>
           <li v-for="user in users" :key="user.id" @click="setChat(user)">
-            <Avatar :img="user.avatar_thumb" /> <span class="user-name">{{user.name || user.username}}</span>
+            <Avatar :img="user.avatar_thumb" />
+            <span class="user-name">{{user.name || user.username}}</span>
           </li>
         </ul>
       </card>
     </div>
     <chat-header v-if="!newChat" :chat-name="chatName" />
-    <div v-if="!newChat"
-         class="connect-chat-body"
-          v-on:scroll.passive="handleScroll"
-        ref="chatContainer">
+    <div
+      v-if="!newChat"
+      class="connect-chat-body"
+      v-on:scroll.passive="handleScroll"
+      ref="chatContainer"
+    >
       <div class="nose"></div>
-      <span v-if="lastBatch && !lastBatch.complete" class="connect-chat-load-more" @click="loadHistory()">Load history</span>
-      <div  class="connect-chat-body-messages-wrapper">
-        <message v-for="msg in messages"
-                :key="msg.id"
-                :id="msg.id"
-                :msg="msg"
-                :messageIsMine="msg.is_mine"
-                :who="msg.who"
-                :datetime="msg.datetime"
-        />
-      </div>
+      <span
+        v-if="lastBatch && !lastBatch.complete"
+        class="connect-chat-load-more"
+        @click="loadHistory()"
+      >Load history</span>
+      <vue-scroll>
+        <div class="connect-chat-body-messages-wrapper">
+          <message
+            v-for="msg in messages"
+            :key="msg.id"
+            :id="msg.id"
+            :msg="msg"
+            :messageIsMine="msg.is_mine"
+            :who="msg.who"
+            :datetime="msg.datetime"
+          />
+        </div>
+      </vue-scroll>
     </div>
     <chat-editor v-if="!newChat" @enter="sendMessage" />
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState } from "vuex";
 
-import ChatHeader from './ChatHeader'
-import ChatEditor from './ChatEditor'
-import Message from './Message'
-import Avatar from '@/components/Avatar'
-import Card from '@/components/Card'
+import ChatHeader from "./ChatHeader";
+import ChatEditor from "./ChatEditor";
+import Message from "./Message";
+import Avatar from "@/components/Avatar";
+import Card from "@/components/Card";
 
+import pattern from '@/assets/lighter_pattern.png'
 export default {
-  name: 'Chat',
+  name: "Chat",
   components: {
     ChatHeader,
     ChatEditor,
     Message,
     Avatar,
-    Card
+    Card,
   },
   props: {
     newChat: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
-  data () {
+  data() {
     return {
-      searchPerson: '',
-      chatName: 'Juanin Juan Harry',
-      jid: ''
-    }
+      searchPerson: "",
+      chatName: "Juanin Juan Harry",
+      jid: "",
+      patternChat: pattern
+    };
   },
   computed: {
     ...mapState({
-      users: state => state.chat.users,
-      messages: state => state.chat.messages,
-      lastBatch: state => state.chat.lastBatch,
-      allowScrollToEnd: state => state.chat.allowScrollToEnd
-    })
+      users: (state) => state.chat.users,
+      messages: (state) => state.chat.messages,
+      lastBatch: (state) => state.chat.lastBatch,
+      allowScrollToEnd: (state) => state.chat.allowScrollToEnd,
+    }),
   },
-  mounted () {
-    this.$store.dispatch('connectXMPP')
-    this.scrollToEnd()
+  mounted() {
+    this.$store.dispatch("connectXMPP");
+    this.scrollToEnd();
   },
-  updated () {
+  updated() {
     if (this.allowScrollToEnd) {
-      this.scrollToEnd()
+      this.scrollToEnd();
     }
   },
   methods: {
-    handleScroll (e) {
-      const content = this.$refs.chatContainer
-      if (content && content.scrollTop === 0 && this.lastBatch && !this.lastBatch.complete) {
+    handleScroll(e) {
+      const content = this.$refs.chatContainer;
+      if (
+        content &&
+        content.scrollTop === 0 &&
+        this.lastBatch &&
+        !this.lastBatch.complete
+      ) {
         setTimeout(() => {
-          this.loadHistory()
-          content.scrollTop = 1200
-        }, 400)
+          this.loadHistory();
+          content.scrollTop = 1200;
+        }, 400);
       }
     },
-    loadHistory () {
-      if (!this.lastBatch.complete) this.$store.dispatch('getMessages')
+    loadHistory() {
+      if (!this.lastBatch.complete) this.$store.dispatch("getMessages");
     },
-    scrollToEnd () {
-      const content = this.$refs.chatContainer
-      if (content) content.scrollTop = content.scrollHeight
+    scrollToEnd() {
+      const content = this.$refs.chatContainer;
+      if (content) content.scrollTop = content.scrollHeight;
     },
-    addMessage (msg) {
-      this.messages.push(msg)
+    addMessage(msg) {
+      this.messages.push(msg);
     },
-    sendMessage (msg) {
-      console.log('msg', msg)
+    sendMessage(msg) {
+      console.log("msg", msg);
       const data = {
         to: this.jid,
-        msg: msg
-      }
-      this.$store.dispatch('sendChatMessage', data)
+        msg: msg,
+      };
+      this.$store.dispatch("sendChatMessage", data);
     },
-    setChat (user) {
-      console.log('hey!')
-      this.$emit('selectedChat')
-      this.jid = user.jid
-      this.chatName = user.name || user.username
-      this.$store.dispatch('getMessages', this.jid)
-    }
-  }
-}
+    setChat(user) {
+      console.log("hey!");
+      this.$emit("selectedChat");
+      this.jid = user.jid;
+      this.chatName = user.name || user.username;
+      this.$store.dispatch("getMessages", this.jid);
+    },
+  },
+};
 </script>
 
 <style lang="scss">
@@ -140,7 +157,7 @@ export default {
 
   &-load-more {
     color: #4f4f4f;
-    text-align:center;
+    text-align: center;
     cursor: pointer;
     text-decoration: underline;
     font-size: 0.8rem;
@@ -202,14 +219,11 @@ export default {
   }
 
   &-body {
-    height: calc(100vh - 70px);
-    overflow-y: scroll;
-    padding: 40px 15px 0 15px;
+    height: calc(100vh - 100px);
+    padding: 40px 0 0 0;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    overflow-x: hidden;
-    overflow-y: scroll;
 
     .nose {
       flex: 1 1 auto;
@@ -220,6 +234,7 @@ export default {
       flex: 0 0 auto;
       display: flex;
       flex-direction: column;
+      padding: 0 15px;
     }
   }
 }

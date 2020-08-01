@@ -48,7 +48,7 @@ export default {
     color: #fff;
   }
 
-  pre {
+  pre, code {
     background: $dark-blue;
     border-radius:4px ;
   }

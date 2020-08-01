@@ -7,6 +7,7 @@ import AxiosDjango from '@/plugins/AxiosDjango'
 import VueApexCharts from 'vue-apexcharts'
 import VueLodash from 'vue-lodash'
 import lodash from 'lodash'
+import vuescroll from 'vuescroll';
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { far } from '@fortawesome/free-regular-svg-icons'
@@ -42,6 +43,14 @@ Vue.use(VueNativeSock, socket, {
   // reconnectionAttempts: 5, // (Number) number of reconnection attempts before giving up (Infinity),
   reconnectionDelay: 3000 // (Number) how long to initially wait before attempting a new (1000)
 })
+
+Vue.use(vuescroll, {
+  ops: {
+    bar: {
+      background: '#5d6de8'
+    }
+  }
+});
 
 new Vue({
   router,

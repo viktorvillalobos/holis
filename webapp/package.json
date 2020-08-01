@@ -40,6 +40,7 @@
     "vue-native-websocket": "^2.0.14",
     "vue-router": "^3.1.6",
     "vue-webrtc": "^1.2.0",
+    "vuescroll": "^4.16.1",
     "vuex": "^3.3.0",
     "webpack": "^4.43.0",
     "webpack-bundle-tracker": "^0.4.3"
