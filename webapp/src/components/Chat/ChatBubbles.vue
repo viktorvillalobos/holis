@@ -55,7 +55,10 @@
         <font-awesome-icon icon="comment-medical" />
       </Btn>
     </li>
-    <li v-for="recent in recents" :key="recent.jid">
+    <li class="history-chat" 
+        v-for="recent in recents" 
+        :key="recent.jid" 
+        @click="handleHistoryChat(recent)">
       <Avatar :img="recent.avatar_thumb" :text="recent.name"/>
     </li>
   </ul>
@@ -78,16 +81,25 @@ export default {
   },
   computed: {
     ...mapState({
-      recents: state => state.chat.recents
+      recents: state => state.chat.recents,
+      currentChatJID: state => state.chat.currentChatJID,
+      currentChatName: state => state.chat.currentChatName,
+      isAsideRightActive: state => state.app.isAsideRightActive
     })
   },
   methods: {
+    handleHistoryChat (recent) {
+      this.$store.commit('setAsideRightActive')
+      this.$store.commit('setCurrentChatName', recent.name )
+      this.$store.commit('setCurrentChatJID', recent.jid)
+      this.$store.dispatch('getMessages', recent.jid)
+    },
     emitAsideHandle () {
-      // TODO: This is for chat store
-      this.$store.commit('setAsideChat')
-      // TODO This is for apps tore.
-      // we need to fixthis
-      this.$emit('asideHandle')
+      if (this.currentChatJID) {
+        this.handleHistoryChat({name: this.currentChatName, jid: this.currentChatJID })
+      } else {
+        this.newChat()
+      }
     },
     newChat () {
       console.log('newChat')
@@ -118,5 +130,9 @@ export default {
     margin: 7px 0;
     cursor: hover;
   }
+}
+
+li {
+  cursor: pointer;
 }
 </style>
