@@ -89,7 +89,7 @@ export default {
   },
   methods: {
     handleHistoryChat (recent) {
-      if (!isAsideRightActive) this.$store.commit('setAsideRightActive')
+      if (!this.isAsideRightActive) this.$store.commit('setAsideRightActive')
       this.$store.commit('setCurrentChatName', recent.name )
       this.$store.commit('setCurrentChatJID', recent.jid)
       this.$store.dispatch('getMessages', recent.jid)
