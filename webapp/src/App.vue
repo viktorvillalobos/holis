@@ -15,11 +15,13 @@
       @error="onError"
     />
 
+
     <router-view></router-view>
   </div>
 </template>
 
 <script>
+
 
 import AOS from 'aos'
 import 'aos/dist/aos.css'
@@ -29,7 +31,7 @@ import WebRTC from '@/components/WebRtc'
 export default {
   name: 'App',
   components: {
-    webrtc: WebRTC
+    webrtc: WebRTC,
   },
   created () {
     AOS.init()

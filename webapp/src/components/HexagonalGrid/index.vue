@@ -167,7 +167,7 @@ export default {
         room: this.room
       }
 
-      this.$socket.send(JSON.stringify(message))
+      window.$socketGrid.sendObj(message)
     },
     getOffset (e) {
       /* LayerX and LayerY Works well in chrome and firefox */

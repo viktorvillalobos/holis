@@ -34,7 +34,7 @@ const store = new Vuex.Store({
       setInterval(() => {
         console.log('heartbeat')
 
-        this.$app.$socket.sendObj({
+        window.$socketGrid.sendObj({
           type: 'grid.heartbeat'
         })
       }, 30000)

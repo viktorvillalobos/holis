@@ -102,7 +102,7 @@ class AreaItem:
             if obj.get("last_seen")
             else None
         )
-        jid = from_str(obj.get("jid"))
+        jid = from_str(obj.get("jid", ""))
 
         return AreaItem(
             id=id,

@@ -3,7 +3,6 @@ version: '3'
 volumes:
   local_postgres_data: {}
   local_postgres_data_backups: {}
-  openfire: {}
 
 services:
   django: &django
@@ -71,19 +70,6 @@ services:
       - "5555:5555"
     command: /start-flower
   
-  openfire:
-    restart: always
-    image: gizmotronic/openfire:4.4.4
-    volumes:
-      - openfire:/var/lib/openfire
-    ports:
-      - 5222:5222
-      - 7070:7070
-      - 7443:7443
-      - 5229:5229
-      - 7777:7777
-      - 9090:9090
-
   node:
     build:
       context: .

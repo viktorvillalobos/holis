@@ -9,15 +9,14 @@ from model_utils.models import TimeStampedModel
 Design Concepts
 ========
 
-1. All is a channel.
-
+1. All is a room.
 
 """
 
 
-class Channel(TimeStampedModel):
+class Room(TimeStampedModel):
     """
-        Channel represent a XMPP Room inside saas
+        Chat Room
     """
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -80,7 +79,7 @@ class Message(TimeStampedModel):
         verbose_name=_("company"),
     )
     channel = models.ForeignKey(
-        Channel,
+        Room,
         verbose_name=_("channel"),
         related_name="messages",
         on_delete=models.CASCADE,
