@@ -1,5 +1,28 @@
 <template>
   <div class="holis-chat-editor">
+    <div v-show="files.length" class="files-slot">
+      <ul>
+        <li v-for="(file, index) in files" :key="index">
+          <div class="file-icon">
+            <img v-if="file.type.includes('image')" :src="fileBlob(file)" :alt="file.name" />
+            <font-awesome-icon
+              v-if="file.type.includes('video') && !file.type.includes('image')"
+              icon="video"
+            />
+            <font-awesome-icon
+              v-else-if="!file.type.includes('video') && !file.type.includes('image')"
+              icon="file-alt"
+            />
+          </div>
+          <div class="file-info">{{file.name}}</div>
+          <button @click="removeFile(index)" class="button is-white">
+            <span class="icon is-small">
+              <font-awesome-icon icon="times" />
+            </span>
+          </button>
+        </li>
+      </ul>
+    </div>
     <editor-menu-bar :editor="editor">
       <div class="menubar" slot-scope="{ commands, isActive }">
         <div>
@@ -74,7 +97,14 @@
           >
             <font-awesome-icon icon="code" />
           </button>
-          <button class="menubar__button" click>
+          <button class="menubar__button" @click="handleFileInput">
+            <input
+              type="file"
+              multiple
+              ref="chatFileInput"
+              @change="filesSelected"
+              class="holis-chat-editor-file-input"
+            />
             <font-awesome-icon icon="paperclip" />
           </button>
           <button class="menubar__button" @click="showEmojiPicker = !showEmojiPicker">
@@ -155,6 +185,7 @@ export default {
         content: "",
       }),
       isSendActive: false,
+      files: [],
     };
   },
   mounted() {
@@ -175,6 +206,22 @@ export default {
     this.editor.destroy();
   },
   methods: {
+    handleFileInput() {
+      this.$refs.chatFileInput.click();
+    },
+    filesSelected(e) {
+      this.files = [];
+      e.target.files.forEach((x) => {
+        console.log("file", x);
+        this.files.push(x);
+      });
+    },
+    fileBlob(e) {
+      return URL.createObjectURL(e);
+    },
+    removeFile (index) {
+      this.files.splice(index, 1)
+    },
     selectEmoji(emoji) {
       this.message = this.message + emoji.data;
       this.showEmojiPicker = false;
@@ -272,6 +319,52 @@ export default {
 
   .editor__content {
     padding: 4px 12px;
+  }
+
+  &-file-input {
+    display: none;
+  }
+
+  .files-slot {
+    position: absolute;
+    bottom: calc(100% + 7px);
+    width: 100%;
+
+    ul {
+      display: flex;
+      background: #fff;
+      border-radius: 4px;
+      border: 1px solid $medium-gray;
+      padding: 10px 8px;
+      max-width: 100%;
+      overflow-x: auto;
+      li {
+        display: flex;
+        width: 230px;
+        height: 66px;
+        background: $light-gray;
+        border-radius: 4px;
+        padding: 10px 8px;
+        justify-content: space-between;
+        margin-right: 8px;
+
+        .file {
+          &-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            overflow: hidden;
+            background-color: $medium-gray;
+          }
+
+          &-info {
+            width: 120px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+        }
+      }
+    }
   }
 }
 
