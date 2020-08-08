@@ -30,6 +30,9 @@ class UserViewSet(
     filterset_fields = ("name", "email", "username")
 
     def get_queryset(self, *args, **kwargs):
+        if self.kwargs.get("id"):
+            return self.queryset.filter(company=self.request.user.company)
+
         return self.queryset.filter(company=self.request.user.company).exclude(
             id=self.request.user.id
         )
@@ -48,9 +51,6 @@ class UserViewSet(
             users, many=True, context={"request": request}
         )
         return Response(status=status.HTTP_200_OK, data=serializer.data)
-
-    def create(self, request):
-        pass
 
 
 class NotificationViewSet(ModelViewSet):
