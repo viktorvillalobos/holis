@@ -57,17 +57,25 @@ class UploadFileAPIView(views.APIView):
 
 class RecentChatsAPIView(generics.ListAPIView):
     serializer_class = serializers.RecentsSerializer
-    queryset = users_models.User.objects.all()
+    queryset = chat_models.Message.objects.all()
+    pagination_class = None
 
     def get_queryset(self):
         qs = super().get_queryset().filter(company=self.request.user.company)
 
-        ids = (
-            chat_models.Message.objects.order_by("user__id")
+        return (
+            qs.order_by("user__id")
+            .exclude(user__id=self.request.user.id)
             .distinct("user__id")
-            .values_list("user__id", flat=True)
-        )
+        )[:3]
 
-        ids = [x for x in ids if id != self.request.user.id]
 
-        return qs.filter(id__in=ids)[:3]
+class MessageListAPIView(generics.ListAPIView):
+    queryset = chat_models.Message.objects.all()
+    serializer_class = serializers.MessageSerializer
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        return qs.filter(
+            room__id=self.kwargs["id"], company=self.request.user.company
+        ).order_by("-created")

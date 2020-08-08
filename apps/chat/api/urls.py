@@ -15,6 +15,7 @@ urlpatterns = [
     path("get-turn-credentials/", views.GetTurnCredentialsAPIView.as_view()),
     path("upload-file/", views.UploadFileAPIView.as_view()),
     path("recents/", views.RecentChatsAPIView.as_view()),
+    path("room/<uuid:id>/messages/", views.MessageListAPIView.as_view()),
 ]
 
 urlpatterns += router.urls

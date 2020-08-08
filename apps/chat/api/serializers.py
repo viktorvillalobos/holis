@@ -10,6 +10,16 @@ class GetOrCreateRoomSerializer(serializers.Serializer):
 
 
 class RecentsSerializer(serializers.ModelSerializer):
+    name = serializers.CharField(source="user.name")
+    id = serializers.CharField(source="user.id")
+    avatar_thumb = serializers.CharField(source="user.avatar_thumb")
+
     class Meta:
-        model = user_models.User
-        fields = ("name", "jid", "avatar_thumb")
+        model = chat_models.Message
+        fields = ("name", "id", "avatar_thumb", "room")
+
+
+class MessageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = chat_models.Message
+        fields = '__all__'
