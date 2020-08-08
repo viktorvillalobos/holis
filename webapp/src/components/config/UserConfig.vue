@@ -21,15 +21,31 @@
           </div>
           <div class="field">
             <label class="label">Tu email</label>
-            <input v-model="instance.email" class="input" type="email" placeholder="juaninjuanharry@mail.com" maxlength="50" />
+            <input
+              v-model="instance.email"
+              class="input"
+              type="email"
+              placeholder="juaninjuanharry@mail.com"
+              maxlength="50"
+            />
           </div>
           <div class="field">
             <label class="label">Tu nombre</label>
-            <input v-model="instance.name" class="input" type="text" placeholder="Juanin Juan Harry" />
+            <input
+              v-model="instance.name"
+              class="input"
+              type="text"
+              placeholder="Juanin Juan Harry"
+            />
           </div>
           <div class="field">
             <label class="label">Tu cargo</label>
-            <input class="input" type="text" v-model="instance.position" placeholder="Ex. News producer, Studios\'s coordinator" />
+            <input
+              class="input"
+              type="text"
+              v-model="instance.position"
+              placeholder="Ex. News producer, Studios\'s coordinator"
+            />
           </div>
           <div class="field">
             <label class="label">Tu cumpleaños</label>
@@ -46,7 +62,11 @@
                 <div class="select is-fullwidth">
                   <select v-model="birthday[1]">
                     <option :value="null">Mes</option>
-                    <option v-for="N in 12" :key="N" :value="N < 9 ? '0' + N : N">{{$moment().month(N - 1).format('MMMM')}}</option>
+                    <option
+                      v-for="N in 12"
+                      :key="N"
+                      :value="N < 9 ? '0' + N : N"
+                    >{{$moment().month(N - 1).format('MMMM')}}</option>
                   </select>
                 </div>
               </div>
@@ -86,7 +106,7 @@ export default {
   data: () => ({
     instance: {},
     min: null,
-    birthday: [null, null, null]
+    birthday: [null, null, null],
   }),
   computed: {
     ...mapState({
@@ -94,15 +114,15 @@ export default {
     }),
   },
   created () {
-    if (!this.user) this.getUser()
-
-    this.instance = this._.cloneDeep(this.user)
-    if (this.instance.birthday) {
-      this.birthday = this.instance.birthday.split('-')
-    }
+    if (this.user) this.setInstance()
   },
   methods: {
-    getUser() {},
+    setInstance() {
+      this.instance = this._.cloneDeep(this.user);
+      if (this.instance.birthday) {
+        this.birthday = this.instance.birthday.split("-");
+      }
+    },
     range() {
       let array = [],
         j = 0;
@@ -114,12 +134,19 @@ export default {
       }
       return array.reverse();
     },
-    handleSubmit () {
-      this.instance.birthday = this.birthday.join('-')
+    handleSubmit() {
+      this.instance.birthday = this.birthday.join("-");
 
-      this.$store.dispatch('editUser', this.instance)
-    }
+      delete this.instance.avatar;
+
+      this.$store.dispatch("editUser", this.instance);
+    },
   },
+  watch: {
+    user (val) {
+      if (val) this.setInstance()
+    }
+  }
 };
 </script>
 

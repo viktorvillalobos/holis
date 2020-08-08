@@ -72,10 +72,7 @@ export default {
       inputVolume: 100,
       outputVolume: 100,
     },
-  }),
-  created() {
-    bulmaSlider.attach();
-  },
+  })
 };
 </script>
 
