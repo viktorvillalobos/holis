@@ -52,4 +52,6 @@ $control-border-width: 1px;
 $input-shadow: none;
 $modal-background-background-color: rgba(0, 0, 0, .4);
 
+$slider-track-background: $primary;
+
 @import "../node_modules/bulma/bulma.sass";

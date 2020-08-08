@@ -10,6 +10,9 @@
           <font-awesome-icon icon="chart-pie" />
       </li>
       -->
+        <li @click="goTo('user-config')" :class="{'active' : $route.name === 'user-config'}">
+          <font-awesome-icon icon="cog" />
+        </li>
       </ul>
     </card>
 

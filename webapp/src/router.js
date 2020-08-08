@@ -1,14 +1,13 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import AppContainer from '@/components/AppContainer.vue'
-import Workspace from '@/components/Auth/Workspace.vue'
-import WhoYou from '@/components/Auth/WhoYou.vue'
-import Invite from '@/components/Auth/Invite.vue'
-import Company from '@/components/Auth/Company.vue'
-import SignIn from '@/components/Auth/SignIn.vue'
 import Office from '@/views/office.vue'
 import Reports from '@/views/reports.vue'
-import Auth from '@/views/auth.vue'
+
+import config from '@/views/config.vue'
+import UserConfig from '@/components/config/UserConfig'
+import VoiceAndVideo from '@/components/config/VoiceAndVideo'
+import Notifications from '@/components/config/Notifications'
 
 Vue.use(Router)
 
@@ -30,38 +29,28 @@ const router = new Router({
           path: 'reports',
           name: 'reports',
           component: Reports
-        }
-      ]
-    },
-    {
-      path: '/auth/',
-      name: '',
-      component: Auth,
-      children: [
-        {
-          path: 's/',
-          name: 'workspace',
-          component: Workspace
         },
         {
-          path: 's/:workspaceName',
-          name: 'sign-in',
-          component: SignIn
-        },
-        {
-          path: 'c/',
-          name: 'create-workspace',
-          component: WhoYou
-        },
-        {
-          path: 'c/company',
-          name: 'create-company',
-          component: Company
-        },
-        {
-          path: 'c/invite',
-          name: 'create-invitations',
-          component: Invite
+          path: 'config',
+          name: 'config',
+          component: config,
+          children: [
+            {
+              path: '',
+              name: 'user-config',
+              component: UserConfig
+            },
+            {
+              path: '/voice-and-video',
+              name: 'voice-and-video-config',
+              component: VoiceAndVideo
+            },
+            {
+              path: '/notifications',
+              name: 'notifications-config',
+              component: Notifications
+            }
+          ]
         }
       ]
     }

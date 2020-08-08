@@ -21,8 +21,8 @@
           <font-awesome-icon v-if="!muteMicro" icon="microphone-alt" />
           <font-awesome-icon v-else icon="microphone-alt-slash" />
         </li>
-        <li>
-          <font-awesome-icon icon="sliders-h" />
+        <li @click="handleLogout">
+          <font-awesome-icon icon="sign-out-alt" />
         </li>
       </ul>
     </div>
@@ -145,6 +145,8 @@ export default {
       }
 
       this.$socket.sendObj(message)
+    },
+    handleLogout () {
     }
   },
   watch: {
