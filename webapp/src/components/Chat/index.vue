@@ -107,7 +107,6 @@ export default {
   },
   methods: {
     handleScroll(vertical, horizonal, nativeEvent) {
-      console.log('handleScroll')
       const content = this.$refs.chatContainer;
       if (
         content &&

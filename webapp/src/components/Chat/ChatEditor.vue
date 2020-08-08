@@ -167,7 +167,6 @@ export default {
     window.$chatEditor = this
     this.editor.on("update", ({ state, getHTML, getJSON }) => {
       const newContent = getHTML()
-      console.log("ugh", getHTML(), getJSON())
       if (newContent !== "<p></p>") {
         this.isSendActive = true
       } else {
