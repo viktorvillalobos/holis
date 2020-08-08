@@ -187,7 +187,7 @@ export default {
       };
       this.$emit("enter", msg);
 
-      this.message = "";
+      this.editor.clearContent()
     },
   },
 };
