@@ -59,6 +59,12 @@ const actions = {
   async getMe ({ commit }) {
     const { data } = await apiClient.app.getMe()
     commit('setUser', data)
+  },
+  async editUser ({commit}, payload) {
+    const {data} = await apiClient.app.editUser(payload)
+
+    console.log("Saving User Data")
+    console.log(data)
   }
 }
 

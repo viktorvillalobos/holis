@@ -16,4 +16,7 @@ export default {
   getMe () {
     return axios.get(`${urlBase}/users/list/me/`)
   }
+  editUser (payload) {
+    return axios.patch(`${urlBase}/users/list/${payload.username}/`, payload)
+  }
 }
