@@ -1,16 +1,15 @@
 import uuid
-
+from typing import Optional
 from apps.chat import models as chat_models
 from apps.users import models as users_models
-from apps.utils import openfire
 from django.db import DatabaseError, models, transaction
 
 
-class ChannelCreationXMPPError(Exception):
+class RoomCreationXMPPError(Exception):
     pass
 
 
-class ChannelCreationDBError(Exception):
+class RoomCreationDBError(Exception):
     pass
 
 
@@ -18,49 +17,39 @@ class NonExistentMemberException(Exception):
     pass
 
 
-class ChannelUCBase:
+class RoomUCBase:
     def execute(self):
-        sid = transaction.savepoint()
-
         try:
-            channel = self._create_django_channel()
+            self.room = self.get_or_create_room()
         except DatabaseError as ex:
-            raise ChannelCreationDBError(str(ex))
+            raise RoomCreationDBError(str(ex))
+        return self
 
-        try:
-            self._create_xmpp_channel(channel)
-            transaction.savepoint_commit(sid)
-            self.channel = channel
-            return self
-        except Exception as ex:
-            transaction.savepoint_rollback(sid)
-            raise ChannelCreationXMPPError(str(ex))
-
-    def get_channel(self):
-        return self.channel
+    def get_room(self):
+        return self.room
 
 
-class CreateOneToOneChannelUC(ChannelUCBase):
-    def __init__(self, company, members) -> None:
+class RoomCreate(RoomUCBase):
+    def __init__(self, company, members_ids) -> None:
         self.company = company
-        self.members = self.get_members(members)
+        self.members_ids = members_ids
+        self.members = self.get_members()
         self.name = str(uuid.uuid4())
 
-    def get_members(self, members):
-        result = []
-        for x in members:
-            try:
-                x = users_models.User.objects.get(id=x)
-                result.append(x)
-            except users_models.User.DoesNotExist:
-                raise NonExistentMemberException('User does not exist')
+    def get_members(self):
+        results = users_models.User.objects.filter(
+            id__in=self.members_ids, company=self.company
+        )
 
-        return result
+        if results.count() != len(self.members_ids):
+            raise NonExistentMemberException('User does not exist')
 
-    def _create_django_channel(self):
-        existent = self.get_existent_channel()
-        if existent:
-            return existent
+        return results
+
+    def get_or_create_room(self):
+        instance = self.get_room()
+        if instance:
+            return instance
 
         data = {
             "company": self.company,
@@ -70,7 +59,7 @@ class CreateOneToOneChannelUC(ChannelUCBase):
             "members_only": True,
             "max_users": 2,
         }
-        channel = chat_models.Channel.objects.create(**data)
+        channel = chat_models.Room.objects.create(**data)
 
         for x in self.members:
             channel.members.add(x)
@@ -78,25 +67,12 @@ class CreateOneToOneChannelUC(ChannelUCBase):
 
         return channel
 
-    def _create_xmpp_channel(self, channel):
-        muc = openfire.Muc()
-        muc.add_room(
-            str(channel.id),
-            name=str(channel.id),
-            description="one to one channel",
-            maxusers=channel.max_users,
-            members=[str(x.jid) for x in self.members],
-        )
-
-    def get_existent_channel(self):
-        try:
-            return (
-                chat_models.Channel.objects.filter(
-                    members__in=self.members, is_one_to_one=True
-                )
-                .annotate(num_members=models.Count('members'))
-                .filter(num_members=2)
-                .first()
+    def get_room(self) -> Optional[chat_models.Room]:
+        return (
+            chat_models.Room.objects.filter(
+                members__in=self.members, is_one_to_one=True
             )
-        except chat_models.Channel.DoesNotExist:
-            pass
+            .annotate(num_members=models.Count('members'))
+            .filter(num_members=2)
+            .first()
+        )

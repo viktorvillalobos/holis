@@ -78,7 +78,7 @@ class Message(TimeStampedModel):
         on_delete=models.CASCADE,
         verbose_name=_("company"),
     )
-    channel = models.ForeignKey(
+    room = models.ForeignKey(
         Room,
         verbose_name=_("channel"),
         related_name="messages",

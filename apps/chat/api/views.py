@@ -4,80 +4,41 @@ import uuid
 from apps.chat import uc as chat_uc
 from apps.chat.api import serializers
 from apps.utils import openfire
-from apps.chat.models import openfire as of_models
+from apps.chat import models as chat_models
 from apps.users import models as users_models
 from django.conf import settings
-from rest_framework import exceptions, views
+from rest_framework import exceptions, views, generics
 from rest_framework.response import Response
 from twilio.rest import Client
 
 logger = logging.getLogger(__name__)
 
 
-class GetChatCredentialsAPIView(views.APIView):
-    """
-        This endpoint, emulate the generation
-        of custom password for xmpp, the password
-        must be changed every time the user login.
+class GetOrCreateRoomAPIView(views.APIView):
+    serializer_class = serializers.GetOrCreateRoomSerializer
 
-        Steps:
+    def post(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
 
-        1) Generate custom password.
-        2) Change the password using openfire api.
-        3) Send the password to client.
+        if not serializer.validated_data["many"]:
+            room = self.get_one_to_one_room(serializer.validated_data)
+        else:
+            raise exceptions.ValidationError({"many"})
 
-    """
+        return Response({"id": room.id}, status=200)
 
-    def get_jid(self):
-        self.jid = self.request.user.jid
+    def get_one_to_one_room(self, validated_data: dict) -> chat_models.Room:
         try:
-            self.username, self.domain = self.jid.split('@')
-        except Exception:
-            raise exceptions.ValidationError('Bad formed JID')
-
-    def generate_new_password(self):
-        users = openfire.users.Users()
-        self.generated_code = str(uuid.uuid4())
-        try:
-            users.update_user(self.username, password=self.generated_code)
-        except openfire.exceptions.UserNotFoundException:
-            raise exceptions.ValidationError(
-                "Error changing password: user not found in xmpp server"
+            return (
+                chat_uc.RoomCreate(
+                    self.request.user.company, validated_data["members"],
+                )
+                .execute()
+                .get_room()
             )
-
-    def get(self, request, *args, **kwargs):
-        self.get_jid()
-        self.generate_new_password()
-
-        return Response(
-            {
-                "token": self.generated_code,
-                "jid": self.jid,
-                "domain": self.domain,
-                "username": self.username,
-            },
-            status=200,
-        )
-
-
-# class GetOrCreateChannelAPIView(views.APIView):
-#     serializer_class = serializers.GetOrCreateChannelSerializer
-
-#     def post(self, request, *args, **kwargs):
-#         serializer = self.serializer_class(data=request.data)
-#         serializer.is_valid(raise_exception=True)
-#         try:
-#             channel = (
-#                 chat_uc.CreateOneToOneChannelUC(
-#                     self.request.user.company,
-#                     serializer.validated_data["members"],
-#                 )
-#                 .execute()
-#                 .get_channel()
-#             )
-#         except chat_uc.NonExistentMemberException:
-#             raise exceptions.ValidationError('Member not exist')
-#         return Response({"jid": channel.id}, status=200)
+        except chat_uc.NonExistentMemberException:
+            raise exceptions.ValidationError('Member not exist')
 
 
 class GetTurnCredentialsAPIView(views.APIView):
@@ -94,23 +55,19 @@ class UploadFileAPIView(views.APIView):
     pass
 
 
-class RecentChatsAPIView(views.APIView):
-    def get(self, request, *args, **kwargs):
-        ids = list(
-            set(
-                of_models.OfMessageArchive.objects.using("openfire")
-                .order_by("-messageid")
-                .values_list("fromjid", "tojid")
-            )
+class RecentChatsAPIView(generics.ListAPIView):
+    serializer_class = serializers.RecentsSerializer
+    queryset = users_models.User.objects.all()
+
+    def get_queryset(self):
+        qs = super().get_queryset().filter(company=self.request.user.company)
+
+        ids = (
+            chat_models.Message.objects.order_by("user__id")
+            .distinct("user__id")
+            .values_list("user__id", flat=True)
         )
 
-        ids = list(
-            set([i for sub in ids for i in sub if i != self.request.user.jid])
-        )
+        ids = [x for x in ids if id != self.request.user.id]
 
-        users = users_models.User.objects.filter(jid__in=ids)[:3]
-        results = [
-            {"jid": x.jid, "name": x.name, "avatar_thumb": x.avatar_thumb}
-            for x in users
-        ]
-        return Response(results, status=200)
+        return qs.filter(id__in=ids)[:3]
