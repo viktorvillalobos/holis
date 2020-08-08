@@ -60,7 +60,7 @@ class User(AbstractUser):
         on_delete=models.SET_NULL,
         related_name="currents",
     )
-    birthday = BirthdayField()
+    birthday = BirthdayField(null=True, blank=True)
 
     avatar = ImageField(
         _("avatar"), blank=True, null=True, upload_to="avatars"

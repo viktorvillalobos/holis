@@ -26,7 +26,7 @@ class UserViewSet(
 ):
     serializer_class = serializers.UserSerializer
     queryset = User.objects.all()
-    lookup_field = "username"
+    lookup_field = "id"
     filterset_fields = ("name", "email", "username")
 
     def get_queryset(self, *args, **kwargs):
