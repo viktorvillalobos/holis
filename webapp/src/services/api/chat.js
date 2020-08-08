@@ -4,9 +4,6 @@ import axios from 'axios'
 import { urlBase } from '../config'
 
 export default {
-  getCredentials () {
-    return axios.get(`${urlBase}/chat/get-chat-credentials/`)
-  },
   getTurnCredentials () {
     return axios.get(`${urlBase}/chat/get-turn-credentials/`)
   },
@@ -16,4 +13,7 @@ export default {
   getRecents () {
     return axios.get(`${urlBase}/chat/recents/`)
   },
+  getMessages (room) {
+    return axios.get(`${urlBase}/chat/room/${room}/messages/`, { params: { limit: 20 } })
+  }
 }

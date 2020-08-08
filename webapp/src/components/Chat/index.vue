@@ -23,7 +23,7 @@
         </ul>
       </card>
     </div>
-    <chat-header v-if="!newChat" :chat-name="chatName" />
+    <chat-header v-if="!newChat" :chat-name="currentChatName" />
     <div
       v-if="!newChat"
       class="connect-chat-body"
@@ -81,7 +81,6 @@ export default {
   data() {
     return {
       searchPerson: "",
-      chatName: "Juanin Juan Harry",
       jid: "",
       patternChat: pattern
     };
@@ -141,10 +140,11 @@ export default {
     },
     setChat (user) {
       console.log('hey!')
+      console.log(user)
       this.$emit('selectedChat')
       this.$store.commit('setCurrentChatName', user.name || user.username)
-      this.$store.commit('setCurrentChatJID', user.jid)
-      this.$store.dispatch('getMessages', user.jid)
+      this.$store.commit('setCurrentChatID', user.id)
+      this.$store.dispatch('getMessages', user.room)
     }
   }
 }

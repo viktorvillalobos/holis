@@ -21,7 +21,8 @@ const state = {
   socketChat: process.env.NODE_ENV === 'production'
     ? `wss://${location.hostname}:${location.port}/chat/`
     : `ws://${location.hostname}:${location.port}/chat/`,
-  room: 'general'
+  room: 'general',
+  currentChatID: null
 }
 
 const getters = {
@@ -37,8 +38,8 @@ const mutations = {
   setCurrentChatName (state, name) {
     state.currentChatName = name
   },
-  setCurrentChatJID (state, jid) {
-    state.currentChatJID = jid
+  setCurrentChatID (state, userId) {
+    state.currentChatID = userId
   },
   setLastBatch (state, batch) {
     state.lastBatch = batch
@@ -70,8 +71,8 @@ const mutations = {
   clearTempMessages (state) {
     state.tempMessages = []
   },
-  unshiftMessage (state, msg) {
-    state.messages.unshift(msg)
+  unshiftMessages (state, messages) {
+    state.messages = [...messages, state.messages]
   },
   clearMessages (state) {
     state.messages = []
@@ -119,6 +120,10 @@ const actions = {
   onMessage ({ commit }, message) {
     message = JSON.parse(message)
     console.log(message)
+  },
+  async getMessages ({ commit }, room) {
+    const { data } = await apiClient.chat.getMessages(room)
+    commit('unshiftMessages', data.results)
   }
 }
 

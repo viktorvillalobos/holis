@@ -57,7 +57,7 @@
     </li>
     <li class="history-chat" 
         v-for="recent in recents" 
-        :key="recent.jid" 
+        :key="recent.id" 
         @click="handleHistoryChat(recent)">
       <Avatar :img="recent.avatar_thumb" :text="recent.name"/>
     </li>
@@ -82,7 +82,7 @@ export default {
   computed: {
     ...mapState({
       recents: state => state.chat.recents,
-      currentChatJID: state => state.chat.currentChatJID,
+      currentChatID: state => state.chat.currentChatID,
       currentChatName: state => state.chat.currentChatName,
       isAsideRightActive: state => state.app.isAsideRightActive
     })
@@ -91,12 +91,12 @@ export default {
     handleHistoryChat (recent) {
       if (!this.isAsideRightActive) this.$store.commit('setAsideRightActive')
       this.$store.commit('setCurrentChatName', recent.name )
-      this.$store.commit('setCurrentChatJID', recent.jid)
-      this.$store.dispatch('getMessages', recent.jid)
+      this.$store.commit('setCurrentChatID', recent.id)
+      this.$store.dispatch('getMessages', recent.room)
     },
     emitAsideHandle () {
       if (this.currentChatJID) {
-        this.handleHistoryChat({name: this.currentChatName, jid: this.currentChatJID })
+        this.handleHistoryChat({name: this.currentChatName, id: this.currentChatID })
       } else {
         this.newChat()
       }
