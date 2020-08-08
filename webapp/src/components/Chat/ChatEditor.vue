@@ -82,7 +82,7 @@
           </button>
         </div>
 
-        <div>
+          <div>
           <button
             class="menubar__button menubar__button__send"
             @click="submit"
@@ -93,14 +93,16 @@
         </div>
       </div>
     </editor-menu-bar>
-    <editor-content class="editor__content" :editor="editor" />
+    <editor-content class="editor__content" :editor="editor"/>
     <VEmojiPicker v-if="showEmojiPicker" @select="selectEmoji" />
   </div>
 </template>
 <script>
 import VEmojiPicker from "v-emoji-picker";
-import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import { Editor, EditorContent, EditorMenuBar } from "tiptap";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
+import { Editor, EditorContent, EditorMenuBar } from "tiptap"
+import { EnterHandler } from './Extensions'
+
 import {
   Blockquote,
   CodeBlock,
@@ -119,7 +121,9 @@ import {
   Strike,
   Underline,
   History,
-} from "tiptap-extensions";
+} from "tiptap-extensions"
+
+
 
 export default {
   components: {
@@ -134,6 +138,7 @@ export default {
       message: "",
       editor: new Editor({
         extensions: [
+          new EnterHandler(),
           new Blockquote(),
           new BulletList(),
           new CodeBlock(),
@@ -158,17 +163,17 @@ export default {
     };
   },
   mounted() {
-    let self = this;
+    let self = this
+    window.$chatEditor = this
     this.editor.on("update", ({ state, getHTML, getJSON }) => {
-      const newContent = getHTML();
-      console.log("ugh", getHTML(), getJSON());
+      const newContent = getHTML()
       if (newContent !== "<p></p>") {
-        this.isSendActive = true;
+        this.isSendActive = true
       } else {
-        this.isSendActive = false;
+        this.isSendActive = false
       }
 
-      this.message = newContent;
+      this.message = newContent
     });
   },
   beforeDestroy() {
@@ -187,7 +192,7 @@ export default {
       };
       this.$emit("enter", msg);
 
-      this.message = "";
+      this.editor.clearContent()
     },
   },
 };

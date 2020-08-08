@@ -27,8 +27,6 @@
     <div
       v-if="!newChat"
       class="connect-chat-body"
-      v-on:scroll.passive="handleScroll"
-      ref="chatContainer"
     >
       <div class="nose"></div>
       <span
@@ -36,7 +34,8 @@
         class="connect-chat-load-more"
         @click="loadHistory()"
       >Load history</span>
-      <vue-scroll>
+      <vue-scroll ref="chatContainer"
+                  @handle-scroll="handleScroll">
         <div class="connect-chat-body-messages-wrapper">
           <message
             v-for="msg in messages"
@@ -107,7 +106,7 @@ export default {
     }
   },
   methods: {
-    handleScroll(e) {
+    handleScroll(vertical, horizonal, nativeEvent) {
       const content = this.$refs.chatContainer;
       if (
         content &&
@@ -126,7 +125,7 @@ export default {
     },
     scrollToEnd() {
       const content = this.$refs.chatContainer;
-      if (content) content.scrollTop = content.scrollHeight;
+      if (content) content.scrollTo( { y: "100%" } , content.scrollHeight)
     },
     addMessage(msg) {
       this.messages.push(msg);
@@ -138,6 +137,7 @@ export default {
         msg: msg
       }
       this.$store.dispatch('sendChatMessage', data)
+      this.scrollToEnd()
     },
     setChat (user) {
       console.log('hey!')

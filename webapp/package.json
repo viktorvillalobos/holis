@@ -85,6 +85,9 @@
   "gitHooks": {
     "pre-commit": "lint-staged"
   },
+  "resolutions": {
+    "prosemirror-model": "1.9.1"
+  },
   "lint-staged": {
     "*.{js,jsx,vue}": [
       "vue-cli-service lint",
