@@ -51,7 +51,7 @@ class UserViewSet(
         return Response(status=status.HTTP_200_OK, data=serializer.data)
 
     @action(detail=False, methods=["PATCH"])
-    def edit(self, request):
+    def profile(self, request):
         serializer = self.serializer_class(
             request.user,
             data=request.data,
