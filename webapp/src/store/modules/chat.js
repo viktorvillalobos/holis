@@ -1,5 +1,4 @@
 import apiClient from '../../services/api'
-import * as XMPP from 'stanza'
 
 const IS_PRODUCTION = process.env.NODE_ENV === 'production'
 
@@ -98,7 +97,6 @@ const actions = {
   async connectToRoom ({ commit, state, getters, dispatch }, { vm, room }) {
     commit('setRoom', room)
 
-
     vm.$connect(getters.chatUrl, {
       format: 'json',
       reconnection: true,
@@ -107,19 +105,11 @@ const actions = {
     window.$socketChat = vm.$socket
 
     window.$socketChat.onmessage = message => dispatch('onMessage', message.data)
-
-    // esto deberia estar en su modulo
-    vm.$connect(state.socketGrid, {
-      store: vm.$store,
-      format: 'json',
-      reconnection: true,
-      reconnectionDelay: 3000
-    })
-    window.$socketGrid = vm.$socket
   },
   onMessage ({ commit }, message) {
     message = JSON.parse(message)
     console.log(message)
+    commit('addMessage', message)
   },
   async getMessagesByRoom ({ commit }, room) {
     console.log(`Getting messages from ${room}`)
@@ -131,6 +121,10 @@ const actions = {
     const { data } = await apiClient.chat.getRoomByUserID(to)
 
     dispatch('getMessagesByRoom', data.id)
+    dispatch('connectToRoom', { vm: this.$app, room: data.id })
+  },
+  sendChatMessage({ commit, state }, { msg }) {
+    window.$socketChat.sendObj({ type: "chat.message", message: msg.message , room: state.room})
   }
 }
 

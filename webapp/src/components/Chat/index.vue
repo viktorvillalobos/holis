@@ -97,7 +97,6 @@ export default {
     })
   },
   mounted() {
-    this.$store.dispatch('connectToRoom', { vm: this, room: 'general' })
     this.scrollToEnd();
   },
   updated() {

@@ -56,12 +56,12 @@ class MainConsumer(NotificationMixin, GridMixin, MainConsumerBase):
 
         if _type == "error":
             return await self.send_json({"error": _msg})
-        elif _type == "chat.message":
-            message: Dict = {
-                "message": content["message"],
-                "user": self.scope["user"].username,
-            }
-            return await self.notification(message)
+        # elif _type == "chat.message":
+        #     message: Dict = {
+        #         "message": content["message"],
+        #         "user": self.scope["user"].username,
+        #     }
+        #     return await self.notification(message)
         elif _type == "grid.position":
             await self.handle_grid_position(content)
         elif _type == "grid.clear":
@@ -73,7 +73,7 @@ class MainConsumer(NotificationMixin, GridMixin, MainConsumerBase):
         elif _type == "grid.force.disconnect":
             await self.force_disconnect(content)
         else:
-            _msg = _("type not handled")
+            _msg = _("type not handled by GridConsumer")
             return await self.send_json({"error": _msg})
 
     async def connect(self):

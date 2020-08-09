@@ -1,6 +1,6 @@
 import logging
 from channels.generic.websocket import AsyncJsonWebsocketConsumer
-from channels.db import database_sync_to_async
+from .utils import create_message
 
 
 logger = logging.getLogger(__name__)
@@ -14,6 +14,19 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
             return self.scope["url_route"]["kwargs"]["room_name"]
         except KeyError:
             raise Exception("CHAT: Error getting channel name from route")
+
+    async def receive_json(self, content):
+
+        _type = content["type"]
+
+        logger.info(f"Chat type: {_type}")
+
+        if _type == "echo":
+            await self.chat_echo(content)
+        elif _type == "chat.message":
+            await self.broadcast_chat_message(content)
+        else:
+            logger.info(f" {_type} type is not handled by ChatConsumer")
 
     async def connect(self):
         self.room_group_name = f"chat_{self.room_name}"
@@ -38,36 +51,21 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
         }
         await self.channel_layer.group_send(self.room_group_name, _msg)
 
-    @property
-    def events(self):
-        return {
-            "echo": self.chat_echo,
-            "chat.message": self.broadcast_chat_message,
-        }
-
-    async def receive_json(self, content):
-
-        _type = content["type"]
-
-        logger.info(f"Chat type: {_type}")
-        try:
-            await self.events[_type](content)
-        except KeyError:
-            logger.info(f" {_type} type is not handled")
-
     async def broadcast_chat_message(self, content):
+        assert isinstance(content["room"], str)
+        assert isinstance(content["message"], str)
         logger.info("broadcast_chat_message")
+        user = self.scope["user"]
         _msg = {
             "type": "chat.message",
             "message": content["message"],
-            "user": {
-                "name": self.scope["user"].name,
-                "avatar": self.scope["user"].avatar_thumb
-            }
+            "user": {"name": user.name, "avatar": user.avatar_thumb},
         }
+        await create_message(user, content["room"], content["message"])
         await self.channel_layer.group_send(self.room_group_name, _msg)
 
     async def chat_echo(self, event):
+        logger.info("chat_echo")
         await self.send_json({"type": "chat.echo", "status": "ok"})
 
     async def chat_presence(self, event):

@@ -60,6 +60,16 @@ const actions = {
   },
   setCurrentState ({ commit }, state) {
     commit('setCurrentState', state)
+  },
+  async connectToGrid ({ commit }, { vm }) {
+    // esto deberia estar en su modulo
+    vm.$connect(state.socketGrid, {
+      store: vm.$store,
+      format: 'json',
+      reconnection: true,
+      reconnectionDelay: 3000
+    })
+    window.$socketGrid = vm.$socket
   }
 }
 

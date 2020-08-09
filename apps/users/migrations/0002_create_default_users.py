@@ -41,13 +41,17 @@ def create_base_status(StatusModel, user):
     StatusModel.objects.bulk_create(objects)
 
 
-def create_django_user(UserModel, company, email, birthday):
+def create_django_user(UserModel, company, email, name, position, birthday):
     return UserModel.objects.create(
         company=company,
         email=email,
         username=email,
         birthday=birthday,
+        name=name,
+        position=position,
         password=make_password("holis123"),
+        is_superuser=True,
+        is_staff=True,
     )
 
 
@@ -59,16 +63,36 @@ def create_base_users(apps, schema_editor):
     firesoft = Company.objects.get(code="firesoft")
 
     user1 = create_django_user(
-        User, adslab, "viktor@holis.chat", dt.date(1992, 4, 14)
+        User,
+        adslab,
+        "viktor@holis.chat",
+        "Viktor",
+        "CTO",
+        dt.date(1992, 4, 14),
     )
     user2 = create_django_user(
-        User, adslab, "julls@holis.chat", dt.date(1995, 8, 15)
+        User,
+        adslab,
+        "julls@holis.chat",
+        "Julls",
+        "Product Maker",
+        dt.date(1995, 8, 15),
     )
     user3 = create_django_user(
-        User, firesoft, "viktor@firesoft.org", dt.date(1992, 4, 14)
+        User,
+        firesoft,
+        "viktor@firesoft.org",
+        "Viktor",
+        "CTO",
+        dt.date(1992, 4, 14),
     )
     user4 = create_django_user(
-        User, firesoft, "julls@firesoft.org", dt.date(1995, 8, 15)
+        User,
+        firesoft,
+        "julls@firesoft.org",
+        "Julls",
+        "Product Maker",
+        dt.date(1995, 8, 15),
     )
 
     create_base_status(Status, user1)
