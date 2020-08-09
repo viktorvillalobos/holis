@@ -1,11 +1,15 @@
 import uuid
+import logging
 import random
+import os
 from apps.core import models as core_models
 from apps.users import models
 from apps.users.api import serializers
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
+from django.core.validators import FileExtensionValidator
 from rest_framework import generics, permissions, status, views, exceptions
+from rest_framework.parsers import FileUploadParser
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.decorators import action
 from rest_framework.mixins import (
@@ -19,6 +23,8 @@ from rest_framework.viewsets import GenericViewSet, ModelViewSet
 from apps.web import models as web_models
 
 User = get_user_model()
+
+logger = logging.getLogger(__name__)
 
 
 class UserViewSet(
@@ -133,3 +139,29 @@ class SetStatusAPIView(views.APIView):
         status.is_active = True
         status.save()
         return Response(status=200)
+
+
+class UploadAvatarAPIView(views.APIView):
+    parser_class = (FileUploadParser,)
+
+    def post(self, request, *args, **kwargs):
+        user = get_object_or_404(models.User, pk=self.kwargs["pk"])
+
+        avatar = request.data.get("avatar")
+
+        self.validate_extensions(avatar)
+        user.avatar = avatar
+        user.save()
+
+        return Response(serializers.UserSerializer(user).data, status=200)
+
+    def validate_extensions(self, avatar):
+        if isinstance(avatar, str):
+            return True
+
+        valid_extensions = [".jpeg", ".jpg", ".png"]
+        ext = os.path.splitext(avatar.name)[1]
+        if not ext.lower() in valid_extensions:
+            raise exceptions.ValidationError(
+                {"avatar": "Only jpeg, jpg or png are supported"}
+            )

@@ -98,7 +98,7 @@ class UserSerializer(serializers.ModelSerializer):
             "avatar_thumb",
             "is_staff",
             "is_superuser",
-            "status"
+            "status",
         ]
 
 
@@ -154,3 +154,9 @@ class CheckCompanySerializer(serializers.ModelSerializer):
 
 class SetStatusSerializer(serializers.Serializer):
     status_id = serializers.IntegerField()
+
+
+class AvatarUploadSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = users_models.User
+        fields = ("avatar", "id")

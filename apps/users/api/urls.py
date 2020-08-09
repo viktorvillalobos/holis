@@ -20,6 +20,12 @@ urlpatterns = [
         views.SuggestCompanyCodeAPIView.as_view(),
         name="suggest-company-code",
     ),
+    path(
+        "list/<int:pk>/upload-avatar/",
+        views.UploadAvatarAPIView.as_view(),
+        name="upload-avatar",
+    ),
+
 ]
 
 
