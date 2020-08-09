@@ -61,11 +61,23 @@ class RecentChatsAPIView(generics.ListAPIView):
     def get_queryset(self):
         qs = super().get_queryset().filter(company=self.request.user.company)
 
-        return (
-            qs.order_by("user__id")
-            .exclude(user__id=self.request.user.id)
-            .distinct("user__id")
+        last_room_ids = (
+            qs.filter(room__is_one_to_one=True)
+            .order_by("room__id")
+            .distinct("room__id")
+            .values_list("room_id", flat=True)
         )[:3]
+
+        users_ids = (
+            chat_models.Room.objects.filter(id__in=last_room_ids)
+            .order_by('members__id')
+            .distinct('members__id')
+            .values_list('members__id', flat=True)
+        )
+
+        users_ids = [x for x in users_ids if x != self.request.user.id]
+
+        return users_models.User.objects.filter(id__in=users_ids)
 
 
 class MessageListAPIView(generics.ListAPIView):
@@ -76,4 +88,15 @@ class MessageListAPIView(generics.ListAPIView):
         qs = super().get_queryset()
         return qs.filter(
             room__id=self.kwargs["id"], company=self.request.user.company
-        )
+        ).order_by("-created")
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(reversed(page), many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)

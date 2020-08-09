@@ -8,7 +8,6 @@ const state = {
   connected: false,
   lastRooms: [],
   messages: [],
-  tempMessages: [],
   recents: [],
   activeChat: null,
   asideOpen: false,
@@ -39,9 +38,6 @@ const mutations = {
   },
   setCurrentChatID (state, userId) {
     state.currentChatID = userId
-  },
-  setLastBatch (state, batch) {
-    state.lastBatch = batch
   },
   setRecents (state, recents) {
     state.recents = recents
