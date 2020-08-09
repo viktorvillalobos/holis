@@ -62,6 +62,7 @@ class UserSerializer(serializers.ModelSerializer):
     room = serializers.SerializerMethodField(read_only=True)
     status = ActiveStatusSerializer(source="current_status", read_only=True)
     birthday = serializers.DateField(required=False)
+    email = serializers.EmailField(allow_blank=False, allow_null=False)
 
     def get_avatar_thumb(self, obj):
         if not obj.avatar_thumb:

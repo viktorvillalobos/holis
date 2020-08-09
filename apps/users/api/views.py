@@ -50,6 +50,18 @@ class UserViewSet(
         )
         return Response(status=status.HTTP_200_OK, data=serializer.data)
 
+    @action(detail=False, methods=["PATCH"])
+    def edit(self, request):
+        serializer = self.serializer_class(
+            request.user,
+            data=request.data,
+            context={"request": request},
+            partial=True,
+        )
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(status=status.HTTP_200_OK, data=serializer.data)
+
     @action(detail=False, methods=["GET"])
     def birthdays(self, request):
         users = User.objects.get_upcoming_birthdays()
