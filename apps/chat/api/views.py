@@ -3,7 +3,6 @@ import uuid
 
 from apps.chat import uc as chat_uc
 from apps.chat.api import serializers
-from apps.utils import openfire
 from apps.chat import models as chat_models
 from apps.users import models as users_models
 from django.conf import settings
