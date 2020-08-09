@@ -11,6 +11,7 @@ from django.utils.translation import gettext_lazy as _
 from django.views.generic import FormView, TemplateView
 from apps.web.models import Lead
 from django.http import HttpResponseRedirect
+from django.contrib.auth import logout
 
 # Create your views here.
 
@@ -147,3 +148,8 @@ class SignUpStep5(GetObjectByUUIDMixin, UpdateView):
     model = Lead
     form_class = forms.SignUpStep5Form
     success_url = '/app'
+
+
+def logout_view(request):
+    logout(request)
+    return redirect('webapp')
