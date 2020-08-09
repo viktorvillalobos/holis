@@ -18,5 +18,8 @@ export default {
   },
   getMessages (room) {
     return axios.get(`${urlBase}/chat/room/${room}/messages/`, { params: { limit: 20 } })
+  },
+  getMessagesFromUrl (url) {
+    return axios.get(url)
   }
 }

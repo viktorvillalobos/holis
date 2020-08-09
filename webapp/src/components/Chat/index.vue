@@ -30,7 +30,7 @@
     >
       <div class="nose"></div>
       <span
-        v-if="lastBatch && !lastBatch.complete"
+        v-if="next"
         class="connect-chat-load-more"
         @click="loadHistory()"
       >Load history</span>
@@ -90,7 +90,7 @@ export default {
     ...mapState({
       users: state => state.chat.users,
       messages: state => state.chat.messages,
-      lastBatch: state => state.chat.lastBatch,
+      next: state => state.chat.next,
       allowScrollToEnd: state => state.chat.allowScrollToEnd,
       currentChatJID: state => state.chat.currentChatJID,
       currentChatName: state => state.chat.currentChatName,
@@ -113,8 +113,7 @@ export default {
       if (
         content &&
         content.scrollTop === 0 &&
-        this.lastBatch &&
-        !this.lastBatch.complete
+        this.next
       ) {
         setTimeout(() => {
           this.loadHistory();
@@ -123,7 +122,7 @@ export default {
       }
     },
     loadHistory() {
-      if (!this.lastBatch.complete) this.$store.dispatch("getMessages");
+      if (this.next) this.$store.dispatch("getNextMessages")
     },
     scrollToEnd() {
       const content = this.$refs.chatContainer;

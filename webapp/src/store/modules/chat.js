@@ -20,6 +20,8 @@ const state = {
     ? `wss://${location.hostname}:${location.port}/chat/`
     : `ws://${location.hostname}:${location.port}/chat/`,
   room: 'general',
+  next: null,
+  prev: null,
   currentChatID: null
 }
 
@@ -67,7 +69,9 @@ const mutations = {
     state.tempMessages = []
   },
   unshiftMessages (state, messages) {
-    state.messages = [...messages, ...state.messages]
+    state.messages = [...messages.results, ...state.messages]
+    state.next = messages.next
+    state.prev = messages.previous
   },
   clearMessages (state) {
     state.messages = []
@@ -110,7 +114,7 @@ const actions = {
   async getMessagesByRoom ({ commit }, room) {
     console.log(`Getting messages from ${room}`)
     const { data } = await apiClient.chat.getMessages(room)
-    commit('unshiftMessages', data.results)
+    commit('unshiftMessages', data)
   },
   async getMessagesByUser ({ commit, dispatch }, to) {
     console.log(`Getting messages by user ${to}`)
@@ -118,6 +122,13 @@ const actions = {
 
     dispatch('getMessagesByRoom', data.id)
     dispatch('connectToRoom', { vm: this.$app, room: data.id })
+  },
+  async getNextMessages ( { commit } ) {
+    const { data } = await apiClient.chat.getMessagesFromUrl(state.next)
+
+    commit('blockScroll')
+    commit('unshiftMessages', data)
+    commit('unBlockScroll')
   },
   sendChatMessage({ commit, state }, { msg }) {
     window.$socketChat.sendObj({ type: "chat.message", message: msg.message , room: state.room})
