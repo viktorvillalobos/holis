@@ -72,6 +72,7 @@ class Message(TimeStampedModel):
         A message from an user
     """
 
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     company = models.ForeignKey(
         "core.Company",
         related_name="messages",
@@ -104,6 +105,7 @@ class MessageAttachment(TimeStampedModel):
         Message Attachment
     """
 
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     company = models.ForeignKey(
         "core.Company",
         related_name="attachments",
