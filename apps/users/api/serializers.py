@@ -56,11 +56,12 @@ class ActiveStatusSerializer(serializers.Serializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
-    statuses = StatusSerializer(many=True)
+    statuses = StatusSerializer(many=True, read_only=True)
     company = UserCompanySerializer(read_only=True)
-    avatar_thumb = serializers.SerializerMethodField()
-    room = serializers.SerializerMethodField()
-    status = ActiveStatusSerializer(source="current_status")
+    avatar_thumb = serializers.SerializerMethodField(read_only=True)
+    room = serializers.SerializerMethodField(read_only=True)
+    status = ActiveStatusSerializer(source="current_status", read_only=True)
+    birthday = serializers.DateField(required=False)
 
     def get_avatar_thumb(self, obj):
         if not obj.avatar_thumb:
@@ -97,7 +98,7 @@ class UserSerializer(serializers.ModelSerializer):
             "avatar_thumb",
             "is_staff",
             "is_superuser",
-            "status"
+            "status",
         ]
 
 
@@ -153,3 +154,9 @@ class CheckCompanySerializer(serializers.ModelSerializer):
 
 class SetStatusSerializer(serializers.Serializer):
     status_id = serializers.IntegerField()
+
+
+class AvatarUploadSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = users_models.User
+        fields = ("avatar", "id")

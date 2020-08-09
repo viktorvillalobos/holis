@@ -24,11 +24,7 @@ urlpatterns = [
         name="homeBefore",
     ),
     path("signup/step1/", views.SignUpStep1.as_view(), name="signup-step-1",),
-    path(
-        "signup/step2/",
-        views.SignUpStep2.as_view(),
-        name="signup-step-2",
-    ),
+    path("signup/step2/", views.SignUpStep2.as_view(), name="signup-step-2",),
     path(
         "signup/step3/<uuid:pk>/",
         views.SignUpStep3.as_view(),
@@ -44,4 +40,5 @@ urlpatterns = [
         views.SignUpStep5.as_view(),
         name="signup-step-5",
     ),
+    path("logout", views.logout_view, name="logout"),
 ]
