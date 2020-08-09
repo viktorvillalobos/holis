@@ -4,7 +4,7 @@ import { urlBase } from '../config'
 
 export default {
   getBirthdays () {
-    return axios.get(`${urlBase}/users/birthdays/`)
+    return axios.get(`${urlBase}/users/list/birthdays/`)
   },
   getList () {
     return axios.get(`${urlBase}/core/announcements/`)

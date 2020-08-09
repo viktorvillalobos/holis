@@ -80,6 +80,23 @@
               </div>
             </div>
           </div>
+          <div class="columns">
+            <div class="column">
+              <div
+                v-if="toast.isActive"
+                :class="['notification', {'is-danger' : toast.isError}, {'is-success' : !toast.isError}]"
+              >
+                <button @click="toast.isActive = false" class="delete"></button>
+                <div class="toast-inner">
+                  <img :src="toast.isError ? error : success" />
+                  <div>
+                    <h3>{{toast.title}}</h3>
+                    {{toast.text}}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
           <ul class="card-actions">
             <li>
               <Btn @btn-click="handleSubmit" primary>Guardar</Btn>
@@ -97,6 +114,9 @@ import { mapState } from "vuex";
 import Avatar from "@/components/Avatar";
 import Btn from "@/components/Btn";
 
+import success from "@/assets/celebrate.svg";
+import error from "@/assets/alert.svg";
+
 export default {
   name: "userConfigs",
   components: {
@@ -107,14 +127,22 @@ export default {
     instance: {},
     min: null,
     birthday: [null, null, null],
+    toast: {
+      isError: false,
+      isActive: false,
+      title: "Yaaay!",
+      text: "Everything's set up.",
+    },
+    success,
+    error
   }),
   computed: {
     ...mapState({
       user: (state) => state.app.user,
     }),
   },
-  created () {
-    if (this.user) this.setInstance()
+  created() {
+    if (this.user) this.setInstance();
   },
   methods: {
     setInstance() {
@@ -134,21 +162,49 @@ export default {
       }
       return array.reverse();
     },
-    handleSubmit() {
+    async handleSubmit() {
       this.instance.birthday = this.birthday.join("-");
 
       delete this.instance.avatar;
 
-      this.$store.dispatch("editUser", this.instance);
+      try {
+        await this.$store.dispatch("editUser", this.instance);
+        this.toast = {
+          isError: false,
+          isActive: true,
+          title: "Yaaay!",
+          text: "Everything's set up.",
+        };
+      } catch (e) {
+        this.toast = {
+          isError: true,
+          isActive: true,
+          title: "Yikes!",
+          text: "Something wnet wrong, please check your fields and try again.",
+        };
+      }
     },
   },
   watch: {
-    user (val) {
-      if (val) this.setInstance()
-    }
-  }
+    user(val) {
+      if (val) this.setInstance();
+    },
+  },
 };
 </script>
 
 <style lang="scss" scoped>
+.toast-inner {
+  display: flex;
+  align-items: center;
+
+  img {
+    margin-right: 15px;
+  }
+
+  h3 {
+    font-weight: 600;
+    font-size: 1.2rem;
+  }
+}
 </style>

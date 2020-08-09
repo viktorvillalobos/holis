@@ -147,6 +147,7 @@ export default {
       this.$socket.sendObj(message)
     },
     handleLogout () {
+      window.location.href = '/logout'
     }
   },
   watch: {
