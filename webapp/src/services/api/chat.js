@@ -13,6 +13,9 @@ export default {
   getRecents () {
     return axios.get(`${urlBase}/chat/recents/`)
   },
+  getRoomByUserID (to) {
+    return axios.post(`${urlBase}/chat/get-or-create-room/`, { to })
+  },
   getMessages (room) {
     return axios.get(`${urlBase}/chat/room/${room}/messages/`, { params: { limit: 20 } })
   }

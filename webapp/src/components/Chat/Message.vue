@@ -4,10 +4,10 @@
   >
     <div
       :class="['connect-chat-message', {'connect-chat-message--mine' : messageIsMine}]"
-      v-html="msg.message"
+      v-html="msg.text"
     ></div>
     <div class="connect-chat-message-user">
-      <Avatar v-if="!messageIsMine" />
+      <Avatar v-if="!messageIsMine" :img="avatar"/>
       <p>{{ messageIsMine ? 'You' : who}} · {{ datetime | moment("ddd, hA")}}</p>
     </div>
   </div>
@@ -17,6 +17,9 @@ import Avatar from '@/components/Avatar'
 export default {
   name: 'Message',
   props: {
+    avatar: {
+      type: String
+    },
     messageIsMine: {
       type: Boolean
     },
@@ -30,7 +33,7 @@ export default {
       type: String
     },
     id: {
-      type: String
+      type: Int
     }
   },
   components: { Avatar }

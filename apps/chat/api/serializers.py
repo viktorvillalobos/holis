@@ -5,8 +5,7 @@ from apps.chat import models as chat_models
 
 
 class GetOrCreateRoomSerializer(serializers.Serializer):
-    members = serializers.ListField(child=serializers.CharField())
-    many = serializers.BooleanField(default=False)
+    to = serializers.CharField()
 
 
 class RecentsSerializer(serializers.ModelSerializer):
@@ -20,6 +19,12 @@ class RecentsSerializer(serializers.ModelSerializer):
 
 
 class MessageSerializer(serializers.ModelSerializer):
+    avatar_thumb = serializers.CharField(source="user.avatar_thumb")
+    is_mine = serializers.SerializerMethodField()
+
+    def get_is_mine(self, obj):
+        return obj.user == self.context["request"].user
+
     class Meta:
         model = chat_models.Message
         fields = '__all__'

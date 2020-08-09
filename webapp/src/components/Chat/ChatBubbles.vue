@@ -92,7 +92,7 @@ export default {
       if (!this.isAsideRightActive) this.$store.commit('setAsideRightActive')
       this.$store.commit('setCurrentChatName', recent.name )
       this.$store.commit('setCurrentChatID', recent.id)
-      this.$store.dispatch('getMessages', recent.room)
+      this.$store.dispatch('getMessagesByUser', recent.id)
     },
     emitAsideHandle () {
       if (this.currentChatJID) {

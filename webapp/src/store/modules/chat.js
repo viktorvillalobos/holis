@@ -72,7 +72,7 @@ const mutations = {
     state.tempMessages = []
   },
   unshiftMessages (state, messages) {
-    state.messages = [...messages, state.messages]
+    state.messages = [...messages, ...state.messages]
   },
   clearMessages (state) {
     state.messages = []
@@ -121,9 +121,16 @@ const actions = {
     message = JSON.parse(message)
     console.log(message)
   },
-  async getMessages ({ commit }, room) {
+  async getMessagesByRoom ({ commit }, room) {
+    console.log(`Getting messages from ${room}`)
     const { data } = await apiClient.chat.getMessages(room)
     commit('unshiftMessages', data.results)
+  },
+  async getMessagesByUser ({ commit, dispatch }, to) {
+    console.log(`Getting messages by user ${to}`)
+    const { data } = await apiClient.chat.getRoomByUserID(to)
+
+    dispatch('getMessagesByRoom', data.id)
   }
 }
 

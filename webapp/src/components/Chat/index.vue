@@ -45,6 +45,7 @@
             :messageIsMine="msg.is_mine"
             :who="msg.who"
             :datetime="msg.datetime"
+            :avatar="msg.avatar_thumb"
           />
         </div>
       </vue-scroll>
@@ -144,7 +145,7 @@ export default {
       this.$emit('selectedChat')
       this.$store.commit('setCurrentChatName', user.name || user.username)
       this.$store.commit('setCurrentChatID', user.id)
-      this.$store.dispatch('getMessages', user.room)
+      this.$store.dispatch('getMessagesByUser', user.id)
     }
   }
 }

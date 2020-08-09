@@ -21,10 +21,7 @@ class GetOrCreateRoomAPIView(views.APIView):
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        if not serializer.validated_data["many"]:
-            room = self.get_one_to_one_room(serializer.validated_data)
-        else:
-            raise exceptions.ValidationError({"many"})
+        room = self.get_one_to_one_room(serializer.validated_data)
 
         return Response({"id": room.id}, status=200)
 
@@ -32,7 +29,8 @@ class GetOrCreateRoomAPIView(views.APIView):
         try:
             return (
                 chat_uc.RoomCreate(
-                    self.request.user.company, validated_data["members"],
+                    self.request.user.company,
+                    [self.request.user.id, validated_data["to"]],
                 )
                 .execute()
                 .get_room()
