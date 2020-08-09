@@ -63,7 +63,7 @@ class Area(MPTTModel):
         on_delete=models.CASCADE,
         verbose_name=_("company"),
     )
-    name = models.CharField(max_length=50, unique=True)
+    name = models.CharField(max_length=50)
     parent = TreeForeignKey(
         "self",
         on_delete=models.CASCADE,

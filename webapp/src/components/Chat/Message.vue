@@ -33,7 +33,7 @@ export default {
       type: String
     },
     id: {
-      type: Int
+      type: String
     }
   },
   components: { Avatar }

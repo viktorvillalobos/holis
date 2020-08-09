@@ -2,22 +2,24 @@
 
 from django.db import migrations
 
-def create_base_company(apps, schema_editor):
-    Company = apps.get_model("core", "Company")
 
-    company1 = Company(name="adslab", code="adslab", email="viktor@adslab.io")
-    company2 = Company(
+def create_base_company(apps, schema_editor):
+    from apps.core.models import Area, Company
+    company1 = Company.objects.create(name="adslab", code="adslab", email="viktor@adslab.io")
+    company2 = Company.objects.create(
         name="firesoft", code="firesoft", email="viktor@firesoft.org"
     )
-    company1.save()
-    company2.save()
+    Area.objects.create(name="default", company=company1)
+    Area.objects.create(name="home", company=company2)
 
 
 def reverse_create_company(apps, schema_editor):
     Company = apps.get_model("core", "company")
+    Area = apps.get_model("core", "Area")
     db_alias = schema_editor.connection.alias
 
     Company.objects.using(db_alias).all().delete()
+    Area.objects.using(db_alias).all().delete()
 
 
 class Migration(migrations.Migration):
