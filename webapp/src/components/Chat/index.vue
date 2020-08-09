@@ -41,10 +41,10 @@
             v-for="msg in messages"
             :key="msg.id"
             :id="msg.id"
-            :msg="msg"
-            :messageIsMine="msg.is_mine"
-            :who="msg.who"
-            :datetime="msg.datetime"
+            :messageIsMine="getIsMine(msg.user)"
+            :who="msg.user_name"
+            :datetime="msg.created"
+            :text="msg.text"
             :avatar="msg.avatar_thumb"
           />
         </div>
@@ -105,6 +105,9 @@ export default {
     }
   },
   methods: {
+    getIsMine (userId) {
+      return userId == window.user_id
+    },
     handleScroll(vertical, horizonal, nativeEvent) {
       const content = this.$refs.chatContainer;
       if (

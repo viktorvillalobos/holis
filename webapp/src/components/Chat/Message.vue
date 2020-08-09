@@ -4,7 +4,7 @@
   >
     <div
       :class="['connect-chat-message', {'connect-chat-message--mine' : messageIsMine}]"
-      v-html="msg.text"
+      v-html="text"
     ></div>
     <div class="connect-chat-message-user">
       <Avatar v-if="!messageIsMine" :img="avatar"/>
@@ -17,26 +17,26 @@ import Avatar from '@/components/Avatar'
 export default {
   name: 'Message',
   props: {
-    avatar: {
-      type: String
-    },
     messageIsMine: {
       type: Boolean
     },
-    msg: {
-      type: Object
+    avatar: {
+      type: String
     },
     datetime: {
-      type: Date
+      type: String
     },
     who: {
       type: String
     },
     id: {
       type: String
+    },
+    text: {
+      type: String
     }
   },
-  components: { Avatar }
+  components: { Avatar },
 }
 </script>
 <style lang="scss">

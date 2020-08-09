@@ -19,11 +19,11 @@ class RecentsSerializer(serializers.ModelSerializer):
 
 
 class MessageSerializer(serializers.ModelSerializer):
+    """
+        WARNING: This is used by Consumers.
+    """
     avatar_thumb = serializers.CharField(source="user.avatar_thumb")
-    is_mine = serializers.SerializerMethodField()
-
-    def get_is_mine(self, obj):
-        return obj.user == self.context["request"].user
+    user_name = serializers.CharField(source="user.name")
 
     class Meta:
         model = chat_models.Message

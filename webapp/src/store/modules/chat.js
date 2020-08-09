@@ -109,7 +109,7 @@ const actions = {
   onMessage ({ commit }, message) {
     message = JSON.parse(message)
     console.log(message)
-    commit('addMessage', message)
+    if (message.type === 'chat.message') commit('addMessage', message)
   },
   async getMessagesByRoom ({ commit }, room) {
     console.log(`Getting messages from ${room}`)

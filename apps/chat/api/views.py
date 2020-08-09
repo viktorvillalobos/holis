@@ -76,4 +76,4 @@ class MessageListAPIView(generics.ListAPIView):
         qs = super().get_queryset()
         return qs.filter(
             room__id=self.kwargs["id"], company=self.request.user.company
-        ).order_by("-created")
+        )

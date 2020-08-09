@@ -1,6 +1,7 @@
 import logging
 from channels.generic.websocket import AsyncJsonWebsocketConsumer
-from .utils import create_message
+from .utils import create_message, serialize_message
+from apps.chat.api.serializers import MessageSerializer
 
 
 logger = logging.getLogger(__name__)
@@ -56,13 +57,15 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
         assert isinstance(content["message"], str)
         logger.info("broadcast_chat_message")
         user = self.scope["user"]
-        _msg = {
-            "type": "chat.message",
-            "message": content["message"],
-            "user": {"name": user.name, "avatar": user.avatar_thumb},
-        }
-        await create_message(user, content["room"], content["message"])
-        await self.channel_layer.group_send(self.room_group_name, _msg)
+
+        message = await create_message(
+            user, content["room"], content["message"]
+        )
+        serialized_message = await serialize_message(message)
+
+        await self.channel_layer.group_send(
+            self.room_group_name, serialized_message
+        )
 
     async def chat_echo(self, event):
         logger.info("chat_echo")

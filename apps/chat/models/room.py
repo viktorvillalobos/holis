@@ -60,7 +60,7 @@ class Room(TimeStampedModel):
     tenant_id = "company_id"
 
     class Meta:
-        ordering = ["-created"]
+        ordering = ["created"]
         unique_together = ["name", "company"]
 
     def __str__(self):
@@ -97,7 +97,7 @@ class Message(TimeStampedModel):
 
     class Meta:
         unique_together = ["id", "company"]
-        ordering = ["-created"]
+        ordering = ["created"]
 
 
 class MessageAttachment(TimeStampedModel):

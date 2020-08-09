@@ -13,7 +13,10 @@ class Message:
 class CreateMessage(Message):
     def execute(self):
         self.message = chat_models.Message.objects.create(
-            room=self.room, user=self.user, text=self.str
+            company=self.user.company,
+            room=self.room,
+            user=self.user,
+            text=self.text,
         )
         return self
 
