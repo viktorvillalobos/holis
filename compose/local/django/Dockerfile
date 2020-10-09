@@ -15,6 +15,8 @@ RUN apt-get update \
   && rm -rf /var/lib/apt/lists/*
 
 # Requirements are installed here to ensure they will be cached.
+COPY ./dev /usr/bin/
+
 COPY ./requirements /requirements
 RUN pip install -r /requirements/local.txt
 

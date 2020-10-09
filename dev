@@ -1,0 +1,62 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+_usage() {
+  echo "running the server"
+  echo "    up        start the server in development mode"
+  echo ""
+  echo "testing code"
+  echo "    test      run tests, accepts test names as arguments"
+  echo ""
+  echo "installing Python requirements"
+  echo "    pipi      without argument: installs packages defined in requirements.txt and requirements/local.txt"
+  echo "              with argument:    installs given requirement"
+  echo ""
+  echo "migrations"
+  echo "    migrate   run pending migrations"
+  echo "    makemig   make Django migrations"
+  echo "    sqlmig    show SQL of migration without executing it"
+  exit 1
+}
+
+# show usage if no argument is given
+arg=${1:-}
+shift || _usage
+
+case ${arg} in
+up|run|server|runserver)
+  python manage.py runserver 0.0.0.0:8000
+;;
+test)
+  pytest "$@" --flake8 --isort --black --cov=catalog --junitxml=/dev/shm/test-results/pytest.xml
+;;
+pipi)
+
+  if [ $# -gt 0 ]; then
+    pip install --no-warn-script-location --disable-pip-version-check --no-cache-dir --src=/app --user --upgrade "$@"
+  else
+    pip install --no-warn-script-location --disable-pip-version-check --no-cache-dir --src=/app --user --upgrade -r /app/requirements/local.txt
+    if [[ -f /app/requirements/local.txt ]]; then
+      pip install --no-warn-script-location --disable-pip-version-check --no-cache-dir --src=/app --user --upgrade -r /app/requirements/local.txt
+    fi
+  fi
+;;
+isort)
+  isort -rc .
+;;
+black)
+  black .
+;;
+migrate)
+  python manage.py migrate-all "$@"
+;;
+makemigrations|makemigration|makemig)
+  python manage.py makemigrations "$@"
+;;
+sqlmig|sqlmigrate|sqlmigration)
+  python manage.py sqlmigrate "$@"
+;;
+*)
+  _usage
+;;
+esac
