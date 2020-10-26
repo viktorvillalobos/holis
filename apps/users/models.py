@@ -10,6 +10,8 @@ from django.utils.translation import ugettext_lazy as _
 from model_utils.models import TimeStampedModel
 from sorl.thumbnail import ImageField, get_thumbnail
 
+from apps.core.models import Area
+
 
 class UserManager(BirthdayManager, UserManager):
     def create_superuser(self, username, email, password, company) -> "User":
@@ -84,12 +86,16 @@ class User(AbstractUser):
 
         return {"id": status.id, "icon_text": status.icon_text, "text": status.text}
 
-    def touch(self, ts=None, area=None):
+    def touch(self, ts=None, area_id=None):
         """
             Hearbeat
             ts: datetime
         """
-        area = area or self.current_area
+        if area_id:
+            area = Area.objects.get(id=area_id)
+        else:
+            area = self.current_area
+
         ts = ts or timezone.now()
         self.last_seen = ts
         self.current_area = area

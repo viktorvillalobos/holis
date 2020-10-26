@@ -20,3 +20,8 @@ def announcement(company):
 @pytest.fixture
 def changelog(company):
     return baker.make("core.Changelog", company=company)
+
+
+@pytest.fixture
+def active_user(company):
+    return baker.make("users.User", company=company, name="John Doe")

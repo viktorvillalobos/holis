@@ -9,6 +9,9 @@ from apps.core import models as core_models
 from apps.core.uc import area_uc
 from apps.users.models import User
 
+from ...entities import Point
+from ...services import add_user_to_area, get_area_state, remove_user_from_area
+
 logger = logging.getLogger(__name__)
 
 USER_POSITION_KEY = "user-{}-position"
@@ -27,20 +30,16 @@ class GridMixin:
     def save_position(
         self, area_id: int, x: int, y: int, room: Optional[str] = None
     ) -> Tuple[Tuple, Dict]:
-        area = core_models.Area.objects.get(id=area_id)
-        self.scope["user"].touch(area=area)
-        uc = area_uc.SaveStateAreaUC(area)
-        old_point = uc.execute(self.scope["user"], x, y, room)
-        return old_point, uc.get_serialized_connected()
+        self.scope["user"].touch(area_id=area_id)
+        old_point = add_user_to_area(area_id, self.scope["user"], Point(x, y), room)
+        return old_point, get_area_state(area_id)
 
     @database_sync_to_async
     def clear_position(
         self, area_id: int, x: int, y: int, room: str, timestamp: dt.datetime
     ):
-        area = core_models.Area.objects.get(id=area_id)
-        uc = area_uc.ClearStateAreaUC(area)
-        uc.execute(self.scope["user"])
-        return uc.get_serialized_connected()
+        remove_user_from_area(area_id, self.scope["user"])
+        return get_area_state(area_id)
 
     async def grid_position(self, message):
         await self.send_json(message)

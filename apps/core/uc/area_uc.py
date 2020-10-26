@@ -1,21 +1,19 @@
 """
     UseCases for Area
 """
-import collections
 import logging
 from typing import Dict, List, Tuple
 
 import numpy as np
 
-from apps.core.models import Area
-from apps.core.uc.abstracts import AbstractModelUC
-from apps.core.uc.item import AreaItem
 from apps.users.models import User
 
+from ..entities import Point
+from ..models import Area
+from .abstracts import AbstractModelUC
+from .item import AreaItem
+
 logger = logging.getLogger(__name__)
-
-
-Point = collections.namedtuple("Point", "x y")
 
 
 class BaseAreaUC(AbstractModelUC):
@@ -119,11 +117,11 @@ class SaveStateAreaUC(BaseAreaUC):
         Save the position of person inside the state
     """
 
-    def execute(self, user: User, x: int, y: int, room: str) -> List:
-        point = self.clear_current_user_position(user)
+    def execute(self, user: User, x: int, y: int, room: str) -> Point:
+        old_point = self.clear_current_user_position(user)
         self.state[x][y] = AreaItem.from_user(user, x, y, room)
         self.save_state()
-        return point
+        return old_point
 
 
 class ClearStateAreaUC(BaseAreaUC):

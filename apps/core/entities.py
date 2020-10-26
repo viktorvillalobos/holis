@@ -6,6 +6,7 @@ from .models import Area as AreaModel
 
 @dataclass
 class Area:
+    id: int
     company: int
     name: str
     parent: int
@@ -16,6 +17,7 @@ class Area:
     @classmethod
     def load_from_model(cls, area: AreaModel) -> AreaModel:
         return cls(
+            id=area.id,
             company=area.company_id,
             name=area.name,
             parent=area.parent_id,
@@ -23,3 +25,9 @@ class Area:
             height=area.height,
             state=area.state,
         )
+
+
+@dataclass
+class Point:
+    x: int
+    y: int
