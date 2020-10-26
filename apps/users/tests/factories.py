@@ -1,16 +1,8 @@
 import datetime as dt
 from typing import Any, Sequence
 
-from apps.core.tests.factories import CompanyFactory
 from django.contrib.auth import get_user_model
-from factory import (
-    DjangoModelFactory,
-    Faker,
-    RelatedFactory,
-    SubFactory,
-    fuzzy,
-    post_generation,
-)
+from factory import DjangoModelFactory, Faker, SubFactory, fuzzy, post_generation
 
 
 class UserFactory(DjangoModelFactory):
@@ -23,7 +15,7 @@ class UserFactory(DjangoModelFactory):
         end_date=dt.date.today() - dt.timedelta(days=20 * 365),
     )
 
-    company = SubFactory('apps.core.tests.factories.CompanyFactory')
+    company = SubFactory("apps.core.tests.factories.CompanyFactory")
 
     @post_generation
     def password(self, create: bool, extracted: Sequence[Any], **kwargs):

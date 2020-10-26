@@ -12,9 +12,10 @@ Example usage:
           --password foo     \
           --email foo@foo.foo
 """
-from apps.core.models import Company
 from django.contrib.auth.management.commands import createsuperuser
 from django.core.management import CommandError
+
+from apps.core.models import Company
 
 
 class Command(createsuperuser.Command):

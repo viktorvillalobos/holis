@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+
 from apps.chat import models as chat_models
 from apps.users import models as user_models
 
@@ -13,15 +14,12 @@ class Message:
 class CreateMessage(Message):
     def execute(self):
         self.message = chat_models.Message.objects.create(
-            company=self.user.company,
-            room=self.room,
-            user=self.user,
-            text=self.text,
+            company=self.user.company, room=self.room, user=self.user, text=self.text
         )
         return self
 
     def get_message(self):
         if not self.message:
-            raise Exception('UC Must be executed before get message')
+            raise Exception("UC Must be executed before get message")
 
         return self.message

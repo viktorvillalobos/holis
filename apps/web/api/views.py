@@ -22,9 +22,7 @@ class GetEarlyAccessAPIView(APIView):
 
         email, email_sent = self.send_email()
         self.to_email_relay(email)
-        return Response(
-            {"email": email, "sent": email_sent}, status=status.HTTP_200_OK
-        )
+        return Response({"email": email, "sent": email_sent}, status=status.HTTP_200_OK)
 
     def to_email_relay(self, email):
         if settings.DEBUG or not settings.EMAIL_RELAY_TOKEN:
@@ -54,9 +52,7 @@ class GetEarlyAccessAPIView(APIView):
                 ["sales@holis.chat"],
                 fail_silently=False,
             )
-            logger.info(
-                f"Sending early access email lead: {email} from {origin}"
-            )
+            logger.info(f"Sending early access email lead: {email} from {origin}")
             return email, True
         except Exception:
             logger.info(f"failed to send email early {email} from {origin}")

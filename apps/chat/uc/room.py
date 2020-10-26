@@ -1,8 +1,10 @@
 import uuid
 from typing import Optional
+
+from django.db import DatabaseError, models
+
 from apps.chat import models as chat_models
 from apps.users import models as users_models
-from django.db import DatabaseError, models, transaction
 
 
 class RoomCreationXMPPError(Exception):
@@ -42,7 +44,7 @@ class RoomCreate(RoomUCBase):
         )
 
         if results.count() != len(self.members_ids):
-            raise NonExistentMemberException('User does not exist')
+            raise NonExistentMemberException("User does not exist")
 
         return results
 
@@ -72,7 +74,7 @@ class RoomCreate(RoomUCBase):
             chat_models.Room.objects.filter(
                 members__in=self.members, is_one_to_one=True
             )
-            .annotate(num_members=models.Count('members'))
+            .annotate(num_members=models.Count("members"))
             .filter(num_members=2)
             .first()
         )

@@ -2,11 +2,11 @@ import datetime as dt
 import logging
 from typing import Dict, Optional, Tuple
 
-from apps.core import models as core_models
-from apps.core.uc import area_uc
 from channels.db import database_sync_to_async
 from django.core.cache import cache
 
+from apps.core import models as core_models
+from apps.core.uc import area_uc
 from apps.users.models import User
 
 logger = logging.getLogger(__name__)
@@ -74,9 +74,7 @@ class GridMixin:
         x: int = message["x"]
         y: int = message["y"]
         room: int = message["room"]
-        old_point, serialized_state = await self.save_position(
-            area, x, y, room
-        )
+        old_point, serialized_state = await self.save_position(area, x, y, room)
         message["old"] = old_point
         message["state"] = serialized_state
         cache.set(
@@ -95,19 +93,18 @@ class GridMixin:
         """
             Executed when the user is disconnected
         """
-        logger.info('HANDLE CLEAR USER POSITION')
+        logger.info("HANDLE CLEAR USER POSITION")
         user_id = user_id or self.scope["user"].id
         logger.info(user_id)
         key = USER_POSITION_KEY.format(user_id)
         position: Dict = cache.get(key)
-        logger.info('POSITION')
+        logger.info("POSITION")
         logger.info(position)
         if position:
 
             state = await self.clear_position(**position)
             await self.notify_user_disconnect(
-                {"type": "grid.disconnect", "state": state, **position},
-                user_id,
+                {"type": "grid.disconnect", "state": state, **position}, user_id
             )
             cache.delete(USER_POSITION_KEY.format(user_id))
 

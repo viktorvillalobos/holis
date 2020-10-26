@@ -1,7 +1,8 @@
 import pytest
+from celery.result import EagerResult
+
 from apps.users.tasks import get_users_count
 from apps.users.tests.factories import UserFactory
-from celery.result import EagerResult
 
 pytestmark = pytest.mark.django_db
 
@@ -12,4 +13,4 @@ def test_user_count(settings):
     settings.CELERY_TASK_ALWAYS_EAGER = True
     task_result = get_users_count.delay()
     assert isinstance(task_result, EagerResult)
-    assert task_result.result == 1
+    assert task_result.result == 5

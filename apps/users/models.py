@@ -1,13 +1,12 @@
 import datetime as dt
 
-import requests
 from birthday.fields import BirthdayField
 from birthday.managers import BirthdayManager
 from django.contrib.auth.models import AbstractUser, UserManager
 from django.db import models
 from django.urls import reverse
-from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
+from django.utils.translation import ugettext_lazy as _
 from model_utils.models import TimeStampedModel
 from sorl.thumbnail import ImageField, get_thumbnail
 
@@ -43,9 +42,7 @@ class User(AbstractUser):
         on_delete=models.CASCADE,
         related_name="users",
     )
-    position = models.CharField(
-        _("position"), blank=True, null=True, max_length=100
-    )
+    position = models.CharField(_("position"), blank=True, null=True, max_length=100)
     default_area = models.ForeignKey(
         "core.Area",
         blank=True,
@@ -62,9 +59,7 @@ class User(AbstractUser):
     )
     birthday = BirthdayField(null=True, blank=True)
 
-    avatar = ImageField(
-        _("avatar"), blank=True, null=True, upload_to="avatars"
-    )
+    avatar = ImageField(_("avatar"), blank=True, null=True, upload_to="avatars")
     jid = models.CharField(
         _("Jabber ID"), blank=True, null=True, max_length=100, db_index=True
     )
@@ -87,11 +82,7 @@ class User(AbstractUser):
         if not status:
             return None
 
-        return {
-            "id": status.id,
-            "icon_text": status.icon_text,
-            "text": status.text,
-        }
+        return {"id": status.id, "icon_text": status.icon_text, "text": status.text}
 
     def touch(self, ts=None, area=None):
         """
@@ -119,9 +110,7 @@ class User(AbstractUser):
         if not self.avatar:
             return f"https://api.adorable.io/avatars/100/{self.username}@adorable.png"
 
-        return get_thumbnail(
-            self.avatar.file, '100x100', crop='center', quality=99
-        ).url
+        return get_thumbnail(self.avatar.file, "100x100", crop="center", quality=99).url
 
 
 class Status(TimeStampedModel):
@@ -136,10 +125,7 @@ class Status(TimeStampedModel):
         related_name="statuses",
     )
     user = models.ForeignKey(
-        User,
-        verbose_name=_("user"),
-        related_name="statuses",
-        on_delete=models.CASCADE,
+        User, verbose_name=_("user"), related_name="statuses", on_delete=models.CASCADE
     )
     text = models.CharField(_("name"), max_length=100)
     icon_text = models.CharField(_("icon text"), max_length=20, blank=True)
@@ -183,9 +169,7 @@ class Notification(TimeStampedModel):
     )
     title = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
-    unread = models.BooleanField(
-        _("unread"), default=True, blank=False, db_index=True
-    )
+    unread = models.BooleanField(_("unread"), default=True, blank=False, db_index=True)
 
     tenant_id = "company_id"
 

@@ -1,8 +1,10 @@
 import logging
 
-from apps.core import models as core_models
-from apps.core.uc.area_uc import GetStateAreaUC
 from rest_framework import serializers
+
+from apps.core import models as core_models
+
+from ..services import get_area_state
 
 logger = logging.getLogger(__name__)
 
@@ -29,7 +31,7 @@ class AreaSerializer(serializers.ModelSerializer):
     state = serializers.SerializerMethodField()
 
     def get_state(self, obj):
-        return GetStateAreaUC(obj).execute()
+        return get_area_state(obj)
 
     class Meta:
         model = core_models.Area

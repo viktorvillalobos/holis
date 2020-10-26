@@ -11,8 +11,7 @@ def update_site_forward(apps, schema_editor):
     """Set site domain and name."""
     Site = apps.get_model("sites", "Site")
     Site.objects.update_or_create(
-        id=settings.SITE_ID,
-        defaults={"domain": "holis.chat", "name": "Holis"},
+        id=settings.SITE_ID, defaults={"domain": "holis.chat", "name": "Holis"}
     )
 
 
@@ -20,8 +19,7 @@ def update_site_backward(apps, schema_editor):
     """Revert site domain and name to default."""
     Site = apps.get_model("sites", "Site")
     Site.objects.update_or_create(
-        id=settings.SITE_ID,
-        defaults={"domain": "example.com", "name": "example.com"},
+        id=settings.SITE_ID, defaults={"domain": "example.com", "name": "example.com"}
     )
 
 
@@ -29,6 +27,4 @@ class Migration(migrations.Migration):
 
     dependencies = [("sites", "0002_alter_domain_unique")]
 
-    operations = [
-        migrations.RunPython(update_site_forward, update_site_backward)
-    ]
+    operations = [migrations.RunPython(update_site_forward, update_site_backward)]

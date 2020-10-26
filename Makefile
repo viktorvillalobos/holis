@@ -31,6 +31,10 @@ reset:
 	@docker-compose down --volumes --remove-orphans
 	@docker-compose pull
 
+.PHONY: rebuild
+rebuild:
+	@docker-compose -f local.yml down --volumes --remove-orphans
+	@docker-compose -f local.yml build
 
 .PHONY: bash
 bash: ## drop you into a running container

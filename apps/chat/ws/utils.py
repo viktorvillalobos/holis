@@ -1,10 +1,11 @@
-from typing import Dict, Any, Optional
+from typing import Any, Dict
+
 from channels.db import database_sync_to_async
-from apps.chat.uc.message import CreateMessage
 
 from apps.chat import models as chat_models
-from apps.users import models as user_models
 from apps.chat.api import serializers
+from apps.chat.uc.message import CreateMessage
+from apps.users import models as user_models
 
 
 @database_sync_to_async

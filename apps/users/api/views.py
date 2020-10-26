@@ -1,25 +1,20 @@
-import uuid
 import logging
-import random
 import os
-from apps.core import models as core_models
-from apps.users import models
-from apps.users.api import serializers
+import random
+
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
-from django.core.validators import FileExtensionValidator
-from rest_framework import generics, permissions, status, views, exceptions
-from rest_framework.parsers import FileUploadParser
+from rest_framework import exceptions, generics, permissions, status, views
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.decorators import action
-from rest_framework.mixins import (
-    ListModelMixin,
-    RetrieveModelMixin,
-    UpdateModelMixin,
-)
+from rest_framework.mixins import ListModelMixin, RetrieveModelMixin, UpdateModelMixin
+from rest_framework.parsers import FileUploadParser
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet, ModelViewSet
 
+from apps.core import models as core_models
+from apps.users import models
+from apps.users.api import serializers
 from apps.web import models as web_models
 
 User = get_user_model()
@@ -27,9 +22,7 @@ User = get_user_model()
 logger = logging.getLogger(__name__)
 
 
-class UserViewSet(
-    RetrieveModelMixin, ListModelMixin, UpdateModelMixin, GenericViewSet,
-):
+class UserViewSet(RetrieveModelMixin, ListModelMixin, UpdateModelMixin, GenericViewSet):
     serializer_class = serializers.UserSerializer
     queryset = User.objects.all()
     lookup_field = "id"
@@ -45,18 +38,13 @@ class UserViewSet(
 
     @action(detail=False, methods=["GET"])
     def me(self, request):
-        serializer = self.serializer_class(
-            request.user, context={"request": request}
-        )
+        serializer = self.serializer_class(request.user, context={"request": request})
         return Response(status=status.HTTP_200_OK, data=serializer.data)
 
     @action(detail=False, methods=["PATCH"])
     def profile(self, request):
         serializer = self.serializer_class(
-            request.user,
-            data=request.data,
-            context={"request": request},
-            partial=True,
+            request.user, data=request.data, context={"request": request}, partial=True
         )
         serializer.is_valid(raise_exception=True)
         serializer.save()
@@ -88,7 +76,7 @@ class CheckCompanyAPIView(generics.RetrieveAPIView):
     permission_classes = [permissions.AllowAny]
 
     def get_object(self):
-        name = self.kwargs.get('company_name')
+        name = self.kwargs.get("company_name")
         return get_object_or_404(core_models.Company, code__iexact=name)
 
 
@@ -97,7 +85,7 @@ class SuggestCompanyCodeAPIView(views.APIView):
     permission_classes = [permissions.AllowAny]
 
     def get(self, request, *args, **kwargs):
-        company_name = request.GET.get('company_name')
+        company_name = request.GET.get("company_name")
 
         if not company_name:
             raise exceptions.ValidationError({"company_name": "is required"})
@@ -111,29 +99,23 @@ class SuggestCompanyCodeAPIView(views.APIView):
         return Response({}, status=200)
 
     def exists_code(self, code):
-        temp_company = core_models.Company.objects.filter(
-            code__iexact=code
-        ).first()
-        temp_lead = web_models.Lead.objects.filter(
-            company_code__iexact=code
-        ).first()
+        temp_company = core_models.Company.objects.filter(code__iexact=code).first()
+        temp_lead = web_models.Lead.objects.filter(company_code__iexact=code).first()
 
         return temp_company or temp_lead
 
     def get_recomendations(self, code):
-        recs = [f'{code}{random.randint(1, 200)}' for x in range(10)]
+        recs = [f"{code}{random.randint(1, 200)}" for x in range(10)]
 
-        temp_company = core_models.Company.objects.filter(
-            code__in=recs
-        ).values_list("code", flat=True)
+        temp_company = core_models.Company.objects.filter(code__in=recs).values_list(
+            "code", flat=True
+        )
 
-        temp_lead = web_models.Lead.objects.filter(
-            company_code__in=recs
-        ).values_list("company_code", flat=True)
+        temp_lead = web_models.Lead.objects.filter(company_code__in=recs).values_list(
+            "company_code", flat=True
+        )
 
-        return [
-            x for x in recs if x not in temp_company and x not in temp_lead
-        ]
+        return [x for x in recs if x not in temp_company and x not in temp_lead]
 
 
 class SetStatusAPIView(views.APIView):
@@ -144,9 +126,7 @@ class SetStatusAPIView(views.APIView):
         serializer.is_valid(raise_exception=True)
 
         status_id = serializer.validated_data["status_id"]
-        models.Status.objects.filter(user=self.request.user).update(
-            is_active=False
-        )
+        models.Status.objects.filter(user=self.request.user).update(is_active=False)
         status = models.Status.objects.get(id=status_id)
         status.is_active = True
         status.save()

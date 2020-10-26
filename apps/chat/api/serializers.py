@@ -1,8 +1,8 @@
 from rest_framework import serializers
 
+from apps.chat import models as chat_models
 from apps.chat.uc import RoomCreate
 from apps.users import models as user_models
-from apps.chat import models as chat_models
 
 
 class GetOrCreateRoomSerializer(serializers.Serializer):
@@ -13,9 +13,7 @@ class RecentsSerializer(serializers.ModelSerializer):
     room = serializers.SerializerMethodField()
 
     def get_room(self, obj):
-        uc = RoomCreate(
-            obj.company, [obj.id, self.context["request"].user.id]
-        )
+        uc = RoomCreate(obj.company, [obj.id, self.context["request"].user.id])
         return uc.execute().get_room().id
 
     class Meta:
@@ -33,4 +31,4 @@ class MessageSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = chat_models.Message
-        fields = '__all__'
+        fields = "__all__"

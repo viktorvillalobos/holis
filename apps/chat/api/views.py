@@ -1,14 +1,14 @@
 import logging
-import uuid
 
-from apps.chat import uc as chat_uc
-from apps.chat.api import serializers
-from apps.chat import models as chat_models
-from apps.users import models as users_models
 from django.conf import settings
-from rest_framework import exceptions, views, generics
+from rest_framework import exceptions, generics, views
 from rest_framework.response import Response
 from twilio.rest import Client
+
+from apps.chat import models as chat_models
+from apps.chat import uc as chat_uc
+from apps.chat.api import serializers
+from apps.users import models as users_models
 
 logger = logging.getLogger(__name__)
 
@@ -35,7 +35,7 @@ class GetOrCreateRoomAPIView(views.APIView):
                 .get_room()
             )
         except chat_uc.NonExistentMemberException:
-            raise exceptions.ValidationError('Member not exist')
+            raise exceptions.ValidationError("Member not exist")
 
 
 class GetTurnCredentialsAPIView(views.APIView):
@@ -69,9 +69,9 @@ class RecentChatsAPIView(generics.ListAPIView):
 
         users_ids = (
             chat_models.Room.objects.filter(id__in=last_room_ids)
-            .order_by('members__id')
-            .distinct('members__id')
-            .values_list('members__id', flat=True)
+            .order_by("members__id")
+            .distinct("members__id")
+            .values_list("members__id", flat=True)
         )
 
         users_ids = [x for x in users_ids if x != self.request.user.id]

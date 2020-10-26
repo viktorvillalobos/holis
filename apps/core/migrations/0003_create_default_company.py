@@ -5,7 +5,10 @@ from django.db import migrations
 
 def create_base_company(apps, schema_editor):
     from apps.core.models import Area, Company
-    company1 = Company.objects.create(name="adslab", code="adslab", email="viktor@adslab.io")
+
+    company1 = Company.objects.create(
+        name="adslab", code="adslab", email="viktor@adslab.io"
+    )
     company2 = Company.objects.create(
         name="firesoft", code="firesoft", email="viktor@firesoft.org"
     )
@@ -24,10 +27,6 @@ def reverse_create_company(apps, schema_editor):
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('core', '0002_auto_20200809_0107'),
-    ]
+    dependencies = [("core", "0002_auto_20200809_0107")]
 
-    operations = [
-        migrations.RunPython(create_base_company, reverse_create_company)
-    ]
+    operations = [migrations.RunPython(create_base_company, reverse_create_company)]

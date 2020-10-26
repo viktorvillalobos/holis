@@ -1,21 +1,21 @@
 """
     UseCases for Area
 """
-import logging
 import collections
+import logging
 from typing import Dict, List, Tuple
-from ast import literal_eval
 
 import numpy as np
+
+from apps.core.models import Area
 from apps.core.uc.abstracts import AbstractModelUC
 from apps.core.uc.item import AreaItem
 from apps.users.models import User
-from apps.core.models import Area
 
 logger = logging.getLogger(__name__)
 
 
-Point = collections.namedtuple('Point', 'x y')
+Point = collections.namedtuple("Point", "x y")
 
 
 class BaseAreaUC(AbstractModelUC):
@@ -62,21 +62,16 @@ class BaseAreaUC(AbstractModelUC):
 
         return (
             False,
-            [
-                [AreaItem.from_dict(x) for x in row]
-                for row in self.instance.state
-            ],
+            [[AreaItem.from_dict(x) for x in row] for row in self.instance.state],
         )
 
     def save_state(self):
-        self.instance.state = [
-            [x.to_dict() for x in row] for row in self.state
-        ]
+        self.instance.state = [[x.to_dict() for x in row] for row in self.state]
         self.instance.save()
 
     @property
     def connected_idxs(self) -> dict:
-        logger.info('connected_idxs')
+        logger.info("connected_idxs")
         result = []
         for row in self.state:
             result += [x for x in row if x.id != 0]
@@ -90,7 +85,7 @@ class BaseAreaUC(AbstractModelUC):
         return AreaItem.zero()
 
     def get_user_position(self, user: User) -> dict:
-        logger.info('get_user_position')
+        logger.info("get_user_position")
         x_pos = 0
         y_pos = 0
 
