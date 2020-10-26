@@ -32,7 +32,7 @@ class GridMixin:
     ) -> Tuple[Tuple, Dict]:
         self.scope["user"].touch(area_id=area_id)
         old_point = add_user_to_area(area_id, self.scope["user"], Point(x, y), room)
-        return old_point, get_area_state(area_id)
+        return old_point.to_dict(), get_area_state(area_id)
 
     @database_sync_to_async
     def clear_position(

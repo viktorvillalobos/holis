@@ -33,6 +33,9 @@ class Point:
     x: int
     y: int
 
+    def to_dict(self):
+        return {"x": self.x, "y": self.y}
+
 
 T = TypeVar("T")
 
@@ -119,7 +122,9 @@ class AreaItem:
         room = from_str(obj.get("room"))
         is_online = from_bool(obj.get("is_online"))
         last_seen = (
-            from_str_to_datetime(obj.get("last_seen")) if obj.get("last_seen") else None
+            from_str_to_datetime(obj.get("last_seen"))
+            if obj.get("last_seen")
+            else None
         )
         jid = from_str(obj.get("jid", ""))
 
