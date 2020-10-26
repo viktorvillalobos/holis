@@ -6,7 +6,7 @@ from django.urls import include, path
 from django.views import defaults as default_views
 from rest_framework.authtoken.views import obtain_auth_token
 
-from apps.core.views import views as core_views
+from apps.core import views as core_views
 
 urlpatterns = [
     path("", include("pwa.urls")),

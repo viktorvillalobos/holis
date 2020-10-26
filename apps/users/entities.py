@@ -29,4 +29,3 @@ class User:
             avatar=instance.avatar.url,
             last_seen=instance.last_seen,
         )
-

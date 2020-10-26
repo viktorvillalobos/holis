@@ -11,7 +11,7 @@ from apps.users.models import User
 from ..entities import Point
 from ..models import Area
 from .abstracts import AbstractModelUC
-from .item import AreaItem
+from ..entities import AreaItem
 
 logger = logging.getLogger(__name__)
 

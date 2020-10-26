@@ -1,10 +1,9 @@
 import pytest
 from django.conf import settings
 
-from ..entities import Point
+from ..entities import AreaItem, Point
 from ..models import Area
 from ..services import add_user_to_area, get_area, get_area_state, remove_user_from_area
-from ..uc.item import AreaItem
 
 
 @pytest.mark.django_db
