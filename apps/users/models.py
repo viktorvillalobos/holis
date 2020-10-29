@@ -11,8 +11,9 @@ from django.db import models
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
+from django.utils.functional import cached_property
 from model_utils.models import TimeStampedModel
-from sorl.thumbnail import ImageField, get_thumbnail
+from sorl.thumbnail import ImageField  # , get_thumbnail
 
 from apps.core.models import Area
 
@@ -115,10 +116,10 @@ class User(AbstractUser):
         #     self.avatar = self.get_monster()
         super().save(*args, **kwargs)
 
-    @property
+    @cached_property
     def avatar_thumb(self):
         if not self.avatar:
-            url = f"https://avatars.abstractapi.com/v1/?api_key={settings.ABSTRACT_API_KEY}&name={self.username}" # noqa
+            url = f"https://avatars.abstractapi.com/v1/?api_key={settings.ABSTRACT_API_KEY}&name={self.username}"  # noqa
             resp = requests.get(url)
             fp = BytesIO()
             fp.write(resp.content)
@@ -126,7 +127,8 @@ class User(AbstractUser):
             self.avatar.save(file_name, files.File(fp))
             self.save()
 
-        return get_thumbnail(self.avatar.file, "100x100", crop="center", quality=99).url
+        # return get_thumbnail(self.avatar.file, "100x100", crop="center", quality=99).url
+        return self.avatar.url
 
 
 class Status(TimeStampedModel):

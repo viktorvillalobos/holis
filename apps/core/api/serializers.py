@@ -36,6 +36,7 @@ class AreaSerializer(serializers.ModelSerializer):
     class Meta:
         model = core_models.Area
         fields = "__all__"
+        read_only_fields = ("pk", "created", "updated", "state")
 
 
 class UserField(serializers.Field):

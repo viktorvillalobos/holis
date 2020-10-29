@@ -31,4 +31,5 @@ class MessageSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = chat_models.Message
-        fields = "__all__"
+        fields = ("user_name", "created", "avatar_thumb", "text")
+        read_only_fields = fields
