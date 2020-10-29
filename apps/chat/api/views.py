@@ -87,7 +87,7 @@ class MessageListAPIView(generics.ListAPIView):
         qs = super().get_queryset()
         return qs.filter(
             room__id=self.kwargs["id"], company=self.request.user.company
-        ).order_by("-created")
+        ).order_by("-created").select_related("user")
 
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
@@ -98,4 +98,5 @@ class MessageListAPIView(generics.ListAPIView):
             return self.get_paginated_response(serializer.data)
 
         serializer = self.get_serializer(queryset, many=True)
+
         return Response(serializer.data)
