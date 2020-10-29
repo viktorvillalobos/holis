@@ -111,7 +111,6 @@ export default {
   methods: {
     emitSound () {
       this.$emit('sound')
-      this.$store.commit('setMuteMicro')
       this.$store.commit('setMuteAudio')
     },
     emitVideo () {
