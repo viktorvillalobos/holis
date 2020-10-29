@@ -8,10 +8,9 @@ import numpy as np
 
 from apps.users.models import User
 
-from ..entities import Point
+from ..entities import AreaItem, Point
 from ..models import Area
 from .abstracts import AbstractModelUC
-from ..entities import AreaItem
 
 logger = logging.getLogger(__name__)
 

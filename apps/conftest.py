@@ -1,7 +1,8 @@
 import pytest
+from django.conf import settings
+from model_bakery import baker
 
 from apps.users.models import User
-from apps.users.tests.factories import UserFactory
 
 
 @pytest.fixture(autouse=True)
@@ -11,4 +12,4 @@ def media_storage(settings, tmpdir):
 
 @pytest.fixture
 def user() -> User:
-    return UserFactory()
+    return baker.make(settings.AUTH_USER_MODEL)

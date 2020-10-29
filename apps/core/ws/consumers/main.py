@@ -1,10 +1,12 @@
 import logging
+from typing import Dict
 
 from channels.db import database_sync_to_async
 from channels.generic.websocket import AsyncJsonWebsocketConsumer
 from django.utils.translation import ugettext as _
+from django.conf import settings
 
-from apps.users.api.serializers import UserSerializer
+from apps.users.services import serialize_user
 
 from .grid import GridMixin
 from .notifications import NotificationMixin
@@ -24,8 +26,8 @@ class MainConsumerBase(AsyncJsonWebsocketConsumer):
         return [self.company_channel]
 
     @database_sync_to_async
-    def serialize_user_data(self, user):
-        return UserSerializer(user).data
+    def serialize_user_data(self, user: settings.AUTH_USER_MODEL) -> Dict:
+        return serialize_user(user)
 
     async def send_me_data(self):
         if self.scope["user"].id:
