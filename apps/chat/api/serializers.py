@@ -1,8 +1,6 @@
 from rest_framework import serializers
 
 from apps.chat import models as chat_models
-from apps.chat.uc import RoomCreate
-from apps.users import models as user_models
 
 
 class GetOrCreateRoomSerializer(serializers.Serializer):
@@ -10,20 +8,23 @@ class GetOrCreateRoomSerializer(serializers.Serializer):
 
 
 class RecentsSerializer(serializers.ModelSerializer):
-    room = serializers.SerializerMethodField()
+    room = serializers.UUIDField(source="id")
+    avatar_thumb = serializers.SerializerMethodField()
 
-    def get_room(self, obj):
-        uc = RoomCreate(obj.company, [obj.id, self.context["request"].user.id])
-        return uc.execute().get_room().id
+    def get_avatar_thumb(self, obj):
+        return (
+            obj.members.exclude(id=self.context["request"].user.id).first().avatar_thumb
+        )
 
     class Meta:
-        model = user_models.User
-        fields = ("name", "id", "avatar_thumb", "room")
+        model = chat_models.Room
+        fields = ("name", "id", "room", "avatar_thumb")
+        read_only_fields = fields
 
 
 class MessageSerializer(serializers.ModelSerializer):
     """
-        WARNING: This is used by Consumers.
+    WARNING: This is used by Consumers.
     """
 
     avatar_thumb = serializers.CharField(source="user.avatar_thumb")
@@ -31,5 +32,5 @@ class MessageSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = chat_models.Message
-        fields = ("user_name", "created", "avatar_thumb", "text")
+        fields = ("id", "user_name", "created", "avatar_thumb", "text", "room")
         read_only_fields = fields

@@ -52,31 +52,39 @@ class UploadFileAPIView(views.APIView):
     pass
 
 
-class RecentChatsAPIView(generics.ListAPIView):
+class RecentChatsAPIView(views.APIView):
     serializer_class = serializers.RecentsSerializer
     queryset = chat_models.Message.objects.all()
     pagination_class = None
 
-    def get_queryset(self):
-        qs = super().get_queryset().filter(company=self.request.user.company)
-
-        last_room_ids = (
-            qs.filter(room__is_one_to_one=True)
+    def get(self, request, *args, **kwargs):
+        rooms_data = (
+            chat_models.Message.objects.filter(
+                room__is_one_to_one=True, company=self.request.user.company
+            )
+            .prefetch_related("room__members")
             .order_by("room__id")
             .distinct("room__id")
-            .values_list("room_id", flat=True)
+            .values(
+                "room__id",
+                "room__members__avatar",
+                "room__members__name",
+                "room__members__id",
+            )
         )[:3]
 
-        users_ids = (
-            chat_models.Room.objects.filter(id__in=last_room_ids)
-            .order_by("members__id")
-            .distinct("members__id")
-            .values_list("members__id", flat=True)
+        return Response(
+            [
+                {
+                    "room": x["room__id"],
+                    "avatar_thumb": "/media/{}".format(x["room__members__avatar"]),
+                    "id": x["room__members__id"],
+                    "name": x["room__members__name"],
+                }
+                for x in rooms_data
+                if x["room__members__id"] != self.request.user.id
+            ]
         )
-
-        users_ids = [x for x in users_ids if x != self.request.user.id]
-
-        return users_models.User.objects.filter(id__in=users_ids)
 
 
 class MessageListAPIView(generics.ListAPIView):
@@ -85,9 +93,11 @@ class MessageListAPIView(generics.ListAPIView):
 
     def get_queryset(self):
         qs = super().get_queryset()
-        return qs.filter(
-            room__id=self.kwargs["id"], company=self.request.user.company
-        ).order_by("-created").select_related("user")
+        return (
+            qs.filter(room__id=self.kwargs["id"], company=self.request.user.company)
+            .order_by("-created")
+            .select_related("user")
+        )
 
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
