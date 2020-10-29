@@ -34,6 +34,7 @@ export default {
     webrtc: WebRTC,
   },
   created () {
+    this.$store.dispatch("getMe")
     AOS.init()
   },
   computed: {

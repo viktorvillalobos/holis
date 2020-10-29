@@ -82,7 +82,6 @@ class MainConsumer(NotificationMixin, GridMixin, MainConsumerBase):
         if self.scope["user"].is_authenticated:
             await self.connect_to_groups()
             await self.accept()
-            await self.send_me_data()
 
     async def disconnect(self, close_code):
         await self.handle_clear_user_position()
