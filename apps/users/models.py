@@ -1,8 +1,12 @@
 import datetime as dt
+import requests
 
+from io import BytesIO
 from birthday.fields import BirthdayField
 from birthday.managers import BirthdayManager
 from django.contrib.auth.models import AbstractUser, UserManager
+from django.core import files
+from django.conf import settings
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
@@ -88,8 +92,8 @@ class User(AbstractUser):
 
     def touch(self, ts=None, area_id=None):
         """
-            Hearbeat
-            ts: datetime
+        Hearbeat
+        ts: datetime
         """
         if area_id:
             area = Area.objects.get(id=area_id)
@@ -114,14 +118,20 @@ class User(AbstractUser):
     @property
     def avatar_thumb(self):
         if not self.avatar:
-            return f"https://api.adorable.io/avatars/100/{self.username}@adorable.png"
+            url = f"https://avatars.abstractapi.com/v1/?api_key={settings.ABSTRACT_API_KEY}&name={self.username}" # noqa
+            resp = requests.get(url)
+            fp = BytesIO()
+            fp.write(resp.content)
+            file_name = self.username + ".png"
+            self.avatar.save(file_name, files.File(fp))
+            self.save()
 
         return get_thumbnail(self.avatar.file, "100x100", crop="center", quality=99).url
 
 
 class Status(TimeStampedModel):
     """
-        Single Status
+    Single Status
     """
 
     company = models.ForeignKey(
@@ -158,7 +168,7 @@ class Status(TimeStampedModel):
 
 class Notification(TimeStampedModel):
     """
-        User notification
+    User notification
     """
 
     company = models.ForeignKey(

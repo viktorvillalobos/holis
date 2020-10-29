@@ -373,3 +373,6 @@ PWA_APP_DIR = "ltr"
 PWA_APP_LANG = "en-US"
 
 SESSION_COOKIE_DOMAIN = ".holis.local"
+
+
+ABSTRACT_API_KEY = env("ABSTRACT_API_KEY")
