@@ -1,7 +1,7 @@
-import requests
+from io import BytesIO
 from typing import Dict
 
-from io import BytesIO
+import requests
 from django.conf import settings
 from django.core import files
 

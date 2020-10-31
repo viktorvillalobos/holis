@@ -1,17 +1,17 @@
 import datetime as dt
-import requests
-
 from io import BytesIO
+
+import requests
 from birthday.fields import BirthdayField
 from birthday.managers import BirthdayManager
+from django.conf import settings
 from django.contrib.auth.models import AbstractUser, UserManager
 from django.core import files
-from django.conf import settings
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
-from django.utils.translation import ugettext_lazy as _
 from django.utils.functional import cached_property
+from django.utils.translation import ugettext_lazy as _
 from model_utils.models import TimeStampedModel
 from sorl.thumbnail import ImageField  # , get_thumbnail
 

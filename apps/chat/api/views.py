@@ -59,8 +59,7 @@ class RecentChatsAPIView(views.APIView):
     def get(self, request, *args, **kwargs):
         rooms_ids = (
             chat_models.Message.objects.filter(
-                room__is_one_to_one=True,
-                company=self.request.user.company,
+                room__is_one_to_one=True, company=self.request.user.company,
             )
             .order_by("room__id", "-created")
             .distinct("room__id")

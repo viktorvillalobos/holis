@@ -36,6 +36,11 @@ class UserViewSet(RetrieveModelMixin, ListModelMixin, UpdateModelMixin, GenericV
             id=self.request.user.id
         )
 
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset(*args, **kwargs)
+        serialized_data = serializers.serializer_user_queryset(queryset)
+        return Response(serialized_data, status=200)
+
     @action(detail=False, methods=["GET"])
     def me(self, request):
         serializer = self.serializer_class(request.user, context={"request": request})
