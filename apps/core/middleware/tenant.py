@@ -1,12 +1,10 @@
-import django
 import logging
-from django.conf import settings
-from django.core.exceptions import DisallowedHost
-from django.db import connection
+
+import django
 from django.http import Http404
+
 from apps.core.middleware.utils import remove_www
 from apps.core.models import Company
-
 
 logger = logging.getLogger(__name__)
 
@@ -25,11 +23,11 @@ class HolisTenantMiddleware(django.utils.deprecation.MiddlewareMixin):
 
     def has_subdomain(self, request):
         hostname = self.hostname_from_request(request)
-        return len(hostname.split('.')) >= 2
+        return len(hostname.split(".")) >= 2
 
     def process_request(self, request):
         hostname = self.hostname_from_request(request)
-        is_subdomain = len(hostname.split('.')) > 2
+        is_subdomain = len(hostname.split(".")) > 2
 
         code = hostname.split(".")[0]
         TenantModel = Company

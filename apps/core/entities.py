@@ -1,17 +1,41 @@
-# To use this code, make sure you
-#
-#     import json
-#
-# and then, to convert JSON from a string, do
-#
-#     result = area_item_from_dict(json.loads(json_string))
 import datetime
-import logging
 from dataclasses import dataclass
-from typing import Optional, Any, TypeVar, Type, cast
+from typing import Any, Dict, Optional, Type, TypeVar, cast
+
+from .models import Area as AreaModel
 
 
-logger = logging.getLogger(__name__)
+@dataclass
+class Area:
+    id: int
+    company: int
+    name: str
+    parent: int
+    width: int
+    height: int
+    state: Dict
+
+    @classmethod
+    def load_from_model(cls, area: AreaModel) -> AreaModel:
+        return cls(
+            id=area.id,
+            company=area.company_id,
+            name=area.name,
+            parent=area.parent_id,
+            width=area.width,
+            height=area.height,
+            state=area.state,
+        )
+
+
+@dataclass
+class Point:
+    x: int
+    y: int
+
+    def to_dict(self):
+        return {"x": self.x, "y": self.y}
+
 
 T = TypeVar("T")
 
@@ -68,7 +92,7 @@ class AreaItem:
     jid: str
 
     @staticmethod
-    def zero() -> 'AreaItem':
+    def zero() -> "AreaItem":
         return AreaItem(
             id=0,
             name="",
@@ -81,11 +105,11 @@ class AreaItem:
             last_seen=None,
             x=0,
             y=0,
-            jid=""
+            jid="",
         )
 
     @staticmethod
-    def from_dict(obj: Any) -> 'AreaItem':
+    def from_dict(obj: Any) -> "AreaItem":
         assert isinstance(obj, dict)
         id = from_int(obj.get("id"))
         x = from_int(obj.get("x"))
@@ -98,9 +122,7 @@ class AreaItem:
         room = from_str(obj.get("room"))
         is_online = from_bool(obj.get("is_online"))
         last_seen = (
-            from_str_to_datetime(obj.get("last_seen"))
-            if obj.get("last_seen")
-            else None
+            from_str_to_datetime(obj.get("last_seen")) if obj.get("last_seen") else None
         )
         jid = from_str(obj.get("jid", ""))
 
@@ -116,7 +138,7 @@ class AreaItem:
             last_seen=last_seen,
             x=x,
             y=y,
-            jid=jid
+            jid=jid,
         )
 
     @staticmethod
@@ -133,7 +155,7 @@ class AreaItem:
             last_seen=User.last_seen,
             x=x,
             y=y,
-            jid=User.jid or ""
+            jid=User.jid or "",
         )
 
     def to_dict(self) -> dict:

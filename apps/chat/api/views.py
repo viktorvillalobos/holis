@@ -1,14 +1,13 @@
 import logging
-import uuid
 
-from apps.chat import uc as chat_uc
-from apps.chat.api import serializers
-from apps.chat import models as chat_models
-from apps.users import models as users_models
 from django.conf import settings
-from rest_framework import exceptions, views, generics
+from rest_framework import exceptions, generics, views
 from rest_framework.response import Response
 from twilio.rest import Client
+
+from apps.chat import models as chat_models
+from apps.chat import uc as chat_uc
+from apps.chat.api import serializers
 
 logger = logging.getLogger(__name__)
 
@@ -35,7 +34,7 @@ class GetOrCreateRoomAPIView(views.APIView):
                 .get_room()
             )
         except chat_uc.NonExistentMemberException:
-            raise exceptions.ValidationError('Member not exist')
+            raise exceptions.ValidationError("Member not exist")
 
 
 class GetTurnCredentialsAPIView(views.APIView):
@@ -52,31 +51,39 @@ class UploadFileAPIView(views.APIView):
     pass
 
 
-class RecentChatsAPIView(generics.ListAPIView):
+class RecentChatsAPIView(views.APIView):
     serializer_class = serializers.RecentsSerializer
     queryset = chat_models.Message.objects.all()
     pagination_class = None
 
-    def get_queryset(self):
-        qs = super().get_queryset().filter(company=self.request.user.company)
-
-        last_room_ids = (
-            qs.filter(room__is_one_to_one=True)
-            .order_by("room__id")
+    def get(self, request, *args, **kwargs):
+        rooms_ids = (
+            chat_models.Message.objects.filter(
+                room__is_one_to_one=True, company=self.request.user.company,
+            )
+            .order_by("room__id", "-created")
             .distinct("room__id")
-            .values_list("room_id", flat=True)
+            .values_list("room__id", flat=True)
         )[:3]
 
-        users_ids = (
-            chat_models.Room.objects.filter(id__in=last_room_ids)
-            .order_by('members__id')
-            .distinct('members__id')
-            .values_list('members__id', flat=True)
+        rooms_data = (
+            chat_models.Room.objects.filter(id__in=rooms_ids)
+            .prefetch_related("members")
+            .values("id", "members__avatar", "members__id", "members__name")
         )
 
-        users_ids = [x for x in users_ids if x != self.request.user.id]
-
-        return users_models.User.objects.filter(id__in=users_ids)
+        return Response(
+            [
+                {
+                    "room": x["id"],
+                    "avatar_thumb": "/media/{}".format(x["members__avatar"]),
+                    "id": x["members__id"],
+                    "name": x["members__name"],
+                }
+                for x in rooms_data
+                if x["members__id"] != self.request.user.id
+            ]
+        )
 
 
 class MessageListAPIView(generics.ListAPIView):
@@ -85,9 +92,11 @@ class MessageListAPIView(generics.ListAPIView):
 
     def get_queryset(self):
         qs = super().get_queryset()
-        return qs.filter(
-            room__id=self.kwargs["id"], company=self.request.user.company
-        ).order_by("-created")
+        return (
+            qs.filter(room__id=self.kwargs["id"], company=self.request.user.company)
+            .order_by("-created")
+            .select_related("user")
+        )
 
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
@@ -98,4 +107,5 @@ class MessageListAPIView(generics.ListAPIView):
             return self.get_paginated_response(serializer.data)
 
         serializer = self.get_serializer(queryset, many=True)
+
         return Response(serializer.data)

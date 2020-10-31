@@ -1,8 +1,8 @@
 import logging
-from channels.generic.websocket import AsyncJsonWebsocketConsumer
-from .utils import create_message, serialize_message
-from apps.chat.api.serializers import MessageSerializer
 
+from channels.generic.websocket import AsyncJsonWebsocketConsumer
+
+from .utils import create_message, serialize_message
 
 logger = logging.getLogger(__name__)
 COMPANY_MAIN_CHANNEL = "company-chat-{}"
@@ -33,23 +33,15 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
         self.room_group_name = f"chat_{self.room_name}"
         logger.info(f"CONNECTING TO {self.room_group_name}")
 
-        await self.channel_layer.group_add(
-            self.room_group_name, self.channel_name
-        )
+        await self.channel_layer.group_add(self.room_group_name, self.channel_name)
         await self.accept()
         _msg = {"type": "chat.presence", "kind": "connect", "user": "pepito"}
         await self.channel_layer.group_send(self.room_group_name, _msg)
 
     async def disconnect(self, close_code):
-        await self.channel_layer.group_discard(
-            self.room_group_name, self.channel_name
-        )
+        await self.channel_layer.group_discard(self.room_group_name, self.channel_name)
 
-        _msg = {
-            "type": "chat.presence",
-            "kind": "disconnect",
-            "user": "pepito",
-        }
+        _msg = {"type": "chat.presence", "kind": "disconnect", "user": "pepito"}
         await self.channel_layer.group_send(self.room_group_name, _msg)
 
     async def broadcast_chat_message(self, content):
@@ -58,14 +50,10 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
         logger.info("broadcast_chat_message")
         user = self.scope["user"]
 
-        message = await create_message(
-            user, content["room"], content["message"]
-        )
+        message = await create_message(user, content["room"], content["message"])
         serialized_message = await serialize_message(message)
 
-        await self.channel_layer.group_send(
-            self.room_group_name, serialized_message
-        )
+        await self.channel_layer.group_send(self.room_group_name, serialized_message)
 
     async def chat_echo(self, event):
         logger.info("chat_echo")

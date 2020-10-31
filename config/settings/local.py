@@ -11,9 +11,7 @@ SECRET_KEY = env(
     default="IZGCmcTPYgxBYUDtxH9Dx6NOm0CSoKeZ2x3R4qUssRXSXdH4xGdoECQM9bC8ThQG",
 )
 # https://docs.djangoproject.com/en/dev/ref/settings/#allowed-hosts
-ALLOWED_HOSTS = [
-    "*",
-]
+ALLOWED_HOSTS = ["*"]
 
 # CACHES
 # ------------------------------------------------------------------------------
@@ -48,9 +46,7 @@ EMAIL_PORT = 1025
 # WhiteNoise
 # ------------------------------------------------------------------------------
 # http://whitenoise.evans.io/en/latest/django.html#using-whitenoise-in-development
-INSTALLED_APPS = [
-    "whitenoise.runserver_nostatic"
-] + INSTALLED_APPS  # noqa F405
+INSTALLED_APPS = ["whitenoise.runserver_nostatic"] + INSTALLED_APPS  # noqa F405
 
 
 # django-debug-toolbar
@@ -102,5 +98,3 @@ WEBPACK_LOADER = {
 }
 
 EMAIL_RELAY_TOKEN = env("EMAIL_RELAY_TOKEN")
-OPENFIRE_HOST = env("OPENFIRE_HOST")
-OPENFIRE_SECRET = env("OPENFIRE_SECRET")

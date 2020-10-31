@@ -1,11 +1,12 @@
 import logging
 from typing import Dict
 
-from apps.users.api.serializers import UserSerializer
 from channels.db import database_sync_to_async
 from channels.generic.websocket import AsyncJsonWebsocketConsumer
-from django.contrib.auth.models import AnonymousUser
+from django.conf import settings
 from django.utils.translation import ugettext as _
+
+from apps.users.services import serialize_user
 
 from .grid import GridMixin
 from .notifications import NotificationMixin
@@ -25,8 +26,8 @@ class MainConsumerBase(AsyncJsonWebsocketConsumer):
         return [self.company_channel]
 
     @database_sync_to_async
-    def serialize_user_data(self, user):
-        return UserSerializer(user).data
+    def serialize_user_data(self, user: settings.AUTH_USER_MODEL) -> Dict:
+        return serialize_user(user)
 
     async def send_me_data(self):
         if self.scope["user"].id:
@@ -81,7 +82,6 @@ class MainConsumer(NotificationMixin, GridMixin, MainConsumerBase):
         if self.scope["user"].is_authenticated:
             await self.connect_to_groups()
             await self.accept()
-            await self.send_me_data()
 
     async def disconnect(self, close_code):
         await self.handle_clear_user_position()
@@ -92,6 +92,6 @@ class MainConsumer(NotificationMixin, GridMixin, MainConsumerBase):
     async def force_disconnect(self, message):
         logger.info("force_disconnect")
         logger.info(message)
-        user_id = message.get('user_id')
+        user_id = message.get("user_id")
         if user_id:
             await self.handle_clear_user_position(user_id=user_id)

@@ -28,7 +28,7 @@ up|run|server|runserver)
   python manage.py runserver 0.0.0.0:8000
 ;;
 test)
-  pytest "$@" --flake8 --isort --black --cov=catalog --junitxml=/dev/shm/test-results/pytest.xml
+  pytest "$@" --black --cov=apps --junitxml=/dev/shm/test-results/pytest.xml
 ;;
 pipi)
 
@@ -48,7 +48,7 @@ black)
   black .
 ;;
 migrate)
-  python manage.py migrate-all "$@"
+  python manage.py migrate "$@"
 ;;
 makemigrations|makemigration|makemig)
   python manage.py makemigrations "$@"

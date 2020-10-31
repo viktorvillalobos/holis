@@ -1,7 +1,8 @@
-from apps.users.api import views
 from django.conf import settings
 from django.urls import path
 from rest_framework.routers import DefaultRouter, SimpleRouter
+
+from apps.users.api import views
 
 if settings.DEBUG:
     router = DefaultRouter()
@@ -25,7 +26,6 @@ urlpatterns = [
         views.UploadAvatarAPIView.as_view(),
         name="upload-avatar",
     ),
-
 ]
 
 

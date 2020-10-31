@@ -1,5 +1,6 @@
 [MASTER]
 load-plugins=pylint_django, pylint_celery 
+ignore=migrations,test,tests,tests.py,urls.py
 
 [FORMAT]
 max-line-length=120

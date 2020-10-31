@@ -37,8 +37,14 @@ const mutations = {
   },
   setMuteAudio (state) {
     state.muteAudio = !state.muteAudio
+    state.muteMicro = true
   },
   setMuteMicro (state) {
+    if (state.muteMicro) {
+      state.muteAudio = false
+      state.muteMicro = false
+      return
+    }
     state.muteMicro = !state.muteMicro
   },
   setStatusConnecting (state) {

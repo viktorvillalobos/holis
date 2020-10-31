@@ -1,17 +1,15 @@
 import logging
 
-from apps.core import models as core_models
-from django.urls import reverse
+from django.contrib.auth import authenticate, login, logout
+from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
-from apps.web import forms
-from django.urls import reverse_lazy, reverse
-from django.views.generic.edit import CreateView, UpdateView
-from django.contrib.auth import authenticate, login
+from django.urls import reverse, reverse_lazy
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import FormView, TemplateView
+from django.views.generic.edit import UpdateView
+
+from apps.web import forms
 from apps.web.models import Lead
-from django.http import HttpResponseRedirect
-from django.contrib.auth import logout
 
 # Create your views here.
 
@@ -20,8 +18,8 @@ logger = logging.getLogger(__name__)
 
 class RedirectToAppMixin:
     def dispatch(self, request, *args, **kwargs):
-        host = request.META.get('HTTP_HOST', '')
-        is_subdomain = len(host.split('.')) > 2
+        host = request.META.get("HTTP_HOST", "")
+        is_subdomain = len(host.split(".")) > 2
 
         if is_subdomain and self.request.user.is_authenticated:
             return redirect(reverse("webapp"))
@@ -49,11 +47,9 @@ class PWAView(TemplateView):
 
     def dispatch(self, request, *args, **kwargs):
         if self.request.user.is_authenticated:
-            host = request.META.get('HTTP_HOST', '')
+            host = request.META.get("HTTP_HOST", "")
             scheme_url = request.is_secure() and "https" or "http"
-            url = (
-                f"{scheme_url}://{self.request.user.company.code}.{host}/app/"
-            )
+            url = f"{scheme_url}://{self.request.user.company.code}.{host}/app/"
             return HttpResponseRedirect(url)
 
         return redirect(reverse("web:check-company"))
@@ -78,7 +74,7 @@ class LoginView(FormView):
         email = form.cleaned_data["email"]
         password = form.cleaned_data["password"]
 
-        user = authenticate(self.request, email=email, password=password,)
+        user = authenticate(self.request, email=email, password=password)
 
         if user is not None:
             login(self.request, user)
@@ -103,9 +99,7 @@ class SignUpStep1(FormView):
     success_url = reverse_lazy("web:signup-step-2")
 
     def form_valid(self, form):
-        lead = Lead.objects.filter(
-            email=form.cleaned_data.get("email")
-        ).first()
+        lead = Lead.objects.filter(email=form.cleaned_data.get("email")).first()
 
         if not lead:
             form.save()
@@ -126,9 +120,7 @@ class SignUpStep3(GetObjectByUUIDMixin, UpdateView):
     form_class = forms.SignUpStep3Form
 
     def get_success_url(self, **kwargs):
-        return reverse_lazy(
-            "web:signup-step-4", kwargs={"pk": self.kwargs["pk"]}
-        )
+        return reverse_lazy("web:signup-step-4", kwargs={"pk": self.kwargs["pk"]})
 
 
 class SignUpStep4(GetObjectByUUIDMixin, UpdateView):
@@ -138,18 +130,16 @@ class SignUpStep4(GetObjectByUUIDMixin, UpdateView):
     success_url = reverse_lazy("web:signup-step-5")
 
     def get_success_url(self, **kwargs):
-        return reverse_lazy(
-            "web:signup-step-5", kwargs={"pk": self.kwargs["pk"]}
-        )
+        return reverse_lazy("web:signup-step-5", kwargs={"pk": self.kwargs["pk"]})
 
 
 class SignUpStep5(GetObjectByUUIDMixin, UpdateView):
     template_name = "auth/signup/step5.html"
     model = Lead
     form_class = forms.SignUpStep5Form
-    success_url = '/app'
+    success_url = "/app"
 
 
 def logout_view(request):
     logout(request)
-    return redirect('webapp')
+    return redirect("webapp")

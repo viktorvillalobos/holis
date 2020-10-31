@@ -4,7 +4,6 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from model_utils.models import TimeStampedModel
 
-
 """
 Design Concepts
 ========
@@ -28,25 +27,21 @@ class Room(TimeStampedModel):
         db_index=True,
     )
     name = models.CharField(_("title"), db_index=True, max_length=255)
-    subject = models.CharField(
-        _("subject"), max_length=1024, null=True, blank=True
-    )
+    subject = models.CharField(_("subject"), max_length=1024, null=True, blank=True)
     members = models.ManyToManyField(
-        "users.User", related_name="members", verbose_name=_("members"),
+        "users.User", related_name="members", verbose_name=_("members")
     )
     owners = models.ManyToManyField(
-        "users.User", related_name="owners", verbose_name=_("owners"),
+        "users.User", related_name="owners", verbose_name=_("owners")
     )
     admins = models.ManyToManyField(
-        "users.User", related_name="admins", verbose_name=_("admins"),
+        "users.User", related_name="admins", verbose_name=_("admins")
     )
     outcasts = models.ManyToManyField(
-        "users.User", related_name="outcats", verbose_name=_("outcats"),
+        "users.User", related_name="outcats", verbose_name=_("outcats")
     )
     max_users = models.IntegerField(_("Max users"), default=0)
-    password = models.CharField(
-        _("password"), max_length=255, null=True, blank=True
-    )
+    password = models.CharField(_("password"), max_length=255, null=True, blank=True)
     service_name = models.CharField(
         _("Service Name"), max_length=255, default="conference"
     )
@@ -119,9 +114,7 @@ class MessageAttachment(TimeStampedModel):
         on_delete=models.CASCADE,
     )
     attachment = models.FileField(_("attachment"))
-    mimetype = models.CharField(
-        _("Mimetype"), blank=True, null=True, max_length=255
-    )
+    mimetype = models.CharField(_("Mimetype"), blank=True, null=True, max_length=255)
 
     tenant_id = "company_id"
 

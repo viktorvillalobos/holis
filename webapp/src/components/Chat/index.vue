@@ -41,7 +41,7 @@
             v-for="msg in messages"
             :key="msg.id"
             :id="msg.id"
-            :messageIsMine="getIsMine(msg.user)"
+            :messageIsMine="getIsMine(msg.user_id)"
             :who="msg.user_name"
             :datetime="msg.created"
             :text="msg.text"

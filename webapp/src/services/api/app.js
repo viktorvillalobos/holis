@@ -12,5 +12,8 @@ export default {
   },
   setStatus (statusId) {
     return axios.post(`${urlBase}/users/set-status/`, { status_id: statusId })
+  },
+  getMe () {
+    return axios.get(`${urlBase}/users/list/me/`)
   }
 }

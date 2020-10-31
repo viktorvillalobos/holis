@@ -1,12 +1,15 @@
 import logging
+from typing import Any, Dict, List
+
+from django.contrib.auth import authenticate
+from django.core.cache import cache
+from django.db.models.query import QuerySet
+from django.utils.translation import gettext_lazy as _
+from rest_framework import serializers
 
 from apps.core import models as core_models
 from apps.core.cachekeys import USER_POSITION_KEY
 from apps.users import models as users_models
-from django.contrib.auth import authenticate
-from django.core.cache import cache
-from django.utils.translation import gettext_lazy as _
-from rest_framework import serializers
 
 logger = logging.getLogger(__name__)
 
@@ -55,6 +58,34 @@ class ActiveStatusSerializer(serializers.Serializer):
     icon_text = serializers.CharField()
 
 
+def serializer_user_queryset(queryset: QuerySet) -> List[Dict[str, Any]]:
+    return [
+        {
+            "results": {
+                "id": x.id,
+                "birthday": x.birthday,
+                "email": x.email,
+                "name": x.name,
+                "position": x.position,
+                "statuses": [
+                    {
+                        "text": status.text,
+                        "icon": status.icon.url,
+                        "icon_text": status.icon_text,
+                        "is_active": status.is_active,
+                        "id": status.id,
+                    }
+                    for status in x.statuses.all()
+                ],
+                "username": x.username,
+                "avatar_thumb": x.avatar_thumb,
+                "is_staff": x.is_staff,
+            }
+        }
+        for x in queryset
+    ]
+
+
 class UserSerializer(serializers.ModelSerializer):
     statuses = StatusSerializer(many=True, read_only=True)
     company = UserCompanySerializer(read_only=True)
@@ -101,6 +132,8 @@ class UserSerializer(serializers.ModelSerializer):
             "is_superuser",
             "status",
         ]
+
+        read_only_fields = fields
 
 
 class NotificationSerializer(serializers.ModelSerializer):

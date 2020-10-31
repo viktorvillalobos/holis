@@ -15,9 +15,7 @@ class Company(TimeStampedModel):
     """
 
     name = models.CharField(_("name"), max_length=50, db_index=True)
-    code = models.CharField(
-        _("code"), max_length=50, db_index=True, unique=True
-    )
+    code = models.CharField(_("code"), max_length=50, db_index=True, unique=True)
     email = models.EmailField(_("email"), null=True, blank=True)
     country = CountryField(null=True, blank=True)
     phone = models.CharField(_("phone"), max_length=20, null=True, blank=True)
@@ -37,9 +35,7 @@ class Company(TimeStampedModel):
     def logo_thumb(self):
         if not self.logo:
             return None
-        return get_thumbnail(
-            self.logo.file, '100x100', crop='center', quality=99
-        ).url
+        return get_thumbnail(self.logo.file, "100x100", crop="center", quality=99).url
 
 
 class Area(MPTTModel):
@@ -65,11 +61,7 @@ class Area(MPTTModel):
     )
     name = models.CharField(max_length=50)
     parent = TreeForeignKey(
-        "self",
-        on_delete=models.CASCADE,
-        null=True,
-        blank=True,
-        related_name="children",
+        "self", on_delete=models.CASCADE, null=True, blank=True, related_name="children"
     )
     width = models.PositiveIntegerField(_("Width"), default=30)
     height = models.PositiveIntegerField(_("Height"), default=30)
@@ -108,7 +100,7 @@ class Announcement(TimeStampedModel):
     text = models.TextField(_("text"), blank=True)
 
     created_by = models.ForeignKey(
-        "users.User", related_name="announcements", on_delete=models.CASCADE,
+        "users.User", related_name="announcements", on_delete=models.CASCADE
     )
 
     tenant_id = "company_id"
@@ -123,7 +115,7 @@ class ChangeLog(TimeStampedModel):
     text = models.TextField(_("text"), blank=True)
 
     created_by = models.ForeignKey(
-        "users.User", related_name="changelogs", on_delete=models.CASCADE,
+        "users.User", related_name="changelogs", on_delete=models.CASCADE
     )
 
     tenant_id = "company_id"

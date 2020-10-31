@@ -2,20 +2,17 @@
     UseCases for Area
 """
 import logging
-import collections
 from typing import Dict, List, Tuple
-from ast import literal_eval
 
 import numpy as np
-from apps.core.uc.abstracts import AbstractModelUC
-from apps.core.uc.item import AreaItem
+
 from apps.users.models import User
-from apps.core.models import Area
+
+from ..entities import AreaItem, Point
+from ..models import Area
+from .abstracts import AbstractModelUC
 
 logger = logging.getLogger(__name__)
-
-
-Point = collections.namedtuple('Point', 'x y')
 
 
 class BaseAreaUC(AbstractModelUC):
@@ -62,21 +59,16 @@ class BaseAreaUC(AbstractModelUC):
 
         return (
             False,
-            [
-                [AreaItem.from_dict(x) for x in row]
-                for row in self.instance.state
-            ],
+            [[AreaItem.from_dict(x) for x in row] for row in self.instance.state],
         )
 
     def save_state(self):
-        self.instance.state = [
-            [x.to_dict() for x in row] for row in self.state
-        ]
+        self.instance.state = [[x.to_dict() for x in row] for row in self.state]
         self.instance.save()
 
     @property
     def connected_idxs(self) -> dict:
-        logger.info('connected_idxs')
+        logger.info("connected_idxs")
         result = []
         for row in self.state:
             result += [x for x in row if x.id != 0]
@@ -90,7 +82,7 @@ class BaseAreaUC(AbstractModelUC):
         return AreaItem.zero()
 
     def get_user_position(self, user: User) -> dict:
-        logger.info('get_user_position')
+        logger.info("get_user_position")
         x_pos = 0
         y_pos = 0
 
@@ -124,11 +116,11 @@ class SaveStateAreaUC(BaseAreaUC):
         Save the position of person inside the state
     """
 
-    def execute(self, user: User, x: int, y: int, room: str) -> List:
-        point = self.clear_current_user_position(user)
+    def execute(self, user: User, x: int, y: int, room: str) -> Point:
+        old_point = self.clear_current_user_position(user)
         self.state[x][y] = AreaItem.from_user(user, x, y, room)
         self.save_state()
-        return point
+        return old_point
 
 
 class ClearStateAreaUC(BaseAreaUC):

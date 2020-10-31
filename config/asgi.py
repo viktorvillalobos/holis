@@ -20,4 +20,3 @@ sys.path.append(str(app_path / "apps"))
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings.local")
 django.setup()
 application = get_default_application()
-

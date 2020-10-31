@@ -1,7 +1,7 @@
+from rest_framework.viewsets import ModelViewSet
+
 from apps.core import models as core_models
 from apps.core.api import serializers
-from rest_framework.permissions import AllowAny
-from rest_framework.viewsets import ModelViewSet
 from apps.utils.mixins.views import CompanyMixinViewSet
 
 

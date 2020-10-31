@@ -1,8 +1,9 @@
 import logging
 
-from apps.users.models import User
 from django.contrib.auth.backends import ModelBackend
 from django.contrib.auth.hashers import check_password
+
+from apps.users.models import User
 
 logger = logging.getLogger(__name__)
 

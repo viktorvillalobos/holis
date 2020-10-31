@@ -1,8 +1,8 @@
 import datetime as dt
 
-from django.conf import settings
-from apps.users.models import User, Status
 from django.db import DatabaseError, transaction
+
+from apps.users.models import Status, User
 
 
 class UserCreationXMPPError(Exception):
@@ -20,7 +20,7 @@ class UserUCBase:
 class CreateUser(UserUCBase):
     def __init__(
         self, company: str, email: str, password: str, birthday=None, **fields
-    ) -> 'CreateUser':
+    ) -> "CreateUser":
         """
         :param company: company
         :param email: email of the user

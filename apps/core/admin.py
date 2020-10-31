@@ -1,5 +1,6 @@
-from apps.core import models
 from django.contrib import admin
+
+from apps.core import models
 
 
 @admin.register(models.Company)
@@ -11,14 +12,7 @@ class CompanyAdmin(admin.ModelAdmin):
 
 @admin.register(models.Area)
 class AreaAdmin(admin.ModelAdmin):
-    list_display = (
-        "name",
-        "users_online",
-        "parent",
-        "company",
-        "width",
-        "height",
-    )
+    list_display = ("name", "users_online", "parent", "company", "width", "height")
     list_filter = ["company"]
     search_fields = ["name"]
 

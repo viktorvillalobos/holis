@@ -24,6 +24,9 @@ const state = {
 }
 
 const mutations = {
+  setUser (state, user) { 
+    state.user = user
+  },
   setAsideLeftActive (state) {
     state.isAsideLeftActive = !state.isAsideLeftActive
   },
@@ -67,7 +70,11 @@ const actions = {
   async getNotifications ({ commit }) {
     const { data } = await apiClient.app.getNotifications()
     commit('setNotifications', data.results)
-  }
+  },
+  async getMe ({ commit }) {
+    const { data } = await apiClient.app.getMe()
+    commit('setUser', data)
+  },
 }
 
 export default {

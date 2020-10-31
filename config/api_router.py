@@ -10,7 +10,7 @@ schema_view = get_schema_view(
         terms_of_service="https://www.google.com/policies/terms/",
         contact=openapi.Contact(email="viktor@adslab.io"),
         license=openapi.License(name="Private License"),
-    ),
+    )
 )
 
 
@@ -21,7 +21,7 @@ urlpatterns = [
         schema_view.with_ui("swagger", cache_timeout=0),
         name="schema-swagger-ui",
     ),
-    path("redoc/", schema_view.with_ui("redoc", cache_timeout=0), name="schema-redoc",),
+    path("redoc/", schema_view.with_ui("redoc", cache_timeout=0), name="schema-redoc"),
     path("core/", include("apps.core.api.urls")),
     path("users/", include("apps.users.api.urls")),
     path("chat/", include("apps.chat.api.urls")),

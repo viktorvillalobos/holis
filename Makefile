@@ -31,12 +31,16 @@ reset:
 	@docker-compose down --volumes --remove-orphans
 	@docker-compose pull
 
+.PHONY: rebuild
+rebuild:
+	@docker-compose -f local.yml down --volumes --remove-orphans
+	@docker-compose -f local.yml build
 
 .PHONY: bash
 bash: ## drop you into a running container
-	@docker exec -it -e RUNTYPE=bash $$(docker ps|grep holis_local_django|awk '{ print $$1 }') /docker-entrypoint.sh || true
+	@docker exec -it -e RUNTYPE=bash $$(docker ps|grep holis_local_django|awk '{ print $$1 }') bash || true
 
 .PHONY: rootbash
 rootbash: ## drop you into a running container as root
-	@docker exec -it -e RUNTYPE=bash --user=root $$(docker ps|grep holis_local_django|awk '{ print $$1 }') /docker-entrypoint.sh || true
+	@docker exec -it -e RUNTYPE=bash --user=root $$(docker ps|grep holis_local_django|awk '{ print $$1 }') bash || true
 

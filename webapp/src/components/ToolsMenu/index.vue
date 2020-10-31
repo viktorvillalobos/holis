@@ -5,9 +5,11 @@
         <li @click="goTo('office')" :class="{'active' : $route.name === 'office'}">
           <font-awesome-icon icon="hotel" />
         </li>
+      <!--
         <li @click="goTo('reports')" :class="{'active' : $route.name === 'reports'}">
           <font-awesome-icon icon="chart-pie" />
-        </li>
+      </li>
+      -->
       </ul>
     </card>
 

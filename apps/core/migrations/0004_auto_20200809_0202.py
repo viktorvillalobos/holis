@@ -5,14 +5,10 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('core', '0003_create_default_company'),
-    ]
+    dependencies = [("core", "0003_create_default_company")]
 
     operations = [
         migrations.AlterField(
-            model_name='area',
-            name='name',
-            field=models.CharField(max_length=50),
-        ),
+            model_name="area", name="name", field=models.CharField(max_length=50)
+        )
     ]
