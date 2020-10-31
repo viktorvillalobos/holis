@@ -58,6 +58,7 @@ const actions = {
   },
   async getMe ({ commit }) {
     const { data } = await apiClient.app.getMe()
+    commit('setUser', data)
   },
   async getUser ({ commit }, id) {
     const { data } = await apiClient.app.getUser(id)

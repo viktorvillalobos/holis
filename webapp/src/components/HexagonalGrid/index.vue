@@ -93,6 +93,7 @@ export default {
       userSpeaking: state => state.webrtc.userSpeaking
     }),
     userCurrentState () {
+      console.log(this.hexOver)
       if (this.hexOver && this.hexOver.user) {
         if (this.hexOver.user.status) return this.hexOver.user.status
         if (this.hexOver.user.statuses) return this.hexOver.user.statuses.filter(status => status.is_active)[0]

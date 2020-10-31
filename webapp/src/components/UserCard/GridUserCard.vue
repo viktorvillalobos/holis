@@ -52,7 +52,7 @@ export default {
     },
     img: {
       type: String,
-      default: 'https://api.adorable.io/avatars/71/abott@adorable.png'
+      default: ''
     },
     user: {
       type: Object,
