@@ -6,7 +6,7 @@ from .models import Area as AreaModel
 
 
 @dataclass
-class Area:
+class AreaData:
     id: int
     company: int
     name: str

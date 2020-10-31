@@ -4,13 +4,13 @@ from django.conf import settings
 
 from apps.core.uc.area_uc import ClearStateAreaUC, GetStateAreaUC, SaveStateAreaUC
 
-from .entities import Area, Point
+from .entities import AreaData, Point
 from .providers import get_area_instance
 
 
-def get_area(area_id: int) -> Area:
+def get_area(area_id: int) -> AreaData:
     area = get_area_instance(area_id)
-    return Area.load_from_model(area)
+    return AreaData.load_from_model(area)
 
 
 def get_area_state(area_id: int) -> List[Dict]:
