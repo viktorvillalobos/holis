@@ -28,7 +28,7 @@ class GetEarlyAccessAPIView(APIView):
         if settings.DEBUG or not settings.EMAIL_RELAY_TOKEN:
             return
 
-        URL = f"https://holis.ipzmarketing.com/api/v1/subscribers"
+        URL = "https://holis.ipzmarketing.com/api/v1/subscribers"
 
         headers = {"X-AUTH-TOKEN": settings.EMAIL_RELAY_TOKEN}
         payload = {"status": "active", "email": email}

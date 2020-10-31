@@ -29,8 +29,17 @@ class MessageSerializer(serializers.ModelSerializer):
 
     avatar_thumb = serializers.CharField(source="user.avatar_thumb")
     user_name = serializers.CharField(source="user.name")
+    user_id = serializers.CharField(source="user.id")
 
     class Meta:
         model = chat_models.Message
-        fields = ("id", "user_name", "created", "avatar_thumb", "text", "room")
+        fields = (
+            "id",
+            "created",
+            "avatar_thumb",
+            "text",
+            "room",
+            "user_id",
+            "user_name",
+        )
         read_only_fields = fields
