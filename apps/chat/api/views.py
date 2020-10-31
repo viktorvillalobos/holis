@@ -1,6 +1,7 @@
 import logging
 
 from django.conf import settings
+from django.core.files.storage import default_storage
 from rest_framework import exceptions, generics, views
 from rest_framework.response import Response
 from twilio.rest import Client
@@ -76,7 +77,7 @@ class RecentChatsAPIView(views.APIView):
             [
                 {
                     "room": x["id"],
-                    "avatar_thumb": "/media/{}".format(x["members__avatar"]),
+                    "avatar_thumb": default_storage.url(x["members__avatar"]),
                     "id": x["members__id"],
                     "name": x["members__name"],
                 }
