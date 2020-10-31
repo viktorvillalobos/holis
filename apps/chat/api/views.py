@@ -8,7 +8,6 @@ from twilio.rest import Client
 from apps.chat import models as chat_models
 from apps.chat import uc as chat_uc
 from apps.chat.api import serializers
-from apps.users import models as users_models
 
 logger = logging.getLogger(__name__)
 
@@ -58,31 +57,32 @@ class RecentChatsAPIView(views.APIView):
     pagination_class = None
 
     def get(self, request, *args, **kwargs):
-        rooms_data = (
+        rooms_ids = (
             chat_models.Message.objects.filter(
-                room__is_one_to_one=True, company=self.request.user.company
+                room__is_one_to_one=True,
+                company=self.request.user.company,
             )
-            .prefetch_related("room__members")
-            .order_by("room__id")
+            .order_by("room__id", "-created")
             .distinct("room__id")
-            .values(
-                "room__id",
-                "room__members__avatar",
-                "room__members__name",
-                "room__members__id",
-            )
+            .values_list("room__id", flat=True)
         )[:3]
+
+        rooms_data = (
+            chat_models.Room.objects.filter(id__in=rooms_ids)
+            .prefetch_related("members")
+            .values("id", "members__avatar", "members__id", "members__name")
+        )
 
         return Response(
             [
                 {
-                    "room": x["room__id"],
-                    "avatar_thumb": "/media/{}".format(x["room__members__avatar"]),
-                    "id": x["room__members__id"],
-                    "name": x["room__members__name"],
+                    "room": x["id"],
+                    "avatar_thumb": "/media/{}".format(x["members__avatar"]),
+                    "id": x["members__id"],
+                    "name": x["members__name"],
                 }
                 for x in rooms_data
-                if x["room__members__id"] != self.request.user.id
+                if x["members__id"] != self.request.user.id
             ]
         )
 
