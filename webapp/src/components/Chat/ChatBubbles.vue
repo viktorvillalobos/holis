@@ -95,8 +95,9 @@ export default {
       this.$store.dispatch('getMessagesByUser', recent.id)
     },
     emitAsideHandle () {
-      if (this.currentChatJID) {
-        this.handleHistoryChat({name: this.currentChatName, id: this.currentChatID })
+      console.log('Clicking')
+      if (this.isAsideRightActive) {
+        this.$store.commit('setAsideRightActive')
       } else {
         this.newChat()
       }
