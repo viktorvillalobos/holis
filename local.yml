@@ -14,6 +14,7 @@ services:
       - postgres
       - mailhog
       - redis
+      - testdb
     volumes:
       - .:/app
       - ./webapp:/app/webapp
@@ -34,6 +35,16 @@ services:
       - local_postgres_data_backups:/backups
     env_file:
       - ./.envs/.local/.postgres
+
+  testdb:
+    image: circleci/postgres:11.5-alpine-postgis
+    command: -c fsync=off
+    ports:
+      - "15432:5432"
+    environment:
+      - POSTGRES_USER=holis
+      - POSTGRES_PASSWORD=testing
+      - POSTGRES_DB=holis
 
   mailhog:
     image: mailhog/mailhog:v1.0.0

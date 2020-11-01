@@ -25,6 +25,19 @@ CACHES = {
     }
 }
 
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        "NAME": "holis",
+        "USER": "holis",
+        "PASSWORD": "testing",
+        "HOST": "testdb",
+        "PORT": "5432",
+        "CONN_MAX_AGE": None,
+        "DISABLE_SERVER_SIDE_CURSORS": True,
+    }
+}
+
 # PASSWORDS
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#password-hashers
