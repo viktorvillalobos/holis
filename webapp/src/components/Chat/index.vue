@@ -55,36 +55,36 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState } from 'vuex'
 
-import ChatHeader from "./ChatHeader";
-import ChatEditor from "./ChatEditor";
-import Message from "./Message";
-import Avatar from "@/components/Avatar";
-import Card from "@/components/Card";
+import ChatHeader from './ChatHeader'
+import ChatEditor from './ChatEditor'
+import Message from './Message'
+import Avatar from '@/components/Avatar'
+import Card from '@/components/Card'
 
 import pattern from '@/assets/lighter_pattern.png'
 export default {
-  name: "Chat",
+  name: 'Chat',
   components: {
     ChatHeader,
     ChatEditor,
     Message,
     Avatar,
-    Card,
+    Card
   },
   props: {
     newChat: {
       type: Boolean,
-      default: false,
-    },
+      default: false
+    }
   },
-  data() {
+  data () {
     return {
-      searchPerson: "",
-      jid: "",
+      searchPerson: '',
+      jid: '',
       patternChat: pattern
-    };
+    }
   },
   computed: {
     ...mapState({
@@ -93,46 +93,46 @@ export default {
       next: state => state.chat.next,
       allowScrollToEnd: state => state.chat.allowScrollToEnd,
       currentChatJID: state => state.chat.currentChatJID,
-      currentChatName: state => state.chat.currentChatName,
+      currentChatName: state => state.chat.currentChatName
     })
   },
-  mounted() {
-    this.scrollToEnd();
+  mounted () {
+    this.scrollToEnd()
   },
-  updated() {
+  updated () {
     if (this.allowScrollToEnd) {
-      this.scrollToEnd();
+      this.scrollToEnd()
     }
   },
   methods: {
     getIsMine (userId) {
-      return userId == window.user_id
+      return userId === window.user_id
     },
-    handleScroll(vertical, horizonal, nativeEvent) {
-      const content = this.$refs.chatContainer;
+    handleScroll (vertical, horizonal, nativeEvent) {
+      const content = this.$refs.chatContainer
       if (
         content &&
         content.scrollTop === 0 &&
         this.next
       ) {
         setTimeout(() => {
-          this.loadHistory();
-          content.scrollTop = 1200;
-        }, 400);
+          this.loadHistory()
+          content.scrollTop = 1200
+        }, 400)
       }
     },
-    loadHistory() {
-      if (this.next) this.$store.dispatch("getNextMessages")
+    loadHistory () {
+      if (this.next) this.$store.dispatch('getNextMessages')
     },
-    scrollToEnd() {
-      const content = this.$refs.chatContainer;
-      if (content) content.scrollTo( { y: "100%" } , content.scrollHeight)
+    scrollToEnd () {
+      const content = this.$refs.chatContainer
+      if (content) content.scrollTo({ y: '100%' }, content.scrollHeight)
     },
-    addMessage(msg) {
-      this.messages.push(msg);
+    addMessage (msg) {
+      this.messages.push(msg)
     },
-    sendMessage(msg) {
-      console.log("msg", msg);
+    sendMessage (msg) {
+      console.log('msg', msg)
       const data = {
         to: this.currentChatID,
         msg: msg

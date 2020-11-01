@@ -7,7 +7,7 @@ import AxiosDjango from '@/plugins/AxiosDjango'
 import VueApexCharts from 'vue-apexcharts'
 import VueLodash from 'vue-lodash'
 import lodash from 'lodash'
-import vuescroll from 'vuescroll';
+import vuescroll from 'vuescroll'
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { far } from '@fortawesome/free-regular-svg-icons'
@@ -37,7 +37,7 @@ const socket = process.env.NODE_ENV === 'production'
   : `ws://${location.hostname}:${location.port}`
 
 Vue.use(VueNativeSock, socket, {
-  connectManually: true,
+  connectManually: true
 })
 
 Vue.use(vuescroll, {
@@ -46,13 +46,12 @@ Vue.use(vuescroll, {
       background: '#5d6de8'
     }
   }
-});
+})
 
 const app = new Vue({
   router,
   store,
   render: h => h(App)
 }).$mount('#app')
-
 
 store.$app = app

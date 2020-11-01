@@ -76,7 +76,7 @@ export default {
     ...mapState({
       muteAudio: state => state.webrtc.muteAudio,
       muteMicro: state => state.webrtc.muteMicro,
-      connected: state => state.webrtc.connected,
+      connected: state => state.webrtc.connected
     }),
     localStream () {
       if (!this.rtcmConnection || !this.rtcmConnection.streamEvents) return null

@@ -1,8 +1,5 @@
 import apiClient from '../../services/api'
 
-const IS_PRODUCTION = process.env.NODE_ENV === 'production'
-
-
 const state = {
   users: [],
   connected: false,
@@ -27,7 +24,7 @@ const state = {
 
 const getters = {
   chatUrl (state) {
-      return `${state.socketChat}${state.room}/`
+    return `${state.socketChat}${state.room}/`
   }
 }
 
@@ -123,15 +120,18 @@ const actions = {
     dispatch('getMessagesByRoom', data.id)
     dispatch('connectToRoom', { vm: this.$app, room: data.id })
   },
-  async getNextMessages ( { commit } ) {
+  async getNextMessages ({ commit }) {
     const { data } = await apiClient.chat.getMessagesFromUrl(state.next)
 
     commit('blockScroll')
     commit('unshiftMessages', data)
     commit('unBlockScroll')
   },
-  sendChatMessage({ commit, state }, { msg }) {
-    window.$socketChat.sendObj({ type: "chat.message", message: msg.message , room: state.room})
+  sendChatMessage ({ commit, state, dispatch }, { msg }) {
+    window.$socketChat.sendObj({ type: 'chat.message', message: msg.message, room: state.room })
+    const isRecent = state.recents.filter(x => x.id === state.currentChatID)
+
+    if (!isRecent.length) dispatch('getRecents')
   }
 }
 

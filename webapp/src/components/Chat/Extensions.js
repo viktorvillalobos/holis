@@ -1,13 +1,11 @@
-import { Extension, Plugin  } from 'tiptap'
+import { Extension, Plugin } from 'tiptap'
 
 export class EnterHandler extends Extension {
-
-
-  get name() {
+  get name () {
     return 'enter_handler'
   }
 
-  get plugins() {
+  get plugins () {
     return [
       new Plugin({
         props: {
@@ -20,9 +18,9 @@ export class EnterHandler extends Extension {
               return true
             }
             return false
-          },
-        },
-      }),
+          }
+        }
+      })
     ]
   }
 }

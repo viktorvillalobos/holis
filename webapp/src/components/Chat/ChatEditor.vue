@@ -128,9 +128,9 @@
   </div>
 </template>
 <script>
-import VEmojiPicker from "v-emoji-picker";
-import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
-import { Editor, EditorContent, EditorMenuBar } from "tiptap"
+import VEmojiPicker from 'v-emoji-picker'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { Editor, EditorContent, EditorMenuBar } from 'tiptap'
 import { EnterHandler } from './Extensions'
 
 import {
@@ -150,22 +150,20 @@ import {
   Link,
   Strike,
   Underline,
-  History,
-} from "tiptap-extensions"
-
-
+  History
+} from 'tiptap-extensions'
 
 export default {
   components: {
     VEmojiPicker,
     EditorContent,
     EditorMenuBar,
-    FontAwesomeIcon,
+    FontAwesomeIcon
   },
-  data() {
+  data () {
     return {
       showEmojiPicker: false,
-      message: "",
+      message: '',
       editor: new Editor({
         extensions: [
           new EnterHandler(),
@@ -185,64 +183,62 @@ export default {
           new Italic(),
           new Strike(),
           new Underline(),
-          new History(),
+          new History()
         ],
-        content: "",
+        content: ''
       }),
       isSendActive: false,
-      files: [],
-    };
+      files: []
+    }
   },
-  mounted() {
-    let self = this
+  mounted () {
     window.$chatEditor = this
-    this.editor.on("update", ({ state, getHTML, getJSON }) => {
+    this.editor.on('update', ({ state, getHTML, getJSON }) => {
       const newContent = getHTML()
-      if (newContent !== "<p></p>") {
+      if (newContent !== '<p></p>') {
         this.isSendActive = true
       } else {
         this.isSendActive = false
       }
 
       this.message = newContent
-    });
+    })
   },
-  beforeDestroy() {
-    this.editor.destroy();
+  beforeDestroy () {
+    this.editor.destroy()
   },
   methods: {
-    handleFileInput() {
-      this.$refs.chatFileInput.click();
+    handleFileInput () {
+      this.$refs.chatFileInput.click()
     },
-    filesSelected(e) {
-      this.files = [];
+    filesSelected (e) {
+      this.files = []
       e.target.files.forEach((x) => {
-        console.log("file", x);
-        this.files.push(x);
-      });
+        console.log('file', x)
+        this.files.push(x)
+      })
     },
-    fileBlob(e) {
-      return URL.createObjectURL(e);
+    fileBlob (e) {
+      return URL.createObjectURL(e)
     },
     removeFile (index) {
       this.files.splice(index, 1)
     },
-    selectEmoji(emoji) {
-      this.message = this.message + emoji.data;
-      this.showEmojiPicker = false;
+    selectEmoji (emoji) {
+      this.message = this.message + emoji.data
+      this.showEmojiPicker = false
     },
-    submit() {
+    submit () {
       const msg = {
         message: this.message,
         is_mine: true,
-        datetime: new Date(),
-      };
-      this.$emit("enter", msg);
-
+        datetime: new Date()
+      }
+      this.$emit('enter', msg)
       this.editor.clearContent()
-    },
-  },
-};
+    }
+  }
+}
 </script>
 <style lang="scss" scoped>
 .field:not(:last-child) {

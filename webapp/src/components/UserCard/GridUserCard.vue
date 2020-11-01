@@ -1,6 +1,6 @@
 <template>
-  <div :class="['connect-grid-user-card', origin]" 
-        @mouseover="onMouseOver()" 
+  <div :class="['connect-grid-user-card', origin]"
+        @mouseover="onMouseOver()"
         @mouseleave="onMouseLeave()">
     <img src="@/assets/gridUserCardWaves.svg" class="connect-grid-user-card-waves" />
     <div class="connect-grid-user-card-content">
@@ -47,7 +47,7 @@ export default {
     status: {
       type: Object,
       default: () => {
-        return {'text': 'working', 'icon': ''}
+        return { text: 'working', icon: '' }
       }
     },
     img: {
@@ -66,13 +66,13 @@ export default {
     Btn
   },
   methods: {
-    onChat() {
+    onChat () {
       this.$emit('onChat', this.user)
     },
-    onMouseOver: _.debounce(function() {
+    onMouseOver: _.debounce(function () {
       this.$emit('onMouseOver')
     }, 200),
-    onMouseLeave: _.debounce(function() {
+    onMouseLeave: _.debounce(function () {
       this.$emit('onMouseLeave')
     }, 200)
   }
