@@ -3,7 +3,7 @@ const state = {
   user: null,
   isAsideLeftActive: false,
   isAsideRightActive: false,
-  isBoardActive: true,
+  isBoardActive: false,
   isReleasesActive: false,
   isNotificationsActive: false,
   notification: {
