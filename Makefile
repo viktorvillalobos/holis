@@ -44,3 +44,6 @@ bash: ## drop you into a running container
 rootbash: ## drop you into a running container as root
 	@docker exec -it -e RUNTYPE=bash --user=root $$(docker ps|grep holis_local_django|awk '{ print $$1 }') bash || true
 
+.PHONY: shell_plus 
+shell: ## drop you into a running container as root
+	@docker-compose -f local.yml run --rm django ./manage.py shell_plus
