@@ -18,6 +18,12 @@ const mutations = {
   setStreamsCount (state, count) {
     state.streamsCount = count
   },
+  incStreamCount (state) {
+    state.streamsCount += 1
+  },
+  decStreamCount (state) {
+    state.streamsCount -= 1
+  },
   setConnected (state, enable) {
     state.connected = enable
     state.disconnectByControl = false
@@ -25,6 +31,7 @@ const mutations = {
   disconnectByControl (state) {
     state.connected = false
     state.disconnectByControl = true
+    state.streamsCount = 0
   },
   setRoom (state, room) {
     state.room = room
