@@ -58,7 +58,7 @@ class ActiveStatusSerializer(serializers.Serializer):
     icon_text = serializers.CharField()
 
 
-def serializer_user_queryset(queryset: QuerySet) -> List[Dict[str, Any]]:
+def serialize_user_queryset(queryset: QuerySet) -> List[Dict[str, Any]]:
     results = [
         {
             "id": x.id,
