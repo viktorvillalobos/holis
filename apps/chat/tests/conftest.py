@@ -18,5 +18,7 @@ def user2(company):
 
 
 @pytest.fixture
-def room(user, user2):
-    return baker.make("room", company=user.company, members=[user, user2])
+def one_to_one_room(user, user2):
+    return baker.make(
+        "room", is_one_to_one=True, company=user.company, members=[user, user2]
+    )
