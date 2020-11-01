@@ -59,31 +59,33 @@ class ActiveStatusSerializer(serializers.Serializer):
 
 
 def serializer_user_queryset(queryset: QuerySet) -> List[Dict[str, Any]]:
-    return [
+    results = [
         {
-            "results": {
-                "id": x.id,
-                "birthday": x.birthday,
-                "email": x.email,
-                "name": x.name,
-                "position": x.position,
-                "statuses": [
-                    {
-                        "text": status.text,
-                        "icon": status.icon.url,
-                        "icon_text": status.icon_text,
-                        "is_active": status.is_active,
-                        "id": status.id,
-                    }
-                    for status in x.statuses.all()
-                ],
-                "username": x.username,
-                "avatar_thumb": x.avatar_thumb,
-                "is_staff": x.is_staff,
-            }
+            "id": x.id,
+            "birthday": x.birthday,
+            "email": x.email,
+            "name": x.name,
+            "position": x.position,
+            "statuses": [
+                {
+                    "text": status.text,
+                    "icon": status.icon.url,
+                    "icon_text": status.icon_text,
+                    "is_active": status.is_active,
+                    "id": status.id,
+                }
+                for status in x.statuses.all()
+            ],
+            "username": x.username,
+            "avatar_thumb": x.avatar_thumb,
+            "is_staff": x.is_staff,
         }
         for x in queryset
     ]
+
+    return {
+        "results": results,
+    }
 
 
 class UserSerializer(serializers.ModelSerializer):
