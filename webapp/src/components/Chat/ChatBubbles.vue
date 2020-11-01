@@ -55,9 +55,9 @@
         <font-awesome-icon icon="comment-medical" />
       </Btn>
     </li>
-    <li class="history-chat" 
-        v-for="recent in recents" 
-        :key="recent.id" 
+    <li class="history-chat"
+        v-for="recent in recents"
+        :key="recent.id"
         @click="handleHistoryChat(recent)">
       <Avatar :img="recent.avatar_thumb" :text="recent.name"/>
     </li>
@@ -90,7 +90,7 @@ export default {
   methods: {
     handleHistoryChat (recent) {
       if (!this.isAsideRightActive) this.$store.commit('setAsideRightActive')
-      this.$store.commit('setCurrentChatName', recent.name )
+      this.$store.commit('setCurrentChatName', recent.name)
       this.$store.commit('setCurrentChatID', recent.id)
       this.$store.dispatch('getMessagesByUser', recent.id)
     },

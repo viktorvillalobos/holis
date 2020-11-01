@@ -172,7 +172,6 @@ export default {
       newChatActive: false
     }
   },
-  created () {},
   mounted () {
     if (!localStorage.firstTime) {
       this.firstTime = true

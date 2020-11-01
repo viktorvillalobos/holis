@@ -36,7 +36,7 @@ export default {
       type: String
     }
   },
-  components: { Avatar },
+  components: { Avatar }
 }
 </script>
 <style lang="scss">
@@ -55,7 +55,6 @@ export default {
     background: $dark-blue;
     border-radius:4px ;
   }
-  
 
   &--mine {
     border-radius: 8px 8px 0 8px;

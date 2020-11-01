@@ -24,7 +24,7 @@ const state = {
 }
 
 const mutations = {
-  setUser (state, user) { 
+  setUser (state, user) {
     state.user = user
   },
   setAsideLeftActive (state) {
@@ -74,7 +74,7 @@ const actions = {
   async getMe ({ commit }) {
     const { data } = await apiClient.app.getMe()
     commit('setUser', data)
-  },
+  }
 }
 
 export default {

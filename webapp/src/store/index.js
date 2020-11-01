@@ -27,9 +27,9 @@ const store = new Vuex.Store({
     }
   },
   mutations: {
-    SOCKET_ONOPEN (state, is_active) {
+    SOCKET_ONOPEN (state, isActive) {
       console.log('Socket ONOPEN')
-      state.socket.isConnected = is_active
+      state.socket.isConnected = isActive
 
       setInterval(() => {
         console.log('heartbeat')
@@ -82,8 +82,8 @@ const store = new Vuex.Store({
     }
   },
   actions: {
-    setSocketState ({ commit }, is_active) {
-      commit('SOCKET_ONOPEN', is_active)
+    setSocketState ({ commit }, isActive) {
+      commit('SOCKET_ONOPEN', isActive)
     }
   }
 })

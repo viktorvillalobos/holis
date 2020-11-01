@@ -121,7 +121,7 @@ export default function () {
          * @method onMouseDown
          */
     onMouseDown: function (e) {
-      if (e.which != 2) return
+      if (e.which !== 2) return
       if (this.ignoreDraggableElements && e.target.draggable) {
         return
       }
