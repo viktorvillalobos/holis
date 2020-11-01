@@ -127,8 +127,11 @@ const actions = {
     commit('unshiftMessages', data)
     commit('unBlockScroll')
   },
-  sendChatMessage ({ commit, state }, { msg }) {
+  sendChatMessage ({ commit, state, dispatch }, { msg }) {
     window.$socketChat.sendObj({ type: 'chat.message', message: msg.message, room: state.room })
+    const isRecent = state.recents.filter(x => x.id === state.currentChatID)
+
+    if (!isRecent.length) dispatch('getRecents')
   }
 }
 

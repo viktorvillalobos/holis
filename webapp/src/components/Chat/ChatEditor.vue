@@ -235,7 +235,6 @@ export default {
         datetime: new Date()
       }
       this.$emit('enter', msg)
-
       this.editor.clearContent()
     }
   }
