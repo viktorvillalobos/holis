@@ -23,6 +23,6 @@ class AnnouncementViewSet(CompanyMixinViewSet, ModelViewSet):
         return self.queryset.filter(company=self.request.company)
 
 
-class ChangeLogViewSet(CompanyMixinViewSet, ModelViewSet):
+class ChangeLogViewSet(ModelViewSet):
     serializer_class = serializers.ChangeLogSerializer
     queryset = core_models.ChangeLog.objects.all()
