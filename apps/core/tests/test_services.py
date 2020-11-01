@@ -1,5 +1,6 @@
-import pytest
 from django.conf import settings
+
+import pytest
 
 from ..entities import AreaItem, Point
 from ..models import Area

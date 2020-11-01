@@ -1,14 +1,15 @@
-import logging
-
 from django.conf import settings
-from django.core.files.storage import default_storage
 from rest_framework import exceptions, generics, views
 from rest_framework.response import Response
+
+import logging
 from twilio.rest import Client
 
 from apps.chat import models as chat_models
 from apps.chat import uc as chat_uc
 from apps.chat.api import serializers
+
+from ..services import get_recents_rooms
 
 logger = logging.getLogger(__name__)
 
@@ -58,33 +59,7 @@ class RecentChatsAPIView(views.APIView):
     pagination_class = None
 
     def get(self, request, *args, **kwargs):
-        rooms_ids = (
-            chat_models.Message.objects.filter(
-                room__is_one_to_one=True, company=self.request.user.company,
-            )
-            .order_by("room__id", "-created")
-            .distinct("room__id")
-            .values_list("room__id", flat=True)
-        )[:3]
-
-        rooms_data = (
-            chat_models.Room.objects.filter(id__in=rooms_ids)
-            .prefetch_related("members")
-            .values("id", "members__avatar", "members__id", "members__name")
-        )
-
-        return Response(
-            [
-                {
-                    "room": x["id"],
-                    "avatar_thumb": default_storage.url(x["members__avatar"]),
-                    "id": x["members__id"],
-                    "name": x["members__name"],
-                }
-                for x in rooms_data
-                if x["members__id"] != self.request.user.id
-            ]
-        )
+        return Response(get_recents_rooms(self.request.user.id), status=200)
 
 
 class MessageListAPIView(generics.ListAPIView):

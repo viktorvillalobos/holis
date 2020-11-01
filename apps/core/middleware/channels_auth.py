@@ -2,13 +2,13 @@
     This is insane https://gist.github.com/rluts/22e05ed8f53f97bdd02eafdf38f3d60a
 """
 
-import logging
-
-from channels.auth import AuthMiddlewareStack
-from channels.db import database_sync_to_async
 from django.contrib.auth.models import AnonymousUser
 from django.core.cache import cache
 from rest_framework.authtoken.models import Token
+
+import logging
+from channels.auth import AuthMiddlewareStack
+from channels.db import database_sync_to_async
 
 logger = logging.getLogger(__name__)
 

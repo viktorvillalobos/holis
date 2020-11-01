@@ -1,9 +1,9 @@
 """
     UseCases for Area
 """
-import logging
 from typing import Dict, List, Tuple
 
+import logging
 import numpy as np
 
 from apps.users.models import User

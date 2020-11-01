@@ -7,12 +7,12 @@ For more information on this file, see
 https://docs.djangoproject.com/en/dev/howto/deployment/asgi/
 
 """
+import django
+
 import os
 import sys
-from pathlib import Path
-
-import django
 from channels.routing import get_default_application
+from pathlib import Path
 
 app_path = Path(__file__).parents[1].resolve()
 sys.path.append(str(app_path / "apps"))

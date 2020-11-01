@@ -1,11 +1,11 @@
-import logging
-
-import requests
 from django.conf import settings
 from django.core.mail import send_mail
 from rest_framework import permissions, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
+
+import logging
+import requests
 
 from . import serializers
 

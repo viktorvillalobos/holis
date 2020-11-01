@@ -1,6 +1,6 @@
-import datetime as dt
-
 from django.db import DatabaseError, transaction
+
+import datetime as dt
 
 from apps.users.models import Status, User
 

@@ -1,6 +1,6 @@
-import logging
-
 from rest_framework import serializers
+
+import logging
 
 from apps.core import models as core_models
 

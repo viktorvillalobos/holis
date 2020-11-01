@@ -1,7 +1,3 @@
-import logging
-import os
-import random
-
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
 from rest_framework import exceptions, generics, permissions, status, views
@@ -11,6 +7,10 @@ from rest_framework.mixins import ListModelMixin, RetrieveModelMixin, UpdateMode
 from rest_framework.parsers import FileUploadParser
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet, ModelViewSet
+
+import logging
+import os
+import random
 
 from apps.core import models as core_models
 from apps.users import models

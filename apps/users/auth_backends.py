@@ -1,7 +1,7 @@
-import logging
-
 from django.contrib.auth.backends import ModelBackend
 from django.contrib.auth.hashers import check_password
+
+import logging
 
 from apps.users.models import User
 

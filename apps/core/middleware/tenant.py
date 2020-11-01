@@ -1,7 +1,7 @@
-import logging
-
 import django
 from django.http import Http404
+
+import logging
 
 from apps.core.middleware.utils import remove_www
 from apps.core.models import Company

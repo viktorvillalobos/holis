@@ -1,8 +1,8 @@
+from django.contrib.staticfiles import storage  # noqa E402
+
 import functools  # noqa E402
 import logging
-
 import sentry_sdk
-from django.contrib.staticfiles import storage  # noqa E402
 from sentry_sdk.integrations.celery import CeleryIntegration
 from sentry_sdk.integrations.django import DjangoIntegration
 from sentry_sdk.integrations.logging import LoggingIntegration
