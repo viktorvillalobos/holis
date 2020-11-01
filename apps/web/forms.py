@@ -1,10 +1,10 @@
-import logging
-
 from django import forms
 from django.contrib.auth.hashers import make_password
 from django.contrib.postgres.forms import SimpleArrayField
 from django.core.mail import send_mail
 from django.utils.translation import gettext_lazy as _
+
+import logging
 
 from apps.core import models as core_models
 from apps.core.uc.company import CreateCompany

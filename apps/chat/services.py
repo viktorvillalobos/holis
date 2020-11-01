@@ -2,19 +2,17 @@ from typing import Any, Dict
 
 from channels.db import database_sync_to_async
 
-from apps.chat import models as chat_models
-from apps.chat.api import serializers
-from apps.chat.uc.message import CreateMessage
-from apps.users import models as user_models
+from ..chat import models as chat_models
+from ..chat.api import serializers
 
 
 @database_sync_to_async
 def create_message(
-    user: user_models.User, room_id: str, text: str
+    company_id: int, user_id: int, room_id: int, text: str
 ) -> chat_models.Message:
-    room = chat_models.Room.objects.get(id=room_id)
-    uc = CreateMessage(room=room, user=user, text=text)
-    return uc.execute().get_message()
+    return chat_models.Message.objects.create(
+        company_id=company_id, room_id=room_id, user_id=user_id, text=text
+    )
 
 
 @database_sync_to_async

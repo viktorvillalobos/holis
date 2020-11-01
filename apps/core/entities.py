@@ -1,6 +1,7 @@
+from typing import Any, Dict, Optional, Type, TypeVar, cast
+
 import datetime
 from dataclasses import dataclass
-from typing import Any, Dict, Optional, Type, TypeVar, cast
 
 from .models import Area as AreaModel
 

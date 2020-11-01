@@ -1,5 +1,6 @@
-import pytest
 from django.conf import settings
+
+import pytest
 from model_bakery import baker
 
 from apps.users.models import User

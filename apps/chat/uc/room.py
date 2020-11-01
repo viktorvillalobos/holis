@@ -1,7 +1,8 @@
-import uuid
 from typing import Optional
 
 from django.db import DatabaseError, models
+
+import uuid
 
 from apps.chat import models as chat_models
 from apps.users import models as users_models

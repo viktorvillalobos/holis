@@ -1,5 +1,3 @@
-import logging
-
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
@@ -7,6 +5,8 @@ from django.urls import reverse, reverse_lazy
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import FormView, TemplateView
 from django.views.generic.edit import UpdateView
+
+import logging
 
 from apps.web import forms
 from apps.web.models import Lead

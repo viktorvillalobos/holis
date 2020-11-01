@@ -60,9 +60,7 @@ MIDDLEWARE += ["debug_toolbar.middleware.DebugToolbarMiddleware"]  # noqa F405
 
 
 DEBUG_TOOLBAR_CONFIG = {
-    "DISABLE_PANELS": [
-        "debug_toolbar.panels.redirects.RedirectsPanel",
-    ],
+    "DISABLE_PANELS": ["debug_toolbar.panels.redirects.RedirectsPanel",],
     "SHOW_TEMPLATE_CONTEXT": False,
 }
 # https://django-debug-toolbar.readthedocs.io/en/latest/installation.html#internal-ips

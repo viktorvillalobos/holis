@@ -1,8 +1,7 @@
 import logging
-
 from channels.generic.websocket import AsyncJsonWebsocketConsumer
 
-from .utils import create_message, serialize_message
+from ..services import create_message, serialize_message
 
 logger = logging.getLogger(__name__)
 COMPANY_MAIN_CHANNEL = "company-chat-{}"
@@ -50,7 +49,9 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
         logger.info("broadcast_chat_message")
         user = self.scope["user"]
 
-        message = await create_message(user, content["room"], content["message"])
+        message = await create_message(
+            user.company_id, user.id, content["room"], content["message"]
+        )
         serialized_message = await serialize_message(message)
 
         await self.channel_layer.group_send(self.room_group_name, serialized_message)

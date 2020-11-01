@@ -1,5 +1,6 @@
-import pytest
 from django.conf import settings
+
+import pytest
 
 from ..services import serialize_user
 

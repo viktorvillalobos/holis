@@ -1,9 +1,9 @@
-import logging
-
 from django.conf import settings
 from django.core.files.storage import default_storage
 from rest_framework import exceptions, generics, views
 from rest_framework.response import Response
+
+import logging
 from twilio.rest import Client
 
 from apps.chat import models as chat_models

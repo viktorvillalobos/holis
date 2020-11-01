@@ -1,4 +1,3 @@
-import logging
 from typing import Any, Dict, List
 
 from django.contrib.auth import authenticate
@@ -6,6 +5,8 @@ from django.core.cache import cache
 from django.db.models.query import QuerySet
 from django.utils.translation import gettext_lazy as _
 from rest_framework import serializers
+
+import logging
 
 from apps.core import models as core_models
 from apps.core.cachekeys import USER_POSITION_KEY

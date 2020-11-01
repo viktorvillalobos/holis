@@ -1,10 +1,10 @@
 """
 Base settings to build other settings files upon.
 """
-from pathlib import Path
+from django.utils.translation import ugettext_lazy as _
 
 import environ
-from django.utils.translation import ugettext_lazy as _
+from pathlib import Path
 
 ROOT_DIR = Path(__file__).parents[2]
 # apps/)

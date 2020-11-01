@@ -1,9 +1,10 @@
-from io import BytesIO
 from typing import Dict
 
-import requests
 from django.conf import settings
 from django.core import files
+
+import requests
+from io import BytesIO
 
 from .api.serializers import UserSerializer
 from .entities import User as UserEntity

@@ -1,8 +1,8 @@
-import os
-from pathlib import Path
 from typing import Sequence
 
+import os
 import pytest
+from pathlib import Path
 
 ROOT_DIR_PATH = Path(__file__).parent.resolve()
 PRODUCTION_DOTENVS_DIR_PATH = ROOT_DIR_PATH / ".envs" / ".production"
