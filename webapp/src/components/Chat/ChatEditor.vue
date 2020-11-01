@@ -225,7 +225,10 @@ export default {
       this.files.splice(index, 1)
     },
     selectEmoji (emoji) {
-      this.message = this.message + emoji.data
+      const end = this.message.lastIndexOf('</p>')
+      const content = `${this.message.slice(0, end)}${emoji.data}</p>`
+
+      this.editor.setContent(content, true)
       this.showEmojiPicker = false
     },
     submit () {
