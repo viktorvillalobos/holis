@@ -55,13 +55,14 @@ class UserViewSet(RetrieveModelMixin, ListModelMixin, UpdateModelMixin, GenericV
         serializer.save()
         return Response(status=status.HTTP_200_OK, data=serializer.data)
 
-    @action(detail=False, methods=["GET"])
-    def birthdays(self, request):
-        users = User.objects.get_upcoming_birthdays()
-        serializer = self.serializer_class(
-            users, many=True, context={"request": request}
-        )
-        return Response(status=status.HTTP_200_OK, data=serializer.data)
+
+class BirthdaysViewSet(GenericViewSet, ListModelMixin):
+    queryset = User.objects.get_upcoming_birthdays()
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        serialized_data = serializers.serialize_user_queryset(queryset)
+        return Response(status=status.HTTP_200_OK, data=serialized_data)
 
 
 class NotificationViewSet(ModelViewSet):

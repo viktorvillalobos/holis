@@ -26,6 +26,7 @@ urlpatterns = [
         views.UploadAvatarAPIView.as_view(),
         name="upload-avatar",
     ),
+    path("birthdays/", views.BirthdaysViewSet.as_view({"get": "list"})),
 ]
 
 
