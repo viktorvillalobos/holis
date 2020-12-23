@@ -74,10 +74,10 @@
       </div>
         <ul class="espazum-navbar-links">
         <li>
-          <a href="/">{% trans 'SIGN-IN' %}</a>
+          <a href="{% url 'web:login' %}">{% trans 'SIGN-IN' %}</a>
         </li>
         <li>
-          <a class="button" href="/">{% trans 'TRY-FOR-FREE' %}</a>
+          <a class="button" href="{% url 'web:signup-step-1' %}">{% trans 'TRY-FOR-FREE' %}</a>
         </li>
       </ul>
     </div>
