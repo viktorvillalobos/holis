@@ -38,11 +38,7 @@ rebuild:
 
 .PHONY: bash
 bash: ## drop you into a running container
-	@docker exec -it -e RUNTYPE=bash $$(docker ps|grep holis_local_django|awk '{ print $$1 }') bash || true
-
-.PHONY: rootbash
-rootbash: ## drop you into a running container as root
-	@docker exec -it -e RUNTYPE=bash --user=root $$(docker ps|grep holis_local_django|awk '{ print $$1 }') bash || true
+	@docker-compose -f local.yml run --rm django
 
 .PHONY: shell_plus 
 shell: ## drop you into a running container as root
