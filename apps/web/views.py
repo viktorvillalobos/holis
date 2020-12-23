@@ -143,3 +143,7 @@ class SignUpStep5(GetObjectByUUIDMixin, UpdateView):
 def logout_view(request):
     logout(request)
     return redirect("webapp")
+
+
+class HomeView(RedirectToAppMixin, TemplateView):
+    template_name = "pages/home.html"

@@ -12,7 +12,7 @@ urlpatterns = [
     path("start-pwa/", views.PWAView.as_view(), name="start-pwa"),
     path(
         "",
-        TemplateView.as_view(template_name="pages/home.html"),
+        views.HomeView.as_view(),
         name="homeBefore",
     ),
     path(
