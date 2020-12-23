@@ -8806,6 +8806,11 @@ h3 {
     line-height: 41.25px;
     line-height: 3.4375rem;
     font-weight: bold; }
+  .espazum-cta .button {
+    width: 60%;
+    height: 100px;
+    margin-top: 15%;
+    margin-left: 25%; }
 
 .espazum-rrss {
   margin-top: 16px;

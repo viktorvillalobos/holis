@@ -82,6 +82,13 @@ h3 {
       line-height: 3.4375rem;
       font-weight: bold;
     }
+
+    .button {
+       width: 60%;
+       height: 100px;
+       margin-top: 15%;
+       margin-left: 25%;
+    }
   }
 
   &-rrss {
@@ -172,6 +179,7 @@ footer {
       h2 {
         text-align: center;
       }
+
     }
   }
 }

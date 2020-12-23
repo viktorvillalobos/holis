@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-11-05 02:08+0000\n"
+"POT-Creation-Date: 2020-12-23 02:12+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -545,13 +545,33 @@ msgstr ""
 msgid "The place where your team is"
 msgstr ""
 
-#: apps/templates/base.html:80
+#: apps/templates/base.html:77
 msgid "SIGN-IN"
 msgstr "Sign in"
 
-#: apps/templates/base.html:83
+#: apps/templates/base.html:80 apps/templates/pages/home.html:25
 msgid "TRY-FOR-FREE"
 msgstr "TRY FOR FREE"
+
+#: apps/templates/base.html:102
+msgid "Home"
+msgstr "How it works"
+
+#: apps/templates/base.html:103
+msgid "Blog"
+msgstr ""
+
+#: apps/templates/base.html:109
+msgid "Terms and Conditions"
+msgstr ""
+
+#: apps/templates/base.html:110
+msgid "Privacy Policy"
+msgstr ""
+
+#: apps/templates/base.html:114
+msgid "All rights reserved"
+msgstr ""
 
 #: apps/templates/base_auth.html:9 apps/templates/base_auth_nocard.html:9
 #: apps/templates/pages/soon.html:10
@@ -560,85 +580,86 @@ msgstr ""
 
 #: apps/templates/pages/home.html:14
 msgid "CALL-TO-ACTION-HEADER"
-msgstr "Welcome to Holis, the new central base of your team."
+msgstr "Easy communication for your work team"
 
-#: apps/templates/pages/home.html:28 apps/templates/pages/home.html:150
-#: apps/templates/pages/soon.html:30
-msgid "EARLY-ACCESS"
-msgstr "Get early access"
-
-#: apps/templates/pages/home.html:61
+#: apps/templates/pages/home.html:57
 msgid "FEATURE-MAIN-TITLE"
 msgstr "Your team just a click away"
 
-#: apps/templates/pages/home.html:62
+#: apps/templates/pages/home.html:58
 msgid "FEATURE-MAIN-CONTENT"
 msgstr ""
 "Clicking on the grid is enough to start a voice channel with your "
 "colleagues, get your doubts solved efficiently, funny conversations and the "
 "background noise of them working."
 
-#: apps/templates/pages/home.html:89
+#: apps/templates/pages/home.html:85
 msgid "Look how it works"
 msgstr "Look how it works"
 
-#: apps/templates/pages/home.html:104
+#: apps/templates/pages/home.html:100
 msgid "FEATURE-1-TITLE"
 msgstr "Voice"
 
-#: apps/templates/pages/home.html:105
+#: apps/templates/pages/home.html:101
 msgid "FEATURE-1-CONTENT"
 msgstr "Solve doubts and socialize with your team at any time"
 
-#: apps/templates/pages/home.html:109
+#: apps/templates/pages/home.html:105
 msgid "FEATURE-2-TITLE"
 msgstr "Text Chat"
 
-#: apps/templates/pages/home.html:110
+#: apps/templates/pages/home.html:106
 msgid "FEATURE-2-CONTENT"
 msgstr "Is the person you want to communicate with busy?, leave a message"
 
-#: apps/templates/pages/home.html:114
+#: apps/templates/pages/home.html:110
 msgid "FEATURE-5-TITLE"
 msgstr "Board"
 
-#: apps/templates/pages/home.html:115
+#: apps/templates/pages/home.html:111
 msgid "FEATURE-5-CONTENT"
 msgstr "Centralize essential information for your team members quickly."
 
-#: apps/templates/pages/home.html:119
+#: apps/templates/pages/home.html:115
 msgid "FEATURE-4-TITLE"
 msgstr "Distraction free mode"
 
-#: apps/templates/pages/home.html:120
+#: apps/templates/pages/home.html:116
 msgid "FEATURE-4-CONTENT"
 msgstr ""
 "Turn off all communications and notifications, to focus on work when you "
 "need to."
 
-#: apps/templates/pages/home.html:124
+#: apps/templates/pages/home.html:120
 msgid "FEATURE-3-TITLE"
 msgstr "Analytics"
 
-#: apps/templates/pages/home.html:125
+#: apps/templates/pages/home.html:121
 msgid "FEATURE-3-CONTENT"
 msgstr ""
 "Our non-invasive artificial intelligence algorithm alerts you of loss of "
 "mood in your team anticipating possible member defections."
 
-#: apps/templates/pages/home.html:129
+#: apps/templates/pages/home.html:125
 msgid "FEATURE-6-TITLE"
 msgstr "Docs & Files"
 
-#: apps/templates/pages/home.html:130
+#: apps/templates/pages/home.html:126
 msgid "FEATURE-6-CONTENT"
 msgstr ""
 "Share docs, code, files, images and spreassheets. Organize in folder so "
 "they're easy to find."
 
-#: apps/templates/pages/home.html:143
+#: apps/templates/pages/home.html:139
 msgid "CALL-TO-ACTION-FOOTER"
-msgstr "Start improving communication with your team right now."
+msgstr ""
+"Being able to communicate effectively is perhaps the most important team "
+"skill."
+
+#: apps/templates/pages/home.html:144
+msgid "START-NOW"
+msgstr "Start Now"
 
 #: apps/templates/pages/soon.html:15
 msgid "Holis provides you with everything you need to start working remotely"
@@ -647,6 +668,10 @@ msgstr ""
 #: apps/templates/pages/soon.html:24
 msgid "Holis will be available very soon!"
 msgstr ""
+
+#: apps/templates/pages/soon.html:30
+msgid "EARLY-ACCESS"
+msgstr "Get early access"
 
 #: apps/templates/pages/soon.html:46
 msgid "You are now part of our list!"
@@ -797,9 +822,6 @@ msgstr ""
 #: config/settings/base.py:31
 msgid "Spanish"
 msgstr ""
-
-#~ msgid "Home"
-#~ msgstr "How it works"
 
 #, fuzzy
 #~| msgid "EARLY-ACCESS"

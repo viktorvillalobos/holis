@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-11-05 02:08+0000\n"
+"POT-Creation-Date: 2020-12-23 02:12+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -549,13 +549,35 @@ msgstr ""
 msgid "The place where your team is"
 msgstr ""
 
-#: apps/templates/base.html:80
+#: apps/templates/base.html:77
 msgid "SIGN-IN"
 msgstr ""
 
-#: apps/templates/base.html:83
+#: apps/templates/base.html:80 apps/templates/pages/home.html:25
 msgid "TRY-FOR-FREE"
 msgstr "PROBAR GRATIS"
+
+#: apps/templates/base.html:102
+msgid "Home"
+msgstr "Cómo funciona"
+
+#: apps/templates/base.html:103
+msgid "Blog"
+msgstr ""
+
+#: apps/templates/base.html:109
+#, fuzzy
+#| msgid "Terms and Conditions"
+msgid "Terms and Conditions"
+msgstr "Términos y condiciones"
+
+#: apps/templates/base.html:110
+msgid "Privacy Policy"
+msgstr "Política de privacidad"
+
+#: apps/templates/base.html:114
+msgid "All rights reserved"
+msgstr "Todos los derechos reservados"
 
 #: apps/templates/base_auth.html:9 apps/templates/base_auth_nocard.html:9
 #: apps/templates/pages/soon.html:10
@@ -566,16 +588,11 @@ msgstr "La única herramienta de comunicación que tu equipo necesita"
 msgid "CALL-TO-ACTION-HEADER"
 msgstr "Trabaja remotamente sin perder el espiritu de tu equipo"
 
-#: apps/templates/pages/home.html:28 apps/templates/pages/home.html:150
-#: apps/templates/pages/soon.html:30
-msgid "EARLY-ACCESS"
-msgstr "Accede anticipadamente"
-
-#: apps/templates/pages/home.html:61
+#: apps/templates/pages/home.html:57
 msgid "FEATURE-MAIN-TITLE"
 msgstr "Tu equipo al alcance de un click"
 
-#: apps/templates/pages/home.html:62
+#: apps/templates/pages/home.html:58
 msgid "FEATURE-MAIN-CONTENT"
 msgstr ""
 "Ni siquiera cuando se sentaban uno al lado del otro habían estado tan cerca. "
@@ -583,71 +600,75 @@ msgstr ""
 "voz con tus compañeros, resolver dudas de forma eficiente, chistes casuales "
 "y el ruido de fondo de los demás trabajando."
 
-#: apps/templates/pages/home.html:89
+#: apps/templates/pages/home.html:85
 msgid "Look how it works"
 msgstr "Mira cómo funciona"
 
-#: apps/templates/pages/home.html:104
+#: apps/templates/pages/home.html:100
 msgid "FEATURE-1-TITLE"
 msgstr "Voz en tiempo real"
 
-#: apps/templates/pages/home.html:105
+#: apps/templates/pages/home.html:101
 msgid "FEATURE-1-CONTENT"
 msgstr ""
 "Recupera las reuniones espontanteas que suceden en la oficina, pero ahora en "
 "forma remota."
 
-#: apps/templates/pages/home.html:109
+#: apps/templates/pages/home.html:105
 msgid "FEATURE-2-TITLE"
 msgstr "Chat de texto"
 
-#: apps/templates/pages/home.html:110
+#: apps/templates/pages/home.html:106
 msgid "FEATURE-2-CONTENT"
 msgstr ""
 "¿La persona con la que quieres comunicarte está ocupada? ¡Déjale un mensaje "
 "al chat!"
 
-#: apps/templates/pages/home.html:114
+#: apps/templates/pages/home.html:110
 msgid "FEATURE-5-TITLE"
 msgstr "Cartelera"
 
-#: apps/templates/pages/home.html:115
+#: apps/templates/pages/home.html:111
 msgid "FEATURE-5-CONTENT"
 msgstr "Centraliza facilmente la información importante para tu equipo."
 
-#: apps/templates/pages/home.html:119
+#: apps/templates/pages/home.html:115
 msgid "FEATURE-4-TITLE"
 msgstr "Sin distracciones"
 
-#: apps/templates/pages/home.html:120
+#: apps/templates/pages/home.html:116
 msgid "FEATURE-4-CONTENT"
 msgstr ""
 "Con el modo sin distracciones, apaga todas las notificaciones para enfocarte "
 "al 100% en tu trabajo."
 
-#: apps/templates/pages/home.html:124
+#: apps/templates/pages/home.html:120
 msgid "FEATURE-3-TITLE"
 msgstr "Analíticas"
 
-#: apps/templates/pages/home.html:125
+#: apps/templates/pages/home.html:121
 msgid "FEATURE-3-CONTENT"
 msgstr ""
 "Usando inteligencia artificial no invasiva, damos alertas de bajas de animo "
 "en el equipo y posible deserciones."
 
-#: apps/templates/pages/home.html:129
+#: apps/templates/pages/home.html:125
 msgid "FEATURE-6-TITLE"
 msgstr "Organiza tus archivos"
 
-#: apps/templates/pages/home.html:130
+#: apps/templates/pages/home.html:126
 msgid "FEATURE-6-CONTENT"
 msgstr ""
 "Comparte documentos, código fuente, archivos, imagenes y hojas de calculo. "
 "Organiza todo en carpetas para que sean faciles de encontrar."
 
-#: apps/templates/pages/home.html:143
+#: apps/templates/pages/home.html:139
 msgid "CALL-TO-ACTION-FOOTER"
 msgstr "¿Listo para ver lo que estamos construyendo?"
+
+#: apps/templates/pages/home.html:144
+msgid "START-NOW"
+msgstr "Empieza ahora mismo"
 
 #: apps/templates/pages/soon.html:15
 msgid "Holis provides you with everything you need to start working remotely"
@@ -657,6 +678,10 @@ msgstr ""
 #: apps/templates/pages/soon.html:24
 msgid "Holis will be available very soon!"
 msgstr "¡Holis estará disponible muy pronto!"
+
+#: apps/templates/pages/soon.html:30
+msgid "EARLY-ACCESS"
+msgstr "Accede anticipadamente"
 
 #: apps/templates/pages/soon.html:46
 msgid "You are now part of our list!"
@@ -814,15 +839,6 @@ msgstr ""
 
 #~ msgid "About"
 #~ msgstr "Nosotros"
-
-#~ msgid "Home"
-#~ msgstr "Cómo funciona"
-
-#~ msgid "Privacy Policy"
-#~ msgstr "Política de privacidad"
-
-#~ msgid "All rights reserved"
-#~ msgstr "Todos los derechos reservados"
 
 #~ msgid "Questions? Need help? Email us at"
 #~ msgstr "¿ Tienes dudas ? Escribenos a "
