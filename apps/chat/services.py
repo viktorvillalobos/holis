@@ -101,6 +101,8 @@ def get_or_create_room_by_company_and_members_ids(
     for member in members:
         channel.members.add(member)
 
+    return channel
+
 
 @cache(12 * 60 * 60)
 def get_twilio_credentials_by_user_id(user_id: int) -> Dict[str, Any]:

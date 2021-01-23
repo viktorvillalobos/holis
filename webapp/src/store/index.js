@@ -31,7 +31,10 @@ const store = new Vuex.Store({
       console.log('Socket ONOPEN')
       state.socket.isConnected = isActive
 
-      setInterval(() => {
+      /* eslint-disable-next-line */
+      window.clearInterval(window.heartbeatInterval)
+
+      window.heartbeatInterval = setInterval(() => {
         console.log('heartbeat')
 
         window.$socketGrid.sendObj({

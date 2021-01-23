@@ -72,7 +72,10 @@ export default {
 
     await this.loadInitialState()
 
-    setInterval(async () => {
+    /* eslint-disable-next-line */
+    window.clearInterval(window.refreshStatusInterval)
+
+    window.refreshStatusInterval = setInterval(async () => {
       console.log(`Refreshing State ${new Date()}`)
       await this.loadInitialState()
     }, 60000)
