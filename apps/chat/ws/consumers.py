@@ -52,7 +52,7 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
         message = await create_message(
             user.company_id, user.id, content["room"], content["message"]
         )
-        serialized_message = await serialize_message(message)
+        serialized_message = await serialize_message(message=message)
 
         await self.channel_layer.group_send(self.room_group_name, serialized_message)
 

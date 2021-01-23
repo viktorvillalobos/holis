@@ -27,15 +27,15 @@ def create_message(
 @database_sync_to_async
 def serialize_message(message: chat_models.Message) -> Dict[str, Any]:
 
-    data = serializers.MessageSerializer(message).data
-
     # This is a patch to Django Serializer BUG
     # https://stackoverflow.com/questions/36588126/uuid-is-not-json-serializable
 
-    data["id"] = str(data["id"])
-    data["room"] = str(data["room"])
-    data["type"] = "chat.message"
-    return data
+    data = serializers.MessageRawSerializer(message).data
+
+    return {
+        **data,
+        **{"id": str(data["id"]), "room": str(data["room"]), "type": "chat.message"},
+    }
 
 
 def get_recents_rooms(user_id: id) -> Dict[str, Any]:
@@ -67,11 +67,12 @@ def get_recents_rooms(user_id: id) -> Dict[str, Any]:
     ]
 
 
-def get_or_create_room_by_company_and_members_ids(company_id: int, members_ids: List[int]) -> chat_models.Room:
+def get_or_create_room_by_company_and_members_ids(
+    company_id: int, members_ids: List[int]
+) -> chat_models.Room:
     try:
         return room_providers.get_one_to_one_room_by_members_ids(
-            company_id=company_id,
-            members_ids=members_ids
+            company_id=company_id, members_ids=members_ids
         )
     except chat_models.Room.DoesNotExist:
         pass

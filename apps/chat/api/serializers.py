@@ -49,7 +49,7 @@ class MessageRawSerializer(serializers.Serializer):
     avatar_thumb = serializers.SerializerMethodField()
     user_name = serializers.SerializerMethodField()
     user_id = serializers.SerializerMethodField()
-    id = serializers.IntegerField()
+    id = serializers.CharField()
     room = serializers.UUIDField()
     created = serializers.DateTimeField()
     text = serializers.CharField()
