@@ -78,7 +78,7 @@ export default {
     window.refreshStatusInterval = setInterval(async () => {
       console.log(`Refreshing State ${new Date()}`)
       await this.loadInitialState()
-    }, 60000)
+    }, 30000)
   },
   computed: {
     ...mapGetters(['currentState', 'occupedPoints']),
