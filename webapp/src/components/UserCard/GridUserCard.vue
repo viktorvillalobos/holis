@@ -2,7 +2,7 @@
   <div :class="['connect-grid-user-card', origin]"
         @mouseover="onMouseOver()"
         @mouseleave="onMouseLeave()">
-    <img src="@/assets/gridUserCardWaves.svg" class="connect-grid-user-card-waves" />
+    <img src="/static/images/gridUserCardWaves.svg" class="connect-grid-user-card-waves" />
     <div class="connect-grid-user-card-content">
       <Avatar big
               :img="img"/>

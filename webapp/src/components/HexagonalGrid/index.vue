@@ -96,9 +96,11 @@ export default {
     userCurrentState () {
       if (this.hexOver && this.hexOver.user) {
         if (this.hexOver.user.status) return this.hexOver.user.status
-        if (this.hexOver.user.statuses) return this.hexOver.user.statuses.filter(status => status.is_active)
+        if (this.hexOver.user.statuses) return this.hexOver.user.statuses.filter(status => status.is_active)[0]
       }
-      return null
+      return {
+        text: 'Working'
+      }
     }
   },
   methods: {
