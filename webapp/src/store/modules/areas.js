@@ -55,7 +55,7 @@ const mutations = {
 const actions = {
   async getAreas ({ commit }) {
     const { data } = await apiClient.areas.list()
-    commit('setAreas', data.results)
+    commit('setAreas', data)
     commit('setCurrent')
   },
   setCurrentState ({ commit }, state) {
