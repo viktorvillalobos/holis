@@ -45,7 +45,7 @@
         <div class="dropdown-menu" id="dropdown-menu2" role="menu">
           <div v-if="user" class="dropdown-content">
             <div  v-for="(state, index) in user.statuses" :key="state.id" @click="handleState(state)">
-              <div class="dropdown-item">{{ state.icon_text }} {{state.text}}</div>
+              <div class="dropdown-item" :class="{ 'is-active': state.is_active }">{{ state.icon_text }} {{state.text}}</div>
               <hr v-if="index + 1 !== user.statuses.length" class="dropdown-divider" />
             </div>
           </div>

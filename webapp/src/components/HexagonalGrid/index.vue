@@ -14,7 +14,7 @@
           :name="hexOver && hexOver.user ? hexOver.user.name : 'Secret Name'"
           :user="hexOver && hexOver.user ? hexOver.user : null"
           :position="hexOver && hexOver.user ? hexOver.user.position : 'Cargo no definido'"
-          :status="hexOver && hexOver.user ? hexOver.user.status : 'Working'"
+          :status="userCurrentState"
           :img="hexOver && hexOver.user ? hexOver.user.avatar || hexOver.user.avatar_thumb : null"
           :origin="overOrigin"
           @onMouseOver="onGridUserCardOver(true)"
@@ -89,7 +89,10 @@ export default {
       connected: state => state.webrtc.connected,
       disconnectByControl: state => state.webrtc.disconnectByControl,
       userSpeaking: state => state.webrtc.userSpeaking
-    })
+    }),
+    userCurrentState () {
+      return this.hexOver && this.hexOver.user ? this.hexOver.user.statuses.filter(status => status.is_active)[0] : 'Working'
+    }
   },
   methods: {
     onChat (user) {

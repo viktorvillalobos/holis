@@ -10,7 +10,11 @@ from apps.chat import models as chat_models
 from apps.chat import uc as chat_uc
 from apps.chat.api import serializers
 
-from ..services import get_recents_rooms, get_or_create_room_by_company_and_members_ids
+from ..services import (
+    get_recents_rooms,
+    get_or_create_room_by_company_and_members_ids,
+    get_twilio_credentials_by_user_id,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -38,12 +42,11 @@ class GetOrCreateRoomAPIView(views.APIView):
 
 class GetTurnCredentialsAPIView(views.APIView):
     def get(self, request, *args, **kwargs):
-        account_sid = settings.TWILIO_ACCOUNT_ID
-        auth_token = settings.TWILIO_AUTH_TOKEN
-        client = Client(account_sid, auth_token)
-        token = client.tokens.create(ttl=60)
+        credentials = get_twilio_credentials_by_user_id(
+            user_id=self.request.user.id
+        )
 
-        return Response(token.ice_servers, status=200)
+        return Response(credentials.ice_servers, status=200)
 
 
 class UploadFileAPIView(views.APIView):

@@ -3,12 +3,15 @@ import uuid
 from typing import Any, Dict, List
 
 from django.core.files.storage import default_storage
+from django.conf import settings
 from channels.db import database_sync_to_async
+from twilio.rest import Client
 
 from ..chat import models as chat_models
 from .providers import room as room_providers
 from ..chat.api import serializers
 from apps.users import models as users_models
+from apps.utils.cache import cache
 
 
 class NonExistentMemberException(Exception):
@@ -97,3 +100,12 @@ def get_or_create_room_by_company_and_members_ids(
 
     for member in members:
         channel.members.add(member)
+
+
+@cache(12 * 60 * 60)
+def get_twilio_credentials_by_user_id(user_id: int) -> Dict[str, Any]:
+    account_sid = settings.TWILIO_ACCOUNT_ID
+    auth_token = settings.TWILIO_AUTH_TOKEN
+    client = Client(account_sid, auth_token)
+    return client.tokens.create(ttl=60)
+
