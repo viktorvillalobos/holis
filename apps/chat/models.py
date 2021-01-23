@@ -92,7 +92,7 @@ class Message(TimeStampedModel):
 
     class Meta:
         unique_together = ["id", "company"]
-        ordering = ["created"]
+        ordering = ["-created"]
 
 
 class MessageAttachment(TimeStampedModel):

@@ -43,3 +43,23 @@ class MessageSerializer(serializers.ModelSerializer):
             "user_name",
         )
         read_only_fields = fields
+
+
+class MessageRawSerializer(serializers.Serializer):
+    avatar_thumb = serializers.SerializerMethodField()
+    user_name = serializers.SerializerMethodField()
+    user_id = serializers.SerializerMethodField()
+    id = serializers.IntegerField()
+    room = serializers.UUIDField()
+    created = serializers.DateTimeField()
+    text = serializers.CharField()
+    room = serializers.CharField()
+
+    def get_avatar_thumb(self, obj: chat_models.Message) -> str:
+        return obj.user.avatar_thumb
+
+    def get_user_name(self, obj: chat_models.Message) -> str:
+        return obj.user.name
+
+    def get_user_id(self, obj: chat_models.Message) -> int:
+        return obj.user_id
