@@ -15,7 +15,7 @@ mock==4.0.2
 
 # Django
 # ------------------------------------------------------------------------------
-django==3.0.5  # pyup: < 3.1  # https://www.djangoproject.com/
+django==3.1.5  # pyup: < 3.1  # https://www.djangoproject.com/
 django-environ==0.4.5  # https://github.com/joke2k/django-environ
 django-model-utils==4.0.0  # https://github.com/jazzband/django-model-utils
 django-allauth==0.41.0  # https://github.com/pennersr/django-allauth
@@ -23,7 +23,7 @@ django-crispy-forms==1.9.0  # https://github.com/django-crispy-forms/django-cris
 django-compressor==2.4  # https://github.com/django-compressor/django-compressor
 django-redis==4.11.0  # https://github.com/niwinz/django-redis
 # Django REST Framework
-djangorestframework==3.11.0  # https://github.com/encode/django-rest-framework
+djangorestframework==3.12.2  # https://github.com/encode/django-rest-framework
 django-mptt==0.11.0
 channels==2.4.0
 django-countries==6.1.2
@@ -31,10 +31,10 @@ django-cors-headers==3.2.1
 channels_redis==2.4.2
 django-birthday==0.1.3
 django-markdownx==3.0.1
-drf-yasg==1.17.1
+drf-yasg==1.20.0
 django-webpack-loader==0.7.0
 sorl-thumbnail==12.6.3
-django-filter==2.2.0
+django-filter==2.4.0
 django-pwa==1.0.10
 
 
