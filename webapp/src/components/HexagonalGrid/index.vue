@@ -94,7 +94,11 @@ export default {
       userSpeaking: state => state.webrtc.userSpeaking
     }),
     userCurrentState () {
-      return this.hexOver && this.hexOver.user ? this.hexOver.user.statuses.filter(status => status.is_active)[0] : 'Working'
+      if (this.hexOver && this.hexOver.user) {
+        if (this.hexOver.user.status) return this.hexOver.user.status
+        if (this.hexOver.user.statuses) return this.hexOver.user.statuses.filter(status => status.is_active)
+      }
+      return null
     }
   },
   methods: {
@@ -166,15 +170,19 @@ export default {
       this.$store.dispatch('disconnectAndConnect', this.room)
     },
     sendChangePositionNotification (hexCoordinates) {
-      const message = {
-        type: 'grid.position',
-        area: this.currentArea.id,
-        x: hexCoordinates.x,
-        y: hexCoordinates.y,
-        room: this.room
-      }
+      if (this.currentArea) {
+        const message = {
+          type: 'grid.position',
+          area: this.currentArea.id,
+          x: hexCoordinates.x,
+          y: hexCoordinates.y,
+          room: this.room
+        }
 
-      window.$socketGrid.sendObj(message)
+        window.$socketGrid.sendObj(message)
+      } else {
+        console.log(' You are trying to change position without currentArea, the change posiition notification can\'t be sent ')
+      }
     },
     getOffset (e) {
       /* LayerX and LayerY Works well in chrome and firefox */
@@ -206,6 +214,7 @@ export default {
         Set the position in x and y to the UserHoverGrid
         depends of the offsetX and offsetY
       */
+
       this.hexOver = hex
       const maxWidth = window.innerWidth - 300
       const maxHeight = window.innerHeight - 150
