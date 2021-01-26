@@ -96,6 +96,17 @@ const actions = {
     commit('setRecents', data)
   },
   async connectToRoom ({ commit, state, getters, dispatch }, { vm, room }) {
+
+    const isTheSameUrl = window.$socketChat && window.$socketChatUrl.indexOf(getters.chatUrl) !== -1
+    const socketIsOpen = window.$socketChat && window.$socketChat.readyState === 1
+
+    const mustCloseActiveConnection = socketIsOpen && isTheSameUrl
+
+    if (mustCloseActiveConnection) {
+      window.$socketChat.close()
+      commit('clearMessages')
+    }
+
     commit('setRoom', room)
 
     vm.$connect(getters.chatUrl, {
@@ -103,6 +114,7 @@ const actions = {
       reconnection: true,
       reconnectionDelay: 3000
     })
+
     window.$socketChat = vm.$socket
 
     window.$socketChat.onmessage = message => dispatch('onMessage', message.data)
@@ -113,12 +125,10 @@ const actions = {
     if (message.type === 'chat.message') commit('addMessage', message)
   },
   async getMessagesByRoom ({ commit }, room) {
-    console.log(`Getting messages from ${room}`)
     const { data } = await apiClient.chat.getMessages(room)
     commit('unshiftMessages', data)
   },
   async getMessagesByUser ({ commit, dispatch }, to) {
-    console.log(`Getting messages by user ${to}`)
     const { data } = await apiClient.chat.getRoomByUserID(to)
 
     dispatch('getMessagesByRoom', data.id)
