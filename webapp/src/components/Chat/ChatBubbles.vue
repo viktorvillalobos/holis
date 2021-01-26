@@ -51,7 +51,7 @@
       </Btn>
     </li>
     <li>
-      <Btn :size="40" primary round icon @btn-click="newChat">
+      <Btn :size="40" primary round icon @btn-click="openNewChat">
         <font-awesome-icon icon="comment-medical" />
       </Btn>
     </li>
@@ -89,23 +89,32 @@ export default {
   },
   methods: {
     handleHistoryChat (recent) {
-      if (!this.isAsideRightActive) this.$store.commit('setAsideRightActive')
+      this.$store.commit('setAsideRightActive', true)
+      this.$store.commit('setChatActive', false)
+      if (!this.currentChatID) this.$store.dispatch('getMessagesByUser', recent.id)
+
       this.$store.commit('setCurrentChatName', recent.name)
       this.$store.commit('setCurrentChatID', recent.id)
-      this.$store.dispatch('getMessagesByUser', recent.id)
     },
     emitAsideHandle () {
-      console.log('Clicking')
+      console.log('emitAsideHandle')
+      console.log(this.isAsideRightActive)
+
       if (this.isAsideRightActive) {
         this.$store.commit('setAsideRightActive')
-      } else {
-        this.newChat()
+        return
       }
+
+      this.currentChatID ? this.openLastChat() : this.openNewChat()
     },
-    newChat () {
-      console.log('newChat')
-      this.$store.commit('setAsideChat')
-      this.$emit('newChat')
+    openLastChat () {
+      this.$store.commit('setChatActive', false)
+      this.$store.commit('setAsideRightActive')
+    },
+    openNewChat () {
+      this.$store.commit('clearMessages')
+      this.$store.commit('setChatActive', true)
+      this.$store.commit('setAsideRightActive', true)
     }
   }
 }

@@ -19,7 +19,8 @@ const state = {
   room: 'general',
   next: null,
   prev: null,
-  currentChatID: null
+  currentChatID: null,
+  chatActive: false
 }
 
 const getters = {
@@ -29,6 +30,9 @@ const getters = {
 }
 
 const mutations = {
+  setChatActive (state, status) {
+    state.chatActive = status
+  },
   setRoom (state, name) {
     state.room = name
   },

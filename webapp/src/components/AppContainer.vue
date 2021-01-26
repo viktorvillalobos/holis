@@ -26,7 +26,7 @@
         :active="notification.show"
       >{{ notification.text }}</notification-card>
       <AsideRight :active="isAsideRightActive">
-        <chat :newChat="newChatActive" @selectedChat="selectedChat" />
+        <chat @selectedChat="selectedChat" />
       </AsideRight>
       <user-card
         :sound="isSoundActive"
@@ -39,7 +39,6 @@
         :user="user"
       />
       <chat-bubbles
-        @newChat="newChat"
         @asideHandle="handleAsideRight"
         :aside-opened="isAsideRightActive"
       />
@@ -169,7 +168,6 @@ export default {
       firstTime: false,
       publicPath: process.env.BASE_URL,
       modalMask,
-      newChatActive: false
     }
   },
   mounted () {
@@ -225,10 +223,10 @@ export default {
     },
     newChat () {
       if (!this.isAsideRightActive) this.handleAsideRight()
-      this.newChatActive = true
+      this.$store.commit('setChatActive', true)
     },
     selectedChat () {
-      this.newChatActive = false
+      this.$store.commit('setChatActive', false)
     },
     closeAlert () {
       const alert = {

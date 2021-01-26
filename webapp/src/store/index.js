@@ -60,9 +60,6 @@ const store = new Vuex.Store({
           state.app.notification.show = true
           state.app.notification.text = message.message
           break
-        // case 'me.data':
-        //   state.app.user = message.user
-        //   break
         case 'grid.position':
           // Change the received message
           state.areas.changeState = message

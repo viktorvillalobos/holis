@@ -30,8 +30,8 @@ const mutations = {
   setAsideLeftActive (state) {
     state.isAsideLeftActive = !state.isAsideLeftActive
   },
-  setAsideRightActive (state) {
-    state.isAsideRightActive = !state.isAsideRightActive
+  setAsideRightActive (state, status) {
+    status ? state.isAsideRightActive = true : state.isAsideRightActive = !state.isAsideRightActive
   },
   setBoardActive (state) {
     state.isBoardActive = !state.isBoardActive
