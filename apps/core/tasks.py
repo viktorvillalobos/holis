@@ -21,7 +21,7 @@ def check_company_areas(company_id: str) -> None:
 
     result = []
 
-    unavailable_users = user_services.get_unavailable_users_ids_by_company_id(
+    unavailable_users = user_services.get_unavailable_users_by_company_id(
         company_id=company_id
     )
 
