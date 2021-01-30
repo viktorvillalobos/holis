@@ -97,13 +97,13 @@ const actions = {
   },
   async connectToRoom ({ commit, state, getters, dispatch }, { vm, room }) {
 
-    const isTheSameUrl = window.$socketChat && window.$socketChatUrl.indexOf(getters.chatUrl) !== -1
+    // const isTheSameUrl = window.$socketChat && window.$socketChatUrl.indexOf(getters.chatUrl) !== -1
     const socketIsOpen = window.$socketChat && window.$socketChat.readyState === 1
 
-    const mustCloseActiveConnection = socketIsOpen && isTheSameUrl
+    const mustCloseActiveConnection = socketIsOpen // && isTheSameUrl
 
     if (mustCloseActiveConnection) {
-      window.$socketChat.close()
+      vm.$disconnect()
       commit('clearMessages')
     }
 
@@ -112,6 +112,7 @@ const actions = {
     vm.$connect(getters.chatUrl, {
       format: 'json',
       reconnection: true,
+      connectManually: true,
       reconnectionDelay: 3000
     })
 
@@ -126,6 +127,9 @@ const actions = {
   },
   async getMessagesByRoom ({ commit }, room) {
     const { data } = await apiClient.chat.getMessages(room)
+
+    console.log('getMessagesByRoom')
+    console.log(data)
     commit('unshiftMessages', data)
   },
   async getMessagesByUser ({ commit, dispatch }, to) {

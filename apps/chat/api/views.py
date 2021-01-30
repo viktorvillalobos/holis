@@ -42,9 +42,7 @@ class GetOrCreateRoomAPIView(views.APIView):
 
 class GetTurnCredentialsAPIView(views.APIView):
     def get(self, request, *args, **kwargs):
-        credentials = get_twilio_credentials_by_user_id(
-            user_id=self.request.user.id
-        )
+        credentials = get_twilio_credentials_by_user_id(user_id=self.request.user.id)
 
         return Response(credentials.ice_servers, status=200)
 
@@ -75,7 +73,10 @@ class MessageListAPIView(generics.ListAPIView):
         return (
             super()
             .get_queryset()
-            .filter(room__id=self.kwargs["id"], company_id=self.request.user.company_id)
+            .filter(
+                room__id=self.kwargs["room_uuid"],
+                company_id=self.request.user.company_id,
+            )
             .select_related("user", "room")
         )
 

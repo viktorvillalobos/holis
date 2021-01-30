@@ -91,7 +91,8 @@ export default {
     handleHistoryChat (recent) {
       this.$store.commit('setAsideRightActive', true)
       this.$store.commit('setChatActive', false)
-      if (!this.currentChatID) this.$store.dispatch('getMessagesByUser', recent.id)
+      this.$store.commit('clearMessages')
+      this.$store.dispatch('getMessagesByUser', recent.id)
 
       this.$store.commit('setCurrentChatName', recent.name)
       this.$store.commit('setCurrentChatID', recent.id)

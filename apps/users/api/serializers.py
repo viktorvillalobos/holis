@@ -70,7 +70,7 @@ def serialize_user_queryset(queryset: QuerySet) -> List[Dict[str, Any]]:
             "statuses": [
                 {
                     "text": status.text,
-                    "icon": status.icon.url,
+                    "icon": status.icon.url if status.icon else None,
                     "icon_text": status.icon_text,
                     "is_active": status.is_active,
                     "id": status.id,
