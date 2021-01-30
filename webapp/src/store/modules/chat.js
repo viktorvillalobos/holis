@@ -97,10 +97,10 @@ const actions = {
   },
   async connectToRoom ({ commit, state, getters, dispatch }, { vm, room }) {
 
-    // const isTheSameUrl = window.$socketChat && window.$socketChatUrl.indexOf(getters.chatUrl) !== -1
+    const isTheSameUrl = window.$socketChat && window.$socketChat.url.indexOf(getters.chatUrl) !== -1
     const socketIsOpen = window.$socketChat && window.$socketChat.readyState === 1
 
-    const mustCloseActiveConnection = socketIsOpen // && isTheSameUrl
+    const mustCloseActiveConnection = socketIsOpen && isTheSameUrl
 
     if (mustCloseActiveConnection) {
       vm.$disconnect()

@@ -1,18 +1,21 @@
-from typing import Dict
+import datetime as dt
+from typing import Dict, List
 
+from django.utils import timezone
 from django.conf import settings
 from django.core import files
+from django.db.models import Q
 
 import requests
 from io import BytesIO
 
 from .api.serializers import UserSerializer
 from .entities import User as UserEntity
-from .models import User as UserModel
+from .models import User
 
 
 def get_user(user_id: int) -> UserEntity:
-    instance = UserModel.objects.get(id=user_id)
+    instance = User.objects.get(id=user_id)
     return UserEntity.load_from_model(instance)
 
 
@@ -32,3 +35,13 @@ def get_user_avatar_thumb(user: settings.AUTH_USER_MODEL) -> None:
 
     # return get_thumbnail(self.avatar.file, "100x100", crop="center", quality=99).url
     return user.avatar.url
+
+
+def get_unavailable_users_by_company_id(company_id: int) -> List[User]:
+    """ Return a list of ids of users who haven't sent hearbeat check """
+
+    return list(
+        User.objects.filter(company_id=company_id)
+        .filter(last_seen__lt=timezone.now() - dt.timedelta(seconds=60))
+        .exclude(Q(last_seen=None) | Q(current_area=None))
+    )

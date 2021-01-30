@@ -10,7 +10,7 @@ help:
 up: ## run the project
 ifeq (,$(wildcard ./custom-docker-services.yml))
 	@echo "Running default backend project..."
-	@docker-compose -f local.yml up -d celeryworker flower node || true
+	@docker-compose -f local.yml up -d celeryworker celerybeat flower node || true
 	@docker-compose -f local.yml run --service-ports --rm django|| true
 else
 	@echo "Running custom backend project..."

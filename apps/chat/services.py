@@ -110,4 +110,3 @@ def get_twilio_credentials_by_user_id(user_id: int) -> Dict[str, Any]:
     auth_token = settings.TWILIO_AUTH_TOKEN
     client = Client(account_sid, auth_token)
     return client.tokens.create(ttl=60)
-
