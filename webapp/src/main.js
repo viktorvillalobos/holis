@@ -33,8 +33,8 @@ Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.use(AxiosDjango)
 
 const socket = process.env.NODE_ENV === 'production'
-  ? `wss://${location.hostname}:${location.port}`
-  : `ws://${location.hostname}:${location.port}`
+  ? `wss://${location.hostname}:${location.port}/ws/grid/`
+  : `ws://${location.hostname}:${location.port}/ws/grid/`
 
 Vue.use(VueNativeSock, socket, {
   connectManually: true

@@ -14,8 +14,8 @@ const state = {
     ? `wss://${location.hostname}:${location.port}`
     : `ws://${location.hostname}:${location.port}`,
   socketChat: process.env.NODE_ENV === 'production'
-    ? `wss://${location.hostname}:${location.port}/chat/`
-    : `ws://${location.hostname}:${location.port}/chat/`,
+    ? `wss://${location.hostname}:${location.port}/ws/chat/`
+    : `ws://${location.hostname}:${location.port}/ws/chat/`,
   room: 'general',
   next: null,
   prev: null,
