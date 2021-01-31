@@ -68,6 +68,9 @@ class LoginView(FormView):
         if not self.request.company:
             return redirect(reverse("web:check-company"))
 
+        if self.request.user.is_authenticated:
+            return redirect(reverse("webapp"))
+
         return super().dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
