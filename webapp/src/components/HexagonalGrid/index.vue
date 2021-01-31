@@ -68,7 +68,6 @@ export default {
     this.initGrid()
     this.isFirefox = window.navigator.userAgent.toLowerCase().indexOf('firefox') > -1
     this.setScroll()
-    this.$store.dispatch('connectToGrid', { vm: this })
 
     await this.loadInitialState()
 

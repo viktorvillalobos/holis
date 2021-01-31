@@ -15,6 +15,7 @@ class NotificationsConsumer(AsyncJsonWebsocketConsumer):
         user = self.scope["user"]
 
         if not user.is_authenticated:
+            raise Exception("User Not Authenticated")
             return
 
         user_notification_channel = (

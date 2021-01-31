@@ -37,6 +37,7 @@ export default {
   },
   mounted () {
     this.$store.dispatch('connectNotificationsChannel', this)
+    this.$store.dispatch('connectToGrid', { vm: this })
   },
   computed: {
     ...mapState({
