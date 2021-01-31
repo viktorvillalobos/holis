@@ -26,14 +26,14 @@ def check_company_areas(company_id: str) -> None:
     )
 
     for user in unavailable_users:
-        force_user_disconect_by_company_and_user_id(
-            company_id=company.id,
-            user_id=user.id
-        )
-
         core_services.remove_user_from_area(
             area_id=user.current_area.id,
             user=user
+        )
+
+        force_user_disconect_by_company_and_user_id(
+            company_id=company.id,
+            user_id=user.id
         )
 
         result.append(user.id)
