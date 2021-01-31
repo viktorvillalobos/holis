@@ -1,7 +1,11 @@
 import logging
 from channels.generic.websocket import AsyncJsonWebsocketConsumer
 
-from ..services import create_message, serialize_message
+from ..services import (
+    create_message,
+    serialize_message,
+    send_notification_chat_by_user_id_async,
+)
 
 logger = logging.getLogger(__name__)
 COMPANY_MAIN_CHANNEL = "company-chat-{}"
@@ -18,6 +22,8 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
     async def receive_json(self, content):
 
         _type = content["type"]
+        is_one_to_one_chat = content.get("is_one_to_one")
+        user_id = content.get("to")
 
         logger.info(f"Chat type: {_type}")
 
@@ -25,6 +31,16 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
             await self.chat_echo(content)
         elif _type == "chat.message":
             await self.broadcast_chat_message(content)
+
+            if is_one_to_one_chat:
+
+                logger.info(
+                    f"Is one-to-one chat sending notifications to {user_id}"
+                )
+                await send_notification_chat_by_user_id_async(
+                    user_id=user_id
+                )
+
         else:
             logger.info(f" {_type} type is not handled by ChatConsumer")
 

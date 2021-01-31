@@ -146,7 +146,16 @@ const actions = {
     commit('unBlockScroll')
   },
   sendChatMessage ({ commit, state, dispatch }, { msg }) {
-    window.$socketChat.sendObj({ type: 'chat.message', message: msg.message, room: state.room })
+    // TODO: Handle isOneToOne
+
+    const payload = {
+      type: 'chat.message',
+      message: msg.message,
+      room: state.room,
+      to: state.currentChatID,
+      is_one_to_one: true
+    }
+    window.$socketChat.sendObj(payload)
     const isRecent = state.recents.filter(x => x.id === state.currentChatID)
 
     if (!isRecent.length) dispatch('getRecents')

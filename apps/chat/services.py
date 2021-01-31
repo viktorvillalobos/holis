@@ -5,12 +5,14 @@ from typing import Any, Dict, List
 from django.core.files.storage import default_storage
 from django.conf import settings
 from channels.db import database_sync_to_async
+from channels.layers import get_channel_layer
 from twilio.rest import Client
 
 from ..chat import models as chat_models
 from .providers import room as room_providers
 from ..chat.api import serializers
 from apps.users import models as users_models
+from apps.users import services as user_services
 from apps.utils.cache import cache
 
 
@@ -110,3 +112,16 @@ def get_twilio_credentials_by_user_id(user_id: int) -> Dict[str, Any]:
     auth_token = settings.TWILIO_AUTH_TOKEN
     client = Client(account_sid, auth_token)
     return client.tokens.create(ttl=60)
+
+
+async def send_notification_chat_by_user_id_async(user_id: int) -> None:
+    payload = {
+        "type": "notification",
+        "ntype": "dm",
+        "message": "You have a new chat message",
+    }
+
+    channel_name = user_services.get_user_notification_channel_by_user_id(
+        user_id=user_id
+    )
+    await get_channel_layer().group_send(channel_name, payload)
