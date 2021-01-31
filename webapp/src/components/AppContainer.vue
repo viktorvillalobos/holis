@@ -24,7 +24,7 @@
         @close="handleNotification"
         :aside-opened="isAsideLeftActive"
         :active="notification.show"
-      >{{ notification.text }}</notification-card>
+      ><span v-html="notification.text"/></notification-card>
       <AsideRight :active="isAsideRightActive">
         <chat @selectedChat="selectedChat" />
       </AsideRight>
@@ -164,7 +164,6 @@ export default {
   },
   data () {
     return {
-      showNotification: false,
       firstTime: false,
       publicPath: process.env.BASE_URL,
       modalMask,
@@ -211,7 +210,7 @@ export default {
       this.$store.commit('setSoundActive')
     },
     handleNotification () {
-      this.showNotification = !this.showNotification
+      this.$store.commit('closeActiveNotification')
     },
     handleFirstTime () {
       localStorage.firstTime = false

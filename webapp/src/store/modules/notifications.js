@@ -29,6 +29,9 @@ const mutations = {
       type: notification.ntype
     }
     state.notification = data
+  },
+  closeActiveNotification (state) {
+    state.notification.show = false
   }
 }
 
