@@ -3,11 +3,13 @@
     <h3>{{chatName}}</h3>
     <ul class="chat-actions">
       <li>
-        <font-awesome-icon icon="search" />
+        <font-awesome-icon icon="search" @click="handleSearch"/>
       </li>
+<!---
       <li>
         <font-awesome-icon icon="plus" />
       </li>
+-->
     </ul>
   </div>
 </template>
@@ -17,6 +19,12 @@ export default {
     chatName: {
       type: String,
       default: 'Chat name'
+    }
+  },
+  methods: {
+    handleSearch () {
+      this.$store.commit('clearMessages')
+      this.$store.commit('setChatActive', true)
     }
   }
 }

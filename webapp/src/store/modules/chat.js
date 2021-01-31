@@ -74,9 +74,6 @@ const mutations = {
   clearMessages (state) {
     state.messages = []
   },
-  setActiveChat (state, jid) {
-    state.activeChat = jid
-  },
   setAsideChat (state) {
     state.asideOpen = !state.asideOpen
     if (!state.asideOpen) state.activeChat = null
