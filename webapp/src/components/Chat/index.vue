@@ -128,11 +128,7 @@ export default {
     },
     sendMessage (msg) {
       console.log('msg', msg)
-      const data = {
-        to: this.currentChatID,
-        msg: msg
-      }
-      this.$store.dispatch('sendChatMessage', data)
+      this.$store.dispatch('sendChatMessage', { msg })
       this.scrollToEnd()
     },
     setChat (user) {

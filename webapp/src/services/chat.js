@@ -5,11 +5,12 @@ export default {
     window.$socketChat = socketServices.getSocketConnection({
       vm,
       url,
-      callback
+      callback,
+      socketName: '$socketChat'
     }, options)
   },
   closeSocketService ({ vm }) {
-    window.$socketChat.close()
+    vm.$socketChat.close()
     delete vm.protype.$socket
   },
   mustCloseActiveConnectionByUrl ({ url }) {

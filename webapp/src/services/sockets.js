@@ -1,5 +1,7 @@
+import Observer from '../providers/sockets/observer'
+
 export default {
-  getSocketConnection ({ vm, url, callback }, options) {
+  getSocketConnection ({ vm, url, callback, socketName }, options) {
     console.assert(url, 'You must define a socket url to get a connection')
 
     options = options || {
@@ -9,10 +11,12 @@ export default {
       reconnectionDelay: 3000
     }
 
-    vm.$connect(url, options)
-    const socket = vm.$socket
-    socket.onmessage = callback
+    options.$setInstance = (wsInstance) => {
+      vm[socketName] = wsInstance
+    }
 
+    const socket = new Observer(url, options).WebSocket
+    socket.onmessage = callback
     return socket
   }
 }

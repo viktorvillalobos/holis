@@ -96,18 +96,19 @@ const actions = {
     commit('setRoom', room)
 
     const url = getChatUrlByRoomId(room)
-    const mustCloseActiveConnection = chatServices.mustCloseActiveConnectionByUrl({ url })
-
-    console.log(`We must close active connection: ${mustCloseActiveConnection}`)
+    const mustCloseActiveConnection = chatServices.mustCloseActiveConnectionByUrl({ vm, url })
 
     if (mustCloseActiveConnection) {
-      vm.$disconnect()
+      chatServices.closeActiveService({ vm })
       commit('clearMessages')
     }
 
     const callback = message => dispatch('onMessage', message.data)
 
     chatServices.setSocketService({ vm, url, callback })
+
+    console.log('connectToRoom')
+    console.log(vm)
   },
   onMessage ({ commit }, message) {
     message = JSON.parse(message)
@@ -135,8 +136,6 @@ const actions = {
     commit('unBlockScroll')
   },
   sendChatMessage ({ commit, state, dispatch }, { msg }) {
-    // TODO: Handle isOneToOne
-
     const payload = {
       type: 'chat.message',
       message: msg.message,
@@ -144,6 +143,7 @@ const actions = {
       to: state.currentChatID,
       is_one_to_one: true
     }
+
     window.$socketChat.sendObj(payload)
     const isRecent = state.recents.filter(x => x.id === state.currentChatID)
 
