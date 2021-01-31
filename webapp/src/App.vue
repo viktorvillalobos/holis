@@ -35,6 +35,9 @@ export default {
     this.$store.dispatch('getMe')
     AOS.init()
   },
+  mounted () {
+    this.$store.dispatch('connectNotificationsChannel', this)
+  },
   computed: {
     ...mapState({
       room: state => state.webrtc.room,

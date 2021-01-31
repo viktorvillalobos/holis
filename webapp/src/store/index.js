@@ -6,6 +6,7 @@ import announcements from './modules/announcements'
 import areas from './modules/areas'
 import chat from './modules/chat'
 import webrtc from './modules/webrtc'
+import notifications from './modules/notifications'
 
 Vue.use(Vuex)
 
@@ -17,7 +18,8 @@ const store = new Vuex.Store({
     announcements,
     areas,
     chat,
-    webrtc
+    webrtc,
+    notifications
   },
   state: {
     socket: {

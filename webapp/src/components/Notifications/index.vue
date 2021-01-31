@@ -18,7 +18,7 @@ export default {
   },
   computed: {
     ...mapState({
-      notifications: state => state.app.notifications
+      notifications: state => state.notifications.notifications
     })
   },
   methods: {
