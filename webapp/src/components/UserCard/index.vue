@@ -61,7 +61,7 @@
 import { mapState } from 'vuex'
 import Avatar from '@/components/Avatar'
 import VoiceStatus from '@/components/VoiceStatus'
-import apiClient from '@/services/api'
+import apiClient from '@/providers/api'
 
 export default {
   name: 'UserCard',

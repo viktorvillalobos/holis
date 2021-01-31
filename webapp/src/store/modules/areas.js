@@ -1,4 +1,4 @@
-import apiClient from '../../services/api'
+import apiClient from '../../providers/api'
 
 const state = {
   currentArea: null, // Initial state called from rest

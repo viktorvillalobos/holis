@@ -1,4 +1,13 @@
-import apiClient from '../../services/api'
+import apiClient from '../../providers/api'
+import chatServices from '../../services/chat'
+
+
+const socketChat = process.env.NODE_ENV === 'production'
+  ? `wss://${location.hostname}:${location.port}/ws/chat/`
+  : `ws://${location.hostname}:${location.port}/ws/chat/`
+
+
+const getChatUrlByRoomId = roomId => `${socketChat}${roomId}/`
 
 const state = {
   users: [],
@@ -10,23 +19,11 @@ const state = {
   asideOpen: false,
   allowScrollToEnd: true,
   currentChatName: 'Juaning Juan Harry',
-  socketGrid: process.env.NODE_ENV === 'production'
-    ? `wss://${location.hostname}:${location.port}`
-    : `ws://${location.hostname}:${location.port}`,
-  socketChat: process.env.NODE_ENV === 'production'
-    ? `wss://${location.hostname}:${location.port}/ws/chat/`
-    : `ws://${location.hostname}:${location.port}/ws/chat/`,
   room: 'general',
   next: null,
   prev: null,
   currentChatID: null,
   chatActive: false
-}
-
-const getters = {
-  chatUrl (state) {
-    return `${state.socketChat}${state.room}/`
-  }
 }
 
 const mutations = {
@@ -96,29 +93,21 @@ const actions = {
     commit('setRecents', data)
   },
   async connectToRoom ({ commit, state, getters, dispatch }, { vm, room }) {
+    commit('setRoom', room)
 
-    const isTheSameUrl = window.$socketChat && window.$socketChat.url.indexOf(getters.chatUrl) !== -1
-    const socketIsOpen = window.$socketChat && window.$socketChat.readyState === 1
+    const url = getChatUrlByRoomId(room)
+    const mustCloseActiveConnection = chatServices.mustCloseActiveConnectionByUrl({ url })
 
-    const mustCloseActiveConnection = socketIsOpen && isTheSameUrl
+    console.log(`We must close active connection: ${mustCloseActiveConnection}`)
 
     if (mustCloseActiveConnection) {
       vm.$disconnect()
       commit('clearMessages')
     }
 
-    commit('setRoom', room)
+    const callback = message => dispatch('onMessage', message.data)
 
-    vm.$connect(getters.chatUrl, {
-      format: 'json',
-      reconnection: true,
-      connectManually: true,
-      reconnectionDelay: 3000
-    })
-
-    window.$socketChat = vm.$socket
-
-    window.$socketChat.onmessage = message => dispatch('onMessage', message.data)
+    chatServices.setSocketService({ vm, url, callback })
   },
   onMessage ({ commit }, message) {
     message = JSON.parse(message)
@@ -164,7 +153,6 @@ const actions = {
 
 export default {
   state,
-  getters,
   mutations,
   actions
 }

@@ -1,4 +1,4 @@
-import apiClient from '../../services/api'
+import apiClient from '../../providers/api'
 import axios from 'axios'
 
 function setDefaultHeader (token) {

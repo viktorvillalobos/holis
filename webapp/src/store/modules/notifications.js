@@ -1,4 +1,4 @@
-import apiClient from '../../services/api'
+import apiClient from '../../providers/api'
 
 const socketNotificationsUrl =
   process.env.NODE_ENV === 'production'

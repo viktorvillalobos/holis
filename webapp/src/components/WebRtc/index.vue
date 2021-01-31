@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import apiClient from '../../services/api'
+import apiClient from '../../providers/api'
 import RTCMultiConnection from '@/plugins/RTCMultiConnection'
 import { mapState } from 'vuex'
 import hark from 'hark'
