@@ -96,19 +96,16 @@ const actions = {
     commit('setRoom', room)
 
     const url = getChatUrlByRoomId(room)
-    const mustCloseActiveConnection = chatServices.mustCloseActiveConnectionByUrl({ vm, url })
+    const mustCloseActiveConnection = chatServices.mustCloseActiveConnectionByRoom({ vm, room })
 
     if (mustCloseActiveConnection) {
-      chatServices.closeActiveService({ vm })
+      console.log('Closing Old Chat WS service')
+      chatServices.closeSocketService()
       commit('clearMessages')
     }
 
     const callback = message => dispatch('onMessage', message.data)
-
     chatServices.setSocketService({ vm, url, callback })
-
-    console.log('connectToRoom')
-    console.log(vm)
   },
   onMessage ({ commit }, message) {
     message = JSON.parse(message)

@@ -2,23 +2,31 @@ import socketServices from './sockets'
 
 export default {
   setSocketService ({ vm, url, callback }, options) {
-    window.$socketChat = socketServices.getSocketConnection({
-      vm,
+    const { observer, socket } = socketServices.getSocketConnection({
       url,
       callback,
       socketName: '$socketChat'
     }, options)
-  },
-  closeSocketService ({ vm }) {
-    vm.$socketChat.close()
-    delete vm.protype.$socket
-  },
-  mustCloseActiveConnectionByUrl ({ url }) {
-    if (!window.$socketChat) return false
 
-    const isTheSameUrl = window.$socketChat && window.$socketChat.url.indexOf(url) !== -1
+    window.$socketChat = socket
+    window.$observerChat = observer
+  },
+  closeSocketService () {
+    window.$observerChat.reconnection = false
+    window.$socketChat.close()
+    delete window.$socketChat
+  },
+  mustCloseActiveConnectionByRoom ({ room }) {
+    console.log(`mustCloseActiveConnectionByRoom: ${room}`)
+    if (!window.$socketChat) return false
+    console.log(`socketChat current url ${window.$socketChat.url}`)
+
+    const isTheSameRoom = window.$socketChat && window.$socketChat.url.indexOf(room) !== -1
     const socketIsOpen = window.$socketChat && window.$socketChat.readyState === 1
 
-    return socketIsOpen && !isTheSameUrl
+    console.log(`isTheSameRoom: ${isTheSameRoom}`)
+    console.log(`socketIsOpen: ${socketIsOpen}`)
+
+    return socketIsOpen && !isTheSameRoom
   }
 }

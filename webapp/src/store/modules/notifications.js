@@ -1,4 +1,5 @@
 import apiClient from '../../providers/api'
+import notificationServices from '../../services/notification'
 
 const socketNotificationsUrl =
   process.env.NODE_ENV === 'production'
@@ -37,17 +38,12 @@ const mutations = {
 
 const actions = {
   async connectNotificationsChannel ({ commit, state, getters, dispatch }, vm) {
+    const callback = notification => dispatch('onNotification', notification.data)
 
-    vm.$connect(socketNotificationsUrl, {
-      format: 'json',
-      reconnection: true,
-      connectManually: true,
-      reconnectionDelay: 3000
+    notificationServices.setSocketService({
+      url: socketNotificationsUrl,
+      callback
     })
-
-    window.$socketNotifications = vm.$socket
-
-    window.$socketNotifications.onmessage = notification => dispatch('onNotification', notification.data)
   },
   async getNotifications ({ commit }) {
     const { data } = await apiClient.app.getNotifications()
