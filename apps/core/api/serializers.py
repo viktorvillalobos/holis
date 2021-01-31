@@ -4,7 +4,7 @@ import logging
 
 from apps.core import models as core_models
 
-from ..services import get_area_state
+from ..providers import area as area_providers
 
 logger = logging.getLogger(__name__)
 
@@ -31,7 +31,7 @@ class AreaSerializer(serializers.ModelSerializer):
     state = serializers.SerializerMethodField()
 
     def get_state(self, obj):
-        return get_area_state(obj.pk)
+        return area_providers.get_area_state_by_area(area=obj)
 
     class Meta:
         model = core_models.Area

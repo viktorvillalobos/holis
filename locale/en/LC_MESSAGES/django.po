@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-07-04 20:35-0400\n"
+"POT-Creation-Date: 2020-12-23 02:12+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,138 +18,138 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: apps/chat/models.py:27 apps/chat/models.py:79 apps/chat/models.py:111
-#: apps/core/models.py:31 apps/core/models.py:65 apps/core/models.py:104
-#: apps/users/models.py:41 apps/users/models.py:97 apps/users/models.py:138
+#: apps/chat/models.py:26 apps/chat/models.py:75 apps/chat/models.py:108
+#: apps/core/models.py:29 apps/core/models.py:61 apps/core/models.py:97
+#: apps/users/models.py:48 apps/users/models.py:141 apps/users/models.py:180
 msgid "company"
 msgstr ""
 
-#: apps/chat/models.py:30 apps/core/models.py:107
+#: apps/chat/models.py:29 apps/core/models.py:100
 msgid "title"
 msgstr ""
 
-#: apps/chat/models.py:32
+#: apps/chat/models.py:30
 msgid "subject"
 msgstr ""
 
-#: apps/chat/models.py:35
+#: apps/chat/models.py:32
 msgid "members"
 msgstr ""
 
-#: apps/chat/models.py:38
+#: apps/chat/models.py:35
 msgid "owners"
 msgstr ""
 
-#: apps/chat/models.py:41
+#: apps/chat/models.py:38
 msgid "admins"
 msgstr ""
 
-#: apps/chat/models.py:44
+#: apps/chat/models.py:41
 msgid "outcats"
 msgstr ""
 
-#: apps/chat/models.py:46
+#: apps/chat/models.py:43
 msgid "Max users"
 msgstr ""
 
-#: apps/chat/models.py:48
+#: apps/chat/models.py:44
 msgid "password"
 msgstr ""
 
-#: apps/chat/models.py:51
+#: apps/chat/models.py:46
 msgid "Service Name"
 msgstr ""
 
-#: apps/chat/models.py:54 apps/chat/models.py:55
+#: apps/chat/models.py:49 apps/chat/models.py:50
 msgid "is public"
 msgstr ""
 
-#: apps/chat/models.py:56
+#: apps/chat/models.py:51
 msgid "Any can invite"
 msgstr ""
 
-#: apps/chat/models.py:57
+#: apps/chat/models.py:52
 msgid "members only"
 msgstr ""
 
-#: apps/chat/models.py:58
+#: apps/chat/models.py:53
 msgid "is one to one"
 msgstr ""
 
-#: apps/chat/models.py:83
+#: apps/chat/models.py:79
 msgid "channel"
 msgstr ""
 
-#: apps/chat/models.py:89
+#: apps/chat/models.py:85
 msgid "User"
 msgstr ""
 
-#: apps/chat/models.py:93 apps/core/models.py:108 apps/core/models.py:123
+#: apps/chat/models.py:89 apps/core/models.py:101 apps/core/models.py:116
 msgid "text"
 msgstr ""
 
-#: apps/chat/models.py:115
+#: apps/chat/models.py:112
 msgid "message"
 msgstr ""
 
-#: apps/chat/models.py:119
+#: apps/chat/models.py:116
 msgid "attachment"
 msgstr ""
 
-#: apps/chat/models.py:121
+#: apps/chat/models.py:117
 msgid "Mimetype"
 msgstr ""
 
-#: apps/chat/models.py:129
+#: apps/chat/models.py:124
 msgid "message attachment"
 msgstr ""
 
-#: apps/chat/models.py:130
+#: apps/chat/models.py:125
 msgid "message attachments"
 msgstr ""
 
-#: apps/core/models.py:19 apps/users/models.py:107
+#: apps/core/models.py:18 apps/users/models.py:148
 msgid "name"
 msgstr ""
 
-#: apps/core/models.py:21
+#: apps/core/models.py:19
 msgid "code"
 msgstr ""
 
-#: apps/core/models.py:23
+#: apps/core/models.py:20
 msgid "email"
 msgstr ""
 
-#: apps/core/models.py:24
+#: apps/core/models.py:22
 msgid "phone"
 msgstr ""
 
-#: apps/core/models.py:25
+#: apps/core/models.py:23
 msgid "logo"
 msgstr ""
 
-#: apps/core/models.py:32
+#: apps/core/models.py:30
 msgid "companies"
 msgstr ""
 
-#: apps/core/models.py:75
+#: apps/core/models.py:67
 msgid "Width"
 msgstr ""
 
-#: apps/core/models.py:76
+#: apps/core/models.py:68
 msgid "Height"
 msgstr ""
 
-#: apps/core/models.py:122
+#: apps/core/models.py:115
 msgid "Title"
 msgstr ""
 
-#: apps/core/ws/consumers/main.py:56
+#: apps/core/ws/consumers/main.py:57
 msgid "Type is required"
 msgstr ""
 
-#: apps/core/ws/consumers/main.py:75
-msgid "type not handled"
+#: apps/core/ws/consumers/main.py:78
+msgid "type not handled by GridConsumer"
 msgstr ""
 
 #: apps/templates/account/account_inactive.html:5
@@ -232,6 +232,7 @@ msgid ""
 msgstr ""
 
 #: apps/templates/account/email_confirm.html:20
+#: apps/templates/auth/signup/step1.html:11
 msgid "Confirm"
 msgstr ""
 
@@ -402,91 +403,263 @@ msgid ""
 "mail address</a>."
 msgstr ""
 
-#: apps/templates/base.html:8 apps/templates/pages/soon.html:10
+#: apps/templates/auth/signup/step1.html:6
+msgid "To start, we would like you to confirm your email"
+msgstr ""
+
+#: apps/templates/auth/signup/step2.html:8
+msgid ""
+"One of our carrier pigeons has already left an email in your inbox, check it "
+"out!"
+msgstr ""
+
+#: apps/templates/auth/signup/step2.html:12
+msgid "(Sometimes they get a little confused and leave them in the"
+msgstr ""
+
+#: apps/templates/auth/signup/step2.html:12
+msgid "folder, they do their best!)"
+msgstr ""
+
+#: apps/templates/auth/signup/step3.html:11
+msgid "Tell us about your team"
+msgstr ""
+
+#: apps/templates/auth/signup/step3.html:12
+msgid "Step 1 of 3"
+msgstr ""
+
+#: apps/templates/auth/signup/step3.html:18
+msgid "Name of your team or company"
+msgstr ""
+
+#: apps/templates/auth/signup/step3.html:27
+#: apps/templates/auth/signup/step3.html:35
+msgid "Your team\\"
+msgstr ""
+
+#: apps/templates/auth/signup/step3.html:28
+msgid "Don\\"
+msgstr ""
+
+#: apps/templates/auth/signup/step3.html:29
+msgid "You can change it"
+msgstr ""
+
+#: apps/templates/auth/signup/step3.html:44
+msgid "By cotinuing you are accepting our"
+msgstr ""
+
+#: apps/templates/auth/signup/step3.html:44
+msgid "terms and conditions"
+msgstr ""
+
+#: apps/templates/auth/signup/step3.html:61
+#: apps/templates/auth/signup/step4.html:85
+msgid "Continue"
+msgstr ""
+
+#: apps/templates/auth/signup/step4.html:11
+msgid "Tell us about you"
+msgstr ""
+
+#: apps/templates/auth/signup/step4.html:12
+msgid "Step 2 of 3"
+msgstr ""
+
+#: apps/templates/auth/signup/step4.html:17
+msgid "Your name"
+msgstr ""
+
+#: apps/templates/auth/signup/step4.html:18
+msgid "Ex. Juanin Juan Harry"
+msgstr ""
+
+#: apps/templates/auth/signup/step4.html:22
+msgid "Your position"
+msgstr ""
+
+#: apps/templates/auth/signup/step4.html:24
+msgid "Ex. News producer, Studios\\"
+msgstr ""
+
+#: apps/templates/auth/signup/step4.html:27
+msgid "Your picture"
+msgstr ""
+
+#: apps/templates/auth/signup/step4.html:37
+msgid "Choose a file…"
+msgstr ""
+
+#: apps/templates/auth/signup/step4.html:40
+msgid "Show off that nice smile you have!"
+msgstr ""
+
+#: apps/templates/auth/signup/step4.html:47
+msgid "Your password"
+msgstr ""
+
+#: apps/templates/auth/signup/step4.html:57
+msgid "Pro tip, a safe password should contain:"
+msgstr ""
+
+#: apps/templates/auth/signup/step4.html:67
+msgid "Repeat your password"
+msgstr ""
+
+#: apps/templates/auth/signup/step5.html:11
+msgid "Invite your team!"
+msgstr ""
+
+#: apps/templates/auth/signup/step5.html:12
+msgid "Step 3 of 3"
+msgstr ""
+
+#: apps/templates/auth/signup/step5.html:16
+msgid "it\\"
+msgstr ""
+
+#: apps/templates/auth/signup/step5.html:21
+#: apps/templates/auth/signup/step5.html:26
+msgid "Your partner\\"
+msgstr ""
+
+#: apps/templates/auth/signup/step5.html:23
+#: apps/templates/auth/signup/step5.html:28
+msgid "Ex. juaninjuanharry@mail.com"
+msgstr ""
+
+#: apps/templates/auth/signup/step5.html:33
+msgid "Add new partner"
+msgstr ""
+
+#: apps/templates/auth/signup/step5.html:54
+msgid "Skip"
+msgstr ""
+
+#: apps/templates/auth/signup/step5.html:55
+msgid "Finish"
+msgstr ""
+
+#: apps/templates/base.html:9
+msgid "The place where your team is"
+msgstr ""
+
+#: apps/templates/base.html:77
+msgid "SIGN-IN"
+msgstr "Sign in"
+
+#: apps/templates/base.html:80 apps/templates/pages/home.html:25
+msgid "TRY-FOR-FREE"
+msgstr "TRY FOR FREE"
+
+#: apps/templates/base.html:102
+msgid "Home"
+msgstr "How it works"
+
+#: apps/templates/base.html:103
+msgid "Blog"
+msgstr ""
+
+#: apps/templates/base.html:109
+msgid "Terms and Conditions"
+msgstr ""
+
+#: apps/templates/base.html:110
+msgid "Privacy Policy"
+msgstr ""
+
+#: apps/templates/base.html:114
+msgid "All rights reserved"
+msgstr ""
+
+#: apps/templates/base_auth.html:9 apps/templates/base_auth_nocard.html:9
+#: apps/templates/pages/soon.html:10
 msgid "The only communication tool your team will ever need"
 msgstr ""
 
 #: apps/templates/pages/home.html:14
 msgid "CALL-TO-ACTION-HEADER"
-msgstr "Work remotely without losing team spirit"
+msgstr "Easy communication for your work team"
 
-#: apps/templates/pages/home.html:28 apps/templates/pages/home.html:150
-#: apps/templates/pages/soon.html:30
-msgid "EARLY-ACCESS"
-msgstr "Get early access"
-
-#: apps/templates/pages/home.html:61
+#: apps/templates/pages/home.html:57
 msgid "FEATURE-MAIN-TITLE"
 msgstr "Your team just a click away"
 
-#: apps/templates/pages/home.html:62
+#: apps/templates/pages/home.html:58
 msgid "FEATURE-MAIN-CONTENT"
 msgstr ""
 "Clicking on the grid is enough to start a voice channel with your "
 "colleagues, get your doubts solved efficiently, funny conversations and the "
 "background noise of them working."
 
-#: apps/templates/pages/home.html:89
+#: apps/templates/pages/home.html:85
 msgid "Look how it works"
 msgstr "Look how it works"
 
-#: apps/templates/pages/home.html:104
+#: apps/templates/pages/home.html:100
 msgid "FEATURE-1-TITLE"
-msgstr "Realtime voice"
+msgstr "Voice"
 
-#: apps/templates/pages/home.html:105
+#: apps/templates/pages/home.html:101
 msgid "FEATURE-1-CONTENT"
 msgstr "Solve doubts and socialize with your team at any time"
 
-#: apps/templates/pages/home.html:109
+#: apps/templates/pages/home.html:105
 msgid "FEATURE-2-TITLE"
-msgstr "Text chat"
+msgstr "Text Chat"
 
-#: apps/templates/pages/home.html:110
+#: apps/templates/pages/home.html:106
 msgid "FEATURE-2-CONTENT"
 msgstr "Is the person you want to communicate with busy?, leave a message"
 
-#: apps/templates/pages/home.html:114
-msgid "FEATURE-3-TITLE"
-msgstr "Analytics"
+#: apps/templates/pages/home.html:110
+msgid "FEATURE-5-TITLE"
+msgstr "Board"
+
+#: apps/templates/pages/home.html:111
+msgid "FEATURE-5-CONTENT"
+msgstr "Centralize essential information for your team members quickly."
 
 #: apps/templates/pages/home.html:115
-msgid "FEATURE-3-CONTENT"
-msgstr ""
-"Our non-invasive artificial intelligence algorithm alerts you of loss of "
-"mood in your team anticipating possible member defections."
-
-#: apps/templates/pages/home.html:119
 msgid "FEATURE-4-TITLE"
 msgstr "Distraction free mode"
 
-#: apps/templates/pages/home.html:120
+#: apps/templates/pages/home.html:116
 msgid "FEATURE-4-CONTENT"
 msgstr ""
 "Turn off all communications and notifications, to focus on work when you "
 "need to."
 
-#: apps/templates/pages/home.html:124
-msgid "FEATURE-5-TITLE"
-msgstr "Board"
+#: apps/templates/pages/home.html:120
+msgid "FEATURE-3-TITLE"
+msgstr "Analytics"
+
+#: apps/templates/pages/home.html:121
+msgid "FEATURE-3-CONTENT"
+msgstr ""
+"Our non-invasive artificial intelligence algorithm alerts you of loss of "
+"mood in your team anticipating possible member defections."
 
 #: apps/templates/pages/home.html:125
-msgid "FEATURE-5-CONTENT"
-msgstr "Centralize essential information for your team members quickly."
-
-#: apps/templates/pages/home.html:129
 msgid "FEATURE-6-TITLE"
 msgstr "Docs & Files"
 
-#: apps/templates/pages/home.html:130
+#: apps/templates/pages/home.html:126
 msgid "FEATURE-6-CONTENT"
 msgstr ""
 "Share docs, code, files, images and spreassheets. Organize in folder so "
 "they're easy to find."
 
-#: apps/templates/pages/home.html:143
+#: apps/templates/pages/home.html:139
 msgid "CALL-TO-ACTION-FOOTER"
-msgstr "Ready to see what we're building?"
+msgstr ""
+"Being able to communicate effectively is perhaps the most important team "
+"skill."
+
+#: apps/templates/pages/home.html:144
+msgid "START-NOW"
+msgstr "Start Now"
 
 #: apps/templates/pages/soon.html:15
 msgid "Holis provides you with everything you need to start working remotely"
@@ -495,6 +668,10 @@ msgstr ""
 #: apps/templates/pages/soon.html:24
 msgid "Holis will be available very soon!"
 msgstr ""
+
+#: apps/templates/pages/soon.html:30
+msgid "EARLY-ACCESS"
+msgstr "Get early access"
 
 #: apps/templates/pages/soon.html:46
 msgid "You are now part of our list!"
@@ -509,28 +686,29 @@ msgstr ""
 msgid "Teams from these companies trust in us"
 msgstr ""
 
-#: apps/users/api/serializers.py:107
+#: apps/users/api/serializers.py:149 apps/web/models.py:16
+#: apps/web/models.py:28
 msgid "Email"
 msgstr ""
 
-#: apps/users/api/serializers.py:111
+#: apps/users/api/serializers.py:151 apps/web/models.py:17
 msgid "Password"
 msgstr ""
 
-#: apps/users/api/serializers.py:117
+#: apps/users/api/serializers.py:156
 msgid "Company"
 msgstr ""
 
-#: apps/users/api/serializers.py:121
+#: apps/users/api/serializers.py:157
 msgid "Token"
 msgstr ""
 
-#: apps/users/api/serializers.py:141
+#: apps/users/api/serializers.py:176
 msgid "Unable to log in with provided credentials."
 msgstr ""
 
-#: apps/users/api/serializers.py:144
-msgid "Must include \"email\" and \"password\"."
+#: apps/users/api/serializers.py:179
+msgid "Must include 'email' and 'password'."
 msgstr ""
 
 #: apps/users/apps.py:7
@@ -541,51 +719,59 @@ msgstr ""
 msgid "This username has already been taken."
 msgstr ""
 
-#: apps/users/models.py:38
+#: apps/users/models.py:45
 msgid "name of user"
 msgstr ""
 
-#: apps/users/models.py:46
+#: apps/users/models.py:52
 msgid "position"
 msgstr ""
 
-#: apps/users/models.py:54
+#: apps/users/models.py:69
 msgid "avatar"
 msgstr ""
 
-#: apps/users/models.py:57
+#: apps/users/models.py:71
 msgid "Jabber ID"
 msgstr ""
 
-#: apps/users/models.py:103 apps/users/models.py:142
+#: apps/users/models.py:73
+msgid "Last Seen"
+msgstr ""
+
+#: apps/users/models.py:146 apps/users/models.py:184
 msgid "user"
 msgstr ""
 
-#: apps/users/models.py:108
+#: apps/users/models.py:149
+msgid "icon text"
+msgstr ""
+
+#: apps/users/models.py:150
 msgid "icon"
 msgstr ""
 
-#: apps/users/models.py:109
+#: apps/users/models.py:151
 msgid "Is active"
 msgstr ""
 
-#: apps/users/models.py:116
+#: apps/users/models.py:158
 msgid "status"
 msgstr ""
 
-#: apps/users/models.py:117
+#: apps/users/models.py:159
 msgid "statuses"
 msgstr ""
 
-#: apps/users/models.py:149
+#: apps/users/models.py:190
 msgid "unread"
 msgstr ""
 
-#: apps/users/models.py:157
+#: apps/users/models.py:197
 msgid "notification"
 msgstr ""
 
-#: apps/users/models.py:158
+#: apps/users/models.py:198
 msgid "notifications"
 msgstr ""
 
@@ -593,16 +779,49 @@ msgstr ""
 msgid "Infos successfully updated"
 msgstr ""
 
-#: config/settings/base.py:32
+#: apps/web/forms.py:64
+msgid "This company code is already used, please use other"
+msgstr ""
+
+#: apps/web/forms.py:85
+msgid "password and confirm_password does not match"
+msgstr ""
+
+#: apps/web/models.py:19
+msgid "Company name"
+msgstr ""
+
+#: apps/web/models.py:22
+msgid "Company code"
+msgstr ""
+
+#: apps/web/models.py:24
+msgid "User name"
+msgstr ""
+
+#: apps/web/models.py:25
+msgid "Position"
+msgstr ""
+
+#: apps/web/models.py:26
+msgid "Avatar"
+msgstr ""
+
+#: apps/web/models.py:27
+msgid "secret"
+msgstr ""
+
+#: apps/web/views.py:83
+msgid "Invalid user or password"
+msgstr ""
+
+#: config/settings/base.py:31
 msgid "English"
 msgstr ""
 
-#: config/settings/base.py:33
+#: config/settings/base.py:31
 msgid "Spanish"
 msgstr ""
-
-#~ msgid "Home"
-#~ msgstr "How it works"
 
 #, fuzzy
 #~| msgid "EARLY-ACCESS"

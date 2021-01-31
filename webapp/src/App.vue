@@ -35,6 +35,10 @@ export default {
     this.$store.dispatch('getMe')
     AOS.init()
   },
+  mounted () {
+    this.$store.dispatch('connectNotificationsChannel', this)
+    this.$store.dispatch('connectToGrid', { vm: this })
+  },
   computed: {
     ...mapState({
       room: state => state.webrtc.room,

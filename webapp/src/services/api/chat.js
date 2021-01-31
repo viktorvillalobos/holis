@@ -17,7 +17,7 @@ export default {
     return axios.post(`${urlBase}/chat/get-or-create-room/`, { to })
   },
   getMessages (room) {
-    return axios.get(`${urlBase}/chat/room/${room}/messages/`, { params: { limit: 20 } })
+    return axios.get(`${urlBase}/chat/room/${room}/messages/`)
   },
   getMessagesFromUrl (url) {
     return axios.get(url)

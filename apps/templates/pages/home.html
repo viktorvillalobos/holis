@@ -21,20 +21,16 @@
                     <img src="{% static 'images/home/hero.svg' %}" alt="Espazum Teams young adults">
                 </picture>
                 <form id="header-get-early-access">
-                    <div class="espazum-inner-button-field">
-                        <input class="input" type="email" placeholder="mail@mail.com" required>
-                        {% csrf_token %}
-                        <button onclick="getEarlyAccess('header-get-early-access')" type="button"
-                            class="button is-primary"> {% trans 'EARLY-ACCESS' %}</button>
-                    </div>
+                    <a href="{% url 'web:signup-step-1' %}" type="button"
+                        class="button is-primary"> {% trans 'TRY-FOR-FREE' %}</a>
                     <div class="espazum-form-message">
-                        <div>
-                            <script
-                                src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
-                            <lottie-player src="https://assets5.lottiefiles.com/packages/lf20_NcXIOl.json"
-                                background="transparent" speed="1" style="width: 200px; height: 200px;" loop autoplay>
-                            </lottie-player>
-                        </div>
+                        <!-- <div> -->
+                        <!--     <script -->
+                        <!--         src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script> -->
+                        <!--     <lottie-player src="https://assets5.lottiefiles.com/packages/lf20_NcXIOl.json" -->
+                        <!--         background="transparent" speed="1" style="width: 200px; height: 200px;" loop autoplay> -->
+                        <!--     </lottie-player> -->
+                        <!-- </div> -->
                         <div class="espazum-form-message-msg">
                             <h4>¡Yaaaay!</h4>
                             Ya eres parte de nuestra lista
@@ -81,7 +77,7 @@
                 <img data-aos="zoom-in-up" class="espazum-exposed-chat" src="{% static 'images/exposed_chat.png'%}"
                     alt="Holis">
             {% endif %}
-            <img class="espazum-exposed-laptop" src="{% static 'images/laptop2.svg'%}" alt="Holis">
+            <img class="espazum-exposed-laptop" src="{% static 'images/laptop.svg'%}" alt="Holis">
 
 
             <!-- <div data-aos="zoom-in-up" class="espazum-exposed-play-wrapper"> -->
@@ -109,10 +105,10 @@
                             <h3>{% trans 'FEATURE-2-TITLE' %}</h3>
                             <p>{% trans 'FEATURE-2-CONTENT' %}</p>
                         </div>
-                        <div class="column is-one-third has-text-centered">
-                            <img src="{% static 'images/features/analytics.svg' %}" alt="Analytics" />
-                            <h3>{% trans 'FEATURE-3-TITLE' %}</h3>
-                            <p>{% trans 'FEATURE-3-CONTENT' %}</p>
+                        <div class="column is-one-third has-text-centered ">
+                            <img src="{% static 'images/features/billboard.svg' %}" alt="Enterprise Board" />
+                            <h3>{% trans 'FEATURE-5-TITLE' %}</h3>
+                            <p>{% trans 'FEATURE-5-CONTENT' %}</p>
                         </div>
                         <div class="column is-one-third has-text-centered border-right">
                             <img src="{% static 'images/features/notifications-off.svg' %}" alt="Real time voice" />
@@ -120,9 +116,9 @@
                             <p>{% trans 'FEATURE-4-CONTENT' %}</p>
                         </div>
                         <div class="column is-one-third has-text-centered border-right">
-                            <img src="{% static 'images/features/billboard.svg' %}" alt="Enterprise Chat" />
-                            <h3>{% trans 'FEATURE-5-TITLE' %}</h3>
-                            <p>{% trans 'FEATURE-5-CONTENT' %}</p>
+                            <img src="{% static 'images/features/analytics.svg' %}" alt="Analytics" />
+                            <h3>{% trans 'FEATURE-3-TITLE' %}</h3>
+                            <p>{% trans 'FEATURE-3-CONTENT' %}</p>
                         </div>
                         <div class="column is-one-third has-text-centered">
                             <img src="{% static 'images/features/files.svg' %}" alt="Analytics" />
@@ -144,11 +140,8 @@
             </div>
             <div class="column is-5-fullhd">
                 <form id="cta-get-early-access">
-                    <div class="espazum-inner-button-field">
-                        <input class="input" type="email" placeholder="mail@mail.com">
-                        <button onclick="getEarlyAccess('cta-get-early-access')" type="button"
-                            class="button is-primary"> {% trans 'EARLY-ACCESS' %}</button>
-                    </div>
+                    <a href="{% url 'web:signup-step-1' %}" type="button"
+                        class="button is-primary"> {% trans 'START-NOW' %} </a>
                     <div class="espazum-form-message">
                         <div>
                             <lottie-player src="https://assets5.lottiefiles.com/packages/lf20_NcXIOl.json"

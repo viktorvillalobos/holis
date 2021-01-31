@@ -14,7 +14,7 @@
           :name="hexOver && hexOver.user ? hexOver.user.name : 'Secret Name'"
           :user="hexOver && hexOver.user ? hexOver.user : null"
           :position="hexOver && hexOver.user ? hexOver.user.position : 'Cargo no definido'"
-          :status="hexOver && hexOver.user ? hexOver.user.status : 'Working'"
+          :status="userCurrentState"
           :img="hexOver && hexOver.user ? hexOver.user.avatar || hexOver.user.avatar_thumb : null"
           :origin="overOrigin"
           @onMouseOver="onGridUserCardOver(true)"
@@ -68,14 +68,16 @@ export default {
     this.initGrid()
     this.isFirefox = window.navigator.userAgent.toLowerCase().indexOf('firefox') > -1
     this.setScroll()
-    this.$store.dispatch('connectToGrid', { vm: this })
 
     await this.loadInitialState()
 
-    setInterval(async () => {
+    /* eslint-disable-next-line */
+    window.clearInterval(window.refreshStatusInterval)
+
+    window.refreshStatusInterval = setInterval(async () => {
       console.log(`Refreshing State ${new Date()}`)
       await this.loadInitialState()
-    }, 60000)
+    }, 30000)
   },
   computed: {
     ...mapGetters(['currentState', 'occupedPoints']),
@@ -89,7 +91,16 @@ export default {
       connected: state => state.webrtc.connected,
       disconnectByControl: state => state.webrtc.disconnectByControl,
       userSpeaking: state => state.webrtc.userSpeaking
-    })
+    }),
+    userCurrentState () {
+      if (this.hexOver && this.hexOver.user) {
+        if (this.hexOver.user.status) return this.hexOver.user.status
+        if (this.hexOver.user.statuses) return this.hexOver.user.statuses.filter(status => status.is_active)[0]
+      }
+      return {
+        text: 'Working'
+      }
+    }
   },
   methods: {
     onChat (user) {
@@ -160,15 +171,19 @@ export default {
       this.$store.dispatch('disconnectAndConnect', this.room)
     },
     sendChangePositionNotification (hexCoordinates) {
-      const message = {
-        type: 'grid.position',
-        area: this.currentArea.id,
-        x: hexCoordinates.x,
-        y: hexCoordinates.y,
-        room: this.room
-      }
+      if (this.currentArea) {
+        const message = {
+          type: 'grid.position',
+          area: this.currentArea.id,
+          x: hexCoordinates.x,
+          y: hexCoordinates.y,
+          room: this.room
+        }
 
-      window.$socketGrid.sendObj(message)
+        window.$socketGrid.sendObj(message)
+      } else {
+        console.log(' You are trying to change position without currentArea, the change posiition notification can\'t be sent ')
+      }
     },
     getOffset (e) {
       /* LayerX and LayerY Works well in chrome and firefox */
@@ -200,6 +215,7 @@ export default {
         Set the position in x and y to the UserHoverGrid
         depends of the offsetX and offsetY
       */
+
       this.hexOver = hex
       const maxWidth = window.innerWidth - 300
       const maxHeight = window.innerHeight - 150

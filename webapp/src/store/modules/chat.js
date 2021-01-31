@@ -14,12 +14,13 @@ const state = {
     ? `wss://${location.hostname}:${location.port}`
     : `ws://${location.hostname}:${location.port}`,
   socketChat: process.env.NODE_ENV === 'production'
-    ? `wss://${location.hostname}:${location.port}/chat/`
-    : `ws://${location.hostname}:${location.port}/chat/`,
+    ? `wss://${location.hostname}:${location.port}/ws/chat/`
+    : `ws://${location.hostname}:${location.port}/ws/chat/`,
   room: 'general',
   next: null,
   prev: null,
-  currentChatID: null
+  currentChatID: null,
+  chatActive: false
 }
 
 const getters = {
@@ -29,6 +30,9 @@ const getters = {
 }
 
 const mutations = {
+  setChatActive (state, status) {
+    state.chatActive = status
+  },
   setRoom (state, name) {
     state.room = name
   },
@@ -92,13 +96,26 @@ const actions = {
     commit('setRecents', data)
   },
   async connectToRoom ({ commit, state, getters, dispatch }, { vm, room }) {
+
+    const isTheSameUrl = window.$socketChat && window.$socketChat.url.indexOf(getters.chatUrl) !== -1
+    const socketIsOpen = window.$socketChat && window.$socketChat.readyState === 1
+
+    const mustCloseActiveConnection = socketIsOpen && isTheSameUrl
+
+    if (mustCloseActiveConnection) {
+      vm.$disconnect()
+      commit('clearMessages')
+    }
+
     commit('setRoom', room)
 
     vm.$connect(getters.chatUrl, {
       format: 'json',
       reconnection: true,
+      connectManually: true,
       reconnectionDelay: 3000
     })
+
     window.$socketChat = vm.$socket
 
     window.$socketChat.onmessage = message => dispatch('onMessage', message.data)
@@ -109,12 +126,13 @@ const actions = {
     if (message.type === 'chat.message') commit('addMessage', message)
   },
   async getMessagesByRoom ({ commit }, room) {
-    console.log(`Getting messages from ${room}`)
     const { data } = await apiClient.chat.getMessages(room)
+
+    console.log('getMessagesByRoom')
+    console.log(data)
     commit('unshiftMessages', data)
   },
   async getMessagesByUser ({ commit, dispatch }, to) {
-    console.log(`Getting messages by user ${to}`)
     const { data } = await apiClient.chat.getRoomByUserID(to)
 
     dispatch('getMessagesByRoom', data.id)
@@ -128,7 +146,16 @@ const actions = {
     commit('unBlockScroll')
   },
   sendChatMessage ({ commit, state, dispatch }, { msg }) {
-    window.$socketChat.sendObj({ type: 'chat.message', message: msg.message, room: state.room })
+    // TODO: Handle isOneToOne
+
+    const payload = {
+      type: 'chat.message',
+      message: msg.message,
+      room: state.room,
+      to: state.currentChatID,
+      is_one_to_one: true
+    }
+    window.$socketChat.sendObj(payload)
     const isRecent = state.recents.filter(x => x.id === state.currentChatID)
 
     if (!isRecent.length) dispatch('getRecents')

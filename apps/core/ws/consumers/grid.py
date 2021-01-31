@@ -113,7 +113,7 @@ class GridMixin:
         await self.notify_user_status(message)
 
     async def handle_heartbeat(self, message):
-        logger.info("HANDLE heartbeat")
+        logger.info(f"HANDLE heartbeat {self.scope['user'].id}")
         logger.info(message)
 
         await self.heartbeat()

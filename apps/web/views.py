@@ -68,6 +68,9 @@ class LoginView(FormView):
         if not self.request.company:
             return redirect(reverse("web:check-company"))
 
+        if self.request.user.is_authenticated:
+            return redirect(reverse("webapp"))
+
         return super().dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
@@ -143,3 +146,7 @@ class SignUpStep5(GetObjectByUUIDMixin, UpdateView):
 def logout_view(request):
     logout(request)
     return redirect("webapp")
+
+
+class HomeView(RedirectToAppMixin, TemplateView):
+    template_name = "pages/home.html"

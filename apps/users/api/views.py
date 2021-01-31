@@ -30,7 +30,9 @@ class UserViewSet(RetrieveModelMixin, ListModelMixin, UpdateModelMixin, GenericV
 
     def get_queryset(self, *args, **kwargs):
         if self.kwargs.get("id"):
-            return self.queryset.filter(company=self.request.user.company)
+            return self.queryset.filter(
+                company=self.request.user.company
+            )
 
         return self.queryset.filter(company=self.request.user.company).exclude(
             id=self.request.user.id

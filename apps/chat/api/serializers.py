@@ -22,24 +22,21 @@ class RecentsSerializer(serializers.ModelSerializer):
         read_only_fields = fields
 
 
-class MessageSerializer(serializers.ModelSerializer):
-    """
-    WARNING: This is used by Consumers.
-    """
+class MessageRawSerializer(serializers.Serializer):
+    avatar_thumb = serializers.SerializerMethodField()
+    user_name = serializers.SerializerMethodField()
+    user_id = serializers.SerializerMethodField()
+    id = serializers.CharField()
+    room = serializers.UUIDField()
+    created = serializers.DateTimeField()
+    text = serializers.CharField()
+    room = serializers.CharField()
 
-    avatar_thumb = serializers.CharField(source="user.avatar_thumb")
-    user_name = serializers.CharField(source="user.name")
-    user_id = serializers.CharField(source="user.id")
+    def get_avatar_thumb(self, obj: chat_models.Message) -> str:
+        return obj.user.avatar_thumb
 
-    class Meta:
-        model = chat_models.Message
-        fields = (
-            "id",
-            "created",
-            "avatar_thumb",
-            "text",
-            "room",
-            "user_id",
-            "user_name",
-        )
-        read_only_fields = fields
+    def get_user_name(self, obj: chat_models.Message) -> str:
+        return obj.user.name
+
+    def get_user_id(self, obj: chat_models.Message) -> int:
+        return obj.user_id

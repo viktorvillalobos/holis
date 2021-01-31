@@ -70,7 +70,7 @@ def serialize_user_queryset(queryset: QuerySet) -> List[Dict[str, Any]]:
             "statuses": [
                 {
                     "text": status.text,
-                    "icon": status.icon.url,
+                    "icon": status.icon.url if status.icon else None,
                     "icon_text": status.icon_text,
                     "is_active": status.is_active,
                     "id": status.id,
@@ -94,7 +94,6 @@ class UserSerializer(serializers.ModelSerializer):
     company = UserCompanySerializer(read_only=True)
     avatar_thumb = serializers.SerializerMethodField(read_only=True)
     room = serializers.SerializerMethodField(read_only=True)
-    status = ActiveStatusSerializer(source="current_status", read_only=True)
     birthday = serializers.DateField(required=False)
     email = serializers.EmailField(allow_blank=False, allow_null=False)
 
@@ -133,7 +132,6 @@ class UserSerializer(serializers.ModelSerializer):
             "avatar_thumb",
             "is_staff",
             "is_superuser",
-            "status",
         ]
 
         read_only_fields = fields

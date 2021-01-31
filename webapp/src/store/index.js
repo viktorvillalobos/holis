@@ -6,6 +6,7 @@ import announcements from './modules/announcements'
 import areas from './modules/areas'
 import chat from './modules/chat'
 import webrtc from './modules/webrtc'
+import notifications from './modules/notifications'
 
 Vue.use(Vuex)
 
@@ -17,7 +18,8 @@ const store = new Vuex.Store({
     announcements,
     areas,
     chat,
-    webrtc
+    webrtc,
+    notifications
   },
   state: {
     socket: {
@@ -31,7 +33,10 @@ const store = new Vuex.Store({
       console.log('Socket ONOPEN')
       state.socket.isConnected = isActive
 
-      setInterval(() => {
+      /* eslint-disable-next-line */
+      window.clearInterval(window.heartbeatInterval)
+
+      window.heartbeatInterval = setInterval(() => {
         console.log('heartbeat')
 
         window.$socketGrid.sendObj({
@@ -57,9 +62,6 @@ const store = new Vuex.Store({
           state.app.notification.show = true
           state.app.notification.text = message.message
           break
-        // case 'me.data':
-        //   state.app.user = message.user
-        //   break
         case 'grid.position':
           // Change the received message
           state.areas.changeState = message

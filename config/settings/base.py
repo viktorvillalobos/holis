@@ -376,3 +376,6 @@ SESSION_COOKIE_DOMAIN = ".holis.local"
 
 
 ABSTRACT_API_KEY = env("ABSTRACT_API_KEY")
+
+
+ENVIRONMENT = "production"

@@ -1,6 +1,6 @@
 <template>
   <div class="connect-chat" :style="`background-image: url(${patternChat})`">
-    <div v-if="newChat" class="connect-chat-new">
+    <div v-if="chatActive" class="connect-chat-new">
       <h3>Nuevo mensaje</h3>
       <div class="field is-horizontal">
         <div class="field-label is-normal">
@@ -23,9 +23,9 @@
         </ul>
       </card>
     </div>
-    <chat-header v-if="!newChat" :chat-name="currentChatName" />
+    <chat-header v-if="!chatActive" :chat-name="currentChatName" />
     <div
-      v-if="!newChat"
+      v-if="!chatActive"
       class="connect-chat-body"
     >
       <div class="nose"></div>
@@ -50,7 +50,7 @@
         </div>
       </vue-scroll>
     </div>
-    <chat-editor v-if="!newChat" @enter="sendMessage" />
+    <chat-editor v-if="!chatActive" @enter="sendMessage" />
   </div>
 </template>
 
@@ -73,12 +73,6 @@ export default {
     Avatar,
     Card
   },
-  props: {
-    newChat: {
-      type: Boolean,
-      default: false
-    }
-  },
   data () {
     return {
       searchPerson: '',
@@ -93,7 +87,8 @@ export default {
       next: state => state.chat.next,
       allowScrollToEnd: state => state.chat.allowScrollToEnd,
       currentChatJID: state => state.chat.currentChatJID,
-      currentChatName: state => state.chat.currentChatName
+      currentChatName: state => state.chat.currentChatName,
+      chatActive: state => state.chat.chatActive
     })
   },
   mounted () {

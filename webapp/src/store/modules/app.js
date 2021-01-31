@@ -5,11 +5,6 @@ const state = {
   isAsideRightActive: false,
   isBoardActive: false,
   isReleasesActive: false,
-  isNotificationsActive: false,
-  notification: {
-    show: false,
-    text: 'This is a demo notification'
-  },
   isMicroActive: false,
   isVideoActive: false,
   isSoundActive: true,
@@ -30,17 +25,14 @@ const mutations = {
   setAsideLeftActive (state) {
     state.isAsideLeftActive = !state.isAsideLeftActive
   },
-  setAsideRightActive (state) {
-    state.isAsideRightActive = !state.isAsideRightActive
+  setAsideRightActive (state, status) {
+    status ? state.isAsideRightActive = true : state.isAsideRightActive = !state.isAsideRightActive
   },
   setBoardActive (state) {
     state.isBoardActive = !state.isBoardActive
   },
   setReleasesActive (state) {
     state.isReleasesActive = !state.isReleasesActive
-  },
-  setNotificationsActive (state) {
-    state.isNotificationsActive = !state.isNotificationsActive
   },
   setMicroActive (state) {
     state.isMicroActive = !state.isMicroActive
@@ -54,9 +46,6 @@ const mutations = {
   setReleases (state, payload) {
     state.releases = payload
   },
-  setNotifications (state, payload) {
-    state.notifications = payload
-  },
   setAlert (state, payload) {
     state.alert = payload
   }
@@ -66,10 +55,6 @@ const actions = {
   async getReleases ({ commit }) {
     const { data } = await apiClient.app.getReleases()
     commit('setReleases', data.results)
-  },
-  async getNotifications ({ commit }) {
-    const { data } = await apiClient.app.getNotifications()
-    commit('setNotifications', data.results)
   },
   async getMe ({ commit }) {
     const { data } = await apiClient.app.getMe()

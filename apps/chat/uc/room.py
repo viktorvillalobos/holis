@@ -1,6 +1,7 @@
 from typing import Optional
 
 from django.db import DatabaseError, models
+from django.utils.functional import cached_property
 
 import uuid
 
@@ -36,7 +37,6 @@ class RoomCreate(RoomUCBase):
     def __init__(self, company, members_ids) -> None:
         self.company = company
         self.members_ids = members_ids
-        self.members = self.get_members()
         self.name = str(uuid.uuid4())
 
     def get_members(self):
@@ -50,9 +50,8 @@ class RoomCreate(RoomUCBase):
         return results
 
     def get_or_create_room(self):
-        instance = self.get_room()
-        if instance:
-            return instance
+        if self.room:
+            return self.room
 
         data = {
             "company": self.company,
@@ -64,18 +63,19 @@ class RoomCreate(RoomUCBase):
         }
         channel = chat_models.Room.objects.create(**data)
 
-        for x in self.members:
+        for x in self.get_members():
             channel.members.add(x)
         channel.save()
 
         return channel
 
-    def get_room(self) -> Optional[chat_models.Room]:
+    @cached_property
+    def room(self) -> Optional[chat_models.Room]:
         return (
             chat_models.Room.objects.filter(
-                members__in=self.members, is_one_to_one=True
+                members__id__in=self.members_ids, is_one_to_one=True
             )
-            .annotate(num_members=models.Count("members"))
-            .filter(num_members=2)
+            # .annotate(num_members=models.Count("members"))
+            # .filter(num_members=2)
             .first()
         )

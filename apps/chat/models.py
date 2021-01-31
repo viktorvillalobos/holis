@@ -76,7 +76,7 @@ class Message(TimeStampedModel):
     )
     room = models.ForeignKey(
         Room,
-        verbose_name=_("channel"),
+        verbose_name=_("room"),
         related_name="messages",
         on_delete=models.CASCADE,
     )
@@ -92,7 +92,7 @@ class Message(TimeStampedModel):
 
     class Meta:
         unique_together = ["id", "company"]
-        ordering = ["created"]
+        ordering = ["-created"]
 
 
 class MessageAttachment(TimeStampedModel):

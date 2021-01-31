@@ -1,6 +1,7 @@
 from django.conf import settings
 from rest_framework import exceptions, generics, views
 from rest_framework.response import Response
+from rest_framework.pagination import CursorPagination
 
 import logging
 from twilio.rest import Client
@@ -9,7 +10,11 @@ from apps.chat import models as chat_models
 from apps.chat import uc as chat_uc
 from apps.chat.api import serializers
 
-from ..services import get_recents_rooms
+from ..services import (
+    get_recents_rooms,
+    get_or_create_room_by_company_and_members_ids,
+    get_twilio_credentials_by_user_id,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -27,13 +32,9 @@ class GetOrCreateRoomAPIView(views.APIView):
 
     def get_one_to_one_room(self, validated_data: dict) -> chat_models.Room:
         try:
-            return (
-                chat_uc.RoomCreate(
-                    self.request.user.company,
-                    [self.request.user.id, validated_data["to"]],
-                )
-                .execute()
-                .get_room()
+            return get_or_create_room_by_company_and_members_ids(
+                company_id=self.request.user.company_id,
+                members_ids=[self.request.user.id, validated_data["to"]],
             )
         except chat_uc.NonExistentMemberException:
             raise exceptions.ValidationError("Member not exist")
@@ -41,12 +42,9 @@ class GetOrCreateRoomAPIView(views.APIView):
 
 class GetTurnCredentialsAPIView(views.APIView):
     def get(self, request, *args, **kwargs):
-        account_sid = settings.TWILIO_ACCOUNT_ID
-        auth_token = settings.TWILIO_AUTH_TOKEN
-        client = Client(account_sid, auth_token)
-        token = client.tokens.create(ttl=60)
+        credentials = get_twilio_credentials_by_user_id(user_id=self.request.user.id)
 
-        return Response(token.ice_servers, status=200)
+        return Response(credentials.ice_servers, status=200)
 
 
 class UploadFileAPIView(views.APIView):
@@ -62,16 +60,24 @@ class RecentChatsAPIView(views.APIView):
         return Response(get_recents_rooms(self.request.user.id), status=200)
 
 
+class MessageCursoredPagination(CursorPagination):
+    page_size = 10
+
+
 class MessageListAPIView(generics.ListAPIView):
     queryset = chat_models.Message.objects.all()
-    serializer_class = serializers.MessageSerializer
+    serializer_class = serializers.MessageRawSerializer
+    pagination_class = MessageCursoredPagination
 
     def get_queryset(self):
-        qs = super().get_queryset()
         return (
-            qs.filter(room__id=self.kwargs["id"], company=self.request.user.company)
-            .order_by("-created")
-            .select_related("user")
+            super()
+            .get_queryset()
+            .filter(
+                room__id=self.kwargs["room_uuid"],
+                company_id=self.request.user.company_id,
+            )
+            .select_related("user", "room")
         )
 
     def list(self, request, *args, **kwargs):

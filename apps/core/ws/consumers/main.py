@@ -10,7 +10,6 @@ from channels.generic.websocket import AsyncJsonWebsocketConsumer
 from apps.users.services import serialize_user
 
 from .grid import GridMixin
-from .notifications import NotificationMixin
 
 logger = logging.getLogger(__name__)
 
@@ -20,7 +19,7 @@ COMPANY_MAIN_CHANNEL = "company-{}"
 class MainConsumerBase(AsyncJsonWebsocketConsumer):
     @property
     def company_channel(self):
-        company_id: int = self.scope["user"].company_id
+        company_id = self.scope["user"].company_id
         return COMPANY_MAIN_CHANNEL.format(company_id)
 
     async def get_groups(self):
@@ -44,7 +43,7 @@ class MainConsumerBase(AsyncJsonWebsocketConsumer):
             await self.channel_layer.group_add(group, self.channel_name)
 
 
-class MainConsumer(NotificationMixin, GridMixin, MainConsumerBase):
+class MainConsumer(GridMixin, MainConsumerBase):
     async def receive_json(self, content):
         """
             This method receive jsons for clients, and
@@ -58,12 +57,6 @@ class MainConsumer(NotificationMixin, GridMixin, MainConsumerBase):
 
         if _type == "error":
             return await self.send_json({"error": _msg})
-        # elif _type == "chat.message":
-        #     message: Dict = {
-        #         "message": content["message"],
-        #         "user": self.scope["user"].username,
-        #     }
-        #     return await self.notification(message)
         elif _type == "grid.position":
             await self.handle_grid_position(content)
         elif _type == "grid.clear":
