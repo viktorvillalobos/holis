@@ -3,8 +3,8 @@ from channels.generic.websocket import AsyncJsonWebsocketConsumer
 
 from ..services import (
     create_message,
-    serialize_message,
     send_notification_chat_by_user_id_async,
+    serialize_message,
 )
 
 logger = logging.getLogger(__name__)
@@ -35,13 +35,11 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
 
             if is_one_to_one_chat:
 
-                logger.info(
-                    f"Is one-to-one chat sending notifications to {user_id}"
-                )
+                logger.info(f"Is one-to-one chat sending notifications to {user_id}")
                 await send_notification_chat_by_user_id_async(
                     to_user_id=user_id,
                     from_user_name=user.name,
-                    message=content["message"]
+                    message=content["message"],
                 )
 
         else:

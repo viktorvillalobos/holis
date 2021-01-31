@@ -1,16 +1,17 @@
+from django.conf import settings
+from django.core.cache import caches
+from django.db.models import Model, QuerySet
+
 import logging
 import random
 import threading
-from django.conf import settings
-from django.db.models import Model, QuerySet
-from django.core.cache import caches
 from hashlib import sha1
 from pickle import UnpicklingError  # nosec import for error handling only
-
 
 logger = logging.getLogger(__name__)
 
 globals = threading.local()
+
 
 def cache(seconds, criteria=None, backend="default", jittering_pctg=None):
     def do_cache(f):

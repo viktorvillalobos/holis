@@ -1,6 +1,5 @@
 import pytest
 import uuid
-
 from model_bakery import baker
 
 from ..services import create_message, get_recents_rooms

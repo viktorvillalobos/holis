@@ -1,19 +1,20 @@
-import uuid
-
 from typing import Any, Dict, List
 
-from django.core.files.storage import default_storage
 from django.conf import settings
+from django.core.files.storage import default_storage
+
+import uuid
 from channels.db import database_sync_to_async
 from channels.layers import get_channel_layer
 from twilio.rest import Client
 
-from ..chat import models as chat_models
-from .providers import room as room_providers
-from ..chat.api import serializers
 from apps.users import models as users_models
 from apps.users import services as user_services
 from apps.utils.cache import cache
+
+from ..chat import models as chat_models
+from ..chat.api import serializers
+from .providers import room as room_providers
 
 
 class NonExistentMemberException(Exception):
@@ -46,8 +47,7 @@ def serialize_message(message: chat_models.Message) -> Dict[str, Any]:
 def get_recents_rooms(user_id: id) -> Dict[str, Any]:
     rooms_ids = (
         chat_models.Message.objects.filter(
-            room__is_one_to_one=True,
-            room__members__id=user_id,
+            room__is_one_to_one=True, room__members__id=user_id
         )
         .order_by("room__id", "-created")
         .distinct("room__id")
@@ -115,15 +115,9 @@ def get_twilio_credentials_by_user_id(user_id: int) -> Dict[str, Any]:
 
 
 async def send_notification_chat_by_user_id_async(
-    to_user_id: int,
-    from_user_name: str,
-    message: str
+    to_user_id: int, from_user_name: str, message: str
 ) -> None:
-    payload = {
-        "type": "notification",
-        "ntype": "dm",
-        "message": f"{message[:40]}..."
-    }
+    payload = {"type": "notification", "ntype": "dm", "message": f"{message[:40]}..."}
 
     channel_name = user_services.get_user_notification_channel_by_user_id(
         user_id=to_user_id

@@ -1,7 +1,7 @@
 from django.conf import settings
 from rest_framework import exceptions, generics, views
-from rest_framework.response import Response
 from rest_framework.pagination import CursorPagination
+from rest_framework.response import Response
 
 import logging
 from twilio.rest import Client
@@ -11,8 +11,8 @@ from apps.chat import uc as chat_uc
 from apps.chat.api import serializers
 
 from ..services import (
-    get_recents_rooms,
     get_or_create_room_by_company_and_members_ids,
+    get_recents_rooms,
     get_twilio_credentials_by_user_id,
 )
 

@@ -1,5 +1,5 @@
-from rest_framework.viewsets import ModelViewSet, GenericViewSet
 from rest_framework.response import Response
+from rest_framework.viewsets import GenericViewSet, ModelViewSet
 
 from apps.core import models as core_models
 from apps.core.api import serializers

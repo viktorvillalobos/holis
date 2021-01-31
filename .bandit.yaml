@@ -1,0 +1,8 @@
+# (optional) list included test IDs here, eg '[B101, B406]':
+tests: ['B112']
+
+# (optional) list skipped test IDs here, eg '[B101, B406]':
+skips: []
+
+try_except_continue:
+    check_typed_exception: False

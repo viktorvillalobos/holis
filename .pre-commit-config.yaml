@@ -50,3 +50,8 @@ repos:
       exclude: ^(.*/test/.*|.*/tests/.*|.*/test\.py|.*/tests\.py|.*/migrations/.*)$
       args:
           - --config=.bandit.yaml
+
+-   repo: https://github.com/pre-commit/mirrors-isort
+    rev: ''  # Use the revision sha / tag you want to point at
+    hooks:
+    -   id: isort

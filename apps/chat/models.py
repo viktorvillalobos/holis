@@ -75,10 +75,7 @@ class Message(TimeStampedModel):
         verbose_name=_("company"),
     )
     room = models.ForeignKey(
-        Room,
-        verbose_name=_("room"),
-        related_name="messages",
-        on_delete=models.CASCADE,
+        Room, verbose_name=_("room"), related_name="messages", on_delete=models.CASCADE
     )
     user = models.ForeignKey(
         "users.User",
