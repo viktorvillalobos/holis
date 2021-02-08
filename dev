@@ -25,7 +25,7 @@ shift || _usage
 
 case ${arg} in
 up|run|server|runserver)
-  /usr/local/bin/gunicorn config.asgi --bind 0.0.0.0:8000 --chdir=/app -k uvicorn.workers.UvicornWorker --reload
+  uvicorn config.asgi:application --port 8000 --host 0.0.0.0 --reload
 ;;
 test)
   pytest "$@" --black --cov=apps --junitxml=/dev/shm/test-results/pytest.xml

@@ -9,10 +9,16 @@ if settings.DEBUG:
 else:
     router = SimpleRouter()
 
-router.register("list", views.UserViewSet)
+router.register("profile", views.UserProfileViewSet)
+router.register("", views.UserViewSet)
 router.register("notifications", views.NotificationViewSet)
 
 urlpatterns = [
+    path(
+        "<int:pk>/upload-avatar/",
+        views.UploadAvatarAPIView.as_view(),
+        name="upload-avatar",
+    ),
     path("check-company/<str:company_name>/", views.CheckCompanyAPIView.as_view()),
     path("login/", views.LoginAPIView.as_view()),
     path("set-status/", views.SetStatusAPIView.as_view()),
@@ -20,11 +26,6 @@ urlpatterns = [
         "suggest-company-code/",
         views.SuggestCompanyCodeAPIView.as_view(),
         name="suggest-company-code",
-    ),
-    path(
-        "list/<int:pk>/upload-avatar/",
-        views.UploadAvatarAPIView.as_view(),
-        name="upload-avatar",
     ),
     path("birthdays/", views.BirthdaysViewSet.as_view({"get": "list"})),
 ]

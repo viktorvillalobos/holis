@@ -22,7 +22,7 @@ User = get_user_model()
 logger = logging.getLogger(__name__)
 
 
-class UserViewSet(RetrieveModelMixin, ListModelMixin, UpdateModelMixin, GenericViewSet):
+class UserViewSet(RetrieveModelMixin, ListModelMixin, GenericViewSet):
     serializer_class = serializers.UserSerializer
     queryset = User.objects.all()
     lookup_field = "id"
@@ -41,13 +41,17 @@ class UserViewSet(RetrieveModelMixin, ListModelMixin, UpdateModelMixin, GenericV
         serialized_data = serializers.serialize_user_queryset(queryset)
         return Response(serialized_data, status=200)
 
-    @action(detail=False, methods=["GET"])
-    def me(self, request):
+
+class UserProfileViewSet(GenericViewSet):
+    queryset = User.objects.all()
+    serializer_class = serializers.UserSerializer
+
+    def list(self, request):
         serializer = self.serializer_class(request.user, context={"request": request})
         return Response(status=status.HTTP_200_OK, data=serializer.data)
 
-    @action(detail=False, methods=["PATCH"])
-    def profile(self, request):
+    @action(detail=False, methods=["patch"])
+    def edit(self, request):
         serializer = self.serializer_class(
             request.user, data=request.data, context={"request": request}, partial=True
         )

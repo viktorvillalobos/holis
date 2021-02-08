@@ -84,9 +84,7 @@ def serialize_user_queryset(queryset: QuerySet) -> List[Dict[str, Any]]:
         for x in queryset
     ]
 
-    return {
-        "results": results,
-    }
+    return {"results": results}
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -133,8 +131,6 @@ class UserSerializer(serializers.ModelSerializer):
             "is_staff",
             "is_superuser",
         ]
-
-        read_only_fields = fields
 
 
 class NotificationSerializer(serializers.ModelSerializer):

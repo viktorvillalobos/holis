@@ -14,12 +14,12 @@ export default {
     return axios.post(`${urlBase}/users/set-status/`, { status_id: statusId })
   },
   getMe () {
-    return axios.get(`${urlBase}/users/list/me/`)
+    return axios.get(`${urlBase}/users/profile/`)
   },
   getUser (id) {
-    return axios(`${urlBase}/users/list/${id}/`)
+    return axios(`${urlBase}/users/${id}/`)
   },
   editUser (payload) {
-    return axios.patch(`${urlBase}/users/list/${payload.id}/`, payload)
+    return axios.patch(`${urlBase}/users/profile/edit/`, payload)
   }
 }
