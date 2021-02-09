@@ -166,7 +166,7 @@ export default {
     return {
       firstTime: false,
       publicPath: process.env.BASE_URL,
-      modalMask,
+      modalMask
     }
   },
   mounted () {
