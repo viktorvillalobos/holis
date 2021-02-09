@@ -4,10 +4,10 @@ import AppContainer from '@/components/AppContainer.vue'
 import Office from '@/views/office.vue'
 import Reports from '@/views/reports.vue'
 
-import config from '@/views/config.vue'
-import UserConfig from '@/components/config/UserConfig'
-import VoiceAndVideo from '@/components/config/VoiceAndVideo'
-import Notifications from '@/components/config/Notifications'
+import Config from '@/views/config.vue'
+import UserConfig from '@/components/Config/UserConfig'
+import VoiceAndVideo from '@/components/Config/VoiceAndVideo'
+import Notifications from '@/components/Config/Notifications'
 
 Vue.use(Router)
 
@@ -33,7 +33,7 @@ const router = new Router({
         {
           path: 'config',
           name: 'config',
-          component: config,
+          component: Config,
           children: [
             {
               path: '',

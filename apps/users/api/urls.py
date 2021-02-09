@@ -15,9 +15,7 @@ router.register("notifications", views.NotificationViewSet)
 
 urlpatterns = [
     path(
-        "<int:pk>/upload-avatar/",
-        views.UploadAvatarAPIView.as_view(),
-        name="upload-avatar",
+        "me/upload-avatar/", views.UploadAvatarAPIView.as_view(), name="upload-avatar"
     ),
     path("check-company/<str:company_name>/", views.CheckCompanyAPIView.as_view()),
     path("login/", views.LoginAPIView.as_view()),

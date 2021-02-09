@@ -59,10 +59,22 @@ MIDDLEWARE += ["debug_toolbar.middleware.DebugToolbarMiddleware"]  # noqa F405
 # https://django-debug-toolbar.readthedocs.io/en/latest/configuration.html#debug-toolbar-config
 
 
+NOT_SHOW_TOOLBAR_IN_URLS = {"/admin", "/app"}
+
+
+def custom_show_toolbar(request):
+    from debug_toolbar.middleware import show_toolbar
+
+    deny = any(request.path.startswith(url) for url in NOT_SHOW_TOOLBAR_IN_URLS)
+    return show_toolbar(request) and not deny
+
+
 DEBUG_TOOLBAR_CONFIG = {
-    "DISABLE_PANELS": ["debug_toolbar.panels.redirects.RedirectsPanel",],
+    "DISABLE_PANELS": ["debug_toolbar.panels.redirects.RedirectsPanel"],
     "SHOW_TEMPLATE_CONTEXT": False,
+    "SHOW_TOOLBAR_CALLBACK": custom_show_toolbar,
 }
+
 # https://django-debug-toolbar.readthedocs.io/en/latest/installation.html#internal-ips
 INTERNAL_IPS = ["127.0.0.1", "10.0.2.2"]
 if env("USE_DOCKER") == "yes":

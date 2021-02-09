@@ -64,12 +64,18 @@ const actions = {
     const { data } = await apiClient.app.getUser(id)
     commit('setUser', data)
   },
-  async editUser ({commit}, payload) {
+  async editUser ({ commit }, payload) {
     const { data } = await apiClient.app.editUser(payload)
 
     console.log('Saving User Data')
     console.log(data)
     commit('setUser', data)
+  },
+  async setProfilePicture ({ commit }, file) {
+    const { data } = await apiClient.app.setProfilePicture(file)
+
+    console.log('setProfilePicture')
+    console.log(data)
   }
 }
 

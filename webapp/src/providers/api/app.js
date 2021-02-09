@@ -21,5 +21,15 @@ export default {
   },
   editUser (payload) {
     return axios.patch(`${urlBase}/users/profile/edit/`, payload)
+  },
+  setProfilePicture (file) {
+    console.assert(file instanceof File, 'You must provide a File instance')
+    const formData = new FormData()
+    formData.append('avatar', file)
+    return axios.post(`${urlBase}/users/me/upload-avatar/`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    })
   }
 }

@@ -3,7 +3,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework import exceptions, generics, permissions, status, views
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.decorators import action
-from rest_framework.mixins import ListModelMixin, RetrieveModelMixin, UpdateModelMixin
+from rest_framework.mixins import ListModelMixin, RetrieveModelMixin
 from rest_framework.parsers import FileUploadParser
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet, ModelViewSet
@@ -147,13 +147,11 @@ class UploadAvatarAPIView(views.APIView):
     parser_class = (FileUploadParser,)
 
     def post(self, request, *args, **kwargs):
-        user = get_object_or_404(models.User, pk=self.kwargs["pk"])
-
         avatar = request.data.get("avatar")
 
         self.validate_extensions(avatar)
-        user.avatar = avatar
-        user.save()
+        user = request.user
+        user.avatar.save(avatar.name, avatar)
 
         return Response(serializers.UserSerializer(user).data, status=200)
 

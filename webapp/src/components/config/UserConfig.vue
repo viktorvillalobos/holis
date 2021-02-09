@@ -6,21 +6,21 @@
       </div>
       <div class="column">
         <div class="field">
-          <label class="label" to="id_avatar">Tu foto</label>
+          <label class="label" to="id_avatar">Your avatar</label>
           <div class="file has-name">
             <label class="file-label is-fullwidth">
-              <input class="file-input" type="file" name="avatar" accept="image/*" id="id_avatar" />
+              <input class="file-input" ref="newAvatar" type="file" name="avatar" accept="image/*" id="id_avatar" @change="handleAvatarChange"/>
               <span class="file-cta">
                 <span class="file-icon">
                   <font-awesome-icon icon="upload" />
                 </span>
-                <span class="file-label">Choose a file</span>
+                <span class="file-label">{{ avatarMsg }}</span>
               </span>
-              <span id="fileName" class="file-name">Show off that nice smile you have!</span>
+              <span id="fileName" class="file-name">{{ avatarNiceMsg }}</span>
             </label>
           </div>
           <div class="field">
-            <label class="label">Tu email</label>
+            <label class="label">Your email</label>
             <input
               v-model="instance.email"
               class="input"
@@ -30,7 +30,7 @@
             />
           </div>
           <div class="field">
-            <label class="label">Tu nombre</label>
+            <label class="label">Your name</label>
             <input
               v-model="instance.name"
               class="input"
@@ -39,7 +39,7 @@
             />
           </div>
           <div class="field">
-            <label class="label">Tu cargo</label>
+            <label class="label">Your position</label>
             <input
               class="input"
               type="text"
@@ -48,12 +48,12 @@
             />
           </div>
           <div class="field">
-            <label class="label">Tu cumpleaños</label>
+            <label class="label">Your birthday</label>
             <div class="columns">
               <div class="column">
                 <div class="select is-fullwidth">
                   <select v-model="birthday[2]">
-                    <option :value="null">Día</option>
+                    <option :value="null">Day</option>
                     <option v-for="N in 31" :key="N" :value="N < 9 ? '0' + N : N">{{N}}</option>
                   </select>
                 </div>
@@ -61,7 +61,7 @@
               <div class="column">
                 <div class="select is-fullwidth">
                   <select v-model="birthday[1]">
-                    <option :value="null">Mes</option>
+                    <option :value="null">Month</option>
                     <option
                       v-for="N in 12"
                       :key="N"
@@ -73,7 +73,7 @@
               <div class="column">
                 <div class="select is-fullwidth">
                   <select v-model="birthday[0]">
-                    <option :value="null">Año</option>
+                    <option :value="null">Year</option>
                     <option v-for="N in range()" :key="N" :value="N">{{N}}</option>
                   </select>
                 </div>
@@ -99,7 +99,7 @@
           </div>
           <ul class="card-actions">
             <li>
-              <Btn @btn-click="handleSubmit" primary>Guardar</Btn>
+              <Btn @btn-click="handleSubmit" primary>Save</Btn>
             </li>
           </ul>
         </div>
@@ -109,19 +109,19 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState } from 'vuex'
 
-import Avatar from "@/components/Avatar";
-import Btn from "@/components/Btn";
+import Avatar from '@/components/Avatar'
+import Btn from '@/components/Btn'
 
-import success from "@/assets/celebrate.svg";
-import error from "@/assets/alert.svg";
+import success from '@/assets/celebrate.svg'
+import error from '@/assets/alert.svg'
 
 export default {
-  name: "userConfigs",
+  name: 'userConfigs',
   components: {
     Avatar,
-    Btn,
+    Btn
   },
   data: () => ({
     instance: {},
@@ -130,67 +130,77 @@ export default {
     toast: {
       isError: false,
       isActive: false,
-      title: "Yaaay!",
-      text: "Everything's set up.",
+      title: 'Yaaay!',
+      text: "Everything's set up."
     },
     success,
-    error
+    error,
+    avatarMsg: 'Choose a file',
+    avatarNiceMsg: 'Show off that nice smile you'
   }),
   computed: {
     ...mapState({
-      user: (state) => state.app.user,
-    }),
+      user: (state) => state.app.user
+    })
   },
-  created() {
-    if (this.user) this.setInstance();
+  created () {
+    if (this.user) this.setInstance()
   },
   methods: {
-    setInstance() {
-      this.instance = this._.cloneDeep(this.user);
+    handleAvatarChange (event) {
+      this.avatarMsg = 'File Changed'
+      this.avatarNiceMsg = 'You are pretty amazing.'
+    },
+    setInstance () {
+      this.instance = this._.cloneDeep(this.user)
       if (this.instance.birthday) {
-        this.birthday = this.instance.birthday.split("-");
+        this.birthday = this.instance.birthday.split('-')
       }
     },
-    range() {
-      let array = [],
-        j = 0;
-      const max = parseInt(this.$moment().format("YYYY")),
-        min = parseInt(this.$moment().subtract(110, "years").format("YYYY"));
+    range () {
+      const array = []
+      let j = 0
+      const max = parseInt(this.$moment().format('YYYY'))
+      const min = parseInt(this.$moment().subtract(110, 'years').format('YYYY'))
       for (var i = min; i <= max; i++) {
-        array[j] = i;
-        j++;
+        array[j] = i
+        j++
       }
-      return array.reverse();
+      return array.reverse()
     },
-    async handleSubmit() {
-      this.instance.birthday = this.birthday.join("-");
+    async handleSubmit () {
+      this.instance.birthday = this.birthday.join('-')
 
-      delete this.instance.avatar;
+      const existFile = this.$refs.newAvatar && this.$refs.newAvatar.files
+      const file = existFile ? this.$refs.newAvatar.files[0] : null
+
+      delete this.instance.avatar
 
       try {
-        await this.$store.dispatch("editUser", this.instance);
+        if (file) this.$store.dispatch('setProfilePicture', file)
+        await this.$store.dispatch('editUser', this.instance)
         this.toast = {
           isError: false,
           isActive: true,
-          title: "Yaaay!",
-          text: "Everything's set up.",
-        };
+          title: 'Yaaay!',
+          text: "Everything's set up."
+        }
       } catch (e) {
         this.toast = {
           isError: true,
           isActive: true,
-          title: "Yikes!",
-          text: "Something wnet wrong, please check your fields and try again.",
-        };
+          title: 'Yikes!',
+          text: 'Something wnet wrong, please check your fields and try again.'
+        }
       }
-    },
+    }
   },
   watch: {
-    user(val) {
-      if (val) this.setInstance();
-    },
-  },
-};
+    user (val) {
+      if (val) this.setInstance()
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>
