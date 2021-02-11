@@ -8,6 +8,9 @@ from ..models import Project, Task
 from ..providers import project as project_providers
 from ..providers import task as task_providers
 
+from ..models import Project
+from ..providers import project as project_providers
+
 
 class MembersField(serializers.Field):
     def to_representation(self, members):

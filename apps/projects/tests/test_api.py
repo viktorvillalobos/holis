@@ -22,6 +22,13 @@ def is_valid_uuid(val: str) -> Optional[uuid.UUID]:
         return None
 
 
+def is_valid_uuid(val: str) -> Optional[uuid.UUID]:
+    try:
+        return uuid.UUID(str(val))
+    except ValueError:
+        return None
+
+
 @pytest.mark.django_db
 def test_get_company_project_view_by_company_id(client, generate_project_and_user):
     project, user = generate_project_and_user()

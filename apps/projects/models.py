@@ -37,6 +37,12 @@ class Project(ProjectBaseModel):
 
     """
 
+    COMPANY = 1
+    TEAM = 2
+    PROJECT = 3
+
+    PROJECT_KIND_CHOICES = ((COMPANY, "Company"), (TEAM, "Team"), (PROJECT, "Project"))
+
     company = models.ForeignKey(
         "core.Company",
         related_name="all_projects",
@@ -45,6 +51,9 @@ class Project(ProjectBaseModel):
     )
     name = models.CharField(max_length=100)
     members = models.ManyToManyField("users.User")
+    kind = models.IntegerField(
+        choices=project_constants.ProjectKind.choices, db_index=True
+    )
     kind = models.IntegerField(
         choices=project_constants.ProjectKind.choices, db_index=True
     )
@@ -141,6 +150,7 @@ class TaskComment(ProjectBaseModel):
         verbose_name=_("company"),
     )
     instance = UUIDForeignKey(Task, related_name="comments", on_delete=models.CASCADE)
+
     content = models.TextField()
     created_by = models.ForeignKey(
         "users.User", on_delete=models.DO_NOTHING, related_name="task_comments"
