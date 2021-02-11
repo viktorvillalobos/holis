@@ -92,6 +92,7 @@ LOCAL_APPS = [
     "apps.chat.apps.ChatConfig",
     "apps.web.apps.WebConfig",
     "apps.billings.apps.BillingsConfig",
+    "apps.projects.apps.ProjectsConfig",
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
