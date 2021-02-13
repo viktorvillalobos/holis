@@ -17,3 +17,17 @@ def generate_project_and_user():
         return project, user
 
     return _
+
+
+@pytest.fixture
+def generate_projects_and_user():
+    def _(kind: int, quantity: int = 1):
+        company = recipes.generic_company.make()
+        user = recipes.generic_user.make(company=company)
+        projects = recipes.generic_normal_project.make(
+            kind=kind, company=company, members=[user], _quantity=quantity
+        )
+
+        return projects, user
+
+    return _

@@ -23,3 +23,11 @@ generic_company_project = Recipe(
     company=foreign_key(generic_company),
     kind=projects_constants.ProjectKind.COMPANY.value,
 )
+
+
+generic_normal_project = Recipe(
+    "projects.Project",
+    name="generic-normal-project",
+    company=foreign_key(generic_company),
+    kind=projects_constants.ProjectKind.PROJECT.value,
+)
