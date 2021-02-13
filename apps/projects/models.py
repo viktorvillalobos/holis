@@ -5,6 +5,8 @@ from django.utils.translation import gettext_lazy as _
 import uuid
 from model_utils.models import SoftDeletableModel, TimeStampedModel
 
+from .lib import constants as project_constants
+
 
 class BaseModel(TimeStampedModel):
     uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -14,6 +16,10 @@ class BaseModel(TimeStampedModel):
 
 
 class ProjectBaseModel(BaseModel, SoftDeletableModel):
+    """
+    All projec models must inherit from this model
+    """
+
     class Meta:
         abstract = True
 
@@ -29,12 +35,6 @@ class Project(ProjectBaseModel):
 
     """
 
-    COMPANY = 1
-    TEAM = 2
-    PROJECT = 3
-
-    PROJECT_KIND_CHOICES = ((COMPANY, "Company"), (TEAM, "Team"), (PROJECT, "Project"))
-
     company = models.ForeignKey(
         "core.Company",
         related_name="all_projects",
@@ -43,7 +43,9 @@ class Project(ProjectBaseModel):
     )
     name = models.CharField(max_length=100)
     members = models.ManyToManyField("users.User")
-    kind = models.IntegerField(choices=PROJECT_KIND_CHOICES, db_index=True)
+    kind = models.IntegerField(
+        choices=project_constants.ProjectKind.choices, db_index=True
+    )
 
     class Meta:
         constraints = [

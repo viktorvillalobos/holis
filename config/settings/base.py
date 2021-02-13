@@ -106,8 +106,8 @@ MIGRATION_MODULES = {"sites": "apps.contrib.sites.migrations"}
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#authentication-backends
 AUTHENTICATION_BACKENDS = [
-    "users.auth_backends.EmailBackend",
     "django.contrib.auth.backends.ModelBackend",
+    "users.auth_backends.EmailBackend",
     # "allauth.account.auth_backends.AuthenticationBackend",
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#auth-user-model
