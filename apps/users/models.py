@@ -154,7 +154,6 @@ class Status(TimeStampedModel):
 
     class Meta:
         unique_together = ["id", "company"]
-        ordering = ["-pk"]
         verbose_name = _("status")
         verbose_name_plural = _("statuses")
 
