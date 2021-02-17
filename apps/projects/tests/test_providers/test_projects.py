@@ -42,3 +42,15 @@ def test_get_projects_by_user_id_and_kind(django_assert_num_queries):
     for project in results:
         assert isinstance(project, Project)
         assert project.uuid in expected_results_uuid
+
+
+@pytest.mark.django_db
+def test_create_project_by_company_and_user_id(django_assert_num_queries):
+    user = project_recipes.generic_user.make(email="john@doe.com")
+
+    with django_assert_num_queries(2):
+        instance = project_providers.create_project_by_company_and_user_id(
+            company_id=user.company_id, user_id=user.id, kind=3, name="DEMO-PROJECT"
+        )
+
+    assert instance.name == "DEMO-PROJECT"

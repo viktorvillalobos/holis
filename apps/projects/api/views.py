@@ -23,9 +23,12 @@ def get_company_project_by_company_id_view(request: Request) -> Response:
     return Response(serialized_data, status.HTTP_200_OK)
 
 
-@api_view(["GET"])
-def get_projects_by_kind_view(request: Request, project_kind_value: int) -> Response:
+def _create_project_by_kind(request: Request, project_kind_value: int) -> Response:
+    return Response({"data": project_kind_value}, status=status.HTTP_201_CREATED)
 
+
+@api_view(["GET", "POST"])
+def project_resource(request: Request, project_kind_value: int) -> Response:
     allowed_values = [str(value) for value in projects_constants.ProjectKind.values]
 
     if project_kind_value not in allowed_values:
@@ -33,12 +36,27 @@ def get_projects_by_kind_view(request: Request, project_kind_value: int) -> Resp
             "Invalid project kind value %(value)s", params={"value": project_kind_value}
         )
 
-    projects = project_providers.get_projects_by_user_id_and_kind(
-        user_id=request.user.id, kind=project_kind_value
+    if request.method == "GET":
+        projects = project_providers.get_projects_by_user_id_and_kind(
+            user_id=request.user.id, kind=project_kind_value
+        )
+
+        return paginate_response(
+            queryset=projects,
+            request=request,
+            serializer_class=serializers.ProjectSerializer,
+        )
+
+    serializer = serializers.ProjectSerializer(
+        data={
+            "kind": project_kind_value,
+            "company_id": request.user.company_id,
+            **request.data,
+        },
+        context={"request": request},
     )
 
-    return paginate_response(
-        queryset=projects,
-        request=request,
-        serializer_class=serializers.ProjectSerializer,
-    )
+    serializer.is_valid(raise_exception=True)
+    serializer.save()
+
+    return Response(serializer.data, status=status.HTTP_201_CREATED)

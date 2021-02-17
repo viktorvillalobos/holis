@@ -21,3 +21,13 @@ def get_projects_by_user_id_and_kind(
     user_id: int, kind: projects_constants.ProjectKind
 ) -> QuerySet:
     return Project.objects.filter(kind=kind, members__id__in=[user_id])
+
+
+def create_project_by_company_and_user_id(
+    company_id: int, user_id: int, kind: int, name: str
+) -> Project:
+    project = Project.objects.create(company_id=company_id, kind=kind, name=name)
+
+    project.members.add(user_id)
+
+    return project
