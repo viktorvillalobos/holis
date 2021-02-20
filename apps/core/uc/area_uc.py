@@ -1,133 +1,142 @@
 """
     UseCases for Area
 """
-from typing import Dict, List, Tuple
+from typing import Any, Dict, List, Tuple
 
 import logging
 import numpy as np
 
 from apps.users.models import User
 
-from ..lib.dataclasses import AreaItem, PointData
+from ..lib.dataclasses import AreaItem, MovementData, PointData
 from ..models import Area
+from ..providers import area as area_providers
 from .abstracts import AbstractModelUC
 
 logger = logging.getLogger(__name__)
 
 
-class BaseAreaUC(AbstractModelUC):
-    """
-        Allow to handle the state of area
-        Area.state contains the status of the area,
-        the users inside an area
-
-        state is an two dimensions array
-        to handle the frontend HexGrid
+AreaState = List[List[Dict[str, Any]]]
 
 
-        1 0 0 0 0 0 0 0 0 0
-        0 1 0 0 0 0 0 0 0 0
-        0 0 1 0 0 0 0 0 0 0
-        0 0 0 1 0 0 0 0 0 0
-        0 0 0 0 1 0 0 0 0 0
-        0 0 0 0 0 1 0 0 0 0
-        0 0 0 0 0 0 1 0 0 0
-        0 0 0 0 0 0 0 1 0 0
-        0 0 0 0 0 0 0 0 1 0
-        0 0 0 0 0 0 0 0 0 1
+class UserNotFoundInStateException(Exception):
+    pass
 
-        All 1 are an users.
 
-    """
+def _serialize_and_commit_area_state(area: Area, area_state: AreaState) -> Area:
+    area.state = [[x.to_dict() for x in row] for row in area_state]
+    area.save()
 
-    def __init__(self, instance) -> None:
-        assert isinstance(instance, Area)
-        self.instance = instance
-        created, self.state = self.get_or_create_state()
-        if created:
-            self.save_state()
+    return area
 
-    def get_or_create_state(self) -> Tuple[bool, np.ndarray]:
-        if not self.instance.state:
-            return (
-                True,
-                [
-                    [AreaItem.zero() for x in range(self.instance.width)]
-                    for x in range(self.instance.height)
-                ],
-            )
 
-        return (
-            False,
-            [[AreaItem.from_dict(x) for x in row] for row in self.instance.state],
-        )
+def _get_or_create_area_state_by_area_id(area_id: int,) -> Tuple[AreaState, Area, bool]:
+    area = area_providers.get_area_instance_by_id(area_id=area_id)
 
-    def save_state(self):
-        self.instance.state = [[x.to_dict() for x in row] for row in self.state]
-        self.instance.save()
+    if not area.state:
+        area_state = [
+            [AreaItem.zero() for x in range(area.width)] for x in range(area.height)
+        ]
+        area = _serialize_and_commit_area_state(area=area, area_state=area_state)
 
-    @property
-    def connected_idxs(self) -> dict:
-        logger.info("connected_idxs")
-        result = []
-        for row in self.state:
-            result += [x for x in row if x.id != 0]
+        return area_state, area, True
 
-        return result
+    return ([[AreaItem.from_dict(x) for x in row] for row in area.state], area, False)
 
-    def get_serialized_connected(self):
-        return [x.to_dict() for x in self.connected_idxs]
 
-    def get_empty_record(self):
-        return AreaItem.zero()
+def _get_connected_ids_in_area_state_by_state(area_state: AreaState):
+    state_connected_ids = []
+    for row in area_state:
+        state_connected_ids += [area_item for area_item in row if area_item.id != 0]
 
-    def get_user_position(self, user: User) -> dict:
-        logger.info("get_user_position")
-        x_pos = 0
-        y_pos = 0
+    return state_connected_ids
 
-        for x, row in enumerate(self.state):
+
+def _get_user_state_point_position_by_user_id(
+    area_state: AreaState, user_id: int
+) -> PointData:
+    logger.info("get_user_position")
+    x_pos = 0
+    y_pos = 0
+
+    try:
+        for x, row in enumerate(area_state):
             for y, column in enumerate(row):
-                if user.id == column.id:
+                if user_id == column.id:
                     x_pos = x
                     y_pos = y
                     break
+    except IndexError:
+        raise UserNotFoundInStateException
 
-        return PointData(x=x_pos, y=y_pos)
-
-    def clear_current_user_position(self, user: User):
-        try:
-            point = self.get_user_position(user)
-        except IndexError:
-            return None
-        else:
-            self.state[point.x][point.y] = self.get_empty_record()
-            self.save_state()
-            return point
+    return PointData(x=x_pos, y=y_pos)
 
 
-class GetStateAreaUC(BaseAreaUC):
-    def execute(self) -> List[Dict]:
-        return self.get_serialized_connected()
+def _remove_user_from_state(
+    area_state: AreaState, user: "User"
+) -> Tuple[AreaState, PointData]:
+    try:
+        from_point_data = _get_user_state_point_position_by_user_id(
+            user_id=user.id, area_state=area_state
+        )
+        area_state[from_point_data.x][from_point_data.y] = AreaItem.zero()
+    except UserNotFoundInStateException:
+        pass
+
+    return area_state, from_point_data
 
 
-class SaveStateAreaUC(BaseAreaUC):
+def _add_user_to_state(
+    area_state: AreaState, user: "User", point: PointData, **kwargs
+) -> AreaState:
+    room = kwargs.pop("room", None)
+    area_state[point.x][point.y] = AreaItem.from_user(
+        user=user, x=point.x, y=point.y, room=room
+    )
+
+    return area_state
+
+
+def get_area_items_for_connected_users_by_id(area_id: int) -> List[Dict[str, Any]]:
+    area_state, _, _ = _get_or_create_area_state_by_area_id(area_id=area_id)
+    connected_ids = _get_connected_ids_in_area_state_by_state(area_state=area_state)
+
+    return [x.to_dict() for x in connected_ids]
+
+
+def remove_user_from_area_by_area_and_user_id(area_id: int, user_id: int) -> None:
+    area_state, area, _ = _get_or_create_area_state_by_area_id(area_id=area_id)
+    user_point_data = _get_user_state_point_position_by_user_id(
+        user_id=user_id, area_state=area_state
+    )
+
+    area_state[user_point_data.x][user_point_data.y] = AreaItem.zero()
+
+    _serialize_and_commit_area_state(area=area, area_state=area_state)
+
+
+def move_user_to_point_in_area_state_by_area_user_and_room(
+    area_id: int, user: "User", to_point_data: PointData, room: str
+) -> MovementData:
     """
-        Save the position of person inside the state
+    Allow to move the user in area and return a MovementData info
+    The user move could be an initial movement.
     """
+    area_state, area, _ = _get_or_create_area_state_by_area_id(area_id=area_id)
 
-    def execute(self, user: User, x: int, y: int, room: str) -> PointData:
-        old_point = self.clear_current_user_position(user)
-        self.state[x][y] = AreaItem.from_user(user, x, y, room)
-        self.save_state()
-        return old_point
+    # Remove user from area
+    area_state, from_point_data = _remove_user_from_state(
+        area_state=area_state, user=user
+    )
 
+    # Add user to area
 
-class ClearStateAreaUC(BaseAreaUC):
-    """
-        Clear the person when disconnect
-    """
+    area_state = _add_user_to_state(
+        area_state=area_state, user=user, point=to_point_data, room=room
+    )
 
-    def execute(self, user: User):
-        user.disconnect()
-        self.clear_current_user_position(user)
+    _serialize_and_commit_area_state(area=area, area_state=area_state)
+
+    return MovementData(
+        from_point=from_point_data, to_point=to_point_data, user_id=user
+    )

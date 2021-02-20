@@ -8,8 +8,8 @@ from channels.db import database_sync_to_async
 
 from apps.users.models import User
 
+from ... import services as core_services
 from ...lib.dataclasses import PointData
-from ...services import add_user_to_area, get_area_state, remove_user_from_area
 
 logger = logging.getLogger(__name__)
 
@@ -30,15 +30,20 @@ class GridMixin:
         self, area_id: int, x: int, y: int, room: Optional[str] = None
     ) -> Tuple[Tuple, Dict]:
         self.scope["user"].touch(area_id=area_id)
-        old_point = add_user_to_area(area_id, self.scope["user"], PointData(x, y), room)
-        return old_point.to_dict(), get_area_state(area_id)
+        old_point = core_services.move_user_to_point_in_area_state_by_area_user_and_room(
+            area_id=area_id,
+            user=self.scope["user"],
+            to_point_data=PointData(x, y),
+            room=room,
+        )
+        return old_point.to_dict(), core_services.get_area_state(area_id)
 
     @database_sync_to_async
     def clear_position(
         self, area_id: int, x: int, y: int, room: str, timestamp: dt.datetime
     ):
-        remove_user_from_area(area_id, self.scope["user"])
-        return get_area_state(area_id)
+        core_services.remove_user_from_area(area_id=area_id, user=self.scope["user"])
+        return core_services.get_area_state(area_id=area_id)
 
     async def grid_position(self, message):
         await self.send_json(message)
@@ -89,7 +94,7 @@ class GridMixin:
 
     async def handle_clear_user_position(self, user_id=None):
         """
-            Executed when the user is disconnected
+        Executed when the user is disconnected
         """
         logger.info("HANDLE CLEAR USER POSITION")
         user_id = user_id or self.scope["user"].id

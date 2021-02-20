@@ -2,7 +2,7 @@ from typing import Dict, List
 
 from django.conf import settings
 
-from apps.core.uc.area_uc import ClearStateAreaUC, GetStateAreaUC, SaveStateAreaUC
+from apps.core.uc import area_uc
 from apps.utils.dataclasses import build_dataclass_from_model_instance
 
 from .lib.dataclasses import AreaData, PointData
@@ -16,21 +16,19 @@ def get_area(area_id: int) -> AreaData:
 
 
 def get_area_state(area_id: int) -> List[Dict]:
-    area = area_providers.get_area_instance_by_id(area_id=area_id)
-    return GetStateAreaUC(area).execute()
+    return area_uc.get_area_items_for_connected_users_by_id(area_id=area_id)
 
 
-def add_user_to_area(
-    area_id: int, user: settings.AUTH_USER_MODEL, point: PointData, room: str
+def move_user_to_point_in_area_state_by_area_user_and_room(
+    area_id: int, user: settings.AUTH_USER_MODEL, to_point_data: PointData, room: str
 ) -> PointData:
-    area = area_providers.get_area_instance_by_id(area_id=area_id)
-    return SaveStateAreaUC(area).execute(user, point.x, point.y, room)
+    movement_data = area_uc.move_user_to_point_in_area_state_by_area_user_and_room(
+        area_id=area_id, user=user, to_point_data=to_point_data, room=room
+    )
+
+    return movement_data.from_point
 
 
 def remove_user_from_area(area_id: int, user: settings.AUTH_USER_MODEL) -> bool:
-    area = area_providers.get_area_instance_by_id(area_id=area_id)
-    try:
-        ClearStateAreaUC(area).execute(user)
-        return True
-    except Exception:
-        return False
+    user.disconnect()
+    area_uc.remove_user_from_area_by_area_and_user_id(area_id=area_id, user_id=user.id)
