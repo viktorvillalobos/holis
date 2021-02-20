@@ -1,8 +1,8 @@
 from channels.auth import AuthMiddlewareStack
 from channels.routing import ProtocolTypeRouter, URLRouter
 
-from apps.chat.ws import routing as chat_routing
-from apps.core.ws import routing as core_routing
+from apps.chat.channels import routing as chat_routing
+from apps.core.channels import routing as core_routing
 
 # from apps.core.middleware import TokenAuthMiddleware
 
