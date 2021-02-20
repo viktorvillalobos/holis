@@ -8,7 +8,7 @@ from channels.db import database_sync_to_async
 
 from apps.users.models import User
 
-from ...entities import Point
+from ...lib.dataclasses import Point
 from ...services import add_user_to_area, get_area_state, remove_user_from_area
 
 logger = logging.getLogger(__name__)

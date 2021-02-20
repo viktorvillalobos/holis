@@ -2,7 +2,7 @@ from django.conf import settings
 
 import pytest
 
-from ..entities import AreaItem, Point
+from ..lib.dataclasses import AreaItem, Point
 from ..models import Area
 from ..services import add_user_to_area, get_area, get_area_state, remove_user_from_area
 

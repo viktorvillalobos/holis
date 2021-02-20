@@ -10,7 +10,7 @@ import requests
 from io import BytesIO
 
 from .api.serializers import UserSerializer
-from .entities import User as UserEntity
+from .lib.dataclasses import User as UserEntity
 from .models import User
 
 

@@ -4,7 +4,7 @@ from django.conf import settings
 
 from apps.core.uc.area_uc import ClearStateAreaUC, GetStateAreaUC, SaveStateAreaUC
 
-from .entities import AreaData, Point
+from .lib.dataclasses import AreaData, Point
 from .providers import area as area_providers
 
 

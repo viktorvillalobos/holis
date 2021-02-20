@@ -8,7 +8,7 @@ import numpy as np
 
 from apps.users.models import User
 
-from ..entities import AreaItem, Point
+from ..lib.dataclasses import AreaItem, Point
 from ..models import Area
 from .abstracts import AbstractModelUC
 
