@@ -8,7 +8,7 @@ from channels.db import database_sync_to_async
 
 from apps.users.models import User
 
-from ...lib.dataclasses import Point
+from ...lib.dataclasses import PointData
 from ...services import add_user_to_area, get_area_state, remove_user_from_area
 
 logger = logging.getLogger(__name__)
@@ -30,7 +30,7 @@ class GridMixin:
         self, area_id: int, x: int, y: int, room: Optional[str] = None
     ) -> Tuple[Tuple, Dict]:
         self.scope["user"].touch(area_id=area_id)
-        old_point = add_user_to_area(area_id, self.scope["user"], Point(x, y), room)
+        old_point = add_user_to_area(area_id, self.scope["user"], PointData(x, y), room)
         return old_point.to_dict(), get_area_state(area_id)
 
     @database_sync_to_async

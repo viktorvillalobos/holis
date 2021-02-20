@@ -8,7 +8,7 @@ import numpy as np
 
 from apps.users.models import User
 
-from ..lib.dataclasses import AreaItem, Point
+from ..lib.dataclasses import AreaItem, PointData
 from ..models import Area
 from .abstracts import AbstractModelUC
 
@@ -93,7 +93,7 @@ class BaseAreaUC(AbstractModelUC):
                     y_pos = y
                     break
 
-        return Point(x=x_pos, y=y_pos)
+        return PointData(x=x_pos, y=y_pos)
 
     def clear_current_user_position(self, user: User):
         try:
@@ -116,7 +116,7 @@ class SaveStateAreaUC(BaseAreaUC):
         Save the position of person inside the state
     """
 
-    def execute(self, user: User, x: int, y: int, room: str) -> Point:
+    def execute(self, user: User, x: int, y: int, room: str) -> PointData:
         old_point = self.clear_current_user_position(user)
         self.state[x][y] = AreaItem.from_user(user, x, y, room)
         self.save_state()

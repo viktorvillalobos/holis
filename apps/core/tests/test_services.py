@@ -2,7 +2,7 @@ from django.conf import settings
 
 import pytest
 
-from ..lib.dataclasses import AreaItem, Point
+from ..lib.dataclasses import AreaItem, PointData
 from ..models import Area
 from ..services import add_user_to_area, get_area, get_area_state, remove_user_from_area
 
@@ -27,7 +27,7 @@ def test_get_area_state(area: Area, user: settings.AUTH_USER_MODEL) -> None:
 @pytest.mark.django_db
 def test_add_user_to_area(area: Area, active_user: settings.AUTH_USER_MODEL) -> None:
 
-    asked_point = Point(20, 20)
+    asked_point = PointData(20, 20)
     add_user_to_area(
         area_id=area.pk, user=active_user, point=asked_point, room="EvilCorp"
     )
@@ -46,7 +46,7 @@ def test_add_user_to_area(area: Area, active_user: settings.AUTH_USER_MODEL) -> 
 def test_remove_user_from_area(
     area: Area, active_user: settings.AUTH_USER_MODEL
 ) -> None:
-    asked_point = Point(20, 20)
+    asked_point = PointData(20, 20)
     add_user_to_area(
         area_id=area.pk, user=active_user, point=asked_point, room="EvilCorp"
     )
