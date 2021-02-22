@@ -35,7 +35,7 @@ class AreaSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = core_models.Area
-        fields = "__all__"
+        exclude = ("lft", "rght", "level", "parent", "tree_id")
         read_only_fields = ("pk", "created", "updated", "state")
 
 

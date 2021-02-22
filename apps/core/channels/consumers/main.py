@@ -9,14 +9,14 @@ from channels.generic.websocket import AsyncJsonWebsocketConsumer
 
 from apps.users.services import serialize_user
 
-from .grid import GridMixin
+from . import grid as grid_handlers
 
 logger = logging.getLogger(__name__)
 
 COMPANY_MAIN_CHANNEL = "company-{}"
 
 
-class MainConsumerBase(AsyncJsonWebsocketConsumer):
+class MainConsumer(AsyncJsonWebsocketConsumer):
     @property
     def company_channel(self):
         company_id = self.scope["user"].company_id
@@ -25,48 +25,66 @@ class MainConsumerBase(AsyncJsonWebsocketConsumer):
     async def get_groups(self):
         return [self.company_channel]
 
-    @database_sync_to_async
-    def serialize_user_data(self, user: settings.AUTH_USER_MODEL) -> Dict:
-        return serialize_user(user)
-
     async def send_me_data(self):
+        serialized_user = await database_sync_to_async(serialize_user)(
+            self.scope["user"]
+        )
+
         if self.scope["user"].id:
-            await self.send_json(
-                {
-                    "type": "me.data",
-                    "user": await self.serialize_user_data(self.scope["user"]),
-                }
-            )
+            await self.send_json({"type": "me.data", "user": serialized_user})
 
     async def connect_to_groups(self):
         for group in await self.get_groups():
             await self.channel_layer.group_add(group, self.channel_name)
 
+    async def receive_json(self, message):
+        """
+        This method receive jsons for clients, and
+        distribute in diferent methods
+        """
 
-class MainConsumer(GridMixin, MainConsumerBase):
-    async def receive_json(self, content):
-        """
-            This method receive jsons for clients, and
-            distribute in diferent methods
-        """
         try:
-            _type = content["type"]
+            _type = message["type"]
         except KeyError:
             _type = "error"
             _msg = _("Type is required")
 
+        user = self.scope["user"]
+
         if _type == "error":
             return await self.send_json({"error": _msg})
+
         elif _type == "grid.position":
-            await self.handle_grid_position(content)
+            await grid_handlers.handle_grid_position(
+                channel_layer=self.channel_layer,
+                company_channel=self.company_channel,
+                user=user,
+                message=message,
+            )
         elif _type == "grid.clear":
-            await self.handle_clear_user_position()
+            await grid_handlers.handle_clear_user_position(
+                channel_layer=self.channel_layer,
+                company_channel=self.company_channel,
+                user=user,
+            )
+
         elif _type == "grid.status":
-            await self.handle_status(content)
+            await grid_handlers(
+                channel_layer=self.channel_layer,
+                company_channel=self.company_channel,
+                user=user,
+                message=message,
+            )
+
         elif _type == "grid.heartbeat":
-            await self.handle_heartbeat(content)
+            await grid_handlers.execute_heartbeat(user=self.scope["user"])
+
         elif _type == "grid.force.disconnect":
-            await self.force_disconnect(content)
+            await grid_handlers.handle_force_disconnect(
+                channel_layer=self.channel_layer,
+                company_channel=self.company_channel,
+                message=message,
+            )
         else:
             _msg = _("type not handled by GridConsumer")
             return await self.send_json({"error": _msg})
@@ -78,14 +96,20 @@ class MainConsumer(GridMixin, MainConsumerBase):
             await self.accept()
 
     async def disconnect(self, close_code):
-        await self.handle_clear_user_position()
+        await grid_handlers.handle_clear_user_position(
+            channel_layer=self.channel_layer,
+            company_channel=self.company_channel,
+            user=self.scope["user"],
+        )
 
         for group in self.groups:
             await self.channel_layer.group_discard(group, self.channel_name)
 
-    async def force_disconnect(self, message):
-        logger.info("force_disconnect")
-        logger.info(message)
-        user_id = message.get("user_id")
-        if user_id:
-            await self.handle_clear_user_position(user_id=user_id)
+    async def grid_position(self, message):
+        await self.send_json(message)
+
+    async def grid_disconnect(self, message):
+        await self.send_json(message)
+
+    async def grid_status(self, message):
+        await self.send_json(message)
