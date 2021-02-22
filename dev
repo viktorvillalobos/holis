@@ -28,7 +28,7 @@ up|run|server|runserver)
   uvicorn config.asgi:application --port 8000 --host 0.0.0.0 --reload
 ;;
 test)
-  pytest "$@" --black --cov=apps --junitxml=/dev/shm/test-results/pytest.xml
+  pytest "$@" --cov=apps --junitxml=/dev/shm/test-results/pytest.xml
 ;;
 pipi)
 
