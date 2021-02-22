@@ -24,6 +24,8 @@ deploy:
 
 black:
   stage: black
+  tags:
+    - docker 
   image: milansuk/python-black:latest
   script:
     - black --fast --check .
@@ -33,7 +35,7 @@ pytest:
   stage: test
   image: docker
   tags:
-    - docker
+    - docker 
   services:
     - docker:dind
 
