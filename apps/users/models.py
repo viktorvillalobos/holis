@@ -80,7 +80,6 @@ class User(AbstractUser):
         return reverse("users:detail", kwargs={"username": self.username})
 
     class Meta:
-        ordering = ["id"]
         unique_together = ["id", "company"]
 
     @property
