@@ -16,9 +16,11 @@ def test_get_area(area) -> None:
 
 
 @pytest.mark.django_db
-def test_get_area_state(area: Area, user: settings.AUTH_USER_MODEL) -> None:
+def test_get_area_items_for_connected_users_by_id(
+    area: Area, user: settings.AUTH_USER_MODEL
+) -> None:
     expected_result = []
-    state = core_services.get_area_state(area_id=area.id)
+    state = core_services.get_area_items_for_connected_users_by_id(area_id=area.id)
 
     assert isinstance(state, list)
     assert state == expected_result
@@ -33,7 +35,7 @@ def test_move_user_to_point_in_area_state_by_area_user_and_room(
     core_services.move_user_to_point_in_area_state_by_area_user_and_room(
         area_id=area.pk, user=active_user, to_point_data=asked_point, room="EvilCorp"
     )
-    state = core_services.get_area_state(area.pk)
+    state = core_services.get_area_items_for_connected_users_by_id(area_id=area.id)
 
     assert isinstance(state, list)
     assert len(state) == 1
@@ -45,14 +47,14 @@ def test_move_user_to_point_in_area_state_by_area_user_and_room(
 
 
 @pytest.mark.django_db
-def test_remove_user_from_area(
+def test_remove_user_from_area_by_area_and_user_id(
     area: Area, active_user: settings.AUTH_USER_MODEL
 ) -> None:
     asked_point = PointData(20, 20)
     core_services.move_user_to_point_in_area_state_by_area_user_and_room(
         area_id=area.pk, user=active_user, to_point_data=asked_point, room="EvilCorp"
     )
-    state = core_services.get_area_state(area.pk)
+    state = core_services.get_area_items_for_connected_users_by_id(area_id=area.id)
 
     assert isinstance(state, list)
     assert len(state) == 1
@@ -62,7 +64,9 @@ def test_remove_user_from_area(
 
     assert area_item.name == "John Doe"
 
-    core_services.remove_user_from_area(area.pk, active_user)
-    state = core_services.get_area_state(area.pk)
+    core_services.remove_user_from_area_by_area_and_user_id(
+        area_id=area.id, user=active_user
+    )
+    state = core_services.get_area_items_for_connected_users_by_id(area_id=area.id)
 
     assert len(state) == 0

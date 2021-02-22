@@ -4,19 +4,15 @@
 from typing import Any, Dict, List, Tuple
 
 import logging
-import numpy as np
 
 from apps.users.models import User
 
+from ..custom_types import AreaState
 from ..lib.dataclasses import AreaItem, MovementData, PointData
 from ..models import Area
 from ..providers import area as area_providers
-from .abstracts import AbstractModelUC
 
 logger = logging.getLogger(__name__)
-
-
-AreaState = List[List[Dict[str, Any]]]
 
 
 class UserNotFoundInStateException(Exception):
@@ -112,7 +108,14 @@ def remove_user_from_area_by_area_and_user_id(area_id: int, user_id: int) -> Non
 
     area_state[user_point_data.x][user_point_data.y] = AreaItem.zero()
 
-    _serialize_and_commit_area_state(area=area, area_state=area_state)
+    area = _serialize_and_commit_area_state(area=area, area_state=area_state)
+
+    return [
+        area_item.to_dict()
+        for area_item in _get_connected_ids_in_area_state_by_state(
+            area_state=area_state
+        )
+    ]
 
 
 def move_user_to_point_in_area_state_by_area_user_and_room(

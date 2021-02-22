@@ -5,6 +5,7 @@ from django.conf import settings
 from apps.core.uc import area_uc
 from apps.utils.dataclasses import build_dataclass_from_model_instance
 
+from .custom_types import AreaState
 from .lib.dataclasses import AreaData, PointData
 from .providers import area as area_providers
 
@@ -15,7 +16,7 @@ def get_area(area_id: int) -> AreaData:
     return build_dataclass_from_model_instance(klass=AreaData, instance=area)
 
 
-def get_area_state(area_id: int) -> List[Dict]:
+def get_area_items_for_connected_users_by_id(area_id: int) -> AreaState:
     return area_uc.get_area_items_for_connected_users_by_id(area_id=area_id)
 
 
@@ -29,6 +30,14 @@ def move_user_to_point_in_area_state_by_area_user_and_room(
     return movement_data.from_point
 
 
-def remove_user_from_area(area_id: int, user: settings.AUTH_USER_MODEL) -> bool:
+def remove_user_from_area_by_area_and_user_id(
+    area_id: int, user: settings.AUTH_USER_MODEL
+) -> AreaState:
+    """
+    Disconnect and user and later remove the user
+    from the state and return the new state
+    """
     user.disconnect()
-    area_uc.remove_user_from_area_by_area_and_user_id(area_id=area_id, user_id=user.id)
+    return area_uc.remove_user_from_area_by_area_and_user_id(
+        area_id=area_id, user_id=user.id
+    )

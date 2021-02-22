@@ -31,7 +31,7 @@ class AreaSerializer(serializers.ModelSerializer):
     state = serializers.SerializerMethodField()
 
     def get_state(self, obj):
-        return core_services.get_area_state(area_id=obj.id)
+        return core_services.get_area_items_for_connected_users_by_id(area_id=obj.id)
 
     class Meta:
         model = core_models.Area
