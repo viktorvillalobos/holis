@@ -33,7 +33,7 @@ black:
 
 pytest:
   stage: test
-  image: docker
+  image: python:3.9-slim-buster
   tags:
     - docker 
   services:
