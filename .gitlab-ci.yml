@@ -1,4 +1,6 @@
 stages:
+  - black
+  - pytest
   - deploy
 
 
