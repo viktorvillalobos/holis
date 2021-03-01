@@ -29,41 +29,8 @@ certificatesResolvers:
 http:
   routers:
 
-    openfire-router:
-      rule: "Host(`chat.holis.chat`)" 
-      entryPoints:
-        - web
-      middlewares:
-        - redirect
-        - csrf
-      service: django
-
-    openfire-secure-router:
-      rule: "Host(`chat.holis.chat`)"
-      entryPoints:
-        - web-secure
-      service: openfire
-      middlewares:
-        - csrf
-        - test-compress
-      tls:
-        # https://docs.traefik.io/master/routing/routers/#certresolver
-        certResolver: letsencrypt
-
-    bosh-secure-router:
-      rule: "Host(`bosh.chat.holis.chat`)"
-      entryPoints:
-        - web-secure
-      service: bosh
-      middlewares:
-        - csrf
-        - test-compress
-      tls:
-        # https://docs.traefik.io/master/routing/routers/#certresolver
-        certResolver: letsencrypt
-
     flower-router:
-      rule: "Host(`flower.x.holis.chat`)"
+      rule: "Host(`flower.x.hol.is`)"
       entryPoints:
         - web
       middlewares:
@@ -72,7 +39,7 @@ http:
       service: flower
 
     flower-secure-router:
-      rule: "Host(`flower.x.holis.chat`)"
+      rule: "Host(`flower.x.hol.is`)"
       entryPoints:
         - web-secure
       service: flower
@@ -81,7 +48,7 @@ http:
         certResolver: letsencrypt
 
     rtc:
-      rule: "Host(`holis.chat`)"
+      rule: "Host(`hol.is`)"
       entryPoints:
         - rtc
       service: rtc
@@ -90,7 +57,7 @@ http:
         certResolver: letsencrypt
 
     web-router:
-      rule: "Host(`holis.chat`) || Host(`www.holis.chat`) || HostRegexp(`{subdomain:[a-z0-9-]+}.holis.chat`)" 
+      rule: "Host(`hol.is`) || Host(`www.hol.is`) || HostRegexp(`{subdomain:[a-z0-9-]+}.hol.is`)" 
       entryPoints:
         - web
       middlewares:
@@ -99,7 +66,7 @@ http:
       service: django
 
     web-secure-router:
-      rule: "Host(`holis.chat`) || Host(`www.holis.chat`)  || HostRegexp(`{subdomain:[a-z0-9-]+}.holis.chat`)"
+      rule: "Host(`hol.is`) || Host(`www.hol.is`)  || HostRegexp(`{subdomain:[a-z0-9-]+}.hol.is`)"
       entryPoints:
         - web-secure
       middlewares:
@@ -110,9 +77,9 @@ http:
         # https://docs.traefik.io/master/routing/routers/#certresolver
         certResolver: letsencrypt
         domains:
-          - main: "holis.chat"
+          - main: "hol.is"
             sans:
-              - "*.holis.chat"
+              - "*.hol.is"
 
   middlewares:
     test-compress:
@@ -135,11 +102,6 @@ http:
         servers:
           - url: http://django:5000
 
-    openfire:
-      loadBalancer:
-        servers:
-          - url: http://openfire:9090
-
     flower:
       loadBalancer:
         servers:
@@ -149,12 +111,6 @@ http:
       loadBalancer:
         servers:
           - url: http://rtc:9001
-
-    bosh:
-      loadBalancer:
-        servers:
-          - url: http://openfire:7070
-
 
 providers:
   # https://docs.traefik.io/master/providers/file/

@@ -36,7 +36,7 @@ export default {
     },
     socketURL: {
       type: String,
-      default: 'https://holis.chat:9001/'
+      default: 'https://hol.is:9001/'
     },
     cameraHeight: {
       type: [Number, String],

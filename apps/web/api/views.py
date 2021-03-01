@@ -48,8 +48,8 @@ class GetEarlyAccessAPIView(APIView):
             send_mail(
                 "Get Early Access",
                 content,
-                "early@mail.holis.chat",
-                ["sales@holis.chat"],
+                "early@mail.hol.is",
+                ["sales@hol.is"],
                 fail_silently=False,
             )
             logger.info(f"Sending early access email lead: {email} from {origin}")

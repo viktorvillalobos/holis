@@ -34,7 +34,7 @@ class SignUpStep1Form(forms.ModelForm):
             send_mail(
                 "Welcome to Holis.",
                 content,
-                "welcome@holis.chat",
+                "welcome@hol.is",
                 [self.instance.email],
                 fail_silently=False,
             )
