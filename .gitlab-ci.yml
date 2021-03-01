@@ -1,6 +1,4 @@
 stages:
-  # - black
-  # - test 
   - deploy
 
 
@@ -20,35 +18,3 @@ deploy:
     - master
   script:
     - cd $DEPLOY_PATH && sudo git pull && sudo docker-compose -f production.yml up -d --build
-
-
-black:
-  stage: black
-  tags:
-    - docker 
-  image: milansuk/python-black:latest
-  script:
-    - black --fast --check .
-
-
-pytest:
-  stage: test
-  image: python:3.9-slim-buster
-  tags:
-    - docker 
-  services:
-    - docker:dind
-
-  before_script:
-    - apt-get update
-    - apt-get upgrade -y
-    - apt-get install -y curl
-    - curl -L https://github.com/docker/compose/releases/download/1.8.0/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
-    - chmod +x /usr/local/bin/docker-compose
-    - pip install docker-compose
-    - docker-compose -f local.yml build
-    # Ensure celerybeat does not crash due to non-existent tables
-    - docker-compose -f local.yml run --rm django python manage.py migrate
-    - docker-compose -f local.yml up -d
-  script:
-    - docker-compose -f local.yml run django pytest
