@@ -102,11 +102,6 @@ http:
         servers:
           - url: http://django:5000
 
-    openfire:
-      loadBalancer:
-        servers:
-          - url: http://openfire:9090
-
     flower:
       loadBalancer:
         servers:
@@ -116,12 +111,6 @@ http:
       loadBalancer:
         servers:
           - url: http://rtc:9001
-
-    bosh:
-      loadBalancer:
-        servers:
-          - url: http://openfire:7070
-
 
 providers:
   # https://docs.traefik.io/master/providers/file/
