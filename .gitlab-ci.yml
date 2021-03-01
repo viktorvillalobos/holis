@@ -1,6 +1,6 @@
 stages:
-  - black
-  - test 
+  # - black
+  # - test 
   - deploy
 
 
