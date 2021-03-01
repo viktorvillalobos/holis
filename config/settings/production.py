@@ -15,7 +15,7 @@ from .base import DEBUG, ROOT_DIR, env
 # https://docs.djangoproject.com/en/dev/ref/settings/#secret-key
 SECRET_KEY = env("DJANGO_SECRET_KEY")
 # https://docs.djangoproject.com/en/dev/ref/settings/#allowed-hosts
-ALLOWED_HOSTS = env.list("DJANGO_ALLOWED_HOSTS", default=["holis.chat"])
+ALLOWED_HOSTS = env.list("DJANGO_ALLOWED_HOSTS", default=["hol.is"])
 
 # DATABASES
 # ------------------------------------------------------------------------------
@@ -98,8 +98,7 @@ TEMPLATES[-1]["OPTIONS"]["loaders"] = [  # type: ignore[index] # noqa F405
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#default-from-email
 DEFAULT_FROM_EMAIL = env(
-    "DJANGO_DEFAULT_FROM_EMAIL",
-    default="Holis Remote Team Tool <noreply@mail.holis.chat>",
+    "DJANGO_DEFAULT_FROM_EMAIL", default="Holis Remote Team Tool <noreply@mail.hol.is>"
 )
 # https://docs.djangoproject.com/en/dev/ref/settings/#server-email
 # SERVER_EMAIL = env("DJANGO_SERVER_EMAIL", default=DEFAULT_FROM_EMAIL)
@@ -223,4 +222,4 @@ EMAIL_RELAY_TOKEN = env("EMAIL_RELAY_TOKEN")
 
 CORS_ORIGIN_REGEX_WHITELIST = [r"^https://[a-z0-9-]+.holis\.chat$"]
 
-SESSION_COOKIE_DOMAIN = ".holis.chat"
+SESSION_COOKIE_DOMAIN = ".hol.is"
