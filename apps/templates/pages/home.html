@@ -1,6 +1,12 @@
 {% extends "base.html" %}
 {% load static i18n compress%}
 
+{% block buttons %}
+        <li>
+          <a class="button" href="{% url 'web:soon' %}">{% trans 'TRY-FOR-FREE' %}</a>
+        </li>
+{% endblock %}
+
 {% block content %}
 <section class="espazum-hero">
     <picture class="espazum-hero-blobs">
@@ -18,10 +24,10 @@
                     <source media="(min-width: 600px)"
                         srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg==">
 
-                    <img src="{% static 'images/home/hero.svg' %}" alt="Espazum Teams young adults">
+                    <img src="{% static 'images/home/hero.svg' %}" alt="Holis Teams young adults">
                 </picture>
                 <form id="header-get-early-access">
-                    <a href="{% url 'web:signup-step-1' %}" type="button"
+                    <a href="{% url 'web:soon' %}" type="button"
                         class="button is-primary"> {% trans 'TRY-FOR-FREE' %}</a>
                     <div class="espazum-form-message">
                         <!-- <div> -->
@@ -140,7 +146,7 @@
             </div>
             <div class="column is-5-fullhd">
                 <form id="cta-get-early-access">
-                    <a href="{% url 'web:signup-step-1' %}" type="button"
+                    <a href="{% url 'web:soon' %}" type="button"
                         class="button is-primary"> {% trans 'START-NOW' %} </a>
                     <div class="espazum-form-message">
                         <div>
