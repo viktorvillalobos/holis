@@ -581,7 +581,7 @@ msgstr ""
 
 #: apps/templates/pages/home.html:14
 msgid "CALL-TO-ACTION-HEADER"
-msgstr "Project Managment & Toolkit for productive teams"
+msgstr "Project Management & Toolkit for productive teams"
 
 #: apps/templates/pages/home.html:57
 msgid "FEATURE-MAIN-TITLE"
@@ -639,7 +639,7 @@ msgstr "Project Managment"
 #: apps/templates/pages/home.html:121
 msgid "FEATURE-3-CONTENT"
 msgstr ""
-"Simple and efective project managment for productive remote teams"
+"Simple and efective project management for productive remote teams"
 
 #: apps/templates/pages/home.html:125
 msgid "FEATURE-6-TITLE"
