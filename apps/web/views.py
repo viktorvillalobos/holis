@@ -149,4 +149,4 @@ def logout_view(request):
 
 
 class HomeView(RedirectToAppMixin, TemplateView):
-    template_name = "pages/home.html"
+    template_name = "pages/home_v2.html"

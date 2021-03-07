@@ -5,6 +5,7 @@ volumes:
   production_redis_data: {}
   production_postgres_data_backups: {}
   production_traefik: {}
+  openfire: {}
 
 services:
   django: &django

@@ -1,0 +1,212 @@
+{% load static i18n compress%}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>
+        {% block title %}
+            Holis - {% trans 'Project Management & Remote toolkit for productive teams' %}
+        {% endblock title %}
+    </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <![endif]-->
+
+    <link rel="apple-touch-icon" sizes="57x57" href="{% static 'images/favicons/apple-icon-57x57.png' %}">
+    <link rel="apple-touch-icon" sizes="60x60" href="{% static 'images/favicons/apple-icon-60x60.png' %}">
+    <link rel="apple-touch-icon" sizes="72x72" href="{% static 'images/favicons/apple-icon-72x72.png' %}">
+    <link rel="apple-touch-icon" sizes="76x76" href="{% static 'images/favicons/apple-icon-76x76.png' %}">
+    <link rel="apple-touch-icon" sizes="114x114" href="{% static 'images/favicons/apple-icon-114x114.png' %}">
+    <link rel="apple-touch-icon" sizes="120x120" href="{% static 'images/favicons/apple-icon-120x120.png' %}">
+    <link rel="apple-touch-icon" sizes="144x144" href="{% static 'images/favicons/apple-icon-144x144.png' %}">
+    <link rel="apple-touch-icon" sizes="152x152" href="{% static 'images/favicons/apple-icon-152x152.png' %}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'images/favicons/apple-icon-180x180.png' %}">
+    <link rel="icon" type="image/png" sizes="192x192" href="{% static 'images/favicons/android-icon-192x192.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'images/favicons/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="96x96" href="{% static 'images/favicons/favicon-96x96.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'images/favicons/favicon-16x16.png' %}">
+    <!-- <link rel="manifest" href="{% static 'images/favicons/manifest.json' %}"> -->
+
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+
+    <meta property="og:url" content="https://holis.chat/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Holis.chat" />
+    <meta property="og:description" content="The only communication tool your team will ever need" />
+    <meta property="og:image" content="https://holis.chat/static/images/socials/facebook-share.png" />
+
+    {% block css %}
+
+    <link href=" https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- Your stuff: Third-party CSS libraries go here -->
+    <link rel=" stylesheet" href="{% static 'css/web_v2.css' %}">
+    {% compress css %}
+    <!-- This file stores project-specific CSS -->
+    {% endcompress %}
+    {% endblock %}
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <!-- Google Tag Manager -->
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-5K25TK2');</script>
+    <!-- End Google Tag Manager -->
+    </script>
+</head>
+
+
+<section class="hero is-fullheight">
+    <div class="hero-head">
+        <div class="columns">
+            <div class="column is-one-quarter">
+                <div class="vector-hero vector-hero-left">
+                    <div class="vector-hero-left">
+                        <img src="{% static 'images/web_v2/icon_white.svg' %}" alt="holis icon white">
+                    </div>
+                </div>
+            </div>
+            <div class="column is-half has-text-centered">
+                <nav class="holis-navbar navbar">
+                    <div class="container">
+                        <div id="navbarMenuHeroA" class="navbar-menu">
+                            <a class="navbar-item is-active">
+                                ¿ Como funciona ?
+                            </a>
+                            <a class="navbar-item">
+                                ¿ Por qué Holis ?
+                            </a>
+                            <a class="navbar-item">
+                                Pricing
+                            </a>
+                            <span class="navbar-item">
+                            </span>
+                        </div>
+                    </div>
+                </nav>
+                <div class="hero-title is-full">
+                    <div class="title">
+                        <h1>El kit #1 de herramientas de trabajo remoto</h1>
+                    </div>
+                    <div class="subtitle">
+                        <h5>
+                            Holis te provee todo lo que tu team necesita para trabajar
+                        </h5>
+                    </div>
+                </div>
+                <div class="hero-call-to-action has-text-centered">
+                    <button class="button try-button">
+                        Pruébala gratis
+                    </button>
+                    <span> No necesitas tarjeta de crédito, cancela cuando quieras</span>
+                </div>
+            </div>
+            <div class="column is-one-quarter">
+                <div class="vector-hero">
+                    <a class="button is-primary is-inverted">
+                        <span>Workplace</span>
+                        <span class="icon">
+                            <i class="fas fa-arrow-right"></i>
+                        </span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="holis-exposed">
+        <img class="holis-exposed-notification" src="{% static 'images/home/notification.svg'%}" alt="Holis">
+        <img class="holis-exposed-whos-talking" src="{% static 'images/home/whos_talkin.svg'%}" alt="Holis">
+        <img class="holis-exposed-chat" src="{% static 'images/exposed_chat.png'%}" alt="Holis">
+        <img class="holis-exposed-laptop" src="{% static 'images/laptop.svg'%}" alt="Holis">
+    </div>
+</section>
+<section class="why-holis">
+    <div class="columns why-holis-feedback">
+        <div class="column is-half">
+            <h3 class="why-holis-title">Holis es el lugar para comunicarte con tu equipo</h3>
+            <div class="why-holis-content">
+                <p>
+                    El trabajo remoto envuelve problemas para los que la mayoría de los equipos no estas preparados;
+                    aislamiento, comunicación incorrecta, sobretrabajo, falta de visualización del entorno son algunos
+                    de los inconvenientes a los que nos enfrentamos cuando nuestro equipo cuando la situación nos obligo
+                    a migrar a 100% remoto.
+                </p>
+                <p>
+                    Intentamos utilizar herramientas existentes, pero ninguna tenia el grado de interacción que mi
+                    equipo
+                    necesitaba, entoces decidi, diseñar y desarrollar una herramienta que si cumpliera con nuestras
+                    exigencias y
+                    así nacio HOLIS.
+                </p>
+                <p>
+                    Holis recrea tu oficina real de tal forma que con solo hacer click en nuestra intuitiva grilla
+                    es suficiente para iniciar un canal de voz con tus compañeros, resolver dudas de forma eficiente,
+                    chistes casuales y escuchar el ruido de fondo de los demás trabajando.
+                </p>
+            </div>
+        </div>
+        <div class="column is-half">
+            <picture class="why-holis-hero-blobs">
+                <source media="(max-width: 900px)" srcset="{% static 'images/mobile-header-blobs.svg' %}">
+                <source media="(min-width: 901px)" srcset="{% static 'images/header-blobs.svg' %}">
+                <img src="{% static 'images/mobile-header-blobs.svg' %}" />
+            </picture>
+            <div class="holis-hero-images-desktop holis-carousel-wrapper">
+                <div class="holis-carousel">
+                    <img class="holis-carousel-img" src="{% static 'images/home/hero.svg' %}"
+                        alt="Holis Teams young adults" />
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+
+    const removeAttachments = () => {
+        const hero = document.getElementsByClassName("hero")[0]
+        hero.style.backgroundAttachment = "initial"
+        document.body.style.backgroundAttachment = "initial"
+    }
+
+    window.onscroll = function (ev) {
+        if ((window.innerHeight + window.scrollY) >= window.innerHeight) {
+            removeAttachments()
+        }
+    };
+</script>
+
+<script>
+    !(function (d) {
+        const images = [
+            `<img class="holis-carousel-img" src="{% static 'images/home/hero.svg' %}" alt="Holis Teams young adults" />`,
+            `<img class="holis-carousel-img" src="{% static 'images/home/hero-boys.svg' %}" alt="Holis Teams boys" />`,
+            `<img class="holis-carousel-img" src="{% static 'images/home/hero-girls.svg' %}" alt="Holis Teams girls" />`
+        ],
+            carousel = d.getElementsByClassName('holis-carousel')[0];
+
+        setInterval(() => {
+            const randomImg = images[Math.floor(Math.random() * images.length)];
+            carousel.innerHTML = randomImg
+        }, 2000)
+
+    }(document));
+</script>
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    AOS.init();
+</script>

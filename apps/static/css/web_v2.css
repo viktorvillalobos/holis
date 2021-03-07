@@ -1,4 +1,67 @@
 @import url("https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&display=swap");
+.holis-exposed {
+  background-image: url(../images/clear_bg.svg);
+  background-size: 94%;
+  background-repeat: no-repeat;
+  max-height: 100vh;
+  margin-top: 2% h2;
+    margin-top-font-weight: 700;
+    margin-top-margin-bottom: 24px; }
+  .holis-exposed p {
+    margin-bottom: 60px; }
+  .holis-exposed-laptop {
+    max-width: 83.33%; }
+  .holis-exposed-wrapper {
+    position: relative; }
+  .holis-exposed-notification, .holis-exposed-whos-talking, .holis-exposed-play-wrapper, .holis-exposed-chat {
+    position: absolute;
+    max-width: 280px; }
+  .holis-exposed-notification {
+    top: 31%;
+    left: 20%; }
+  .holis-exposed-whos-talking {
+    left: 20%;
+    top: 80%; }
+  .holis-exposed-chat {
+    left: 67.2%;
+    top: 72.5%; }
+  .holis-exposed-play-wrapper {
+    top: 100px;
+    left: 50%; }
+  .holis-exposed-play-icon {
+    position: relative;
+    z-index: 10;
+    -webkit-transition: all .25s ease;
+    transition: all .25s ease; }
+    .holis-exposed-play-icon:hover {
+      cursor: pointer;
+      -webkit-transform: scale(1.1);
+              transform: scale(1.1); }
+  .holis-exposed-play-button {
+    position: absolute;
+    background: #5d6de8;
+    -webkit-box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.25);
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.25);
+    border-radius: 5px 15px 15px 15px;
+    color: #fff;
+    font-weight: 500;
+    width: 200px;
+    padding: 15px 26px;
+    left: calc(100% - 55px);
+    top: calc(100% - 40px);
+    border: 0;
+    z-index: 3;
+    -webkit-transition: all .25s ease;
+    transition: all .25s ease; }
+    .holis-exposed-play-button:hover {
+      cursor: pointer;
+      -webkit-transform: scale(1.1);
+              transform: scale(1.1); }
+
+@media screen and (max-width: 900px) {
+  .espazum-exposed-wrapper {
+    display: none; } }
+
 /*! bulma.io v0.8.2 | MIT License | github.com/jgthms/bulma */
 @-webkit-keyframes spinAround {
   from {
@@ -8787,128 +8850,137 @@ h3 {
       .espazum-soon-release-companies ul li {
         max-width: calc((100% / 3) - 10px); }
 
-.border-right {
-  border-right: 1px solid #c4c4c4; }
+.hero {
+  background-image: url("/static/images/web_v2/vector_left.png");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: left top; }
 
-.espazum-features {
-  margin-top: 150px; }
-  .espazum-features .box {
-    padding: 32px !important; }
+body {
+  background-image: url("/static/images/web_v2/vector_right.png");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: right top; }
 
-.espazum-cta {
-  margin-top: 150px;
-  margin-bottom: 60px; }
-  .espazum-cta h2 {
-    font-size: 36px;
-    font-size: 3rem;
-    line-height: 41.25px;
-    line-height: 3.4375rem;
-    font-weight: bold; }
-  .espazum-cta .button {
-    width: 60%;
-    height: 100px;
-    margin-top: 15%;
-    margin-left: 25%; }
+.holis-navbar {
+  margin-top: 2%; }
+  .holis-navbar .navbar-menu {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center; }
+  .holis-navbar .navbar-item, .holis-navbar span {
+    font-weight: 500;
+    background: -webkit-linear-gradient(#44009b, #5d6de8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent; }
+  .holis-navbar .container {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column; }
 
-.espazum-rrss {
-  margin-top: 16px;
+.hero-title {
+  margin-top: 3%; }
+  .hero-title .title h1 {
+    font-weight: 800;
+    font-size: xxx-large; }
+  .hero-title .subtitle h5 {
+    margin-top: 5%;
+    font-size: x-large; }
+
+.hero-call-to-action {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: end;
-      -ms-flex-pack: end;
-          justify-content: flex-end; }
-  .espazum-rrss li {
-    margin-left: 16px; }
-
-.espazum-credits {
-  display: -webkit-inline-box;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  margin-top: 3.2%;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center; }
-  .espazum-credits img {
-    margin-left: 16px; }
+  .hero-call-to-action span {
+    margin-top: 1.2%;
+    font-size: 9.6px;
+    font-size: 0.8rem; }
 
-footer {
-  margin-top: 160px;
-  padding-top: 50px;
-  padding-bottom: 25px;
-  background-repeat: no-repeat;
-  background-color: #44009b;
-  position: relative;
-  color: #fff; }
-  footer a {
-    color: #fff; }
-    footer a:hover {
-      color: #dfe9fd; }
-  footer:before {
-    content: "";
-    position: absolute;
-    top: -239px;
-    left: 0;
-    background-image: url(../images/curve.svg);
-    height: 274px;
-    width: 350px;
-    background-size: cover; }
+.try-button {
+  width: 200px;
+  color: white;
+  background: #5d6de8; }
 
-@media screen and (max-width: 768px) {
-  .border-right {
-    border-right: 0;
-    border-bottom: 1px solid #c4c4c4; } }
-
-@media screen and (max-width: 900px) {
-  .container {
-    padding: 0 15px; }
-  footer:before {
-    top: -71px;
-    width: 105px;
-    height: 83px; }
-  .box {
-    padding: 35px;
-    margin: 20px; }
-  .espazum-rrss {
-    -webkit-box-pack: center;
-        -ms-flex-pack: center;
-            justify-content: center; }
-  .espazum-credits {
-    width: 100%;
-    -webkit-box-pack: center;
-        -ms-flex-pack: center;
-            justify-content: center; }
-  .espazum-cta h2 {
-    text-align: center; } }
-
-.espazum-form-message {
-  opacity: 0;
-  position: relative;
-  top: 70px;
-  height: 90px;
+.vector-hero {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -ms-flex-pack: distribute;
-      justify-content: space-around;
-  -webkit-box-align: end;
-      -ms-flex-align: end;
-          align-items: flex-end;
-  border-radius: 15px;
-  width: 100%;
-  padding: 15px;
-  background-color: #5d6de8;
-  padding-bottom: 0;
-  -webkit-transition: all ease 0.25s;
-  transition: all ease 0.25s;
-  z-index: 1; }
-  .espazum-form-message.active {
-    opacity: 1; }
-  .espazum-form-message-msg {
-    font-size: 9.6px;
-    font-size: 0.8rem;
-    color: #fff;
-    padding-bottom: 15px; }
-    .espazum-form-message-msg h4 {
-      font-size: 13.2px;
-      font-size: 1.1rem;
-      font-weight: 500; }
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  margin-top: 8.4%; }
+  .vector-hero a {
+    margin-top: 2.4%; }
+
+.holis-exposed {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center; }
+
+.why-holis {
+  margin-top: -15%;
+  margin-left: 9%;
+  margin-right: 4%; }
+  .why-holis-hero-blobs {
+    position: absolute;
+    top: 50;
+    right: 0; }
+  .why-holis-feedback {
+    padding-right: 8%; }
+  .why-holis-title {
+    margin-bottom: 5%; }
+  .why-holis-content p {
+    margin-bottom: 30px; }
+
+.holis-carousel {
+  -webkit-transform-style: preserve-3d;
+          transform-style: preserve-3d;
+  min-height: 435px; }
+  .holis-carousel-img {
+    opacity: 1;
+    position: absolute;
+    top: 85px;
+    width: 100%;
+    margin: auto;
+    padding: 0;
+    z-index: 100;
+    -webkit-transition: opacity 0.5s, z-index 0.5s, -webkit-transform 0.5s;
+    transition: opacity 0.5s, z-index 0.5s, -webkit-transform 0.5s;
+    transition: transform 0.5s, opacity 0.5s, z-index 0.5s;
+    transition: transform 0.5s, opacity 0.5s, z-index 0.5s, -webkit-transform 0.5s; }
+
+@media screen and (max-width: 768px) {
+  .holis-carousel {
+    display: none; } }

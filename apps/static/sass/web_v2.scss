@@ -1,0 +1,216 @@
+@charset "utf-8";
+@import url("https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&display=swap");
+// project specific CSS goes here
+
+////////////////////////////////
+//Variables//
+////////////////////////////////
+
+// Alert colors
+////////////////////////////////
+//Alerts//
+////////////////////////////////
+
+@import "./vars";
+@import "./exposed";
+@import "./bulma/bulma.sass";
+
+// bootstrap alert CSS, translated to the django-standard levels of
+// debug, info, success, warning, error
+
+.alert-debug {
+  background-color: $white;
+  border-color: $mint-green;
+  color: $black;
+}
+
+.alert-error {
+  background-color: $pink;
+  border-color: $dark-pink;
+  color: $red;
+}
+
+html {
+  @include fluid-type($min_width, $max_width, $min_font, $max_font);
+}
+
+body {
+  font-size: 1rem;
+  font-family: "Ubuntu", sans-serif;
+  color: $dark-gray;
+  background: $background;
+}
+
+.button {
+  border-radius: 16px;
+  box-shadow: $box-shadow;
+  font-weight: 500;
+}
+
+h2 {
+  font-size: 2.25rem;
+}
+
+h3 {
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+
+@import "./inputs";
+@import "./navbar";
+@import "./hero";
+@import "./carousel";
+@import "./exposed";
+@import "./soon_release";
+
+
+
+// HEADER
+//
+//
+
+.hero{
+    background-image: url('/static/images/web_v2/vector_left.png');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: left top;
+}
+
+body {
+    background-image: url('/static/images/web_v2/vector_right.png');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: right top;
+}
+
+.holis-navbar {
+    margin-top: 2%;
+
+    .navbar-menu {
+        display: flex;
+        justify-content: center;
+    }
+
+    .navbar-item, span {
+        font-weight: 500;
+        background: -webkit-linear-gradient($dark-blue, $blue);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .container{
+        display: flex;
+        flex-direction: column;
+    }
+
+}
+
+.hero-title {
+    margin-top: 3%;
+
+    .title {
+        h1 {
+            font-weight: 800;
+            font-size: xxx-large;
+        }
+    }
+
+    .subtitle {
+        h5 {
+            margin-top: 5%;
+            font-size: x-large;
+        }
+    }
+}
+
+
+.hero-call-to-action {
+    display: flex;
+    flex-direction: column;
+    margin-top: 3.2%;
+    justify-content: center;
+    align-items: center;
+
+    span {
+        margin-top: 1.2%;
+        font-size: 0.8rem;
+    }
+}
+
+.try-button {
+    width: 200px;
+    color: white;
+    background: $blue;
+}
+
+
+.vector-hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 8.4%;
+
+    a {
+        margin-top: 2.4%;
+    }
+} 
+
+
+.holis-exposed {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+.why-holis {
+    margin-top: -15%;
+    margin-left: 9%;
+    margin-right: 4%;
+
+
+    &-hero-blobs {
+        position: absolute;
+        top: 50;
+        right: 0;
+    }
+
+    &-feedback{
+        padding-right: 8%;
+    }
+
+    &-title {
+        margin-bottom: 5%;
+    }
+
+    &-content {
+        p {
+            margin-bottom: 30px;
+        }
+    }
+}
+
+.holis{
+    &-carousel {
+        transform-style: preserve-3d;
+        min-height: 435px;
+
+        &-img {
+            opacity: 1;
+            position: absolute;
+            top: 85px;
+            width: 100%;
+            margin: auto;
+            padding: 0;
+            z-index: 100;
+            transition: transform 0.5s, opacity 0.5s, z-index 0.5s;
+        }
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .holis-carousel {
+        display: none;
+    }
+}
