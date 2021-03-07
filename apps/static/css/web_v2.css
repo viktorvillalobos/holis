@@ -8850,6 +8850,16 @@ h3 {
       .espazum-soon-release-companies ul li {
         max-width: calc((100% / 3) - 10px); }
 
+.has-holis-gradient {
+  background: -webkit-linear-gradient(#44009b, #5d6de8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent; }
+
+.is-holis-title {
+  font-weight: 800;
+  font-size: 27px;
+  font-size: 2.25rem; }
+
 .hero {
   background-image: url("/static/images/web_v2/vector_left.png");
   background-repeat: no-repeat;
@@ -8871,7 +8881,8 @@ body {
     -webkit-box-pack: center;
         -ms-flex-pack: center;
             justify-content: center; }
-  .holis-navbar .navbar-item, .holis-navbar span {
+  .holis-navbar .navbar-item,
+  .holis-navbar span {
     font-weight: 500;
     background: -webkit-linear-gradient(#44009b, #5d6de8);
     -webkit-background-clip: text;
@@ -8959,8 +8970,18 @@ body {
     right: 0; }
   .why-holis-feedback {
     padding-right: 8%; }
+    .why-holis-feedback-profile {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      padding: 8px; }
+      .why-holis-feedback-profile-sign {
+        margin-top: 4.2%;
+        margin-left: 6%;
+        color: blue; }
   .why-holis-title {
-    margin-bottom: 5%; }
+    margin-bottom: 5%;
+    font-weight: 800; }
   .why-holis-content p {
     margin-bottom: 30px; }
 
@@ -8981,6 +9002,50 @@ body {
     transition: transform 0.5s, opacity 0.5s, z-index 0.5s;
     transition: transform 0.5s, opacity 0.5s, z-index 0.5s, -webkit-transform 0.5s; }
 
+.holis-features {
+  margin-top: 5%;
+  background-image: url("/static/images/clear_bg.svg");
+  background-repeat: no-repeat;
+  background-size: 94%; }
+  .holis-features-title {
+    margin-bottom: 4%; }
+
+.holis-pricing {
+  margin-top: 10%; }
+
 @media screen and (max-width: 768px) {
   .holis-carousel {
     display: none; } }
+
+.holis-pricing {
+  margin-left: 15%;
+  margin-right: 15%; }
+  .holis-pricing-box {
+    border: 0.5px solid #000;
+    border-radius: 8%;
+    min-height: 400px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column; }
+    .holis-pricing-box-price {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-orient: vertical;
+      -webkit-box-direction: normal;
+          -ms-flex-direction: column;
+              flex-direction: column; }
+      .holis-pricing-box-price span {
+        margin: 0.5%; }
+      .holis-pricing-box-price .price-dollars {
+        font-size: xx-large;
+        font-weight: 800; }
+      .holis-pricing-box-price .price-frecuency .price-frecuency-2 {
+        font-size: 9.6px;
+        font-size: 0.8rem; }
+    .holis-pricing-box-features {
+      margin-top: 5%; }

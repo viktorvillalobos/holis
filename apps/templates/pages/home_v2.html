@@ -8,7 +8,7 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>
         {% block title %}
-            Holis - {% trans 'Project Management & Remote toolkit for productive teams' %}
+        Holis - {% trans 'Project Management & Remote toolkit for productive teams' %}
         {% endblock title %}
     </title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -136,7 +136,7 @@
 <section class="why-holis">
     <div class="columns why-holis-feedback">
         <div class="column is-half">
-            <h3 class="why-holis-title">Holis es el lugar para comunicarte con tu equipo</h3>
+            <h2 class="why-holis-title">Holis es el lugar para comunicarte con tu equipo</h2>
             <div class="why-holis-content">
                 <p>
                     El trabajo remoto envuelve problemas para los que la mayoría de los equipos no estas preparados;
@@ -157,6 +157,15 @@
                     chistes casuales y escuchar el ruido de fondo de los demás trabajando.
                 </p>
             </div>
+            <div class="why-holis-feedback-profile">
+                <div class="why-holis-feedback-profile-picture">
+                    <img src="{% static 'images/web_v2/founder-profile-picture.png' %}"
+                        alt="Víctor Villalobos profile picture founder of Holis">
+                </div>
+                <div class="why-holis-feedback-profile-sign has-holis-gradient">
+                    Víctor Villalobos, Creador de Holis
+                </div>
+            </div>
         </div>
         <div class="column is-half">
             <picture class="why-holis-hero-blobs">
@@ -170,6 +179,76 @@
                         alt="Holis Teams young adults" />
                 </div>
             </div>
+        </div>
+    </div>
+</section>
+<section class="holis-features">
+    <div class="holis-features-title has-text-centered is-vcentered is-holis-title">
+        What Holis offer?
+    </div>
+    <div class="container">
+        <div class="columns is-multiline is-centered">
+            <div class="column is-8-fullhd">
+                <div class="box">
+                    <div class="columns is-multiline">
+                        <div class="column is-one-third has-text-centered border-right">
+                            <img src="{% static 'images/features/real_time_voice.svg' %}" alt="Real time voice" />
+                            <h3>{% trans 'FEATURE-1-TITLE' %}</h3>
+                            <p>{% trans 'FEATURE-1-CONTENT' %}</p>
+                        </div>
+                        <div class="column is-one-third has-text-centered border-right">
+                            <img src="{% static 'images/features/Chat.svg' %}" alt="Enterprise Chat" />
+                            <h3>{% trans 'FEATURE-2-TITLE' %}</h3>
+                            <p>{% trans 'FEATURE-2-CONTENT' %}</p>
+                        </div>
+                        <div class="column is-one-third has-text-centered ">
+                            <img src="{% static 'images/features/billboard.svg' %}" alt="Enterprise Board" />
+                            <h3>{% trans 'FEATURE-5-TITLE' %}</h3>
+                            <p>{% trans 'FEATURE-5-CONTENT' %}</p>
+                        </div>
+                        <div class="column is-one-third has-text-centered border-right">
+                            <img src="{% static 'images/features/notifications-off.svg' %}" alt="Real time voice" />
+                            <h3>{% trans 'FEATURE-4-TITLE' %}</h3>
+                            <p>{% trans 'FEATURE-4-CONTENT' %}</p>
+                        </div>
+                        <div class="column is-one-third has-text-centered border-right">
+                            <img src="{% static 'images/features/analytics.svg' %}" alt="Analytics" />
+                            <h3>{% trans 'FEATURE-3-TITLE' %}</h3>
+                            <p>{% trans 'FEATURE-3-CONTENT' %}</p>
+                        </div>
+                        <div class="column is-one-third has-text-centered">
+                            <img src="{% static 'images/features/files.svg' %}" alt="Analytics" />
+                            <h3>{% trans 'FEATURE-6-TITLE' %}</h3>
+                            <p>{% trans 'FEATURE-6-CONTENT' %}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="holis-pricing">
+    <div class="holis-pricing-title has-text-centered is-full is-holis-title">
+        Obten todos los beneficios de una oficina real, sin pagar miles de dolares
+    </div>
+    <div class="holis-pricing-wrapper columns">
+        <div class="holis-pricing-box column is-one-third has-text-centered">
+            <div class="holis-pricing-box-price">
+                <span class="price-dollars"> 3$ </span>
+                <span class="price-frecuency">al mes</span>
+                <span class="price-frecuency-2">Pagas mes a mes</span>
+            </div>
+            <ul class="holis-pricing-box-features">
+                <li class="holis-pricing-box-features">Hasta 10 usuarios</li>
+                <li class="holis-pricing-box-features">Chat de voz grupales</li>
+                <li class="holis-pricing-box-features">Mensajes ilimitados</li>
+                <li class="holis-pricing-box-features">150GB de almacenamiento</li>
+                <li class="holis-pricing-box-features">Cancela cuando quieras</li>
+                <li class="holis-pricing-box-features">Money back guarantee</li>
+            </ul>
+            <button class="button try-button">
+                Pruébala gratis
+            </button>
         </div>
     </div>
 </section>
