@@ -247,14 +247,21 @@ body {
 .holis {
     &-pricing {
         margin-top: 10%;
-        margin-left: 15%;
-        margin-right: 15%;
+        display: flex;
+        flex-direction: column;
+
+        &-wrapper {
+            justify-content: center;
+        }
 
         &-title {
             margin-bottom: 6%;
+            max-width: 60%;
+            align-self: center;
         }
 
         &-box {
+            max-width: 400px;
             border:  2px solid $blue;
             border-radius: 10px;
             box-sizing: border-box;
@@ -348,5 +355,45 @@ body {
                 align-self: center;
             }
         }
+
+        &-payment-advice {
+            margin-top: 2%;
+            font-style: normal;
+            font-weight: 500;
+            font-size: 16px;
+            line-height: 18px;
+        }
     }
 }
+
+
+
+footer {
+  margin-top: 160px;
+  padding-top: 50px;
+  padding-bottom: 25px;
+  background-repeat: no-repeat;
+  background-color: $dark-blue;
+  position: relative;
+  color: #fff;
+
+  a {
+    color: #fff;
+
+    &:hover {
+      color: $light-blue;
+    }
+  }
+
+  &:before {
+    content: "";
+    position: absolute;
+    top: -239px;
+    left: 0;
+    background-image: url(../images/curve.svg);
+    height: 274px;
+    width: 350px;
+    background-size: cover;
+  }
+}
+

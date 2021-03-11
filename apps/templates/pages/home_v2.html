@@ -229,7 +229,7 @@
 </section>
 <section class="holis-pricing">
     <div class="holis-pricing-title has-text-centered is-full is-holis-title">
-        {% trans 'All the benefits of a real office, from anywhere in the world' %}
+        {% trans 'All the benefits of a real office, from anywhere in the world with a single price' %}
     </div>
     <div class="holis-pricing-wrapper columns">
         <div class="holis-pricing-box column is-one-third has-text-centered">
@@ -317,7 +317,40 @@
             </button>
         </div>
     </div>
+    <div class="holis-pricing-payment-advice has-text-centered">
+        {% trans 'All our payments are being processed by ' %} <b>Paddle.com</b>
+    </div>
 </section>
+
+<footer>
+    <div class="container">
+      <div class="columns">
+        <div class="column is-2">
+          <b>Company</b>
+          <ul>
+            <li><a href="#">{% trans 'Home' %}</a></li>
+            <li><a href="#">{% trans 'Blog' %}</a></li>
+          </ul>
+        </div>
+        <div class="column is-2">
+          <b>Legal</b>
+          <ul>
+            <li><a href="#">{% trans 'Terms and Conditions' %}</a></li>
+            <li><a href="#">{% trans 'Privacy Policy' %}</a></li>
+          </ul>
+        </div>
+        <div class="column is-8 has-text-right">
+          <p class="espazum-credits">{% trans 'All rights reserved' %} <img src="{% static 'images/HolisBlanco.svg' %}"
+              alt="Holis"></p>
+          <ul class="espazum-rrss">
+            <li><a href="https://instagram.com/holischat"><i class="fab fa-3x fa-instagram"></i></a></li>
+            <li><a href="https://www.facebook.com/holischat"><i class="fab fa-3x fa-facebook"></i></a></li>
+            <li><a href="https://www.twitter.com/holischat"><i class="fab fa-3x fa-twitter"></i></a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+</footer>
 
 <script>
 
