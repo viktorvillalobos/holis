@@ -9010,19 +9010,21 @@ body {
   .holis-features-title {
     margin-bottom: 4%; }
 
-.holis-pricing {
-  margin-top: 10%; }
-
 @media screen and (max-width: 768px) {
   .holis-carousel {
     display: none; } }
 
 .holis-pricing {
+  margin-top: 10%;
   margin-left: 15%;
   margin-right: 15%; }
+  .holis-pricing-title {
+    margin-bottom: 6%; }
   .holis-pricing-box {
-    border: 0.5px solid #000;
-    border-radius: 8%;
+    border: 2px solid #5d6de8;
+    border-radius: 10px;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
     min-height: 400px;
     display: -webkit-box;
     display: -ms-flexbox;
@@ -9030,8 +9032,46 @@ body {
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
         -ms-flex-direction: column;
-            flex-direction: column; }
+            flex-direction: column;
+    margin-left: 2%; }
+    .holis-pricing-box-limited {
+      background-color: #5d6de8;
+      color: white;
+      position: relative;
+      top: -28px;
+      width: 200px;
+      -ms-flex-item-align: center;
+          align-self: center;
+      border-radius: 10px; }
+    .holis-pricing-box-progress {
+      position: relative;
+      -ms-flex-item-align: center;
+          align-self: center;
+      width: 310px;
+      height: 15px;
+      margin-bottom: 10%; }
+      .holis-pricing-box-progress-text {
+        -ms-flex-item-align: end;
+            align-self: flex-end;
+        position: relative;
+        top: -4px;
+        left: 88px;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 14px;
+        line-height: 16px; }
+      .holis-pricing-box-progress-bar {
+        width: 100%;
+        height: 100%;
+        background: #DEDEDE;
+        border-radius: 15px; }
+        .holis-pricing-box-progress-bar-current-progress {
+          position: absolute;
+          height: 15px;
+          background: #37BA3C;
+          border-radius: 15px; }
     .holis-pricing-box-price {
+      margin-bottom: 5%;
       display: -webkit-box;
       display: -ms-flexbox;
       display: flex;
@@ -9042,10 +9082,18 @@ body {
       .holis-pricing-box-price span {
         margin: 0.5%; }
       .holis-pricing-box-price .price-dollars {
-        font-size: xx-large;
-        font-weight: 800; }
+        font-size: 60px;
+        line-height: 68.94px;
+        font-weight: 700; }
       .holis-pricing-box-price .price-frecuency .price-frecuency-2 {
         font-size: 9.6px;
         font-size: 0.8rem; }
-    .holis-pricing-box-features {
-      margin-top: 5%; }
+    .holis-pricing-box-features li {
+      margin: 10px;
+      background: url("/static/images/web_v2/bullet.png") no-repeat left top;
+      background-size: 34px;
+      margin-left: 28px; }
+    .holis-pricing-box .try-button {
+      margin-top: 10%;
+      -ms-flex-item-align: center;
+          align-self: center; }

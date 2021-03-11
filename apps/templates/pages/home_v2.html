@@ -84,10 +84,10 @@
                     <div class="container">
                         <div id="navbarMenuHeroA" class="navbar-menu">
                             <a class="navbar-item is-active">
-                                ¿ Como funciona ?
+                                {% trans 'How works?' %}
                             </a>
                             <a class="navbar-item">
-                                ¿ Por qué Holis ?
+                                {% trans 'Why holis?' %}
                             </a>
                             <a class="navbar-item">
                                 Pricing
@@ -99,19 +99,19 @@
                 </nav>
                 <div class="hero-title is-full">
                     <div class="title">
-                        <h1>El kit #1 de herramientas de trabajo remoto</h1>
+                        <h1>{% trans 'The definitive toolkit for productive remote teams' %}</h1>
                     </div>
                     <div class="subtitle">
                         <h5>
-                            Holis te provee todo lo que tu team necesita para trabajar
+                            {% trans 'Holis gives you Project Management and Internal Comunnication in one single place' %}
                         </h5>
                     </div>
                 </div>
                 <div class="hero-call-to-action has-text-centered">
                     <button class="button try-button">
-                        Pruébala gratis
+                        {% trans 'Getting Started' %}
                     </button>
-                    <span> No necesitas tarjeta de crédito, cancela cuando quieras</span>
+                    <span> {% trans 'No credit card required' %} </span>
                 </div>
             </div>
             <div class="column is-one-quarter">
@@ -229,14 +229,24 @@
 </section>
 <section class="holis-pricing">
     <div class="holis-pricing-title has-text-centered is-full is-holis-title">
-        Obten todos los beneficios de una oficina real, sin pagar miles de dolares
+        {% trans 'All the benefits of a real office, from anywhere in the world' %}
     </div>
     <div class="holis-pricing-wrapper columns">
         <div class="holis-pricing-box column is-one-third has-text-centered">
+            <span class="holis-pricing-box-limited is-invisible">{% trans 'Limited Time' %}</span>
             <div class="holis-pricing-box-price">
                 <span class="price-dollars"> 3$ </span>
                 <span class="price-frecuency">al mes</span>
                 <span class="price-frecuency-2">Pagas mes a mes</span>
+            </div>
+            <div class="holis-pricing-box-progress is-invisible">
+                <span class="holis-pricing-box-progress-text">100 {% trans 'spots remaing' %}</span>
+                <div class="holis-pricing-box-progress-bar">
+                    <div
+                        style="width: 200px;"
+                        class="holis-pricing-box-progress-bar-current-progress">
+                    </div>
+                </div>
             </div>
             <ul class="holis-pricing-box-features">
                 <li class="holis-pricing-box-features">Hasta 10 usuarios</li>
@@ -247,7 +257,63 @@
                 <li class="holis-pricing-box-features">Money back guarantee</li>
             </ul>
             <button class="button try-button">
-                Pruébala gratis
+                {% trans 'Getting Started' %}
+            </button>
+        </div>
+        <div class="holis-pricing-box column is-one-third has-text-centered">
+            <span class="holis-pricing-box-limited is-invisible">{% trans 'Limited Time' %}</span>
+            <div class="holis-pricing-box-price">
+                <span class="price-dollars"> 50$ </span>
+                <span class="price-frecuency">{% trans 'monthly' %}</span>
+                <span class="price-frecuency-2">{% trans 'pay month to month' %}</span>
+            </div>
+            <div class="holis-pricing-box-progress is-invisible">
+                <span class="holis-pricing-box-progress-text">100 {% trans 'spots remaing' %}</span>
+                <div class="holis-pricing-box-progress-bar">
+                    <div
+                        style="width: 200px;"
+                        class="holis-pricing-box-progress-bar-current-progress">
+                    </div>
+                </div>
+            </div>
+            <ul class="holis-pricing-box-features">
+                <li class="holis-pricing-box-features">{% trans 'Unlimited Users'  %}</li>
+                <li class="holis-pricing-box-features">Chat de voz grupales</li>
+                <li class="holis-pricing-box-features">Mensajes ilimitados</li>
+                <li class="holis-pricing-box-features">150GB de almacenamiento</li>
+                <li class="holis-pricing-box-features">Cancela cuando quieras</li>
+                <li class="holis-pricing-box-features">Money back guarantee</li>
+            </ul>
+            <button class="button try-button">
+                {% trans 'Getting Started' %}
+            </button>
+        </div>
+        <div class="holis-pricing-box column is-one-third has-text-centered">
+            <span class="holis-pricing-box-limited">{% trans 'Life Time Limited' %}</span>
+            <div class="holis-pricing-box-price">
+                <span class="price-dollars"> 399$ </span>
+                <span class="price-frecuency">{% trans 'For life' %}</span>
+                <span class="price-frecuency-2">{% trans 'One Time Payment' %}</span>
+            </div>
+            <div class="holis-pricing-box-progress">
+                <span class="holis-pricing-box-progress-text">100 {% trans 'spots remaing' %}</span>
+                <div class="holis-pricing-box-progress-bar">
+                    <div
+                        style="width: 200px;"
+                        class="holis-pricing-box-progress-bar-current-progress">
+                    </div>
+                </div>
+            </div>
+            <ul class="holis-pricing-box-features">
+                <li class="holis-pricing-box-features">No user limits</li>
+                <li class="holis-pricing-box-features"></li>
+                <li class="holis-pricing-box-features">Mensajes ilimitados</li>
+                <li class="holis-pricing-box-features">150GB de almacenamiento</li>
+                <li class="holis-pricing-box-features">Cancela cuando quieras</li>
+                <li class="holis-pricing-box-features">Money back guarantee</li>
+            </ul>
+            <button class="button try-button">
+                {% trans 'Getting Started' %}
             </button>
         </div>
     </div>
