@@ -73,27 +73,40 @@
     <div class="hero-head">
         <div class="columns">
             <div class="column is-one-quarter">
-                <div class="vector-hero vector-hero-left">
+                <div class="vector-hero vector-hero-left is-hidden-mobile">
                     <div class="vector-hero-left">
                         <img src="{% static 'images/web_v2/icon_white.svg' %}" alt="holis icon white">
                     </div>
                 </div>
             </div>
             <div class="column is-half has-text-centered">
-                <nav class="holis-navbar navbar">
                     <div class="container">
+                <nav class="holis-navbar navbar" role="navigation">
+                  <div class="navbar-brand">
+                    <a class="navbar-item is-hidden-desktop" href="/">
+                        <img src="{% static 'images/web_v2/icon_white.svg' %}" alt="holis icon white">
+                    </a>
+
+                    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarMenuHeroA">
+                      <span aria-hidden="true"></span>
+                      <span aria-hidden="true"></span>
+                      <span aria-hidden="true"></span>
+                    </a>
+                  </div>
                         <div id="navbarMenuHeroA" class="navbar-menu">
-                            <a class="navbar-item is-active">
-                                {% trans 'How works?' %}
-                            </a>
-                            <a class="navbar-item">
-                                {% trans 'Why holis?' %}
-                            </a>
-                            <a class="navbar-item">
-                                Pricing
-                            </a>
-                            <span class="navbar-item">
+                            <div class="navbar-menu-items-wrapper">
+                                <a class="navbar-item is-active">
+                                    {% trans 'How works?' %}
+                                </a>
+                                <a class="navbar-item">
+                                    {% trans 'Why holis?' %}
+                                </a>
+                                <a class="navbar-item">
+                                    {% trans 'Pricing' %}
+                                </a>
+                                <span class="navbar-item">
                             </span>
+                            </div>
                         </div>
                     </div>
                 </nav>
@@ -116,8 +129,8 @@
             </div>
             <div class="column is-one-quarter">
                 <div class="vector-hero">
-                    <a class="button is-primary is-inverted">
-                        <span>Workplace</span>
+                    <a class="button is-primary is-inverted go-to-workplace">
+                        <span>{% trans 'Workplace' %}</span>
                         <span class="icon">
                             <i class="fas fa-arrow-right"></i>
                         </span>
@@ -127,17 +140,22 @@
         </div>
     </div>
     <div class="holis-exposed">
-        <img class="holis-exposed-notification" src="{% static 'images/home/notification.svg'%}" alt="Holis">
-        <img class="holis-exposed-whos-talking" src="{% static 'images/home/whos_talkin.svg'%}" alt="Holis">
-        <img class="holis-exposed-chat" src="{% static 'images/exposed_chat.png'%}" alt="Holis">
-        <img class="holis-exposed-laptop" src="{% static 'images/laptop.svg'%}" alt="Holis">
+        <img class="holis-exposed-notification is-hidden-mobile" src="{% static 'images/home/notification.svg'%}" alt="Holis">
+        <img class="holis-exposed-whos-talking is-hidden-mobile" src="{% static 'images/home/whos_talkin.svg'%}" alt="Holis">
+        <img class="holis-exposed-chat is-hidden-mobile" src="{% static 'images/exposed_chat.png'%}" alt="Holis">
+        <img class="holis-exposed-laptop is-hidden-mobile" src="{% static 'images/laptop.svg'%}" alt="Holis">
     </div>
 </section>
 <section class="why-holis">
     <div class="columns why-holis-feedback">
         <div class="column is-half">
-            <h2 class="why-holis-title">Holis es el lugar para comunicarte con tu equipo</h2>
+            {% if lang == "es" %}
+                <h2 class="why-holis-title">Holis es el lugar para comunicarte con tu equipo</h2>
+            {% else %}
+                <h2 class="why-holis-title">Holis is the place to communicate with your team</h2>
+            {% endif %}
             <div class="why-holis-content">
+            {% if lang == "es" %}
                 <p>
                     El trabajo remoto envuelve problemas para los que la mayoría de los equipos no estas preparados;
                     aislamiento, comunicación incorrecta, sobretrabajo, falta de visualización del entorno son algunos
@@ -156,6 +174,22 @@
                     es suficiente para iniciar un canal de voz con tus compañeros, resolver dudas de forma eficiente,
                     chistes casuales y escuchar el ruido de fondo de los demás trabajando.
                 </p>
+            {% else %}
+                <p>
+                    Remote work involves problems that most teams are not prepared for; isolation,
+                    incorrect communication, overwork, lack of visualization of the
+                    environment are some of the inconveniences that we face when our team when
+                    the situation forced us to migrate to 100% remote.
+                </p>
+                <p>
+                    We tried to use existing tools, but none had the degree of interaction that my team needed,
+                    so I decided to design and develop a tool that would meet our demands and thus HOLIS was born.
+                </p>
+                <p>
+                    Holis recreates your real office in such a way that just clicking on our intuitive grid is enough to
+                    start a voice channel with your colleagues, efficiently solve doubts, casual jokes and listen to the background noise of others at work.
+                </p>
+            {% endif %}
             </div>
             <div class="why-holis-feedback-profile">
                 <div class="why-holis-feedback-profile-picture">
@@ -163,12 +197,12 @@
                         alt="Víctor Villalobos profile picture founder of Holis">
                 </div>
                 <div class="why-holis-feedback-profile-sign has-holis-gradient">
-                    Víctor Villalobos, Creador de Holis
+                    Víctor Villalobos, {% trans 'Founder of Holis' %}
                 </div>
             </div>
         </div>
         <div class="column is-half">
-            <picture class="why-holis-hero-blobs">
+            <picture class="why-holis-hero-blobs is-hidden-mobile">
                 <source media="(max-width: 900px)" srcset="{% static 'images/mobile-header-blobs.svg' %}">
                 <source media="(min-width: 901px)" srcset="{% static 'images/header-blobs.svg' %}">
                 <img src="{% static 'images/mobile-header-blobs.svg' %}" />
@@ -184,7 +218,7 @@
 </section>
 <section class="holis-features">
     <div class="holis-features-title has-text-centered is-vcentered is-holis-title">
-        What Holis offer?
+        {% trans 'What Holis offer?' %}
     </div>
     <div class="container">
         <div class="columns is-multiline is-centered">
@@ -323,13 +357,28 @@
 </section>
 
 <footer>
-    <div class="container">
+    <div class="container has-text-centered-mobile">
       <div class="columns">
+        <div class="column is-2 holis-language-wrapper">
+            <b>{% trans 'Your remote workplace' %}</b>
+            <div class="control has-icons-left language">
+              <div class="select is-normal">
+                <select>
+                    <option selected>{% trans 'English' %}</option>
+                    <option>{% trans 'Spanish' %}</option>
+                </select>
+              </div>
+              <div class="icon is-small is-left">
+                <i class="fas fa-globe"></i>
+              </div>
+            </div>
+        </div>
         <div class="column is-2">
-          <b>Company</b>
+            <b>{% trans 'Product' %}</b>
           <ul>
-            <li><a href="#">{% trans 'Home' %}</a></li>
-            <li><a href="#">{% trans 'Blog' %}</a></li>
+            <li><a href="#">{% trans 'How works?' %}</a></li>
+            <li><a href="#">{% trans 'Why Holis??' %}</a></li>
+            <li><a href="#">{% trans 'Security' %}</a></li>
           </ul>
         </div>
         <div class="column is-2">
@@ -339,15 +388,34 @@
             <li><a href="#">{% trans 'Privacy Policy' %}</a></li>
           </ul>
         </div>
-        <div class="column is-8 has-text-right">
-          <p class="espazum-credits">{% trans 'All rights reserved' %} <img src="{% static 'images/HolisBlanco.svg' %}"
-              alt="Holis"></p>
-          <ul class="espazum-rrss">
-            <li><a href="https://instagram.com/holischat"><i class="fab fa-3x fa-instagram"></i></a></li>
-            <li><a href="https://www.facebook.com/holischat"><i class="fab fa-3x fa-facebook"></i></a></li>
-            <li><a href="https://www.twitter.com/holischat"><i class="fab fa-3x fa-twitter"></i></a></li>
+        <div class="column is-2">
+          <b>{% trans 'Company'%}</b>
+          <ul>
+              <li><a href="#">{% trans 'About us' %}</a></li>
+              <li><a href="#">{% trans 'News' %}</a></li>
           </ul>
         </div>
+        <div class="column is-4 has-text-right">
+          <ul class="holis-rrss has-text-centered-mobile">
+            <li><a href="https://instagram.com/holischat"><i class="fab fa-3x fa-instagram"></i></a></li>
+            <li><a href="https://www.facebook.com/holischat"><i class="fab fa-3x fa-facebook"></i></a></li>
+            <li><a href="https://www.twitter.com/getholis"><i class="fab fa-3x fa-twitter"></i></a></li>
+          </ul>
+        </div>
+      </div>
+      <hr width="100%" color="grey">
+      <div class="columns holis-footer-call-to-action">
+          <div class="column is-2-desktop holis-icon-footer-wrapper">
+                <img class="holis-icon-footer" src="{% static 'images/web_v2/icon_white.svg' %}" alt="holis icon white">
+          </div>
+          <div class="column is-10-desktop has-text-right-desktop has-text-centered-mobile">
+                <a class="button is-primary is-inverted">
+                    <span>{% trans 'Workplace' %}</span>
+                    <span class="icon">
+                        <i class="fas fa-arrow-right"></i>
+                    </span>
+                </a>
+          </div>
       </div>
     </div>
 </footer>

@@ -8874,7 +8874,8 @@ body {
 
 .holis-navbar {
   margin-top: 2%; }
-  .holis-navbar .navbar-menu {
+  .holis-navbar .navbar-menu-items-wrapper {
+    width: 100%;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -9012,7 +9013,66 @@ body {
 
 @media screen and (max-width: 768px) {
   .holis-carousel {
-    display: none; } }
+    display: none; }
+  .go-to-workplace {
+    position: absolute;
+    right: 17px;
+    top: 22px; }
+  .vector-hero {
+    margin-top: 20%; }
+  .hero {
+    background-size: 240%; }
+  .title {
+    color: white;
+    margin-top: 23%; }
+  .subtitle {
+    color: white;
+    margin-bottom: 20%; }
+    .subtitle h5 {
+      font-size: 1.7rem; }
+  .hero-call-to-action {
+    color: white; }
+  .holis-features {
+    background-image: None; }
+    .holis-features .box {
+      margin-left: 5%;
+      margin-right: 2%; }
+  .holis-pricing-wrapper {
+    margin: 3%; }
+  .holis-pricing-box {
+    margin: 1%; }
+  footer {
+    font-size: 1.5rem; }
+    footer .holis-icon-footer {
+      margin-left: 9% !important; }
+    footer .holis-language-wrapper {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-pack: center;
+          -ms-flex-pack: center;
+              justify-content: center;
+      -webkit-box-orient: vertical;
+      -webkit-box-direction: normal;
+          -ms-flex-direction: column;
+              flex-direction: column;
+      -webkit-box-align: center;
+          -ms-flex-align: center;
+              align-items: center; }
+    footer .holis-footer-call-to-action {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-align: center;
+          -ms-flex-align: center;
+              align-items: center; }
+    footer .button {
+      width: 80%;
+      height: 45px;
+      font-size: 1.3rem; }
+    footer .holis-rrss {
+      font-size: 1rem;
+      margin: 4%; } }
 
 .holis-pricing {
   margin-top: 10%;
@@ -9138,3 +9198,10 @@ footer {
     height: 274px;
     width: 350px;
     background-size: cover; }
+  footer .language {
+    margin: 5%; }
+  footer .holis-rrss li {
+    display: inline;
+    margin: 3%; }
+  footer .holis-icon-footer {
+    margin-left: 40%; }
