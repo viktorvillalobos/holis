@@ -8428,6 +8428,9 @@ label.panel-block {
   padding: 36px 18px 72px;
   padding: 3rem 1.5rem 6rem; }
 
+.strike {
+  text-decoration: line-through; }
+
 .alert-debug {
   background-color: #fff;
   border-color: #d6e9c6;
@@ -8851,7 +8854,9 @@ h3 {
         max-width: calc((100% / 3) - 10px); }
 
 .has-holis-gradient {
-  background: -webkit-linear-gradient(#44009b, #5d6de8);
+  background: #44009B;
+  background: -webkit-gradient(linear, left top, right top, from(#44009B), to(#5d6de8));
+  background: linear-gradient(to right, #44009B 0%, #5d6de8 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent; }
 
@@ -8874,7 +8879,7 @@ body {
 
 .holis-navbar {
   margin-top: 2%; }
-  .holis-navbar .navbar-menu-items-wrapper {
+  .holis-navbar .navbar-start {
     width: 100%;
     display: -webkit-box;
     display: -ms-flexbox;
@@ -8882,12 +8887,18 @@ body {
     -webkit-box-pack: center;
         -ms-flex-pack: center;
             justify-content: center; }
-  .holis-navbar .navbar-item,
-  .holis-navbar span {
-    font-weight: 500;
-    background: -webkit-linear-gradient(#44009b, #5d6de8);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent; }
+  .holis-navbar .navbar-item img {
+    max-height: 57px;
+    max-height: 4.75rem; }
+  .holis-navbar .navbar-burger {
+    height: 63px !important;
+    height: 5.25rem !important; }
+    .holis-navbar .navbar-burger span {
+      width: 20px; }
+  .holis-navbar #navbarMenuHeroA {
+    font-weight: 500; }
+    .holis-navbar #navbarMenuHeroA a {
+      color: #44009b; }
   .holis-navbar .container {
     display: -webkit-box;
     display: -ms-flexbox;
@@ -9014,6 +9025,17 @@ body {
 @media screen and (max-width: 768px) {
   .holis-carousel {
     display: none; }
+  .navbar-burger span {
+    color: white;
+    font-size: 1.5rem; }
+  .navbar-start {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column; }
   .go-to-workplace {
     position: absolute;
     right: 17px;
@@ -9024,14 +9046,17 @@ body {
     background-size: 240%; }
   .title {
     color: white;
-    margin-top: 23%; }
+    margin-top: 12%; }
   .subtitle {
     color: white;
     margin-bottom: 20%; }
     .subtitle h5 {
-      font-size: 1.7rem; }
+      font-size: 1.7rem;
+      margin-top: 12% !important;
+      margin: 10%; }
   .hero-call-to-action {
-    color: white; }
+    color: white;
+    margin-top: -8%; }
   .holis-features {
     background-image: None; }
     .holis-features .box {
@@ -9040,8 +9065,14 @@ body {
   .holis-pricing-wrapper {
     margin: 3%; }
   .holis-pricing-box {
-    margin: 1%; }
+    margin-left: 2% !important;
+    margin-right: 2%;
+    margin-top: 5%;
+    margin-bottom: 4%; }
+    .holis-pricing-box-limited {
+      top: -19px !important; }
   footer {
+    margin-top: 33% !important;
     font-size: 1.5rem; }
     footer .holis-icon-footer {
       margin-left: 9% !important; }
@@ -9178,7 +9209,7 @@ body {
     line-height: 18px; }
 
 footer {
-  margin-top: 160px;
+  margin-top: 2%;
   padding-top: 50px;
   padding-bottom: 25px;
   background-repeat: no-repeat;

@@ -41,3 +41,4 @@ django-pwa==1.0.10
 # Specific
 
 twilio==6.43.0
+dj-paddle==0.1.2

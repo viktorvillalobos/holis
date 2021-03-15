@@ -9,6 +9,7 @@ from rest_framework.authtoken.views import obtain_auth_token
 from apps.core import views as core_views
 
 urlpatterns = [
+    path("paddle/", include("djpaddle.urls", namespace="djpaddle")),
     path("", include("pwa.urls")),
     # Django Admin, use {% url 'admin:index' %}
     path(settings.ADMIN_URL, admin.site.urls),

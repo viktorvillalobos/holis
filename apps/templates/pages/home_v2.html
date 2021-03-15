@@ -87,25 +87,29 @@
                         <img src="{% static 'images/web_v2/icon_white.svg' %}" alt="holis icon white">
                     </a>
 
-                    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarMenuHeroA">
+                    <a role="button"
+                        class="navbar-burger"
+                        aria-label="menu"
+                        aria-expanded="false"
+                        data-target="navbarMenuHeroA"
+                        onclick="document.querySelector('.navbar-menu').classList.toggle('is-active');"
+                        >
                       <span aria-hidden="true"></span>
                       <span aria-hidden="true"></span>
                       <span aria-hidden="true"></span>
                     </a>
                   </div>
                         <div id="navbarMenuHeroA" class="navbar-menu">
-                            <div class="navbar-menu-items-wrapper">
-                                <a class="navbar-item is-active">
-                                    {% trans 'How works?' %}
+                            <div class="navbar-start">
+                                <a class="navbar-item is-active ">
+                                    {% trans 'Home' %}
                                 </a>
-                                <a class="navbar-item">
+                                <a class="navbar-item ">
                                     {% trans 'Why holis?' %}
                                 </a>
-                                <a class="navbar-item">
+                                <a class="navbar-item ">
                                     {% trans 'Pricing' %}
                                 </a>
-                                <span class="navbar-item">
-                            </span>
                             </div>
                         </div>
                     </div>
@@ -129,7 +133,7 @@
             </div>
             <div class="column is-one-quarter">
                 <div class="vector-hero">
-                    <a class="button is-primary is-inverted go-to-workplace">
+                    <a class="button is-primary is-inverted go-to-workplace is-hidden-mobile">
                         <span>{% trans 'Workplace' %}</span>
                         <span class="icon">
                             <i class="fas fa-arrow-right"></i>
@@ -140,16 +144,26 @@
         </div>
     </div>
     <div class="holis-exposed">
-        <img class="holis-exposed-notification is-hidden-mobile" src="{% static 'images/home/notification.svg'%}" alt="Holis">
-        <img class="holis-exposed-whos-talking is-hidden-mobile" src="{% static 'images/home/whos_talkin.svg'%}" alt="Holis">
-        <img class="holis-exposed-chat is-hidden-mobile" src="{% static 'images/exposed_chat.png'%}" alt="Holis">
-        <img class="holis-exposed-laptop is-hidden-mobile" src="{% static 'images/laptop.svg'%}" alt="Holis">
+        {% get_current_language as LANGUAGE_CODE %}
+        {% if LANGUAGE_CODE == "es" %}
+            <img class="holis-exposed-notification is-hidden-mobile" src="{% static 'images/home/notification_english.svg'%}" alt="Holis">
+            <img class="holis-exposed-whos-talking is-hidden-mobile" src="{% static 'images/home/whos_talkin.svg'%}" alt="Holis">
+            <img class="holis-exposed-chat is-hidden-mobile" src="{% static 'images/exposed_chat.png'%}" alt="Holis">
+            <img class="holis-exposed-laptop is-hidden-mobile" src="{% static 'images/laptop.svg'%}" alt="Holis">
+        {% else %}
+            <img class="holis-exposed-notification is-hidden-mobile" src="{% static 'images/home/notification_english.svg'%}" alt="Holis">
+            <img class="holis-exposed-whos-talking is-hidden-mobile" src="{% static 'images/home/whos_talkin_english.svg'%}" alt="Holis">
+            <img class="holis-exposed-chat is-hidden-mobile" src="{% static 'images/home/exposed_chat_english.png'%}" alt="Holis">
+            <img class="holis-exposed-laptop is-hidden-mobile" src="{% static 'images/laptop.svg'%}" alt="Holis">
+        {% endif %}
     </div>
 </section>
 <section class="why-holis">
     <div class="columns why-holis-feedback">
         <div class="column is-half">
-            {% if lang == "es" %}
+            <a name="why-holis"></a>
+            {% get_current_language as LANGUAGE_CODE %}
+            {% if LANGUAGE_CODE == "es" %}
                 <h2 class="why-holis-title">Holis es el lugar para comunicarte con tu equipo</h2>
             {% else %}
                 <h2 class="why-holis-title">Holis is the place to communicate with your team</h2>
@@ -219,6 +233,7 @@
 <section class="holis-features">
     <div class="holis-features-title has-text-centered is-vcentered is-holis-title">
         {% trans 'What Holis offer?' %}
+        <a name="what-holis-offer"></a>
     </div>
     <div class="container">
         <div class="columns is-multiline is-centered">
@@ -261,17 +276,19 @@
         </div>
     </div>
 </section>
+{% include "djpaddle_paddlejs.html" %}
 <section class="holis-pricing">
     <div class="holis-pricing-title has-text-centered is-full is-holis-title">
+        <a name="holis-pricing"></a>
         {% trans 'All the benefits of a real office, from anywhere in the world with a single price' %}
     </div>
     <div class="holis-pricing-wrapper columns">
         <div class="holis-pricing-box column is-one-third has-text-centered">
-            <span class="holis-pricing-box-limited is-invisible">{% trans 'Limited Time' %}</span>
+            <span class="holis-pricing-box-limited">{% trans 'Started' %}</span>
             <div class="holis-pricing-box-price">
-                <span class="price-dollars"> 3$ </span>
-                <span class="price-frecuency">al mes</span>
-                <span class="price-frecuency-2">Pagas mes a mes</span>
+                <span class="price-dollars"> ${{ PLANS.0.price }} </span>
+                <span class="price-frecuency is-invisible">{% trans 'monthly' %}</span>
+                <span class="price-frecuency-2">{% trans 'per month' %}</span>
             </div>
             <div class="holis-pricing-box-progress is-invisible">
                 <span class="holis-pricing-box-progress-text">100 {% trans 'spots remaing' %}</span>
@@ -283,23 +300,26 @@
                 </div>
             </div>
             <ul class="holis-pricing-box-features">
-                <li class="holis-pricing-box-features">Hasta 10 usuarios</li>
-                <li class="holis-pricing-box-features">Chat de voz grupales</li>
-                <li class="holis-pricing-box-features">Mensajes ilimitados</li>
-                <li class="holis-pricing-box-features">150GB de almacenamiento</li>
-                <li class="holis-pricing-box-features">Cancela cuando quieras</li>
-                <li class="holis-pricing-box-features">Money back guarantee</li>
+                <li class="holis-pricing-box-features">{% trans 'Up to 10 users'  %}</li>
+                <li class="holis-pricing-box-features">{% trans 'Unlimited voice communication' %}</li>
+                <li class="holis-pricing-box-features">{% trans 'Unlimited messages' %}</li>
+                <li class="holis-pricing-box-features">{% trans 'Unlimited projects' %}</li>
+                <li class="holis-pricing-box-features">{% trans '50 GB of storage' %}</li>
+                <li class="holis-pricing-box-features">{% trans 'Email Support' %}</li>
+                <li class="holis-pricing-box-features strike">{% trans 'Live Chat Support' %}</li>
+                <li class="holis-pricing-box-features">{% trans 'Money back guarantee' %}</li>
+                <li class="holis-pricing-box-features">{% trans 'Cancel any time' %}</li>
             </ul>
-            <button class="button try-button">
-                {% trans 'Getting Started' %}
-            </button>
+            <a href="#!" class="paddle_button button try-button " data-product="{{PLANS.0.id}}" data-theme="none">
+                {% trans 'Free Trial' %}
+            </a>
         </div>
         <div class="holis-pricing-box column is-one-third has-text-centered">
-            <span class="holis-pricing-box-limited is-invisible">{% trans 'Limited Time' %}</span>
+            <span class="holis-pricing-box-limited">{% trans 'PRO' %}</span>
             <div class="holis-pricing-box-price">
-                <span class="price-dollars"> 50$ </span>
-                <span class="price-frecuency">{% trans 'monthly' %}</span>
-                <span class="price-frecuency-2">{% trans 'pay month to month' %}</span>
+                <span class="price-dollars"> ${{ PLANS.1.price }} </span>
+                <span class="price-frecuency is-invisible">{% trans 'monthly' %}</span>
+                <span class="price-frecuency-2">{% trans 'per month' %}</span>
             </div>
             <div class="holis-pricing-box-progress is-invisible">
                 <span class="holis-pricing-box-progress-text">100 {% trans 'spots remaing' %}</span>
@@ -312,20 +332,23 @@
             </div>
             <ul class="holis-pricing-box-features">
                 <li class="holis-pricing-box-features">{% trans 'Unlimited Users'  %}</li>
-                <li class="holis-pricing-box-features">Chat de voz grupales</li>
-                <li class="holis-pricing-box-features">Mensajes ilimitados</li>
-                <li class="holis-pricing-box-features">150GB de almacenamiento</li>
-                <li class="holis-pricing-box-features">Cancela cuando quieras</li>
-                <li class="holis-pricing-box-features">Money back guarantee</li>
+                <li class="holis-pricing-box-features">{% trans 'Unlimited voice communication' %}</li>
+                <li class="holis-pricing-box-features">{% trans 'Unlimited messages' %}</li>
+                <li class="holis-pricing-box-features">{% trans 'Unlimited projects' %}</li>
+                <li class="holis-pricing-box-features">{% trans '200 GB of storage' %}</li>
+                <li class="holis-pricing-box-features">{% trans 'Email Support' %}</li>
+                <li class="holis-pricing-box-features">{% trans 'Live Chat Support' %}</li>
+                <li class="holis-pricing-box-features">{% trans 'Money back guarantee' %}</li>
+                <li class="holis-pricing-box-features">{% trans 'Cancel any time' %}</li>
             </ul>
-            <button class="button try-button">
-                {% trans 'Getting Started' %}
-            </button>
+            <a href="#!" class="paddle_button button try-button " data-product="{{PLANS.1.id}}" data-theme="none">
+                {% trans 'Free Trial' %}
+            </a>
         </div>
         <div class="holis-pricing-box column is-one-third has-text-centered">
             <span class="holis-pricing-box-limited">{% trans 'Life Time Limited' %}</span>
             <div class="holis-pricing-box-price">
-                <span class="price-dollars"> 399$ </span>
+                <span class="price-dollars"> ${{ PLANS.2.price }} </span>
                 <span class="price-frecuency">{% trans 'For life' %}</span>
                 <span class="price-frecuency-2">{% trans 'One Time Payment' %}</span>
             </div>
@@ -339,16 +362,19 @@
                 </div>
             </div>
             <ul class="holis-pricing-box-features">
-                <li class="holis-pricing-box-features">No user limits</li>
-                <li class="holis-pricing-box-features"></li>
-                <li class="holis-pricing-box-features">Mensajes ilimitados</li>
-                <li class="holis-pricing-box-features">150GB de almacenamiento</li>
-                <li class="holis-pricing-box-features">Cancela cuando quieras</li>
-                <li class="holis-pricing-box-features">Money back guarantee</li>
+                <li class="holis-pricing-box-features">{% trans 'Unlimited Users'  %}</li>
+                <li class="holis-pricing-box-features">{% trans 'Unlimited voice communication' %}</li>
+                <li class="holis-pricing-box-features">{% trans 'Unlimited messages' %}</li>
+                <li class="holis-pricing-box-features">{% trans 'Unlimited projects' %}</li>
+                <li class="holis-pricing-box-features">{% trans '200 GB of storage' %}</li>
+                <li class="holis-pricing-box-features">{% trans 'Email Support' %}</li>
+                <li class="holis-pricing-box-features">{% trans 'Live Chat Support' %}</li>
+                <li class="holis-pricing-box-features">{% trans 'Money back guarantee' %}</li>
+                <li class="holis-pricing-box-features">{% trans 'Cancel any time' %}</li>
             </ul>
-            <button class="button try-button">
-                {% trans 'Getting Started' %}
-            </button>
+            <a href="#!" class="paddle_button button try-button " data-product="{{PLANS.2.id}}" data-theme="none">
+                {% trans 'Get Holis For Live!' %}
+            </a>
         </div>
     </div>
     <div class="holis-pricing-payment-advice has-text-centered">

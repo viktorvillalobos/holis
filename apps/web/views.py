@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
@@ -7,6 +8,7 @@ from django.views.generic import FormView, TemplateView
 from django.views.generic.edit import UpdateView
 
 import logging
+from djpaddle.models import Plan
 
 from apps.web import forms
 from apps.web.models import Lead
@@ -150,3 +152,18 @@ def logout_view(request):
 
 class HomeView(RedirectToAppMixin, TemplateView):
     template_name = "pages/home_v2.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        plans = Plan.objects.all().prefetch_related("prices")
+
+        plans_list = []
+        for plan in plans:
+            price = plan.prices.latest("id").quantity
+            plans_list.append({"id": plan.id, "price": int(price)})
+
+        sorted_plans_by_price = sorted(plans_list, key=lambda item: item["price"])
+
+        context["PLANS"] = sorted_plans_by_price
+        context["DJPADDLE_VENDOR_ID"] = settings.DJPADDLE_VENDOR_ID
+        return context
