@@ -68,7 +68,10 @@ h3 {
 //
 
 .has-holis-gradient {
-    background: -webkit-linear-gradient($dark-blue, $blue);
+    background: #44009B;
+    background: -webkit-linear-gradient(to right, #44009B 0%, #5d6de8 100%);
+    background: -moz-linear-gradient(to right, #44009B 0%, #5d6de8 100%);
+    background: linear-gradient(to right, #44009B 0%, #5d6de8 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
@@ -95,18 +98,31 @@ body {
 .holis-navbar {
     margin-top: 2%;
 
-    .navbar-menu-items-wrapper {
+    .navbar-start {
         width: 100%;
         display: flex;
         justify-content: center;
     }
 
-    .navbar-item,
-    span {
+    .navbar-item {
+        img {
+            max-height: 4.75rem;
+        }
+    }
+
+    .navbar-burger {
+        height: 5.25rem !important;
+
+        span {
+            width: 20px;
+        }
+    }
+
+    #navbarMenuHeroA {
         font-weight: 500;
-        background: -webkit-linear-gradient($dark-blue, $blue);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
+        a {
+            color: $dark-blue;
+        }
     }
 
     .container {
@@ -244,12 +260,17 @@ body {
     }
 
 
-    // .holis-navbar {
-    //     position: absolute;
-    //     top: 0;
-    //     margin-top: 0;
-    // }
-    //
+    .navbar-burger {
+        span {
+            color: white;
+            font-size: 1.5rem;
+        }
+    }
+
+    .navbar-start {
+        display: flex;
+        flex-direction: column;
+    }
 
     .go-to-workplace {
         position:absolute;
@@ -268,7 +289,7 @@ body {
 
     .title {
         color: white;
-        margin-top: 23%;
+        margin-top: 12%;
     }
 
     .subtitle {
@@ -277,11 +298,14 @@ body {
 
         h5 {
             font-size: 1.7rem;
+            margin-top: 12% !important;
+            margin: 10%;
         }
     }
 
     .hero-call-to-action {
         color: white;
+        margin-top: -8%;
     }
 
 
@@ -301,13 +325,23 @@ body {
         }
 
         &-box {
-            margin: 1%;
+            margin-left: 2% !important;
+            margin-right: 2%;
+            margin-top: 5%;
+            margin-bottom: 4%;
+
+            &-limited {
+                top: -19px !important;
+            }
         }
+
     }
 
 
 
     footer {
+        margin-top: 33% !important;
+
         font-size: 1.5rem;
 
         .holis-icon-footer {
@@ -468,7 +502,7 @@ body {
 
 
 footer {
-  margin-top: 160px;
+  margin-top: 2%;
   padding-top: 50px;
   padding-bottom: 25px;
   background-repeat: no-repeat;
