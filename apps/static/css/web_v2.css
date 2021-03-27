@@ -8946,10 +8946,10 @@ body {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
+  -webkit-box-orient: horizontal;
   -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
+      -ms-flex-direction: row;
+          flex-direction: row;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
@@ -8958,7 +8958,8 @@ body {
           justify-content: center;
   margin-top: 8.4%; }
   .vector-hero a {
-    margin-top: 2.4%; }
+    margin-top: 2.4%;
+    margin: 2%; }
 
 .holis-exposed {
   display: -webkit-box;

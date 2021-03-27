@@ -1,3 +1,5 @@
+from typing import Any, Dict
+
 from django.conf import settings
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect
@@ -88,6 +90,10 @@ class LoginView(FormView):
         form.add_error("password", _("Invalid user or password"))
         return super().form_invalid(form)
 
+    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        return {"email": "viktor@hol.is", "password": "", **context}
+
 
 class RegistrationView(TemplateView):
     template_name = "auth/signup.html"
@@ -150,7 +156,7 @@ def logout_view(request):
     return redirect("webapp")
 
 
-class HomeView(RedirectToAppMixin, TemplateView):
+class HomeView(TemplateView):
     template_name = "pages/home_v2.html"
 
     def get_context_data(self, **kwargs):

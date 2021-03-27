@@ -6,7 +6,7 @@
         <h3>Log into <span id="companyName"> {{ request.company.name }}</span> 👋</h3>
         {% csrf_token %}
         <div class="field">
-            <label class="label" to="email">Your email</label>
+            <label class="label" to="email" value="{{ email }}">Your email</label>
             <input class="input" type="email" placeholder="Ex.: juaninjuanharry@31minutos.com" name="email" required />
         </div>
         <div class="field">

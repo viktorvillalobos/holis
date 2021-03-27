@@ -110,6 +110,18 @@
                                 <a class="navbar-item ">
                                     {% trans 'Pricing' %}
                                 </a>
+                                {% if user.is_authenticated %}
+                                <a class="navbar-item ">
+                                    {% trans 'Workplace' %}
+                                </a>
+                                {% else %}
+                                <a href="{% url 'web:login' %}" class="navbar-item is-hidden-desktop">
+                                    {% trans 'Login' %}
+                                </a>
+                                <a href="{% url 'web:signup-step-1' %}" class="navbar-item is-hidden-desktop">
+                                    {% trans 'Signup' %}
+                                </a>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
@@ -125,20 +137,47 @@
                     </div>
                 </div>
                 <div class="hero-call-to-action has-text-centered">
-                    <button class="button try-button">
-                        {% trans 'Getting Started' %}
-                    </button>
-                    <span> {% trans 'No credit card required' %} </span>
-                </div>
-            </div>
-            <div class="column is-one-quarter">
-                <div class="vector-hero">
-                    <a class="button is-primary is-inverted go-to-workplace is-hidden-mobile">
-                        <span>{% trans 'Workplace' %}</span>
+                    {% if user.is_authenticated %}
+                    <a href="{% url "webapp" %}"class="button try-button">
+                        <span>{% trans 'Your Workplace' %}</span>
                         <span class="icon">
                             <i class="fas fa-arrow-right"></i>
                         </span>
                     </a>
+                    <span> {% trans 'Welcome to holis again!' %} </span>
+                    {% else %}
+                        <button class="button try-button">
+                            {% trans 'Getting Started' %}
+                        </button>
+                        <span> {% trans 'No credit card required' %} </span>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="column is-one-quarter">
+                <div class="vector-hero">
+                    {% if user.is_authenticated %}
+                        <a class="button is-primary is-inverted go-to-workplace is-hidden-mobile">
+                            <span>{% trans 'Workplace' %}</span>
+                            <span class="icon">
+                                <i class="fas fa-arrow-right"></i>
+                            </span>
+                        </a>
+                    {% else %}
+                        <a href="{% url "web:login" %}" class="button is-primary is-inverted go-to-workplace is-hidden-mobile">
+                            <span>{% trans 'Login' %}</span>
+                            <span class="icon">
+                                <i class="fas fa-arrow-right"></i>
+                            </span>
+                        </a>
+                        <a href="{% url "web:signup-step-1" %}"
+                            class="button is-primary is-inverted go-to-workplace is-hidden-mobile"
+                        >
+                            <span>{% trans 'Signup' %}</span>
+                            <span class="icon">
+                                <i class="fas fa-sign-in-alt"></i>
+                            </span>
+                        </a>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -310,7 +349,7 @@
                 <li class="holis-pricing-box-features">{% trans 'Money back guarantee' %}</li>
                 <li class="holis-pricing-box-features">{% trans 'Cancel any time' %}</li>
             </ul>
-            <a href="#!" class="button try-button ">
+            <a href="{% url "web:signup-step-1" %}" class="button try-button ">
                 {% trans 'Start for free' %}
             </a>
         </div>
@@ -341,7 +380,7 @@
                 <li class="holis-pricing-box-features">{% trans 'Money back guarantee' %}</li>
                 <li class="holis-pricing-box-features">{% trans 'Cancel any time' %}</li>
             </ul>
-            <a href="#!" class="paddle_button button try-button " data-product="{{PLANS.1.id}}" data-theme="none">
+            <a href="{% url "web:signup-step-1" %}" class="button try-button ">
                 {% trans 'Start for free' %}
             </a>
         </div>
@@ -436,10 +475,17 @@
           </div>
           <div class="column is-10-desktop has-text-right-desktop has-text-centered-mobile">
                 <a class="button is-primary is-inverted">
-                    <span>{% trans 'Workplace' %}</span>
-                    <span class="icon">
-                        <i class="fas fa-arrow-right"></i>
-                    </span>
+                    {% if user.is_authenticated %}
+                        <span>{% trans 'Workplace' %}</span>
+                        <span class="icon">
+                            <i class="fas fa-arrow-right"></i>
+                        </span>
+                    {% else %}
+                        <span>{% trans 'Login' %}</span>
+                        <span class="icon">
+                            <i class="fas fa-arrow-right"></i>
+                        </span>
+                    {% endif %}
                 </a>
           </div>
       </div>
