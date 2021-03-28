@@ -121,9 +121,11 @@
                                 <a href="{% url 'web:login' %}" class="navbar-item is-hidden-desktop">
                                     {% trans 'Login' %}
                                 </a>
-                                <a href="{% url 'web:signup-step-1' %}" class="navbar-item is-hidden-desktop">
-                                    {% trans 'Signup' %}
-                                </a>
+                                    {% if 1 == 2 %}
+                                    <a href="{% url 'web:signup-step-1' %}" class="navbar-item is-hidden-desktop">
+                                        {% trans 'Signup' %}
+                                    </a>
+                                    {% endif %}
                                 {% endif %}
                             </div>
                         </div>
@@ -172,14 +174,16 @@
                                 <i class="fas fa-arrow-right"></i>
                             </span>
                         </a>
-                        <a href="{% url "web:signup-step-1" %}"
-                            class="button is-primary is-inverted go-to-workplace is-hidden-mobile"
-                        >
-                            <span>{% trans 'Signup' %}</span>
-                            <span class="icon">
-                                <i class="fas fa-sign-in-alt"></i>
-                            </span>
-                        </a>
+                        {% if 1 == 2 %}
+                            <a href="{% url "web:signup-step-1" %}"
+                                class="button is-primary is-inverted go-to-workplace is-hidden-mobile"
+                            >
+                                <span>{% trans 'Signup' %}</span>
+                                <span class="icon">
+                                    <i class="fas fa-sign-in-alt"></i>
+                                </span>
+                            </a>
+                        {% endif %}
                     {% endif %}
                 </div>
             </div>
@@ -352,9 +356,14 @@
                 <li class="holis-pricing-box-features">{% trans 'Money back guarantee' %}</li>
                 <li class="holis-pricing-box-features">{% trans 'Cancel any time' %}</li>
             </ul>
+            <a href="#!" class="button try-button " data-theme="none">
+                {% trans 'Soon' %}
+            </a>
+            {% if 1 == 2%}
             <a href="{% url "web:signup-step-1" %}" class="button try-button ">
                 {% trans 'Start for free' %}
             </a>
+            {% endif %}
         </div>
         <div class="holis-pricing-box column is-one-third has-text-centered">
             <span class="holis-pricing-box-limited">{% trans 'PRO' %}</span>
@@ -383,9 +392,14 @@
                 <li class="holis-pricing-box-features">{% trans 'Money back guarantee' %}</li>
                 <li class="holis-pricing-box-features">{% trans 'Cancel any time' %}</li>
             </ul>
+            <a href="#!" class="button try-button " data-product="{{PLANS.2.id}}" data-theme="none">
+                {% trans 'Soon' %}
+            </a>
+            {% if 1 == 2%}
             <a href="{% url "web:signup-step-1" %}" class="button try-button ">
                 {% trans 'Start for free' %}
             </a>
+            {% endif %}
         </div>
         <div class="holis-pricing-box column is-one-third has-text-centered">
             <span class="holis-pricing-box-limited">{% trans 'Life Time Limited' %}</span>
@@ -414,9 +428,14 @@
                 <li class="holis-pricing-box-features">{% trans 'Money back guarantee' %}</li>
                 <li class="holis-pricing-box-features">{% trans 'Cancel any time' %}</li>
             </ul>
+            <a href="#!" class="button try-button " data-product="{{PLANS.2.id}}" data-theme="none">
+                {% trans 'Soon' %}
+            </a>
+            {% if 1 == 2 %}
             <a href="#!" class="paddle_button button try-button " data-product="{{PLANS.2.id}}" data-theme="none">
                 {% trans 'Get Holis For Live!' %}
             </a>
+            {% endif %}
         </div>
     </div>
     <div class="holis-pricing-payment-advice has-text-centered">
@@ -497,7 +516,6 @@
 </footer>
 
 <script>
-
     const removeAttachments = () => {
         const hero = document.getElementsByClassName("hero")[0]
         hero.style.backgroundAttachment = "initial"

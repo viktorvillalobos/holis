@@ -109,8 +109,12 @@ class SuggestCompanyCodeAPIView(views.APIView):
         return Response({}, status=200)
 
     def exists_code(self, code):
-        temp_company = core_models.Company.objects.filter(code__iexact=code).first()
-        temp_lead = web_models.Lead.objects.filter(company_code__iexact=code).first()
+        temp_company = (
+            core_models.Company.objects.filter(code__exact=code).only("id").first()
+        )
+        temp_lead = (
+            web_models.Lead.objects.filter(company_code__exact=code).only("id").first()
+        )
 
         return temp_company or temp_lead
 
