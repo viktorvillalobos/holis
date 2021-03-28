@@ -6,6 +6,8 @@ from model_utils.models import TimeStampedModel
 from mptt.models import MPTTModel, TreeForeignKey
 from sorl.thumbnail import ImageField, get_thumbnail
 
+from apps.utils.fields import LowerCharField
+
 # Create your models here.
 
 
@@ -15,7 +17,7 @@ class Company(TimeStampedModel):
     """
 
     name = models.CharField(_("name"), max_length=50, db_index=True)
-    code = models.CharField(_("code"), max_length=50, db_index=True, unique=True)
+    code = LowerCharField(_("code"), max_length=50, db_index=True, unique=True)
     email = models.EmailField(_("email"), null=True, blank=True)
     country = CountryField(null=True, blank=True)
     phone = models.CharField(_("phone"), max_length=20, null=True, blank=True)

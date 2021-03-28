@@ -1,10 +1,10 @@
-.espazum {
+.holis{
     &-exposed {
-        margin-top: 44px;
         background-image: url(../images/clear_bg.svg);
-        background-size: 90%;
+        background-size: 94%;
         background-repeat: no-repeat;
         max-height: 100vh;
+        margin-top: 2%
 
         h2 {
             font-weight: 700;
@@ -17,7 +17,7 @@
 
         &-laptop {
             max-width: 83.33%;
-            margin-left: 100px;
+            // margin-left: 100px;
         }
 
         &-wrapper {
@@ -33,24 +33,24 @@
         }
 
         &-notification {
-            top: -54px;
-            left: 9px;
+            top: 31%;
+            left: 20%;
         }
 
         &-whos-talking {
-            left: 50px;
-            top: 39%;
+            left: 20%;
+            top: 80%;
         }
 
         &-chat {
-            left: 60.2%;
-            top: 30.5%;
+            left: 67.2%;
+            top: 72.5%;
         }
 
         &-play {
             &-wrapper {
                 top: 100px;
-                left: 68%;
+                left: 50%;
             }
 
             &-icon {

@@ -83,6 +83,7 @@ THIRD_PARTY_APPS = [
     "sorl.thumbnail",
     "django_filters",
     "pwa",
+    "djpaddle",
 ]
 
 LOCAL_APPS = [
@@ -90,6 +91,7 @@ LOCAL_APPS = [
     "apps.core.apps.CoreConfig",
     "apps.chat.apps.ChatConfig",
     "apps.web.apps.WebConfig",
+    "apps.billings.apps.BillingsConfig",
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -200,6 +202,7 @@ TEMPLATES = [
                 "django.template.context_processors.tz",
                 "django.contrib.messages.context_processors.messages",
                 "apps.utils.context_processors.settings_context",
+                "djpaddle.context_processors.vendor_id",
             ],
         },
     }
@@ -379,3 +382,11 @@ ABSTRACT_API_KEY = env("ABSTRACT_API_KEY")
 
 
 ENVIRONMENT = "production"
+
+DJPADDLE_VENDOR_ID = env("DJPADDLE_VENDOR_ID")
+
+# create one at https://vendors.paddle.com/authentication
+DJPADDLE_API_KEY = env("DJPADDLE_API_KEY")
+
+# can be found at https://vendors.paddle.com/public-key
+DJPADDLE_PUBLIC_KEY = env.str("DJPADDLE_PUBLIC_KEY", multiline=True)

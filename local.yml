@@ -15,6 +15,7 @@ services:
       - mailhog
       - redis
       - testdb
+      - node
     volumes:
       - .:/app
       - ./webapp:/app/webapp
@@ -80,7 +81,7 @@ services:
     ports:
       - "5555:5555"
     command: /start-flower
-  
+
   node:
     build:
       context: .

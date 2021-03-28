@@ -1,3 +1,6 @@
+from typing import Any, Dict
+
+from django.conf import settings
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
@@ -7,7 +10,11 @@ from django.views.generic import FormView, TemplateView
 from django.views.generic.edit import UpdateView
 
 import logging
+from djpaddle.models import Plan
 
+from config.settings.base import DJPADDLE_VENDOR_ID
+
+from apps.billings import services as billing_services
 from apps.web import forms
 from apps.web.models import Lead
 
@@ -86,6 +93,10 @@ class LoginView(FormView):
         form.add_error("password", _("Invalid user or password"))
         return super().form_invalid(form)
 
+    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        return {"email": "viktor@hol.is", "password": "", **context}
+
 
 class RegistrationView(TemplateView):
     template_name = "auth/signup.html"
@@ -148,5 +159,20 @@ def logout_view(request):
     return redirect("webapp")
 
 
-class HomeView(RedirectToAppMixin, TemplateView):
-    template_name = "pages/home.html"
+class HomeView(TemplateView):
+    template_name = "pages/home_v2.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        total_current_full_plan_subscriptions = (
+            billing_services.get_total_current_full_plan_subscriptions()  # + 14
+        )
+        pending_full_subcscriptions = 100 - total_current_full_plan_subscriptions
+
+        return context | {
+            "PLANS": billing_services.get_paddle_plans_sorted_by_price(),
+            "DJPADDLE_VENDOR_ID": settings.DJPADDLE_VENDOR_ID,
+            "TOTAL_FULL_SUBSCRIPTIONS": total_current_full_plan_subscriptions,
+            "PENDING_FULL_SUBSCRIPTIONS": pending_full_subcscriptions,
+        }

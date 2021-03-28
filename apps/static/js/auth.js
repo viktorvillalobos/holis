@@ -2,6 +2,22 @@ const BASE_URL = '/api/v1',
     token = document.getElementsByName('csrfmiddlewaretoken')[0].value;
 let company, inputsCounter = 2;
 
+function debounce(func, wait, immediate) {
+    var timeout;
+    return function() {
+        var context = this,
+            args = arguments;
+        var later = function() {
+            timeout = null;
+            if (!immediate) func.apply(context, args);
+        };
+        var callNow = immediate && !timeout;
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+        if (callNow) func.apply(context, args);
+    }
+}
+
 async function getCompany(val) {
     if (!val) {
         return false
@@ -97,16 +113,20 @@ function stringToSlug(str) {
 
     if (subdomainField) subdomainField.style.display = 'none'
 
-    if (input) {
-        input.addEventListener('input', function (e) {
-            suggestCompanyCode(e.srcElement.value, subdomain)
+    const debouncedSuggestCompanyCode = debounce(suggestCompanyCode, 500)
 
-            if (e.srcElement.value && e.srcElement.value !== '') {
-                companyNameField.classList.add('is-active')
-            } else {
-                companyNameField.classList.remove('is-active')
-            }
-        })
+    const handleSuggestion = e => {
+      debouncedSuggestCompanyCode(e.srcElement.value, subdomain)
+
+      if (e.srcElement.value && e.srcElement.value !== '') {
+          companyNameField.classList.add('is-active')
+      } else {
+          companyNameField.classList.remove('is-active')
+      }
+    }
+
+    if (input) {
+        input.addEventListener('input', handleSuggestion)
     }
 }())
 
