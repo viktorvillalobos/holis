@@ -105,9 +105,6 @@
                                     {% trans 'Home' %}
                                 </a>
                                 <a class="navbar-item ">
-                                    {% trans 'Why holis?' %}
-                                </a>
-                                <a class="navbar-item ">
                                     {% trans 'Pricing' %}
                                 </a>
                                 {% if user.is_authenticated %}
@@ -250,7 +247,7 @@
                         alt="Víctor Villalobos profile picture founder of Holis">
                 </div>
                 <div class="why-holis-feedback-profile-sign has-holis-gradient">
-                    Víctor Villalobos, {% trans 'Founder of Holis' %}
+                    <a href="https://twitter.com/viktordevelop" target="_blank">Víctor Villalobos, {% trans 'Founder of Holis' %}</a>
                 </div>
             </div>
         </div>
@@ -442,7 +439,6 @@
             <b>{% trans 'Product' %}</b>
           <ul>
             <li><a href="#">{% trans 'How works?' %}</a></li>
-            <li><a href="#">{% trans 'Why Holis??' %}</a></li>
             <li><a href="#">{% trans 'Security' %}</a></li>
           </ul>
         </div>
