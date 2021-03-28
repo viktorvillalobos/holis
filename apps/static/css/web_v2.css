@@ -8428,6 +8428,9 @@ label.panel-block {
   padding: 36px 18px 72px;
   padding: 3rem 1.5rem 6rem; }
 
+html {
+  scroll-behavior: smooth; }
+
 .strike {
   text-decoration: line-through; }
 
@@ -8940,7 +8943,8 @@ body {
 .try-button {
   width: 200px;
   color: white;
-  background: #5d6de8; }
+  background: #5d6de8;
+  margin-bottom: 5%; }
 
 .vector-hero {
   display: -webkit-box;

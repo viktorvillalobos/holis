@@ -2,6 +2,7 @@ from apps.utils.dataclasses import build_dataclass_from_model_instance
 
 from .lib.dataclasses import PaddlePlanData
 from .providers import plans as plan_providers
+from .providers import subscriptions as plan_subscriptions
 
 
 def get_paddle_plans_sorted_by_price() -> list[PaddlePlanData]:
@@ -23,3 +24,7 @@ def get_paddle_plans_sorted_by_price() -> list[PaddlePlanData]:
         )
 
     return sorted(plans_list, key=lambda item: item.price)
+
+
+def get_total_current_full_plan_subscriptions() -> int:
+    return plan_subscriptions.get_total_current_full_plan_subscriptions()

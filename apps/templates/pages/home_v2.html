@@ -101,14 +101,20 @@
                   </div>
                         <div id="navbarMenuHeroA" class="navbar-menu">
                             <div class="navbar-start">
-                                <a class="navbar-item is-active ">
-                                    {% trans 'Home' %}
+                                <a href="#" class="navbar-item is-active ">
+                                    {% trans 'Get holis' %}
                                 </a>
-                                <a class="navbar-item ">
+                                <a href="#why-holis" class="navbar-item is-active ">
+                                    {% trans 'Why holis?' %}
+                                </a>
+                                <a href="#features" class="navbar-item ">
+                                    {% trans 'Features' %}
+                                </a>
+                                <a href="#pricing" class="navbar-item ">
                                     {% trans 'Pricing' %}
                                 </a>
                                 {% if user.is_authenticated %}
-                                <a class="navbar-item ">
+                                <a class="navbar-item is-hidden-desktop">
                                     {% trans 'Workplace' %}
                                 </a>
                                 {% else %}
@@ -269,7 +275,7 @@
 <section class="holis-features">
     <div class="holis-features-title has-text-centered is-vcentered is-holis-title">
         {% trans 'What Holis offer?' %}
-        <a name="what-holis-offer"></a>
+        <a name="features"></a>
     </div>
     <div class="container">
         <div class="columns is-multiline is-centered">
@@ -315,7 +321,7 @@
 {% include "djpaddle_paddlejs.html" %}
 <section class="holis-pricing">
     <div class="holis-pricing-title has-text-centered is-full is-holis-title">
-        <a name="holis-pricing"></a>
+        <a name="pricing"></a>
         {% trans 'All the benefits of a real office, from anywhere in the world with a single price' %}
     </div>
     <div class="holis-pricing-wrapper columns">
@@ -389,10 +395,10 @@
                 <span class="price-frecuency-2">{% trans 'One Time Payment' %}</span>
             </div>
             <div class="holis-pricing-box-progress">
-                <span class="holis-pricing-box-progress-text">100 {% trans 'spots remaing' %}</span>
+                <span class="holis-pricing-box-progress-text">{{ PENDING_FULL_SUBSCRIPTIONS }} {% trans 'spots remaing' %}</span>
                 <div class="holis-pricing-box-progress-bar">
                     <div
-                        style="width: 200px;"
+                        style="width: {{ TOTAL_FULL_SUBSCRIPTIONS }}%;"
                         class="holis-pricing-box-progress-bar-current-progress">
                     </div>
                 </div>
@@ -438,8 +444,10 @@
         <div class="column is-2">
             <b>{% trans 'Product' %}</b>
           <ul>
-            <li><a href="#">{% trans 'How works?' %}</a></li>
-            <li><a href="#">{% trans 'Security' %}</a></li>
+            <li><a href="#">{% trans 'Get holis?' %}</a></li>
+            <li><a href="#why-holis">{% trans 'Why holis' %}</a></li>
+            <li><a href="#features">{% trans 'Features' %}</a></li>
+            <li><a href="#pricing">{% trans 'Pricing' %}</a></li>
           </ul>
         </div>
         <div class="column is-2">

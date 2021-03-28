@@ -165,7 +165,14 @@ class HomeView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
+        total_current_full_plan_subscriptions = (
+            billing_services.get_total_current_full_plan_subscriptions() + 14
+        )
+        pending_full_subcscriptions = 100 - total_current_full_plan_subscriptions
+
         return context | {
             "PLANS": billing_services.get_paddle_plans_sorted_by_price(),
             "DJPADDLE_VENDOR_ID": settings.DJPADDLE_VENDOR_ID,
+            "TOTAL_FULL_SUBSCRIPTIONS": total_current_full_plan_subscriptions,
+            "PENDING_FULL_SUBSCRIPTIONS": pending_full_subcscriptions,
         }

@@ -17,6 +17,11 @@
 
 // bootstrap alert CSS, translated to the django-standard levels of
 // debug, info, success, warning, error
+//
+
+html {
+    scroll-behavior: smooth;
+}
 
 .strike {
     text-decoration: line-through;
@@ -170,6 +175,7 @@ body {
     width: 200px;
     color: white;
     background: $blue;
+    margin-bottom: 5%;
 }
 
 .vector-hero {
