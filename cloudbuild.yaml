@@ -3,7 +3,7 @@ steps:
   args:
   - build
   - "--tag=gcr.io/espazum/holis-full"
-  - "--file=./compose/production/Dockerfile"
+  - "--file=./compose/production/django/Dockerfile"
   - .
 images:
 - "gcr.io/espazum/holis-full"
