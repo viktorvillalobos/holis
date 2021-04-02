@@ -10,7 +10,6 @@ django-celery-beat==2.0.0  # https://github.com/celery/django-celery-beat
 flower==0.9.4  # https://github.com/mher/flower
 uvicorn[standard]==0.13.4  # https://github.com/encode/uvicorn
 gunicorn==20.0.4  # https://github.com/benoitc/gunicorn
-numpy==1.18.3
 mock==4.0.2
 
 # Django
