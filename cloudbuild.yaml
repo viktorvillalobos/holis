@@ -1,0 +1,9 @@
+steps:
+- name: "gcr.io/cloud-builders/docker"
+  args:
+  - build
+  - "--tag=gcr.io/${{ secrets.RUN_PROJECT }}/${{ secrets.SERVICE_NAME }}"
+  - "--file=./compose/production/Dockerfile"
+  - .
+images:
+- "gcr.io/${{ secrets.RUN_PROJECT }}/${{ secrets.SERVICE_NAME }}"
