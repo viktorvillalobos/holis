@@ -31,18 +31,10 @@ class RedirectToAppMixin:
         if is_subdomain and self.request.user.is_authenticated:
             return redirect(reverse("webapp"))
 
-        if not is_subdomain and self.request.user.is_authenticated:
-            return self.redirect_from_subdomain(host)
-
         if is_subdomain and self.request.user.is_anonymous:
             return redirect(reverse("web:login"))
 
         return super().dispatch(request, *args, **kwargs)
-
-    def redirect_from_subdomain(self, host):
-        scheme_url = self.request.is_secure() and "https" or "http"
-        url = f"{scheme_url}://{self.request.user.company.code}.{host}/app/"
-        return HttpResponseRedirect(url)
 
 
 class SoonTemplateView(RedirectToAppMixin, TemplateView):
@@ -159,7 +151,7 @@ def logout_view(request):
     return redirect("webapp")
 
 
-class HomeView(TemplateView):
+class HomeView(RedirectToAppMixin, TemplateView):
     template_name = "pages/home_v2.html"
 
     def get_context_data(self, **kwargs):
