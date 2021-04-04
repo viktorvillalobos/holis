@@ -358,8 +358,8 @@
                 <li class="holis-pricing-box-features">💵 {% trans 'Money back guarantee' %}</li>
                 <li class="holis-pricing-box-features">🥺 {% trans 'Cancel any time' %}</li>
             </ul>
-            <a href="#!" class="button try-button " data-theme="none">
-                {% trans 'Soon' %}
+            <a href="{% url 'web:soon' %}" class="button try-button " data-product="{{PLANS.2.id}}" data-theme="none">
+                {% trans 'Start for free' %}
             </a>
             {% if 1 == 2%}
             <a href="{% url "web:signup-step-1" %}" class="button try-button ">
@@ -385,7 +385,7 @@
             </div>
             <ul class="holis-pricing-box-features">
                 <li class="holis-pricing-box-features">👩🏿‍🦱{% trans 'Unlimited Users'  %}</li>
-                <li class="holis-pricing-box-features">🗣 {% trans 'Unlimited voice communication' %}</li>
+                <li class="holis-pricing-box-features">🗣 {% trans 'Unlimitedvoice chat' %}</li>
                 <li class="holis-pricing-box-features">💬 {% trans 'Unlimited messages' %}</li>
                 <li class="holis-pricing-box-features">🗂  {% trans 'Unlimited projects' %}</li>
                 <li class="holis-pricing-box-features">📁 {% trans '200 GB of storage' %}</li>
@@ -394,8 +394,8 @@
                 <li class="holis-pricing-box-features">💵 {% trans 'Money back guarantee' %}</li>
                 <li class="holis-pricing-box-features">🥺 {% trans 'Cancel any time' %}</li>
             </ul>
-            <a href="#!" class="button try-button " data-product="{{PLANS.2.id}}" data-theme="none">
-                {% trans 'Soon' %}
+            <a href="{% url 'web:soon' %}" class="button try-button " data-product="{{PLANS.2.id}}" data-theme="none">
+                {% trans 'Start for free' %}
             </a>
             {% if 1 == 2%}
             <a href="{% url "web:signup-step-1" %}" class="button try-button ">
@@ -430,8 +430,8 @@
                 <li class="holis-pricing-box-features">💵 {% trans 'Money back guarantee' %}</li>
                 <li class="holis-pricing-box-features">🥺 {% trans 'Cancel any time' %}</li>
             </ul>
-            <a href="#!" class="button try-button " data-product="{{PLANS.2.id}}" data-theme="none">
-                {% trans 'Soon' %}
+            <a href="{% url 'web:soon' %}" class="button try-button " data-product="{{PLANS.2.id}}" data-theme="none">
+                {% trans 'Start for free' %}
             </a>
             {% if 1 == 2 %}
             <a href="#!" class="paddle_button button try-button " data-product="{{PLANS.2.id}}" data-theme="none">

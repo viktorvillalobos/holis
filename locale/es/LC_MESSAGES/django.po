@@ -758,13 +758,13 @@ msgstr "Hasta 10 usuarios"
 
 #: apps/templates/pages/home_v2.html:350 apps/templates/pages/home_v2.html:386
 #: apps/templates/pages/home_v2.html:422
-msgid "Unlimited voice communication"
-msgstr "Comunicación por voz ilimitada"
+msgid "Unlimited voice chat"
+msgstr "Chat de voz ilimitados"
 
 #: apps/templates/pages/home_v2.html:351 apps/templates/pages/home_v2.html:387
 #: apps/templates/pages/home_v2.html:423
 msgid "Unlimited messages"
-msgstr "Menssages ilimitados"
+msgstr "Mensages ilimitados"
 
 #: apps/templates/pages/home_v2.html:352 apps/templates/pages/home_v2.html:388
 #: apps/templates/pages/home_v2.html:424
@@ -773,7 +773,7 @@ msgstr "Projectos ilimitados"
 
 #: apps/templates/pages/home_v2.html:353
 msgid "50 GB of storage"
-msgstr "50 gb de almacenamiento"
+msgstr "50 GB de almacenamiento"
 
 #: apps/templates/pages/home_v2.html:354 apps/templates/pages/home_v2.html:390
 #: apps/templates/pages/home_v2.html:426
@@ -818,7 +818,7 @@ msgstr "200 GB de almacenamiento"
 
 #: apps/templates/pages/home_v2.html:405
 msgid "Life Time Limited"
-msgstr "Oferta por Tiempo Limitado"
+msgstr "Por Tiempo Limitado"
 
 #: apps/templates/pages/home_v2.html:408
 msgid "For life"
