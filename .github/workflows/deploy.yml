@@ -1,0 +1,24 @@
+name: SSH Deploy
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Pull code
+      run: sudo git pull 
+    - name: Build and deploy
+      run: sudo docker-compose -f production.yml up -d --build
+    - name: ssh deploy
+      uses: easingthemes/ssh-deploy@v2.1.4
+      env:
+        SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_KEY }}
+        REMOTE_HOST: ${{ secrets.DEPLOY_HOST }}
+        REMOTE_USER: ${{ secrets.DEPLOY_USER }}
+        REMOTE_PORT: ${{ secrets.DEPLOY_PORT }}
+        SOURCE: "dist/"
+        TARGET: ${{ secrets.DEPLOY_TARGET }}
