@@ -10,11 +10,9 @@ urlpatterns = [
     path("check-company/", views.CheckCompanyView.as_view(), name="check-company"),
     path("login/", views.LoginView.as_view(), name="login"),
     path("start-pwa/", views.PWAView.as_view(), name="start-pwa"),
-    path("", views.HomeView.as_view(), name="homeBefore"),
+    path("", views.HomeView.as_view(), name="home"),
     path(
-        "about/",
-        TemplateView.as_view(template_name="pages/about.html"),
-        name="homeBefore",
+        "about/", TemplateView.as_view(template_name="pages/about.html"), name="about"
     ),
     path("signup/step1/", views.SignUpStep1.as_view(), name="signup-step-1"),
     path("signup/step2/", views.SignUpStep2.as_view(), name="signup-step-2"),

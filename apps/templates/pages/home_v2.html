@@ -75,7 +75,9 @@
             <div class="column is-one-quarter">
                 <div class="vector-hero vector-hero-left is-hidden-mobile">
                     <div class="vector-hero-left">
-                        <img src="{% static 'images/web_v2/icon_white.svg' %}" alt="holis icon white">
+                        <a href="/">
+                            <img src="{% static 'images/web_v2/icon_white.svg' %}" alt="holis icon white">
+                        </a>
                     </div>
                 </div>
             </div>
@@ -192,7 +194,7 @@
     <div class="holis-exposed">
         {% get_current_language as LANGUAGE_CODE %}
         {% if LANGUAGE_CODE == "es" %}
-            <img class="holis-exposed-notification is-hidden-mobile" src="{% static 'images/home/notification_english.svg'%}" alt="Holis">
+            <img class="holis-exposed-notification is-hidden-mobile" src="{% static 'images/home/notification.svg'%}" alt="Holis">
             <img class="holis-exposed-whos-talking is-hidden-mobile" src="{% static 'images/home/whos_talkin.svg'%}" alt="Holis">
             <img class="holis-exposed-chat is-hidden-mobile" src="{% static 'images/exposed_chat.png'%}" alt="Holis">
             <img class="holis-exposed-laptop is-hidden-mobile" src="{% static 'images/laptop.svg'%}" alt="Holis">
@@ -450,10 +452,26 @@
             <b>{% trans 'Your remote workplace' %}</b>
             <div class="control has-icons-left language">
               <div class="select is-normal">
-                <select>
-                    <option selected>{% trans 'English' %}</option>
-                    <option>{% trans 'Spanish' %}</option>
-                </select>
+                {% get_current_language as LANGUAGE_CODE %}
+                <form action="{% url 'set_language' %}" method="post" >
+                    {% csrf_token %}
+                    <select name="language" onchange="this.form.submit()">
+                        <option
+                            value="en"
+                            {% if LANGUAGE_CODE == "en" %}
+                                selected
+                            {% endif %}
+                        >
+                            {% trans 'English' %}
+                        </option>
+                        <option
+                            value="es"
+                            {% if LANGUAGE_CODE == "es" %}
+                                selected
+                            {% endif %}
+                        >{% trans 'Spanish' %}</option>
+                    </select>
+                </form>
               </div>
               <div class="icon is-small is-left">
                 <i class="fas fa-globe"></i>

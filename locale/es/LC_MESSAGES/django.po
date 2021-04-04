@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-12-23 02:12+0000\n"
+"POT-Creation-Date: 2021-04-04 14:13+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,9 +18,9 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: apps/chat/models.py:26 apps/chat/models.py:75 apps/chat/models.py:108
-#: apps/core/models.py:29 apps/core/models.py:61 apps/core/models.py:97
-#: apps/users/models.py:48 apps/users/models.py:141 apps/users/models.py:180
+#: apps/chat/models.py:26 apps/chat/models.py:75 apps/chat/models.py:105
+#: apps/core/models.py:30 apps/core/models.py:62 apps/core/models.py:97
+#: apps/users/models.py:48 apps/users/models.py:140 apps/users/models.py:178
 msgid "company"
 msgstr ""
 
@@ -76,80 +76,80 @@ msgstr ""
 msgid "is one to one"
 msgstr ""
 
-#: apps/chat/models.py:79
-msgid "channel"
+#: apps/chat/models.py:78
+msgid "room"
 msgstr ""
 
-#: apps/chat/models.py:85
+#: apps/chat/models.py:82
 msgid "User"
 msgstr ""
 
-#: apps/chat/models.py:89 apps/core/models.py:101 apps/core/models.py:116
+#: apps/chat/models.py:86 apps/core/models.py:101 apps/core/models.py:116
 msgid "text"
 msgstr ""
 
-#: apps/chat/models.py:112
+#: apps/chat/models.py:109
 msgid "message"
 msgstr ""
 
-#: apps/chat/models.py:116
+#: apps/chat/models.py:113
 msgid "attachment"
 msgstr ""
 
-#: apps/chat/models.py:117
+#: apps/chat/models.py:114
 msgid "Mimetype"
 msgstr ""
 
-#: apps/chat/models.py:124
+#: apps/chat/models.py:121
 msgid "message attachment"
 msgstr ""
 
-#: apps/chat/models.py:125
+#: apps/chat/models.py:122
 msgid "message attachments"
 msgstr ""
 
-#: apps/core/models.py:18 apps/users/models.py:148
+#: apps/core/channels/consumers/main.py:50
+msgid "Type is required"
+msgstr ""
+
+#: apps/core/channels/consumers/main.py:89
+msgid "type not handled by GridConsumer"
+msgstr ""
+
+#: apps/core/models.py:19 apps/users/models.py:147
 msgid "name"
 msgstr ""
 
-#: apps/core/models.py:19
+#: apps/core/models.py:20
 msgid "code"
 msgstr ""
 
-#: apps/core/models.py:20
+#: apps/core/models.py:21
 msgid "email"
 msgstr ""
 
-#: apps/core/models.py:22
+#: apps/core/models.py:23
 msgid "phone"
 msgstr ""
 
-#: apps/core/models.py:23
+#: apps/core/models.py:24
 msgid "logo"
 msgstr ""
 
-#: apps/core/models.py:30
+#: apps/core/models.py:31
 msgid "companies"
 msgstr ""
 
-#: apps/core/models.py:67
+#: apps/core/models.py:68
 msgid "Width"
 msgstr ""
 
-#: apps/core/models.py:68
+#: apps/core/models.py:69
 msgid "Height"
 msgstr ""
 
 #: apps/core/models.py:115
 msgid "Title"
-msgstr ""
-
-#: apps/core/ws/consumers/main.py:57
-msgid "Type is required"
-msgstr ""
-
-#: apps/core/ws/consumers/main.py:78
-msgid "type not handled by GridConsumer"
 msgstr ""
 
 #: apps/templates/account/account_inactive.html:5
@@ -345,7 +345,8 @@ msgstr ""
 msgid "Set Password"
 msgstr ""
 
-#: apps/templates/account/signup.html:6
+#: apps/templates/account/signup.html:6 apps/templates/pages/home_v2.html:126
+#: apps/templates/pages/home_v2.html:181
 msgid "Signup"
 msgstr ""
 
@@ -545,37 +546,31 @@ msgstr ""
 msgid "Finish"
 msgstr ""
 
-#: apps/templates/base.html:9
-msgid "The place where your team is"
+#: apps/templates/base.html:9 apps/templates/pages/home_v2.html:11
+msgid "Project Management & Remote toolkit for productive teams"
 msgstr ""
 
-#: apps/templates/base.html:77
+#: apps/templates/base.html:79
 msgid "SIGN-IN"
 msgstr ""
 
-#: apps/templates/base.html:80 apps/templates/pages/home.html:25
-msgid "TRY-FOR-FREE"
-msgstr "PROBAR GRATIS"
-
-#: apps/templates/base.html:102
+#: apps/templates/base.html:103
 msgid "Home"
 msgstr "Cómo funciona"
 
-#: apps/templates/base.html:103
+#: apps/templates/base.html:104
 msgid "Blog"
 msgstr ""
 
-#: apps/templates/base.html:109
-#, fuzzy
-#| msgid "Terms and Conditions"
+#: apps/templates/base.html:110 apps/templates/pages/home_v2.html:475
 msgid "Terms and Conditions"
 msgstr "Términos y condiciones"
 
-#: apps/templates/base.html:110
+#: apps/templates/base.html:111 apps/templates/pages/home_v2.html:476
 msgid "Privacy Policy"
 msgstr "Política de privacidad"
 
-#: apps/templates/base.html:114
+#: apps/templates/base.html:115
 msgid "All rights reserved"
 msgstr "Todos los derechos reservados"
 
@@ -584,15 +579,19 @@ msgstr "Todos los derechos reservados"
 msgid "The only communication tool your team will ever need"
 msgstr "La única herramienta de comunicación que tu equipo necesita"
 
-#: apps/templates/pages/home.html:14
+#: apps/templates/pages/home.html:6 apps/templates/pages/home.html:31
+msgid "TRY-FOR-FREE"
+msgstr "PROBAR GRATIS"
+
+#: apps/templates/pages/home.html:20
 msgid "CALL-TO-ACTION-HEADER"
 msgstr "Trabaja remotamente sin perder el espiritu de tu equipo"
 
-#: apps/templates/pages/home.html:57
+#: apps/templates/pages/home.html:63
 msgid "FEATURE-MAIN-TITLE"
 msgstr "Tu equipo al alcance de un click"
 
-#: apps/templates/pages/home.html:58
+#: apps/templates/pages/home.html:64
 msgid "FEATURE-MAIN-CONTENT"
 msgstr ""
 "Ni siquiera cuando se sentaban uno al lado del otro habían estado tan cerca. "
@@ -600,75 +599,278 @@ msgstr ""
 "voz con tus compañeros, resolver dudas de forma eficiente, chistes casuales "
 "y el ruido de fondo de los demás trabajando."
 
-#: apps/templates/pages/home.html:85
+#: apps/templates/pages/home.html:91
 msgid "Look how it works"
 msgstr "Mira cómo funciona"
 
-#: apps/templates/pages/home.html:100
+#: apps/templates/pages/home.html:106 apps/templates/pages/home_v2.html:291
 msgid "FEATURE-1-TITLE"
 msgstr "Voz en tiempo real"
 
-#: apps/templates/pages/home.html:101
+#: apps/templates/pages/home.html:107 apps/templates/pages/home_v2.html:292
 msgid "FEATURE-1-CONTENT"
 msgstr ""
 "Recupera las reuniones espontanteas que suceden en la oficina, pero ahora en "
 "forma remota."
 
-#: apps/templates/pages/home.html:105
+#: apps/templates/pages/home.html:111 apps/templates/pages/home_v2.html:296
 msgid "FEATURE-2-TITLE"
 msgstr "Chat de texto"
 
-#: apps/templates/pages/home.html:106
+#: apps/templates/pages/home.html:112 apps/templates/pages/home_v2.html:297
 msgid "FEATURE-2-CONTENT"
 msgstr ""
 "¿La persona con la que quieres comunicarte está ocupada? ¡Déjale un mensaje "
 "al chat!"
 
-#: apps/templates/pages/home.html:110
+#: apps/templates/pages/home.html:116 apps/templates/pages/home_v2.html:301
 msgid "FEATURE-5-TITLE"
 msgstr "Cartelera"
 
-#: apps/templates/pages/home.html:111
+#: apps/templates/pages/home.html:117 apps/templates/pages/home_v2.html:302
 msgid "FEATURE-5-CONTENT"
 msgstr "Centraliza facilmente la información importante para tu equipo."
 
-#: apps/templates/pages/home.html:115
+#: apps/templates/pages/home.html:121 apps/templates/pages/home_v2.html:306
 msgid "FEATURE-4-TITLE"
 msgstr "Sin distracciones"
 
-#: apps/templates/pages/home.html:116
+#: apps/templates/pages/home.html:122 apps/templates/pages/home_v2.html:307
 msgid "FEATURE-4-CONTENT"
 msgstr ""
 "Con el modo sin distracciones, apaga todas las notificaciones para enfocarte "
 "al 100% en tu trabajo."
 
-#: apps/templates/pages/home.html:120
+#: apps/templates/pages/home.html:126 apps/templates/pages/home_v2.html:311
 msgid "FEATURE-3-TITLE"
 msgstr "Analíticas"
 
-#: apps/templates/pages/home.html:121
+#: apps/templates/pages/home.html:127 apps/templates/pages/home_v2.html:312
 msgid "FEATURE-3-CONTENT"
 msgstr ""
 "Usando inteligencia artificial no invasiva, damos alertas de bajas de animo "
 "en el equipo y posible deserciones."
 
-#: apps/templates/pages/home.html:125
+#: apps/templates/pages/home.html:131 apps/templates/pages/home_v2.html:316
 msgid "FEATURE-6-TITLE"
 msgstr "Organiza tus archivos"
 
-#: apps/templates/pages/home.html:126
+#: apps/templates/pages/home.html:132 apps/templates/pages/home_v2.html:317
 msgid "FEATURE-6-CONTENT"
 msgstr ""
 "Comparte documentos, código fuente, archivos, imagenes y hojas de calculo. "
 "Organiza todo en carpetas para que sean faciles de encontrar."
 
-#: apps/templates/pages/home.html:139
+#: apps/templates/pages/home.html:145
 msgid "CALL-TO-ACTION-FOOTER"
 msgstr "¿Listo para ver lo que estamos construyendo?"
 
-#: apps/templates/pages/home.html:144
+#: apps/templates/pages/home.html:150
 msgid "START-NOW"
 msgstr "Empieza ahora mismo"
+
+#: apps/templates/pages/home_v2.html:105
+msgid "Get holis"
+msgstr "Obtén holis"
+
+#: apps/templates/pages/home_v2.html:108
+msgid "Why holis?"
+msgstr "¿ Porqué holis ?"
+
+#: apps/templates/pages/home_v2.html:111 apps/templates/pages/home_v2.html:468
+msgid "Features"
+msgstr "Funciones"
+
+#: apps/templates/pages/home_v2.html:114 apps/templates/pages/home_v2.html:469
+msgid "Pricing"
+msgstr "Precio"
+
+#: apps/templates/pages/home_v2.html:118 apps/templates/pages/home_v2.html:165
+#: apps/templates/pages/home_v2.html:502
+msgid "Workplace"
+msgstr ""
+
+#: apps/templates/pages/home_v2.html:122 apps/templates/pages/home_v2.html:172
+#: apps/templates/pages/home_v2.html:507
+msgid "Login"
+msgstr "Iniciar sesión"
+
+#: apps/templates/pages/home_v2.html:136
+msgid "The definitive toolkit for productive remote teams"
+msgstr "El kit definitivo de herramientas para equipos de trabajo remoto"
+
+#: apps/templates/pages/home_v2.html:140
+msgid ""
+"Holis gives you Project Management and Internal Comunnication in one single "
+"place"
+msgstr "Holis the ofrece gestion de projectos y comunicación interna en on solo lugar."
+
+#: apps/templates/pages/home_v2.html:147
+msgid "Your Workplace"
+msgstr "Tu lugar de trabajo"
+
+#: apps/templates/pages/home_v2.html:152
+msgid "Welcome to holis again!"
+msgstr "Bienvenido de nuevo"
+
+#: apps/templates/pages/home_v2.html:155
+msgid "Getting Started"
+msgstr "Comienza ahora"
+
+#: apps/templates/pages/home_v2.html:157
+msgid "No credit card required"
+msgstr "No se require TDC"
+
+#: apps/templates/pages/home_v2.html:260
+msgid "Founder of Holis"
+msgstr "Fundador de Holis"
+
+#: apps/templates/pages/home_v2.html:281
+msgid "What Holis offer?"
+msgstr "¿ Qué ofrece holis ?"
+
+#: apps/templates/pages/home_v2.html:329
+msgid ""
+"All the benefits of a real office, from anywhere in the world with a single "
+"price"
+msgstr "Todos los beneficios de una oficina real, desde cualquier lugar del mundo con un simple precio"
+
+#: apps/templates/pages/home_v2.html:333
+msgid "Started"
+msgstr ""
+
+#: apps/templates/pages/home_v2.html:336 apps/templates/pages/home_v2.html:372
+msgid "monthly"
+msgstr "mensual"
+
+#: apps/templates/pages/home_v2.html:337 apps/templates/pages/home_v2.html:373
+msgid "per month"
+msgstr "por mes"
+
+#: apps/templates/pages/home_v2.html:340 apps/templates/pages/home_v2.html:376
+#: apps/templates/pages/home_v2.html:412
+msgid "spots remaing"
+msgstr "cupos disponibles"
+
+#: apps/templates/pages/home_v2.html:349
+msgid "Up to 10 users"
+msgstr "Hasta 10 usuarios"
+
+#: apps/templates/pages/home_v2.html:350 apps/templates/pages/home_v2.html:386
+#: apps/templates/pages/home_v2.html:422
+msgid "Unlimited voice communication"
+msgstr "Comunicación por voz ilimitada"
+
+#: apps/templates/pages/home_v2.html:351 apps/templates/pages/home_v2.html:387
+#: apps/templates/pages/home_v2.html:423
+msgid "Unlimited messages"
+msgstr "Menssages ilimitados"
+
+#: apps/templates/pages/home_v2.html:352 apps/templates/pages/home_v2.html:388
+#: apps/templates/pages/home_v2.html:424
+msgid "Unlimited projects"
+msgstr "Projectos ilimitados"
+
+#: apps/templates/pages/home_v2.html:353
+msgid "50 GB of storage"
+msgstr "50 gb de almacenamiento"
+
+#: apps/templates/pages/home_v2.html:354 apps/templates/pages/home_v2.html:390
+#: apps/templates/pages/home_v2.html:426
+msgid "Email Support"
+msgstr "Soporte por e-mail"
+
+#: apps/templates/pages/home_v2.html:355 apps/templates/pages/home_v2.html:391
+#: apps/templates/pages/home_v2.html:427
+msgid "Live Chat Support"
+msgstr "Soporte en vivo"
+
+#: apps/templates/pages/home_v2.html:356 apps/templates/pages/home_v2.html:392
+#: apps/templates/pages/home_v2.html:428
+msgid "Money back guarantee"
+msgstr "Garantía de devolución"
+
+#: apps/templates/pages/home_v2.html:357 apps/templates/pages/home_v2.html:393
+#: apps/templates/pages/home_v2.html:429
+msgid "Cancel any time"
+msgstr "Cancela cuando quieras"
+
+#: apps/templates/pages/home_v2.html:360 apps/templates/pages/home_v2.html:396
+#: apps/templates/pages/home_v2.html:432
+msgid "Soon"
+msgstr "Pronto"
+
+#: apps/templates/pages/home_v2.html:364 apps/templates/pages/home_v2.html:400
+msgid "Start for free"
+msgstr "Comienza gratis"
+
+#: apps/templates/pages/home_v2.html:369
+msgid "PRO"
+msgstr ""
+
+#: apps/templates/pages/home_v2.html:385 apps/templates/pages/home_v2.html:421
+msgid "Unlimited Users"
+msgstr "Usuarios ilimitados"
+
+#: apps/templates/pages/home_v2.html:389 apps/templates/pages/home_v2.html:425
+msgid "200 GB of storage"
+msgstr "200 GB de almacenamiento"
+
+#: apps/templates/pages/home_v2.html:405
+msgid "Life Time Limited"
+msgstr "Oferta por Tiempo Limitado"
+
+#: apps/templates/pages/home_v2.html:408
+msgid "For life"
+msgstr "De por vida"
+
+#: apps/templates/pages/home_v2.html:409
+msgid "One Time Payment"
+msgstr "Un solo pago"
+
+#: apps/templates/pages/home_v2.html:436
+msgid "Get Holis For Live!"
+msgstr "Obtén Holis de por Vida!"
+
+#: apps/templates/pages/home_v2.html:442
+msgid "All our payments are being processed by "
+msgstr "Todos nuestros pagos son procesados por "
+
+#: apps/templates/pages/home_v2.html:450
+msgid "Your remote workplace"
+msgstr "Tu lugar de trabajo remoto"
+
+#: apps/templates/pages/home_v2.html:454 config/settings/base.py:31
+msgid "English"
+msgstr "Ingles"
+
+#: apps/templates/pages/home_v2.html:455 config/settings/base.py:31
+msgid "Spanish"
+msgstr "Español"
+
+#: apps/templates/pages/home_v2.html:464
+msgid "Product"
+msgstr "Producto"
+
+#: apps/templates/pages/home_v2.html:466
+msgid "Get holis?"
+msgstr "Obtén holis"
+
+#: apps/templates/pages/home_v2.html:467
+msgid "Why holis"
+msgstr "¿ Por que holis ?"
+
+#: apps/templates/pages/home_v2.html:480 apps/users/api/serializers.py:150
+msgid "Company"
+msgstr "Empresa"
+
+#: apps/templates/pages/home_v2.html:482
+msgid "About us"
+msgstr "Nosotros"
+
+#: apps/templates/pages/home_v2.html:483
+msgid "News"
+msgstr "Noticias"
 
 #: apps/templates/pages/soon.html:15
 msgid "Holis provides you with everything you need to start working remotely"
@@ -698,28 +900,24 @@ msgstr ""
 msgid "Teams from these companies trust in us"
 msgstr "Equipos de estas empresas confían en nosotros"
 
-#: apps/users/api/serializers.py:149 apps/web/models.py:16
-#: apps/web/models.py:28
+#: apps/users/api/serializers.py:143 apps/web/models.py:18
+#: apps/web/models.py:30
 msgid "Email"
 msgstr ""
 
-#: apps/users/api/serializers.py:151 apps/web/models.py:17
+#: apps/users/api/serializers.py:145 apps/web/models.py:19
 msgid "Password"
 msgstr ""
 
-#: apps/users/api/serializers.py:156
-msgid "Company"
-msgstr ""
-
-#: apps/users/api/serializers.py:157
+#: apps/users/api/serializers.py:151
 msgid "Token"
 msgstr ""
 
-#: apps/users/api/serializers.py:176
+#: apps/users/api/serializers.py:170
 msgid "Unable to log in with provided credentials."
 msgstr ""
 
-#: apps/users/api/serializers.py:179
+#: apps/users/api/serializers.py:173
 msgid "Must include 'email' and 'password'."
 msgstr ""
 
@@ -751,39 +949,39 @@ msgstr ""
 msgid "Last Seen"
 msgstr ""
 
-#: apps/users/models.py:146 apps/users/models.py:184
+#: apps/users/models.py:145 apps/users/models.py:182
 msgid "user"
 msgstr ""
 
-#: apps/users/models.py:149
+#: apps/users/models.py:148
 msgid "icon text"
 msgstr ""
 
-#: apps/users/models.py:150
+#: apps/users/models.py:149
 msgid "icon"
 msgstr ""
 
-#: apps/users/models.py:151
+#: apps/users/models.py:150
 msgid "Is active"
 msgstr ""
 
-#: apps/users/models.py:158
+#: apps/users/models.py:156
 msgid "status"
 msgstr ""
 
-#: apps/users/models.py:159
+#: apps/users/models.py:157
 msgid "statuses"
 msgstr ""
 
-#: apps/users/models.py:190
+#: apps/users/models.py:188
 msgid "unread"
 msgstr ""
 
-#: apps/users/models.py:197
+#: apps/users/models.py:195
 msgid "notification"
 msgstr ""
 
-#: apps/users/models.py:198
+#: apps/users/models.py:196
 msgid "notifications"
 msgstr ""
 
@@ -799,46 +997,35 @@ msgstr ""
 msgid "password and confirm_password does not match"
 msgstr ""
 
-#: apps/web/models.py:19
+#: apps/web/models.py:21
 msgid "Company name"
 msgstr ""
 
-#: apps/web/models.py:22
+#: apps/web/models.py:24
 msgid "Company code"
 msgstr ""
 
-#: apps/web/models.py:24
+#: apps/web/models.py:26
 msgid "User name"
 msgstr ""
 
-#: apps/web/models.py:25
+#: apps/web/models.py:27
 #, fuzzy
 #| msgid "position"
 msgid "Position"
 msgstr "Cargo"
 
-#: apps/web/models.py:26
+#: apps/web/models.py:28
 msgid "Avatar"
 msgstr ""
 
-#: apps/web/models.py:27
+#: apps/web/models.py:29
 msgid "secret"
 msgstr ""
 
-#: apps/web/views.py:83
+#: apps/web/views.py:93
 msgid "Invalid user or password"
 msgstr ""
-
-#: config/settings/base.py:31
-msgid "English"
-msgstr ""
-
-#: config/settings/base.py:31
-msgid "Spanish"
-msgstr ""
-
-#~ msgid "About"
-#~ msgstr "Nosotros"
 
 #~ msgid "Questions? Need help? Email us at"
 #~ msgstr "¿ Tienes dudas ? Escribenos a "
