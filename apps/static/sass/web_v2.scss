@@ -266,6 +266,11 @@ body {
 }
 
 @media screen and (max-width: 768px) {
+
+    .why-holis {
+        margin-top: 3.5%;
+    }
+
     .holis-carousel {
         display: none;
     }
@@ -346,6 +351,11 @@ body {
             }
         }
 
+    }
+
+    .holis-pricing-payment-advice {
+        margin-top: -2% !important;
+        font-size: 1rem;
     }
 
 
@@ -489,7 +499,7 @@ body {
                 li {
                     margin: 10px;
                     background: url('/static/images/web_v2/bullet.png') no-repeat left top;
-                    background-size: 34px;
+                    background-size: 24px;
                     margin-left: 28px;
                 }
             }

@@ -326,7 +326,7 @@
 </section>
 {% include "djpaddle_paddlejs.html" %}
 <section class="holis-pricing">
-    <div class="holis-pricing-title has-text-centered is-full is-holis-title">
+    <div class="holis-pricing-title has-text-centered is-full is-holis-title is-size-4-mobile">
         <a name="pricing"></a>
         {% trans 'All the benefits of a real office, from anywhere in the world with a single price' %}
     </div>
@@ -337,7 +337,7 @@
                 <span class="price-dollars"> <span class="is-size-3">$</span> {{ PLANS.0.price }} </span>
                 <span class="price-frecuency-2">{% trans 'per month' %}</span>
             </div>
-            <div class="holis-pricing-box-progress is-invisible">
+            <div class="holis-pricing-box-progress is-invisible is-hidden-mobile">
                 <span class="holis-pricing-box-progress-text">100 {% trans 'spots remaing' %}</span>
                 <div class="holis-pricing-box-progress-bar">
                     <div
@@ -372,7 +372,7 @@
                 <span class="price-dollars"> <span class="is-size-3">$</span> {{ PLANS.1.price }} </span>
                 <span class="price-frecuency-2">{% trans 'per month' %}</span>
             </div>
-            <div class="holis-pricing-box-progress is-invisible">
+            <div class="holis-pricing-box-progress is-invisible is-hidden-mobile">
                 <span class="holis-pricing-box-progress-text">100 {% trans 'spots remaing' %}</span>
                 <div class="holis-pricing-box-progress-bar">
                     <div
@@ -437,7 +437,7 @@
             {% endif %}
         </div>
     </div>
-    <div class="holis-pricing-payment-advice has-text-centered">
+    <div class="holis-pricing-payment-advice has-text-centered is-size-6-mobile">
         {% trans 'All our payments are being processed by ' %} <b>Paddle.com</b>
     </div>
 </section>

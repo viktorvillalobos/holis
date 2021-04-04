@@ -9028,6 +9028,8 @@ body {
     margin-bottom: 4%; }
 
 @media screen and (max-width: 768px) {
+  .why-holis {
+    margin-top: 3.5%; }
   .holis-carousel {
     display: none; }
   .navbar-burger span {
@@ -9076,6 +9078,9 @@ body {
     margin-bottom: 4%; }
     .holis-pricing-box-limited {
       top: -19px !important; }
+  .holis-pricing-payment-advice {
+    margin-top: -2% !important;
+    font-size: 1rem; }
   footer {
     margin-top: 33% !important;
     font-size: 1.5rem; }
@@ -9200,7 +9205,7 @@ body {
     .holis-pricing-box-features li {
       margin: 10px;
       background: url("/static/images/web_v2/bullet.png") no-repeat left top;
-      background-size: 34px;
+      background-size: 24px;
       margin-left: 28px; }
     .holis-pricing-box .try-button {
       margin-top: 10%;
