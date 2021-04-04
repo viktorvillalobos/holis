@@ -32,7 +32,7 @@ services:
         max_attempts: 3
         window: 120s
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://django:5000/ || exit 1"]
+      test: ["CMD", "curl", "-f", "http://localhost:5000/ || exit 1"]
 
   postgres:
     build:
