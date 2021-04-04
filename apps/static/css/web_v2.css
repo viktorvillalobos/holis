@@ -9157,7 +9157,7 @@ body {
       color: white;
       position: relative;
       top: -28px;
-      width: 200px;
+      width: 220px;
       -ms-flex-item-align: center;
           align-self: center;
       border-radius: 10px; }
@@ -9208,8 +9208,6 @@ body {
         font-size: 0.8rem; }
     .holis-pricing-box-features li {
       margin: 10px;
-      background: url("/static/images/web_v2/bullet.png") no-repeat left top;
-      background-size: 24px;
       margin-left: 28px; }
     .holis-pricing-box .try-button {
       margin-top: 10%;

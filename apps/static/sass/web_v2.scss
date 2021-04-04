@@ -17,7 +17,6 @@
 
 // bootstrap alert CSS, translated to the django-standard levels of
 // debug, info, success, warning, error
-//
 
 html {
     scroll-behavior: smooth;
@@ -73,8 +72,6 @@ h3 {
 @import "./soon_release";
 
 // HEADER
-//
-//
 
 .has-holis-gradient {
     background: #44009B;
@@ -437,7 +434,7 @@ body {
                 color: white;
                 position: relative;
                 top: -28px;
-                width: 200px;
+                width: 220px;
                 align-self: center;
                 border-radius: 10px;
             }
@@ -506,8 +503,6 @@ body {
             &-features {
                 li {
                     margin: 10px;
-                    background: url('/static/images/web_v2/bullet.png') no-repeat left top;
-                    background-size: 24px;
                     margin-left: 28px;
                 }
             }
