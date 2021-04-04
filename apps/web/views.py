@@ -158,7 +158,7 @@ class HomeView(RedirectToAppMixin, TemplateView):
         context = super().get_context_data(**kwargs)
 
         total_current_full_plan_subscriptions = (
-            billing_services.get_total_current_full_plan_subscriptions()  # + 14
+            billing_services.get_total_current_full_plan_subscriptions() + 6
         )
         pending_full_subcscriptions = 100 - total_current_full_plan_subscriptions
 

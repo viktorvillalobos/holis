@@ -166,14 +166,14 @@
                         <a class="button is-primary is-inverted go-to-workplace is-hidden-mobile">
                             <span>{% trans 'Workplace' %}</span>
                             <span class="icon">
-                                <i class="fas fa-arrow-right"></i>
+                                👋
                             </span>
                         </a>
                     {% else %}
                         <a href="{% url "web:login" %}" class="button is-primary is-inverted go-to-workplace is-hidden-mobile">
                             <span>{% trans 'Login' %}</span>
                             <span class="icon">
-                                <i class="fas fa-arrow-right"></i>
+                                👋
                             </span>
                         </a>
                         {% if 1 == 2 %}
@@ -334,8 +334,7 @@
         <div class="holis-pricing-box column is-one-third has-text-centered">
             <span class="holis-pricing-box-limited">{% trans 'Started' %} 🥉</span>
             <div class="holis-pricing-box-price">
-                <span class="price-dollars"> ${{ PLANS.0.price }} </span>
-                <span class="price-frecuency is-invisible">{% trans 'monthly' %}</span>
+                <span class="price-dollars"> <span class="is-size-3">$</span> {{ PLANS.0.price }} </span>
                 <span class="price-frecuency-2">{% trans 'per month' %}</span>
             </div>
             <div class="holis-pricing-box-progress is-invisible">
@@ -359,19 +358,18 @@
                 <li class="holis-pricing-box-features">🥺 {% trans 'Cancel any time' %}</li>
             </ul>
             <a href="{% url 'web:soon' %}" class="button try-button " data-product="{{PLANS.2.id}}" data-theme="none">
-                {% trans 'Start for free' %}
+                {% trans 'Start for free' %} 🚀
             </a>
             {% if 1 == 2%}
             <a href="{% url "web:signup-step-1" %}" class="button try-button ">
-                {% trans 'Start for free' %}
+                {% trans 'Start for free' %} 🚀
             </a>
             {% endif %}
         </div>
         <div class="holis-pricing-box column is-one-third has-text-centered">
             <span class="holis-pricing-box-limited">{% trans 'PRO' %} 🥈</span>
             <div class="holis-pricing-box-price">
-                <span class="price-dollars"> ${{ PLANS.1.price }} </span>
-                <span class="price-frecuency is-invisible">{% trans 'monthly' %}</span>
+                <span class="price-dollars"> <span class="is-size-3">$</span> {{ PLANS.1.price }} </span>
                 <span class="price-frecuency-2">{% trans 'per month' %}</span>
             </div>
             <div class="holis-pricing-box-progress is-invisible">
@@ -395,23 +393,22 @@
                 <li class="holis-pricing-box-features">🥺 {% trans 'Cancel any time' %}</li>
             </ul>
             <a href="{% url 'web:soon' %}" class="button try-button " data-product="{{PLANS.2.id}}" data-theme="none">
-                {% trans 'Start for free' %}
+                {% trans 'Start for free' %} 🚀
             </a>
             {% if 1 == 2%}
             <a href="{% url "web:signup-step-1" %}" class="button try-button ">
-                {% trans 'Start for free' %}
+                {% trans 'Start for free' %} 🚀
             </a>
             {% endif %}
         </div>
         <div class="holis-pricing-box column is-one-third has-text-centered">
             <span class="holis-pricing-box-limited">{% trans 'Life Time Limited' %} 🏆</span>
             <div class="holis-pricing-box-price">
-                <span class="price-dollars"> ${{ PLANS.2.price }} </span>
-                <span class="price-frecuency">{% trans 'For life' %}</span>
+                <span class="price-dollars"> <span class="is-size-3">$</span> {{ PLANS.2.price }} </span>
                 <span class="price-frecuency-2">{% trans 'One Time Payment' %}</span>
             </div>
             <div class="holis-pricing-box-progress">
-                <span class="holis-pricing-box-progress-text">{{ PENDING_FULL_SUBSCRIPTIONS }} {% trans 'spots remaing' %}</span>
+                <span class="holis-pricing-box-progress-text">{% trans "only " %} {{ PENDING_FULL_SUBSCRIPTIONS }} {% trans 'spots remaing' %} 😱</span>
                 <div class="holis-pricing-box-progress-bar">
                     <div
                         style="width: {{ TOTAL_FULL_SUBSCRIPTIONS }}%;"
@@ -431,11 +428,11 @@
                 <li class="holis-pricing-box-features">🥺 {% trans 'Cancel any time' %}</li>
             </ul>
             <a href="{% url 'web:soon' %}" class="button try-button " data-product="{{PLANS.2.id}}" data-theme="none">
-                {% trans 'Start for free' %}
+                {% trans 'Start for free' %} 🚀
             </a>
             {% if 1 == 2 %}
             <a href="#!" class="paddle_button button try-button " data-product="{{PLANS.2.id}}" data-theme="none">
-                {% trans 'Get Holis For Live!' %}
+                {% trans 'Get Holis For Live!' %} 🚀
             </a>
             {% endif %}
         </div>
@@ -512,19 +509,21 @@
       <hr width="100%" color="grey">
       <div class="columns holis-footer-call-to-action">
           <div class="column is-2-desktop holis-icon-footer-wrapper">
-                <img class="holis-icon-footer" src="{% static 'images/web_v2/icon_white.svg' %}" alt="holis icon white">
+              <a href="/">
+                  <img class="holis-icon-footer" src="{% static 'images/web_v2/icon_white.svg' %}" alt="holis icon white">
+              </a>
           </div>
           <div class="column is-10-desktop has-text-right-desktop has-text-centered-mobile">
                 <a class="button is-primary is-inverted">
                     {% if user.is_authenticated %}
                         <span>{% trans 'Workplace' %}</span>
                         <span class="icon">
-                            <i class="fas fa-arrow-right"></i>
+                            👋
                         </span>
                     {% else %}
                         <span>{% trans 'Login' %}</span>
                         <span class="icon">
-                            <i class="fas fa-arrow-right"></i>
+                            👋
                         </span>
                     {% endif %}
                 </a>
