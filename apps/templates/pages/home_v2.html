@@ -69,7 +69,7 @@
 </head>
 
 
-<section class="hero is-fullheight">
+<section class="hero is-fullheight-desktop">
     <div class="hero-head">
         <div class="columns">
             <div class="column is-one-quarter">
@@ -145,18 +145,18 @@
                 </div>
                 <div class="hero-call-to-action has-text-centered">
                     {% if user.is_authenticated %}
-                    <a href="{% url "webapp" %}"class="button try-button">
+                    <a href="{% url "webapp" %}"class="button try-button is-size-4-mobile">
                         <span>{% trans 'Your Workplace' %}</span>
                         <span class="icon">
                             👋
                         </span>
                     </a>
-                    <span> {% trans 'Welcome to holis again!' %} 👋 </span>
+                    <span class="is-size-6-mobile"> {% trans 'Welcome to holis again!' %} 👋 </span>
                     {% else %}
-                        <button class="button try-button">
+                        <button class="button try-button is-size-4-mobile">
                             {% trans 'Getting Started' %} 🚀
                         </button>
-                        <span> {% trans 'No credit card required' %} </span>
+                        <span class="is-size-6-mobile"> {% trans 'No credit card required' %} </span>
                     {% endif %}
                 </div>
             </div>
@@ -332,7 +332,7 @@
     </div>
     <div class="holis-pricing-wrapper columns">
         <div class="holis-pricing-box column is-one-third has-text-centered">
-            <span class="holis-pricing-box-limited">{% trans 'Started' %} 🥉</span>
+            <span class="holis-pricing-box-limited is-size-5-mobile">{% trans 'Started' %} 🥉</span>
             <div class="holis-pricing-box-price">
                 <span class="price-dollars"> <span class="is-size-3">$</span> {{ PLANS.0.price }} </span>
                 <span class="price-frecuency-2">{% trans 'per month' %}</span>
@@ -346,7 +346,7 @@
                     </div>
                 </div>
             </div>
-            <ul class="holis-pricing-box-features">
+            <ul class="holis-pricing-box-features is-size-5-mobile">
                 <li class="holis-pricing-box-features">👦🏻 {% trans 'Up to 10 users'  %}</li>
                 <li class="holis-pricing-box-features">🗣  {% trans 'Unlimited voice chat' %}</li>
                 <li class="holis-pricing-box-features">💬 {% trans 'Unlimited messages' %}</li>
@@ -357,17 +357,17 @@
                 <li class="holis-pricing-box-features">💵 {% trans 'Money back guarantee' %}</li>
                 <li class="holis-pricing-box-features">🥺 {% trans 'Cancel any time' %}</li>
             </ul>
-            <a href="{% url 'web:soon' %}" class="button try-button " data-product="{{PLANS.2.id}}" data-theme="none">
+            <a href="{% url 'web:soon' %}" class="button try-button is-size-4-mobile" data-product="{{PLANS.2.id}}" data-theme="none">
                 {% trans 'Start for free' %} 🚀
             </a>
             {% if 1 == 2%}
-            <a href="{% url "web:signup-step-1" %}" class="button try-button ">
+            <a href="{% url "web:signup-step-1" %}" class="button try-button is-size-4-mobile">
                 {% trans 'Start for free' %} 🚀
             </a>
             {% endif %}
         </div>
         <div class="holis-pricing-box column is-one-third has-text-centered">
-            <span class="holis-pricing-box-limited">{% trans 'PRO' %} 🥈</span>
+            <span class="holis-pricing-box-limited is-size-5-mobile">{% trans 'PRO' %} 🥈</span>
             <div class="holis-pricing-box-price">
                 <span class="price-dollars"> <span class="is-size-3">$</span> {{ PLANS.1.price }} </span>
                 <span class="price-frecuency-2">{% trans 'per month' %}</span>
@@ -381,7 +381,7 @@
                     </div>
                 </div>
             </div>
-            <ul class="holis-pricing-box-features">
+            <ul class="holis-pricing-box-features is-size-5-mobile">
                 <li class="holis-pricing-box-features">👩🏿‍🦱{% trans 'Unlimited Users'  %}</li>
                 <li class="holis-pricing-box-features">🗣 {% trans 'Unlimitedvoice chat' %}</li>
                 <li class="holis-pricing-box-features">💬 {% trans 'Unlimited messages' %}</li>
@@ -392,17 +392,17 @@
                 <li class="holis-pricing-box-features">💵 {% trans 'Money back guarantee' %}</li>
                 <li class="holis-pricing-box-features">🥺 {% trans 'Cancel any time' %}</li>
             </ul>
-            <a href="{% url 'web:soon' %}" class="button try-button " data-product="{{PLANS.2.id}}" data-theme="none">
+            <a href="{% url 'web:soon' %}" class="button try-button is-size-4-mobile" data-product="{{PLANS.2.id}}" data-theme="none">
                 {% trans 'Start for free' %} 🚀
             </a>
             {% if 1 == 2%}
-            <a href="{% url "web:signup-step-1" %}" class="button try-button ">
+            <a href="{% url "web:signup-step-1" %}" class="button try-button is-size-4-mobile">
                 {% trans 'Start for free' %} 🚀
             </a>
             {% endif %}
         </div>
         <div class="holis-pricing-box column is-one-third has-text-centered">
-            <span class="holis-pricing-box-limited">{% trans 'Life Time Limited' %} 🏆</span>
+            <span class="holis-pricing-box-limited is-size-5-mobile">{% trans 'Life Time Limited' %} 🏆</span>
             <div class="holis-pricing-box-price">
                 <span class="price-dollars"> <span class="is-size-3">$</span> {{ PLANS.2.price }} </span>
                 <span class="price-frecuency-2">{% trans 'One Time Payment' %}</span>
@@ -416,7 +416,7 @@
                     </div>
                 </div>
             </div>
-            <ul class="holis-pricing-box-features">
+            <ul class="holis-pricing-box-features is-size-5-mobile">
                 <li class="holis-pricing-box-features">🦹🏽‍♀️ {% trans 'Unlimited Users'  %}</li>
                 <li class="holis-pricing-box-features">🗣 {% trans 'Unlimited voice chat' %}</li>
                 <li class="holis-pricing-box-features">💬 {% trans 'Unlimited messages' %}</li>
@@ -427,11 +427,11 @@
                 <li class="holis-pricing-box-features">💵 {% trans 'Money back guarantee' %}</li>
                 <li class="holis-pricing-box-features">🥺 {% trans 'Cancel any time' %}</li>
             </ul>
-            <a href="{% url 'web:soon' %}" class="button try-button " data-product="{{PLANS.2.id}}" data-theme="none">
+            <a href="{% url 'web:soon' %}" class="button try-button is-size-4-mobile" data-product="{{PLANS.2.id}}" data-theme="none">
                 {% trans 'Start for free' %} 🚀
             </a>
             {% if 1 == 2 %}
-            <a href="#!" class="paddle_button button try-button " data-product="{{PLANS.2.id}}" data-theme="none">
+            <a href="#!" class="paddle_button button try-button is-size-4-mobile" data-product="{{PLANS.2.id}}" data-theme="none">
                 {% trans 'Get Holis For Live!' %} 🚀
             </a>
             {% endif %}

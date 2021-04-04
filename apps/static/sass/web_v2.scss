@@ -300,7 +300,6 @@ body {
 
     .hero {
         background-size: 240%;
-        
     }
 
     .title {
@@ -322,6 +321,10 @@ body {
     .hero-call-to-action {
         color: white;
         margin-top: -8%;
+
+        .try-button {
+            width: 230px;
+        }
     }
 
 
@@ -349,6 +352,11 @@ body {
             &-limited {
                 top: -19px !important;
             }
+        }
+
+
+        .try-button {
+            width: 230px;
         }
 
     }
@@ -447,7 +455,7 @@ body {
                     align-self: flex-end;
                     position: relative;
                     top: -4px;
-                    left: 88px;
+                    left: 66px;
                     font-style: normal;
                     font-weight: normal;
                     font-size: 14px;

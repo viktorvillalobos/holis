@@ -9064,6 +9064,8 @@ body {
   .hero-call-to-action {
     color: white;
     margin-top: -8%; }
+    .hero-call-to-action .try-button {
+      width: 230px; }
   .holis-features {
     background-image: None; }
     .holis-features .box {
@@ -9078,6 +9080,8 @@ body {
     margin-bottom: 4%; }
     .holis-pricing-box-limited {
       top: -19px !important; }
+  .holis-pricing .try-button {
+    width: 230px; }
   .holis-pricing-payment-advice {
     margin-top: -2% !important;
     font-size: 1rem; }
@@ -9169,7 +9173,7 @@ body {
             align-self: flex-end;
         position: relative;
         top: -4px;
-        left: 88px;
+        left: 66px;
         font-style: normal;
         font-weight: normal;
         font-size: 14px;
