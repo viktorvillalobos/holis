@@ -8936,7 +8936,7 @@ body {
       -ms-flex-align: center;
           align-items: center; }
   .hero-call-to-action span {
-    margin-top: 1.2%;
+    margin-top: 0%;
     font-size: 9.6px;
     font-size: 0.8rem; }
 
@@ -8944,7 +8944,7 @@ body {
   width: 200px;
   color: white;
   background: #5d6de8;
-  margin-bottom: 5%; }
+  margin-bottom: 2%; }
 
 .vector-hero {
   display: -webkit-box;
