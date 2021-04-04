@@ -11,7 +11,7 @@ services:
     build:
       context: .
       dockerfile: ./compose/production/django/Dockerfile
-    image: holis_production_django
+      image: gcr.io/espazum/holis-full:latest
     depends_on:
       - postgres
       - redis
