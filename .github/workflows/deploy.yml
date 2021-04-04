@@ -8,13 +8,23 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Pull, Build and Deploy
+      - name: Pull image and Deploy
         uses: fifsky/ssh-action@master
         with:
           command: |
             cd ${{ secrets.DEPLOY_TARGET }}
-            sudo git pull 
-            sudo docker-compose -f production.yml up -d --build
+            sudo git pull
+            gcloud builds submit
+          host: ${{ secrets.DEPLOY_HOST }}
+          user: viktor
+          key: ${{ secrets.DEPLOY_KEY }}
+      - name: Pull image and Deploy
+        uses: fifsky/ssh-action@master
+        with:
+          command: |
+            cd ${{ secrets.DEPLOY_TARGET }} 
+            sudo docker pull gcr.io/espazum/holis-full:latest
+            sudo docker-compose -f production.yml up -d
           host: ${{ secrets.DEPLOY_HOST }}
           user: viktor
           key: ${{ secrets.DEPLOY_KEY }}
