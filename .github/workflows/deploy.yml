@@ -13,6 +13,7 @@ jobs:
         with:
           command: |
             cd ${{ secrets.DEPLOY_TARGET }}
+            sudo git pull
             gcloud builds submit
           host: ${{ secrets.DEPLOY_HOST }}
           user: viktor
@@ -21,8 +22,7 @@ jobs:
         uses: fifsky/ssh-action@master
         with:
           command: |
-            cd ${{ secrets.DEPLOY_TARGET }}
-            sudo git pull 
+            cd ${{ secrets.DEPLOY_TARGET }} 
             sudo docker pull gcr.io/espazum/holis-full:latest
             sudo docker-compose -f production.yml up -d
           host: ${{ secrets.DEPLOY_HOST }}
