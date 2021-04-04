@@ -32,7 +32,7 @@ services:
         max_attempts: 3
         window: 120s
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:5000/ || exit 1"]
+      test: ["CMD", "python", "manage.py", "check"]
 
   postgres:
     build:
@@ -74,13 +74,19 @@ services:
     <<: *django
     image: holis_production_celeryworker
     command: /start-celeryworker
+    healthcheck:
+      test: ["CMD", "python", "manage.py", "check"]
 
   celerybeat:
     <<: *django
     image: holis_production_celerybeat
     command: /start-celerybeat
+    healthcheck:
+      test: ["CMD", "python", "manage.py", "check"]
 
   flower:
     <<: *django
     image: holis_production_flower
     command: /start-flower
+    healthcheck:
+      test: ["CMD", "python", "manage.py", "check"]
