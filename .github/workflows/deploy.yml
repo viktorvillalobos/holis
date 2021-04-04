@@ -18,13 +18,13 @@ jobs:
           host: ${{ secrets.DEPLOY_HOST }}
           user: viktor
           key: ${{ secrets.DEPLOY_KEY }}
-      - name: Pull image and Deploy
+      - name: Pull image and Docker service update --force
         uses: fifsky/ssh-action@master
         with:
           command: |
             cd ${{ secrets.DEPLOY_TARGET }} 
             sudo docker pull gcr.io/espazum/holis-full:latest
-            sudo docker-compose -f production.yml up -d
+            sudo docker service update --force core_django
           host: ${{ secrets.DEPLOY_HOST }}
           user: viktor
           key: ${{ secrets.DEPLOY_KEY }}
