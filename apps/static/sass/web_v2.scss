@@ -45,8 +45,6 @@ html {
 body {
     font-size: 1rem;
     font-family: "Ubuntu", sans-serif;
-    color: $dark-gray;
-    background: $background;
 }
 
 .button {
@@ -94,7 +92,7 @@ h3 {
     background-position: left top;
 }
 
-body {
+.holis-body-background{
     background-image: url("/static/images/web_v2/vector_right.png");
     background-repeat: no-repeat;
     background-attachment: fixed;

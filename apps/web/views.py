@@ -15,8 +15,10 @@ from djpaddle.models import Plan
 from config.settings.base import DJPADDLE_VENDOR_ID
 
 from apps.billings import services as billing_services
-from apps.web import forms
-from apps.web.models import Lead
+
+from . import forms
+from .models import Lead
+from .providers import page as page_providers
 
 # Create your views here.
 
@@ -167,4 +169,15 @@ class HomeView(RedirectToAppMixin, TemplateView):
             "DJPADDLE_VENDOR_ID": settings.DJPADDLE_VENDOR_ID,
             "TOTAL_FULL_SUBSCRIPTIONS": total_current_full_plan_subscriptions,
             "PENDING_FULL_SUBSCRIPTIONS": pending_full_subcscriptions,
+        }
+
+
+class PageSingleView(TemplateView):
+    template_name = "pages/page_single.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        return context | {
+            "PAGE": page_providers.get_page_by_slug(slug=self.kwargs["slug"])
         }

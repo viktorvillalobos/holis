@@ -20,4 +20,5 @@ urlpatterns = [
     path("signup/step4/<uuid:pk>/", views.SignUpStep4.as_view(), name="signup-step-4"),
     path("signup/step5/<uuid:pk>/", views.SignUpStep5.as_view(), name="signup-step-5"),
     path("logout", views.logout_view, name="logout"),
+    path("<str:slug>/", views.PageSingleView.as_view(), name="page-single"),
 ]
