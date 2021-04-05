@@ -2,7 +2,7 @@ from typing import Any, Dict
 
 from django.conf import settings
 from django.contrib.auth import authenticate, login, logout
-from django.http import HttpResponseRedirect
+from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import redirect
 from django.urls import reverse, reverse_lazy
 from django.utils.translation import gettext_lazy as _
@@ -17,7 +17,7 @@ from config.settings.base import DJPADDLE_VENDOR_ID
 from apps.billings import services as billing_services
 
 from . import forms
-from .models import Lead
+from .models import Lead, Page
 from .providers import page as page_providers
 
 # Create your views here.
@@ -178,6 +178,9 @@ class PageSingleView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        return context | {
-            "PAGE": page_providers.get_page_by_slug(slug=self.kwargs["slug"])
-        }
+        try:
+            page = page_providers.get_page_by_slug(slug=self.kwargs["slug"])
+        except Page.DoesNotExist:
+            raise Http404()
+
+        return context | {"PAGE": page}
