@@ -1,569 +1,418 @@
+{% extends "base_v2.html" %}
 {% load static i18n compress%}
 
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>
-        {% block title %}
-        Holis - {% trans 'Project Management & Remote toolkit for productive teams' %}
-        {% endblock title %}
-    </title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
-    <!--[if lt IE 9]>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
-    <![endif]-->
-
-    <link rel="apple-touch-icon" sizes="57x57" href="{% static 'images/favicons/apple-icon-57x57.png' %}">
-    <link rel="apple-touch-icon" sizes="60x60" href="{% static 'images/favicons/apple-icon-60x60.png' %}">
-    <link rel="apple-touch-icon" sizes="72x72" href="{% static 'images/favicons/apple-icon-72x72.png' %}">
-    <link rel="apple-touch-icon" sizes="76x76" href="{% static 'images/favicons/apple-icon-76x76.png' %}">
-    <link rel="apple-touch-icon" sizes="114x114" href="{% static 'images/favicons/apple-icon-114x114.png' %}">
-    <link rel="apple-touch-icon" sizes="120x120" href="{% static 'images/favicons/apple-icon-120x120.png' %}">
-    <link rel="apple-touch-icon" sizes="144x144" href="{% static 'images/favicons/apple-icon-144x144.png' %}">
-    <link rel="apple-touch-icon" sizes="152x152" href="{% static 'images/favicons/apple-icon-152x152.png' %}">
-    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'images/favicons/apple-icon-180x180.png' %}">
-    <link rel="icon" type="image/png" sizes="192x192" href="{% static 'images/favicons/android-icon-192x192.png' %}">
-    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'images/favicons/favicon-32x32.png' %}">
-    <link rel="icon" type="image/png" sizes="96x96" href="{% static 'images/favicons/favicon-96x96.png' %}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'images/favicons/favicon-16x16.png' %}">
-    <!-- <link rel="manifest" href="{% static 'images/favicons/manifest.json' %}"> -->
-
-    <meta name="msapplication-TileColor" content="#ffffff">
-    <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
-    <meta name="theme-color" content="#ffffff">
-
-    <meta property="og:url" content="https://holis.chat/" />
-    <meta property="og:type" content="website" />
-    <meta property="og:title" content="Holis.chat" />
-    <meta property="og:description" content="The only communication tool your team will ever need" />
-    <meta property="og:image" content="https://holis.chat/static/images/socials/facebook-share.png" />
-
-    {% block css %}
-
-    <link href=" https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <!-- Your stuff: Third-party CSS libraries go here -->
-    <link rel=" stylesheet" href="{% static 'css/web_v2.css' %}">
-    {% compress css %}
-    <!-- This file stores project-specific CSS -->
-    {% endcompress %}
-    {% endblock %}
-    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
-    <!-- Google Tag Manager -->
-    <script>(function (w, d, s, l, i) {
-            w[l] = w[l] || []; w[l].push({
-                'gtm.start':
-                    new Date().getTime(), event: 'gtm.js'
-            }); var f = d.getElementsByTagName(s)[0],
-                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
-                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
-        })(window, document, 'script', 'dataLayer', 'GTM-5K25TK2');</script>
-    <!-- End Google Tag Manager -->
-    </script>
-</head>
-
-
-<section class="hero is-fullheight-desktop">
-    <div class="hero-head">
-        <div class="columns">
-            <div class="column is-one-quarter">
-                <div class="vector-hero vector-hero-left is-hidden-mobile">
-                    <div class="vector-hero-left">
-                        <a href="/">
+{% block content %}
+<body class="holis-body-background">
+    <section class="hero is-fullheight-desktop">
+        <div class="hero-head">
+            <div class="columns">
+                <div class="column is-one-quarter">
+                    <div class="vector-hero vector-hero-left is-hidden-mobile">
+                        <div class="vector-hero-left">
+                            <a href="/">
+                                <img src="{% static 'images/web_v2/icon_white.svg' %}" alt="holis icon white">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="column is-half has-text-centered">
+                        <div class="container">
+                    <nav class="holis-navbar navbar" role="navigation">
+                      <div class="navbar-brand">
+                        <a class="navbar-item is-hidden-desktop" href="/">
                             <img src="{% static 'images/web_v2/icon_white.svg' %}" alt="holis icon white">
                         </a>
+
+                        <a role="button"
+                            class="navbar-burger"
+                            aria-label="menu"
+                            aria-expanded="false"
+                            data-target="navbarMenuHeroA"
+                            onclick="document.querySelector('.navbar-menu').classList.toggle('is-active');"
+                            >
+                          <span aria-hidden="true"></span>
+                          <span aria-hidden="true"></span>
+                          <span aria-hidden="true"></span>
+                        </a>
+                      </div>
+                            <div id="navbarMenuHeroA" class="navbar-menu">
+                                <div class="navbar-start">
+                                    <a href="#" class="navbar-item is-active ">
+                                        {% trans 'Get holis' %}
+                                    </a>
+                                    <a href="#why-holis" class="navbar-item is-active ">
+                                        {% trans 'Why holis?' %}
+                                    </a>
+                                    <a href="#features" class="navbar-item ">
+                                        {% trans 'Features' %}
+                                    </a>
+                                    <a href="#pricing" class="navbar-item ">
+                                        {% trans 'Pricing' %}
+                                    </a>
+                                    {% if user.is_authenticated %}
+                                    <a class="navbar-item is-hidden-desktop">
+                                        {% trans 'Workplace' %}
+                                    </a>
+                                    {% else %}
+                                    <a href="{% url 'web:login' %}" class="navbar-item is-hidden-desktop">
+                                        {% trans 'Login' %}
+                                    </a>
+                                        {% if 1 == 2 %}
+                                        <a href="{% url 'web:signup-step-1' %}" class="navbar-item is-hidden-desktop">
+                                            {% trans 'Signup' %}
+                                        </a>
+                                        {% endif %}
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </nav>
+                    <div class="hero-title is-full">
+                        <div class="title">
+                            <h1>{% trans 'The definitive toolkit for productive remote teams' %}</h1>
+                        </div>
+                        <div class="subtitle">
+                            <h5>
+                                {% trans 'Holis gives you Project Management and Internal Comunnication in one single place' %}
+                            </h5>
+                        </div>
+                    </div>
+                    <div class="hero-call-to-action has-text-centered">
+                        {% if user.is_authenticated %}
+                        <a href="{% url "webapp" %}"class="button try-button is-size-4-mobile">
+                            <span>{% trans 'Your Workplace' %}</span>
+                            <span class="icon">
+                                👋
+                            </span>
+                        </a>
+                        <span class="is-size-6-mobile"> {% trans 'Welcome to holis again!' %} 👋 </span>
+                        {% else %}
+                            <button class="button try-button is-size-4-mobile">
+                                {% trans 'Getting Started' %} 🚀
+                            </button>
+                            <span class="is-size-6-mobile"> {% trans 'No credit card required' %} </span>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="column is-one-quarter">
+                    <div class="vector-hero">
+                        {% if user.is_authenticated %}
+                            <a class="button is-primary is-inverted go-to-workplace is-hidden-mobile">
+                                <span>{% trans 'Workplace' %}</span>
+                                <span class="icon">
+                                    👋
+                                </span>
+                            </a>
+                        {% else %}
+                            <a href="{% url "web:login" %}" class="button is-primary is-inverted go-to-workplace is-hidden-mobile">
+                                <span>{% trans 'Login' %}</span>
+                                <span class="icon">
+                                    👋
+                                </span>
+                            </a>
+                            {% if 1 == 2 %}
+                                <a href="{% url "web:signup-step-1" %}"
+                                    class="button is-primary is-inverted go-to-workplace is-hidden-mobile"
+                                >
+                                    <span>{% trans 'Signup' %}</span>
+                                    <span class="icon">
+                                        <i class="fas fa-sign-in-alt"></i>
+                                    </span>
+                                </a>
+                            {% endif %}
+                        {% endif %}
                     </div>
                 </div>
             </div>
-            <div class="column is-half has-text-centered">
-                    <div class="container">
-                <nav class="holis-navbar navbar" role="navigation">
-                  <div class="navbar-brand">
-                    <a class="navbar-item is-hidden-desktop" href="/">
-                        <img src="{% static 'images/web_v2/icon_white.svg' %}" alt="holis icon white">
-                    </a>
-
-                    <a role="button"
-                        class="navbar-burger"
-                        aria-label="menu"
-                        aria-expanded="false"
-                        data-target="navbarMenuHeroA"
-                        onclick="document.querySelector('.navbar-menu').classList.toggle('is-active');"
-                        >
-                      <span aria-hidden="true"></span>
-                      <span aria-hidden="true"></span>
-                      <span aria-hidden="true"></span>
-                    </a>
-                  </div>
-                        <div id="navbarMenuHeroA" class="navbar-menu">
-                            <div class="navbar-start">
-                                <a href="#" class="navbar-item is-active ">
-                                    {% trans 'Get holis' %}
-                                </a>
-                                <a href="#why-holis" class="navbar-item is-active ">
-                                    {% trans 'Why holis?' %}
-                                </a>
-                                <a href="#features" class="navbar-item ">
-                                    {% trans 'Features' %}
-                                </a>
-                                <a href="#pricing" class="navbar-item ">
-                                    {% trans 'Pricing' %}
-                                </a>
-                                {% if user.is_authenticated %}
-                                <a class="navbar-item is-hidden-desktop">
-                                    {% trans 'Workplace' %}
-                                </a>
-                                {% else %}
-                                <a href="{% url 'web:login' %}" class="navbar-item is-hidden-desktop">
-                                    {% trans 'Login' %}
-                                </a>
-                                    {% if 1 == 2 %}
-                                    <a href="{% url 'web:signup-step-1' %}" class="navbar-item is-hidden-desktop">
-                                        {% trans 'Signup' %}
-                                    </a>
-                                    {% endif %}
-                                {% endif %}
+        </div>
+        <div class="holis-exposed">
+            {% get_current_language as LANGUAGE_CODE %}
+            {% if LANGUAGE_CODE == "es" %}
+                <img class="holis-exposed-notification is-hidden-mobile" src="{% static 'images/home/notification.svg'%}" alt="Holis">
+                <img class="holis-exposed-whos-talking is-hidden-mobile" src="{% static 'images/home/whos_talkin.svg'%}" alt="Holis">
+                <img class="holis-exposed-chat is-hidden-mobile" src="{% static 'images/exposed_chat.png'%}" alt="Holis">
+                <img class="holis-exposed-laptop is-hidden-mobile" src="{% static 'images/laptop.svg'%}" alt="Holis">
+            {% else %}
+                <img class="holis-exposed-notification is-hidden-mobile" src="{% static 'images/home/notification_english.svg'%}" alt="Holis">
+                <img class="holis-exposed-whos-talking is-hidden-mobile" src="{% static 'images/home/whos_talkin_english.svg'%}" alt="Holis">
+                <img class="holis-exposed-chat is-hidden-mobile" src="{% static 'images/home/exposed_chat_english.png'%}" alt="Holis">
+                <img class="holis-exposed-laptop is-hidden-mobile" src="{% static 'images/laptop.svg'%}" alt="Holis">
+            {% endif %}
+        </div>
+    </section>
+    <section class="why-holis">
+        <div class="columns why-holis-feedback">
+            <div class="column is-half">
+                <a name="why-holis"></a>
+                {% get_current_language as LANGUAGE_CODE %}
+                {% if LANGUAGE_CODE == "es" %}
+                    <h2 class="why-holis-title">Holis es el lugar para comunicarte con tu equipo 🗣</h2>
+                {% else %}
+                    <h2 class="why-holis-title">Holis is the place to communicate with your team 🗣</h2>
+                {% endif %}
+                <div class="why-holis-content">
+                    {% if LANGUAGE_CODE == "es" %}
+                    <p>
+                        El trabajo remoto envuelve problemas para los que la mayoría de los equipos no estas preparados;
+                        aislamiento, comunicación incorrecta, sobretrabajo, falta de visualización del entorno son algunos
+                        de los inconvenientes a los que nos enfrentamos cuando nuestro equipo cuando la situación nos obligo
+                        a migrar a 100% remoto.
+                    </p>
+                    <p>
+                        Intentamos utilizar herramientas existentes, pero ninguna tenia el grado de interacción que mi
+                        equipo
+                        necesitaba, entoces decidi, diseñar y desarrollar una herramienta que si cumpliera con nuestras
+                        exigencias y
+                        así nacio HOLIS.
+                    </p>
+                    <p>
+                        Holis recrea tu oficina real de tal forma que con solo hacer click en nuestra intuitiva grilla
+                        es suficiente para iniciar un canal de voz con tus compañeros, resolver dudas de forma eficiente,
+                        chistes casuales y escuchar el ruido de fondo de los demás trabajando.
+                    </p>
+                {% else %}
+                    <p>
+                        Remote work involves problems that most teams are not prepared for; isolation,
+                        incorrect communication, overwork, lack of visualization of the
+                        environment are some of the inconveniences that we face when our team when
+                        the situation forced us to migrate to 100% remote.
+                    </p>
+                    <p>
+                        We tried to use existing tools, but none had the degree of interaction that my team needed,
+                        so I decided to design and develop a tool that would meet our demands and thus HOLIS was born.
+                    </p>
+                    <p>
+                        Holis recreates your real office in such a way that just clicking on our intuitive grid is enough to
+                        start a voice channel with your colleagues, efficiently solve doubts, casual jokes and listen to the background noise of others at work.
+                    </p>
+                {% endif %}
+                </div>
+                <div class="why-holis-feedback-profile">
+                    <div class="why-holis-feedback-profile-picture">
+                        <img src="{% static 'images/web_v2/founder-profile-picture.png' %}"
+                            alt="Víctor Villalobos profile picture founder of Holis">
+                    </div>
+                    <div class="why-holis-feedback-profile-sign has-holis-gradient">
+                        <a href="https://twitter.com/viktordevelop" target="_blank">Víctor Villalobos, {% trans 'Founder of Holis' %}</a>
+                    </div>
+                </div>
+            </div>
+            <div class="column is-half">
+                <picture class="why-holis-hero-blobs is-hidden-mobile">
+                    <source media="(max-width: 900px)" srcset="{% static 'images/mobile-header-blobs.svg' %}">
+                    <source media="(min-width: 901px)" srcset="{% static 'images/header-blobs.svg' %}">
+                    <img src="{% static 'images/mobile-header-blobs.svg' %}" />
+                </picture>
+                <div class="holis-hero-images-desktop holis-carousel-wrapper">
+                    <div class="holis-carousel">
+                        <img class="holis-carousel-img" src="{% static 'images/home/hero.svg' %}"
+                            alt="Holis Teams young adults" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="holis-features">
+        <div class="holis-features-title has-text-centered is-vcentered is-holis-title">
+            {% trans 'What Holis offer?' %}
+            <a name="features"></a>
+        </div>
+        <div class="container">
+            <div class="columns is-multiline is-centered">
+                <div class="column is-8-fullhd">
+                    <div class="box">
+                        <div class="columns is-multiline">
+                            <div class="column is-one-third has-text-centered border-right">
+                                <img src="{% static 'images/features/real_time_voice.svg' %}" alt="Real time voice" />
+                                <h3>{% trans 'FEATURE-1-TITLE' %}</h3>
+                                <p>{% trans 'FEATURE-1-CONTENT' %}</p>
+                            </div>
+                            <div class="column is-one-third has-text-centered border-right">
+                                <img src="{% static 'images/features/Chat.svg' %}" alt="Enterprise Chat" />
+                                <h3>{% trans 'FEATURE-2-TITLE' %}</h3>
+                                <p>{% trans 'FEATURE-2-CONTENT' %}</p>
+                            </div>
+                            <div class="column is-one-third has-text-centered ">
+                                <img src="{% static 'images/features/billboard.svg' %}" alt="Enterprise Board" />
+                                <h3>{% trans 'FEATURE-5-TITLE' %}</h3>
+                                <p>{% trans 'FEATURE-5-CONTENT' %}</p>
+                            </div>
+                            <div class="column is-one-third has-text-centered border-right">
+                                <img src="{% static 'images/features/notifications-off.svg' %}" alt="Real time voice" />
+                                <h3>{% trans 'FEATURE-4-TITLE' %}</h3>
+                                <p>{% trans 'FEATURE-4-CONTENT' %}</p>
+                            </div>
+                            <div class="column is-one-third has-text-centered border-right">
+                                <img src="{% static 'images/features/analytics.svg' %}" alt="Analytics" />
+                                <h3>{% trans 'FEATURE-3-TITLE' %}</h3>
+                                <p>{% trans 'FEATURE-3-CONTENT' %}</p>
+                            </div>
+                            <div class="column is-one-third has-text-centered">
+                                <img src="{% static 'images/features/files.svg' %}" alt="Analytics" />
+                                <h3>{% trans 'FEATURE-6-TITLE' %}</h3>
+                                <p>{% trans 'FEATURE-6-CONTENT' %}</p>
                             </div>
                         </div>
                     </div>
-                </nav>
-                <div class="hero-title is-full">
-                    <div class="title">
-                        <h1>{% trans 'The definitive toolkit for productive remote teams' %}</h1>
-                    </div>
-                    <div class="subtitle">
-                        <h5>
-                            {% trans 'Holis gives you Project Management and Internal Comunnication in one single place' %}
-                        </h5>
-                    </div>
-                </div>
-                <div class="hero-call-to-action has-text-centered">
-                    {% if user.is_authenticated %}
-                    <a href="{% url "webapp" %}"class="button try-button is-size-4-mobile">
-                        <span>{% trans 'Your Workplace' %}</span>
-                        <span class="icon">
-                            👋
-                        </span>
-                    </a>
-                    <span class="is-size-6-mobile"> {% trans 'Welcome to holis again!' %} 👋 </span>
-                    {% else %}
-                        <button class="button try-button is-size-4-mobile">
-                            {% trans 'Getting Started' %} 🚀
-                        </button>
-                        <span class="is-size-6-mobile"> {% trans 'No credit card required' %} </span>
-                    {% endif %}
-                </div>
-            </div>
-            <div class="column is-one-quarter">
-                <div class="vector-hero">
-                    {% if user.is_authenticated %}
-                        <a class="button is-primary is-inverted go-to-workplace is-hidden-mobile">
-                            <span>{% trans 'Workplace' %}</span>
-                            <span class="icon">
-                                👋
-                            </span>
-                        </a>
-                    {% else %}
-                        <a href="{% url "web:login" %}" class="button is-primary is-inverted go-to-workplace is-hidden-mobile">
-                            <span>{% trans 'Login' %}</span>
-                            <span class="icon">
-                                👋
-                            </span>
-                        </a>
-                        {% if 1 == 2 %}
-                            <a href="{% url "web:signup-step-1" %}"
-                                class="button is-primary is-inverted go-to-workplace is-hidden-mobile"
-                            >
-                                <span>{% trans 'Signup' %}</span>
-                                <span class="icon">
-                                    <i class="fas fa-sign-in-alt"></i>
-                                </span>
-                            </a>
-                        {% endif %}
-                    {% endif %}
                 </div>
             </div>
         </div>
-    </div>
-    <div class="holis-exposed">
-        {% get_current_language as LANGUAGE_CODE %}
-        {% if LANGUAGE_CODE == "es" %}
-            <img class="holis-exposed-notification is-hidden-mobile" src="{% static 'images/home/notification.svg'%}" alt="Holis">
-            <img class="holis-exposed-whos-talking is-hidden-mobile" src="{% static 'images/home/whos_talkin.svg'%}" alt="Holis">
-            <img class="holis-exposed-chat is-hidden-mobile" src="{% static 'images/exposed_chat.png'%}" alt="Holis">
-            <img class="holis-exposed-laptop is-hidden-mobile" src="{% static 'images/laptop.svg'%}" alt="Holis">
-        {% else %}
-            <img class="holis-exposed-notification is-hidden-mobile" src="{% static 'images/home/notification_english.svg'%}" alt="Holis">
-            <img class="holis-exposed-whos-talking is-hidden-mobile" src="{% static 'images/home/whos_talkin_english.svg'%}" alt="Holis">
-            <img class="holis-exposed-chat is-hidden-mobile" src="{% static 'images/home/exposed_chat_english.png'%}" alt="Holis">
-            <img class="holis-exposed-laptop is-hidden-mobile" src="{% static 'images/laptop.svg'%}" alt="Holis">
-        {% endif %}
-    </div>
-</section>
-<section class="why-holis">
-    <div class="columns why-holis-feedback">
-        <div class="column is-half">
-            <a name="why-holis"></a>
-            {% get_current_language as LANGUAGE_CODE %}
-            {% if LANGUAGE_CODE == "es" %}
-                <h2 class="why-holis-title">Holis es el lugar para comunicarte con tu equipo 🗣</h2>
-            {% else %}
-                <h2 class="why-holis-title">Holis is the place to communicate with your team 🗣</h2>
-            {% endif %}
-            <div class="why-holis-content">
-                {% if LANGUAGE_CODE == "es" %}
-                <p>
-                    El trabajo remoto envuelve problemas para los que la mayoría de los equipos no estas preparados;
-                    aislamiento, comunicación incorrecta, sobretrabajo, falta de visualización del entorno son algunos
-                    de los inconvenientes a los que nos enfrentamos cuando nuestro equipo cuando la situación nos obligo
-                    a migrar a 100% remoto.
-                </p>
-                <p>
-                    Intentamos utilizar herramientas existentes, pero ninguna tenia el grado de interacción que mi
-                    equipo
-                    necesitaba, entoces decidi, diseñar y desarrollar una herramienta que si cumpliera con nuestras
-                    exigencias y
-                    así nacio HOLIS.
-                </p>
-                <p>
-                    Holis recrea tu oficina real de tal forma que con solo hacer click en nuestra intuitiva grilla
-                    es suficiente para iniciar un canal de voz con tus compañeros, resolver dudas de forma eficiente,
-                    chistes casuales y escuchar el ruido de fondo de los demás trabajando.
-                </p>
-            {% else %}
-                <p>
-                    Remote work involves problems that most teams are not prepared for; isolation,
-                    incorrect communication, overwork, lack of visualization of the
-                    environment are some of the inconveniences that we face when our team when
-                    the situation forced us to migrate to 100% remote.
-                </p>
-                <p>
-                    We tried to use existing tools, but none had the degree of interaction that my team needed,
-                    so I decided to design and develop a tool that would meet our demands and thus HOLIS was born.
-                </p>
-                <p>
-                    Holis recreates your real office in such a way that just clicking on our intuitive grid is enough to
-                    start a voice channel with your colleagues, efficiently solve doubts, casual jokes and listen to the background noise of others at work.
-                </p>
-            {% endif %}
-            </div>
-            <div class="why-holis-feedback-profile">
-                <div class="why-holis-feedback-profile-picture">
-                    <img src="{% static 'images/web_v2/founder-profile-picture.png' %}"
-                        alt="Víctor Villalobos profile picture founder of Holis">
-                </div>
-                <div class="why-holis-feedback-profile-sign has-holis-gradient">
-                    <a href="https://twitter.com/viktordevelop" target="_blank">Víctor Villalobos, {% trans 'Founder of Holis' %}</a>
-                </div>
-            </div>
+    </section>
+    {% include "djpaddle_paddlejs.html" %}
+    <section class="holis-pricing">
+        <div class="holis-pricing-title has-text-centered is-full is-holis-title is-size-4-mobile">
+            <a name="pricing"></a>
+            {% trans 'All the benefits of a real office, from anywhere in the world with a single price' %}
         </div>
-        <div class="column is-half">
-            <picture class="why-holis-hero-blobs is-hidden-mobile">
-                <source media="(max-width: 900px)" srcset="{% static 'images/mobile-header-blobs.svg' %}">
-                <source media="(min-width: 901px)" srcset="{% static 'images/header-blobs.svg' %}">
-                <img src="{% static 'images/mobile-header-blobs.svg' %}" />
-            </picture>
-            <div class="holis-hero-images-desktop holis-carousel-wrapper">
-                <div class="holis-carousel">
-                    <img class="holis-carousel-img" src="{% static 'images/home/hero.svg' %}"
-                        alt="Holis Teams young adults" />
+        <div class="holis-pricing-wrapper columns">
+            <div class="holis-pricing-box column is-one-third has-text-centered">
+                <span class="holis-pricing-box-limited is-size-5-mobile">{% trans 'Started' %} 🥉</span>
+                <div class="holis-pricing-box-price">
+                    <span class="price-dollars"> <span class="is-size-3">$</span> {{ PLANS.0.price }} </span>
+                    <span class="price-frecuency-2">{% trans 'per month' %}</span>
                 </div>
-            </div>
-        </div>
-    </div>
-</section>
-<section class="holis-features">
-    <div class="holis-features-title has-text-centered is-vcentered is-holis-title">
-        {% trans 'What Holis offer?' %}
-        <a name="features"></a>
-    </div>
-    <div class="container">
-        <div class="columns is-multiline is-centered">
-            <div class="column is-8-fullhd">
-                <div class="box">
-                    <div class="columns is-multiline">
-                        <div class="column is-one-third has-text-centered border-right">
-                            <img src="{% static 'images/features/real_time_voice.svg' %}" alt="Real time voice" />
-                            <h3>{% trans 'FEATURE-1-TITLE' %}</h3>
-                            <p>{% trans 'FEATURE-1-CONTENT' %}</p>
-                        </div>
-                        <div class="column is-one-third has-text-centered border-right">
-                            <img src="{% static 'images/features/Chat.svg' %}" alt="Enterprise Chat" />
-                            <h3>{% trans 'FEATURE-2-TITLE' %}</h3>
-                            <p>{% trans 'FEATURE-2-CONTENT' %}</p>
-                        </div>
-                        <div class="column is-one-third has-text-centered ">
-                            <img src="{% static 'images/features/billboard.svg' %}" alt="Enterprise Board" />
-                            <h3>{% trans 'FEATURE-5-TITLE' %}</h3>
-                            <p>{% trans 'FEATURE-5-CONTENT' %}</p>
-                        </div>
-                        <div class="column is-one-third has-text-centered border-right">
-                            <img src="{% static 'images/features/notifications-off.svg' %}" alt="Real time voice" />
-                            <h3>{% trans 'FEATURE-4-TITLE' %}</h3>
-                            <p>{% trans 'FEATURE-4-CONTENT' %}</p>
-                        </div>
-                        <div class="column is-one-third has-text-centered border-right">
-                            <img src="{% static 'images/features/analytics.svg' %}" alt="Analytics" />
-                            <h3>{% trans 'FEATURE-3-TITLE' %}</h3>
-                            <p>{% trans 'FEATURE-3-CONTENT' %}</p>
-                        </div>
-                        <div class="column is-one-third has-text-centered">
-                            <img src="{% static 'images/features/files.svg' %}" alt="Analytics" />
-                            <h3>{% trans 'FEATURE-6-TITLE' %}</h3>
-                            <p>{% trans 'FEATURE-6-CONTENT' %}</p>
+                <div class="holis-pricing-box-progress is-invisible is-hidden-mobile">
+                    <span class="holis-pricing-box-progress-text">100 {% trans 'spots remaing' %}</span>
+                    <div class="holis-pricing-box-progress-bar">
+                        <div
+                            style="width: 200px;"
+                            class="holis-pricing-box-progress-bar-current-progress">
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-</section>
-{% include "djpaddle_paddlejs.html" %}
-<section class="holis-pricing">
-    <div class="holis-pricing-title has-text-centered is-full is-holis-title is-size-4-mobile">
-        <a name="pricing"></a>
-        {% trans 'All the benefits of a real office, from anywhere in the world with a single price' %}
-    </div>
-    <div class="holis-pricing-wrapper columns">
-        <div class="holis-pricing-box column is-one-third has-text-centered">
-            <span class="holis-pricing-box-limited is-size-5-mobile">{% trans 'Started' %} 🥉</span>
-            <div class="holis-pricing-box-price">
-                <span class="price-dollars"> <span class="is-size-3">$</span> {{ PLANS.0.price }} </span>
-                <span class="price-frecuency-2">{% trans 'per month' %}</span>
-            </div>
-            <div class="holis-pricing-box-progress is-invisible is-hidden-mobile">
-                <span class="holis-pricing-box-progress-text">100 {% trans 'spots remaing' %}</span>
-                <div class="holis-pricing-box-progress-bar">
-                    <div
-                        style="width: 200px;"
-                        class="holis-pricing-box-progress-bar-current-progress">
-                    </div>
-                </div>
-            </div>
-            <ul class="holis-pricing-box-features is-size-5-mobile">
-                <li class="holis-pricing-box-features">👦🏻 {% trans 'Up to 10 users'  %}</li>
-                <li class="holis-pricing-box-features">🗣  {% trans 'Unlimited voice chat' %}</li>
-                <li class="holis-pricing-box-features">💬 {% trans 'Unlimited messages' %}</li>
-                <li class="holis-pricing-box-features">🗂  {% trans 'Unlimited projects' %}</li>
-                <li class="holis-pricing-box-features">📁 {% trans '50 GB of storage' %}</li>
-                <li class="holis-pricing-box-features">📧 {% trans 'Email Support' %}</li>
-                <li class="holis-pricing-box-features strike">🎗 {% trans 'Live Chat Support' %}</li>
-                <li class="holis-pricing-box-features">💵 {% trans 'Money back guarantee' %}</li>
-                <li class="holis-pricing-box-features">🥺 {% trans 'Cancel any time' %}</li>
-            </ul>
-            <a href="{% url 'web:soon' %}" class="button try-button is-size-4-mobile" data-product="{{PLANS.2.id}}" data-theme="none">
-                {% trans 'Start for free' %} 🚀
-            </a>
-            {% if 1 == 2%}
-            <a href="{% url "web:signup-step-1" %}" class="button try-button is-size-4-mobile">
-                {% trans 'Start for free' %} 🚀
-            </a>
-            {% endif %}
-        </div>
-        <div class="holis-pricing-box column is-one-third has-text-centered">
-            <span class="holis-pricing-box-limited is-size-5-mobile">{% trans 'PRO' %} 🥈</span>
-            <div class="holis-pricing-box-price">
-                <span class="price-dollars"> <span class="is-size-3">$</span> {{ PLANS.1.price }} </span>
-                <span class="price-frecuency-2">{% trans 'per month' %}</span>
-            </div>
-            <div class="holis-pricing-box-progress is-invisible is-hidden-mobile">
-                <span class="holis-pricing-box-progress-text">100 {% trans 'spots remaing' %}</span>
-                <div class="holis-pricing-box-progress-bar">
-                    <div
-                        style="width: 200px;"
-                        class="holis-pricing-box-progress-bar-current-progress">
-                    </div>
-                </div>
-            </div>
-            <ul class="holis-pricing-box-features is-size-5-mobile">
-                <li class="holis-pricing-box-features">👩🏿‍🦱{% trans 'Unlimited Users'  %}</li>
-                <li class="holis-pricing-box-features">🗣 {% trans 'Unlimited voice chat' %}</li>
-                <li class="holis-pricing-box-features">💬 {% trans 'Unlimited messages' %}</li>
-                <li class="holis-pricing-box-features">🗂  {% trans 'Unlimited projects' %}</li>
-                <li class="holis-pricing-box-features">📁 {% trans '200 GB of storage' %}</li>
-                <li class="holis-pricing-box-features">📧 {% trans 'Email Support' %}</li>
-                <li class="holis-pricing-box-features">🎗 {% trans 'Live Chat Support' %}</li>
-                <li class="holis-pricing-box-features">💵 {% trans 'Money back guarantee' %}</li>
-                <li class="holis-pricing-box-features">🥺 {% trans 'Cancel any time' %}</li>
-            </ul>
-            <a href="{% url 'web:soon' %}" class="button try-button is-size-4-mobile" data-product="{{PLANS.2.id}}" data-theme="none">
-                {% trans 'Start for free' %} 🚀
-            </a>
-            {% if 1 == 2%}
-            <a href="{% url "web:signup-step-1" %}" class="button try-button is-size-4-mobile">
-                {% trans 'Start for free' %} 🚀
-            </a>
-            {% endif %}
-        </div>
-        <div class="holis-pricing-box column is-one-third has-text-centered">
-            <span class="holis-pricing-box-limited is-size-5-mobile">{% trans 'Life Time Limited' %} 🏆</span>
-            <div class="holis-pricing-box-price">
-                <span class="price-dollars"> <span class="is-size-3">$</span> {{ PLANS.2.price }} </span>
-                <span class="price-frecuency-2">{% trans 'One Time Payment' %}</span>
-            </div>
-            <div class="holis-pricing-box-progress">
-                <span class="holis-pricing-box-progress-text">{% trans "only " %} {{ PENDING_FULL_SUBSCRIPTIONS }} {% trans 'spots remaing' %} 😱</span>
-                <div class="holis-pricing-box-progress-bar">
-                    <div
-                        style="width: {{ TOTAL_FULL_SUBSCRIPTIONS }}%;"
-                        class="holis-pricing-box-progress-bar-current-progress">
-                    </div>
-                </div>
-            </div>
-            <ul class="holis-pricing-box-features is-size-5-mobile">
-                <li class="holis-pricing-box-features">🦹🏽‍♀️ {% trans 'Unlimited Users'  %}</li>
-                <li class="holis-pricing-box-features">🗣 {% trans 'Unlimited voice chat' %}</li>
-                <li class="holis-pricing-box-features">💬 {% trans 'Unlimited messages' %}</li>
-                <li class="holis-pricing-box-features">🗂 {% trans 'Unlimited projects' %}</li>
-                <li class="holis-pricing-box-features">📁 {% trans '200 GB of storage' %}</li>
-                <li class="holis-pricing-box-features">📧 {% trans 'Email Support' %}</li>
-                <li class="holis-pricing-box-features">🎗 {% trans 'Live Chat Support' %}</li>
-                <li class="holis-pricing-box-features">💵 {% trans 'Money back guarantee' %}</li>
-                <li class="holis-pricing-box-features">🥺 {% trans 'Cancel any time' %}</li>
-            </ul>
-            <a href="{% url 'web:soon' %}" class="button try-button is-size-4-mobile" data-product="{{PLANS.2.id}}" data-theme="none">
-                {% trans 'Start for free' %} 🚀
-            </a>
-            {% if 1 == 2 %}
-            <a href="#!" class="paddle_button button try-button is-size-4-mobile" data-product="{{PLANS.2.id}}" data-theme="none">
-                {% trans 'Get Holis For Live!' %} 🚀
-            </a>
-            {% endif %}
-        </div>
-    </div>
-    <div class="holis-pricing-payment-advice has-text-centered is-size-6-mobile">
-        {% trans 'All our payments are being processed by ' %} <b>Paddle.com</b>
-    </div>
-</section>
-
-<footer>
-    <div class="container has-text-centered-mobile">
-      <div class="columns">
-        <div class="column is-2 holis-language-wrapper">
-            <b>{% trans 'Your remote workplace' %}</b>
-            <div class="control has-icons-left language">
-              <div class="select is-normal">
-                {% get_current_language as LANGUAGE_CODE %}
-                <form action="{% url 'set_language' %}" method="post" >
-                    {% csrf_token %}
-                    <select name="language" onchange="this.form.submit()">
-                        <option
-                            value="en"
-                            {% if LANGUAGE_CODE == "en" %}
-                                selected
-                            {% endif %}
-                        >
-                            {% trans 'English' %}
-                        </option>
-                        <option
-                            value="es"
-                            {% if LANGUAGE_CODE == "es" %}
-                                selected
-                            {% endif %}
-                        >{% trans 'Spanish' %}</option>
-                    </select>
-                </form>
-              </div>
-              <div class="icon is-small is-left">
-                <i class="fas fa-globe"></i>
-              </div>
-            </div>
-        </div>
-        <div class="column is-2">
-            <b>{% trans 'Product' %}</b>
-          <ul>
-            <li><a href="#">{% trans 'Get holis?' %}</a></li>
-            <li><a href="#why-holis">{% trans 'Why holis' %}</a></li>
-            <li><a href="#features">{% trans 'Features' %}</a></li>
-            <li><a href="#pricing">{% trans 'Pricing' %}</a></li>
-          </ul>
-        </div>
-        <div class="column is-2">
-          <b>Legal</b>
-          <ul>
-            <li><a href="#">{% trans 'Terms and Conditions' %}</a></li>
-            <li><a href="#">{% trans 'Privacy Policy' %}</a></li>
-          </ul>
-        </div>
-        <div class="column is-2">
-          <b>{% trans 'Company'%}</b>
-          <ul>
-              <li><a href="#">{% trans 'About us' %}</a></li>
-              <li><a href="#">{% trans 'News' %}</a></li>
-          </ul>
-        </div>
-        <div class="column is-4 has-text-right">
-          <ul class="holis-rrss has-text-centered-mobile">
-            <li><a href="https://instagram.com/holischat"><i class="fab fa-3x fa-instagram"></i></a></li>
-            <li><a href="https://www.facebook.com/holischat"><i class="fab fa-3x fa-facebook"></i></a></li>
-            <li><a href="https://www.twitter.com/getholis"><i class="fab fa-3x fa-twitter"></i></a></li>
-          </ul>
-        </div>
-      </div>
-      <hr width="100%" color="grey">
-      <div class="columns holis-footer-call-to-action">
-          <div class="column is-2-desktop holis-icon-footer-wrapper">
-              <a href="/">
-                  <img class="holis-icon-footer" src="{% static 'images/web_v2/icon_white.svg' %}" alt="holis icon white">
-              </a>
-          </div>
-          <div class="column is-10-desktop has-text-right-desktop has-text-centered-mobile">
-                <a class="button is-primary is-inverted">
-                    {% if user.is_authenticated %}
-                        <span>{% trans 'Workplace' %}</span>
-                        <span class="icon">
-                            👋
-                        </span>
-                    {% else %}
-                        <span>{% trans 'Login' %}</span>
-                        <span class="icon">
-                            👋
-                        </span>
-                    {% endif %}
+                <ul class="holis-pricing-box-features is-size-5-mobile">
+                    <li class="holis-pricing-box-features">👦🏻 {% trans 'Up to 10 users'  %}</li>
+                    <li class="holis-pricing-box-features">🗣  {% trans 'Unlimited voice chat' %}</li>
+                    <li class="holis-pricing-box-features">💬 {% trans 'Unlimited messages' %}</li>
+                    <li class="holis-pricing-box-features">🗂  {% trans 'Unlimited projects' %}</li>
+                    <li class="holis-pricing-box-features">📁 {% trans '50 GB of storage' %}</li>
+                    <li class="holis-pricing-box-features">📧 {% trans 'Email Support' %}</li>
+                    <li class="holis-pricing-box-features strike">🎗 {% trans 'Live Chat Support' %}</li>
+                    <li class="holis-pricing-box-features">💵 {% trans 'Money back guarantee' %}</li>
+                    <li class="holis-pricing-box-features">🥺 {% trans 'Cancel any time' %}</li>
+                </ul>
+                <a href="{% url 'web:soon' %}" class="button try-button is-size-4-mobile" data-product="{{PLANS.2.id}}" data-theme="none">
+                    {% trans 'Start for free' %} 🚀
                 </a>
-          </div>
-      </div>
-    </div>
-</footer>
+                {% if 1 == 2%}
+                <a href="{% url "web:signup-step-1" %}" class="button try-button is-size-4-mobile">
+                    {% trans 'Start for free' %} 🚀
+                </a>
+                {% endif %}
+            </div>
+            <div class="holis-pricing-box column is-one-third has-text-centered">
+                <span class="holis-pricing-box-limited is-size-5-mobile">{% trans 'PRO' %} 🥈</span>
+                <div class="holis-pricing-box-price">
+                    <span class="price-dollars"> <span class="is-size-3">$</span> {{ PLANS.1.price }} </span>
+                    <span class="price-frecuency-2">{% trans 'per month' %}</span>
+                </div>
+                <div class="holis-pricing-box-progress is-invisible is-hidden-mobile">
+                    <span class="holis-pricing-box-progress-text">100 {% trans 'spots remaing' %}</span>
+                    <div class="holis-pricing-box-progress-bar">
+                        <div
+                            style="width: 200px;"
+                            class="holis-pricing-box-progress-bar-current-progress">
+                        </div>
+                    </div>
+                </div>
+                <ul class="holis-pricing-box-features is-size-5-mobile">
+                    <li class="holis-pricing-box-features">👩🏿‍🦱{% trans 'Unlimited Users'  %}</li>
+                    <li class="holis-pricing-box-features">🗣 {% trans 'Unlimited voice chat' %}</li>
+                    <li class="holis-pricing-box-features">💬 {% trans 'Unlimited messages' %}</li>
+                    <li class="holis-pricing-box-features">🗂  {% trans 'Unlimited projects' %}</li>
+                    <li class="holis-pricing-box-features">📁 {% trans '200 GB of storage' %}</li>
+                    <li class="holis-pricing-box-features">📧 {% trans 'Email Support' %}</li>
+                    <li class="holis-pricing-box-features">🎗 {% trans 'Live Chat Support' %}</li>
+                    <li class="holis-pricing-box-features">💵 {% trans 'Money back guarantee' %}</li>
+                    <li class="holis-pricing-box-features">🥺 {% trans 'Cancel any time' %}</li>
+                </ul>
+                <a href="{% url 'web:soon' %}" class="button try-button is-size-4-mobile" data-product="{{PLANS.2.id}}" data-theme="none">
+                    {% trans 'Start for free' %} 🚀
+                </a>
+                {% if 1 == 2%}
+                <a href="{% url "web:signup-step-1" %}" class="button try-button is-size-4-mobile">
+                    {% trans 'Start for free' %} 🚀
+                </a>
+                {% endif %}
+            </div>
+            <div class="holis-pricing-box column is-one-third has-text-centered">
+                <span class="holis-pricing-box-limited is-size-5-mobile">{% trans 'Life Time Limited' %} 🏆</span>
+                <div class="holis-pricing-box-price">
+                    <span class="price-dollars"> <span class="is-size-3">$</span> {{ PLANS.2.price }} </span>
+                    <span class="price-frecuency-2">{% trans 'One Time Payment' %}</span>
+                </div>
+                <div class="holis-pricing-box-progress">
+                    <span class="holis-pricing-box-progress-text">{% trans "only " %} {{ PENDING_FULL_SUBSCRIPTIONS }} {% trans 'spots remaing' %} 😱</span>
+                    <div class="holis-pricing-box-progress-bar">
+                        <div
+                            style="width: {{ TOTAL_FULL_SUBSCRIPTIONS }}%;"
+                            class="holis-pricing-box-progress-bar-current-progress">
+                        </div>
+                    </div>
+                </div>
+                <ul class="holis-pricing-box-features is-size-5-mobile">
+                    <li class="holis-pricing-box-features">🦹🏽‍♀️ {% trans 'Unlimited Users'  %}</li>
+                    <li class="holis-pricing-box-features">🗣 {% trans 'Unlimited voice chat' %}</li>
+                    <li class="holis-pricing-box-features">💬 {% trans 'Unlimited messages' %}</li>
+                    <li class="holis-pricing-box-features">🗂 {% trans 'Unlimited projects' %}</li>
+                    <li class="holis-pricing-box-features">📁 {% trans '200 GB of storage' %}</li>
+                    <li class="holis-pricing-box-features">📧 {% trans 'Email Support' %}</li>
+                    <li class="holis-pricing-box-features">🎗 {% trans 'Live Chat Support' %}</li>
+                    <li class="holis-pricing-box-features">💵 {% trans 'Money back guarantee' %}</li>
+                    <li class="holis-pricing-box-features">🥺 {% trans 'Cancel any time' %}</li>
+                </ul>
+                <a href="{% url 'web:soon' %}" class="button try-button is-size-4-mobile" data-product="{{PLANS.2.id}}" data-theme="none">
+                    {% trans 'Start for free' %} 🚀
+                </a>
+                {% if 1 == 2 %}
+                <a href="#!" class="paddle_button button try-button is-size-4-mobile" data-product="{{PLANS.2.id}}" data-theme="none">
+                    {% trans 'Get Holis For Live!' %} 🚀
+                </a>
+                {% endif %}
+            </div>
+        </div>
+        <div class="holis-pricing-payment-advice has-text-centered is-size-6-mobile">
+            {% trans 'All our payments are being processed by ' %} <b>Paddle.com</b>
+        </div>
+    </section>
+</body>
+{% endblock %}
 
-<script>
-    const removeAttachments = () => {
-        const hero = document.getElementsByClassName("hero")[0]
-        hero.style.backgroundAttachment = "initial"
-        document.body.style.backgroundAttachment = "initial"
-    }
 
-    window.onscroll = function (ev) {
-        if ((window.innerHeight + window.scrollY) >= window.innerHeight) {
-            removeAttachments()
+{% block bottom_js %}
+    <script>
+        const removeAttachments = () => {
+            const hero = document.getElementsByClassName("hero")[0]
+            hero.style.backgroundAttachment = "initial"
+            document.body.style.backgroundAttachment = "initial"
         }
-    };
-</script>
 
-<script>
-    !(function (d) {
-        const images = [
-            `<img class="holis-carousel-img" src="{% static 'images/home/hero.svg' %}" alt="Holis Teams young adults" />`,
-            `<img class="holis-carousel-img" src="{% static 'images/home/hero-boys.svg' %}" alt="Holis Teams boys" />`,
-            `<img class="holis-carousel-img" src="{% static 'images/home/hero-girls.svg' %}" alt="Holis Teams girls" />`
-        ],
-            carousel = d.getElementsByClassName('holis-carousel')[0];
+        window.onscroll = function (ev) {
+            if ((window.innerHeight + window.scrollY) >= window.innerHeight) {
+                removeAttachments()
+            }
+        };
+    </script>
 
-        setInterval(() => {
-            const randomImg = images[Math.floor(Math.random() * images.length)];
-            carousel.innerHTML = randomImg
-        }, 2000)
+    <script>
+        !(function (d) {
+            const images = [
+                `<img class="holis-carousel-img" src="{% static 'images/home/hero.svg' %}" alt="Holis Teams young adults" />`,
+                `<img class="holis-carousel-img" src="{% static 'images/home/hero-boys.svg' %}" alt="Holis Teams boys" />`,
+                `<img class="holis-carousel-img" src="{% static 'images/home/hero-girls.svg' %}" alt="Holis Teams girls" />`
+            ],
+                carousel = d.getElementsByClassName('holis-carousel')[0];
 
-    }(document));
-</script>
+            setInterval(() => {
+                const randomImg = images[Math.floor(Math.random() * images.length)];
+                carousel.innerHTML = randomImg
+            }, 2000)
 
-<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-<script>
-    AOS.init();
-</script>
+        }(document));
+    </script>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init();
+    </script>
+{% endblock %}

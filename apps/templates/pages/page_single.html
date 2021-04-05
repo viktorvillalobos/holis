@@ -1,0 +1,22 @@
+{% extends "base_v2.html" %}
+{% load static %}
+{% load martortags %}
+
+{% block content %}
+<body>
+    {% include "pages/partials/navbar.html" %}
+
+    <section class="holis-page">
+        <article class="is-size-6">
+            <h1 class="holis-page-title has-text-centered is-size-1-desktop is-size-4-mobile">{{ PAGE.title }}</h1>
+            <div class="holis-page-content">
+                {{ PAGE.content | safe_markdown }}
+            </div>
+        </article>
+    </section>
+    <link rel="stylesheet" href="{% static 'css/page.css' %}">
+     <link href="{% static 'plugins/css/ace.min.css' %}" type="text/css" media="all" rel="stylesheet" />
+     <link href="{% static 'martor/css/martor.bootstrap.min.css' %}" type="text/css" media="all" rel="stylesheet" />
+     <script type="text/javascript" src="{% static 'plugins/js/highlight.min.js' %}"></script>
+</body>
+{% endblock %}
