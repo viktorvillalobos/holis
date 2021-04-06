@@ -14,6 +14,7 @@ jobs:
           command: |
             cd ${{ secrets.DEPLOY_TARGET }}
             sudo git pull
+            git checkout ${GITHUB_SHA}
             gcloud builds submit
           host: ${{ secrets.DEPLOY_HOST }}
           user: viktor
