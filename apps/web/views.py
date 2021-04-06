@@ -43,19 +43,6 @@ class SoonTemplateView(RedirectToAppMixin, TemplateView):
     template_name = "pages/soon.html"
 
 
-class PWAView(TemplateView):
-    template_name = "pages/soon.html"
-
-    def dispatch(self, request, *args, **kwargs):
-        if self.request.user.is_authenticated:
-            host = request.META.get("HTTP_HOST", "")
-            scheme_url = request.is_secure() and "https" or "http"
-            url = f"{scheme_url}://{self.request.user.company.code}.{host}/app/"
-            return HttpResponseRedirect(url)
-
-        return redirect(reverse("web:check-company"))
-
-
 class CheckCompanyView(TemplateView):
     template_name = "auth/check_company.html"
 

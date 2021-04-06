@@ -1,11 +1,11 @@
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
-from django.template.defaultfilters import slugify
 from django.utils.translation import gettext_lazy as _
 
 import uuid
 from django_extensions.db.fields import AutoSlugField
 from model_utils.models import TimeStampedModel
+from slugify import slugify
 
 from apps.utils.fields import LowerCharField
 

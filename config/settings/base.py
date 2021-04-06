@@ -70,10 +70,6 @@ DJANGO_APPS = [
     "django.forms",
 ]
 THIRD_PARTY_APPS = [
-    "crispy_forms",
-    "allauth",
-    "allauth.account",
-    "allauth.socialaccount",
     "django_celery_beat",
     "rest_framework",
     "rest_framework.authtoken",
@@ -352,41 +348,12 @@ THUMBNAIL_FORMAT = "PNG"
 # Twilio
 
 TWILIO_ACCOUNT_ID = env("TWILIO_ACCOUNT_ID")
+
 TWILIO_AUTH_TOKEN = env("TWILIO_AUTH_TOKEN")
-
-
-# PWA
-
-PWA_APP_NAME = "Holis"
-PWA_APP_DESCRIPTION = "Holis"
-PWA_APP_THEME_COLOR = "#0A0302"
-PWA_APP_BACKGROUND_COLOR = "#ffffff"
-PWA_APP_DISPLAY = "standalone"
-PWA_APP_SCOPE = "/"
-PWA_APP_ORIENTATION = "any"
-PWA_APP_START_URL = "/start-pwa/"
-PWA_APP_STATUS_BAR_COLOR = "default"
-PWA_APP_ICONS = [
-    {"src": "/static/images/favicons/android-icon-36x36.png", "sizes": "36x36"},
-    {"src": "/static/images/favicons/android-icon-192x192.png", "sizes": "192x192"},
-]
-PWA_APP_ICONS_APPLE = [
-    {"src": "/static/images/favicons/apple-icon.png", "sizes": "180x180"}
-]
-PWA_APP_SPLASH_SCREEN = [
-    {
-        "src": "/static/images/icons/splash-640x1136.png",
-        "media": "(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)",
-    }
-]
-PWA_APP_DIR = "ltr"
-PWA_APP_LANG = "en-US"
 
 SESSION_COOKIE_DOMAIN = ".holis.local"
 
-
 ABSTRACT_API_KEY = env("ABSTRACT_API_KEY")
-
 
 ENVIRONMENT = "production"
 
