@@ -50,13 +50,13 @@
                                         {% trans 'Pricing' %}
                                     </a>
                                     {% if user.is_authenticated %}
-                                    <a class="navbar-item is-hidden-desktop">
-                                        {% trans 'Workplace' %}
-                                    </a>
+                                        <a href="{% url 'webapp' %}" class="navbar-item is-hidden-desktop">
+                                            {% trans 'Workplace' %}
+                                        </a>
                                     {% else %}
-                                    <a href="{% url 'web:login' %}" class="navbar-item is-hidden-desktop">
-                                        {% trans 'Login' %}
-                                    </a>
+                                        <a href="{% url 'web:login' %}" class="navbar-item is-hidden-desktop">
+                                            {% trans 'Login' %}
+                                        </a>
                                         {% if 1 == 2 %}
                                         <a href="{% url 'web:signup-step-1' %}" class="navbar-item is-hidden-desktop">
                                             {% trans 'Signup' %}
@@ -79,7 +79,7 @@
                     </div>
                     <div class="hero-call-to-action has-text-centered">
                         {% if user.is_authenticated %}
-                        <a href="{% url "webapp" %}"class="button try-button is-size-4-mobile">
+                        <a href="{% url "webapp" %}" class="button try-button is-size-4-mobile">
                             <span>{% trans 'Your Workplace' %}</span>
                             <span class="icon">
                                 👋
@@ -97,7 +97,7 @@
                 <div class="column is-one-quarter">
                     <div class="vector-hero">
                         {% if user.is_authenticated %}
-                            <a class="button is-primary is-inverted go-to-workplace is-hidden-mobile">
+                        <a href="{% url "webapp" %}" class="button is-primary is-inverted go-to-workplace is-hidden-mobile">
                                 <span>{% trans 'Workplace' %}</span>
                                 <span class="icon">
                                     👋
