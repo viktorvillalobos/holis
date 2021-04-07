@@ -15,7 +15,7 @@ jobs:
             cd ${{ secrets.DEPLOY_TARGET }}
             sudo git fetch
             sudo git checkout ${{ github.sha }}
-            gcloud builds submit --tag=gcr.io/espazum/holis-full:${{ github.sha }}
+            gcloud builds submit --tag=gcr.io/espazum/holis-full:${{ github.sha }} --file=./compose/production/django/Dockerfile .
           host: ${{ secrets.DEPLOY_HOST }}
           user: viktor
           key: ${{ secrets.DEPLOY_KEY }}
