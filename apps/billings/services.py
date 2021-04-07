@@ -1,3 +1,4 @@
+from apps.utils.cache import DAY, cache
 from apps.utils.dataclasses import build_dataclass_from_model_instance
 
 from .lib.dataclasses import PaddlePlanData
@@ -5,6 +6,7 @@ from .providers import plans as plan_providers
 from .providers import subscriptions as plan_subscriptions
 
 
+@cache(DAY)
 def get_paddle_plans_sorted_by_price() -> list[PaddlePlanData]:
     """
     Returns a list of paddle plans ordered by price

@@ -7,8 +7,7 @@ COPY . /app
 RUN npm run build
 
 # Python build stage
-# FROM python:3.9-slim-buster
-FROM gcr.io/espazum/holis-full:base
+FROM python:3.9-slim-buster
 
 ENV PYTHONUNBUFFERED 1
 
@@ -56,8 +55,6 @@ RUN sed -i 's/\r$//g' /start-flower
 RUN chmod +x /start-flower
 COPY --from=client-builder --chown=django:django /app /app
 
-
-USER django
 
 WORKDIR /app
 
