@@ -2,14 +2,19 @@
 ![Deployment](https://github.com/getholis/holis/actions/workflows/deploy.yml/badge.svg)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
-Holis
+Holis 👋
 ========================
 
-Holis is a toolkit for remote teams.
+Holis is a toolkit for that offers a single access point for remote teams, Holis will be offer:
+
+* Voice Communication (Done).
+* Chat Communication (Done).
+* Project management (WIP).
+* Video Calls (Pending).
+* Bots creation (Pending).
 
 
-
-### Local Environment
+## Hello, 👋 I am gonna tell you how to make this works in local.
 
 0. Install pre-commit.
 
@@ -18,9 +23,8 @@ Precommit checks the project when a commit is generated.
 `pip install pre-commit --user`
 `pre-commit install`
 
-Ready.
 
-1. Create tenant hosts
+1. Create tenant hosts 😱
 
 Holis is a multitenant application, we use the subdomain as tenant id, so, we need create local subdomains for work propertly.
 
@@ -32,13 +36,13 @@ Edit your host file and create and add this at the end
 127.0.0.1 holis.local
 ```
 
-this allows you to use:
+this allows you to use this endpoints:
 
 * https://adslab.holis.local:8000
 * https://firesoft.holis.local:8000
 * https://holis.local:8000
 
-2. Uploading the backend
+2. Uploading the backend ⚙️
 
 Upload containers in one single command
 
@@ -53,7 +57,7 @@ This command will open a bash shell inside the backend environment, here you can
 * `dev makemessages`: crete locations files.
 * `dev compilemessages`: compile locations
 
-3. Running the front app.
+3. Running the front app. 🏙
 
 `cd webapp`
 `yarn`
@@ -68,10 +72,11 @@ This command will open a bash shell inside the backend environment, here you can
 **password:** holis123.
 
 
-5.  (Optional) Create your user
+5.  (Optional) Create your user 👨🏻‍💻
 
 Running tests with py.test
 
+6. Happy coding! 👨🏻‍💻👩🏻‍💻
 
 ## Email Server
 
@@ -86,12 +91,12 @@ With MailHog running, to view messages that are sent by your application, open y
 
 
 
-## Sentry
+## Sentry 🖥
 
 We use sentry to production enviroment exeception tracking 
 
 
-## Deployment
+## Deployment 🚀
 
 The following details how to deploy this application.
 
