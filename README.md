@@ -1,7 +1,7 @@
 Holis
 ========================
 
-Amazing remote dashboard tool
+Holis is a toolkit for remote teams.
 
 .. image:: https://img.shields.io/badge/code%20style-black-000000.svg
      :target: https://github.com/ambv/black
@@ -11,23 +11,20 @@ Amazing remote dashboard tool
 Settings
 --------
 
-Moved to settings_.
+### Local Environment
 
-.. _settings: http://cookiecutter-django.readthedocs.io/en/latest/settings.html
 
-Basic Commands
---------------
+## Create tenant hosts
 
-Setting Up Your Users
-^^^^^^^^^^^^^^^^^^^^^
+Holis is a multitenant application, we use the subdomain as tenant id, so, we need create local subdomains for work propertly.
 
-* To create a **normal user account**, just go to Sign Up and fill out the form. Once you submit it, you'll see a "Verify Your E-mail Address" page. Go to your console to see a simulated email verification message. Copy the link into your browser. Now the user's email should be verified and ready to go.
+Edit your host file and create and add this at the end
 
-* To create an **superuser account**, use this command::
-
-    $ python manage.py createsuperuser
-
-For convenience, you can keep your normal user logged in on Chrome and your superuser logged in on Firefox (or similar), so that you can see how the site behaves for both kinds of users.
+```
+127.0.0.1 adslab.holis.local
+127.0.0.1 firesoft.holis.local
+127.0.0.1 holis.local
+```
 
 Type checks
 ^^^^^^^^^^^
@@ -124,8 +121,3 @@ yarn
 yarn serve
 
 See detailed `cookiecutter-django Docker documentation`_.
-
-.. _`cookiecutter-django Docker documentation`: http://cookiecutter-django.readthedocs.io/en/latest/deployment-with-docker.html
-
-
-

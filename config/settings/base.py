@@ -81,7 +81,6 @@ THIRD_PARTY_APPS = [
     "webpack_loader",
     "sorl.thumbnail",
     "django_filters",
-    "pwa",
     "djpaddle",
     "martor",
 ]

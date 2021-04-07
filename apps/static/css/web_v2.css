@@ -8980,6 +8980,7 @@ h3 {
   margin-left: 9%;
   margin-right: 4%; }
   .why-holis-hero-blobs {
+    z-index: -999;
     position: absolute;
     top: 50;
     right: 0; }

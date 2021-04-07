@@ -3,6 +3,9 @@
 
 {% block content %}
 <body class="holis-body-background">
+
+    {% include "pages/partials/loader.html" %}
+
     <section class="hero is-fullheight-desktop">
         <div class="hero-head">
             <div class="columns">
@@ -202,6 +205,7 @@
                     <source media="(max-width: 900px)" srcset="{% static 'images/mobile-header-blobs.svg' %}">
                     <source media="(min-width: 901px)" srcset="{% static 'images/header-blobs.svg' %}">
                     <img loading="lazy" src="{% static 'images/mobile-header-blobs.svg' %}" />
+                    <img class="holis-carousel-img" src="{% static 'images/home/hero-boys.svg' %}" alt="Holis Teams boys" />
                 </picture>
                 <div class="holis-hero-images-desktop holis-carousel-wrapper">
                     <div class="holis-carousel">
@@ -375,6 +379,9 @@
             {% trans 'All our payments are being processed by ' %} <b>Paddle.com</b>
         </div>
     </section>
+
+
+
 </body>
 {% endblock %}
 
@@ -387,29 +394,28 @@
             document.body.style.backgroundAttachment = "initial"
         }
 
-        window.onscroll = function (ev) {
+        const checkScroll = () => {
             if ((window.innerHeight + window.scrollY) >= window.innerHeight) {
                 removeAttachments()
             }
+        }
+
+        window.onscroll = (ev) => {
+            checkScroll()
         };
+
+        const hideLoader = () => {
+            const loading = document.getElementById("loading")
+            loading.remove()
+        }
+
+        window.onload = () => {
+            removeAttachments()
+            hideLoader()
+        }
+
     </script>
 
-    <script>
-        !(function (d) {
-            const images = [
-                `<img class="holis-carousel-img" src="{% static 'images/home/hero.svg' %}" alt="Holis Teams young adults" />`,
-                `<img class="holis-carousel-img" src="{% static 'images/home/hero-boys.svg' %}" alt="Holis Teams boys" />`,
-                `<img class="holis-carousel-img" src="{% static 'images/home/hero-girls.svg' %}" alt="Holis Teams girls" />`
-            ],
-                carousel = d.getElementsByClassName('holis-carousel')[0];
-
-            setInterval(() => {
-                const randomImg = images[Math.floor(Math.random() * images.length)];
-                carousel.innerHTML = randomImg
-            }, 2000)
-
-        }(document));
-    </script>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
