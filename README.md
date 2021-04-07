@@ -1,15 +1,24 @@
+[![Website hol.is](https://img.shields.io/website-up-down-green-red/http/shields.io.svg)](https://hol.is/)
+![Deployment](https://github.com/getholis/holis/actions/workflows/deploy.yml/badge.svg)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+
 Holis
 ========================
 
 Holis is a toolkit for remote teams.
 
-.. image:: https://img.shields.io/badge/code%20style-black-000000.svg
-     :target: https://github.com/ambv/black
-     :alt: Black code style
 
 
 ### Local Environment
 
+0. Install pre-commit.
+
+Precommit checks the project when a commit is generated.
+
+`pip install pre-commit --user`
+`pre-commit install`
+
+Ready.
 
 1. Create tenant hosts
 
@@ -64,8 +73,7 @@ This command will open a bash shell inside the backend environment, here you can
 Running tests with py.test
 
 
-Email Server
-^^^^^^^^^^^^
+## Email Server
 
 In development, it is often nice to be able to see emails that are being sent from your application. For that reason local SMTP server `MailHog`_ with a web interface is available as docker container.
 
@@ -78,17 +86,12 @@ With MailHog running, to view messages that are sent by your application, open y
 
 
 
-Sentry
-^^^^^^
+## Sentry
 
-Sentry is an error logging aggregator service. You can sign up for a free account at  https://sentry.io/signup/?code=cookiecutter  or download and host it yourself.
-The system is setup with reasonable defaults, including 404 logging and integration with the WSGI application.
-
-You must set the DSN url in production.
+We use sentry to production enviroment exeception tracking 
 
 
-Deployment
-----------
+## Deployment
 
 The following details how to deploy this application.
 
