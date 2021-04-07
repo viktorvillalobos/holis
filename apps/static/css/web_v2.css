@@ -9049,7 +9049,7 @@ h3 {
   .vector-hero {
     margin-top: 20%; }
   .hero {
-    background-size: 240%; }
+    background-size: 260%; }
   .title {
     color: white;
     margin-top: 12%; }
@@ -9083,7 +9083,8 @@ h3 {
     width: 230px; }
   .holis-pricing-payment-advice {
     margin-top: -2% !important;
-    font-size: 1rem; }
+    font-size: 1rem;
+    margin-bottom: 11%; }
   footer {
     margin-top: 33% !important;
     font-size: 1.5rem; }
