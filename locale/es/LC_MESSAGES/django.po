@@ -704,7 +704,7 @@ msgid ""
 "Holis gives you Project Management and Internal Comunnication in one single "
 "place"
 msgstr ""
-"Holis the ofrece gestion de projectos y comunicación interna en on solo "
+"Holis the ofrece gestion de projectos y comunicación interna en un solo "
 "lugar."
 
 #: apps/templates/pages/home_v2.html:149
