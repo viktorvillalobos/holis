@@ -9253,15 +9253,9 @@ footer {
 
 @media screen and (min-width: 769px) and (max-width: 1024px) {
   .hero-background {
-    background-image: none !important;
-    background-repeat: no-repeat !important;
-    background-attachment: fixed !important;
-    background-position: left top !important; }
+    background-size: 30%; }
   .holis-body-background {
-    background-image: none !important;
-    background-repeat: no-repeat !important;
-    background-attachment: fixed !important;
-    background-position: left top !important; }
+    background-size: 37%; }
   .holis-exposed {
     margin-top: 5%; }
     .holis-exposed-notification {
@@ -9283,4 +9277,27 @@ footer {
     margin: 7%; }
   .holis-pricing-box-progress-text {
     top: -8px;
-    left: 32px; } }
+    left: 32px; }
+  footer .container .columns {
+    margin-left: 2%;
+    margin-right: 2%; }
+  footer .holis-icon-footer-wrapper {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center; }
+  footer .footer-buttons {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center; } }

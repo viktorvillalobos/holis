@@ -573,17 +573,11 @@ footer {
 
 @media screen and (min-width: 769px) and (max-width: 1024px) {
     .hero-background {
-        background-image: none !important;
-        background-repeat: no-repeat !important;
-        background-attachment: fixed !important;
-        background-position: left top !important;
+        background-size: 30%;
     }
 
     .holis-body-background {
-        background-image: none !important;
-        background-repeat: no-repeat !important;
-        background-attachment: fixed !important;
-        background-position: left top !important;
+        background-size: 37%;
     }
 
 
@@ -626,5 +620,27 @@ footer {
     .holis-pricing-box-progress-text {
         top: -8px;
         left: 32px;
+    }
+
+
+    footer {
+        .container {
+            .columns {
+                margin-left: 2%;
+                margin-right: 2%;
+            }
+        }
+
+        .holis-icon-footer-wrapper {
+            display:flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .footer-buttons {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
     }
 }
