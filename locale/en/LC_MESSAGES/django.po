@@ -789,7 +789,7 @@ msgstr ""
 #: apps/templates/pages/home_v2.html:398 apps/templates/pages/home_v2.html:402
 #: apps/templates/pages/home_v2.html:434
 msgid "Start for free"
-msgstr ""
+msgstr "Signup for free"
 
 #: apps/templates/pages/home_v2.html:371
 msgid "PRO"

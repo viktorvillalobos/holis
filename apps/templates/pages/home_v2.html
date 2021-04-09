@@ -6,7 +6,8 @@
 
     {% include "pages/partials/loader.html" %}
 
-    <section class="hero is-fullheight-desktop">
+    <section class="hero is-fullheight-desktop ">
+        <div class="background-wrapper is-fullheight hero-background"></div>
         <div class="hero-head">
             <div class="columns">
                 <div class="column is-one-quarter">
@@ -20,7 +21,7 @@
                 </div>
                 <div class="column is-half has-text-centered">
                         <div class="container">
-                    <nav class="holis-navbar navbar" role="navigation">
+                    <nav class="holis-navbar navbar is-hidden-tablet" role="navigation">
                       <div class="navbar-brand">
                         <a class="navbar-item is-hidden-desktop" href="/">
                             <img loading="lazy" src="{% static 'images/web_v2/icon_white.svg' %}" alt="holis icon white">
@@ -293,11 +294,11 @@
                     <li class="holis-pricing-box-features">🥺 {% trans 'Cancel any time' %}</li>
                 </ul>
                 <a href="{% url 'web:soon' %}" class="button try-button is-size-4-mobile" data-product="{{PLANS.2.id}}" data-theme="none">
-                    {% trans 'Start for free' %} 🚀
+                    {{ _("Start for free") | upper }} 🚀
                 </a>
                 {% if 1 == 2%}
                 <a href="{% url "web:signup-step-1" %}" class="button try-button is-size-4-mobile">
-                    {% trans 'Start for free' %} 🚀
+                    {{ _("Start for free") | upper }} 🚀
                 </a>
                 {% endif %}
             </div>
@@ -328,11 +329,11 @@
                     <li class="holis-pricing-box-features">🥺 {% trans 'Cancel any time' %}</li>
                 </ul>
                 <a href="{% url 'web:soon' %}" class="button try-button is-size-4-mobile" data-product="{{PLANS.2.id}}" data-theme="none">
-                    {% trans 'Start for free' %} 🚀
+                    {{ _("Start for free") | upper }} 🚀
                 </a>
                 {% if 1 == 2%}
                 <a href="{% url "web:signup-step-1" %}" class="button try-button is-size-4-mobile">
-                    {% trans 'Start for free' %} 🚀
+                    {{ _("Start for free") | upper }} 🚀
                 </a>
                 {% endif %}
             </div>
@@ -363,11 +364,11 @@
                     <li class="holis-pricing-box-features">🥺 {% trans 'Cancel any time' %}</li>
                 </ul>
                 <a href="{% url 'web:soon' %}" class="button try-button is-size-4-mobile" data-product="{{PLANS.2.id}}" data-theme="none">
-                    {% trans 'Start for free' %} 🚀
+                    {{ _("Start for free") | upper }} 🚀
                 </a>
                 {% if 1 == 2 %}
                 <a href="#!" class="paddle_button button try-button is-size-4-mobile" data-product="{{PLANS.2.id}}" data-theme="none">
-                    {% trans 'Get Holis For Live!' %} 🚀
+                    {{ _("Start for free") | upper }} 🚀
                 </a>
                 {% endif %}
             </div>

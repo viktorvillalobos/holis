@@ -8866,7 +8866,7 @@ h3 {
   font-size: 27px;
   font-size: 2.25rem; }
 
-.hero {
+.hero-background {
   background-image: url("/static/images/web_v2/vector_left.png");
   background-repeat: no-repeat;
   background-attachment: fixed;
@@ -8939,7 +8939,8 @@ h3 {
     font-size: 0.8rem; }
 
 .try-button {
-  width: 200px;
+  width: 230px;
+  height: 55px;
   color: white;
   background: #5d6de8;
   margin-bottom: 2%; }
