@@ -6,8 +6,7 @@
 
     {% include "pages/partials/loader.html" %}
 
-    <section class="hero is-fullheight-desktop ">
-        <div class="background-wrapper is-fullheight hero-background"></div>
+    <section class="hero is-fullheight-desktop hero-background">
         <div class="hero-head">
             <div class="columns">
                 <div class="column is-one-quarter">
@@ -146,7 +145,7 @@
     </section>
     <section class="why-holis">
         <div class="columns why-holis-feedback">
-            <div class="column is-half">
+            <div class="column is-half-desktop is-full-tablet">
                 <a name="why-holis"></a>
                 {% get_current_language as LANGUAGE_CODE %}
                 {% if LANGUAGE_CODE == "es" %}
@@ -198,7 +197,7 @@
                     </div>
                 </div>
             </div>
-            <div class="column is-half">
+            <div class="column is-half-desktop is-hidden-tablet">
                 <picture class="why-holis-hero-blobs is-hidden-mobile">
                     <source media="(max-width: 900px)" srcset="{% static 'images/mobile-header-blobs.svg' %}">
                     <source media="(min-width: 901px)" srcset="{% static 'images/header-blobs.svg' %}">

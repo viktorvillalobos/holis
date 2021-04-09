@@ -446,7 +446,7 @@ h3 {
             &-progress {
                 position: relative;
                 align-self: center;
-                width: 310px;
+                width: 100%;
                 height: 15px;
                 margin-bottom: 10%;
 
@@ -569,4 +569,62 @@ footer {
   .holis-icon-footer {
       margin-left: 40%;
   }
+}
+
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+    .hero-background {
+        background-image: none !important;
+        background-repeat: no-repeat !important;
+        background-attachment: fixed !important;
+        background-position: left top !important;
+    }
+
+    .holis-body-background {
+        background-image: none !important;
+        background-repeat: no-repeat !important;
+        background-attachment: fixed !important;
+        background-position: left top !important;
+    }
+
+
+    .holis-exposed {
+        margin-top: 5%;
+
+        &-notification {
+            top: 36%;
+            left: 6%;
+        }
+
+        &-chat {
+            left: 68.2%;
+            top: 62.5%;
+        }
+
+        &-whos-talking {
+            left: 8%;
+            top: 66%;
+        }
+    }
+
+    .hero-title {
+        margin-top: 15%;
+    }
+
+    .why-holis {
+        margin-top: -31%;
+    }
+
+    .holis-features {
+        margin: 3%;
+    }
+
+    .holis-pricing {
+        margin: 7%;
+
+    }
+
+    .holis-pricing-box-progress-text {
+        top: -8px;
+        left: 32px;
+    }
 }
