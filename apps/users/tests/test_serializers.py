@@ -9,7 +9,7 @@ User = get_user_model()
 
 @pytest.mark.django_db
 def test_serialize_queryzet_contract(active_user):
-    queryset = User.objects.all()
+    queryset = User.objects.all().order_by("id")
 
     serialized = serialize_user_queryset(queryset)
 
