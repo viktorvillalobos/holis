@@ -18,7 +18,8 @@ from config.settings.base import DJPADDLE_VENDOR_ID
 from apps.billings import services as billing_services
 
 from . import forms
-from .models import Lead, Page
+from .models import BlogEntry, Lead, Page
+from .providers import blog_entry as blog_entry_providers
 from .providers import page as page_providers
 
 # Create your views here.
@@ -182,3 +183,22 @@ class PageSingleView(TemplateView):
             raise Http404()
 
         return context | {"PAGE": page}
+
+
+class BlogSingleView(TemplateView):
+    template_name = "pages/blog_single.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        try:
+            blog_entry = blog_entry_providers.get_blog_entry_by_slug(
+                slug=self.kwargs["slug"]
+            )
+        except BlogEntry.DoesNotExist:
+            raise Http404()
+
+        return context | {
+            "PAGE": blog_entry,
+            "RELATED_POSTS": blog_entry.tags.similar_objects(),
+        }

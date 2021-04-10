@@ -83,6 +83,7 @@ THIRD_PARTY_APPS = [
     "django_filters",
     "djpaddle",
     "martor",
+    "taggit",
 ]
 
 LOCAL_APPS = [
@@ -349,3 +350,7 @@ DJPADDLE_API_KEY = env("DJPADDLE_API_KEY")
 
 # can be found at https://vendors.paddle.com/public-key
 DJPADDLE_PUBLIC_KEY = env.str("DJPADDLE_PUBLIC_KEY", multiline=True)
+
+
+# https://django-taggit.readthedocs.io/en/latest/getting_started.html
+TAGGIT_CASE_INSENSITIVE = True
