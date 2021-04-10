@@ -9044,6 +9044,12 @@ h3 {
       display: -ms-flexbox;
       display: flex;
       padding: 8px; }
+      .why-holis-feedback-profile-picture img {
+        width: 36px;
+        width: 3rem;
+        border-radius: 100px;
+        margin-top: 21%;
+        border: 7px; }
       .why-holis-feedback-profile-sign {
         margin-top: 4.2%;
         margin-left: 6%;
