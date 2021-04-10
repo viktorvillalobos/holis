@@ -19,7 +19,6 @@
 // bootstrap alert CSS, translated to the django-standard levels of
 // debug, info, success, warning, error
 
-
 html {
     scroll-behavior: smooth;
 }
@@ -169,11 +168,21 @@ h3 {
 }
 
 .try-button {
-    width: 230px;
+    width: 340px;
     height: 55px;
     color: white;
     background: $blue;
     margin-bottom: 2%;
+
+    &:hover {
+        color: white;
+    }
+}
+
+.aurora {
+    background: linear-gradient(60deg,#f79533,#f37055,#ef4e7b,#a166ab,#5073b8,#1098ad,#07b39b,#6fba82);
+    background-size: 400% 400%;
+    animation: gradient 3s ease infinite;
 }
 
 .vector-hero {
@@ -269,146 +278,6 @@ h3 {
 
 }
 
-@media screen and (max-width: 768px) {
-
-    .why-holis {
-        margin-top: 3.5%;
-    }
-
-    .holis-carousel {
-        display: none;
-    }
-
-
-    .navbar-burger {
-        span {
-            color: white;
-            font-size: 1.5rem;
-        }
-    }
-
-    .navbar-start {
-        display: flex;
-        flex-direction: column;
-    }
-
-    .go-to-workplace {
-        position:absolute;
-        right: 17px;
-        top: 22px;
-    }
-
-    .vector-hero {
-        margin-top: 20%;
-    }
-
-    .hero {
-        background-size: 260%;
-    }
-
-    .title {
-        color: white;
-        margin-top: 12%;
-    }
-
-    .subtitle {
-        color: white;
-        margin-bottom: 20%;
-
-        h5 {
-            font-size: 1.7rem;
-            margin-top: 12% !important;
-            margin: 10%;
-        }
-    }
-
-    .hero-call-to-action {
-        color: white;
-        margin-top: -8%;
-
-        .try-button {
-            width: 230px;
-        }
-    }
-
-
-    .holis-features {
-        background-image: None;
-
-        .box {
-            margin-left: 5%;
-            margin-right: 2%;
-        }
-    }
-
-
-    .holis-pricing {
-        &-wrapper {
-            margin: 3%;
-        }
-
-        &-box {
-            margin-left: 2% !important;
-            margin-right: 2%;
-            margin-top: 5%;
-            margin-bottom: 4%;
-
-            &-limited {
-                top: -19px !important;
-            }
-        }
-
-
-        .try-button {
-            width: 230px;
-        }
-
-    }
-
-    .holis-pricing-payment-advice {
-        margin-top: -2% !important;
-        font-size: 1rem;
-        margin-bottom: 11%;
-    }
-
-
-
-    footer {
-        margin-top: 33% !important;
-
-        font-size: 1.5rem;
-
-        .holis-icon-footer {
-            margin-left: 9% !important;
-        }
-
-
-        .holis-language-wrapper {
-            display: flex;
-            justify-content: center;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .holis-footer-call-to-action {
-            display: flex;
-            align-items: center;
-        }
-
-        .button {
-            width: 80%;
-            height: 45px;
-            font-size: 1.3rem;
-        }
-
-
-        .holis-rrss {
-            font-size: 1rem;
-            margin: 4%;
-        }
-
-    }
-}
 
 
 .holis {
@@ -515,7 +384,8 @@ h3 {
                 }
             }
 
-            .try-button {
+            .try-button, .try-button-aurora {
+                width: 100%;
                 margin-top: 10%;
                 align-self: center;
             }
@@ -577,6 +447,149 @@ footer {
   }
 }
 
+
+@media screen and (max-width: 768px) {
+
+    .why-holis {
+        margin-top: 3.5%;
+    }
+
+    .holis-carousel {
+        display: none;
+    }
+
+
+    .navbar-burger {
+        span {
+            color: white;
+            font-size: 1.5rem;
+        }
+    }
+
+    .navbar-start {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .go-to-workplace {
+        position:absolute;
+        right: 17px;
+        top: 22px;
+    }
+
+    .vector-hero {
+        margin-top: 20%;
+    }
+
+    .hero {
+        background-size: 260%;
+    }
+
+    .title {
+        color: white;
+        margin-top: 12%;
+    }
+
+    .subtitle {
+        color: white;
+        margin-bottom: 20%;
+
+        h5 {
+            font-size: 1.7rem;
+            margin-top: 12% !important;
+            margin: 10%;
+        }
+    }
+
+    .hero-call-to-action {
+        color: white;
+        margin-top: -8%;
+
+        .try-button {
+            width: 80%;
+        }
+    }
+
+
+    .holis-features {
+        background-image: None;
+
+        .box {
+            margin-left: 5%;
+            margin-right: 2%;
+        }
+    }
+
+
+    .holis-pricing {
+        &-wrapper {
+            margin: 3%;
+        }
+
+        &-box {
+            margin-left: 2% !important;
+            margin-right: 2%;
+            margin-top: 5%;
+            margin-bottom: 4%;
+
+            &-limited {
+                top: -19px !important;
+            }
+        }
+
+
+        .try-button {
+            width: 100%;
+        }
+
+    }
+
+    .holis-pricing-payment-advice {
+        margin-top: -2% !important;
+        font-size: 1rem;
+        margin-bottom: 11%;
+    }
+
+
+
+    footer {
+        margin-top: 33% !important;
+
+        font-size: 1.5rem;
+
+        .holis-icon-footer {
+            margin-left: 9% !important;
+        }
+
+
+        .holis-language-wrapper {
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .holis-footer-call-to-action {
+            display: flex;
+            align-items: center;
+        }
+
+        .button {
+            width: 80%;
+            height: 45px;
+            font-size: 1.3rem;
+        }
+
+
+        .holis-rrss {
+            font-size: 1rem;
+            margin: 4%;
+        }
+
+    }
+}
+
+
 @media screen and (min-width: 769px) and (max-width: 1024px) {
     .hero-background {
         background-size: 30%;
@@ -620,7 +633,6 @@ footer {
 
     .holis-pricing {
         margin: 7%;
-
     }
 
     .holis-pricing-box-progress-text {
@@ -630,6 +642,8 @@ footer {
 
 
     footer {
+        margin-top: 12%; 
+
         .container {
             .columns {
                 margin-left: 2%;

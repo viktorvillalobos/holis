@@ -21,6 +21,22 @@
     -webkit-transform: translatey(0px);
             transform: translatey(0px); } }
 
+@-webkit-keyframes gradient {
+  0% {
+    background-position: 0% 50%; }
+  50% {
+    background-position: 100% 50%; }
+  100% {
+    background-position: 0% 50%; } }
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%; }
+  50% {
+    background-position: 100% 50%; }
+  100% {
+    background-position: 0% 50%; } }
+
 .holis-exposed {
   background-image: url(../images/clear_bg.svg);
   background-size: 94%;
@@ -8961,11 +8977,19 @@ h3 {
     font-size: 0.8rem; }
 
 .try-button {
-  width: 230px;
+  width: 340px;
   height: 55px;
   color: white;
   background: #5d6de8;
   margin-bottom: 2%; }
+  .try-button:hover {
+    color: white; }
+
+.aurora {
+  background: linear-gradient(60deg, #f79533, #f37055, #ef4e7b, #a166ab, #5073b8, #1098ad, #07b39b, #6fba82);
+  background-size: 400% 400%;
+  -webkit-animation: gradient 3s ease infinite;
+          animation: gradient 3s ease infinite; }
 
 .vector-hero {
   display: -webkit-box;
@@ -9054,99 +9078,6 @@ h3 {
   background-size: 94%; }
   .holis-features-title {
     margin-bottom: 4%; }
-
-@media screen and (max-width: 768px) {
-  .why-holis {
-    margin-top: 3.5%; }
-  .holis-carousel {
-    display: none; }
-  .navbar-burger span {
-    color: white;
-    font-size: 1.5rem; }
-  .navbar-start {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-        -ms-flex-direction: column;
-            flex-direction: column; }
-  .go-to-workplace {
-    position: absolute;
-    right: 17px;
-    top: 22px; }
-  .vector-hero {
-    margin-top: 20%; }
-  .hero {
-    background-size: 260%; }
-  .title {
-    color: white;
-    margin-top: 12%; }
-  .subtitle {
-    color: white;
-    margin-bottom: 20%; }
-    .subtitle h5 {
-      font-size: 1.7rem;
-      margin-top: 12% !important;
-      margin: 10%; }
-  .hero-call-to-action {
-    color: white;
-    margin-top: -8%; }
-    .hero-call-to-action .try-button {
-      width: 230px; }
-  .holis-features {
-    background-image: None; }
-    .holis-features .box {
-      margin-left: 5%;
-      margin-right: 2%; }
-  .holis-pricing-wrapper {
-    margin: 3%; }
-  .holis-pricing-box {
-    margin-left: 2% !important;
-    margin-right: 2%;
-    margin-top: 5%;
-    margin-bottom: 4%; }
-    .holis-pricing-box-limited {
-      top: -19px !important; }
-  .holis-pricing .try-button {
-    width: 230px; }
-  .holis-pricing-payment-advice {
-    margin-top: -2% !important;
-    font-size: 1rem;
-    margin-bottom: 11%; }
-  footer {
-    margin-top: 33% !important;
-    font-size: 1.5rem; }
-    footer .holis-icon-footer {
-      margin-left: 9% !important; }
-    footer .holis-language-wrapper {
-      display: -webkit-box;
-      display: -ms-flexbox;
-      display: flex;
-      -webkit-box-pack: center;
-          -ms-flex-pack: center;
-              justify-content: center;
-      -webkit-box-orient: vertical;
-      -webkit-box-direction: normal;
-          -ms-flex-direction: column;
-              flex-direction: column;
-      -webkit-box-align: center;
-          -ms-flex-align: center;
-              align-items: center; }
-    footer .holis-footer-call-to-action {
-      display: -webkit-box;
-      display: -ms-flexbox;
-      display: flex;
-      -webkit-box-align: center;
-          -ms-flex-align: center;
-              align-items: center; }
-    footer .button {
-      width: 80%;
-      height: 45px;
-      font-size: 1.3rem; }
-    footer .holis-rrss {
-      font-size: 1rem;
-      margin: 4%; } }
 
 .holis-pricing {
   margin-top: 10%;
@@ -9238,7 +9169,8 @@ h3 {
     .holis-pricing-box-features li {
       margin: 10px;
       margin-left: 28px; }
-    .holis-pricing-box .try-button {
+    .holis-pricing-box .try-button, .holis-pricing-box .try-button-aurora {
+      width: 100%;
       margin-top: 10%;
       -ms-flex-item-align: center;
           align-self: center; }
@@ -9278,6 +9210,99 @@ footer {
   footer .holis-icon-footer {
     margin-left: 40%; }
 
+@media screen and (max-width: 768px) {
+  .why-holis {
+    margin-top: 3.5%; }
+  .holis-carousel {
+    display: none; }
+  .navbar-burger span {
+    color: white;
+    font-size: 1.5rem; }
+  .navbar-start {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column; }
+  .go-to-workplace {
+    position: absolute;
+    right: 17px;
+    top: 22px; }
+  .vector-hero {
+    margin-top: 20%; }
+  .hero {
+    background-size: 260%; }
+  .title {
+    color: white;
+    margin-top: 12%; }
+  .subtitle {
+    color: white;
+    margin-bottom: 20%; }
+    .subtitle h5 {
+      font-size: 1.7rem;
+      margin-top: 12% !important;
+      margin: 10%; }
+  .hero-call-to-action {
+    color: white;
+    margin-top: -8%; }
+    .hero-call-to-action .try-button {
+      width: 80%; }
+  .holis-features {
+    background-image: None; }
+    .holis-features .box {
+      margin-left: 5%;
+      margin-right: 2%; }
+  .holis-pricing-wrapper {
+    margin: 3%; }
+  .holis-pricing-box {
+    margin-left: 2% !important;
+    margin-right: 2%;
+    margin-top: 5%;
+    margin-bottom: 4%; }
+    .holis-pricing-box-limited {
+      top: -19px !important; }
+  .holis-pricing .try-button {
+    width: 100%; }
+  .holis-pricing-payment-advice {
+    margin-top: -2% !important;
+    font-size: 1rem;
+    margin-bottom: 11%; }
+  footer {
+    margin-top: 33% !important;
+    font-size: 1.5rem; }
+    footer .holis-icon-footer {
+      margin-left: 9% !important; }
+    footer .holis-language-wrapper {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-pack: center;
+          -ms-flex-pack: center;
+              justify-content: center;
+      -webkit-box-orient: vertical;
+      -webkit-box-direction: normal;
+          -ms-flex-direction: column;
+              flex-direction: column;
+      -webkit-box-align: center;
+          -ms-flex-align: center;
+              align-items: center; }
+    footer .holis-footer-call-to-action {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-align: center;
+          -ms-flex-align: center;
+              align-items: center; }
+    footer .button {
+      width: 80%;
+      height: 45px;
+      font-size: 1.3rem; }
+    footer .holis-rrss {
+      font-size: 1rem;
+      margin: 4%; } }
+
 @media screen and (min-width: 769px) and (max-width: 1024px) {
   .hero-background {
     background-size: 30%; }
@@ -9305,26 +9330,28 @@ footer {
   .holis-pricing-box-progress-text {
     top: -8px;
     left: 32px; }
-  footer .container .columns {
-    margin-left: 2%;
-    margin-right: 2%; }
-  footer .holis-icon-footer-wrapper {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-pack: center;
-        -ms-flex-pack: center;
-            justify-content: center;
-    -webkit-box-align: center;
-        -ms-flex-align: center;
-            align-items: center; }
-  footer .footer-buttons {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-pack: center;
-        -ms-flex-pack: center;
-            justify-content: center;
-    -webkit-box-align: center;
-        -ms-flex-align: center;
-            align-items: center; } }
+  footer {
+    margin-top: 12%; }
+    footer .container .columns {
+      margin-left: 2%;
+      margin-right: 2%; }
+    footer .holis-icon-footer-wrapper {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-pack: center;
+          -ms-flex-pack: center;
+              justify-content: center;
+      -webkit-box-align: center;
+          -ms-flex-align: center;
+              align-items: center; }
+    footer .footer-buttons {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-pack: center;
+          -ms-flex-pack: center;
+              justify-content: center;
+      -webkit-box-align: center;
+          -ms-flex-align: center;
+              align-items: center; } }

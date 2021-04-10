@@ -76,7 +76,7 @@
                         </div>
                         <div class="subtitle">
                             <h5>
-                                {% trans 'Holis gives you Project Management and Internal Comunnication in one single place' %}
+                                {% trans 'Holis gives you Project Management and Internal Communication in one single place' %}
                             </h5>
                         </div>
                     </div>
@@ -90,10 +90,10 @@
                         </a>
                         <span class="is-size-6-mobile"> {% trans 'Welcome to holis again!' %} 👋 </span>
                         {% else %}
-                        <a href="{% url 'web:soon' %}" class="button try-button is-size-4-mobile">
+                        <a href="{% url 'web:soon' %}" class="button try-button is-size-4-mobile aurora">
                                 {% trans 'Start for free' %} 🚀
                             </a>
-                            <span class="is-size-6-mobile"> {% trans 'No credit card required' %} </span>
+                            <!-- <span class="is-size-6-mobile"> {% trans 'No credit card required' %} </span> -->
                         {% endif %}
                     </div>
                 </div>
@@ -291,7 +291,7 @@
                     <li class="holis-pricing-box-features">💵 {% trans 'Money back guarantee' %}</li>
                     <li class="holis-pricing-box-features">🥺 {% trans 'Cancel any time' %}</li>
                 </ul>
-                <a href="{% url 'web:soon' %}" class="button try-button is-size-4-mobile" data-product="{{PLANS.2.id}}" data-theme="none">
+                <a href="{% url 'web:soon' %}" class="button try-button aurora is-size-4-mobile is-size-7-tablet is-size-6-fullhd" data-product="{{PLANS.2.id}}" data-theme="none">
                     {{ _("Start for free") }} 🚀
                 </a>
                 {% if 1 == 2%}
@@ -326,7 +326,7 @@
                     <li class="holis-pricing-box-features">💵 {% trans 'Money back guarantee' %}</li>
                     <li class="holis-pricing-box-features">🥺 {% trans 'Cancel any time' %}</li>
                 </ul>
-                <a href="{% url 'web:soon' %}" class="button try-button is-size-4-mobile" data-product="{{PLANS.2.id}}" data-theme="none">
+                <a href="{% url 'web:soon' %}" class="button try-button aurora is-size-4-mobile is-size-7-tablet is-size-6-fullhd" data-product="{{PLANS.2.id}}" data-theme="none">
                     {{ _("Start for free") }} 🚀
                 </a>
                 {% if 1 == 2%}
@@ -336,7 +336,7 @@
                 {% endif %}
             </div>
             <div class="holis-pricing-box column is-one-third has-text-centered">
-                <span class="holis-pricing-box-limited is-size-5-mobile">{% trans 'Life Time Limited' %} 🏆</span>
+                <span class="holis-pricing-box-limited is-size-5-mobile aurora">{% trans 'Life Time Limited' %} 😱</span>
                 <div class="holis-pricing-box-price">
                     <span class="price-dollars"> <span class="is-size-3">$</span> {{ PLANS.2.price }} </span>
                     <span class="price-frecuency-2">{% trans 'One Time Payment' %}</span>
@@ -361,7 +361,7 @@
                     <li class="holis-pricing-box-features">💵 {% trans 'Money back guarantee' %}</li>
                     <li class="holis-pricing-box-features">🥺 {% trans 'Cancel any time' %}</li>
                 </ul>
-                <a href="{% url 'web:soon' %}" class="button try-button is-size-4-mobile" data-product="{{PLANS.2.id}}" data-theme="none">
+                <a href="{% url 'web:soon' %}" class="button try-button aurora is-size-4-mobile is-size-7-tablet is-size-6-fullhd" data-product="{{PLANS.2.id}}" data-theme="none">
                     {{ _("Start for free") }} 🚀
                 </a>
                 {% if 1 == 2 %}
