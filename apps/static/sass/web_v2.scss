@@ -12,6 +12,7 @@
 ////////////////////////////////
 
 @import "./vars";
+@import "./animations";
 @import "./exposed";
 @import "./bulma/bulma.sass";
 
@@ -192,6 +193,11 @@ h3 {
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.is-floating {
+	transform: translatey(0px);
+	animation: float 6s ease-in-out infinite;
 }
 
 .why-holis {
