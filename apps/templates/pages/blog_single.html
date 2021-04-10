@@ -44,23 +44,25 @@
         <hr width="80%" color="red" class="">
     </div>
 
-    <section class="related-posts">
-        <div class="columns">
-            {% for post in RELATED_POSTS %}
-                <div class="column is-3 related-post">
-                    <div class="related-post-picture">
-                        {% if post.image %}
-                            <img src="{{ post.image.url }}" alt="{{ post.title }}">
-                        {% endif %}
+    {% if RELATED_POSTS %}
+        <section class="related-posts">
+            <div class="columns">
+                {% for post in RELATED_POSTS %}
+                    <div class="column is-3 related-post">
+                        <div class="related-post-picture">
+                            {% if post.image %}
+                                <img src="{{ post.image.url }}" alt="{{ post.title }}">
+                            {% endif %}
+                        </div>
+                        <div class="related-post-title">{{ post.title | slice:":30" }}</div>
+                        <div class="related-post-content">
+                            {{ post.content | slice:":50" }}
+                        </div>
                     </div>
-                    <div class="related-post-title">{{ post.title | slice:":30" }}</div>
-                    <div class="related-post-content">
-                        {{ post.content | slice:":50" }}
-                    </div>
-                </div>
-            {% endfor %}
-        </div>
-    </section>
+                {% endfor %}
+            </div>
+        </section>
+    {% endif %}
 
     <section class="holis-cta">
         <div class="container">
