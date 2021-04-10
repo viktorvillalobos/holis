@@ -62,7 +62,7 @@
                                         </a>
                                         {% if 1 == 2 %}
                                         <a href="{% url 'web:signup-step-1' %}" class="navbar-item is-hidden-desktop">
-                                            {% trans 'Signup' %}
+                                            {% trans 'Start for free' %}
                                         </a>
                                         {% endif %}
                                     {% endif %}
@@ -90,9 +90,9 @@
                         </a>
                         <span class="is-size-6-mobile"> {% trans 'Welcome to holis again!' %} 👋 </span>
                         {% else %}
-                            <button class="button try-button is-size-4-mobile">
-                                {% trans 'Getting Started' %} 🚀
-                            </button>
+                        <a href="{% url 'web:soon' %}" class="button try-button is-size-4-mobile">
+                                {% trans 'Start for free' %} 🚀
+                            </a>
                             <span class="is-size-6-mobile"> {% trans 'No credit card required' %} </span>
                         {% endif %}
                     </div>
@@ -269,7 +269,7 @@
                 <span class="holis-pricing-box-limited is-size-5-mobile">{% trans 'Started' %} 🥉</span>
                 <div class="holis-pricing-box-price">
                     <span class="price-dollars"> <span class="is-size-3">$</span> {{ PLANS.0.price }} </span>
-                    <span class="price-frecuency-2">{% trans 'per month' %}</span>
+                    <span class="price-frecuency-2">{{ _('per month') | title }} </span>
                 </div>
                 <div class="holis-pricing-box-progress is-invisible is-hidden-mobile">
                     <span class="holis-pricing-box-progress-text">100 {% trans 'spots remaing' %}</span>
@@ -292,11 +292,11 @@
                     <li class="holis-pricing-box-features">🥺 {% trans 'Cancel any time' %}</li>
                 </ul>
                 <a href="{% url 'web:soon' %}" class="button try-button is-size-4-mobile" data-product="{{PLANS.2.id}}" data-theme="none">
-                    {{ _("Start for free") | upper }} 🚀
+                    {{ _("Start for free") }} 🚀
                 </a>
                 {% if 1 == 2%}
                 <a href="{% url "web:signup-step-1" %}" class="button try-button is-size-4-mobile">
-                    {{ _("Start for free") | upper }} 🚀
+                    {{ _("Start for free") }} 🚀
                 </a>
                 {% endif %}
             </div>
@@ -304,7 +304,7 @@
                 <span class="holis-pricing-box-limited is-size-5-mobile">{% trans 'PRO' %} 🥈</span>
                 <div class="holis-pricing-box-price">
                     <span class="price-dollars"> <span class="is-size-3">$</span> {{ PLANS.1.price }} </span>
-                    <span class="price-frecuency-2">{% trans 'per month' %}</span>
+                    <span class="price-frecuency-2">{{ _('per month')  | title }}</span>
                 </div>
                 <div class="holis-pricing-box-progress is-invisible is-hidden-mobile">
                     <span class="holis-pricing-box-progress-text">100 {% trans 'spots remaing' %}</span>
@@ -327,11 +327,11 @@
                     <li class="holis-pricing-box-features">🥺 {% trans 'Cancel any time' %}</li>
                 </ul>
                 <a href="{% url 'web:soon' %}" class="button try-button is-size-4-mobile" data-product="{{PLANS.2.id}}" data-theme="none">
-                    {{ _("Start for free") | upper }} 🚀
+                    {{ _("Start for free") }} 🚀
                 </a>
                 {% if 1 == 2%}
                 <a href="{% url "web:signup-step-1" %}" class="button try-button is-size-4-mobile">
-                    {{ _("Start for free") | upper }} 🚀
+                    {{ _("Start for free") }} 🚀
                 </a>
                 {% endif %}
             </div>
@@ -362,11 +362,11 @@
                     <li class="holis-pricing-box-features">🥺 {% trans 'Cancel any time' %}</li>
                 </ul>
                 <a href="{% url 'web:soon' %}" class="button try-button is-size-4-mobile" data-product="{{PLANS.2.id}}" data-theme="none">
-                    {{ _("Start for free") | upper }} 🚀
+                    {{ _("Start for free") }} 🚀
                 </a>
                 {% if 1 == 2 %}
                 <a href="#!" class="paddle_button button try-button is-size-4-mobile" data-product="{{PLANS.2.id}}" data-theme="none">
-                    {{ _("Start for free") | upper }} 🚀
+                    {{ _("Start for free") }} 🚀
                 </a>
                 {% endif %}
             </div>
