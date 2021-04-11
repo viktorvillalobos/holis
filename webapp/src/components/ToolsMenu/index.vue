@@ -13,6 +13,10 @@
         <li @click="goTo('user-config')" :class="{'active' : $route.name === 'user-config'}">
           <font-awesome-icon icon="cog" />
         </li>
+
+        <li @click="handleProjects" :class="{'active': (isProjectsActive || isCreateProjectActive) && asideOpened}">
+          <font-awesome-icon icon="cog" />
+        </li>
       </ul>
     </card>
 
@@ -51,7 +55,9 @@ export default {
     ...mapState({
       isBoardActive: state => state.app.isBoardActive,
       isNotificationsActive: state => state.app.isNotificationsActive,
-      isReleasesActive: state => state.app.isReleasesActive
+      isReleasesActive: state => state.app.isReleasesActive,
+      isProjectsActive: state => state.app.isProjectsActive,
+      isCreateProjectActive: state => state.app.isCreateProjectActive
     })
   },
   methods: {
@@ -62,6 +68,10 @@ export default {
       this.$store.commit('setBoardActive')
       this.$store.dispatch('getList')
       this.$store.dispatch('getBirthdays')
+    },
+    handleProjects () {
+      if (!this.asideOpened || this.isProjectsActive) { this.$store.commit('setAsideLeftActive') }
+      this.$store.commit('setProjectsActive')
     },
     handleNotifications () {
       if (this.isBoardActive) this.$store.commit('setBoardActive')

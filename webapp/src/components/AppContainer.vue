@@ -11,6 +11,12 @@
           <Notifications v-if="isNotificationsActive" />
         </transition>
         <transition name="translate-x">
+          <Projects v-if="isProjectsActive" />
+        </transition>
+        <transition name="translate-x">
+          <CreateProject v-if="isCreateProjectActive" />
+        </transition>
+        <transition name="translate-x">
           <Releases v-if="isReleasesActive" />
         </transition>
       </AsideLeft>
@@ -96,6 +102,8 @@ import ToolsMenu from '@/components/ToolsMenu'
 import Logo from '@/components/Logo'
 import NotificationCard from '@/components/Notifications/NotificationCard'
 import Notifications from '@/components/Notifications'
+import Projects from './Projects/index'
+import CreateProject from './Projects/CreateProject'
 import AsideLeft from '@/components/AsideLeft'
 import AsideRight from '@/components/AsideRight'
 import Board from '@/components/Board'
@@ -128,7 +136,9 @@ export default {
     ChatBubbles,
     Chat,
     Modal,
-    Card
+    Card,
+    Projects,
+    CreateProject
   },
   computed: {
     ...mapState({
@@ -137,6 +147,8 @@ export default {
       isBoardActive: state => state.app.isBoardActive,
       isNotificationsActive: state => state.notifications.isNotificationsActive,
       isReleasesActive: state => state.app.isReleasesActive,
+      isProjectsActive: state => state.app.isProjectsActive,
+      isCreateProjectActive : state => state.app.isCreateProjectActive,
       isVideoActive: state => state.app.isVideoActive,
       isMicroActive: state => state.app.isMicroActive,
       isSoundActive: state => state.app.isSoundActive,
@@ -152,6 +164,10 @@ export default {
       if (this.isBoardActive) return 'Cartelera'
 
       if (this.isReleasesActive) return 'Novedades'
+
+      if (this.isProjectsActive) return 'Proyectos'
+
+      if (this.isCreateProjectActive) return 'Crear proyecto'
 
       return 'Aside'
     },

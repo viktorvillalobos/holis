@@ -5,6 +5,8 @@ const state = {
   isAsideRightActive: false,
   isBoardActive: false,
   isReleasesActive: false,
+  isProjectsActive: false,
+  isCreateProjectActive: false,
   isMicroActive: false,
   isVideoActive: false,
   isSoundActive: true,
@@ -27,6 +29,14 @@ const mutations = {
   },
   setAsideRightActive (state, status) {
     status ? state.isAsideRightActive = true : state.isAsideRightActive = !state.isAsideRightActive
+  },
+  setProjectsActive (state) {
+    state.isProjectsActive = !state.isProjectsActive
+  },
+  setCreateProjectActive(state){
+    state.isCreateProjectActive = !state.isCreateProjectActive
+    if(state.isCreateProjectActive)
+      state.isProjectsActive = false
   },
   setBoardActive (state) {
     state.isBoardActive = !state.isBoardActive
