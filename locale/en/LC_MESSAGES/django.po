@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-10 19:25+0000\n"
+"POT-Creation-Date: 2021-04-12 00:04+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -357,6 +357,7 @@ msgid "Features"
 msgstr ""
 
 #: apps/templates/base_v2.html:100 apps/templates/pages/home_v2.html:53
+#: apps/templates/pages/home_v2.html:265
 #: apps/templates/pages/partials/navbar.html:28
 msgid "Pricing"
 msgstr ""
@@ -412,23 +413,25 @@ msgstr "Look how it works"
 
 #: apps/templates/pages/home.html:99 apps/templates/pages/home_v2.html:227
 msgid "FEATURE-1-TITLE"
-msgstr "Voice"
+msgstr "Voice channels"
 
 #: apps/templates/pages/home.html:100 apps/templates/pages/home_v2.html:228
 msgid "FEATURE-1-CONTENT"
-msgstr "Solve doubts and socialize with your team at any time"
+msgstr ""
+"Retrieve spontaneous meetings that happen in the office, but now remotely"
 
 #: apps/templates/pages/home.html:104 apps/templates/pages/home_v2.html:232
 msgid "FEATURE-2-TITLE"
-msgstr "Text Chat"
+msgstr "Text channels"
 
 #: apps/templates/pages/home.html:105 apps/templates/pages/home_v2.html:233
 msgid "FEATURE-2-CONTENT"
-msgstr "Is the person you want to communicate with busy?, leave a message"
+msgstr ""
+"Don't miss another important message again with chat channels and groups"
 
 #: apps/templates/pages/home.html:109 apps/templates/pages/home_v2.html:237
 msgid "FEATURE-5-TITLE"
-msgstr "Board"
+msgstr "Information boards"
 
 #: apps/templates/pages/home.html:110 apps/templates/pages/home_v2.html:238
 msgid "FEATURE-5-CONTENT"
@@ -436,25 +439,23 @@ msgstr "Centralize essential information for your team members quickly."
 
 #: apps/templates/pages/home.html:114 apps/templates/pages/home_v2.html:242
 msgid "FEATURE-4-TITLE"
-msgstr "Distraction free mode"
+msgstr "Do you need focus?"
 
 #: apps/templates/pages/home.html:115 apps/templates/pages/home_v2.html:243
 msgid "FEATURE-4-CONTENT"
-msgstr ""
-"Turn off all communications and notifications, to focus on work when you "
-"need to."
+msgstr "Simply enter a distraction free mode and get work done"
 
 #: apps/templates/pages/home.html:119 apps/templates/pages/home_v2.html:247
 msgid "FEATURE-3-TITLE"
-msgstr "Project Managment"
+msgstr "Easy Project Management"
 
 #: apps/templates/pages/home.html:120 apps/templates/pages/home_v2.html:248
 msgid "FEATURE-3-CONTENT"
-msgstr "Simple and efective project management for productive remote teams"
+msgstr "Keep order and delivery on time with our project management"
 
 #: apps/templates/pages/home.html:124 apps/templates/pages/home_v2.html:252
 msgid "FEATURE-6-TITLE"
-msgstr "Docs & Files"
+msgstr "Files everywhere?"
 
 #: apps/templates/pages/home.html:125 apps/templates/pages/home_v2.html:253
 msgid "FEATURE-6-CONTENT"
@@ -522,13 +523,7 @@ msgid "Founder of Holis"
 msgstr ""
 
 #: apps/templates/pages/home_v2.html:217
-msgid "What Holis offer?"
-msgstr ""
-
-#: apps/templates/pages/home_v2.html:265
-msgid ""
-"All the benefits of a real office, from anywhere in the world with a single "
-"price"
+msgid "What does Holis offer?"
 msgstr ""
 
 #: apps/templates/pages/home_v2.html:269

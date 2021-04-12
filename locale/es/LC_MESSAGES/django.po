@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-10 19:25+0000\n"
+"POT-Creation-Date: 2021-04-12 00:04+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -361,6 +361,7 @@ msgid "Features"
 msgstr "Características"
 
 #: apps/templates/base_v2.html:100 apps/templates/pages/home_v2.html:53
+#: apps/templates/pages/home_v2.html:265
 #: apps/templates/pages/partials/navbar.html:28
 msgid "Pricing"
 msgstr "Precio"
@@ -417,60 +418,56 @@ msgstr "Mira cómo funciona"
 
 #: apps/templates/pages/home.html:99 apps/templates/pages/home_v2.html:227
 msgid "FEATURE-1-TITLE"
-msgstr "Voz en tiempo real"
+msgstr "Canales de voz"
 
 #: apps/templates/pages/home.html:100 apps/templates/pages/home_v2.html:228
 msgid "FEATURE-1-CONTENT"
 msgstr ""
 "Recupera las reuniones espontanteas que suceden en la oficina, pero ahora en "
-"forma remota."
+"forma remota"
 
 #: apps/templates/pages/home.html:104 apps/templates/pages/home_v2.html:232
 msgid "FEATURE-2-TITLE"
-msgstr "Chat de texto"
+msgstr "Canales de texto"
 
 #: apps/templates/pages/home.html:105 apps/templates/pages/home_v2.html:233
 msgid "FEATURE-2-CONTENT"
 msgstr ""
-"¿La persona con la que quieres comunicarte está ocupada? ¡Déjale un mensaje "
-"al chat!"
+"No pierdas otro mensaje importante de nuevo con los canales y grupos de chat"
 
 #: apps/templates/pages/home.html:109 apps/templates/pages/home_v2.html:237
 msgid "FEATURE-5-TITLE"
-msgstr "Cartelera"
+msgstr "¿Necesitas notificar algo importante?"
 
 #: apps/templates/pages/home.html:110 apps/templates/pages/home_v2.html:238
 msgid "FEATURE-5-CONTENT"
-msgstr "Centraliza facilmente la información importante para tu equipo."
+msgstr "Centraliza la información general usando la cartelera!"
 
 #: apps/templates/pages/home.html:114 apps/templates/pages/home_v2.html:242
 msgid "FEATURE-4-TITLE"
-msgstr "Sin distracciones"
+msgstr "¿Necesitas concentrarte?"
 
 #: apps/templates/pages/home.html:115 apps/templates/pages/home_v2.html:243
 msgid "FEATURE-4-CONTENT"
-msgstr ""
-"Con el modo sin distracciones, apaga todas las notificaciones para enfocarte "
-"al 100% en tu trabajo."
+msgstr "Activa el modo sin distracciones y haz el trabajo."
 
 #: apps/templates/pages/home.html:119 apps/templates/pages/home_v2.html:247
 msgid "FEATURE-3-TITLE"
-msgstr "Analíticas"
+msgstr "Gestión de proyectos"
 
 #: apps/templates/pages/home.html:120 apps/templates/pages/home_v2.html:248
 msgid "FEATURE-3-CONTENT"
 msgstr ""
-"Usando inteligencia artificial no invasiva, damos alertas de bajas de animo "
-"en el equipo y posible deserciones."
+"Manten el orden de tu trabajo con el gestor de proyectos simple e integrado"
 
 #: apps/templates/pages/home.html:124 apps/templates/pages/home_v2.html:252
 msgid "FEATURE-6-TITLE"
-msgstr "Organiza tus archivos"
+msgstr "¿Cansado del desorden de archivos?"
 
 #: apps/templates/pages/home.html:125 apps/templates/pages/home_v2.html:253
 msgid "FEATURE-6-CONTENT"
 msgstr ""
-"Comparte documentos, código fuente, archivos, imagenes y hojas de calculo. "
+"Documentos, código fuente, archivos, imagenes y hojas de calculo. "
 "Organiza todo en carpetas para que sean faciles de encontrar."
 
 #: apps/templates/pages/home.html:138
@@ -533,16 +530,8 @@ msgid "Founder of Holis"
 msgstr "Fundador de Holis"
 
 #: apps/templates/pages/home_v2.html:217
-msgid "What Holis offer?"
+msgid "What does Holis offer?"
 msgstr "¿ Qué ofrece holis ?"
-
-#: apps/templates/pages/home_v2.html:265
-msgid ""
-"All the benefits of a real office, from anywhere in the world with a single "
-"price"
-msgstr ""
-"Todos los beneficios de una oficina real, desde cualquier lugar del mundo "
-"con un simple precio"
 
 #: apps/templates/pages/home_v2.html:269
 msgid "Started"
@@ -782,6 +771,13 @@ msgstr ""
 #: apps/web/views.py:74
 msgid "Invalid user or password"
 msgstr ""
+
+#~ msgid ""
+#~ "All the benefits of a real office, from anywhere in the world with a "
+#~ "single price"
+#~ msgstr ""
+#~ "Todos los beneficios de una oficina real, desde cualquier lugar del mundo "
+#~ "con un simple precio"
 
 #~ msgid "Getting Started"
 #~ msgstr "Comienza ahora"
