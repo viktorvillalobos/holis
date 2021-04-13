@@ -8953,7 +8953,7 @@ h3 {
     font-weight: 800;
     font-size: xxx-large; }
   .hero-title .subtitle h5 {
-    margin-top: 5%;
+    margin-top: 6.5%;
     font-size: x-large; }
 
 .hero-call-to-action {
@@ -9309,7 +9309,7 @@ footer {
       font-size: 1rem;
       margin: 4%; } }
 
-@media screen and (min-width: 769px) and (max-width: 1024px) {
+@media screen and (min-width: 769px) and (max-width: 1025px) {
   .hero-background {
     background-size: 30%; }
   .holis-body-background {
@@ -9317,18 +9317,20 @@ footer {
   .holis-exposed {
     margin-top: 5%; }
     .holis-exposed-notification {
-      top: 36%;
+      top: 44%;
       left: 6%; }
     .holis-exposed-chat {
       left: 68.2%;
       top: 62.5%; }
     .holis-exposed-whos-talking {
-      left: 8%;
-      top: 66%; }
+      left: 2%;
+      top: 73%; }
   .hero-title {
     margin-top: 15%; }
   .why-holis {
-    margin-top: -31%; }
+    margin-top: -21%; }
+    .why-holis-hero-blobs {
+      width: 52%; }
   .holis-features {
     margin: 3%; }
   .holis-pricing  {
@@ -9361,3 +9363,22 @@ footer {
       -webkit-box-align: center;
           -ms-flex-align: center;
               align-items: center; } }
+
+@media screen and (min-width: 1366px) and (max-width: 1490px) {
+  .holis-body-background {
+    background-size: 27%; }
+  .hero-background {
+    background-size: 25%; }
+  .holis-exposed-notification {
+    top: 44%;
+    left: 10%; }
+  .holis-exposed-whos-talking  {
+    left: 10%;
+    top: 114%; }
+  .holis-exposed-chat {
+    left: 71.2%;
+    top: 92.5%; }
+  .why-holis {
+    margin-top: -4%; }
+    .why-holis-hero-blobs {
+      width: 52%; } }

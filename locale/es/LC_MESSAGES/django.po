@@ -383,7 +383,7 @@ msgstr "Noticias"
 #: apps/templates/pages/partials/navbar.html:32
 #: apps/templates/pages/partials/navbar.html:48
 msgid "Workplace"
-msgstr ""
+msgstr "Lugar de trabajo"
 
 #: apps/templates/base_v2.html:140 apps/templates/pages/home_v2.html:61
 #: apps/templates/pages/home_v2.html:111
@@ -496,16 +496,12 @@ msgid "Start for free"
 msgstr "Comienza gratis. No se require TDC"
 
 #: apps/templates/pages/home_v2.html:75
-msgid "The definitive toolkit for productive remote teams"
-msgstr "El kit definitivo de herramientas para equipos de trabajo remoto"
+msgid "HERO-TITLE"
+msgstr "El trabajo remoto debe ser tan bueno como en persona"
 
 #: apps/templates/pages/home_v2.html:79
-msgid ""
-"Holis gives you Project Management and Internal Communication in one single "
-"place"
-msgstr ""
-"Holis the ofrece gestion de projectos y comunicación interna en un solo "
-"lugar."
+msgid "HERO-SUBTITLE"
+msgstr "Holis es una plataforma para equipos remotos que garantiza una comunicación eficaz, disminuye los inconventientes de la soledad y facilita la organización"
 
 #: apps/templates/pages/home_v2.html:86
 msgid "Your Workplace"
@@ -755,8 +751,6 @@ msgid "User name"
 msgstr ""
 
 #: apps/web/models.py:29
-#, fuzzy
-#| msgid "position"
 msgid "Position"
 msgstr "Cargo"
 
@@ -772,35 +766,6 @@ msgstr ""
 msgid "Invalid user or password"
 msgstr ""
 
-#~ msgid ""
-#~ "All the benefits of a real office, from anywhere in the world with a "
-#~ "single price"
-#~ msgstr ""
-#~ "Todos los beneficios de una oficina real, desde cualquier lugar del mundo "
-#~ "con un simple precio"
-
-#~ msgid "Getting Started"
-#~ msgstr "Comienza ahora"
-
-#~ msgid "monthly"
-#~ msgstr "mensual"
-
-#, fuzzy
-#~| msgid "Unlimited voice chat"
-#~ msgid "Unlimitedvoice chat"
-#~ msgstr "Chat de voz ilimitados"
-
-#~ msgid "For life"
-#~ msgstr "De por vida"
-
-#~ msgid "Get Holis For Live!"
-#~ msgstr "Obtén Holis de por Vida!"
-
-#~ msgid "Soon"
-#~ msgstr "Pronto"
-
-#~ msgid "Questions? Need help? Email us at"
-#~ msgstr "¿ Tienes dudas ? Escribenos a "
-
-#~ msgid "is proudly designed and developed in LATAM ♥"
-#~ msgstr "es orgullosamente diseñado y desarrollado en LATAM ♥"
+#: apps/templates/pages/home_v2.html:246
+msgid "PRICING-TITLE"
+msgstr "Todos los beneficios de una oficina real desde cualquier parte del mundo a precios increibles"

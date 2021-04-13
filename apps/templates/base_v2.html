@@ -161,16 +161,7 @@
 <!-- End Google Tag Manager -->
 </script>
 
-<script>
-
-function initFreshChat() {
-    window.fcWidget.init({
-      token: "acbcd7a3-0063-43c4-9e83-d87837ed7d23",
-      host: "https://wchat.freshchat.com"
-    });
-  }
-  function initialize(i,t){var e;i.getElementById(t)?initFreshChat():((e=i.createElement("script")).id=t,e.async=!0,e.src="https://wchat.freshchat.com/js/widget.js",e.onload=initFreshChat,i.head.appendChild(e))}function initiateCall(){initialize(document,"freshchat-js-sdk")}window.addEventListener?window.addEventListener("load",initiateCall,!1):window.attachEvent("load",initiateCall,!1);
-</script>
+<script type="text/javascript">window.$crisp=[];window.CRISP_WEBSITE_ID="b5b535b2-70b6-4269-a9e7-4d7e6b25c927";(function(){d=document;s=d.createElement("script");s.src="https://client.crisp.chat/l.js";s.async=1;d.getElementsByTagName("head")[0].appendChild(s);})();</script>
 
 {% block bottom_js %}
 {% endblock %}

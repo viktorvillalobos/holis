@@ -72,11 +72,11 @@
                     </nav>
                     <div class="hero-title is-full">
                         <div class="title">
-                            <h1>{% trans 'The definitive toolkit for productive remote teams' %}</h1>
+                            <h1>{% trans 'HERO-TITLE' %}</h1>
                         </div>
                         <div class="subtitle">
                             <h5>
-                                {% trans 'Holis gives you Project Management and Internal Communication in one single place' %}
+                                {% trans 'HERO-SUBTITLE' %}
                             </h5>
                         </div>
                     </div>
@@ -148,41 +148,23 @@
                 <a name="why-holis"></a>
                 {% get_current_language as LANGUAGE_CODE %}
                 {% if LANGUAGE_CODE == "es" %}
-                    <h2 class="why-holis-title">Holis es el lugar para comunicarte con tu equipo 🗣</h2>
+                    <h2 class="why-holis-title">Holis ayuda a equipos remotos a trabajar juntos</h2>
                 {% else %}
-                    <h2 class="why-holis-title">Holis is the place to communicate with your team 🗣</h2>
+                    <h2 class="why-holis-title">Holis help teams work together remotely</h2>
                 {% endif %}
                 <div class="why-holis-content">
                     {% if LANGUAGE_CODE == "es" %}
                     <p>
-                        El trabajo remoto envuelve problemas para los que la mayoría de los equipos no estan preparados;
-                        aislamiento, comunicación incorrecta, sobretrabajo, falta de visualización del entorno.  Estos son solo algunos
-                        de los inconvenientes a los que nos enfrentamos cuando nuestro equipo tomó la decisión de pasar a remoto.
-                    </p>
+                    Holis es una plataforma de vanguardia para que los grupos resuelvan los problemas que enfrentan la mayoría de los trabajadores remotos, como el aislamiento y la comunicación ineficaz.                     </p>
                     <p>
-                        Utilizamos herramientas existentes, pero ninguna proporcionaba por si mismo el grado de interacción al que mi
-                        equipo estaba acostumbrado, entoces decidimos, diseñar y desarrollar una herramienta in-house que cumpliera con nuestras
-                        exigencias y así nacio HOLIS.
-                    </p>
-                    <p>
-                        Holis recrea tu oficina real de tal forma que con solo hacer click al lado de unos de tus compañeros
-                        sea suficiente para iniciar un canal de voz con tus compañeros, resolver dudas de forma eficiente,
-                        chistes casuales y escuchar el ruido de fondo de los demás trabajando.
+Mediante la visualización de proyectos, la separación del trabajo por zonas, reuniones en línea con colegas de todo el mundo y más, Holis permite a los equipos completar proyectos en solitario o disfrutar del trabajo en equipo de forma remota sin ningún inconveniente.
                     </p>
                 {% else %}
-                    <p>
-                        Remote work involves problems that most teams are not prepared for; isolation,
-                        incorrect communication, overwork and lack of visualization of the
-                        environment are some of the inconveniences that we face with our team when
-                        the situation forced us to migrate to 100% remote.
                     </p>
+                    Holis is a solution for teams who want to grow without sacrificing company culture or the productivity of their members.
                     <p>
-                        We tried to use existing tools, but none had the degree of interaction that our team needed, so we decided
-                        to design and develop a tool that would meet our demands and thus <i>Holis</i> was born.
-                    </p>
                     <p>
-                        Holis recreates your real office in such a way that just clicking on our intuitive grid is enough to
-                        start a voice channel with your colleagues, efficiently solve doubts, casual jokes and listen to the background noise of others at work.
+                        Holis is a cutting-edge platform for groups to solve the problems that most remote workers face, like isolation and ineffective communication. Through visualization of projects, separation of work by zones, online meetings with colleagues from around the world and more Holis allow teams to have solo project completion or enjoy teamwork remotely without any inconvenience.
                     </p>
                 {% endif %}
                 </div>
@@ -201,7 +183,6 @@
                     <source media="(max-width: 900px)" srcset="{% static 'images/mobile-header-blobs.svg' %}">
                     <source media="(min-width: 901px)" srcset="{% static 'images/header-blobs.svg' %}">
                     <img loading="lazy" src="{% static 'images/mobile-header-blobs.svg' %}" />
-                    <img loading="lazy" class="holis-carousel-img" src="{% static 'images/home/hero-boys.svg' %}" alt="Holis Teams boys" />
                 </picture>
                 <div class="holis-hero-images-desktop holis-carousel-wrapper">
                     <div class="holis-carousel">
@@ -262,7 +243,7 @@
     <section class="holis-pricing">
         <div class="holis-pricing-title has-text-centered is-full is-holis-title is-size-4-mobile">
             <a name="pricing"></a>
-            {% trans 'All the benefits of a real office, from anywhere in the world with easy to understand prices' %}
+            {% trans 'PRICING-TITLE' %}
         </div>
         <div class="holis-pricing-wrapper columns">
             <div class="holis-pricing-box column is-one-third has-text-centered">
@@ -336,7 +317,7 @@
                 {% endif %}
             </div>
             <div class="holis-pricing-box column is-one-third has-text-centered">
-                <span class="holis-pricing-box-limited is-size-5-mobile aurora">{% trans 'Life Time Limited' %} 😱</span>
+                <span class="holis-pricing-box-limited is-size-5-mobile aurora">{% trans 'Life Time Deal' %} 😱</span>
                 <div class="holis-pricing-box-price">
                     <span class="price-dollars"> <span class="is-size-3">$</span> {{ PLANS.2.price }} </span>
                     <span class="price-frecuency-2">{% trans 'One Time Payment' %}</span>

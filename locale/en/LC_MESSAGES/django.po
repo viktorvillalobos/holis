@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-12 00:04+0000\n"
+"POT-Creation-Date: 2021-04-13 02:42+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -357,7 +357,6 @@ msgid "Features"
 msgstr ""
 
 #: apps/templates/base_v2.html:100 apps/templates/pages/home_v2.html:53
-#: apps/templates/pages/home_v2.html:265
 #: apps/templates/pages/partials/navbar.html:28
 msgid "Pricing"
 msgstr ""
@@ -411,53 +410,53 @@ msgstr ""
 msgid "Look how it works"
 msgstr "Look how it works"
 
-#: apps/templates/pages/home.html:99 apps/templates/pages/home_v2.html:227
+#: apps/templates/pages/home.html:99 apps/templates/pages/home_v2.html:219
 msgid "FEATURE-1-TITLE"
 msgstr "Voice channels"
 
-#: apps/templates/pages/home.html:100 apps/templates/pages/home_v2.html:228
+#: apps/templates/pages/home.html:100 apps/templates/pages/home_v2.html:220
 msgid "FEATURE-1-CONTENT"
 msgstr ""
 "Retrieve spontaneous meetings that happen in the office, but now remotely"
 
-#: apps/templates/pages/home.html:104 apps/templates/pages/home_v2.html:232
+#: apps/templates/pages/home.html:104 apps/templates/pages/home_v2.html:224
 msgid "FEATURE-2-TITLE"
 msgstr "Text channels"
 
-#: apps/templates/pages/home.html:105 apps/templates/pages/home_v2.html:233
+#: apps/templates/pages/home.html:105 apps/templates/pages/home_v2.html:225
 msgid "FEATURE-2-CONTENT"
 msgstr ""
 "Don't miss another important message again with chat channels and groups"
 
-#: apps/templates/pages/home.html:109 apps/templates/pages/home_v2.html:237
+#: apps/templates/pages/home.html:109 apps/templates/pages/home_v2.html:229
 msgid "FEATURE-5-TITLE"
 msgstr "Information boards"
 
-#: apps/templates/pages/home.html:110 apps/templates/pages/home_v2.html:238
+#: apps/templates/pages/home.html:110 apps/templates/pages/home_v2.html:230
 msgid "FEATURE-5-CONTENT"
 msgstr "Centralize essential information for your team members quickly."
 
-#: apps/templates/pages/home.html:114 apps/templates/pages/home_v2.html:242
+#: apps/templates/pages/home.html:114 apps/templates/pages/home_v2.html:234
 msgid "FEATURE-4-TITLE"
 msgstr "Do you need focus?"
 
-#: apps/templates/pages/home.html:115 apps/templates/pages/home_v2.html:243
+#: apps/templates/pages/home.html:115 apps/templates/pages/home_v2.html:235
 msgid "FEATURE-4-CONTENT"
 msgstr "Simply enter a distraction free mode and get work done"
 
-#: apps/templates/pages/home.html:119 apps/templates/pages/home_v2.html:247
+#: apps/templates/pages/home.html:119 apps/templates/pages/home_v2.html:239
 msgid "FEATURE-3-TITLE"
 msgstr "Easy Project Management"
 
-#: apps/templates/pages/home.html:120 apps/templates/pages/home_v2.html:248
+#: apps/templates/pages/home.html:120 apps/templates/pages/home_v2.html:240
 msgid "FEATURE-3-CONTENT"
 msgstr "Keep order and delivery on time with our project management"
 
-#: apps/templates/pages/home.html:124 apps/templates/pages/home_v2.html:252
+#: apps/templates/pages/home.html:124 apps/templates/pages/home_v2.html:244
 msgid "FEATURE-6-TITLE"
 msgstr "Files everywhere?"
 
-#: apps/templates/pages/home.html:125 apps/templates/pages/home_v2.html:253
+#: apps/templates/pages/home.html:125 apps/templates/pages/home_v2.html:245
 msgid "FEATURE-6-CONTENT"
 msgstr ""
 "Share docs, code, files, images and spreassheets. Organize in folder so "
@@ -484,21 +483,19 @@ msgid "Why holis?"
 msgstr ""
 
 #: apps/templates/pages/home_v2.html:65 apps/templates/pages/home_v2.html:94
-#: apps/templates/pages/home_v2.html:295 apps/templates/pages/home_v2.html:299
-#: apps/templates/pages/home_v2.html:330 apps/templates/pages/home_v2.html:334
-#: apps/templates/pages/home_v2.html:365 apps/templates/pages/home_v2.html:369
+#: apps/templates/pages/home_v2.html:287 apps/templates/pages/home_v2.html:291
+#: apps/templates/pages/home_v2.html:322 apps/templates/pages/home_v2.html:326
+#: apps/templates/pages/home_v2.html:357 apps/templates/pages/home_v2.html:361
 msgid "Start for free"
 msgstr "Try for free. No CC required."
 
 #: apps/templates/pages/home_v2.html:75
-msgid "The definitive toolkit for productive remote teams"
-msgstr ""
+msgid "HERO-TITLE"
+msgstr "Remote work easy and more enjoyable"
 
 #: apps/templates/pages/home_v2.html:79
-msgid ""
-"Holis gives you Project Management and Internal Communication in one single "
-"place"
-msgstr ""
+msgid "HERO-SUBTITLE"
+msgstr "Holis is a platform for remote teams that ensures effective communication, avoids the pitfalls of loneliness and work-life balance, and facilitates organization"
 
 #: apps/templates/pages/home_v2.html:86
 msgid "Your Workplace"
@@ -518,95 +515,101 @@ msgstr ""
 msgid "Signup"
 msgstr ""
 
-#: apps/templates/pages/home_v2.html:195
+#: apps/templates/pages/home_v2.html:187
 msgid "Founder of Holis"
 msgstr ""
 
-#: apps/templates/pages/home_v2.html:217
+#: apps/templates/pages/home_v2.html:209
 msgid "What does Holis offer?"
 msgstr ""
 
-#: apps/templates/pages/home_v2.html:269
+#: apps/templates/pages/home_v2.html:257
+msgid ""
+"All the benefits of a real office, from anywhere in the world with easy to "
+"understand prices"
+msgstr ""
+
+#: apps/templates/pages/home_v2.html:261
 msgid "Started"
 msgstr ""
 
-#: apps/templates/pages/home_v2.html:272 apps/templates/pages/home_v2.html:307
+#: apps/templates/pages/home_v2.html:264 apps/templates/pages/home_v2.html:299
 msgid "per month"
 msgstr ""
 
-#: apps/templates/pages/home_v2.html:275 apps/templates/pages/home_v2.html:310
-#: apps/templates/pages/home_v2.html:345
+#: apps/templates/pages/home_v2.html:267 apps/templates/pages/home_v2.html:302
+#: apps/templates/pages/home_v2.html:337
 msgid "spots remaing"
 msgstr ""
 
-#: apps/templates/pages/home_v2.html:284
+#: apps/templates/pages/home_v2.html:276
 msgid "Up to 10 users"
 msgstr ""
 
-#: apps/templates/pages/home_v2.html:285 apps/templates/pages/home_v2.html:320
-#: apps/templates/pages/home_v2.html:355
+#: apps/templates/pages/home_v2.html:277 apps/templates/pages/home_v2.html:312
+#: apps/templates/pages/home_v2.html:347
 msgid "Unlimited voice chat"
 msgstr ""
 
-#: apps/templates/pages/home_v2.html:286 apps/templates/pages/home_v2.html:321
-#: apps/templates/pages/home_v2.html:356
+#: apps/templates/pages/home_v2.html:278 apps/templates/pages/home_v2.html:313
+#: apps/templates/pages/home_v2.html:348
 msgid "Unlimited messages"
 msgstr ""
 
-#: apps/templates/pages/home_v2.html:287 apps/templates/pages/home_v2.html:322
-#: apps/templates/pages/home_v2.html:357
+#: apps/templates/pages/home_v2.html:279 apps/templates/pages/home_v2.html:314
+#: apps/templates/pages/home_v2.html:349
 msgid "Unlimited projects"
 msgstr ""
 
-#: apps/templates/pages/home_v2.html:288
+#: apps/templates/pages/home_v2.html:280
 msgid "50 GB of storage"
 msgstr ""
 
-#: apps/templates/pages/home_v2.html:289 apps/templates/pages/home_v2.html:324
-#: apps/templates/pages/home_v2.html:359
+#: apps/templates/pages/home_v2.html:281 apps/templates/pages/home_v2.html:316
+#: apps/templates/pages/home_v2.html:351
 msgid "Email Support"
 msgstr ""
 
-#: apps/templates/pages/home_v2.html:290 apps/templates/pages/home_v2.html:325
-#: apps/templates/pages/home_v2.html:360
+#: apps/templates/pages/home_v2.html:282 apps/templates/pages/home_v2.html:317
+#: apps/templates/pages/home_v2.html:352
 msgid "Live Chat Support"
 msgstr ""
 
-#: apps/templates/pages/home_v2.html:291 apps/templates/pages/home_v2.html:326
-#: apps/templates/pages/home_v2.html:361
+#: apps/templates/pages/home_v2.html:283 apps/templates/pages/home_v2.html:318
+#: apps/templates/pages/home_v2.html:353
 msgid "Money back guarantee"
 msgstr ""
 
-#: apps/templates/pages/home_v2.html:292 apps/templates/pages/home_v2.html:327
-#: apps/templates/pages/home_v2.html:362
+#: apps/templates/pages/home_v2.html:284 apps/templates/pages/home_v2.html:319
+#: apps/templates/pages/home_v2.html:354
 msgid "Cancel any time"
 msgstr ""
 
-#: apps/templates/pages/home_v2.html:304
+#: apps/templates/pages/home_v2.html:296
 msgid "PRO"
 msgstr ""
 
-#: apps/templates/pages/home_v2.html:319 apps/templates/pages/home_v2.html:354
+#: apps/templates/pages/home_v2.html:311 apps/templates/pages/home_v2.html:346
 msgid "Unlimited Users"
 msgstr ""
 
-#: apps/templates/pages/home_v2.html:323 apps/templates/pages/home_v2.html:358
+#: apps/templates/pages/home_v2.html:315 apps/templates/pages/home_v2.html:350
 msgid "200 GB of storage"
 msgstr ""
 
-#: apps/templates/pages/home_v2.html:339
-msgid "Life Time Limited"
+#: apps/templates/pages/home_v2.html:331
+msgid "Life Time Deal"
 msgstr ""
 
-#: apps/templates/pages/home_v2.html:342
+#: apps/templates/pages/home_v2.html:334
 msgid "One Time Payment"
 msgstr ""
 
-#: apps/templates/pages/home_v2.html:345
+#: apps/templates/pages/home_v2.html:337
 msgid "only "
 msgstr ""
 
-#: apps/templates/pages/home_v2.html:375
+#: apps/templates/pages/home_v2.html:367
 msgid "All our payments are being processed by "
 msgstr ""
 
@@ -764,3 +767,8 @@ msgstr ""
 #~| msgid "EARLY-ACCESS"
 #~ msgid "EARLY ACCESS"
 #~ msgstr "Get early access"
+
+#: apps/templates/pages/home_v2.html:246
+msgid "PRICING-TITLE"
+msgstr "All the benefits of a real office, from anywhere in the world with easy to "
+"understand prices"
