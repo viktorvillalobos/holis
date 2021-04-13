@@ -501,7 +501,7 @@ msgstr "El trabajo remoto debe ser tan bueno como en persona"
 
 #: apps/templates/pages/home_v2.html:79
 msgid "HERO-SUBTITLE"
-msgstr "Holis es una plataforma para equipos remotos que garantiza una comunicación eficaz, disminuye los inconventientes de la soledad y facilita la organización"
+msgstr "Holis es una plataforma para equipos remotos que garantiza una comunicación eficaz, disminuye los inconvenientes de la soledad y facilita la organización"
 
 #: apps/templates/pages/home_v2.html:86
 msgid "Your Workplace"
