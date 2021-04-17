@@ -96,6 +96,7 @@ class MainConsumer(AsyncJsonWebsocketConsumer):
             await self.accept()
 
     async def disconnect(self, close_code):
+        logger.info("MainConsumer.disconnect")
         await grid_handlers.handle_clear_user_position(
             channel_layer=self.channel_layer,
             company_channel=self.company_channel,

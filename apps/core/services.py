@@ -3,6 +3,7 @@ from typing import Dict, List
 from django.conf import settings
 
 from apps.core.uc import area_uc
+from apps.users import services as user_services
 from apps.utils.dataclasses import build_dataclass_from_model_instance
 
 from .custom_types import AreaState
@@ -37,7 +38,8 @@ def remove_user_from_area_by_area_and_user_id(
     Disconnect and user and later remove the user
     from the state and return the new state
     """
-    user.disconnect()
+    user_services.disconnect_user_by_id(user_id=user.id)
+
     return area_uc.remove_user_from_area_by_area_and_user_id(
         area_id=area_id, user_id=user.id
     )

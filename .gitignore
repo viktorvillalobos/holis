@@ -283,3 +283,4 @@ webpack-stats.json
 apps/static/css/
 webapp/assets/
 webpack-stats-prod.json
+apps/static/js/*.min*
