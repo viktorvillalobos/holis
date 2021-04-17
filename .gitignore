@@ -282,4 +282,4 @@ webpack-stats.json
 .history/
 apps/static/css/
 webapp/assets/
-webapp/webpack-stats-prod.json
+webpack-stats-prod.json
