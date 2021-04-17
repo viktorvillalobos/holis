@@ -19,9 +19,6 @@ jobs:
           host: ${{ secrets.DEPLOY_HOST }}
           user: viktor
           key: ${{ secrets.DEPLOY_KEY }}
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
       - name: Pull docker image and deploy image
         uses: fifsky/ssh-action@master
         with:
