@@ -41,6 +41,14 @@ rebuild:
 bash: ## drop you into a running container
 	@docker-compose -f local.yml run --rm django
 
-.PHONY: shell_plus 
+.PHONY: shell
 shell: ## drop you into a running container as root
 	@docker-compose -f local.yml run --rm django ./manage.py shell_plus
+
+.PHONY: buildbase
+build_base: ## drop you into a running container as root
+	@docker build -f compose/production/django/Dockerfilebase . -t gcr.io/espazum/holis-full:base
+
+.PHONY: push_base
+push_base: ## drop you into a running container as root
+	@docker push  gcr.io/espazum/holis-full:base

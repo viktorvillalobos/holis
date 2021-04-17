@@ -6,6 +6,16 @@ RUN npm install && npm cache clean --force
 COPY . /app
 RUN npm run build
 
+
+FROM node:12-stretch-slim as webapp-builder
+
+WORKDIR /app/webapp/
+COPY ./webapp/package.json /app/webapp/
+COPY ./webapp/yarn.lock /app/webapp/
+RUN yarn && yarn cache clean
+COPY ./webapp/ /app/webapp/
+RUN cd /app/webapp/ && yarn build
+
 # Python build stage
 FROM python:3.9-slim-buster
 
