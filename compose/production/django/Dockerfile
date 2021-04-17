@@ -9,12 +9,9 @@ RUN npm run build
 
 FROM node:12-stretch-slim as webapp-builder
 
-WORKDIR /app/webapp/
-COPY ./webapp/package.json /app/webapp/
-COPY ./webapp/yarn.lock /app/webapp/
-RUN yarn && yarn cache clean
-COPY ./webapp/ /app/webapp/
-RUN cd /app/webapp/ && yarn build
+WORKDIR /app
+COPY --from=client-builder --chown=django:django /app /app
+RUN cd /app/webapp/ && yarn && yarn cache clean && yarn build
 
 # Python build stage
 # FROM python:3.9-slim-buster
@@ -44,7 +41,7 @@ RUN chown django /start-celerybeat
 COPY ./compose/production/django/celery/flower/start /start-flower
 RUN sed -i 's/\r$//g' /start-flower
 RUN chmod +x /start-flower
-COPY --from=client-builder --chown=django:django /app /app
+COPY --from=webapp-builder --chown=django:django /app /app
 
 
 USER django
