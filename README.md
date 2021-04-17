@@ -101,5 +101,3 @@ We use sentry to production enviroment exeception tracking
 The following details how to deploy this application.
 
 We count with CI in production, so, you just need to push to master and the deploy process begin.
-
-
