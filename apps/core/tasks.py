@@ -1,7 +1,9 @@
 from celery import shared_task
+from celery.decorators import periodic_task
 from celery.utils.log import get_task_logger
 
 from channels.layers import get_channel_layer
+from datetime import timedelta
 
 from apps.core import services as core_services
 from apps.core.channels.utils import force_user_disconect_by_company_and_user_id
@@ -11,6 +13,11 @@ from apps.users import services as user_services
 channel_layer = get_channel_layer()
 
 logger = get_task_logger(__name__)
+
+
+@periodic_task(run_every=timedelta(minutes=1))
+def healtcheck():
+    return True
 
 
 @shared_task
