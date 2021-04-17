@@ -10,8 +10,8 @@ REDIS_URL=redis://redis:6379/0
 # ------------------------------------------------------------------------------
 
 # Flower
-CELERY_FLOWER_USER=HaipqvcTkqcyMeGMZpIhEDTJErVNApqv
-CELERY_FLOWER_PASSWORD=W2KyEsCySwCELwjJUBJw3bh8zVrXkENnVOAAjDXaYcAuWoh5h4q0nOEV65O7g29w
+CELERY_FLOWER_USER=debug
+CELERY_FLOWER_PASSWORD=debug
 EMAIL_RELAY_TOKEN=EosXyHTRXGWoFKQCzNrPxnwtoQUSWf_2ds3mpmF4
 
 
