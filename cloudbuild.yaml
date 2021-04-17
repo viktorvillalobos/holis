@@ -9,3 +9,5 @@ steps:
   - .
 images:
   - "gcr.io/espazum/holis-full:$COMMIT_SHA"
+options:
+  machineType: "N1_HIGHCPU_8"
