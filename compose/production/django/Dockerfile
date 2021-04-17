@@ -11,7 +11,7 @@ FROM node:12-stretch-slim as webapp-builder
 
 WORKDIR /app
 COPY --from=client-builder /app /app
-RUN cd /app/webapp/ && yarn && yarn cache clean && yarn build
+RUN cd /app/webapp/ && yarn && yarn build && yarn cache clean
 
 # Python build stage
 FROM gcr.io/espazum/holis-full:base
