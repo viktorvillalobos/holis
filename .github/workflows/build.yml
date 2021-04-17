@@ -1,0 +1,21 @@
+name: SSH Build
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Pull code and build image
+        uses: fifsky/ssh-action@master
+        with:
+          command: |
+            cd ${{ secrets.DEPLOY_TARGET }}
+            sudo git fetch
+            sudo git checkout ${{ github.sha }}
+            gcloud builds submit --config=cloudbuild.yaml --substitutions=COMMIT_SHA=${{ github.sha }} --timeout 1200
+          host: ${{ secrets.DEPLOY_HOST }}
+          user: viktor
+          key: ${{ secrets.DEPLOY_KEY }}
