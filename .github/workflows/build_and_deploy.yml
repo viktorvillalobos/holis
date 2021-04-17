@@ -15,7 +15,7 @@ jobs:
             cd ${{ secrets.DEPLOY_TARGET }}
             sudo git fetch
             sudo git checkout ${{ github.sha }}
-            gcloud builds submit --config=cloudbuild.yaml --substitutions=COMMIT_SHA=${{ github.sha }} --timeout 1200
+            gcloud builds submit --config=cloudbuild.yaml --substitutions=COMMIT_SHA=${{ github.sha }}
           host: ${{ secrets.DEPLOY_HOST }}
           user: viktor
           key: ${{ secrets.DEPLOY_KEY }}
