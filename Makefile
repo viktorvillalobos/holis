@@ -52,3 +52,20 @@ build_base: ## drop you into a running container as root
 .PHONY: push_base
 push_base: ## drop you into a running container as root
 	@docker push  gcr.io/espazum/holis-full:base
+
+.PHONY: build_prod
+build_prod: ## drop you into a running container as root
+	@docker build -f compose/production/django/Dockerfilebase . -t gcr.io/espazum/holis-full:$(git rev-parse HEAD)
+
+.PHONY: push_prod
+push_prod: ## drop you into a running container as root
+	@docker push gcr.io/espazum/holis-full:$(git rev-parse HEAD)
+
+
+.PHONY: push_prod
+deploy: ## drop you into a running container as root
+	@git checkout master
+	@git pull
+	@docker service update --image  gcr.io/espazum/holis-full:$(git rev-parse HEAD) core_celeryworker
+	@docker service update --image  gcr.io/espazum/holis-full:$(git rev-parse HEAD) core_celerybeat
+	@docker service update --image  gcr.io/espazum/holis-full:$(git rev-parse HEAD) core_django
