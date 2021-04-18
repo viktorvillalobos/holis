@@ -90,31 +90,6 @@ class User(AbstractUser):
 
         return {"id": status.id, "icon_text": status.icon_text, "text": status.text}
 
-    def touch(self, ts=None, area_id=None):
-        """
-        Hearbeat
-        ts: datetime
-        """
-        if area_id:
-            area = Area.objects.get(id=area_id)
-        else:
-            area = self.current_area
-
-        ts = ts or timezone.now()
-        self.last_seen = ts
-        self.current_area = area
-        self.save()
-
-    def disconnect(self):
-        self.last_seen = None
-        self.current_area = None
-        self.save()
-
-    def save(self, *args, **kwargs):
-        # if not self.avatar:
-        #     self.avatar = self.get_monster()
-        super().save(*args, **kwargs)
-
     @cached_property
     def avatar_thumb(self):
         if not self.avatar:
@@ -128,6 +103,9 @@ class User(AbstractUser):
 
         # return get_thumbnail(self.avatar.file, "100x100", crop="center", quality=99).url
         return self.avatar.url
+
+    def __str__(self):
+        return f"{self.id} -> {self.name}"
 
 
 class Status(TimeStampedModel):

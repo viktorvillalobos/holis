@@ -12,6 +12,7 @@ from io import BytesIO
 from .api.serializers import UserSerializer
 from .lib.dataclasses import User as UserEntity
 from .models import User
+from .providers import user as user_providers
 
 
 def get_user(user_id: int) -> UserEntity:
@@ -25,7 +26,7 @@ def serialize_user(user: settings.AUTH_USER_MODEL) -> Dict:
 
 def get_user_avatar_thumb(user: settings.AUTH_USER_MODEL) -> None:
     if not user.avatar:
-        url = f"https://avatars.abstractapi.com/v1/?api_key={settings.ABSTRACT_API_KEY}&name={self.username}"  # noqa
+        url = f"https://avatars.abstractapi.com/v1/?api_key={settings.ABSTRACT_API_KEY}&name={user.username}"  # noqa
         resp = requests.get(url)
         fp = BytesIO()
         fp.write(resp.content)
@@ -50,3 +51,13 @@ def get_unavailable_users_by_company_id(company_id: int) -> List[User]:
 def get_user_notification_channel_by_user_id(user_id: int) -> str:
     """ Returns the channel key for notifications """
     return f"notification-{user_id}"
+
+
+def touch_user_by_user_and_area_id(user_id: int, area_id: int, ts=None) -> None:
+    user_providers.touch_user_by_user_and_area_id(
+        user_id=user_id, area_id=area_id, ts=ts
+    )
+
+
+def disconnect_user_by_id(user_id: int) -> None:
+    user_providers.disconnect_user_by_id(user_id=user_id)

@@ -6,8 +6,9 @@ import datetime as dt
 import logging
 from channels.db import database_sync_to_async
 
+from apps.core.custom_types import AreaState
+from apps.users import services as user_services
 from apps.users.models import User
-from apps.users.services import serialize_user
 
 from ... import services as core_services
 from ...lib.dataclasses import PointData
@@ -42,7 +43,8 @@ def delete_cached_position(user_id: int) -> None:
 
 @database_sync_to_async
 def execute_heartbeat(user: "User", area_id: int = None) -> None:
-    user.touch(area_id=area_id)
+    logger.info(f"Touch: {user}")
+    user_services.touch_user_by_user_and_area_id(user_id=user.id, area_id=area_id)
 
 
 @database_sync_to_async
@@ -53,7 +55,7 @@ def get_user_by_user_id(user_id):
 @database_sync_to_async
 def save_position(
     user: "User", area: int, x: int, y: int, room: Optional[str] = None
-) -> Tuple[PointData, Dict[str, Any]]:
+) -> Tuple[PointData, AreaState]:
 
     execute_heartbeat(user=user, area_id=area)
 
@@ -68,7 +70,7 @@ def save_position(
 
 
 async def notify_user_disconnect(channel_layer, company_channel, user, message):
-    message["user"] = await database_sync_to_async(serialize_user)(user)
+    message["user"] = await database_sync_to_async(user_services.serialize_user)(user)
     await channel_layer.group_send(company_channel, message)
 
 
@@ -76,9 +78,11 @@ async def handle_clear_user_position(channel_layer, company_channel, user: "User
     """
     Executed when the user is disconnected
     """
+    logger.info("core.channels.consumers.grid.handle_clear_user_position")
     cached_position = get_cached_position(user_id=user.id)
 
     if cached_position:
+        logger.info("User in cached position, proceed to remove")
         state = await database_sync_to_async(
             core_services.remove_user_from_area_by_area_and_user_id
         )(area_id=cached_position["area_id"], user=user)
@@ -90,16 +94,19 @@ async def handle_clear_user_position(channel_layer, company_channel, user: "User
             message={"type": "grid.disconnect", "state": state, **cached_position},
         )
         delete_cached_position(user_id=user.id)
+    else:
+        logger.info("User without cached position")
 
 
 async def notify_change_position(channel_layer, company_channel, user, message):
-    message["user"] = await database_sync_to_async(serialize_user)(user)
+    message["user"] = await database_sync_to_async(user_services.serialize_user)(user)
     await channel_layer.group_send(company_channel, message)
 
 
 async def handle_grid_position(
     channel_layer, company_channel, user: "User", message: Dict[str, Any]
 ) -> None:
+    logger.info(f"handle_grid_position of user {user.id}")
     to_be_save_data_position = {"user": user, **message}
     to_be_save_data_position.pop("type")
 
