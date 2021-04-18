@@ -84,6 +84,7 @@ function getHex (vmDraw, size) {
       this.user = null
       this.clearImage()
       this.clearStatus()
+      this.clearVoiceAnimation()
       this.draw
         .stop(true, true)
         .stroke({ width: 1, color: 'rgba(224, 224, 224, .5)' })
