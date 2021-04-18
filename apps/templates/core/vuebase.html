@@ -23,37 +23,25 @@
         var user_id = {{ request.user.id }};
     </script>
 
-    <style>
-        .loader-wrap {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-    </style>
 </head>
 
 <body>
+    {% include "pages/partials/loader.html" %}
     <input id="csrf" type="hidden" name="csrf" value={{ csrf_token }}>
-    <div id="app">
-        <div class="loader-wrap">
-            <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
-            <lottie-player src="https://assets1.lottiefiles.com/packages/lf20_tsEmSS.json" background="transparent"
-                speed="1" style="width: 300px; height: 300px;" loop autoplay></lottie-player>
-        </div>
-    </div>
+    <div id="app"></div>
     {% block render %}
     {% endblock %}
 
-
     <script>
-    </script>
+        const hideLoader = () => {
+            const loading = document.getElementById("loading")
+            loading.remove()
+        }
 
-    <!-- <script src="https://rtcmulticonnection.herokuapp.com/socket.io/socket.io.js"></script> -->
+        window.onload = () => {
+            hideLoader()
+        }
+    </script>
 </body>
 
 </html>
