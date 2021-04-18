@@ -3,7 +3,7 @@
 // early access
 const BASE_URL = '/api/v1';
 const menu = document.getElementsByClassName('espazum-navbar-links')[0]
-// const token = document.getElementsByName('csrfmiddlewaretoken')[0].value
+const token = document.getElementsByName('csrfmiddlewaretoken')[0].value
 
 async function getEarlyAccess(origin) {
     const form = document.getElementById(origin)

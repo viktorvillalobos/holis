@@ -12,12 +12,12 @@
 ////////////////////////////////
 
 @import "./vars";
+@import "./animations";
 @import "./exposed";
 @import "./bulma/bulma.sass";
 
 // bootstrap alert CSS, translated to the django-standard levels of
 // debug, info, success, warning, error
-//
 
 html {
     scroll-behavior: smooth;
@@ -46,8 +46,6 @@ html {
 body {
     font-size: 1rem;
     font-family: "Ubuntu", sans-serif;
-    color: $dark-gray;
-    background: $background;
 }
 
 .button {
@@ -73,8 +71,6 @@ h3 {
 @import "./soon_release";
 
 // HEADER
-//
-//
 
 .has-holis-gradient {
     background: #44009B;
@@ -90,14 +86,14 @@ h3 {
     font-size: 2.25rem;
 }
 
-.hero {
+.hero-background {
     background-image: url("/static/images/web_v2/vector_left.png");
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-position: left top;
 }
 
-body {
+.holis-body-background{
     background-image: url("/static/images/web_v2/vector_right.png");
     background-repeat: no-repeat;
     background-attachment: fixed;
@@ -152,7 +148,7 @@ body {
 
     .subtitle {
         h5 {
-            margin-top: 5%;
+            margin-top: 6.5%;
             font-size: x-large;
         }
     }
@@ -166,16 +162,27 @@ body {
     align-items: center;
 
     span {
-        margin-top: 1.2%;
+        margin-top: 0%;
         font-size: 0.8rem;
     }
 }
 
 .try-button {
-    width: 200px;
+    width: 340px;
+    height: 55px;
     color: white;
     background: $blue;
-    margin-bottom: 5%;
+    margin-bottom: 2%;
+
+    &:hover {
+        color: white;
+    }
+}
+
+.aurora {
+    background: linear-gradient(60deg,#f79533,#f37055,#ef4e7b,#a166ab,#5073b8,#1098ad,#07b39b,#6fba82);
+    background-size: 400% 400%;
+    animation: gradient 3s ease infinite;
 }
 
 .vector-hero {
@@ -197,12 +204,18 @@ body {
     align-items: center;
 }
 
+.is-floating {
+	transform: translatey(0px);
+	animation: float 6s ease-in-out infinite;
+}
+
 .why-holis {
     margin-top: -15%;
     margin-left: 9%;
     margin-right: 4%;
 
     &-hero-blobs {
+        z-index: -999;
         position: absolute;
         top: 50;
         right: 0;
@@ -214,6 +227,16 @@ body {
         &-profile {
             display: flex;
             padding: 8px;
+
+            &-picture {
+
+                img {
+                    width: 3rem;
+                    border-radius: 100px;
+                    margin-top: 21%;
+                    border: 7px;
+                }
+            }
 
             &-sign {
                 margin-top: 4.2%;
@@ -265,127 +288,6 @@ body {
 
 }
 
-@media screen and (max-width: 768px) {
-    .holis-carousel {
-        display: none;
-    }
-
-
-    .navbar-burger {
-        span {
-            color: white;
-            font-size: 1.5rem;
-        }
-    }
-
-    .navbar-start {
-        display: flex;
-        flex-direction: column;
-    }
-
-    .go-to-workplace {
-        position:absolute;
-        right: 17px;
-        top: 22px;
-    }
-
-    .vector-hero {
-        margin-top: 20%;
-    }
-
-    .hero {
-        background-size: 240%;
-        
-    }
-
-    .title {
-        color: white;
-        margin-top: 12%;
-    }
-
-    .subtitle {
-        color: white;
-        margin-bottom: 20%;
-
-        h5 {
-            font-size: 1.7rem;
-            margin-top: 12% !important;
-            margin: 10%;
-        }
-    }
-
-    .hero-call-to-action {
-        color: white;
-        margin-top: -8%;
-    }
-
-
-    .holis-features {
-        background-image: None;
-
-        .box {
-            margin-left: 5%;
-            margin-right: 2%;
-        }
-    }
-
-
-    .holis-pricing {
-        &-wrapper {
-            margin: 3%;
-        }
-
-        &-box {
-            margin-left: 2% !important;
-            margin-right: 2%;
-            margin-top: 5%;
-            margin-bottom: 4%;
-
-            &-limited {
-                top: -19px !important;
-            }
-        }
-
-    }
-
-
-
-    footer {
-        margin-top: 33% !important;
-
-        font-size: 1.5rem;
-
-        .holis-icon-footer {
-            margin-left: 9% !important;
-        }
-
-
-        .holis-language-wrapper {
-            display: flex;
-            justify-content: center;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .holis-footer-call-to-action {
-            display: flex;
-            align-items: center;
-        }
-
-        .button {
-            width: 80%;
-            height: 45px;
-            font-size: 1.3rem;
-        }
-
-
-        .holis-rrss {
-            font-size: 1rem;
-            margin: 4%;
-        }
-
-    }
-}
 
 
 .holis {
@@ -419,7 +321,7 @@ body {
                 color: white;
                 position: relative;
                 top: -28px;
-                width: 200px;
+                width: 220px;
                 align-self: center;
                 border-radius: 10px;
             }
@@ -429,7 +331,7 @@ body {
             &-progress {
                 position: relative;
                 align-self: center;
-                width: 310px;
+                width: 100%;
                 height: 15px;
                 margin-bottom: 10%;
 
@@ -437,7 +339,7 @@ body {
                     align-self: flex-end;
                     position: relative;
                     top: -4px;
-                    left: 88px;
+                    left: 66px;
                     font-style: normal;
                     font-weight: normal;
                     font-size: 14px;
@@ -488,13 +390,12 @@ body {
             &-features {
                 li {
                     margin: 10px;
-                    background: url('/static/images/web_v2/bullet.png') no-repeat left top;
-                    background-size: 34px;
                     margin-left: 28px;
                 }
             }
 
-            .try-button {
+            .try-button, .try-button-aurora {
+                width: 100%;
                 margin-top: 10%;
                 align-self: center;
             }
@@ -557,5 +458,264 @@ footer {
 }
 
 
+@media screen and (max-width: 768px) {
+
+    .why-holis {
+        margin-top: 3.5%;
+    }
+
+    .holis-carousel {
+        display: none;
+    }
 
 
+    .navbar-burger {
+        span {
+            color: white;
+            font-size: 1.5rem;
+        }
+    }
+
+    .navbar-start {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .go-to-workplace {
+        position:absolute;
+        right: 17px;
+        top: 22px;
+    }
+
+    .vector-hero {
+        margin-top: 20%;
+    }
+
+    .hero {
+        background-size: 260%;
+    }
+
+    .title {
+        color: white;
+        margin-top: 12%;
+    }
+
+    .subtitle {
+        color: white;
+        margin-bottom: 20%;
+
+        h5 {
+            font-size: 1.7rem;
+            margin-top: 12% !important;
+            margin: 10%;
+        }
+    }
+
+    .hero-call-to-action {
+        color: white;
+        margin-top: -8%;
+
+        .try-button {
+            width: 80%;
+        }
+    }
+
+
+    .holis-features {
+        background-image: None;
+
+        .box {
+            margin-left: 5%;
+            margin-right: 2%;
+        }
+    }
+
+
+    .holis-pricing {
+        &-wrapper {
+            margin: 3%;
+        }
+
+        &-box {
+            margin-left: 2% !important;
+            margin-right: 2%;
+            margin-top: 5%;
+            margin-bottom: 4%;
+
+            &-limited {
+                top: -19px !important;
+            }
+        }
+
+
+        .try-button {
+            width: 100%;
+        }
+
+    }
+
+    .holis-pricing-payment-advice {
+        margin-top: -2% !important;
+        font-size: 1rem;
+        margin-bottom: 11%;
+    }
+
+
+
+    footer {
+        margin-top: 33% !important;
+
+        font-size: 1.5rem;
+
+        .holis-icon-footer {
+            margin-left: 9% !important;
+        }
+
+
+        .holis-language-wrapper {
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .holis-footer-call-to-action {
+            display: flex;
+            align-items: center;
+        }
+
+        .button {
+            width: 80%;
+            height: 45px;
+            font-size: 1.3rem;
+        }
+
+
+        .holis-rrss {
+            font-size: 1rem;
+            margin: 4%;
+        }
+
+    }
+}
+
+
+@media screen and (min-width: 769px) and (max-width: 1025px) {
+    .hero-background {
+        background-size: 30%;
+    }
+
+    .holis-body-background {
+        background-size: 37%;
+    }
+
+
+    .holis-exposed {
+        margin-top: 5%;
+
+        &-notification {
+            top: 44%;
+            left: 6%;
+        }
+
+        &-chat {
+            left: 68.2%;
+            top: 62.5%;
+        }
+
+        &-whos-talking {
+            left: 2%;
+            top: 73%;
+        }
+    }
+
+    .hero-title {
+        margin-top: 15%;
+    }
+
+    .why-holis {
+        margin-top: -21%;
+
+
+        &-hero-blobs {
+            width: 52%;
+        }
+    }
+
+
+    .holis-features {
+        margin: 3%;
+    }
+
+    .holis-pricing {
+        margin: 7%;
+    }
+
+    .holis-pricing-box-progress-text {
+        top: -8px;
+        left: 32px;
+    }
+
+
+    footer {
+        margin-top: 12%; 
+
+        .container {
+            .columns {
+                margin-left: 2%;
+                margin-right: 2%;
+            }
+        }
+
+        .holis-icon-footer-wrapper {
+            display:flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .footer-buttons {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    }
+}
+
+@media screen and (min-width: 1366px) and (max-width: 1490px) {
+    .holis-body-background {
+        background-size: 27%;
+    }
+
+    .hero-background {
+        background-size: 25%;
+    }
+
+
+    .holis-exposed {
+        &-notification {
+            top: 44%;
+            left: 10%
+        }
+
+        &-whos-talking {
+            left: 10%;
+            top: 114%;
+        }
+
+        &-chat {
+            left: 71.2%;
+            top: 92.5%;
+        }
+
+    }
+
+
+    .why-holis {
+        margin-top: -4%;
+
+
+        &-hero-blobs {
+            width: 52%;
+        }
+    }
+}

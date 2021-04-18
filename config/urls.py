@@ -9,14 +9,15 @@ from rest_framework.authtoken.views import obtain_auth_token
 from apps.core import views as core_views
 
 urlpatterns = [
+    path("martor/", include("martor.urls")),
+    path("i18n/", include("django.conf.urls.i18n")),
     path("paddle/", include("djpaddle.urls", namespace="djpaddle")),
-    path("", include("pwa.urls")),
+    path("app/", core_views.webapp, name="webapp"),
     # Django Admin, use {% url 'admin:index' %}
     path(settings.ADMIN_URL, admin.site.urls),
     # User management
     path("", include("apps.web.urls", namespace="web")),
     path("users/", include("apps.users.urls", namespace="users")),
-    path("accounts/", include("allauth.urls")),
     # Your stuff: custom urls includes go here
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 if settings.DEBUG:
@@ -29,7 +30,6 @@ urlpatterns += [
     path("api/v1/", include(("config.api_router", "api"), namespace="api-v1")),
     # DRF auth token
     path("auth-token/", obtain_auth_token),
-    path("app/", core_views.webapp, name="webapp"),
 ]
 
 if settings.DEBUG:

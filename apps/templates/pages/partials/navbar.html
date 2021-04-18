@@ -1,0 +1,76 @@
+{% load static i18n %}
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+        <a href="/">
+              <img class="espazum-navbar-logo--color" src="{% static 'images/logo/logo.svg' %}" alt="Holis">
+              <img class="espazum-navbar-logo--white" src="{% static 'images/logo/logo.svg' %}" alt="Holis" />
+        </a>
+
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+
+  <div id="navbarBasicExample" class="navbar-menu">
+    <div class="navbar-end">
+        <a href="/" class="navbar-item">
+            {% trans 'Get holis' %}
+        </a>
+        <a href="/#why-holis" class="navbar-item">
+            {% trans 'Why holis?' %}
+        </a>
+        <a href="/#features" class="navbar-item ">
+            {% trans 'Features' %}
+        </a>
+        <a href="/#pricing" class="navbar-item ">
+            {% trans 'Pricing' %}
+        </a>
+        {% if user.is_authenticated %}
+        <a class="navbar-item is-hidden-desktop">
+            {% trans 'Workplace' %}
+        </a>
+        {% else %}
+        <a href="{% url 'web:login' %}" class="navbar-item is-hidden-desktop">
+            {% trans 'Login' %}
+        </a>
+            {% if 1 == 2 %}
+            <a href="{% url 'web:signup-step-1' %}" class="navbar-item is-hidden-desktop">
+                {% trans 'Signup' %}
+            </a>
+            {% endif %}
+        {% endif %}
+      <div class="navbar-item">
+        <div class="buttons">
+            {% if user.is_authenticated %}
+                <a class="button is-primary go-to-workplace is-hidden-mobile">
+                    <span>{% trans 'Workplace' %}</span>
+                    <span class="icon">
+                        👋
+                    </span>
+                </a>
+            {% else %}
+                <a href="{% url "web:login" %}" class="button is-primary is-inverted go-to-workplace is-hidden-mobile">
+                    <span>{% trans 'Login' %}</span>
+                    <span class="icon">
+                        👋
+                    </span>
+                </a>
+                {% if 1 == 2 %}
+                    <a href="{% url "web:signup-step-1" %}"
+                        class="button is-primary is-inverted go-to-workplace is-hidden-mobile"
+                    >
+                        <span>{% trans 'Signup' %}</span>
+                        <span class="icon">
+                            <i class="fas fa-sign-in-alt"></i>
+                        </span>
+                    </a>
+                {% endif %}
+            {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+<link rel="stylesheet" href="{% static 'css/simple_navbar.css' %}">

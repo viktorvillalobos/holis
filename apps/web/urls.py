@@ -9,12 +9,9 @@ urlpatterns = [
     path("soon/", views.SoonTemplateView.as_view(), name="soon"),
     path("check-company/", views.CheckCompanyView.as_view(), name="check-company"),
     path("login/", views.LoginView.as_view(), name="login"),
-    path("start-pwa/", views.PWAView.as_view(), name="start-pwa"),
-    path("", views.HomeView.as_view(), name="homeBefore"),
+    path("", views.HomeView.as_view(), name="home"),
     path(
-        "about/",
-        TemplateView.as_view(template_name="pages/about.html"),
-        name="homeBefore",
+        "about/", TemplateView.as_view(template_name="pages/about.html"), name="about"
     ),
     path("signup/step1/", views.SignUpStep1.as_view(), name="signup-step-1"),
     path("signup/step2/", views.SignUpStep2.as_view(), name="signup-step-2"),
@@ -22,4 +19,5 @@ urlpatterns = [
     path("signup/step4/<uuid:pk>/", views.SignUpStep4.as_view(), name="signup-step-4"),
     path("signup/step5/<uuid:pk>/", views.SignUpStep5.as_view(), name="signup-step-5"),
     path("logout", views.logout_view, name="logout"),
+    path("<str:slug>/", views.PageSingleView.as_view(), name="page-single"),
 ]

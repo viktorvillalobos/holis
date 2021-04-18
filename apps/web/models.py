@@ -3,7 +3,9 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 import uuid
+from django_extensions.db.fields import AutoSlugField
 from model_utils.models import TimeStampedModel
+from slugify import slugify
 
 from apps.utils.fields import LowerCharField
 
@@ -12,7 +14,7 @@ from apps.utils.fields import LowerCharField
 
 class Lead(TimeStampedModel):
     """
-        A lead is a user who init the process but is incomplete
+    A lead is a user who init the process but is incomplete
     """
 
     email = models.EmailField(_("Email"))
@@ -31,3 +33,27 @@ class Lead(TimeStampedModel):
 
     def __str__(self):
         return self.email
+
+
+class Page(TimeStampedModel):
+    """
+    A custom page
+    """
+
+    title = models.CharField(max_length=150)
+    content = models.TextField(blank=True)
+    is_draft = models.BooleanField(default=True, db_index=True)
+    slug = AutoSlugField(
+        populate_from="title", slugify_function=slugify, max_length=255
+    )
+    image = models.ImageField(upload_to="pages/", null=True, blank=True)
+
+
+class PageContentTranslation(TimeStampedModel):
+    ES = "es"
+    LANG_CHOICES = ((ES, "Spanish"),)
+
+    page = models.ForeignKey("web.Page", on_delete=models.CASCADE)
+    lang = models.CharField(db_index=True, max_length=2, choices=LANG_CHOICES)
+    title = models.CharField(max_length=150)
+    content = models.TextField(blank=True)

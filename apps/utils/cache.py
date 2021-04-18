@@ -13,6 +13,9 @@ logger = logging.getLogger(__name__)
 globals = threading.local()
 
 
+DAY = 60 * 60 * 24
+
+
 def cache(seconds, criteria=None, backend="default", jittering_pctg=None):
     def do_cache(f):
         def x(*args, **kwargs):

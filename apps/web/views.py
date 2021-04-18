@@ -2,7 +2,7 @@ from typing import Any, Dict
 
 from django.conf import settings
 from django.contrib.auth import authenticate, login, logout
-from django.http import HttpResponseRedirect
+from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import redirect
 from django.urls import reverse, reverse_lazy
 from django.utils.translation import gettext_lazy as _
@@ -15,8 +15,10 @@ from djpaddle.models import Plan
 from config.settings.base import DJPADDLE_VENDOR_ID
 
 from apps.billings import services as billing_services
-from apps.web import forms
-from apps.web.models import Lead
+
+from . import forms
+from .models import Lead, Page
+from .providers import page as page_providers
 
 # Create your views here.
 
@@ -31,35 +33,14 @@ class RedirectToAppMixin:
         if is_subdomain and self.request.user.is_authenticated:
             return redirect(reverse("webapp"))
 
-        if not is_subdomain and self.request.user.is_authenticated:
-            return self.redirect_from_subdomain(host)
-
         if is_subdomain and self.request.user.is_anonymous:
             return redirect(reverse("web:login"))
 
         return super().dispatch(request, *args, **kwargs)
 
-    def redirect_from_subdomain(self, host):
-        scheme_url = self.request.is_secure() and "https" or "http"
-        url = f"{scheme_url}://{self.request.user.company.code}.{host}/app/"
-        return HttpResponseRedirect(url)
-
 
 class SoonTemplateView(RedirectToAppMixin, TemplateView):
     template_name = "pages/soon.html"
-
-
-class PWAView(TemplateView):
-    template_name = "pages/soon.html"
-
-    def dispatch(self, request, *args, **kwargs):
-        if self.request.user.is_authenticated:
-            host = request.META.get("HTTP_HOST", "")
-            scheme_url = request.is_secure() and "https" or "http"
-            url = f"{scheme_url}://{self.request.user.company.code}.{host}/app/"
-            return HttpResponseRedirect(url)
-
-        return redirect(reverse("web:check-company"))
 
 
 class CheckCompanyView(TemplateView):
@@ -159,14 +140,14 @@ def logout_view(request):
     return redirect("webapp")
 
 
-class HomeView(TemplateView):
+class HomeView(RedirectToAppMixin, TemplateView):
     template_name = "pages/home_v2.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
         total_current_full_plan_subscriptions = (
-            billing_services.get_total_current_full_plan_subscriptions()  # + 14
+            billing_services.get_total_current_full_plan_subscriptions() + 6
         )
         pending_full_subcscriptions = 100 - total_current_full_plan_subscriptions
 
@@ -176,3 +157,17 @@ class HomeView(TemplateView):
             "TOTAL_FULL_SUBSCRIPTIONS": total_current_full_plan_subscriptions,
             "PENDING_FULL_SUBSCRIPTIONS": pending_full_subcscriptions,
         }
+
+
+class PageSingleView(TemplateView):
+    template_name = "pages/page_single.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        try:
+            page = page_providers.get_page_by_slug(slug=self.kwargs["slug"])
+        except Page.DoesNotExist:
+            raise Http404()
+
+        return context | {"PAGE": page}

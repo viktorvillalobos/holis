@@ -9,12 +9,11 @@ celery==4.4.2  # pyup: < 5.0  # https://github.com/celery/celery
 django-celery-beat==2.0.0  # https://github.com/celery/django-celery-beat
 flower==0.9.4  # https://github.com/mher/flower
 uvicorn[standard]==0.13.4  # https://github.com/encode/uvicorn
-gunicorn==20.0.4  # https://github.com/benoitc/gunicorn
-mock==4.0.2
+gunicorn==20.1.0  # https://github.com/benoitc/gunicorn
 
 # Django
 # ------------------------------------------------------------------------------
-django==3.1.7  # pyup: < 3.1  # https://www.djangoproject.com/
+django==3.2  # pyup: < 3.2 # https://www.djangoproject.com/
 django-environ==0.4.5  # https://github.com/joke2k/django-environ
 django-model-utils==4.0.0  # https://github.com/jazzband/django-model-utils
 django-allauth==0.41.0  # https://github.com/pennersr/django-allauth
@@ -34,8 +33,6 @@ drf-yasg==1.20.0
 django-webpack-loader==0.7.0
 sorl-thumbnail==12.6.3
 django-filter==2.4.0
-django-pwa==1.0.10
-model-bakery==1.2.1
 
 
 # Specific
@@ -43,3 +40,5 @@ model-bakery==1.2.1
 twilio==6.43.0
 dj-paddle==0.1.2
 responses==0.13.1
+martor==1.6.0
+django-extensions==2.2.9  # https://github.com/django-extensions/django-extensions

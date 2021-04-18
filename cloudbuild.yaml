@@ -1,10 +1,13 @@
 steps:
 - name: "gcr.io/cloud-builders/docker"
+  env:
+  - 'COMMIT_SHA=$COMMIT_SHA'
   args:
   - build
-  - "--tag=gcr.io/espazum/holis-full"
+  - "--tag=gcr.io/espazum/holis-full:$COMMIT_SHA"
   - "--file=./compose/production/django/Dockerfile"
   - .
 images:
-- "gcr.io/espazum/holis-full"
-
+  - "gcr.io/espazum/holis-full:$COMMIT_SHA"
+options:
+  machineType: "N1_HIGHCPU_8"

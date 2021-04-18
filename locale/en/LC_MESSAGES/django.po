@@ -6,10 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-12-23 02:12+0000\n"
+"POT-Creation-Date: 2021-04-13 02:42+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,9 +18,9 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: apps/chat/models.py:26 apps/chat/models.py:75 apps/chat/models.py:108
-#: apps/core/models.py:29 apps/core/models.py:61 apps/core/models.py:97
-#: apps/users/models.py:48 apps/users/models.py:141 apps/users/models.py:180
+#: apps/chat/models.py:26 apps/chat/models.py:75 apps/chat/models.py:105
+#: apps/core/models.py:30 apps/core/models.py:62 apps/core/models.py:97
+#: apps/users/models.py:48 apps/users/models.py:140 apps/users/models.py:178
 msgid "company"
 msgstr ""
 
@@ -77,67 +76,75 @@ msgstr ""
 msgid "is one to one"
 msgstr ""
 
-#: apps/chat/models.py:79
-msgid "channel"
+#: apps/chat/models.py:78
+msgid "room"
 msgstr ""
 
-#: apps/chat/models.py:85
+#: apps/chat/models.py:82
 msgid "User"
 msgstr ""
 
-#: apps/chat/models.py:89 apps/core/models.py:101 apps/core/models.py:116
+#: apps/chat/models.py:86 apps/core/models.py:101 apps/core/models.py:116
 msgid "text"
 msgstr ""
 
-#: apps/chat/models.py:112
+#: apps/chat/models.py:109
 msgid "message"
 msgstr ""
 
-#: apps/chat/models.py:116
+#: apps/chat/models.py:113
 msgid "attachment"
 msgstr ""
 
-#: apps/chat/models.py:117
+#: apps/chat/models.py:114
 msgid "Mimetype"
 msgstr ""
 
-#: apps/chat/models.py:124
+#: apps/chat/models.py:121
 msgid "message attachment"
 msgstr ""
 
-#: apps/chat/models.py:125
+#: apps/chat/models.py:122
 msgid "message attachments"
 msgstr ""
 
-#: apps/core/models.py:18 apps/users/models.py:148
+#: apps/core/channels/consumers/main.py:50
+msgid "Type is required"
+msgstr ""
+
+#: apps/core/channels/consumers/main.py:89
+msgid "type not handled by GridConsumer"
+msgstr ""
+
+#: apps/core/models.py:19 apps/users/models.py:147
 msgid "name"
 msgstr ""
 
-#: apps/core/models.py:19
+#: apps/core/models.py:20
 msgid "code"
 msgstr ""
 
-#: apps/core/models.py:20
+#: apps/core/models.py:21
 msgid "email"
 msgstr ""
 
-#: apps/core/models.py:22
+#: apps/core/models.py:23
 msgid "phone"
 msgstr ""
 
-#: apps/core/models.py:23
+#: apps/core/models.py:24
 msgid "logo"
 msgstr ""
 
-#: apps/core/models.py:30
+#: apps/core/models.py:31
 msgid "companies"
 msgstr ""
 
-#: apps/core/models.py:67
+#: apps/core/models.py:68
 msgid "Width"
 msgstr ""
 
-#: apps/core/models.py:68
+#: apps/core/models.py:69
 msgid "Height"
 msgstr ""
 
@@ -145,267 +152,12 @@ msgstr ""
 msgid "Title"
 msgstr ""
 
-#: apps/core/ws/consumers/main.py:57
-msgid "Type is required"
-msgstr ""
-
-#: apps/core/ws/consumers/main.py:78
-msgid "type not handled by GridConsumer"
-msgstr ""
-
-#: apps/templates/account/account_inactive.html:5
-#: apps/templates/account/account_inactive.html:8
-msgid "Account Inactive"
-msgstr ""
-
-#: apps/templates/account/account_inactive.html:10
-msgid "This account is inactive."
-msgstr ""
-
-#: apps/templates/account/email.html:7
-msgid "Account"
-msgstr ""
-
-#: apps/templates/account/email.html:10
-msgid "E-mail Addresses"
-msgstr ""
-
-#: apps/templates/account/email.html:13
-msgid "The following e-mail addresses are associated with your account:"
-msgstr ""
-
-#: apps/templates/account/email.html:27
-msgid "Verified"
-msgstr ""
-
-#: apps/templates/account/email.html:29
-msgid "Unverified"
-msgstr ""
-
-#: apps/templates/account/email.html:31
-msgid "Primary"
-msgstr ""
-
-#: apps/templates/account/email.html:37
-msgid "Make Primary"
-msgstr ""
-
-#: apps/templates/account/email.html:38
-msgid "Re-send Verification"
-msgstr ""
-
-#: apps/templates/account/email.html:39
-msgid "Remove"
-msgstr ""
-
-#: apps/templates/account/email.html:46
-msgid "Warning:"
-msgstr ""
-
-#: apps/templates/account/email.html:46
-msgid ""
-"You currently do not have any e-mail address set up. You should really add "
-"an e-mail address so you can receive notifications, reset your password, etc."
-msgstr ""
-
-#: apps/templates/account/email.html:51
-msgid "Add E-mail Address"
-msgstr ""
-
-#: apps/templates/account/email.html:56
-msgid "Add E-mail"
-msgstr ""
-
-#: apps/templates/account/email.html:66
-msgid "Do you really want to remove the selected e-mail address?"
-msgstr ""
-
-#: apps/templates/account/email_confirm.html:6
-#: apps/templates/account/email_confirm.html:10
-msgid "Confirm E-mail Address"
-msgstr ""
-
-#: apps/templates/account/email_confirm.html:16
-#, python-format
-msgid ""
-"Please confirm that <a href=\"mailto:%(email)s\">%(email)s</a> is an e-mail "
-"address for user %(user_display)s."
-msgstr ""
-
-#: apps/templates/account/email_confirm.html:20
-#: apps/templates/auth/signup/step1.html:11
-msgid "Confirm"
-msgstr ""
-
-#: apps/templates/account/email_confirm.html:27
-#, python-format
-msgid ""
-"This e-mail confirmation link expired or is invalid. Please <a href="
-"\"%(email_url)s\">issue a new e-mail confirmation request</a>."
-msgstr ""
-
-#: apps/templates/account/login.html:7 apps/templates/account/login.html:11
-#: apps/templates/account/login.html:44
-msgid "Sign In"
-msgstr ""
-
-#: apps/templates/account/login.html:16
-#, python-format
-msgid ""
-"Please sign in with one\n"
-"of your existing third party accounts. Or, <a href=\"%(signup_url)s\">sign "
-"up</a>\n"
-"for a %(site_name)s account and sign in below:"
-msgstr ""
-
-#: apps/templates/account/login.html:26
-msgid "or"
-msgstr ""
-
-#: apps/templates/account/login.html:33
-#, python-format
-msgid ""
-"If you have not created an account yet, then please\n"
-"<a href=\"%(signup_url)s\">sign up</a> first."
-msgstr ""
-
-#: apps/templates/account/login.html:43
-msgid "Forgot Password?"
-msgstr ""
-
-#: apps/templates/account/logout.html:5 apps/templates/account/logout.html:8
-#: apps/templates/account/logout.html:17
-msgid "Sign Out"
-msgstr ""
-
-#: apps/templates/account/logout.html:10
-msgid "Are you sure you want to sign out?"
-msgstr ""
-
-#: apps/templates/account/password_change.html:6
-#: apps/templates/account/password_change.html:9
-#: apps/templates/account/password_change.html:14
-#: apps/templates/account/password_reset_from_key.html:5
-#: apps/templates/account/password_reset_from_key.html:8
-#: apps/templates/account/password_reset_from_key_done.html:4
-#: apps/templates/account/password_reset_from_key_done.html:7
-msgid "Change Password"
-msgstr ""
-
-#: apps/templates/account/password_reset.html:7
-#: apps/templates/account/password_reset.html:11
-#: apps/templates/account/password_reset_done.html:6
-#: apps/templates/account/password_reset_done.html:9
-msgid "Password Reset"
-msgstr ""
-
-#: apps/templates/account/password_reset.html:16
-msgid ""
-"Forgotten your password? Enter your e-mail address below, and we'll send you "
-"an e-mail allowing you to reset it."
-msgstr ""
-
-#: apps/templates/account/password_reset.html:21
-msgid "Reset My Password"
-msgstr ""
-
-#: apps/templates/account/password_reset.html:24
-msgid "Please contact us if you have any trouble resetting your password."
-msgstr ""
-
-#: apps/templates/account/password_reset_done.html:15
-msgid ""
-"We have sent you an e-mail. Please contact us if you do not receive it "
-"within a few minutes."
-msgstr ""
-
-#: apps/templates/account/password_reset_from_key.html:8
-msgid "Bad Token"
-msgstr ""
-
-#: apps/templates/account/password_reset_from_key.html:12
-#, python-format
-msgid ""
-"The password reset link was invalid, possibly because it has already been "
-"used.  Please request a <a href=\"%(passwd_reset_url)s\">new password reset</"
-"a>."
-msgstr ""
-
-#: apps/templates/account/password_reset_from_key.html:18
-msgid "change password"
-msgstr ""
-
-#: apps/templates/account/password_reset_from_key.html:21
-#: apps/templates/account/password_reset_from_key_done.html:8
-msgid "Your password is now changed."
-msgstr ""
-
-#: apps/templates/account/password_set.html:6
-#: apps/templates/account/password_set.html:9
-#: apps/templates/account/password_set.html:14
-msgid "Set Password"
-msgstr ""
-
-#: apps/templates/account/signup.html:6
-msgid "Signup"
-msgstr ""
-
-#: apps/templates/account/signup.html:9 apps/templates/account/signup.html:19
-msgid "Sign Up"
-msgstr ""
-
-#: apps/templates/account/signup.html:11
-#, python-format
-msgid ""
-"Already have an account? Then please <a href=\"%(login_url)s\">sign in</a>."
-msgstr ""
-
-#: apps/templates/account/signup_closed.html:5
-#: apps/templates/account/signup_closed.html:8
-msgid "Sign Up Closed"
-msgstr ""
-
-#: apps/templates/account/signup_closed.html:10
-msgid "We are sorry, but the sign up is currently closed."
-msgstr ""
-
-#: apps/templates/account/verification_sent.html:5
-#: apps/templates/account/verification_sent.html:8
-#: apps/templates/account/verified_email_required.html:5
-#: apps/templates/account/verified_email_required.html:8
-msgid "Verify Your E-mail Address"
-msgstr ""
-
-#: apps/templates/account/verification_sent.html:10
-msgid ""
-"We have sent an e-mail to you for verification. Follow the link provided to "
-"finalize the signup process. Please contact us if you do not receive it "
-"within a few minutes."
-msgstr ""
-
-#: apps/templates/account/verified_email_required.html:12
-msgid ""
-"This part of the site requires us to verify that\n"
-"you are who you claim to be. For this purpose, we require that you\n"
-"verify ownership of your e-mail address. "
-msgstr ""
-
-#: apps/templates/account/verified_email_required.html:16
-msgid ""
-"We have sent an e-mail to you for\n"
-"verification. Please click on the link inside this e-mail. Please\n"
-"contact us if you do not receive it within a few minutes."
-msgstr ""
-
-#: apps/templates/account/verified_email_required.html:20
-#, python-format
-msgid ""
-"<strong>Note:</strong> you can still <a href=\"%(email_url)s\">change your e-"
-"mail address</a>."
-msgstr ""
-
 #: apps/templates/auth/signup/step1.html:6
 msgid "To start, we would like you to confirm your email"
+msgstr ""
+
+#: apps/templates/auth/signup/step1.html:11
+msgid "Confirm"
 msgstr ""
 
 #: apps/templates/auth/signup/step2.html:8
@@ -542,124 +294,324 @@ msgstr ""
 msgid "Finish"
 msgstr ""
 
-#: apps/templates/base.html:9
-msgid "The place where your team is"
+#: apps/templates/base.html:8 apps/templates/base_v2.html:10
+msgid "Project Management & Remote toolkit for productive teams"
 msgstr ""
 
 #: apps/templates/base.html:77
 msgid "SIGN-IN"
 msgstr "Sign in"
 
-#: apps/templates/base.html:80 apps/templates/pages/home.html:25
-msgid "TRY-FOR-FREE"
-msgstr "TRY FOR FREE"
-
-#: apps/templates/base.html:102
+#: apps/templates/base.html:101
 msgid "Home"
 msgstr "How it works"
 
-#: apps/templates/base.html:103
+#: apps/templates/base.html:102
 msgid "Blog"
 msgstr ""
 
-#: apps/templates/base.html:109
+#: apps/templates/base.html:108 apps/templates/base_v2.html:106
 msgid "Terms and Conditions"
 msgstr ""
 
-#: apps/templates/base.html:110
+#: apps/templates/base.html:109 apps/templates/base_v2.html:107
 msgid "Privacy Policy"
 msgstr ""
 
-#: apps/templates/base.html:114
+#: apps/templates/base.html:113
 msgid "All rights reserved"
 msgstr ""
 
 #: apps/templates/base_auth.html:9 apps/templates/base_auth_nocard.html:9
 #: apps/templates/pages/soon.html:10
-msgid "The only remote toolkit your team will ever need"
+msgid "The only communication tool your team will ever need"
 msgstr ""
 
-#: apps/templates/pages/home.html:14
+#: apps/templates/base_v2.html:65
+msgid "Your remote workplace"
+msgstr ""
+
+#: apps/templates/base_v2.html:78 config/settings/base.py:31
+msgid "English"
+msgstr ""
+
+#: apps/templates/base_v2.html:85 config/settings/base.py:31
+msgid "Spanish"
+msgstr ""
+
+#: apps/templates/base_v2.html:95
+msgid "Product"
+msgstr ""
+
+#: apps/templates/base_v2.html:97
+msgid "Get holis?"
+msgstr ""
+
+#: apps/templates/base_v2.html:98
+msgid "Why holis"
+msgstr ""
+
+#: apps/templates/base_v2.html:99 apps/templates/pages/home_v2.html:50
+#: apps/templates/pages/partials/navbar.html:25
+msgid "Features"
+msgstr ""
+
+#: apps/templates/base_v2.html:100 apps/templates/pages/home_v2.html:53
+#: apps/templates/pages/partials/navbar.html:28
+msgid "Pricing"
+msgstr ""
+
+#: apps/templates/base_v2.html:111 apps/users/api/serializers.py:150
+msgid "Company"
+msgstr ""
+
+#: apps/templates/base_v2.html:113
+msgid "About us"
+msgstr ""
+
+#: apps/templates/base_v2.html:114
+msgid "News"
+msgstr ""
+
+#: apps/templates/base_v2.html:135 apps/templates/pages/home_v2.html:57
+#: apps/templates/pages/home_v2.html:104
+#: apps/templates/pages/partials/navbar.html:32
+#: apps/templates/pages/partials/navbar.html:48
+msgid "Workplace"
+msgstr ""
+
+#: apps/templates/base_v2.html:140 apps/templates/pages/home_v2.html:61
+#: apps/templates/pages/home_v2.html:111
+#: apps/templates/pages/partials/navbar.html:36
+#: apps/templates/pages/partials/navbar.html:55
+msgid "Login"
+msgstr ""
+
+#: apps/templates/pages/home.html:6 apps/templates/pages/home.html:31
+msgid "TRY-FOR-FREE"
+msgstr "TRY FOR FREE"
+
+#: apps/templates/pages/home.html:20
 msgid "CALL-TO-ACTION-HEADER"
 msgstr "Project Management & Toolkit for productive teams"
 
-#: apps/templates/pages/home.html:57
+#: apps/templates/pages/home.html:56
 msgid "FEATURE-MAIN-TITLE"
 msgstr "Your team just a click away"
 
-#: apps/templates/pages/home.html:58
+#: apps/templates/pages/home.html:57
 msgid "FEATURE-MAIN-CONTENT"
 msgstr ""
 "Clicking on the grid is enough to start a voice channel with your "
 "colleagues, get your doubts solved efficiently, funny conversations and the "
 "background noise of them working."
 
-#: apps/templates/pages/home.html:85
+#: apps/templates/pages/home.html:84
 msgid "Look how it works"
 msgstr "Look how it works"
 
-#: apps/templates/pages/home.html:100
+#: apps/templates/pages/home.html:99 apps/templates/pages/home_v2.html:219
 msgid "FEATURE-1-TITLE"
-msgstr "Voice"
+msgstr "Voice channels"
 
-#: apps/templates/pages/home.html:101
+#: apps/templates/pages/home.html:100 apps/templates/pages/home_v2.html:220
 msgid "FEATURE-1-CONTENT"
-msgstr "Solve doubts and socialize with your team at any time"
+msgstr ""
+"Retrieve spontaneous meetings that happen in the office, but now remotely"
 
-#: apps/templates/pages/home.html:105
+#: apps/templates/pages/home.html:104 apps/templates/pages/home_v2.html:224
 msgid "FEATURE-2-TITLE"
-msgstr "Text Chat"
+msgstr "Text channels"
 
-#: apps/templates/pages/home.html:106
+#: apps/templates/pages/home.html:105 apps/templates/pages/home_v2.html:225
 msgid "FEATURE-2-CONTENT"
-msgstr "Is the person you want to communicate with busy?, leave a message"
+msgstr ""
+"Don't miss another important message again with chat channels and groups"
 
-#: apps/templates/pages/home.html:110
+#: apps/templates/pages/home.html:109 apps/templates/pages/home_v2.html:229
 msgid "FEATURE-5-TITLE"
-msgstr "Board"
+msgstr "Information boards"
 
-#: apps/templates/pages/home.html:111
+#: apps/templates/pages/home.html:110 apps/templates/pages/home_v2.html:230
 msgid "FEATURE-5-CONTENT"
 msgstr "Centralize essential information for your team members quickly."
 
-#: apps/templates/pages/home.html:115
+#: apps/templates/pages/home.html:114 apps/templates/pages/home_v2.html:234
 msgid "FEATURE-4-TITLE"
-msgstr "Distraction free mode"
+msgstr "Do you need focus?"
 
-#: apps/templates/pages/home.html:116
+#: apps/templates/pages/home.html:115 apps/templates/pages/home_v2.html:235
 msgid "FEATURE-4-CONTENT"
-msgstr ""
-"Turn off all communications and notifications, to focus on work when you "
-"need to."
+msgstr "Simply enter a distraction free mode and get work done"
 
-#: apps/templates/pages/home.html:120
+#: apps/templates/pages/home.html:119 apps/templates/pages/home_v2.html:239
 msgid "FEATURE-3-TITLE"
-msgstr "Project Managment"
+msgstr "Easy Project Management"
 
-#: apps/templates/pages/home.html:121
+#: apps/templates/pages/home.html:120 apps/templates/pages/home_v2.html:240
 msgid "FEATURE-3-CONTENT"
-msgstr ""
-"Simple and efective project management for productive remote teams"
+msgstr "Keep order and delivery on time with our project management"
 
-#: apps/templates/pages/home.html:125
+#: apps/templates/pages/home.html:124 apps/templates/pages/home_v2.html:244
 msgid "FEATURE-6-TITLE"
-msgstr "Docs & Files"
+msgstr "Files everywhere?"
 
-#: apps/templates/pages/home.html:126
+#: apps/templates/pages/home.html:125 apps/templates/pages/home_v2.html:245
 msgid "FEATURE-6-CONTENT"
 msgstr ""
 "Share docs, code, files, images and spreassheets. Organize in folder so "
 "they're easy to find."
 
-#: apps/templates/pages/home.html:139
+#: apps/templates/pages/home.html:138
 msgid "CALL-TO-ACTION-FOOTER"
 msgstr ""
 "Being able to communicate effectively is perhaps the most important team "
 "skill."
 
-#: apps/templates/pages/home.html:144
+#: apps/templates/pages/home.html:143
 msgid "START-NOW"
 msgstr "Start Now"
+
+#: apps/templates/pages/home_v2.html:44
+#: apps/templates/pages/partials/navbar.html:19
+msgid "Get holis"
+msgstr ""
+
+#: apps/templates/pages/home_v2.html:47
+#: apps/templates/pages/partials/navbar.html:22
+msgid "Why holis?"
+msgstr ""
+
+#: apps/templates/pages/home_v2.html:65 apps/templates/pages/home_v2.html:94
+#: apps/templates/pages/home_v2.html:287 apps/templates/pages/home_v2.html:291
+#: apps/templates/pages/home_v2.html:322 apps/templates/pages/home_v2.html:326
+#: apps/templates/pages/home_v2.html:357 apps/templates/pages/home_v2.html:361
+msgid "Start for free"
+msgstr "Try for free. No CC required."
+
+#: apps/templates/pages/home_v2.html:75
+msgid "HERO-TITLE"
+msgstr "Remote work easy and more enjoyable"
+
+#: apps/templates/pages/home_v2.html:79
+msgid "HERO-SUBTITLE"
+msgstr "Holis is a platform for remote teams that ensures effective communication, avoids the pitfalls of loneliness and work-life balance, and facilitates organization"
+
+#: apps/templates/pages/home_v2.html:86
+msgid "Your Workplace"
+msgstr ""
+
+#: apps/templates/pages/home_v2.html:91
+msgid "Welcome to holis again!"
+msgstr ""
+
+#: apps/templates/pages/home_v2.html:96
+msgid "No credit card required"
+msgstr ""
+
+#: apps/templates/pages/home_v2.html:120
+#: apps/templates/pages/partials/navbar.html:40
+#: apps/templates/pages/partials/navbar.html:64
+msgid "Signup"
+msgstr ""
+
+#: apps/templates/pages/home_v2.html:187
+msgid "Founder of Holis"
+msgstr ""
+
+#: apps/templates/pages/home_v2.html:209
+msgid "What does Holis offer?"
+msgstr ""
+
+#: apps/templates/pages/home_v2.html:257
+msgid ""
+"All the benefits of a real office, from anywhere in the world with easy to "
+"understand prices"
+msgstr ""
+
+#: apps/templates/pages/home_v2.html:261
+msgid "Started"
+msgstr ""
+
+#: apps/templates/pages/home_v2.html:264 apps/templates/pages/home_v2.html:299
+msgid "per month"
+msgstr ""
+
+#: apps/templates/pages/home_v2.html:267 apps/templates/pages/home_v2.html:302
+#: apps/templates/pages/home_v2.html:337
+msgid "spots remaing"
+msgstr ""
+
+#: apps/templates/pages/home_v2.html:276
+msgid "Up to 10 users"
+msgstr ""
+
+#: apps/templates/pages/home_v2.html:277 apps/templates/pages/home_v2.html:312
+#: apps/templates/pages/home_v2.html:347
+msgid "Unlimited voice chat"
+msgstr ""
+
+#: apps/templates/pages/home_v2.html:278 apps/templates/pages/home_v2.html:313
+#: apps/templates/pages/home_v2.html:348
+msgid "Unlimited messages"
+msgstr ""
+
+#: apps/templates/pages/home_v2.html:279 apps/templates/pages/home_v2.html:314
+#: apps/templates/pages/home_v2.html:349
+msgid "Unlimited projects"
+msgstr ""
+
+#: apps/templates/pages/home_v2.html:280
+msgid "50 GB of storage"
+msgstr ""
+
+#: apps/templates/pages/home_v2.html:281 apps/templates/pages/home_v2.html:316
+#: apps/templates/pages/home_v2.html:351
+msgid "Email Support"
+msgstr ""
+
+#: apps/templates/pages/home_v2.html:282 apps/templates/pages/home_v2.html:317
+#: apps/templates/pages/home_v2.html:352
+msgid "Live Chat Support"
+msgstr ""
+
+#: apps/templates/pages/home_v2.html:283 apps/templates/pages/home_v2.html:318
+#: apps/templates/pages/home_v2.html:353
+msgid "Money back guarantee"
+msgstr ""
+
+#: apps/templates/pages/home_v2.html:284 apps/templates/pages/home_v2.html:319
+#: apps/templates/pages/home_v2.html:354
+msgid "Cancel any time"
+msgstr ""
+
+#: apps/templates/pages/home_v2.html:296
+msgid "PRO"
+msgstr ""
+
+#: apps/templates/pages/home_v2.html:311 apps/templates/pages/home_v2.html:346
+msgid "Unlimited Users"
+msgstr ""
+
+#: apps/templates/pages/home_v2.html:315 apps/templates/pages/home_v2.html:350
+msgid "200 GB of storage"
+msgstr ""
+
+#: apps/templates/pages/home_v2.html:331
+msgid "Life Time Deal"
+msgstr ""
+
+#: apps/templates/pages/home_v2.html:334
+msgid "One Time Payment"
+msgstr ""
+
+#: apps/templates/pages/home_v2.html:337
+msgid "only "
+msgstr ""
+
+#: apps/templates/pages/home_v2.html:367
+msgid "All our payments are being processed by "
+msgstr ""
 
 #: apps/templates/pages/soon.html:15
 msgid "Holis provides you with everything you need to start working remotely"
@@ -686,28 +638,24 @@ msgstr ""
 msgid "Teams from these companies trust in us"
 msgstr ""
 
-#: apps/users/api/serializers.py:149 apps/web/models.py:16
-#: apps/web/models.py:28
+#: apps/users/api/serializers.py:143 apps/web/models.py:20
+#: apps/web/models.py:32
 msgid "Email"
 msgstr ""
 
-#: apps/users/api/serializers.py:151 apps/web/models.py:17
+#: apps/users/api/serializers.py:145 apps/web/models.py:21
 msgid "Password"
 msgstr ""
 
-#: apps/users/api/serializers.py:156
-msgid "Company"
-msgstr ""
-
-#: apps/users/api/serializers.py:157
+#: apps/users/api/serializers.py:151
 msgid "Token"
 msgstr ""
 
-#: apps/users/api/serializers.py:176
+#: apps/users/api/serializers.py:170
 msgid "Unable to log in with provided credentials."
 msgstr ""
 
-#: apps/users/api/serializers.py:179
+#: apps/users/api/serializers.py:173
 msgid "Must include 'email' and 'password'."
 msgstr ""
 
@@ -739,39 +687,39 @@ msgstr ""
 msgid "Last Seen"
 msgstr ""
 
-#: apps/users/models.py:146 apps/users/models.py:184
+#: apps/users/models.py:145 apps/users/models.py:182
 msgid "user"
 msgstr ""
 
-#: apps/users/models.py:149
+#: apps/users/models.py:148
 msgid "icon text"
 msgstr ""
 
-#: apps/users/models.py:150
+#: apps/users/models.py:149
 msgid "icon"
 msgstr ""
 
-#: apps/users/models.py:151
+#: apps/users/models.py:150
 msgid "Is active"
 msgstr ""
 
-#: apps/users/models.py:158
+#: apps/users/models.py:156
 msgid "status"
 msgstr ""
 
-#: apps/users/models.py:159
+#: apps/users/models.py:157
 msgid "statuses"
 msgstr ""
 
-#: apps/users/models.py:190
+#: apps/users/models.py:188
 msgid "unread"
 msgstr ""
 
-#: apps/users/models.py:197
+#: apps/users/models.py:195
 msgid "notification"
 msgstr ""
 
-#: apps/users/models.py:198
+#: apps/users/models.py:196
 msgid "notifications"
 msgstr ""
 
@@ -787,43 +735,40 @@ msgstr ""
 msgid "password and confirm_password does not match"
 msgstr ""
 
-#: apps/web/models.py:19
+#: apps/web/models.py:23
 msgid "Company name"
 msgstr ""
 
-#: apps/web/models.py:22
+#: apps/web/models.py:26
 msgid "Company code"
 msgstr ""
 
-#: apps/web/models.py:24
+#: apps/web/models.py:28
 msgid "User name"
 msgstr ""
 
-#: apps/web/models.py:25
+#: apps/web/models.py:29
 msgid "Position"
 msgstr ""
 
-#: apps/web/models.py:26
+#: apps/web/models.py:30
 msgid "Avatar"
 msgstr ""
 
-#: apps/web/models.py:27
+#: apps/web/models.py:31
 msgid "secret"
 msgstr ""
 
-#: apps/web/views.py:83
+#: apps/web/views.py:74
 msgid "Invalid user or password"
-msgstr ""
-
-#: config/settings/base.py:31
-msgid "English"
-msgstr ""
-
-#: config/settings/base.py:31
-msgid "Spanish"
 msgstr ""
 
 #, fuzzy
 #~| msgid "EARLY-ACCESS"
 #~ msgid "EARLY ACCESS"
 #~ msgstr "Get early access"
+
+#: apps/templates/pages/home_v2.html:246
+msgid "PRICING-TITLE"
+msgstr "All the benefits of a real office, from anywhere in the world with easy to "
+"understand prices"

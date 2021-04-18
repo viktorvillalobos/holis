@@ -16,6 +16,8 @@ _usage() {
   echo "    migrate   run pending migrations"
   echo "    makemig   make Django migrations"
   echo "    sqlmig    show SQL of migration without executing it"
+  echo "    makemessages create translations messages"
+  echo "    compulemessages compile locales"
   exit 1
 }
 
@@ -56,6 +58,12 @@ makemigrations|makemigration|makemig)
 ;;
 sqlmig|sqlmigrate|sqlmigration)
   python manage.py sqlmigrate "$@"
+;;
+makemessages|maketrans)
+  python manage.py makemessages --all -i webapp -i venv "$@"
+;;
+compilemessages)
+  python manage.py makemessages"$@"
 ;;
 *)
   _usage

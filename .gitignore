@@ -280,3 +280,7 @@ webpack-stats.json
 
 
 .history/
+apps/static/css/
+webapp/assets/
+webpack-stats-prod.json
+apps/static/js/*.min*

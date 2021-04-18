@@ -32,7 +32,7 @@ services:
         max_attempts: 3
         window: 120s
     healthcheck:
-      test: ["CMD", "python", "manage.py", "check"]
+      test: ["CMD", "python scripts/healtcheck.py || exit 1"]
 
   postgres:
     build:
@@ -74,19 +74,25 @@ services:
     <<: *django
     image: holis_production_celeryworker
     command: /start-celeryworker
+    deploy:
+      replicas: 1
     healthcheck:
-      test: ["CMD", "python", "manage.py", "check"]
+      test: ["CMD", "celery", "inspect", "ping", "-b", "redis://redis:6379/0", "-d", "celery@$$HOSTNAME"]
 
   celerybeat:
     <<: *django
     image: holis_production_celerybeat
     command: /start-celerybeat
+    deploy:
+      replicas: 1
     healthcheck:
-      test: ["CMD", "python", "manage.py", "check"]
+      test: ["CMD", "stat celerybeat.pid || exit 1"]
 
   flower:
     <<: *django
     image: holis_production_flower
     command: /start-flower
+    deploy:
+      replicas: 1
     healthcheck:
-      test: ["CMD", "python", "manage.py", "check"]
+      test: ["CMD", "python  scripts/healtcheck_flower.py || exit 1"]

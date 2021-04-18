@@ -40,6 +40,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/dev/ref/settings/#locale-paths
 LOCALE_PATHS = [str(ROOT_DIR / "locale")]
 
+# https://docs.djangoproject.com/en/3.2/ref/settings/#std:setting-DEFAULT_AUTO_FIELD
+DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
+
 # DATABASES
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#databases
@@ -67,10 +70,6 @@ DJANGO_APPS = [
     "django.forms",
 ]
 THIRD_PARTY_APPS = [
-    "crispy_forms",
-    "allauth",
-    "allauth.account",
-    "allauth.socialaccount",
     "django_celery_beat",
     "rest_framework",
     "rest_framework.authtoken",
@@ -82,8 +81,8 @@ THIRD_PARTY_APPS = [
     "webpack_loader",
     "sorl.thumbnail",
     "django_filters",
-    "pwa",
     "djpaddle",
+    "martor",
 ]
 
 LOCAL_APPS = [
@@ -107,8 +106,6 @@ MIGRATION_MODULES = {"sites": "apps.contrib.sites.migrations"}
 # https://docs.djangoproject.com/en/dev/ref/settings/#authentication-backends
 AUTHENTICATION_BACKENDS = [
     "django.contrib.auth.backends.ModelBackend",
-    "users.auth_backends.EmailBackend",
-    # "allauth.account.auth_backends.AuthenticationBackend",
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#auth-user-model
 AUTH_USER_MODEL = "users.User"
@@ -225,7 +222,10 @@ FIXTURE_DIRS = (str(APPS_DIR / "fixtures"),)
 # https://docs.djangoproject.com/en/dev/ref/settings/#session-cookie-httponly
 SESSION_COOKIE_HTTPONLY = True
 # https://docs.djangoproject.com/en/dev/ref/settings/#csrf-cookie-httponly
-CSRF_COOKIE_HTTPONLY = True
+
+# TODO: This should be in true, but we are using Matron to MD widget, and the preview is disabled without this
+
+CSRF_COOKIE_HTTPONLY = False
 # https://docs.djangoproject.com/en/dev/ref/settings/#secure-browser-xss-filter
 SECURE_BROWSER_XSS_FILTER = True
 # https://docs.djangoproject.com/en/dev/ref/settings/#x-frame-options
@@ -296,19 +296,6 @@ CELERY_TASK_TIME_LIMIT = 5 * 60
 CELERY_TASK_SOFT_TIME_LIMIT = 60
 # http://docs.celeryproject.org/en/latest/userguide/configuration.html#beat-scheduler
 CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
-# django-allauth
-# ------------------------------------------------------------------------------
-ACCOUNT_ALLOW_REGISTRATION = env.bool("DJANGO_ACCOUNT_ALLOW_REGISTRATION", True)
-# https://django-allauth.readthedocs.io/en/latest/configuration.html
-ACCOUNT_AUTHENTICATION_METHOD = "username"
-# https://django-allauth.readthedocs.io/en/latest/configuration.html
-ACCOUNT_EMAIL_REQUIRED = True
-# https://django-allauth.readthedocs.io/en/latest/configuration.html
-ACCOUNT_EMAIL_VERIFICATION = "mandatory"
-# https://django-allauth.readthedocs.io/en/latest/configuration.html
-ACCOUNT_ADAPTER = "apps.users.adapters.AccountAdapter"
-# https://django-allauth.readthedocs.io/en/latest/configuration.html
-SOCIALACCOUNT_ADAPTER = "apps.users.adapters.SocialAccountAdapter"
 # django-compressor
 # ------------------------------------------------------------------------------
 # https://django-compressor.readthedocs.io/en/latest/quickstart/#installation
@@ -346,41 +333,12 @@ THUMBNAIL_FORMAT = "PNG"
 # Twilio
 
 TWILIO_ACCOUNT_ID = env("TWILIO_ACCOUNT_ID")
+
 TWILIO_AUTH_TOKEN = env("TWILIO_AUTH_TOKEN")
-
-
-# PWA
-
-PWA_APP_NAME = "Holis"
-PWA_APP_DESCRIPTION = "Holis"
-PWA_APP_THEME_COLOR = "#0A0302"
-PWA_APP_BACKGROUND_COLOR = "#ffffff"
-PWA_APP_DISPLAY = "standalone"
-PWA_APP_SCOPE = "/"
-PWA_APP_ORIENTATION = "any"
-PWA_APP_START_URL = "/start-pwa/"
-PWA_APP_STATUS_BAR_COLOR = "default"
-PWA_APP_ICONS = [
-    {"src": "/static/images/favicons/android-icon-36x36.png", "sizes": "36x36"},
-    {"src": "/static/images/favicons/android-icon-192x192.png", "sizes": "192x192"},
-]
-PWA_APP_ICONS_APPLE = [
-    {"src": "/static/images/favicons/apple-icon.png", "sizes": "180x180"}
-]
-PWA_APP_SPLASH_SCREEN = [
-    {
-        "src": "/static/images/icons/splash-640x1136.png",
-        "media": "(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)",
-    }
-]
-PWA_APP_DIR = "ltr"
-PWA_APP_LANG = "en-US"
 
 SESSION_COOKIE_DOMAIN = ".holis.local"
 
-
 ABSTRACT_API_KEY = env("ABSTRACT_API_KEY")
-
 
 ENVIRONMENT = "production"
 
