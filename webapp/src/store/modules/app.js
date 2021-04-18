@@ -7,6 +7,7 @@ const state = {
   isReleasesActive: false,
   isProjectsActive: false,
   isCreateProjectActive: false,
+  isProjectDetailActive: false,
   isMicroActive: false,
   isVideoActive: false,
   isSoundActive: true,
@@ -37,6 +38,9 @@ const mutations = {
     state.isCreateProjectActive = !state.isCreateProjectActive
     if(state.isCreateProjectActive)
       state.isProjectsActive = false
+  },
+  setProjectDetailActive(state){
+    state.isProjectDetailActive = !state.isProjectDetailActive
   },
   setBoardActive (state) {
     state.isBoardActive = !state.isBoardActive

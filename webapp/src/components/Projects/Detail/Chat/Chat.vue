@@ -8,12 +8,13 @@
                     </figure>
                 </div>
                 <div class="media-content">
-                    <p class="is-size-7">Hexagonal interactivo</p>
-                    <p class="is-size-7">Equipo: Juanin Juan Harry, Tulio Triviño.</p>
+                    <p class="is-size-7">Elección del diseño</p>
+                    <p class="is-size-7">Chicos, no me decido entre estos dos diseños para el hexágono, ¿cuál conside-
+ran ustedes que estaría mejor?</p>
                 </div>
 
                 <div class="media-right" align="right">
-                    <p class="is-size-7">Fecha final: 15 de Febrero 2021</p>
+                    <p class="is-size-7">15 de Febrero 2021</p>
                     <div>
                         <button class="button is-danger is-light is-small alert-days">15 tareas abiertas</button>
                         <button class="button is-success is-light is-small alert-days">15 días restantes</button>
@@ -32,8 +33,8 @@
 import Card from '@/components/Card'
 import Btn from '@/components/Btn'
 export default {
-  name: 'Project',
-  props: ["project"],
+  name: 'ProjectChat',
+  props: ["task"],
   components: {
     Card,
     Btn

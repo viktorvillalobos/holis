@@ -1,5 +1,5 @@
 <template>
-  <div class="p-4 pr4">
+  <div class="p-4 pr-4">
     <div class="tabs">
       <ul>
           <li v-bind:class="{'is-active' : this.type == 'my_projects'}" @click="type = 'my_projects'"><a>Mis proyectos</a></li>
