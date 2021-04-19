@@ -94,9 +94,6 @@ export default {
         this.leave()
       }
     },
-    streams (value) {
-      this.$store.dispatch('setStreamsCount', value.length + 1)
-    },
     muteAudio (value) {
       this.videoList.forEach(video => {
         if (video !== this.localVideo) video.muted = value
@@ -132,6 +129,9 @@ export default {
     }
 
     this.rtcmConnection.onstream = function (stream) {
+      console.log("onstream")
+      console.log(stream)
+
       const found = that.videoList.find(video => {
         return video.id === stream.streamid
       })
@@ -150,6 +150,7 @@ export default {
         // This need to be unificated
         that.videoList.push(video)
         that.streams.push(stream)
+        that.$store.dispatch('setStreamsCount', that.streams.length + 1)
       }
 
       setTimeout(function () {
