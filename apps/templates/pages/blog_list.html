@@ -6,10 +6,11 @@
 <body>
     {% include "pages/partials/navbar.html" %}
     <section class="holis-blog-list">
-        <div class="holis-blog-list-featured-post">
-            <div class="holis-blog-list-featured-post-image">
+        <div class="holis-blog-list-featured-post columns">
+            <div class="holis-blog-list-featured-post-image column is-half">
+                <img src="{{ object_list.0.image.url }}" alt="">
             </div>
-            <div class="holis-blog-list-featured-post-content">
+            <div class="holis-blog-list-featured-post-content column is-half">
                 <div class="holis-blog-list-featured-post-content-title">
                     This is my super title
                 </div>
@@ -19,5 +20,7 @@
             </div>
         </div>
     </section>
+
+    <link rel="stylesheet" href="{% static "css/blog_list.min.css" %}">
 </body>
 {% endblock %}

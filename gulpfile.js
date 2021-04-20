@@ -86,16 +86,6 @@ function imgCompression() {
     .pipe(dest(paths.images))
 }
 
-// Run django server
-function asyncRunServer() {
-  var cmd = spawn('gunicorn', [
-      'config.asgi', '-k', 'uvicorn.workers.UvicornWorker', '--reload'
-      ], {stdio: 'inherit'}
-  )
-  cmd.on('close', function(code) {
-    console.log('gunicorn exited with code ' + code)
-  })
-}
 
 // Browser sync server for live reload
 function initBrowserSync() {
