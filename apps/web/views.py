@@ -7,7 +7,7 @@ from django.shortcuts import redirect
 from django.urls import reverse, reverse_lazy
 from django.utils import translation
 from django.utils.translation import gettext_lazy as _
-from django.views.generic import FormView, TemplateView
+from django.views.generic import FormView, ListView, TemplateView
 from django.views.generic.edit import UpdateView
 
 import logging
@@ -202,3 +202,9 @@ class BlogSingleView(TemplateView):
             "PAGE": blog_entry,
             "RELATED_POSTS": blog_entry.tags.similar_objects(),
         }
+
+
+class BlogListView(ListView):
+    template_name = "pages/blog_list.html"
+    model = BlogEntry
+    paginate_by = 6

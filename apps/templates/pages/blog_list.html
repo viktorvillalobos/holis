@@ -1,0 +1,23 @@
+{% extends "base_v2.html" %}
+{% load static i18n %}
+{% load martortags %}
+
+{% block content %}
+<body>
+    {% include "pages/partials/navbar.html" %}
+    <section class="holis-blog-list">
+        <div class="holis-blog-list-featured-post">
+            <div class="holis-blog-list-featured-post-image">
+            </div>
+            <div class="holis-blog-list-featured-post-content">
+                <div class="holis-blog-list-featured-post-content-title">
+                    This is my super title
+                </div>
+                <div class="holis-blog-list-featured-post-content-extract">
+                    {% lorem 1 %}
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+{% endblock %}
