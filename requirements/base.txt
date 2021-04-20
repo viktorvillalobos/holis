@@ -24,7 +24,7 @@ django-redis==4.12.1  # https://github.com/niwinz/django-redis
 djangorestframework==3.12.2  # https://github.com/encode/django-rest-framework
 django-mptt==0.11.0
 channels==3.0.3
-django-countries==6.1.2
+django-countries==7.1
 django-cors-headers==3.2.1
 channels_redis==3.2.0
 django-birthday==0.1.3
