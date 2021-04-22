@@ -1,4 +1,7 @@
+from django.utils import timezone
+
 import pytest
+from datetime import timedelta
 
 from ...lib import constants as projects_constants
 from ...models import Project
@@ -47,10 +50,21 @@ def test_get_projects_by_user_id_and_kind(django_assert_num_queries):
 @pytest.mark.django_db
 def test_create_project_by_company_and_user_id(django_assert_num_queries):
     user = project_recipes.generic_user.make(email="john@doe.com")
+    start_date = timezone.now().date()
+    end_date = timezone.now().date() + timedelta(days=15)
 
     with django_assert_num_queries(2):
         instance = project_providers.create_project_by_company_and_user_id(
-            company_id=user.company_id, user_id=user.id, kind=3, name="DEMO-PROJECT"
+            company_id=user.company_id,
+            user_id=user.id,
+            kind=3,
+            name="DEMO-PROJECT",
+            description="description",
+            start_date=start_date,
+            end_date=end_date,
         )
 
     assert instance.name == "DEMO-PROJECT"
+    assert instance.description == "description"
+    assert instance.start_date == start_date
+    assert instance.end_date == end_date

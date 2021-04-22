@@ -6,6 +6,7 @@ from django.utils import timezone
 import json
 import pytest
 import uuid
+from datetime import timedelta
 from model_bakery import baker
 
 from apps.users.tests import baker_recipes as user_recipes
@@ -72,7 +73,16 @@ def test_create_normal_project(client):
 
     client.force_login(active_user)
 
-    expected_data = dict(name="MY-NORMAL-PROJECT", company_id=active_user.company_id)
+    start_date = timezone.now().date().isoformat()
+    end_date = (timezone.now().date() + timedelta(days=15)).isoformat()
+
+    expected_data = dict(
+        name="MY-NORMAL-PROJECT",
+        company_id=active_user.company_id,
+        description="my-custom-description",
+        start_date=start_date,
+        end_date=end_date,
+    )
     requested_data = json.dumps(expected_data)
 
     response = client.post(url, data=requested_data, content_type="application/json")
@@ -82,6 +92,9 @@ def test_create_normal_project(client):
     assert Project.objects.count() == 1
     assert data["name"] == expected_data["name"]
     assert data["company_id"] == expected_data["company_id"]
+    assert data["description"] == "my-custom-description"
+    assert data["start_date"] == start_date
+    assert data["end_date"] == end_date
     assert is_valid_uuid(data["uuid"])
     assert active_user.id == data["members"][0]["id"]
     assert active_user.name == data["members"][0]["name"]
