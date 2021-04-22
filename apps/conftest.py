@@ -5,10 +5,6 @@ from model_bakery import baker
 
 from apps.users.models import User
 
-baker.generators.add(
-    "apps.utils.fields.LowerCharField", "model_bakery.random_gen.gen_string"
-)
-
 
 @pytest.fixture(autouse=True)
 def media_storage(settings, tmpdir):

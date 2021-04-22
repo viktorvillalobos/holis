@@ -34,6 +34,7 @@ export default {
   methods: {
     openCreatProject () {
       this.$store.commit('setCreateProjectActive')
+      setTimeout(() => {  this.$store.commit('setTypeProject', this.type) }, 1000); // espero un segundo por condicion de carrera que se cree la vista para pasarle el type
     }
   }
 };

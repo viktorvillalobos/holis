@@ -6,10 +6,13 @@ from rest_framework.exceptions import ValidationError
 from rest_framework.request import Request
 from rest_framework.response import Response
 
+from uuid import uuid4
+
 from apps.utils.pagination import paginate_response
 
 from ..lib import constants as projects_constants
 from ..providers import project as project_providers
+from ..providers import task as task_providers
 from . import serializers
 
 
@@ -48,11 +51,25 @@ def project_resource(request: Request, project_kind_value: int) -> Response:
         )
 
     serializer = serializers.ProjectSerializer(
-        data={
-            "kind": project_kind_value,
-            "company_id": request.user.company_id,
-            **request.data,
-        },
+        data={"kind": project_kind_value, **request.data}, context={"request": request}
+    )
+
+    serializer.is_valid(raise_exception=True)
+    serializer.save()
+
+    return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+@api_view(["GET", "POST"])
+def task_resource(request: Request, project_uuid: uuid4) -> Response:
+    if request.method == "GET":
+        tasks = task_providers.get_tasks_by_project_uuid(project_uuid=project_uuid)
+        return paginate_response(
+            queryset=tasks, request=request, serializer_class=serializers.TaskSerializer
+        )
+
+    serializer = serializers.TaskSerializer(
+        data={"project_uuid": project_uuid, **request.data},
         context={"request": request},
     )
 

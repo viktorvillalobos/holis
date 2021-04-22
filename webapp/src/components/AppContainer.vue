@@ -159,6 +159,7 @@ export default {
       isMicroActive: state => state.app.isMicroActive,
       isSoundActive: state => state.app.isSoundActive,
       notification: state => state.notifications.notification,
+      projects: state => state.projects.projects,
       user: state => state.app.user,
       users: state => state.chat.users,
       areas: state => state.areas,

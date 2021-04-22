@@ -1,5 +1,7 @@
 from model_bakery.recipe import Recipe, foreign_key
 
+from apps.utils.baker import get_or_create_foreign_key
+
 from ..lib import constants as projects_constants
 
 generic_company = Recipe(
@@ -14,13 +16,13 @@ generic_user = Recipe(
     "users.User",
     email="john@doe.com",
     name="Jhon Doe",
-    company=foreign_key(generic_company),
+    company=get_or_create_foreign_key(generic_company),
 )
 
 generic_company_project = Recipe(
     "projects.Project",
     name="generic-project",
-    company=foreign_key(generic_company),
+    company=get_or_create_foreign_key(generic_company),
     kind=projects_constants.ProjectKind.COMPANY.value,
 )
 
@@ -28,6 +30,6 @@ generic_company_project = Recipe(
 generic_normal_project = Recipe(
     "projects.Project",
     name="generic-normal-project",
-    company=foreign_key(generic_company),
+    company=get_or_create_foreign_key(generic_company),
     kind=projects_constants.ProjectKind.PROJECT.value,
 )

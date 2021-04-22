@@ -55,7 +55,7 @@ class MainConsumer(AsyncJsonWebsocketConsumer):
             return await self.send_json({"error": _msg})
 
         elif _type == "grid.position":
-            await grid_handlers.handle_grid_position(
+            await grid_handlers.handle_user_movement(
                 channel_layer=self.channel_layer,
                 company_channel=self.company_channel,
                 user=user,

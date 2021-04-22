@@ -11,4 +11,5 @@ urlpatterns = [
     path(
         "kind/<str:project_kind_value>", views.project_resource, name="project_resource"
     ),
+    path("<uuid:project_uuid>/tasks", views.task_resource, name="task_resource"),
 ]

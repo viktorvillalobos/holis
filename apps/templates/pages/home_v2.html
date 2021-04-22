@@ -247,41 +247,6 @@ Mediante la visualización de proyectos, la separación del trabajo por zonas, r
         </div>
         <div class="holis-pricing-wrapper columns">
             <div class="holis-pricing-box column is-one-third has-text-centered">
-                <span class="holis-pricing-box-limited is-size-5-mobile">{% trans 'Started' %} 🥉</span>
-                <div class="holis-pricing-box-price">
-                    <span class="price-dollars"> <span class="is-size-3">$</span> {{ PLANS.0.price }} </span>
-                    <span class="price-frecuency-2">{{ _('per month') | title }} </span>
-                </div>
-                <div class="holis-pricing-box-progress is-invisible is-hidden-mobile">
-                    <span class="holis-pricing-box-progress-text">100 {% trans 'spots remaing' %}</span>
-                    <div class="holis-pricing-box-progress-bar">
-                        <div
-                            style="width: 200px;"
-                            class="holis-pricing-box-progress-bar-current-progress">
-                        </div>
-                    </div>
-                </div>
-                <ul class="holis-pricing-box-features is-size-5-mobile">
-                    <li class="holis-pricing-box-features">👦🏻 {% trans 'Up to 10 users'  %}</li>
-                    <li class="holis-pricing-box-features">🗣  {% trans 'Unlimited voice chat' %}</li>
-                    <li class="holis-pricing-box-features">💬 {% trans 'Unlimited messages' %}</li>
-                    <li class="holis-pricing-box-features">🗂  {% trans 'Unlimited projects' %}</li>
-                    <li class="holis-pricing-box-features">📁 {% trans '50 GB of storage' %}</li>
-                    <li class="holis-pricing-box-features">📧 {% trans 'Email Support' %}</li>
-                    <li class="holis-pricing-box-features strike">🎗 {% trans 'Live Chat Support' %}</li>
-                    <li class="holis-pricing-box-features">💵 {% trans 'Money back guarantee' %}</li>
-                    <li class="holis-pricing-box-features">🥺 {% trans 'Cancel any time' %}</li>
-                </ul>
-                <a href="{% url 'web:soon' %}" class="button try-button is-size-4-mobile is-size-7-tablet is-size-6-fullhd" data-product="{{PLANS.2.id}}" data-theme="none">
-                    {{ _("Start for free") }} 🚀
-                </a>
-                {% if 1 == 2%}
-                <a href="{% url "web:signup-step-1" %}" class="button try-button is-size-4-mobile">
-                    {{ _("Start for free") }} 🚀
-                </a>
-                {% endif %}
-            </div>
-            <div class="holis-pricing-box column is-one-third has-text-centered">
                 <span class="holis-pricing-box-limited is-size-5-mobile">{% trans 'PRO' %} 🥈</span>
                 <div class="holis-pricing-box-price">
                     <span class="price-dollars"> <span class="is-size-3">$</span> {{ PLANS.1.price }} </span>

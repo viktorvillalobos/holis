@@ -5,6 +5,8 @@ from django.utils.translation import gettext_lazy as _
 import uuid
 from model_utils.models import SoftDeletableModel, TimeStampedModel
 
+from apps.utils.fields import UUIDForeignKey
+
 from .lib import constants as project_constants
 
 
@@ -35,6 +37,12 @@ class Project(ProjectBaseModel):
 
     """
 
+    COMPANY = 1
+    TEAM = 2
+    PROJECT = 3
+
+    PROJECT_KIND_CHOICES = ((COMPANY, "Company"), (TEAM, "Team"), (PROJECT, "Project"))
+
     company = models.ForeignKey(
         "core.Company",
         related_name="all_projects",
@@ -43,6 +51,9 @@ class Project(ProjectBaseModel):
     )
     name = models.CharField(max_length=100)
     members = models.ManyToManyField("users.User")
+    kind = models.IntegerField(
+        choices=project_constants.ProjectKind.choices, db_index=True
+    )
     kind = models.IntegerField(
         choices=project_constants.ProjectKind.choices, db_index=True
     )
@@ -65,7 +76,7 @@ class BoardMessage(ProjectBaseModel):
         verbose_name=_("company"),
     )
 
-    project = models.ForeignKey(
+    project = UUIDForeignKey(
         Project, related_name="board_messages", on_delete=models.CASCADE
     )
 
@@ -89,7 +100,7 @@ class BoardMessageComment(ProjectBaseModel):
         on_delete=models.CASCADE,
         verbose_name=_("company"),
     )
-    project = models.ForeignKey(
+    project = UUIDForeignKey(
         Project, related_name="board_message_comments", on_delete=models.CASCADE
     )
 
@@ -115,7 +126,7 @@ class Task(ProjectBaseModel):
         verbose_name=_("company"),
     )
 
-    project = models.ForeignKey(Project, related_name="tasks", on_delete=models.CASCADE)
+    project = UUIDForeignKey(Project, related_name="tasks", on_delete=models.CASCADE)
 
     assigned_to = models.ForeignKey(
         "users.User", related_name="tasks", on_delete=models.DO_NOTHING
@@ -123,6 +134,9 @@ class Task(ProjectBaseModel):
     due_date = models.DateField(null=True, blank=True)
     title = models.CharField(max_length=100)
     content = models.TextField(blank=True, null=True)
+    created_by = models.ForeignKey(
+        "users.User", on_delete=models.DO_NOTHING, related_name="project_tasks"
+    )
 
     class Meta:
         unique_together = ["uuid", "company"]
@@ -135,9 +149,8 @@ class TaskComment(ProjectBaseModel):
         on_delete=models.CASCADE,
         verbose_name=_("company"),
     )
-    instance = models.ForeignKey(
-        Task, related_name="comments", on_delete=models.CASCADE
-    )
+    instance = UUIDForeignKey(Task, related_name="comments", on_delete=models.CASCADE)
+
     content = models.TextField()
     created_by = models.ForeignKey(
         "users.User", on_delete=models.DO_NOTHING, related_name="task_comments"
@@ -156,7 +169,7 @@ class Attachment(ProjectBaseModel):
         on_delete=models.CASCADE,
         verbose_name=_("company"),
     )
-    project = models.ForeignKey(
+    project = UUIDForeignKey(
         Project, related_name="attachments", on_delete=models.CASCADE
     )
     file = models.FileField()
@@ -173,7 +186,7 @@ class AttachmentComment(ProjectBaseModel):
         on_delete=models.CASCADE,
         verbose_name=_("company"),
     )
-    instance = models.ForeignKey(
+    instance = UUIDForeignKey(
         Attachment, related_name="comments", on_delete=models.CASCADE
     )
     content = models.TextField()
