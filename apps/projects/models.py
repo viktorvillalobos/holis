@@ -54,9 +54,9 @@ class Project(ProjectBaseModel):
     kind = models.IntegerField(
         choices=project_constants.ProjectKind.choices, db_index=True
     )
-    kind = models.IntegerField(
-        choices=project_constants.ProjectKind.choices, db_index=True
-    )
+    description = models.TextField(blank=True, null=True)
+    start_date = models.DateField(blank=True, null=True)
+    end_date = models.DateField(blank=True, null=True)
 
     class Meta:
         constraints = [

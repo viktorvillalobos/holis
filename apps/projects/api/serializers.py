@@ -8,9 +8,6 @@ from ..models import Project, Task
 from ..providers import project as project_providers
 from ..providers import task as task_providers
 
-from ..models import Project
-from ..providers import project as project_providers
-
 
 class MembersField(serializers.Field):
     def to_representation(self, members):
@@ -56,6 +53,11 @@ class ProjectSerializer(serializers.Serializer):
     name = serializers.CharField()
     members = MembersField(required=False, allow_null=True)
     kind = serializers.IntegerField()
+    description = serializers.CharField(
+        required=False, allow_null=True, allow_blank=True
+    )
+    start_date = serializers.DateField(required=False, allow_null=True)
+    end_date = serializers.DateField(required=False, allow_null=True)
 
     def create(self, validated_data: Dict[str, Any]) -> Project:
         request = self.context["request"]
