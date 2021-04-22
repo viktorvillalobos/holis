@@ -8,7 +8,7 @@
       </ul>
     </div>
     <div style="overflow: auto; height:70vh;">
-      <ProjectList v-bind:type="type"/>
+      <ProjectList v-bind:type="this.type"/>
     </div>
     <div align=right>
       <button @click="openCreatProject" class="button is-primary">Crear nuevo proyecto</button>
