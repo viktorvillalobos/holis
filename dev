@@ -17,7 +17,7 @@ _usage() {
   echo "    makemig   make Django migrations"
   echo "    sqlmig    show SQL of migration without executing it"
   echo "    makemessages create translations messages"
-  echo "    compulemessages compile locales"
+  echo "    compilemessages compile locales"
   exit 1
 }
 
@@ -63,7 +63,7 @@ makemessages|maketrans)
   python manage.py makemessages --all -i webapp -i venv "$@"
 ;;
 compilemessages)
-  python manage.py makemessages"$@"
+  python manage.py compilemessages"$@"
 ;;
 *)
   _usage

@@ -10,6 +10,7 @@ urlpatterns = [
     path("check-company/", views.CheckCompanyView.as_view(), name="check-company"),
     path("login/", views.LoginView.as_view(), name="login"),
     path("", views.HomeView.as_view(), name="home"),
+    path("<str:lang_code>/", views.HomeView.as_view(), name="home_with_lang"),
     path(
         "about/", TemplateView.as_view(template_name="pages/about.html"), name="about"
     ),

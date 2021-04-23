@@ -5,6 +5,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import redirect
 from django.urls import reverse, reverse_lazy
+from django.utils import translation
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import FormView, TemplateView
 from django.views.generic.edit import UpdateView
@@ -142,6 +143,16 @@ def logout_view(request):
 
 class HomeView(RedirectToAppMixin, TemplateView):
     template_name = "pages/home_v2.html"
+
+    def dispatch(self, request, *args, **kwargs):
+        if (
+            not self.kwargs.get("lang_code")
+            or self.kwargs.get("lang_code") != request.LANGUAGE_CODE
+        ):
+            return redirect(
+                reverse("web:home_with_lang", args=(request.LANGUAGE_CODE,))
+            )
+        return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
