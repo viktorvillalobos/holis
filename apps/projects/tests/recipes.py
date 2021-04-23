@@ -33,3 +33,12 @@ generic_normal_project = Recipe(
     company=get_or_create_foreign_key(generic_company),
     kind=projects_constants.ProjectKind.PROJECT.value,
 )
+
+
+generic_normal_task = Recipe(
+    "projects.Task",
+    title="my-custom-task-title",
+    content="my-custom-task-content",
+    company=get_or_create_foreign_key(generic_company),
+    project=get_or_create_foreign_key(generic_normal_project),
+)

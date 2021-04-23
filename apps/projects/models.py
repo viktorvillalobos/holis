@@ -137,6 +137,7 @@ class Task(ProjectBaseModel):
     created_by = models.ForeignKey(
         "users.User", on_delete=models.DO_NOTHING, related_name="project_tasks"
     )
+    index = models.IntegerField(default=0)
 
     class Meta:
         unique_together = ["uuid", "company"]
