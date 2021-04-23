@@ -114,8 +114,6 @@ def test_create_tasks(client):
     assert active_user.company_id == project.company_id
 
     expected_data = dict(
-        company_id=project.company_id,
-        project_uuid=str(project.uuid),
         title="my-custom-title",
         content="my-custom-content",
         assigned_to=active_user.id,

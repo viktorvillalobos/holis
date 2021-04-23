@@ -69,7 +69,11 @@ def task_resource(request: Request, project_uuid: uuid4) -> Response:
         )
 
     serializer = serializers.TaskSerializer(
-        data={"project_uuid": project_uuid, **request.data},
+        data={
+            "project_uuid": project_uuid,
+            "company_id": request.user.company_id,
+            **request.data,
+        },
         context={"request": request},
     )
 
