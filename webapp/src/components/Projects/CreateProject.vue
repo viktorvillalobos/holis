@@ -30,7 +30,7 @@
                         <div class="customTrigger">
                             <div class="columns">
                                 <div class="column">
-                                    <p class="mt-2 is-size-5">{{ task.name }}</p>
+                                    <p class="mt-2 is-size-5">{{ task.title }}</p>
                                 </div>
                                 <div class="column" align="right">
                                     <font-awesome-icon class="mt-2" icon="chevron-up" /> 
@@ -43,7 +43,7 @@
                         <div class="customTrigger">
                             <div class="columns">
                                 <div class="column">
-                                    <p class="mt-2 is-size-5">{{ task.name }}</p>
+                                    <p class="mt-2 is-size-5">{{ task.title }}</p>
                                 </div>
                                 <div class="column" align="right">
                                     <font-awesome-icon class="mt-2" icon="chevron-down" />
@@ -55,7 +55,7 @@
                     <div class="mt-2 columns">
                         <div class="column">
                             <b style="is-size-6">Nombre</b>
-                            <input v-model="task.name" class="input" type="text" placeholder="Ej: Hexagonal interactivo">
+                            <input v-model="task.title" class="input" type="text" placeholder="Ej: Hexagonal interactivo">
                         </div>
                         <div class="column">
                             <div>
@@ -92,7 +92,7 @@
 
                     <div class="mt-2">
                         <p style="is-size-6"><b>Descripción</b> (opcional)</p>
-                        <textarea class="textarea" placeholder="e.g. Hello world"></textarea>
+                        <textarea v-model="task.content" class="textarea" placeholder="e.g. Hello world"></textarea>
                     </div>
                     <div class="mt-2" align="right">
                         <button @click="deleteTask(index)" class="button is-danger is-inverted is-small">Borrar</button>
@@ -152,14 +152,14 @@ export default {
           }
           const dataSend = {'typeProject' : this.typeProject, 
                             'data' : data,
-                            'task':this.tasks}
+                            'tasks':this.tasks}
           this.loading = true
           this.$store.dispatch('createProject', dataSend)
       },
       addNewTask(){
           this.tasks.push({
-              "name" : "Ejemplo Tarea",
-              "description" : ""
+              "title" : "Ejemplo Tarea",
+              "content" : ""
           })
       },
       deleteTask(index){
