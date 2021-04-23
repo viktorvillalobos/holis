@@ -21,83 +21,87 @@
             <input v-model="dateEnd" class="input" type="date" placeholder="--/--/----">
         </div>
     </div>
-    
-    <div v-for="task in this.tasks" :key="task">
-        <Collapsible>
-            <div slot="trigger" class="collapse-focus m-3">
-                <div class="customTrigger">
-                    <div class="columns">
-                        <div class="column">
-                            <p class="mt-2 is-size-5">Hexagonal interactivo</p>
-                        </div>
-                        <div class="column" align="right">
-                            <font-awesome-icon class="mt-2" icon="chevron-up" /> 
-                        </div>
-                    </div>
-                </div>
-            </div>
 
-            <div slot="closedTrigger" class="collapse-focus m-3">
-                <div class="customTrigger">
-                    <div class="columns">
-                        <div class="column">
-                            <p class="mt-2 is-size-5">Hexagonal interactivo</p>
-                        </div>
-                        <div class="column" align="right">
-                            <font-awesome-icon class="mt-2" icon="chevron-down" />
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="mt-2 columns">
-                <div class="column">
-                    <b style="is-size-6">Nombre</b>
-                    <input class="input" type="text" placeholder="Ej: Hexagonal interactivo">
-                </div>
-                <div class="column">
-                    <div>
-                        <b style="is-size-6">Responsable</b>
-                    </div>
-                    <div class="dropdown is-active">
-                        <div class="dropdown-trigger">
-                            <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
-                            <span>Todos</span>
-                            <span class="icon is-small">
-                                <i class="fas fa-angle-down" aria-hidden="true"></i>
-                            </span>
-                            </button>
-                        </div>
-                        <div class="dropdown-menu" id="dropdown-menu" role="menu">
-                            <div class="dropdown-content">
-                            <a href="#" class="dropdown-item is-active">
-                                Todos
-                            </a>
-                            <a class="dropdown-item">
-                                Activos
-                            </a>
-                            <a href="#" class="dropdown-item">
-                                Cerrados
-                            </a>
-                            <a href="#" class="dropdown-item">
-                                Futuros
-                            </a>
+    <draggable v-model="tasks">
+        <transition-group>
+            <div v-for="(task, index) in tasks" :key="task">
+                <Collapsible>
+                    <div slot="trigger" class="collapse-focus m-3">
+                        <div class="customTrigger">
+                            <div class="columns">
+                                <div class="column">
+                                    <p class="mt-2 is-size-5">{{ task.name }}</p>
+                                </div>
+                                <div class="column" align="right">
+                                    <font-awesome-icon class="mt-2" icon="chevron-up" /> 
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
 
-            <div class="mt-2">
-                <p style="is-size-6"><b>Descripción</b> (opcional)</p>
-                <textarea class="textarea" placeholder="e.g. Hello world"></textarea>
+                    <div slot="closedTrigger" class="collapse-focus m-3">
+                        <div class="customTrigger">
+                            <div class="columns">
+                                <div class="column">
+                                    <p class="mt-2 is-size-5">{{ task.name }}</p>
+                                </div>
+                                <div class="column" align="right">
+                                    <font-awesome-icon class="mt-2" icon="chevron-down" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-2 columns">
+                        <div class="column">
+                            <b style="is-size-6">Nombre</b>
+                            <input v-model="task.name" class="input" type="text" placeholder="Ej: Hexagonal interactivo">
+                        </div>
+                        <div class="column">
+                            <div>
+                                <b style="is-size-6">Responsable</b>
+                            </div>
+                            <div class="dropdown"> <!-- task -->
+                                <div class="dropdown-trigger">
+                                    <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
+                                    <span>Todos</span>
+                                    <span class="icon is-small">
+                                        <i class="fas fa-angle-down" aria-hidden="true"></i>
+                                    </span>
+                                    </button>
+                                </div>
+                                <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                                    <div class="dropdown-content">
+                                    <a href="#" class="dropdown-item is-active">
+                                        Todos
+                                    </a>
+                                    <a class="dropdown-item">
+                                        Activos
+                                    </a>
+                                    <a href="#" class="dropdown-item">
+                                        Cerrados
+                                    </a>
+                                    <a href="#" class="dropdown-item">
+                                        Futuros
+                                    </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-2">
+                        <p style="is-size-6"><b>Descripción</b> (opcional)</p>
+                        <textarea class="textarea" placeholder="e.g. Hello world"></textarea>
+                    </div>
+                    <div class="mt-2" align="right">
+                        <button @click="deleteTask(index)" class="button is-danger is-inverted is-small">Borrar</button>
+                        <button @click="addNewTask" class="button is-primary is-inverted is-small">Duplicar</button>
+                    </div>
+                </Collapsible>
             </div>
-            <div class="mt-2" align="right">
-                <button @click="addNewTask" class="button is-danger is-inverted is-small">Borrar</button>
-                <button @click="addNewTask" class="button is-primary is-inverted is-small">Duplicar</button>
-            </div>
-        </Collapsible>
-    </div>
+        </transition-group>
+    </draggable>
 
     <div class="mt-6" align="right">
         <button @click="addNewTask" class="button is-primary is-inverted is-small">Agregar tarea nueva</button>
@@ -113,11 +117,13 @@
 import 'vue-collapsible-component/lib/vue-collapsible.css';
 import Collapsible from 'vue-collapsible-component';
 import { mapState } from 'vuex'
+import Draggable from 'vuedraggable'
 
 export default {
   name: "CreateProject",
   components: {
-      Collapsible
+      Collapsible,
+      Draggable
   },
   data(){
     return {
@@ -137,28 +143,37 @@ export default {
   },
   methods:{
       createProject(){
-          let data = {
+          const data = {
               'name': this.name,
               'description': this.description,
-              'dateStart': this.dateStart,
-              'dateEnd': this.dateEnd,
+              'start_date': this.dateStart,
+              'end_date': this.dateEnd,
               'company_id': 1
           }
+          const dataSend = {'typeProject' : this.typeProject, 
+                            'data' : data,
+                            'task':this.tasks}
           this.loading = true
-          this.$store.dispatch('createProject', {'typeProject' : this.typeProject, 'data' : data})
+          this.$store.dispatch('createProject', dataSend)
       },
       addNewTask(){
           this.tasks.push({
-              "nombre" : "",
-              "responsable" : "",
-              "descripcion" : ""
+              "name" : "Ejemplo Tarea",
+              "description" : ""
           })
+      },
+      deleteTask(index){
+        this.tasks.splice(index,1)
       }
   },
   watch:{
     project: function(newVal){
         setTimeout(() => {  this.loading = false }, 2000);
         console.log("Mogeko",newVal)
+    },
+    tasks: function(newVal,oldVal){
+        console.log("newVal",newVal)
+        console.log("oldVal",oldVal)
     }
   }
 };

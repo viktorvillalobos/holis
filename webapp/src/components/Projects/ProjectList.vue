@@ -13,12 +13,13 @@
     <div align="center" :class="{'loader-wrapper' : true, 'is-active' : loading}">
         <div class="loader is-loading"></div>
     </div>
-    <Project v-for="project in projects" :key="project.id"/>
+    <Project v-bind:project="project" v-for="project in projects" :key="project.id"/>
   </div>
 </template>
 <script>
 import Project from './Project'
 import { mapState } from 'vuex'
+
 export default {
   name: "ProjectList",
   components: {
@@ -49,7 +50,7 @@ export default {
         this.getProjects()
     },
     projects: function(newType){
-      setTimeout(() => {  this.loading = false }, 2000);
+      this.loading = false
     }
   }
 };
