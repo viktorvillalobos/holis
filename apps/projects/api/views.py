@@ -69,7 +69,11 @@ def task_resource(request: Request, project_uuid: uuid4) -> Response:
         )
 
     serializer = serializers.TaskSerializer(
-        data={"project_uuid": project_uuid, **request.data},
+        data={
+            "project_uuid": project_uuid,
+            "company_id": request.user.company_id,
+            **request.data,
+        },
         context={"request": request},
     )
 
@@ -77,3 +81,19 @@ def task_resource(request: Request, project_uuid: uuid4) -> Response:
     serializer.save()
 
     return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+@api_view(["POST"])
+def move_task_by_uuid(
+    request: Request, project_uuid: uuid4, task_uuid: uuid4, task_index: int
+) -> Response:
+    result = task_providers.move_task_by_task_uuid_and_above_index(
+        company_id=request.user.company_id,
+        project_uuid=project_uuid,
+        task_uuid=task_uuid,
+        to_index=task_index,
+    )
+
+    return Response(
+        serializers.TaskSerializer(result, many=True).data, status=status.HTTP_200_OK
+    )

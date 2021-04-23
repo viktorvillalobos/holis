@@ -114,12 +114,10 @@ def test_create_tasks(client):
     assert active_user.company_id == project.company_id
 
     expected_data = dict(
-        project_uuid=str(project.uuid),
-        company_id=project.company_id,
-        assigned_to=active_user.id,
-        due_data=expected_due_date,
         title="my-custom-title",
         content="my-custom-content",
+        assigned_to=active_user.id,
+        due_data=expected_due_date,
     )
 
     requested_data = json.dumps(expected_data)
@@ -149,3 +147,27 @@ def test_get_tasks_by_project_view(client):
     assert len(data["results"]) == 1
 
     assert str(task.uuid) == data["results"][0]["uuid"]
+
+
+@pytest.mark.django_db()
+def test_move_task_by_uuid(client):
+    project = project_recipes.generic_company_project.make()
+    active_user = user_recipes.user_viktor.make(company_id=project.company_id)
+    tasks = baker.make(
+        "projects.Task", project=project, company=project.company, _quantity=2
+    )
+
+    url = reverse(
+        "api-v1:projects:move_task_by_uuid", args=(project.uuid, tasks[1].uuid, 0)
+    )
+
+    client.force_login(active_user)
+    response = client.post(url, content_type="application/json")
+    response_data = response.json()
+
+    assert response.status_code == 200
+
+    expected_results = [str(task.uuid) for task in tasks]
+
+    for result in response_data:
+        result["uuid"] in expected_results
