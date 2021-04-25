@@ -5,7 +5,6 @@ from django.db.models import Max
 import datetime
 from uuid import uuid4
 
-from ..lib.dataclasses import TaskData
 from ..models import Task
 
 
