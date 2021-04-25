@@ -129,7 +129,7 @@ class Task(ProjectBaseModel):
     project = UUIDForeignKey(Project, related_name="tasks", on_delete=models.CASCADE)
 
     assigned_to = models.ForeignKey(
-        "users.User", related_name="tasks", on_delete=models.DO_NOTHING
+        "users.User", related_name="tasks", on_delete=models.DO_NOTHING, null=True
     )
     due_date = models.DateField(null=True, blank=True)
     title = models.CharField(max_length=100)

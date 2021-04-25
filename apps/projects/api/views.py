@@ -68,13 +68,16 @@ def task_resource(request: Request, project_uuid: uuid4) -> Response:
             queryset=tasks, request=request, serializer_class=serializers.TaskSerializer
         )
 
+    is_a_bulk_operation = isinstance(request.data, list)
+
     serializer = serializers.TaskSerializer(
-        data={
-            "project_uuid": project_uuid,
+        data=request.data,
+        many=is_a_bulk_operation,
+        context={
+            "user_id": request.user.id,
             "company_id": request.user.company_id,
-            **request.data,
+            "project_uuid": project_uuid,
         },
-        context={"request": request},
     )
 
     serializer.is_valid(raise_exception=True)

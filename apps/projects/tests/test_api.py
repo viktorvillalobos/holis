@@ -117,7 +117,7 @@ def test_create_tasks(client):
         title="my-custom-title",
         content="my-custom-content",
         assigned_to=active_user.id,
-        due_data=expected_due_date,
+        due_date=expected_due_date,
     )
 
     requested_data = json.dumps(expected_data)
@@ -171,3 +171,45 @@ def test_move_task_by_uuid(client):
 
     for result in response_data:
         result["uuid"] in expected_results
+
+
+@pytest.mark.django_db(transaction=True)
+def test_bulk_create_tasks(client):
+    project = project_recipes.generic_company_project.make()
+    active_user = user_recipes.user_viktor.make(company_id=project.company_id)
+
+    url = reverse("api-v1:projects:task_resource", args=(project.uuid,))
+
+    client.force_login(active_user)
+
+    expected_due_date = timezone.now().date().isoformat()
+
+    assert active_user.company_id == project.company_id
+
+    expected_data = [
+        dict(
+            title="my-custom-title-1",
+            content="my-custom-content-1",
+            due_date=expected_due_date,
+        ),
+        dict(
+            title="my-custom-title-2",
+            content="my-custom-content-2",
+            due_date=expected_due_date,
+        ),
+    ]
+
+    requested_data = json.dumps(expected_data)
+
+    response = client.post(url, data=requested_data, content_type="application/json")
+    data = response.json()
+
+    assert response.status_code == 201
+
+    for expected_item in expected_data:
+        object_in_response = [
+            task for task in data if task["title"] == expected_item["title"]
+        ][0]
+
+        for key in expected_item.keys():
+            assert object_in_response[key] == expected_item[key]

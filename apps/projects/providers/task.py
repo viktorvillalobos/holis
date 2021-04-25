@@ -5,6 +5,7 @@ from django.db.models import Max
 import datetime
 from uuid import uuid4
 
+from ..lib.dataclasses import TaskData
 from ..models import Task
 
 
@@ -63,3 +64,7 @@ def move_task_by_task_uuid_and_above_index(
     tasks_of_the_project.insert(to_index, task_to_move)
 
     return tasks_of_the_project
+
+
+def bulk_create_tasks_by_dataclasses(to_create_tasks: list[Task]) -> list[Task]:
+    return Task.objects.bulk_create(to_create_tasks)
