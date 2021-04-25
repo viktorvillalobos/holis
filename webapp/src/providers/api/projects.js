@@ -26,5 +26,10 @@ export default {
     console.log("Type",type)
     console.log("Payload",payload)
     return axios.post(`${urlBase}/projects/kind/${this.getTypeNumber(type)}`, payload)
+  },
+  addTasksProject (project_uuid, payload) {
+    console.log("project_uuid",project_uuid)
+    console.log("Payload",payload)
+    return axios.post(`${urlBase}/projects/${project_uuid}/tasks`, payload)
   }
 }

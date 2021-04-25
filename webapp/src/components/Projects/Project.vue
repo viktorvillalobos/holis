@@ -2,22 +2,20 @@
   <div class="card m-2 hover-card" @click="openProjectDetail">
         <div class="card-content">
             <div class="media">
-                <div class="media-left">
-                    <figure class="image is-48x48">
-                    <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
-                    </figure>
+                <div class="media-left mt-4">
+                    <img class="connect-logo-company" src="/static/images/logo/logo.svg" alt="espazum logo" width="60"/>
                 </div>
                 <div class="media-content">
-                    <p class="is-size-7">Hexagonal interactivo</p>
-                    <p class="is-size-7">Equipo: Juanin Juan Harry, Tulio Triviño.</p>
+                    <p class="is-size-7">{{ project.name}}</p>
+                    <p class="is-size-7">Equipo: {{ project.getMembers() }}</p>
                 </div>
 
                 <div class="media-right" align="right">
-                    <p class="is-size-7">Fecha final: 15 de Febrero 2021</p>
-                    <div>
+                    <p class="is-size-7" v-if="project.end_date" >Fecha final: {{ project.end_date }}</p>
+                    <!--<div>
                         <button class="button is-danger is-light is-small alert-days">15 tareas abiertas</button>
                         <button class="button is-success is-light is-small alert-days">15 días restantes</button>
-                    </div>
+                    </div>-->
                     <div>
                         <button class="button is-danger is-inverted is-small">Borrar</button>
                         <button class="button is-primary is-inverted is-small">Editar</button>

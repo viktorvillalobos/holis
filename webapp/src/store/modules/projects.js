@@ -1,4 +1,5 @@
 import apiClient from '../../providers/api'
+import Project from '../../models/project'
 
 const state = {
   projects: [],
@@ -9,7 +10,7 @@ const state = {
   
 const mutations = {
     setProjects(state, payload) {
-      state.projects = payload
+      state.projects = payload.map(project => new Project(project))
     },
     setProject(state, payload) {
       state.project = payload
@@ -28,6 +29,10 @@ const actions = {
   async createProject ({ commit }, payload) {
     const { data } = await apiClient.projects.createProject(payload.type, payload.data)
     console.log(data)
+    //if(data.status == 200){
+      const { dataTasks } = await apiClient.projects.addTasksProject(data.uuid, payload.tasks)
+      console.log(dataTasks)
+    //}
     commit('setProject', data)
   },
   async setTypeProject ({ commit }, type) {
