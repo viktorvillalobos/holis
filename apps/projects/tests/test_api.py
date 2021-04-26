@@ -8,6 +8,7 @@ import pytest
 import uuid
 from datetime import timedelta
 from model_bakery import baker
+from uuid import uuid4
 
 from apps.users.tests import baker_recipes as user_recipes
 
@@ -213,3 +214,34 @@ def test_bulk_create_tasks(client):
 
         for key in expected_item.keys():
             assert object_in_response[key] == expected_item[key]
+
+
+@pytest.mark.django_db(transaction=True)
+def test_retrieve_task(client):
+    project = project_recipes.generic_company_project.make()
+    task = project_recipes.generic_normal_task.make()
+    active_user = user_recipes.user_viktor.make(company_id=project.company_id)
+
+    url = reverse("api-v1:projects:retrieve_task", args=(project.uuid, task.uuid))
+
+    client.force_login(active_user)
+    response = client.get(url, content_type="application/json")
+    data = response.json()
+
+    assert response.status_code == 200
+
+    assert str(task.uuid) == data["uuid"]
+
+
+@pytest.mark.django_db(transaction=True)
+def test_retrieve_task_raises_404(client):
+    project = project_recipes.generic_company_project.make()
+    active_user = user_recipes.user_viktor.make(company_id=project.company_id)
+    uuid = uuid4()
+
+    url = reverse("api-v1:projects:retrieve_task", args=(project.uuid, uuid))
+
+    client.force_login(active_user)
+    response = client.get(url, content_type="application/json")
+
+    assert response.status_code == 404

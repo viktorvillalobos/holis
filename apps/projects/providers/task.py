@@ -5,6 +5,7 @@ from django.db.models import Max
 import datetime
 from uuid import uuid4
 
+from ..lib.exceptions import TaskDoesNotExist
 from ..models import Task
 
 
@@ -67,3 +68,10 @@ def move_task_by_task_uuid_and_above_index(
 
 def bulk_create_tasks_by_dataclasses(to_create_tasks: list[Task]) -> list[Task]:
     return Task.objects.bulk_create(to_create_tasks)
+
+
+def get_task_by_company_and_uuid(company_id: int, task_uuid: Union[str, uuid4]) -> Task:
+    try:
+        return Task.objects.get(company_id=company_id, uuid=task_uuid)
+    except Task.DoesNotExist:
+        raise TaskDoesNotExist

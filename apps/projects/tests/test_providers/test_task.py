@@ -66,3 +66,17 @@ def test_bulk_create_tasks_by_dataclasses(mocker):
     task_providers.bulk_create_tasks_by_dataclasses(to_create_tasks=to_create_task_fake)
 
     mocked_class.objects.bulk_create.assert_called_once_with(to_create_task_fake)
+
+
+def test_get_task_by_uuid(mocker):
+    mocked_class = mocker.patch("apps.projects.providers.task.Task")
+
+    expected_uuid = uuid4()
+    expected_company_id = 123
+    task_providers.get_task_by_company_and_uuid(
+        company_id=expected_company_id, task_uuid=expected_uuid
+    )
+
+    mocked_class.objects.get.assert_called_once_with(
+        company_id=expected_company_id, uuid=expected_uuid
+    )
