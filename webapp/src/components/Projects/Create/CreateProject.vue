@@ -1,6 +1,15 @@
 <template>
-  <div class="p-4" style="overflow: auto; height:90vh;">
-    
+  <div style="overflow: auto; height:90vh;">
+
+    <div class="columns">
+        <button class="button is-white column is-1" @click="backToMain">
+            <span class="icon is-small">
+                <font-awesome-icon icon="arrow-left"/>
+            </span>
+        </button>
+        <h1 class="column"> Crear Proyecto </h1>
+    </div>
+
     <div align="center" :class="{'loader-wrapper' : true, 'is-active' : loading}">
         <div class="loader is-loading"></div>
     </div>
@@ -61,10 +70,11 @@
                             <div>
                                 <b style="is-size-6">Responsable</b>
                             </div>
-                            <div class="dropdown"> <!-- task -->
+                            <div :class="{'dropdown' : true, 'is-active' : task.dropdownActive}"> <!-- task -->
                                 <div class="dropdown-trigger">
-                                    <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
-                                    <span>Todos</span>
+                                    <button class="button" aria-haspopup="true" aria-controls="dropdown-menu" @click="task.dropdownActive = true">
+                                    <span v-if="task.member">{{ task.memberName }}</span>
+                                    <span v-else>Seleccionar</span>
                                     <span class="icon is-small">
                                         <i class="fas fa-angle-down" aria-hidden="true"></i>
                                     </span>
@@ -72,18 +82,9 @@
                                 </div>
                                 <div class="dropdown-menu" id="dropdown-menu" role="menu">
                                     <div class="dropdown-content">
-                                    <a href="#" class="dropdown-item is-active">
-                                        Todos
-                                    </a>
-                                    <a class="dropdown-item">
-                                        Activos
-                                    </a>
-                                    <a href="#" class="dropdown-item">
-                                        Cerrados
-                                    </a>
-                                    <a href="#" class="dropdown-item">
-                                        Futuros
-                                    </a>
+                                        <a @click="selectUser(user, index)" :class="{'dropdown-item' : true, 'is-active' : (user.id == task.member && task.dropdownActive)}" v-for="user in users" :key="user.id">
+                                            {{ user.name }}
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -96,7 +97,7 @@
                     </div>
                     <div class="mt-2" align="right">
                         <button @click="deleteTask(index)" class="button is-danger is-inverted is-small">Borrar</button>
-                        <button @click="addNewTask" class="button is-primary is-inverted is-small">Duplicar</button>
+                        <button @click="duplicateTask(task)" class="button is-primary is-inverted is-small">Duplicar</button>
                     </div>
                 </Collapsible>
             </div>
@@ -118,6 +119,7 @@ import 'vue-collapsible-component/lib/vue-collapsible.css';
 import Collapsible from 'vue-collapsible-component';
 import { mapState } from 'vuex'
 import Draggable from 'vuedraggable'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 export default {
   name: "CreateProject",
@@ -125,6 +127,7 @@ export default {
       Collapsible,
       Draggable
   },
+  props: ['typeProject'],
   data(){
     return {
         tasks: [],
@@ -137,30 +140,53 @@ export default {
   },
   computed: {
     ...mapState({
-        typeProject: state => state.projects.typeProject,
-        project: state => state.projects.project
+        project: state => state.projects.project,
+        users: state => state.chat.users
     })
   },
+  created(){
+      this.$store.dispatch('getUsers')
+  },
   methods:{
+      selectUser(user, index){
+        this.tasks[index].member = user.id
+        this.tasks[index].memberName = user.name
+        this.tasks[index].dropdownActive = false
+      },
+      backToMain() {
+         this.$store.commit('setCurrentScreen', 'main')
+      },
       createProject(){
-          const data = {
-              'name': this.name,
-              'description': this.description,
-              'start_date': this.dateStart,
-              'end_date': this.dateEnd,
-              'company_id': 1
-          }
-          const dataSend = {'typeProject' : this.typeProject, 
-                            'data' : data,
-                            'tasks':this.tasks}
-          this.loading = true
-          this.$store.dispatch('createProject', dataSend)
+        const data = {
+            'name': this.name,
+            'description': this.description,
+            'start_date': this.dateStart,
+            'end_date': this.dateEnd,
+            'company_id': 1
+        }
+        const dataSend = {'typeProject' : this.typeProject, 
+                        'data' : data,
+                        'tasks':this.tasks}
+        console.log(data)
+        console.log(dataSend)
+        this.loading = true
+        this.$store.dispatch('createProject', dataSend)
       },
       addNewTask(){
+        this.tasks.push({
+            "title": "Ejemplo Tarea",
+            "content": "",
+            "member": null,
+            "dropdownActive": false
+        })
+      },
+      duplicateTask(task){
           this.tasks.push({
-              "title" : "Ejemplo Tarea",
-              "content" : ""
-          })
+            "title": task.title,
+            "content": task.description,
+            "member": task.member,
+            "dropdownActive": task.dropdownActive
+        })
       },
       deleteTask(index){
         this.tasks.splice(index,1)
@@ -168,12 +194,18 @@ export default {
   },
   watch:{
     project: function(newVal){
-        setTimeout(() => {  this.loading = false }, 2000);
+        setTimeout(() => {  
+            this.loading = false 
+            this.$store.commit('setCurrentScreen', 'main')
+        }, 2000);
         console.log("Mogeko",newVal)
     },
     tasks: function(newVal,oldVal){
         console.log("newVal",newVal)
         console.log("oldVal",oldVal)
+    },
+    users: function(users){
+        console.log("users",users)
     }
   }
 };

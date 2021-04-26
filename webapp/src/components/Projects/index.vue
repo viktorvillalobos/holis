@@ -1,40 +1,37 @@
 <template>
   <div class="p-4 pr-4">
-    <div class="tabs">
-      <ul>
-          <li v-bind:class="{'is-active' : this.type == 'my_projects'}" @click="type = 'my_projects'"><a>Mis proyectos</a></li>
-          <li v-bind:class="{'is-active' : this.type == 'my_team'}" @click="type = 'my_team'"><a>Mi equipo</a></li>
-          <li v-bind:class="{'is-active' : this.type == 'my_company'}" @click="type = 'my_company'"><a>Mi empresa</a></li>
-      </ul>
-    </div>
-    <div style="overflow: auto; height:70vh;">
-      <ProjectList v-bind:type="this.type"/>
-    </div>
-    <div align=right>
-      <button @click="openCreatProject" class="button is-primary">Crear nuevo proyecto</button>
-    </div>
+    <Projects ref="Projects" v-if="this.currentScreen == 'main'"/>
+    <CreateProject v-bind:typeProject="$refs.Projects.type" v-if="this.currentScreen == 'create'"/>
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import Card from "@/components/Card";
-import ProjectList from './ProjectList'
+import Projects from './Projects/Projects'
+import CreateProject from './Create/CreateProject'
 
 export default {
-  name: "Projects",
+  name: "MainProjects",
   components: {
     Card,
-    ProjectList
+    Projects,
+    CreateProject
   },
   data(){
     return {
       type: "my_projects"
     }
   },
+  computed: {
+    ...mapState({
+      currentScreen: state => state.projects.currentScreen
+    })
+  },
   methods: {
-    openCreatProject () {
-      this.$store.commit('setCreateProjectActive')
-      setTimeout(() => {  this.$store.commit('setTypeProject', this.type) }, 1000); // espero un segundo por condicion de carrera que se cree la vista para pasarle el type
+    openCreateProject () {
+      //this.$store.commit('setCreateProjectActive')
+      //setTimeout(() => {  this.$store.commit('setTypeProject', this.type) }, 2000); // espero un segundo por condicion de carrera que se cree la vista para pasarle el type
     }
   }
 };
