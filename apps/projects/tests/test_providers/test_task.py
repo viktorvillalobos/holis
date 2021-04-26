@@ -72,6 +72,11 @@ def test_get_task_by_uuid(mocker):
     mocked_class = mocker.patch("apps.projects.providers.task.Task")
 
     expected_uuid = uuid4()
-    task_providers.get_task_by_uuid(task_uuid=expected_uuid)
+    expected_company_id = 123
+    task_providers.get_task_by_company_and_uuid(
+        company_id=expected_company_id, task_uuid=expected_uuid
+    )
 
-    mocked_class.objects.get.assert_called_once_with(uuid=expected_uuid)
+    mocked_class.objects.get.assert_called_once_with(
+        company_id=expected_company_id, uuid=expected_uuid
+    )

@@ -99,7 +99,9 @@ def list_and_create_tasks(request: Request, project_uuid: UUID) -> Response:
 @api_view(["GET"])
 def retrieve_task(request: Request, project_uuid: UUID, task_uuid: UUID) -> Response:
     try:
-        task = task_providers.get_task_by_uuid(task_uuid=task_uuid)
+        task = task_providers.get_task_by_company_and_uuid(
+            company_id=request.user.company_id, task_uuid=task_uuid
+        )
     except TaskDoesNotExist:
         raise Http404
 
