@@ -79,7 +79,6 @@ def test_create_normal_project(client):
 
     expected_data = dict(
         name="MY-NORMAL-PROJECT",
-        company_id=active_user.company_id,
         description="my-custom-description",
         start_date=start_date,
         end_date=end_date,
@@ -92,7 +91,7 @@ def test_create_normal_project(client):
     assert response.status_code == 201
     assert Project.objects.count() == 1
     assert data["name"] == expected_data["name"]
-    assert data["company_id"] == expected_data["company_id"]
+    assert data["company_id"] == active_user.company_id
     assert data["description"] == "my-custom-description"
     assert data["start_date"] == start_date
     assert data["end_date"] == end_date

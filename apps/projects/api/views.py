@@ -53,7 +53,8 @@ def project_resource(request: Request, project_kind_value: int) -> Response:
         )
 
     serializer = serializers.ProjectSerializer(
-        data={"kind": project_kind_value, **request.data}, context={"request": request}
+        data={"kind": project_kind_value, **request.data},
+        context={"company_id": request.user.company_id, "user_id": request.user.id},
     )
 
     serializer.is_valid(raise_exception=True)

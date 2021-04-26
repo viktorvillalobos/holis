@@ -65,7 +65,7 @@ class TaskSerializer(serializers.Serializer):
 
 class ProjectSerializer(serializers.Serializer):
     uuid = serializers.UUIDField(required=False, allow_null=True)
-    company_id = serializers.IntegerField()
+    company_id = serializers.IntegerField(required=False, allow_null=True)
     name = serializers.CharField()
     members = MembersField(required=False, allow_null=True)
     kind = serializers.IntegerField()
@@ -76,13 +76,11 @@ class ProjectSerializer(serializers.Serializer):
     end_date = serializers.DateField(required=False, allow_null=True)
 
     def create(self, validated_data: Dict[str, Any]) -> Project:
-        request = self.context["request"]
-        validated_data.pop("company_id")
+        user_id = self.context["user_id"]
+        company_id = self.context["company_id"]
 
         project = project_providers.create_project_by_company_and_user_id(
-            user_id=request.user.id,
-            company_id=request.user.company_id,
-            **validated_data,
+            user_id=user_id, company_id=company_id, **validated_data
         )
 
         return project
