@@ -10,8 +10,12 @@
             </select>
         </div>
     </div>
-    <div align="center" :class="{'loader-wrapper' : true, 'is-active' : loading}">
-        <div class="loader is-loading"></div>
+    <div class="main-loader">
+      <div :class="{'card' : true, 'loader-wrapper' : true, 'is-active' : loading}">
+        <div class="card-content">
+          <div class="loader is-loading"></div>
+        </div>
+      </div>
     </div>
     <Project v-bind:project="project" v-for="project in projects" :key="project.id"/>
   </div>
@@ -57,32 +61,31 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.main-loader{
+  width:100%;
+}
 .loader-wrapper {
   position: absolute;
-margin-left: auto;
-margin-right: auto;
-left: 0;
-right: 0;
-text-align: center;
-    height: 100;
-    width: 100;
-    background: #fff;
-    opacity: 0;
-    z-index: -1;
-    transition: opacity .3s;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 6px;
+  left: 35%;
+  height: 100;
+  width: 100;
+  background: #fff;
+  opacity: 0;
+  z-index: -1;
+  transition: opacity .3s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 6px;
 
-        .loader {
-            height: 80px;
-            width: 80px;
-        }
+  .loader {
+      height: 80px;
+      width: 80px;
+  }
 
-    &.is-active {
-        opacity: 1;
-        z-index: 1;
-    }
+  &.is-active {
+      opacity: 1;
+      z-index: 1;
+  }
 }
 </style>

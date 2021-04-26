@@ -2,6 +2,7 @@ import apiClient from '../../providers/api'
 import Project from '../../models/project'
 
 const state = {
+  currentScreen: 'main',
   projects: [],
   isProjectsActive: false,
   project: null,
@@ -9,15 +10,18 @@ const state = {
 }
   
 const mutations = {
-    setProjects(state, payload) {
-      state.projects = payload.map(project => new Project(project))
-    },
-    setProject(state, payload) {
-      state.project = payload
-    },
-    setTypeProject(state, type) {
-      state.typeProject = type
-    },
+  setCurrentScreen(state, screen){
+    state.currentScreen = screen
+  },
+  setProjects(state, payload) {
+    state.projects = payload.map(project => new Project(project))
+  },
+  setProject(state, payload) {
+    state.project = payload
+  },
+  setTypeProject(state, type) {
+    state.typeProject = type
+  },
 }
 
 const actions = {
@@ -27,7 +31,7 @@ const actions = {
     commit('setProjects', data.results)
   },
   async createProject ({ commit }, payload) {
-    const { data } = await apiClient.projects.createProject(payload.type, payload.data)
+    const { data } = await apiClient.projects.createProject(payload.typeProject, payload.data)
     console.log(data)
     //if(data.status == 200){
       const { dataTasks } = await apiClient.projects.addTasksProject(data.uuid, payload.tasks)
@@ -35,8 +39,8 @@ const actions = {
     //}
     commit('setProject', data)
   },
-  async setTypeProject ({ commit }, type) {
-    commit('setTypeProject', type)
+  async setCurrentScreen ({ commit }, screen) {
+    commit('setCurrentScreen', screen)
   }
 }
 
