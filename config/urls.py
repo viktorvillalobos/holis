@@ -29,7 +29,7 @@ urlpatterns += [
     # API base url
     path("api/v1/", include("config.api_router")),
     # DRF auth token
-    path("auth-token/", obtain_auth_token),
+    path("api/auth-token/", obtain_auth_token),
 ]
 
 if settings.DEBUG:

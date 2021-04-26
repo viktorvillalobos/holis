@@ -98,3 +98,12 @@ services:
       - "3000:3000"
       # Expose browsersync UI: https://www.browsersync.io/docs/options/#option-ui
       - "3001:3001"
+
+  docs:
+    image: slatedocs/slate
+    command: serve
+    ports:
+      - "4567:4567"
+    volumes:
+      - ./docs:/srv/slate/source
+      - ./build:/srv/slate/build
