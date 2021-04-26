@@ -10,9 +10,14 @@
         <h1 class="column"> Crear Proyecto </h1>
     </div>
 
-    <div align="center" :class="{'loader-wrapper' : true, 'is-active' : loading}">
-        <div class="loader is-loading"></div>
+    <div class="main-loader">
+      <div :class="{'card' : true, 'loader-wrapper' : true, 'is-active' : loading}">
+        <div class="card-content">
+          <div class="loader is-loading"></div>
+        </div>
+      </div>
     </div>
+    
     <b style="is-size-6">Nombre</b>
     <input v-model="name" class="input" type="text" placeholder="Ej: Proyecto ejemplo">
 
@@ -111,6 +116,23 @@
     <div align=right>
       <button @click="createProject" class="button is-primary">Crear proyecto</button>
     </div>
+
+    <div class="modal" :class="{'is-active' : this.modalError}">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+            <header class="modal-card-head">
+                <p class="modal-card-title has-text-danger">Alerta</p>
+                <button class="delete" aria-label="close" @click="modalError = false"></button>
+            </header>
+            <section class="modal-card-body">
+                {{ this.errorAlert }}
+            </section>
+            <footer class="modal-card-foot">
+                <button class="button is-info is-outlined" @click="modalError = false">Aceptar</button>
+            </footer>
+        </div>
+        <button class="modal-close is-large" aria-label="close" @click="modalError = false"></button>
+    </div>
   </div>
 </template>
 
@@ -135,7 +157,9 @@ export default {
         description: '',
         dateStart: '',
         dateEnd: '',
-        loading: false
+        loading: false,
+        modalError: false,
+        errorAlert: ''
     }
   },
   computed: {
@@ -148,6 +172,35 @@ export default {
       this.$store.dispatch('getUsers')
   },
   methods:{
+      isValid(){
+        if(this.name.length < 3){
+            this.errorAlert = "El nombre no puede ser menor de 3 caracteres"
+            this.modalError = true
+            return false
+        }
+        if(this.dateStart == '' || this.dateEnd == ''){
+            this.errorAlert = "No debes dejar los campos de fecha vacios"
+            this.modalError = true
+            return false
+        }
+
+        let isValid = true
+        this.tasks.forEach(element => {
+            if(element.title.length < 3){
+                this.errorAlert = "El nombre de la tarea " + element.title + " no puede ser menor a 3 caracteres"
+                this.modalError = true
+                isValid = false
+                throw BreakException
+            }
+            if(element.content.length < 3){
+                this.errorAlert = "La descripcion de la tarea " + element.content + " no puede ser menor menor a 3 caracteres "
+                this.modalError = true
+                isValid = false
+                throw BreakException
+            }
+        });
+        return isValid
+      },
       selectUser(user, index){
         this.tasks[index].member = user.id
         this.tasks[index].memberName = user.name
@@ -161,16 +214,17 @@ export default {
             'name': this.name,
             'description': this.description,
             'start_date': this.dateStart,
-            'end_date': this.dateEnd,
-            'company_id': 1
+            'end_date': this.dateEnd
         }
         const dataSend = {'typeProject' : this.typeProject, 
                         'data' : data,
                         'tasks':this.tasks}
         console.log(data)
         console.log(dataSend)
-        this.loading = true
-        this.$store.dispatch('createProject', dataSend)
+        if(this.isValid()){
+            this.loading = true
+            this.$store.dispatch('createProject', dataSend)
+        }
       },
       addNewTask(){
         this.tasks.push({
@@ -216,32 +270,31 @@ export default {
   outline: none;
   box-shadow: none;
 }
+.main-loader{
+  width:100%;
+}
 .loader-wrapper {
   position: absolute;
-margin-left: auto;
-margin-right: auto;
-left: 0;
-right: 0;
-text-align: center;
-    height: 100;
-    width: 100;
-    background: #fff;
-    opacity: 0;
-    z-index: -1;
-    transition: opacity .3s;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 6px;
+  left: 35%;
+  height: 100;
+  width: 100;
+  background: #fff;
+  opacity: 0;
+  z-index: -1;
+  transition: opacity .3s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 6px;
 
-        .loader {
-            height: 80px;
-            width: 80px;
-        }
+  .loader {
+      height: 80px;
+      width: 80px;
+  }
 
-    &.is-active {
-        opacity: 1;
-        z-index: 1;
-    }
+  &.is-active {
+      opacity: 1;
+      z-index: 1;
+  }
 }
 </style>

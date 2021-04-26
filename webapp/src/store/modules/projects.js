@@ -31,7 +31,7 @@ const actions = {
     commit('setProjects', data.results)
   },
   async createProject ({ commit }, payload) {
-    const { data } = await apiClient.projects.createProject(payload.type, payload.data)
+    const { data } = await apiClient.projects.createProject(payload.typeProject, payload.data)
     console.log(data)
     //if(data.status == 200){
       const { dataTasks } = await apiClient.projects.addTasksProject(data.uuid, payload.tasks)
