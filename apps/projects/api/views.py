@@ -42,8 +42,8 @@ def project_resource(request: Request, project_kind_value: int) -> Response:
         )
 
     if request.method == "GET":
-        projects = project_providers.get_projects_by_user_id_and_kind(
-            user_id=request.user.id, kind=project_kind_value
+        projects = project_providers.get_projects_by_company_and_kind(
+            company_id=request.user.company_id, kind=project_kind_value
         )
 
         return paginate_response(

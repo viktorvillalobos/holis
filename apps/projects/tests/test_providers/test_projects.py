@@ -24,7 +24,7 @@ def test_get_or_create_company_project_by_company_id(django_assert_num_queries):
 
 
 @pytest.mark.django_db
-def test_get_projects_by_user_id_and_kind(django_assert_num_queries):
+def test_get_projects_by_company_and_kind(django_assert_num_queries):
     user1 = project_recipes.generic_user.make(email="john@doe.com")
     user2 = project_recipes.generic_user.make(email="doe@john.com")
     generic_normal_projects = project_recipes.generic_normal_project.make(
@@ -33,8 +33,9 @@ def test_get_projects_by_user_id_and_kind(django_assert_num_queries):
 
     with django_assert_num_queries(1):
         results = list(
-            project_providers.get_projects_by_user_id_and_kind(
-                user_id=user1.id, kind=projects_constants.ProjectKind.PROJECT.value
+            project_providers.get_projects_by_company_and_kind(
+                company_id=user1.company_id,
+                kind=projects_constants.ProjectKind.PROJECT.value,
             )
         )
 

@@ -19,10 +19,10 @@ def get_or_create_company_project_by_company_id(
     )
 
 
-def get_projects_by_user_id_and_kind(
-    user_id: int, kind: projects_constants.ProjectKind
+def get_projects_by_company_and_kind(
+    company_id: int, kind: projects_constants.ProjectKind
 ) -> QuerySet:
-    return Project.objects.filter(kind=kind, members__id__in=[user_id])
+    return Project.objects.filter(kind=kind, company_id=company_id)
 
 
 def create_project_by_company_and_user_id(
