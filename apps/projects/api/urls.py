@@ -11,7 +11,14 @@ urlpatterns = [
     path(
         "kind/<str:project_kind_value>", views.project_resource, name="project_resource"
     ),
-    path("<uuid:project_uuid>/tasks", views.task_resource, name="task_resource"),
+    path(
+        "<uuid:project_uuid>/tasks", views.list_and_create_tasks, name="task_resource"
+    ),
+    path(
+        "<uuid:project_uuid>/tasks/<uuid:task_uuid>",
+        views.retrieve_task,
+        name="retrieve_task",
+    ),
     path(
         "<uuid:project_uuid>/tasks/<uuid:task_uuid>/move/<int:task_index>",
         views.move_task_by_uuid,

@@ -213,3 +213,21 @@ def test_bulk_create_tasks(client):
 
         for key in expected_item.keys():
             assert object_in_response[key] == expected_item[key]
+
+
+@pytest.mark.django_db(transaction=True)
+def test_retrieve_task(client):
+    project = project_recipes.generic_company_project.make()
+    task = project_recipes.generic_normal_task.make()
+    active_user = user_recipes.user_viktor.make(company_id=project.company_id)
+    task = baker.make("projects.Task", project=project)
+
+    url = reverse("api-v1:projects:retrieve_task", args=(project.uuid, task.uuid))
+
+    client.force_login(active_user)
+    response = client.get(url, content_type="application/json")
+    data = response.json()
+
+    assert response.status_code == 200
+
+    assert str(task.uuid) == data["uuid"]
