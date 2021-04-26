@@ -23,25 +23,41 @@ class UserField(serializers.Field):
 
 
 class TaskSerializer(serializers.Serializer):
-    company_id = serializers.IntegerField()
+    company_id = serializers.IntegerField(required=False, allow_null=True)
     uuid = serializers.UUIDField(required=False, allow_null=True)
     project_uuid = serializers.UUIDField(required=False, allow_null=True)
     assigned_to = UserField(required=False, allow_null=True)
-    due_data = serializers.DateField(required=False, allow_null=True)
+    due_date = serializers.DateField(required=False, allow_null=True)
     title = serializers.CharField()
     content = serializers.CharField()
 
+    def __init__(self, *args, **kwargs):
+        self.many = kwargs.pop("many", False)
+        return super().__init__(many=self.many, *args, **kwargs)
+
     def create(self, validated_data: Dict[str, Any]) -> Task:
-        request = self.context["request"]
+        project_uuid = self.context["project_uuid"]
+        company_id = self.context["company_id"]
+        user_id = self.context["user_id"]
+
+        if self.many:
+            task_list = [Task(**data) for data in validated_data]
+            try:
+                return task_providers.bulk_create_tasks_by_dataclasses(
+                    to_create_tasks=task_list
+                )
+            except IntegrityError as ex:
+                raise ValidationError({"IntegrityError": str(ex)})
+
         try:
             return task_providers.create_task_by_data(
-                created_by_id=request.user.id,
-                company_id=request.user.company_id,
-                project_uuid=validated_data["project_uuid"],
-                assigned_to_id=validated_data["assigned_to"],
+                created_by_id=user_id,
+                company_id=company_id,
+                project_uuid=project_uuid,
+                assigned_to_id=validated_data.get("assigned_to"),
                 title=validated_data["title"],
-                content=validated_data["content"],
-                due_date=validated_data["due_data"],
+                content=validated_data.get("content"),
+                due_date=validated_data.get("due_date"),
             )
         except IntegrityError as ex:
             raise ValidationError({"IntegrityError": str(ex)})
