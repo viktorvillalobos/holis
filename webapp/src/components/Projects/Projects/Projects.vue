@@ -10,7 +10,7 @@
     <div style="overflow: auto; height:70vh;">
       <ProjectList v-bind:type="this.type"/>
     </div>
-    <div align=right>
+    <div align=right v-if="this.type != 'my_company'">
       <button @click="openCreateProject" class="button is-primary">Crear nuevo proyecto</button>
     </div>
   </div>
