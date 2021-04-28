@@ -33,7 +33,7 @@ export default {
   },
   methods: {
     openCreateProject () {
-      this.$store.commit('setCurrentScreen', 'create')
+      this.$store.commit('setCurrentScreen', {'screen' : 'create', 'data' : this.type})
     }
   }
 };

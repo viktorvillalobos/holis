@@ -207,7 +207,7 @@ export default {
         this.tasks[index].dropdownActive = false
       },
       backToMain() {
-         this.$store.commit('setCurrentScreen', 'main')
+         this.$store.commit('setCurrentScreen', {'screen' : 'main'})
       },
       createProject(){
         const data = {
@@ -250,7 +250,7 @@ export default {
     project: function(newVal){
         setTimeout(() => {  
             this.loading = false 
-            this.$store.commit('setCurrentScreen', 'main')
+            this.$store.commit('setCurrentScreen', {'screen' : 'main'})
         }, 2000);
         console.log("Mogeko",newVal)
     },

@@ -1,5 +1,14 @@
 <template>
   <div class="p-4" style="overflow: auto; height:90vh;">
+
+      <div class="columns">
+        <button class="button is-white column is-1" @click="backToMain">
+            <span class="icon is-small">
+                <font-awesome-icon icon="arrow-left"/>
+            </span>
+        </button>
+        <h1 class="column"> Crear Proyecto </h1>
+    </div>
     <b style="is-size-6">Hexagonal interactivo</b>
     <div class="mt-4">
         <b>Descripción</b>
@@ -44,6 +53,9 @@ export default {
     }
   },
   methods:{
+      backToMain() {
+         this.$store.commit('setCurrentScreen', {'screen' : 'main'})
+      },
       addNewTask(){
           this.tasks.push({
               "nombre" : "",

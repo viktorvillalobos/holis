@@ -2,7 +2,10 @@ import apiClient from '../../providers/api'
 import Project from '../../models/project'
 
 const state = {
-  currentScreen: 'main',
+  currentScreen: {
+    'screen' : 'main',
+    'data' : null
+  },
   projects: [],
   isProjectsActive: false,
   project: null,

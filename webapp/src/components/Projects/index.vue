@@ -1,7 +1,8 @@
 <template>
   <div class="p-4 pr-4">
-    <Projects ref="Projects" v-if="this.currentScreen == 'main'"/>
-    <CreateProject v-bind:typeProject="$refs.Projects.type" v-if="this.currentScreen == 'create'"/>
+    <Projects ref="Projects" v-if="this.currentScreen.screen == 'main'"/>
+    <CreateProject v-bind:typeProject="this.currentScreen.data" v-if="this.currentScreen.screen == 'create'"/>
+    <DetailProject v-if="this.currentScreen == 'detail'"/>
   </div>
 </template>
 
@@ -10,13 +11,15 @@ import { mapState } from 'vuex'
 import Card from "@/components/Card";
 import Projects from './Projects/Projects'
 import CreateProject from './Create/CreateProject'
+import DetailProject from './Detail/ProjectDetail'
 
 export default {
   name: "MainProjects",
   components: {
     Card,
     Projects,
-    CreateProject
+    CreateProject,
+    DetailProject
   },
   data(){
     return {

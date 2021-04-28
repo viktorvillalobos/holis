@@ -38,8 +38,9 @@ export default {
   },
   methods:{
       openProjectDetail(){
-        this.$store.commit('setProjectsActive')
-        this.$store.commit('setProjectDetailActive')
+          this.$store.commit('setCurrentScreen', 'detail')
+        //this.$store.commit('setProjectsActive')
+        //this.$store.commit('setProjectDetailActive')
       }
   }
 }
