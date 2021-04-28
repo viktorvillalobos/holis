@@ -221,7 +221,9 @@ def test_retrieve_task(client):
     task = project_recipes.generic_normal_task.make()
     active_user = user_recipes.user_viktor.make(company_id=project.company_id)
 
-    url = reverse("api-v1:projects:retrieve_task", args=(project.uuid, task.uuid))
+    url = reverse(
+        "api-v1:projects:update_and_retrieve_task", args=(project.uuid, task.uuid)
+    )
 
     client.force_login(active_user)
     response = client.get(url, content_type="application/json")
@@ -238,9 +240,69 @@ def test_retrieve_task_raises_404(client):
     active_user = user_recipes.user_viktor.make(company_id=project.company_id)
     uuid = uuid4()
 
-    url = reverse("api-v1:projects:retrieve_task", args=(project.uuid, uuid))
+    url = reverse("api-v1:projects:update_and_retrieve_task", args=(project.uuid, uuid))
 
     client.force_login(active_user)
     response = client.get(url, content_type="application/json")
 
     assert response.status_code == 404
+
+
+@pytest.mark.django_db()
+def test_update_task_by_uuid(client):
+    project = project_recipes.generic_company_project.make()
+    active_user = user_recipes.user_viktor.make(company_id=project.company_id)
+    task = baker.make(
+        "projects.Task",
+        project=project,
+        company=project.company,
+        title="my-custom-task-title",
+    )
+
+    expected_due_date = timezone.now().date().isoformat()
+
+    expected_data = dict(
+        title="my-modified-custom-task-title",
+        content="my-custom-content",
+        due_date=expected_due_date,
+    )
+
+    url = reverse(
+        "api-v1:projects:update_and_retrieve_task", args=(project.uuid, task.uuid)
+    )
+
+    client.force_login(active_user)
+    response = client.put(url, data=expected_data, content_type="application/json")
+    response_data = response.json()
+
+    assert response.status_code == 200
+    for key in expected_data.keys():
+        assert expected_data[key] == response_data[key]
+
+
+@pytest.mark.django_db()
+def test_partial_update_task_by_uuid(client):
+    project = project_recipes.generic_company_project.make()
+    active_user = user_recipes.user_viktor.make(company_id=project.company_id)
+    task = baker.make(
+        "projects.Task",
+        project=project,
+        company=project.company,
+        title="my-custom-task-title",
+    )
+
+    expected_due_date = timezone.now().date().isoformat()
+
+    expected_data = dict(title="my-modified-custom-task-title")
+
+    url = reverse(
+        "api-v1:projects:update_and_retrieve_task", args=(project.uuid, task.uuid)
+    )
+
+    client.force_login(active_user)
+    response = client.patch(url, data=expected_data, content_type="application/json")
+    response_data = response.json()
+
+    assert response.status_code == 200
+    for key in expected_data.keys():
+        assert expected_data[key] == response_data[key]

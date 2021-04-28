@@ -3,7 +3,7 @@ from typing import Any, Optional, Union
 from django.db.models import Max
 
 import datetime
-from uuid import uuid4
+from uuid import UUID, uuid4
 
 from ..lib.exceptions import TaskDoesNotExist
 from ..models import Task
@@ -23,7 +23,7 @@ def create_task_by_data(
     company_id: int,
     project_uuid: Union[str, uuid4],
     title: str,
-    content: str,
+    content: Optional[str],
     created_by_id: int,
     due_date: Optional[datetime.date] = None,
     assigned_to_id: Optional[int] = None,
@@ -41,6 +41,35 @@ def create_task_by_data(
         created_by_id=created_by_id,
         due_date=due_date,
         index=last_task_index,
+        assigned_to_id=assigned_to_id,
+    )
+
+
+def update_task_by_data(
+    company_id: int,
+    project_uuid: Union[str, UUID],
+    task_uuid: Union[str, UUID],
+    title: str,
+    content: Optional[str],
+    created_by_id: int,
+    due_date: Optional[datetime.date] = None,
+    assigned_to_id: Optional[int] = None,
+    index: Optional[int] = None,
+) -> Task:
+
+    if not index:
+        index = get_tasks_count_by_company_and_project_uuid(
+            company_id=company_id, project_uuid=project_uuid
+        )
+
+    return Task.objects.filter(
+        company_id=company_id, project_uuid=project_uuid, uuid=task_uuid
+    ).update(
+        title=title,
+        content=content,
+        created_by_id=created_by_id,
+        due_date=due_date,
+        index=index,
         assigned_to_id=assigned_to_id,
     )
 

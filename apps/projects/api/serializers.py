@@ -1,4 +1,4 @@
-from typing import Any, Dict
+from typing import Any, Dict, Union
 
 from django.db import IntegrityError
 from rest_framework import serializers
@@ -35,7 +35,7 @@ class TaskSerializer(serializers.Serializer):
         self.many = kwargs.pop("many", False)
         return super().__init__(many=self.many, *args, **kwargs)
 
-    def create(self, validated_data: Dict[str, Any]) -> Task:
+    def create(self, validated_data: Dict[str, Any]) -> Union[Task, list[Task]]:
         project_uuid = self.context["project_uuid"]
         company_id = self.context["company_id"]
         user_id = self.context["user_id"]
@@ -53,6 +53,26 @@ class TaskSerializer(serializers.Serializer):
             return task_providers.create_task_by_data(
                 created_by_id=user_id,
                 company_id=company_id,
+                project_uuid=project_uuid,
+                assigned_to_id=validated_data.get("assigned_to"),
+                title=validated_data["title"],
+                content=validated_data.get("content"),
+                due_date=validated_data.get("due_date"),
+            )
+        except IntegrityError as ex:
+            raise ValidationError({"IntegrityError": str(ex)})
+
+    def update(self, validated_data: Dict[str, Any]) -> Union[Task, list[Task]]:
+        project_uuid = self.context["project_uuid"]
+        task_uuid = self.context["task_uuid"]
+        company_id = self.context["company_id"]
+        user_id = self.context["user_id"]
+
+        try:
+            return task_providers.update_task_by_data(
+                created_by_id=user_id,
+                company_id=company_id,
+                task_uuid=task_uuid,
                 project_uuid=project_uuid,
                 assigned_to_id=validated_data.get("assigned_to"),
                 title=validated_data["title"],

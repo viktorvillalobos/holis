@@ -97,16 +97,37 @@ def list_and_create_tasks(request: Request, project_uuid: UUID) -> Response:
     return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
-@api_view(["GET"])
-def retrieve_task(request: Request, project_uuid: UUID, task_uuid: UUID) -> Response:
-    try:
-        task = task_providers.get_task_by_company_and_uuid(
-            company_id=request.user.company_id, task_uuid=task_uuid
-        )
-    except TaskDoesNotExist:
-        raise Http404
+@api_view(["GET", "PATCH", "PUT"])
+def update_and_retrieve_task(
+    request: Request, project_uuid: UUID, task_uuid: UUID
+) -> Response:
 
-    serializer = serializers.TaskSerializer(task)
+    if request.method == "GET":
+        try:
+            task = task_providers.get_task_by_company_and_uuid(
+                company_id=request.user.company_id, task_uuid=task_uuid
+            )
+        except TaskDoesNotExist:
+            raise Http404
+
+        serializer = serializers.TaskSerializer(task)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    is_partial = request.method == "PATCH"
+
+    serializer = serializers.TaskSerializer(
+        data=request.data,
+        context={
+            "company_id": request.user.company_id,
+            "task_uuid": task_uuid,
+            "project_uuid": project_uuid,
+            "user_id": request.user.id,
+        },
+        partial=is_partial,
+    )
+    serializer.is_valid(raise_exception=True)
+    serializer.save()
+
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 
