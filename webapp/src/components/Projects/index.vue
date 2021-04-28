@@ -2,7 +2,7 @@
   <div class="p-4 pr-4">
     <Projects ref="Projects" v-if="this.currentScreen.screen == 'main'"/>
     <CreateProject v-bind:typeProject="this.currentScreen.data" v-if="this.currentScreen.screen == 'create'"/>
-    <DetailProject v-if="this.currentScreen == 'detail'"/>
+    <DetailProject v-bind:project="this.currentScreen.data" v-if="this.currentScreen.screen == 'detail'"/>
   </div>
 </template>
 

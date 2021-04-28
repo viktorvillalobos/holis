@@ -7,21 +7,21 @@
                 <font-awesome-icon icon="arrow-left"/>
             </span>
         </button>
-        <h1 class="column"> Crear Proyecto </h1>
+        <h1 class="column"> {{this.project.name}}</h1>
     </div>
-    <b style="is-size-6">Hexagonal interactivo</b>
+    <!--<b style="is-size-6">Hexagonal interactivo</b>-->
     <div class="mt-4">
         <b>Descripción</b>
     </div>
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </p>
+    <p>{{ this.project.description }}</p>
     <div class="mt-4 columns">
         <div class="column">
             <b>Fecha de inicio</b>
-            <p>16/07/1991</p>
+            <p>{{ this.project.start_date }}</p>
         </div>
         <div class="column">
             <b>Fecha de fin</b>
-            <p>16/07/1991</p>
+            <p>{{ this.project.end_date }}</p>
         </div>
     </div>
     <div class="mt-4 tabs">
@@ -31,7 +31,7 @@
             <li v-bind:class="{'is-active' : this.type == 'chat'}" @click="type = 'chat'"><a>Mensajes</a></li>
         </ul>
     </div>
-    <ProjectTasks v-if="type == 'tasks'"/>
+    <ProjectTasks v-bind:project="this.project" v-if="type == 'tasks'"/>
     <ProjectChats v-if="type == 'chat'"/>
   </div>
 </template>
@@ -46,6 +46,7 @@ export default {
       ProjectTasks,
       ProjectChats
   },
+  props: ["project"],
   data(){
     return {
         type: 'tasks',

@@ -9,7 +9,8 @@ const state = {
   projects: [],
   isProjectsActive: false,
   project: null,
-  typeProject: 'my_projects'
+  typeProject: 'my_projects',
+  tasks:[]
 }
   
 const mutations = {
@@ -24,6 +25,9 @@ const mutations = {
   },
   setTypeProject(state, type) {
     state.typeProject = type
+  },
+  setTasksProject(state, payload) {
+    state.tasks = payload
   },
 }
 
@@ -44,7 +48,16 @@ const actions = {
   },
   async setCurrentScreen ({ commit }, screen) {
     commit('setCurrentScreen', screen)
-  }
+  },
+  async getTasksProject ({ commit }, uuid) {
+    const { data } = await apiClient.projects.getTasksProject(uuid)
+    console.log(data)
+    data.results.forEach((element,index) => {
+      data.results[index].titleEdit = false
+      data.results[index].contentEdit = false
+    });
+    commit('setTasksProject', data.results)
+  },
 }
 
 export default {

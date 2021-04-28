@@ -54,6 +54,7 @@ export default {
         this.getProjects()
     },
     projects: function(newType){
+      console.log("TUNDIII",newType)
       this.loading = false
     }
   }
