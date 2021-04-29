@@ -9,19 +9,19 @@ from ..lib.exceptions import TaskDoesNotExist
 from ..models import Task
 
 
-def get_tasks_by_project_uuid(project_uuid: Union[str, uuid4]) -> list[Task]:
+def get_tasks_by_project_uuid(project_uuid: Union[str, UUID]) -> list[Task]:
     return Task.objects.filter(project_uuid=project_uuid).order_by("index")
 
 
 def get_tasks_count_by_company_and_project_uuid(
-    company_id: int, project_uuid: Union[str, uuid4]
+    company_id: int, project_uuid: Union[str, UUID]
 ) -> int:
     return Task.objects.filter(company_id=company_id, project_uuid=project_uuid).count()
 
 
 def create_task_by_data(
     company_id: int,
-    project_uuid: Union[str, uuid4],
+    project_uuid: Union[str, UUID],
     title: str,
     content: Optional[str],
     created_by_id: int,
@@ -76,8 +76,8 @@ def update_task_by_data(
 
 def move_task_by_task_uuid_and_above_index(
     company_id: int,
-    project_uuid: Union[str, uuid4],
-    task_uuid: Union[str, uuid4],
+    project_uuid: Union[str, UUID],
+    task_uuid: Union[str, UUID],
     to_index: Optional[int] = None,
 ) -> list[Task]:
     tasks_of_the_project = list(
@@ -99,8 +99,17 @@ def bulk_create_tasks_by_dataclasses(to_create_tasks: list[Task]) -> list[Task]:
     return Task.objects.bulk_create(to_create_tasks)
 
 
-def get_task_by_company_and_uuid(company_id: int, task_uuid: Union[str, uuid4]) -> Task:
+def get_task_by_company_and_uuid(company_id: int, task_uuid: Union[str, UUID]) -> Task:
     try:
         return Task.objects.get(company_id=company_id, uuid=task_uuid)
+    except Task.DoesNotExist:
+        raise TaskDoesNotExist
+
+
+def delete_task_by_company_and_uuid(
+    company_id: int, task_uuid: Union[str, UUID]
+) -> None:
+    try:
+        Task.objects.get(company_id=company_id, uuid=task_uuid).delete()
     except Task.DoesNotExist:
         raise TaskDoesNotExist

@@ -306,3 +306,17 @@ def test_partial_update_task_by_uuid(client):
     assert response.status_code == 200
     for key in expected_data.keys():
         assert expected_data[key] == response_data[key]
+
+
+@pytest.mark.django_db(transaction=True)
+def test_delete_task_raises_404(client):
+    project = project_recipes.generic_company_project.make()
+    active_user = user_recipes.user_viktor.make(company_id=project.company_id)
+    uuid = uuid4()
+
+    url = reverse("api-v1:projects:update_and_retrieve_task", args=(project.uuid, uuid))
+
+    client.force_login(active_user)
+    response = client.get(url, content_type="application/json")
+
+    assert response.status_code == 404

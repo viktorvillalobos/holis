@@ -6,6 +6,7 @@ from rest_framework.decorators import api_view
 from rest_framework.exceptions import ValidationError
 from rest_framework.request import Request
 from rest_framework.response import Response
+from rest_framework.viewsets import ViewSet
 
 from uuid import UUID
 
@@ -32,16 +33,20 @@ def _create_project_by_kind(request: Request, project_kind_value: int) -> Respon
     return Response({"data": project_kind_value}, status=status.HTTP_201_CREATED)
 
 
-@api_view(["GET", "POST"])
-def project_resource(request: Request, project_kind_value: int) -> Response:
-    allowed_values = [str(value) for value in projects_constants.ProjectKind.values]
+class ProjectViewSet(ViewSet):
+    def dispatch(self, *args, **kwargs):
+        project_kind_value = kwargs.get("project_kind_value")
+        allowed_values = [str(value) for value in projects_constants.ProjectKind.values]
 
-    if project_kind_value not in allowed_values:
-        raise ValidationError(
-            "Invalid project kind value %(value)s", params={"value": project_kind_value}
-        )
+        if project_kind_value not in allowed_values:
+            raise ValidationError(
+                "Invalid project kind value %(value)s",
+                params={"value": project_kind_value},
+            )
 
-    if request.method == "GET":
+        return super().dispatch(*args, **kwargs)
+
+    def list(self, request: Request, project_kind_value: int) -> Response:
         projects = project_providers.get_projects_by_company_and_kind(
             company_id=request.user.company_id, kind=project_kind_value
         )
@@ -52,57 +57,76 @@ def project_resource(request: Request, project_kind_value: int) -> Response:
             serializer_class=serializers.ProjectSerializer,
         )
 
-    serializer = serializers.ProjectSerializer(
-        data={"kind": project_kind_value, **request.data},
-        context={"company_id": request.user.company_id, "user_id": request.user.id},
-    )
+    def create(self, request: Request, project_kind_value: int) -> Response:
+        serializer = serializers.ProjectSerializer(
+            data={"kind": project_kind_value, **request.data},
+            context={"company_id": request.user.company_id, "user_id": request.user.id},
+        )
 
-    serializer.is_valid(raise_exception=True)
-    serializer.save()
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
 
-    return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
-@api_view(["GET", "POST"])
-def list_and_create_tasks(request: Request, project_uuid: UUID) -> Response:
-    """
-    Allow to list and create tasks for an specific project.
-    Get: Returns a list of tasks with pagination
-
-    Post: Allow create tasks.
-          * To create a single task send a Dict
-          * To create tasks in bulk send a list of task data
-    """
-    if request.method == "GET":
+class TaskViewSet(ViewSet):
+    def list(self, request, project_uuid: UUID, *args, **kwargs) -> Response:
         tasks = task_providers.get_tasks_by_project_uuid(project_uuid=project_uuid)
         return paginate_response(
             queryset=tasks, request=request, serializer_class=serializers.TaskSerializer
         )
 
-    is_a_bulk_operation = isinstance(request.data, list)
+    def create(self, request, project_uuid: UUID, *args, **kwargs) -> Response:
+        is_a_bulk_operation = isinstance(request.data, list)
 
-    serializer = serializers.TaskSerializer(
-        data=request.data,
-        many=is_a_bulk_operation,
-        context={
-            "user_id": request.user.id,
-            "company_id": request.user.company_id,
-            "project_uuid": project_uuid,
-        },
-    )
+        serializer = serializers.TaskSerializer(
+            data=request.data,
+            many=is_a_bulk_operation,
+            context={
+                "user_id": request.user.id,
+                "company_id": request.user.company_id,
+                "project_uuid": project_uuid,
+            },
+        )
 
-    serializer.is_valid(raise_exception=True)
-    serializer.save()
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
 
-    return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
+    def destroy(
+        self, request, project_uuid: UUID, task_uuid: UUID, *args, **kwargs
+    ) -> Response:
+        try:
+            task = task_providers.get_task_by_company_and_uuid(
+                company_id=request.user.company_id, task_uuid=task_uuid
+            )
+        except TaskDoesNotExist:
+            raise Http404
 
-@api_view(["GET", "PATCH", "PUT"])
-def update_and_retrieve_task(
-    request: Request, project_uuid: UUID, task_uuid: UUID
-) -> Response:
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
-    if request.method == "GET":
+    def update(
+        self, request, task_uuid: UUID, project_uuid: UUID, *args, **kwargs
+    ) -> Response:
+        is_partial = request.method == "PATCH"
+
+        serializer = serializers.TaskSerializer(
+            data=request.data,
+            context={
+                "company_id": request.user.company_id,
+                "task_uuid": task_uuid,
+                "project_uuid": project_uuid,
+                "user_id": request.user.id,
+            },
+            partial=is_partial,
+        )
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def retrieve(self, request, project_uuid: UUID, task_uuid: UUID) -> Response:
         try:
             task = task_providers.get_task_by_company_and_uuid(
                 company_id=request.user.company_id, task_uuid=task_uuid
@@ -112,23 +136,6 @@ def update_and_retrieve_task(
 
         serializer = serializers.TaskSerializer(task)
         return Response(serializer.data, status=status.HTTP_200_OK)
-
-    is_partial = request.method == "PATCH"
-
-    serializer = serializers.TaskSerializer(
-        data=request.data,
-        context={
-            "company_id": request.user.company_id,
-            "task_uuid": task_uuid,
-            "project_uuid": project_uuid,
-            "user_id": request.user.id,
-        },
-        partial=is_partial,
-    )
-    serializer.is_valid(raise_exception=True)
-    serializer.save()
-
-    return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 @api_view(["POST"])

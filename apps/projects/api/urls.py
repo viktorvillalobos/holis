@@ -5,11 +5,15 @@ from . import views
 TASKS_URLS = [
     path(
         "<uuid:project_uuid>/tasks/<uuid:task_uuid>",
-        views.update_and_retrieve_task,
+        views.TaskViewSet.as_view(
+            {"get": "retrieve", "patch": "update", "put": "update", "delete": "destroy"}
+        ),
         name="update_and_retrieve_task",
     ),
     path(
-        "<uuid:project_uuid>/tasks", views.list_and_create_tasks, name="task_resource"
+        "<uuid:project_uuid>/tasks",
+        views.TaskViewSet.as_view({"get": "list", "post": "create"}),
+        name="task_resource",
     ),
     path(
         "<uuid:project_uuid>/tasks/<uuid:task_uuid>/move/<int:task_index>",
@@ -25,7 +29,9 @@ PROJECT_URLS = [
         name="get_company_project_by_company_id_view",
     ),
     path(
-        "kind/<str:project_kind_value>", views.project_resource, name="project_resource"
+        "kind/<str:project_kind_value>",
+        views.ProjectViewSet.as_view({"get": "list", "post": "create"}),
+        name="project_resource",
     ),
 ]
 
