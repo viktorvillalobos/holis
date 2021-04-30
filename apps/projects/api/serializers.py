@@ -72,12 +72,9 @@ class TaskSerializer(serializers.Serializer):
 
         try:
             if self.partial:
-                # TODO: This must be a provider
-                for key, value in validated_data.items():
-                    setattr(instance, key, value)
-                    instance.save()
-
-                return instance
+                return task_providers.partial_update_task_by_data(
+                    instance=instance, validated_data=validated_data
+                )
 
             return task_providers.update_task_by_data(
                 created_by_id=user_id,
