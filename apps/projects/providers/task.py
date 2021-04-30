@@ -1,4 +1,4 @@
-from typing import Any, Optional, Union
+from typing import Any, Dict, Optional, Union
 
 from django.db.models import Max
 
@@ -119,3 +119,18 @@ def delete_task_by_company_and_uuid(
         Task.objects.get(company_id=company_id, uuid=task_uuid).delete()
     except Task.DoesNotExist:
         raise TaskDoesNotExist
+
+
+def partial_update_task_by_data(instance: Task, validated_data: Dict[str, Any]) -> Task:
+    """
+        Allow partial update , this should only be called inside a serializer
+    """
+
+    # TODO: [SECURITY] This function should be replaced for something more secure
+    # This should on
+
+    for key, value in validated_data.items():
+        setattr(instance, key, value)
+        instance.save()
+
+    return instance

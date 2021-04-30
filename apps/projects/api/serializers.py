@@ -26,7 +26,8 @@ class TaskSerializer(serializers.Serializer):
     company_id = serializers.IntegerField(required=False, allow_null=True)
     uuid = serializers.UUIDField(required=False, allow_null=True)
     project_uuid = serializers.UUIDField(required=False, allow_null=True)
-    assigned_to = UserField(required=False, allow_null=True)
+    assigned_to = UserField(required=False, allow_null=True, read_only=True)
+    assigned_to_id = serializers.IntegerField(required=False, allow_null=True)
     due_date = serializers.DateField(required=False, allow_null=True)
     title = serializers.CharField()
     content = serializers.CharField()
@@ -55,7 +56,7 @@ class TaskSerializer(serializers.Serializer):
                 created_by_id=user_id,
                 company_id=company_id,
                 project_uuid=project_uuid,
-                assigned_to_id=validated_data.get("assigned_to"),
+                assigned_to_id=validated_data.get("assigned_to_id"),
                 title=validated_data["title"],
                 content=validated_data.get("content"),
                 due_date=validated_data.get("due_date"),
@@ -72,19 +73,16 @@ class TaskSerializer(serializers.Serializer):
 
         try:
             if self.partial:
-                # TODO: This must be a provider
-                for key, value in validated_data.items():
-                    setattr(instance, key, value)
-                    instance.save()
-
-                return instance
+                return task_providers.partial_update_task_by_data(
+                    instance=instance, validated_data=validated_data
+                )
 
             return task_providers.update_task_by_data(
                 created_by_id=user_id,
                 company_id=company_id,
                 task_uuid=instance.uuid,
                 project_uuid=project_uuid,
-                assigned_to_id=validated_data.get("assigned_to"),
+                assigned_to_id=validated_data.get("assigned_to_id"),
                 title=validated_data["title"],
                 content=validated_data.get("content"),
                 due_date=validated_data.get("due_date"),

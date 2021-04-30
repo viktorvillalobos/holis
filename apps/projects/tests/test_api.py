@@ -116,7 +116,7 @@ def test_create_tasks(client):
     expected_data = dict(
         title="my-custom-title",
         content="my-custom-content",
-        assigned_to=active_user.id,
+        assigned_to_id=active_user.id,
         due_date=expected_due_date,
     )
 
@@ -191,11 +191,13 @@ def test_bulk_create_tasks(client):
             title="my-custom-title-1",
             content="my-custom-content-1",
             due_date=expected_due_date,
+            assigned_to_id=active_user.id,
         ),
         dict(
             title="my-custom-title-2",
             content="my-custom-content-2",
             due_date=expected_due_date,
+            assigned_to_id=active_user.id,
         ),
     ]
 
