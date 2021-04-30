@@ -43,5 +43,10 @@ export default {
     console.log("project_uuid",project_uuid)
     console.log("url",`${urlBase}/projects/${project_uuid}/tasks/${task}`,payload)
     return axios.patch(`${urlBase}/projects/${project_uuid}/tasks/${task}`,payload)
+  },
+  deleteTask(project_uuid, task) {
+    console.log("project_uuid",project_uuid)
+    console.log("url",`${urlBase}/projects/${project_uuid}/tasks/${task}`)
+    return axios.delete(`${urlBase}/projects/${project_uuid}/tasks/${task}`)
   }
 }

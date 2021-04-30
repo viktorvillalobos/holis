@@ -1,17 +1,23 @@
 <template>
   <div>
+    <div class="main-loader">
+      <div :class="{'card' : true, 'loader-wrapper' : true, 'is-active' : loading}">
+        <div class="card-content">
+          <div class="loader is-loading"></div>
+        </div>
+      </div>
+    </div>
     <draggable v-model="tasks">
         <transition-group>
-            <div v-for="(task, index) in tasks" :key="task">
-                {{task}}
-                <div class="check-absolute">
+            <div class="columns" v-for="(task, index) in tasks" :key="task">
+                <div class="column is-1 check-absolute">
                     <input type="checkbox" v-model="task.is_done" @change="updateCheck(index)">
                 </div>
-                <Collapsible>
-                    <div slot="trigger" class="collapse-focus m-3">
+                <Collapsible class="column">
+                    <div slot="trigger" class="collapse-focus">
                         <div class="customTrigger">
                             <div class="columns">
-                                <div class="column ml-5">
+                                <div class="column">
                                     <p class="mt-2 is-size-5">{{ task.title }}</p>
                                 </div>
                                 <div class="column" align="right">
@@ -21,11 +27,11 @@
                         </div>
                     </div>
 
-                    <div slot="closedTrigger" class="collapse-focus m-3">
+                    <div slot="closedTrigger" class="collapse-focus">
                         <div class="customTrigger">
                             <div class="columns">
                                 <div class="column">
-                                    <p class="mt-2 ml-5 is-size-5">{{ task.title }}</p>
+                                    <p class="mt-2 is-size-5">{{ task.title }}</p>
                                 </div>
                                 <div class="column" align="right">
                                     <font-awesome-icon class="mt-2" icon="chevron-down" />
@@ -72,14 +78,68 @@
                 @keyup.enter="updateContent(index); $emit('update')"></textarea>
                         <p v-else @click="task.contentEdit=true">{{ task.content }}</p>
                     </div>
-                    <!--<div class="mt-2" align="right">
+                    <div class="mt-2" align="right">
                         <button @click="deleteTask(index)" class="button is-danger is-inverted is-small">Borrar</button>
-                        <button @click="duplicateTask(task)" class="button is-primary is-inverted is-small">Duplicar</button>
-                    </div>-->
+                        <!--<button @click="duplicateTask(task)" class="button is-primary is-inverted is-small">Duplicar</button>-->
+                    </div>
                 </Collapsible>
             </div>
         </transition-group>
     </draggable>
+
+    <div class="mt-6" align="right">
+        <button @click="modalNewTask = true" class="button is-primary is-inverted is-small">Agregar tarea nueva</button>
+    </div>
+
+    <div class="modal" :class="{'is-active' : modalNewTask}">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+            <header class="modal-card-head">
+            <p class="modal-card-title">Crear tarea</p>
+            <button class="delete" aria-label="close" @click="modalNewTask = false"></button>
+            </header>
+            <section class="modal-card-body">
+                <div class="mt-2 columns">
+                    <div class="column">
+                        <b style="is-size-6">Nombre</b>
+                        <input v-model="newTask.title" class="input" type="text" placeholder="Ej: Hexagonal interactivo">
+                    </div>
+                    <div class="column">
+                        <div>
+                            <b style="is-size-6">Responsable</b>
+                        </div>
+                        <div :class="{'dropdown' : true, 'is-active' : newTask.dropdownActive}"> <!-- task -->
+                            <div class="dropdown-trigger">
+                                <button class="button" aria-haspopup="true" aria-controls="dropdown-menu" @click="newTask.dropdownActive = true">
+                                <span v-if="newTask.assigned_to">{{ newTask.memberName }}</span>
+                                <span v-else>Seleccionar</span>
+                                <span class="icon is-small">
+                                    <i class="fas fa-angle-down" aria-hidden="true"></i>
+                                </span>
+                                </button>
+                            </div>
+                            <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                                <div class="dropdown-content">
+                                    <a @click="selectUserNewTask(user, index)" :class="{'dropdown-item' : true, 'is-active' : (user.id == newTask.assigned_to && newTask.dropdownActive)}" v-for="user in users" :key="user.id">
+                                        {{ user.name }}
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-2">
+                    <p style="is-size-6"><b>Descripción</b> (opcional)</p>
+                    <textarea v-model="newTask.content" class="textarea" placeholder="e.g. Hello world"></textarea>
+                </div>
+            </section>
+            <footer class="modal-card-foot">
+            <button class="button is-success" @click="addNewTask">Crear</button>
+            <button class="button" @click="modalNewTask = false">Cancelar</button>
+            </footer>
+        </div>
+    </div>
   </div>
 </template>
 
@@ -104,7 +164,15 @@ export default {
   },
   data(){
     return {
-        tasks: []
+        tasks: [],
+        modalNewTask: false,
+        loading:true,
+        newTask: {
+            "title": "Ejemplo Tarea",
+            "content": "",
+            "assigned_to": null,
+            "dropdownActive": false
+        }
     }
   },
   created(){
@@ -115,17 +183,45 @@ export default {
     getTasks(){
         this.$store.dispatch('getTasksProject', this.project.uuid)
     },
+    deleteTask(index){
+        const payload = {
+            'task':this.tasks[index].uuid,
+            'project_uuid': this.project.uuid
+        }
+        this.$store.dispatch('deleteTask', payload)
+        this.loading = true
+    },
     addNewTask(){
-        this.tasks.push({
-            "nombre" : "",
-            "responsable" : "",
-            "descripcion" : ""
-        })
+        const tasks = []
+        tasks.push(this.newTask)
+        const payload = {
+            'tasks':tasks,
+            'project_uuid': this.project.uuid
+        }
+        this.$store.dispatch('addTaskProject', payload)
+        this.modalNewTask = false
+        this.loading = true
+    },
+    selectUserNewTask(user){
+        this.newTask.assigned_to = user.id
+        this.newTask.memberName = user.name
+        this.newTask.dropdownActive = false
     },
     selectUser(user, index){
         this.tasks[index].assigned_to.id = user.id
         this.tasks[index].assigned_to.name = user.name
         this.tasks[index].dropdownActive = false
+        this.updateAssigned(index)
+    },
+    updateAssigned(index){
+        const payload = {
+            'uuid' : this.project.uuid,
+            'task' : this.tasks[index].uuid,
+            'data' : {
+                'assigned_to_id' :  this.tasks[index].assigned_to.id
+            }
+        }
+        this.$store.dispatch('updateTask', payload)
     },
     updateCheck(index){
         const payload = {
@@ -150,7 +246,7 @@ export default {
     },
     updateContent(index){
         this.tasks[index].contentEdit = false
-        const dataEdit = {
+        const payload = {
             'uuid' : this.project.uuid,
             'task' : this.tasks[index].uuid,
             'data' : {
@@ -162,6 +258,7 @@ export default {
   },
   watch: {
       tasksState(tasks){
+          this.loading = false
           this.tasks = JSON.parse(JSON.stringify(tasks)) // Tuve que crear una copia para no modificar la variable mutable directamente
       }
   }
@@ -175,8 +272,34 @@ export default {
 }
 
 .check-absolute{
-    position: absolute;
-    margin-top: 22px;
+    margin-top: 10px;
+}
 
+.main-loader{
+  width:100%;
+}
+.loader-wrapper {
+  position: absolute;
+  left: 35%;
+  height: 100;
+  width: 100;
+  background: #fff;
+  opacity: 0;
+  z-index: -1;
+  transition: opacity .3s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 6px;
+
+  .loader {
+      height: 80px;
+      width: 80px;
+  }
+
+  &.is-active {
+      opacity: 1;
+      z-index: 1;
+  }
 }
 </style>
