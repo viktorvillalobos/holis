@@ -265,6 +265,7 @@ def test_update_task_by_uuid(client):
         title="my-modified-custom-task-title",
         content="my-custom-content",
         due_date=expected_due_date,
+        is_done=True,
     )
 
     url = reverse(
@@ -289,6 +290,7 @@ def test_partial_update_task_by_uuid(client):
         project=project,
         company=project.company,
         title="my-custom-task-title",
+        content="my-custom-task-content",
     )
 
     expected_due_date = timezone.now().date().isoformat()
@@ -306,6 +308,8 @@ def test_partial_update_task_by_uuid(client):
     assert response.status_code == 200
     for key in expected_data.keys():
         assert expected_data[key] == response_data[key]
+
+    assert response_data["content"] == task.content
 
 
 @pytest.mark.django_db(transaction=True)
