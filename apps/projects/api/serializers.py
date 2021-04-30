@@ -71,7 +71,15 @@ class TaskSerializer(serializers.Serializer):
         user_id = self.context["user_id"]
 
         try:
-            result = task_providers.update_task_by_data(
+            if self.partial:
+                # TODO: This must be a provider
+                for key, value in validated_data.items():
+                    setattr(instance, key, value)
+                    instance.save()
+
+                return instance
+
+            return task_providers.update_task_by_data(
                 created_by_id=user_id,
                 company_id=company_id,
                 task_uuid=instance.uuid,
@@ -82,8 +90,6 @@ class TaskSerializer(serializers.Serializer):
                 due_date=validated_data.get("due_date"),
                 is_done=validated_data.get("is_done", False),
             )
-
-            return result
         except IntegrityError as ex:
             raise ValidationError({"IntegrityError": str(ex)})
 
