@@ -265,6 +265,7 @@ def test_update_task_by_uuid(client):
         title="my-modified-custom-task-title",
         content="my-custom-content",
         due_date=expected_due_date,
+        is_done=True,
     )
 
     url = reverse(

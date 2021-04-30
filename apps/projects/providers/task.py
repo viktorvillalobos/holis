@@ -42,6 +42,7 @@ def create_task_by_data(
         due_date=due_date,
         index=last_task_index,
         assigned_to_id=assigned_to_id,
+        is_done=False,
     )
 
 
@@ -55,6 +56,7 @@ def update_task_by_data(
     due_date: Optional[datetime.date] = None,
     assigned_to_id: Optional[int] = None,
     index: Optional[int] = None,
+    is_done: bool = False,
 ) -> Task:
 
     if not index:
@@ -62,16 +64,20 @@ def update_task_by_data(
             company_id=company_id, project_uuid=project_uuid
         )
 
-    return Task.objects.filter(
+    task_to_update = Task.objects.get(
         company_id=company_id, project_uuid=project_uuid, uuid=task_uuid
-    ).update(
-        title=title,
-        content=content,
-        created_by_id=created_by_id,
-        due_date=due_date,
-        index=index,
-        assigned_to_id=assigned_to_id,
     )
+    task_to_update.title = title
+    task_to_update.content = content
+    task_to_update.created_by_id = created_by_id
+    task_to_update.due_date = due_date
+    task_to_update.index = index
+    task_to_update.assigned_to_id = assigned_to_id
+    task_to_update.is_done = is_done
+
+    task_to_update.save()
+
+    return task_to_update
 
 
 def move_task_by_task_uuid_and_above_index(

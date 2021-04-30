@@ -111,11 +111,15 @@ class TaskViewSet(ViewSet):
     ) -> Response:
         is_partial = request.method == "PATCH"
 
+        task_instance = task_providers.get_task_by_company_and_uuid(
+            company_id=self.request.user.company_id, task_uuid=task_uuid
+        )
+
         serializer = serializers.TaskSerializer(
+            task_instance,
             data=request.data,
             context={
                 "company_id": request.user.company_id,
-                "task_uuid": task_uuid,
                 "project_uuid": project_uuid,
                 "user_id": request.user.id,
             },

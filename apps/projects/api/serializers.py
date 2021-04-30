@@ -30,6 +30,7 @@ class TaskSerializer(serializers.Serializer):
     due_date = serializers.DateField(required=False, allow_null=True)
     title = serializers.CharField()
     content = serializers.CharField()
+    is_done = serializers.BooleanField(required=False, default=False)
 
     def __init__(self, *args, **kwargs):
         self.many = kwargs.pop("many", False)
@@ -62,23 +63,27 @@ class TaskSerializer(serializers.Serializer):
         except IntegrityError as ex:
             raise ValidationError({"IntegrityError": str(ex)})
 
-    def update(self, validated_data: Dict[str, Any]) -> Union[Task, list[Task]]:
+    def update(
+        self, instance: Task, validated_data: Dict[str, Any]
+    ) -> Union[Task, list[Task]]:
         project_uuid = self.context["project_uuid"]
-        task_uuid = self.context["task_uuid"]
         company_id = self.context["company_id"]
         user_id = self.context["user_id"]
 
         try:
-            return task_providers.update_task_by_data(
+            result = task_providers.update_task_by_data(
                 created_by_id=user_id,
                 company_id=company_id,
-                task_uuid=task_uuid,
+                task_uuid=instance.uuid,
                 project_uuid=project_uuid,
                 assigned_to_id=validated_data.get("assigned_to"),
                 title=validated_data["title"],
                 content=validated_data.get("content"),
                 due_date=validated_data.get("due_date"),
+                is_done=validated_data.get("is_done", False),
             )
+
+            return result
         except IntegrityError as ex:
             raise ValidationError({"IntegrityError": str(ex)})
 

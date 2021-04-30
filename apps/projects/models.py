@@ -138,6 +138,7 @@ class Task(ProjectBaseModel):
         "users.User", on_delete=models.DO_NOTHING, related_name="project_tasks"
     )
     index = models.IntegerField(default=0)
+    is_done = models.BooleanField(default=False)
 
     class Meta:
         unique_together = ["uuid", "company"]
