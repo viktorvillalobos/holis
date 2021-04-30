@@ -78,7 +78,7 @@
                             <div :class="{'dropdown' : true, 'is-active' : task.dropdownActive}"> <!-- task -->
                                 <div class="dropdown-trigger">
                                     <button class="button" aria-haspopup="true" aria-controls="dropdown-menu" @click="task.dropdownActive = true">
-                                    <span v-if="task.member">{{ task.memberName }}</span>
+                                    <span v-if="task.assigned_to">{{ task.memberName }}</span>
                                     <span v-else>Seleccionar</span>
                                     <span class="icon is-small">
                                         <i class="fas fa-angle-down" aria-hidden="true"></i>
@@ -87,7 +87,7 @@
                                 </div>
                                 <div class="dropdown-menu" id="dropdown-menu" role="menu">
                                     <div class="dropdown-content">
-                                        <a @click="selectUser(user, index)" :class="{'dropdown-item' : true, 'is-active' : (user.id == task.member && task.dropdownActive)}" v-for="user in users" :key="user.id">
+                                        <a @click="selectUser(user, index)" :class="{'dropdown-item' : true, 'is-active' : (user.id == task.assigned_to && task.dropdownActive)}" v-for="user in users" :key="user.id">
                                             {{ user.name }}
                                         </a>
                                     </div>
@@ -202,7 +202,7 @@ export default {
         return isValid
       },
       selectUser(user, index){
-        this.tasks[index].member = user.id
+        this.tasks[index].assigned_to = user.id
         this.tasks[index].memberName = user.name
         this.tasks[index].dropdownActive = false
       },
@@ -230,7 +230,7 @@ export default {
         this.tasks.push({
             "title": "Ejemplo Tarea",
             "content": "",
-            "member": null,
+            "assigned_to": null,
             "dropdownActive": false
         })
       },
@@ -238,7 +238,7 @@ export default {
           this.tasks.push({
             "title": task.title,
             "content": task.description,
-            "member": task.member,
+            "member": task.assigned_to,
             "dropdownActive": task.dropdownActive
         })
       },

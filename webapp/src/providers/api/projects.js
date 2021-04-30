@@ -38,5 +38,10 @@ export default {
     console.log("project_uuid",project_uuid)
     console.log("url",`${urlBase}/projects/${project_uuid}/tasks`)
     return axios.get(`${urlBase}/projects/${project_uuid}/tasks`)
+  },
+  updateTask(project_uuid, task, payload) {
+    console.log("project_uuid",project_uuid)
+    console.log("url",`${urlBase}/projects/${project_uuid}/tasks/${task}`,payload)
+    return axios.patch(`${urlBase}/projects/${project_uuid}/tasks/${task}`,payload)
   }
 }

@@ -55,8 +55,13 @@ const actions = {
     data.results.forEach((element,index) => {
       data.results[index].titleEdit = false
       data.results[index].contentEdit = false
+      data.results[index].dropdownActive = false
     });
     commit('setTasksProject', data.results)
+  },
+  async updateTask ({ commit }, payload) {
+    const { data } = await apiClient.projects.updateTask(payload.uuid, payload.task, payload.data)
+    console.log("Update Result " ,data)
   },
 }
 
