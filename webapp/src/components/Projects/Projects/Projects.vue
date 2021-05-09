@@ -7,10 +7,10 @@
           <li v-bind:class="{'is-active' : this.type == 'my_company'}" @click="type = 'my_company'"><a>Mi empresa</a></li>
       </ul>
     </div>
-    <div style="overflow: auto; height:70vh;">
+    <div style="overflow: auto; height:70vh;" class="pr-4">
       <ProjectList v-bind:type="this.type"/>
     </div>
-    <div align=right v-if="this.type != 'my_company'">
+    <div align=right v-if="this.type != 'my_company'" class="mt-4 mr-4">
       <button @click="openCreateProject" class="button is-primary">Crear nuevo proyecto</button>
     </div>
   </div>

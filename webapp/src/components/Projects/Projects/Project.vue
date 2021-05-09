@@ -17,9 +17,9 @@
                         <button class="button is-success is-light is-small alert-days">15 días restantes</button>
                     </div>-->
                     <div>
-                        <button class="button is-danger is-inverted is-small">Borrar</button>
-                        <button class="button is-primary is-inverted is-small">Editar</button>
-                        <button class="button is-primary is-inverted is-small">Ver más</button>
+                        <button class="button is-danger is-inverted is-small" @click.stop="deleteProject">Borrar</button>
+                        <!--<button class="button is-primary is-inverted is-small">Editar</button>
+                        <button class="button is-primary is-inverted is-small">Ver más</button>-->
                     </div>
                 </div>
             </div>
@@ -37,6 +37,9 @@ export default {
     Btn
   },
   methods:{
+      deleteProject(){
+        console.log("Falta implementacion")
+      },
       openProjectDetail(){
         this.$store.commit('setCurrentScreen',{'screen' : 'detail', 'data' : this.project})
       }

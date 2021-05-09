@@ -7,9 +7,9 @@
         </div>
       </div>
     </div>
-    <draggable v-model="tasks">
+    <draggable v-model="tasks" :move="checkMove">
         <transition-group>
-            <div class="columns" v-for="(task, index) in tasks" :key="task">
+            <div class="columns" v-for="(task, index) in tasks" :key="task.uuid">
                 <div class="column is-1 check-absolute">
                     <input type="checkbox" v-model="task.is_done" @change="updateCheck(index)">
                 </div>
@@ -180,6 +180,17 @@ export default {
     this.getTasks()
   },
   methods:{
+    checkMove(evt){
+        const futureIndex = evt.draggedContext.futureIndex
+        const index = evt.draggedContext.index
+        const task = this.tasks[index]
+        const data = {
+            "project_uuid": this.project.uuid,
+            "task": task.uuid,
+            "index": futureIndex
+        }
+        this.$store.dispatch('moveTask', data)
+    },
     getTasks(){
         this.$store.dispatch('getTasksProject', this.project.uuid)
     },
@@ -258,6 +269,7 @@ export default {
   },
   watch: {
       tasksState(tasks){
+          console.log(tasks)
           this.loading = false
           this.tasks = JSON.parse(JSON.stringify(tasks)) // Tuve que crear una copia para no modificar la variable mutable directamente
       }

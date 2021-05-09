@@ -72,6 +72,10 @@ const actions = {
     const { data } = await apiClient.projects.deleteTask(payload.project_uuid, payload.task)
     console.log(data)
     dispatch('getTasksProject', payload.project_uuid);
+  },
+  async moveTask ({ commit, dispatch }, payload) {
+    const { data } = await apiClient.projects.moveTask(payload.project_uuid, payload.task, payload.index)
+    console.log(data)
   }
 }
 

@@ -48,5 +48,9 @@ export default {
     console.log("project_uuid",project_uuid)
     console.log("url",`${urlBase}/projects/${project_uuid}/tasks/${task}`)
     return axios.delete(`${urlBase}/projects/${project_uuid}/tasks/${task}`)
+  },
+  moveTask(project_uuid, task, index) {
+    console.log("url",`${urlBase}/projects/${project_uuid}/tasks/${task}/move/${index}`)
+    return axios.post(`${urlBase}/projects/${project_uuid}/tasks/${task}/move/${index}`)
   }
 }

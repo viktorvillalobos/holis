@@ -1,5 +1,5 @@
 <template>
-  <div class="p-4" style="overflow: auto; height:90vh;">
+  <div class="p-4 pr-4" style="overflow: auto; height:90vh;">
 
       <div class="columns">
         <button class="button is-white column is-1" @click="backToMain">

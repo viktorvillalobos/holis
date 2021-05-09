@@ -15,7 +15,7 @@
         </li>
 
         <li @click="handleProjects" :class="{'active': (isProjectsActive || isCreateProjectActive) && asideOpened}">
-          <font-awesome-icon icon="cog" />
+          <font-awesome-icon icon="list-ol" />
         </li>
       </ul>
     </card>
