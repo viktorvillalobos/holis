@@ -186,7 +186,7 @@ class PageSingleView(TemplateView):
 
 
 class BlogSingleView(TemplateView):
-    template_name = "pages/blog_single.html"
+    template_name = "blog/blog_single.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -205,6 +205,6 @@ class BlogSingleView(TemplateView):
 
 
 class BlogListView(ListView):
-    template_name = "pages/blog_list.html"
+    template_name = "blog/blog_list.html"
     model = BlogEntry
     paginate_by = 6

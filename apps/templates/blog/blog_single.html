@@ -2,13 +2,15 @@
 {% load static i18n %}
 {% load martortags %}
 
+{% block title %} {{ PAGE.title | title }} {% endblock %}
+
 {% block content %}
 <body>
     {% include "pages/partials/navbar.html" %}
 
     <section class="holis-blog-entry">
         <article class="is-size-6">
-            <h1 class="holis-blog-entry-title has-text-centered is-size-1-desktop is-size-4-mobile">{{ PAGE.title }}</h1>
+            <h1 class="holis-blog-entry-title has-text-centered is-size-1-desktop is-size-4-mobile">{{ PAGE.title | title }}</h1>
 
             <div class="holis-blog-entry-picture">
                 <img src="{{ PAGE.image.url }}" alt="">
@@ -63,7 +65,7 @@
             </div>
         </section>
     {% endif %}
-
+    {% comment %}
     <section class="holis-cta">
         <div class="container">
             <div class="columns is-centered">
@@ -77,6 +79,7 @@
             </div>
         </div>
     </section>
+    {% endcomment %}
 
     <link rel="stylesheet" href="{% static 'css/blog_entry.min.css' %}">
      <link href="{% static 'plugins/css/ace.min.css' %}" type="text/css" media="all" rel="stylesheet" />
