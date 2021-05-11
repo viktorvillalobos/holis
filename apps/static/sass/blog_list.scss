@@ -4,33 +4,32 @@
 @import "./exposed";
 @import "./bulma/bulma.sass";
 @import "./article";
+@import "./cta";
 
 // TODO: This must not be here, but i do not find where is the grey brackground
 body {
     background: none;
 }
 
+
 .holis-blog-list {
-    margin-top: 5%;
-    margin-bottom: 5%;
-    margin-left: 5%;
-    margin-right: 5%;
+    margin:5%;
 
-    &-featured-post {
-        &-image {
-            // background-color: grey;
-            border-radius: 19px;
+    &-featured-post-image {
+        border-radius:19px
+    }
 
-            img {
-                width: 100%;
-                padding-left: 3%;
-                padding-right: 3%;
-            }
+    &-featured-post-image {
+        img{
+            width:100%;
+            padding-left:3%;
+            padding-right:3%;
         }
+    }
 
-        &-content-title {
-            font-size: 2rem;
-            font-weight: bold;
-        }
+    &-featured-post-content-title {
+        font-size:32px;
+        font-size:2rem;
+        font-weight:700;
     }
 }

@@ -1,0 +1,89 @@
+{% extends "base_v2.html" %}
+{% load static i18n %}
+{% load martortags %}
+
+{% block title %} {{ PAGE.title | title }} {% endblock %}
+
+{% block content %}
+<body>
+    {% include "pages/partials/navbar.html" %}
+
+    <section class="holis-blog-entry">
+        <article class="is-size-6">
+            <h1 class="holis-blog-entry-title has-text-centered is-size-1-desktop is-size-4-mobile">{{ PAGE.title | title }}</h1>
+
+            <div class="holis-blog-entry-picture">
+                <img src="{{ PAGE.image.url }}" alt="">
+            </div>
+            <div class="columns holis-blog-entry-wrapper">
+                <div class="holis-blog-entry-social column is-2 is-offset-1">
+                    <span>
+                        <a href="http://twitter.com/share?text={{ PAGE.title }}&url=https://hol.is{{ request.get_full_path }}">
+                            <i class="fab fa-twitter fa-2x"></i>
+                    </a>
+
+                    </span>
+                    <span>
+                        <a href="whatsapp://send?text=https://hol.is{{ request.get_full_path }}" data-action="share/whatsapp/share">
+                            <i class="fab fa-whatsapp fa-2x"></i>
+                        </a>
+                    </span>
+                    <span>
+                        <a href="https://www.facebook.com/sharer/sharer.php?u=https://hol.is{{ request.get_full_path }}" target="_blank" rel="noopener">
+    <i class="fab fa-facebook fa-2x"></i>
+</a>
+
+                    </span>
+                </div>
+                <div class="holis-blog-entry-content column is-7">
+                    {{ PAGE.content | safe_markdown }}
+                </div>
+            </div>
+        </article>
+    </section>
+
+    <div class="separator">
+        <hr width="80%" color="red" class="">
+    </div>
+
+    {% if RELATED_POSTS %}
+        <section class="related-posts">
+            <div class="columns">
+                {% for post in RELATED_POSTS %}
+                    <div class="column is-3 related-post">
+                        <div class="related-post-picture">
+                            {% if post.image %}
+                                <img src="{{ post.image.url }}" alt="{{ post.title }}">
+                            {% endif %}
+                        </div>
+                        <div class="related-post-title">{{ post.title | slice:":30" }}</div>
+                        <div class="related-post-content">
+                            {{ post.content | slice:":50" }}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </section>
+    {% endif %}
+    {% comment %}
+    <section class="holis-cta">
+        <div class="container">
+            <div class="columns is-centered">
+                <div class="column is-4-fullhd is-size-3">
+                    <h2>{% trans 'Start communicating effectively with your team right now' %}</h2>
+                </div>
+                <div class="column is-4-fullhd is-centered is-vcentered holis-cta-button-container">
+                    <a href="{% url 'web:soon' %}" type="button"
+                        class="button is-primary is-size-5"> {% trans 'Start for free' %} 🚀 </a>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% endcomment %}
+
+    <link rel="stylesheet" href="{% static 'css/blog_entry.min.css' %}">
+     <link href="{% static 'plugins/css/ace.min.css' %}" type="text/css" media="all" rel="stylesheet" />
+     <link href="{% static 'martor/css/martor.bootstrap.min.css' %}" type="text/css" media="all" rel="stylesheet" />
+     <script type="text/javascript" src="{% static 'plugins/js/highlight.min.js' %}"></script>
+</body>
+{% endblock %}

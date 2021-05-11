@@ -9,6 +9,8 @@ urlpatterns = [
     path("soon/", views.SoonTemplateView.as_view(), name="soon"),
     path("check-company/", views.CheckCompanyView.as_view(), name="check-company"),
     path("login/", views.LoginView.as_view(), name="login"),
+    path("blog/", views.BlogListView.as_view(), name="blog-list"),
+    path("blog/<str:slug>", views.BlogSingleView.as_view(), name="blog-single"),
     path("", views.HomeView.as_view(), name="home"),
     path("<str:lang_code>/", views.HomeView.as_view(), name="home_with_lang"),
     path(

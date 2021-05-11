@@ -6,8 +6,9 @@
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>
+        Holis |
         {% block title %}
-        Holis - {% trans 'Helping teams to work together remotely' %}
+        {% trans 'Helping teams to work together remotely' %}
         {% endblock title %}
     </title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -96,13 +97,13 @@
             <li><a href="/privacy-policy/">{% trans 'Privacy Policy' %}</a></li>
           </ul>
         </div>
-        <!-- <div class="column is-2"> -->
-        <!--   <b>{% trans 'Company'%}</b> -->
-        <!--   <ul> -->
-        <!--       <li><a href="#">{% trans 'About us' %}</a></li> -->
-        <!--       <li><a href="#">{% trans 'News' %}</a></li> -->
-        <!--   </ul> -->
-        <!-- </div> -->
+        <div class="column is-2">
+          <b>{% trans 'Company'%}</b>
+          <ul>
+              <!-- <li><a href="#">{% trans 'About us' %}</a></li> -->
+              <li><a href="{% url 'web:blog-list' %}">{% trans 'News' %}</a></li>
+          </ul>
+        </div>
         <div class="column is-4 has-text-right">
           <ul class="holis-rrss has-text-centered-mobile">
             <li><a href="https://instagram.com/holischat"><i class="fab fa-3x fa-instagram"></i></a></li>
