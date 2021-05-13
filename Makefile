@@ -59,7 +59,7 @@ push_base: ## drop you into a running container as root
 .PHONY: build_prod
 build_prod: ## drop you into a running container as root
 	@git checkout master
-	@docker build -f compose/production/django/Dockerfilebase . -t gcr.io/espazum/holis-full:$(COMMIT_SHA)
+	@docker build -f compose/production/django/Dockerfilebase . -t gcr.io/espazum/holis-full:$(COMMIT_SHA) -t gcr.io/espazum/holis-full:latest
 	@docker push gcr.io/espazum/holis-full:$(COMMIT_SHA)
 
 .PHONY: push_prod
