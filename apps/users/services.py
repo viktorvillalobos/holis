@@ -42,9 +42,12 @@ def get_unavailable_users_by_company_id(company_id: int) -> List[User]:
     """ Return a list of ids of users who haven't sent hearbeat check """
 
     return list(
-        User.objects.filter(company_id=company_id)
-        .filter(last_seen__lt=timezone.now() - dt.timedelta(seconds=60))
-        .exclude(Q(last_seen=None) | Q(current_area=None))
+        User.objects.filter(company_id=company_id).filter(
+            Q(
+                last_seen__lt=timezone.now() - dt.timedelta(seconds=60)
+                | Q(current_area=None)
+            )
+        )
     )
 
 

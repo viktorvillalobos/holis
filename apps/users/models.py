@@ -63,6 +63,7 @@ class User(AbstractUser):
         null=True,
         on_delete=models.SET_NULL,
         related_name="currents",
+        db_index=True,
     )
     birthday = BirthdayField(null=True, blank=True)
 
@@ -70,7 +71,9 @@ class User(AbstractUser):
     jid = models.CharField(
         _("Jabber ID"), blank=True, null=True, max_length=100, db_index=True
     )
-    last_seen = models.DateTimeField(_("Last Seen"), null=True, blank=True)
+    last_seen = models.DateTimeField(
+        _("Last Seen"), null=True, blank=True, db_index=True
+    )
 
     objects = UserManager()
 
