@@ -27,6 +27,7 @@ def create_task_by_data(
     created_by_id: int,
     due_date: Optional[datetime.date] = None,
     assigned_to_id: Optional[int] = None,
+    is_done: bool = False,
 ) -> Task:
 
     last_task_index = get_tasks_count_by_company_and_project_uuid(
@@ -42,7 +43,7 @@ def create_task_by_data(
         due_date=due_date,
         index=last_task_index,
         assigned_to_id=assigned_to_id,
-        is_done=False,
+        is_done=is_done,
     )
 
 

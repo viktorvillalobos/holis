@@ -26,6 +26,7 @@ def test_create_task_by_data(mocker):
         created_by_id=456,
         due_date=timezone.now().date(),
         assigned_to_id=1,
+        is_done=True,
     )
 
     task_providers.create_task_by_data(**args)

@@ -30,7 +30,7 @@ def test_get_unavailable_users_by_company_id():
         last_seen=ten_minutes_ago_date,
     )
 
-    expected_result = [inactive_user]
+    expected_result = [inactive_user_outside_area, inactive_user]
 
     result = user_services.get_unavailable_users_by_company_id(
         company_id=active_user.company_id
