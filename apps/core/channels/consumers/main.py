@@ -89,6 +89,13 @@ class MainConsumer(AsyncJsonWebsocketConsumer):
             _msg = _("type not handled by GridConsumer")
             return await self.send_json({"error": _msg})
 
+    async def force_disconnect(self, message):
+        await grid_handlers.handle_force_disconnect(
+            channel_layer=self.channel_layer,
+            company_channel=self.company_channel,
+            message=message,
+        )
+
     async def connect(self):
         # Join room group
         if self.scope["user"].is_authenticated:

@@ -1,6 +1,7 @@
 from typing import Any, Dict, List, Optional, Tuple
 
 from django.core.cache import cache
+from django.utils import timezone
 
 import datetime as dt
 import logging
@@ -11,33 +12,28 @@ from apps.users import services as user_services
 from apps.users.models import User
 
 from ... import services as core_services
+from ...lib.constants import USER_POSITION_KEY
 from ...lib.dataclasses import PointData
 
 logger = logging.getLogger(__name__)
 
-USER_POSITION_KEY = "user-{}-position"
 
-
-def set_cached_position(area: int, user_id: int, x: int, y: int, room: str) -> None:
+def set_cached_position(
+    company_id: int, area: int, user_id: int, x: int, y: int, room: str
+) -> None:
     cache.set(
-        USER_POSITION_KEY.format(user_id),
-        {
-            "area_id": area,
-            "x": x,
-            "y": y,
-            "room": room,
-            "timestamp": str(dt.datetime.now()),
-        },
+        USER_POSITION_KEY.format(company_id, user_id),
+        {"area_id": area, "x": x, "y": y, "room": room, "timestamp": timezone.now()},
     )
 
 
-def get_cached_position(user_id: int) -> Dict[str, Any]:
-    key = USER_POSITION_KEY.format(user_id)
+def get_cached_position(company_id: int, user_id: int) -> Dict[str, Any]:
+    key = USER_POSITION_KEY.format(company_id, user_id)
     return cache.get(key)
 
 
-def delete_cached_position(user_id: int) -> None:
-    key = USER_POSITION_KEY.format(user_id)
+def delete_cached_position(company_id: int, user_id: int) -> None:
+    key = USER_POSITION_KEY.format(company_id, user_id)
     cache.delete(key)
 
 
@@ -54,18 +50,19 @@ def execute_heartbeat(user: "User", area_id: int = None) -> None:
 
 @database_sync_to_async
 def save_position(
-    user: "User", area_id: int, x: int, y: int, room: Optional[str] = None
+    user: "User", area: int, x: int, y: int, room: Optional[str] = None
 ) -> Tuple[PointData, List[Dict[str, Any]]]:
+    # TODO: rename area to area_id
 
-    user_services.touch_user_by_user_and_area_id(user_id=user.id, area_id=area_id)
+    user_services.touch_user_by_user_and_area_id(user_id=user.id, area_id=area)
 
     old_point = core_services.move_user_to_point_in_area_state_by_area_user_and_room(
-        area_id=area_id, user=user, to_point_data=PointData(x, y), room=room
+        area_id=area, user=user, to_point_data=PointData(x, y), room=room
     )
 
     return (
         old_point,
-        core_services.get_area_items_for_connected_users_by_id(area_id=area_id),
+        core_services.get_area_items_for_connected_users_by_id(area_id=area),
     )
 
 
@@ -79,13 +76,18 @@ async def handle_clear_user_position(channel_layer, company_channel, user: "User
     Executed when the user is disconnected
     """
     logger.info("core.channels.consumers.grid.handle_clear_user_position")
-    last_user_position = get_cached_position(user_id=user.id)
+    last_user_position = get_cached_position(
+        company_id=user.company_id, user_id=user.id
+    )
+    last_user_position["timestamp"] = last_user_position["timestamp"].isoformat()
 
     if last_user_position:
         logger.info("User in cached position, proceed to remove")
         state = await database_sync_to_async(
             core_services.remove_user_from_area_by_area_and_user_id
-        )(area_id=last_user_position["area_id"], user=user)
+        )(area_id=last_user_position["area_id"], user_id=user.id)
+
+        delete_cached_position(company_id=user.company_id, user_id=user.id)
 
         await notify_user_disconnect(
             channel_layer=channel_layer,
@@ -109,7 +111,11 @@ async def handle_user_movement(
     to_be_save_data_position = {"user": user, **message}
     to_be_save_data_position.pop("type")
 
-    to_be_cached_position = {"user_id": user.id, **message}
+    to_be_cached_position = {
+        "company_id": user.company_id,
+        "user_id": user.id,
+        **message,
+    }
     to_be_cached_position.pop("type")
 
     set_cached_position(**to_be_cached_position)

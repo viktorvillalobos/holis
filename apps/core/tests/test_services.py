@@ -65,7 +65,7 @@ def test_remove_user_from_area_by_area_and_user_id(
     assert area_item.name == "John Doe"
 
     core_services.remove_user_from_area_by_area_and_user_id(
-        area_id=area.id, user=active_user
+        area_id=area.id, user_id=active_user.id
     )
     state = core_services.get_area_items_for_connected_users_by_id(area_id=area.id)
 

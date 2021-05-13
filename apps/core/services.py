@@ -32,14 +32,14 @@ def move_user_to_point_in_area_state_by_area_user_and_room(
 
 
 def remove_user_from_area_by_area_and_user_id(
-    area_id: int, user: settings.AUTH_USER_MODEL
+    area_id: int, user_id: int
 ) -> List[Dict[str, Any]]:
     """
     Disconnect and user and later remove the user
     from the state and return the new state
     """
-    user_services.disconnect_user_by_id(user_id=user.id)
+    user_services.disconnect_user_by_id(user_id=user_id)
 
     return area_uc.remove_user_from_area_by_area_and_user_id(
-        area_id=area_id, user_id=user.id
+        area_id=area_id, user_id=user_id
     )
