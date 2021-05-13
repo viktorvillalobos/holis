@@ -1,4 +1,4 @@
-from typing import Dict, List
+from typing import Any, Dict, List
 
 from django.conf import settings
 
@@ -17,7 +17,7 @@ def get_area(area_id: int) -> AreaData:
     return build_dataclass_from_model_instance(klass=AreaData, instance=area)
 
 
-def get_area_items_for_connected_users_by_id(area_id: int) -> AreaState:
+def get_area_items_for_connected_users_by_id(area_id: int) -> List[Dict[str, Any]]:
     return area_uc.get_area_items_for_connected_users_by_id(area_id=area_id)
 
 
@@ -33,7 +33,7 @@ def move_user_to_point_in_area_state_by_area_user_and_room(
 
 def remove_user_from_area_by_area_and_user_id(
     area_id: int, user: settings.AUTH_USER_MODEL
-) -> AreaState:
+) -> List[Dict[str, Any]]:
     """
     Disconnect and user and later remove the user
     from the state and return the new state

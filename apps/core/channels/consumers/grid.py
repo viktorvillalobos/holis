@@ -1,4 +1,4 @@
-from typing import Any, Dict, Optional, Tuple
+from typing import Any, Dict, List, Optional, Tuple
 
 from django.core.cache import cache
 
@@ -54,18 +54,18 @@ def execute_heartbeat(user: "User", area_id: int = None) -> None:
 
 @database_sync_to_async
 def save_position(
-    user: "User", area: int, x: int, y: int, room: Optional[str] = None
-) -> Tuple[PointData, AreaState]:
+    user: "User", area_id: int, x: int, y: int, room: Optional[str] = None
+) -> Tuple[PointData, List[Dict[str, Any]]]:
 
-    user_services.touch_user_by_user_and_area_id(user_id=user.id, area_id=area)
+    user_services.touch_user_by_user_and_area_id(user_id=user.id, area_id=area_id)
 
     old_point = core_services.move_user_to_point_in_area_state_by_area_user_and_room(
-        area_id=area, user=user, to_point_data=PointData(x, y), room=room
+        area_id=area_id, user=user, to_point_data=PointData(x, y), room=room
     )
 
     return (
         old_point,
-        core_services.get_area_items_for_connected_users_by_id(area_id=area),
+        core_services.get_area_items_for_connected_users_by_id(area_id=area_id),
     )
 
 

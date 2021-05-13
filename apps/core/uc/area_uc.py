@@ -26,7 +26,9 @@ def _serialize_and_commit_area_state(area: Area, area_state: AreaState) -> Area:
     return area
 
 
-def _get_or_create_area_state_by_area_id(area_id: int,) -> Tuple[AreaState, Area, bool]:
+def _get_or_create_area_state_by_area_id(
+    area_id: int,
+) -> Tuple[List[List[AreaItem]], Area, bool]:
     area = area_providers.get_area_instance_by_id(area_id=area_id)
 
     if not area.state:
@@ -100,7 +102,9 @@ def get_area_items_for_connected_users_by_id(area_id: int) -> List[Dict[str, Any
     return [x.to_dict() for x in connected_ids]
 
 
-def remove_user_from_area_by_area_and_user_id(area_id: int, user_id: int) -> None:
+def remove_user_from_area_by_area_and_user_id(
+    area_id: int, user_id: int
+) -> List[Dict[str, Any]]:
     area_state, area, _ = _get_or_create_area_state_by_area_id(area_id=area_id)
     user_point_data = _get_user_state_point_position_by_user_id(
         user_id=user_id, area_state=area_state
