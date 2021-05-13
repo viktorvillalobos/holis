@@ -70,6 +70,7 @@ DJANGO_APPS = [
     "django.forms",
 ]
 THIRD_PARTY_APPS = [
+    "django_extensions",
     "django_celery_beat",
     "rest_framework",
     "rest_framework.authtoken",
