@@ -3,6 +3,7 @@ const BundleTracker = require('webpack-bundle-tracker')
 const webpackFile = process.env.NODE_ENV === 'production' ? '../webapp/webpack-stats-prod.json' : 'webpack-stats.json'
 
 module.exports = {
+  productionSourceMap: false,
   publicPath: process.env.NODE_ENV === 'production' ? '/static/bundle_webapp/' : 'http://holis.local:8080/',
   outputDir: './assets/bundle_webapp/',
   assetsDir: 'assets/',
