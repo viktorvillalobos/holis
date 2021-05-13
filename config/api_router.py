@@ -1,4 +1,6 @@
 from django.urls import include, path
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
@@ -15,8 +17,16 @@ schema_view = get_schema_view(
 )
 
 
+class HealtAPIVIew(APIView):
+    permission_classes = []
+
+    def get(self, request, format=None):
+        return Response(status=200)
+
+
 app_name = "api"
 urlpatterns = [
+    path("healthcheck/", HealtAPIVIew.as_view(), name="healthcheck"),
     path(
         "swagger/",
         schema_view.with_ui("swagger", cache_timeout=0),
