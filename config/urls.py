@@ -27,7 +27,7 @@ if settings.DEBUG:
 # API URLS
 urlpatterns += [
     # API base url
-    path("api/v1/", include("config.api_router")),
+    path("api/v1/", include(("config.api_router", "api"), namespace="api-v1")),
     # DRF auth token
     path("auth-token/", obtain_auth_token),
 ]
