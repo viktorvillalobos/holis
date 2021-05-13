@@ -24,11 +24,7 @@ urlpatterns = [
     ),
     path("redoc/", schema_view.with_ui("redoc", cache_timeout=0), name="schema-redoc"),
     path("core/", include("apps.core.api.urls")),
-    path("users/", include(("apps.users.api.urls", "users"), namespace="users")),
-    path("chat/", include(("apps.chat.api.urls", "chat"), namespace="chat")),
-    path(
-        "projects/",
-        include(("apps.projects.api.urls", "projects"), namespace="projects"),
-    ),
-    path("web/", include(("apps.web.api.urls", "web"), namespace="web")),
+    path("users/", include("apps.users.api.urls")),
+    path("chat/", include("apps.chat.api.urls")),
+    path("web/", include("apps.web.api.urls")),
 ]

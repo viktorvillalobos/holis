@@ -11,15 +11,6 @@
           <Notifications v-if="isNotificationsActive" />
         </transition>
         <transition name="translate-x">
-          <Projects v-if="isProjectsActive" />
-        </transition>
-        <!--<transition name="translate-x">
-          <CreateProject v-if="isCreateProjectActive" />
-        </transition>
-        <transition name="translate-x">
-          <ProjectDetail v-if="isProjectDetailActive" />
-        </transition>-->
-        <transition name="translate-x">
           <Releases v-if="isReleasesActive" />
         </transition>
       </AsideLeft>
@@ -105,12 +96,12 @@ import ToolsMenu from '@/components/ToolsMenu'
 import Logo from '@/components/Logo'
 import NotificationCard from '@/components/Notifications/NotificationCard'
 import Notifications from '@/components/Notifications'
-import Projects from './Projects/index'
 import AsideLeft from '@/components/AsideLeft'
 import AsideRight from '@/components/AsideRight'
 import Board from '@/components/Board'
 import AreaOptions from '@/components/AreaOptions'
 import Releases from '@/components/Releases'
+
 import UserCard from '@/components/UserCard'
 import ChatBubbles from '@/components/Chat/ChatBubbles'
 import Chat from '@/components/Chat'
@@ -137,8 +128,7 @@ export default {
     ChatBubbles,
     Chat,
     Modal,
-    Card,
-    Projects
+    Card
   },
   computed: {
     ...mapState({
@@ -147,8 +137,6 @@ export default {
       isBoardActive: state => state.app.isBoardActive,
       isNotificationsActive: state => state.notifications.isNotificationsActive,
       isReleasesActive: state => state.app.isReleasesActive,
-      isProjectsActive: state => state.app.isProjectsActive,
-      isProjectDetailActive: state => state.app.isProjectDetailActive,
       isVideoActive: state => state.app.isVideoActive,
       isMicroActive: state => state.app.isMicroActive,
       isSoundActive: state => state.app.isSoundActive,
@@ -164,12 +152,6 @@ export default {
       if (this.isBoardActive) return 'Cartelera'
 
       if (this.isReleasesActive) return 'Novedades'
-
-      if (this.isProjectsActive) return 'Proyectos'
-
-      if (this.isCreateProjectActive) return 'Crear proyecto'
-
-      if (this.isProjectDetailActive) return 'Proyecto'
 
       return 'Aside'
     },
