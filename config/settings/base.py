@@ -92,7 +92,6 @@ LOCAL_APPS = [
     "apps.chat.apps.ChatConfig",
     "apps.web.apps.WebConfig",
     "apps.billings.apps.BillingsConfig",
-    "apps.projects.apps.ProjectsConfig",
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -106,8 +105,8 @@ MIGRATION_MODULES = {"sites": "apps.contrib.sites.migrations"}
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#authentication-backends
 AUTHENTICATION_BACKENDS = [
-    "django.contrib.auth.backends.ModelBackend",
     "users.auth_backends.EmailBackend",
+    "django.contrib.auth.backends.ModelBackend",
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#auth-user-model
 AUTH_USER_MODEL = "users.User"
