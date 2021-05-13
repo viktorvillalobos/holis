@@ -13,7 +13,7 @@
                     <div class="vector-hero vector-hero-left is-hidden-mobile">
                         <div class="vector-hero-left">
                             <a href="/">
-                                <img loading="lazy" src="{% static 'images/web_v2/icon_white.svg' %}" alt="holis icon white">
+                                <img loading="lazy" src="{% static 'images/web_v2/icon_white.svg' %}" alt="holis icon white" width="100px">
                             </a>
                         </div>
                     </div>
@@ -23,7 +23,7 @@
                     <nav class="holis-navbar navbar" role="navigation">
                       <div class="navbar-brand">
                         <a class="navbar-item is-hidden-desktop is-hidden-tablet-only" href="/">
-                            <img loading="lazy" src="{% static 'images/web_v2/icon_white.svg' %}" alt="holis icon white">
+                            <img loading="lazy" src="{% static 'images/web_v2/icon_white.svg' %}" alt="holis icon white" width="100px">
                         </a>
 
                         <a role="button"
@@ -49,6 +49,7 @@
                                     <a href="#features" class="navbar-item ">
                                         {% trans 'Features' %}
                                     </a>
+                                    <a href="{% url 'web:blog-list' %}" class="navbar-item">{% trans 'News' %}</a>
                                     <a href="#pricing" class="navbar-item ">
                                         {% trans 'Pricing' %}
                                     </a>
