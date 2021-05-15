@@ -20,7 +20,7 @@ def set_active_status_by_user_and_status_id(
     company_id: int, user_id: int, status_id: int
 ) -> None:
     new_status = Status.objects.get(
-        company_id=company_id, user_id=user_id, status_id=status_id
+        company_id=company_id, user_id=user_id, id=status_id
     )
 
     new_status.is_active = True

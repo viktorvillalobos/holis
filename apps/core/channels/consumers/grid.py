@@ -145,5 +145,5 @@ async def handle_force_disconnect(channel_layer, company_channel, message):
 async def handle_notify_user_status(
     channel_layer, company_channel, user, message
 ) -> None:
-    message["user"] = database_sync_to_async(user_services.serialize_user)(user)
+    message["user"] = await database_sync_to_async(user_services.serialize_user)(user)
     await channel_layer.group_send(company_channel, message)

@@ -69,7 +69,7 @@ class MainConsumer(AsyncJsonWebsocketConsumer):
             )
 
         elif _type == "grid.status":
-            await grid_handlers(
+            await grid_handlers.handle_notify_user_status(
                 channel_layer=self.channel_layer,
                 company_channel=self.company_channel,
                 user=user,

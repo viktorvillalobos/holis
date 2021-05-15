@@ -72,7 +72,7 @@ def disconnect_user_by_id(user_id: int) -> None:
 def set_user_status_by_user_and_status_id(
     company_id: int, user_id: int, status_id: int
 ) -> None:
-    with transaction.atomic:
+    with transaction.atomic():
         status_providers.inactivate_all_user_status_by_user_id(
             company_id=company_id, user_id=user_id
         )
