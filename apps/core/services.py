@@ -4,6 +4,7 @@ from django.conf import settings
 from django.core.cache import cache
 from django.utils import timezone
 
+import itertools
 from datetime import timedelta
 
 from apps.core.lib.constants import USER_POSITION_KEY
@@ -50,14 +51,24 @@ def remove_user_from_area_by_area_and_user_id(
     )
 
 
-def get_users_connecteds_by_area(company_id: int, area_id: int):
+def get_users_connecteds_by_area_from_cache(company_id: int):
+    """
+    Return the list of connected users by area, if there is any user
+    connected, return the list of area with empty state
+    """
     connected_users_keys = cache.keys(USER_POSITION_KEY.format(company_id, "*"))
-    user_position_values = cache.get_many(connected_users_keys).items()
 
-    one_minute_ago = timezone.now() - timedelta(seconds=60)
+    if not connected_users_keys:
+        areas = area_providers.get_company_areas_by_company_id(company_id=company_id)
+        return [
+            {"company_id": company_id, "id": area.id, "state": []} for area in areas
+        ]
 
-    to_disconnect_user_ids = []
-    for key, value in user_position_values:
-        if value["timestamp"] < one_minute_ago:
-            _, _, _, user_id, _ = key.split("-")
-            to_disconnect_user_ids.append((user_id, value["area_id"]))
+    user_position_values = cache.get_many(connected_users_keys).values()
+
+    an_iterator = itertools.groupby(user_position_values, lambda x: x["area_id"])
+
+    return [
+        {"company_id": company_id, "id": key, "state": list(group)}
+        for key, group in an_iterator
+    ]

@@ -2,6 +2,7 @@ from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet, ModelViewSet
 
 from apps.core import models as core_models
+from apps.core import services as core_services
 from apps.core.api import serializers
 from apps.utils.mixins.views import CompanyMixinViewSet
 
@@ -12,15 +13,13 @@ class CompanyViewSet(CompanyMixinViewSet, ModelViewSet):
 
 
 class AreaViewSet(CompanyMixinViewSet, GenericViewSet):
-    serializer_class = serializers.AreaSerializer
-    queryset = core_models.Area.objects.all()
-    pagination_class = None
-
     def list(self, request, *args, **kwargs):
-        queryset = self.get_queryset()
-        serialized_data = self.serializer_class(queryset, many=True).data
-
-        return Response(serialized_data, status=200)
+        return Response(
+            core_services.get_users_connecteds_by_area_from_cache(
+                company_id=self.request.user.company_id
+            ),
+            status=200,
+        )
 
 
 class AnnouncementViewSet(CompanyMixinViewSet, ModelViewSet):
