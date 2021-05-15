@@ -29,3 +29,14 @@ class User:
             avatar=instance.avatar.url,
             last_seen=instance.last_seen,
         )
+
+
+@dataclass
+class StatusCachedData:
+    """
+    This represents the data thats comes from Redis
+    """
+
+    id: int
+    icon_text: str
+    text: str

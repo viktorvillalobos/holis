@@ -37,7 +37,7 @@ reset:
 
 .PHONY: rebuild
 rebuild:
-	@docker-compose -f local.yml down --volumes --remove-orphans
+	@docker-compose -f local.yml down --remove-orphans
 	@docker-compose -f local.yml build
 
 .PHONY: bash

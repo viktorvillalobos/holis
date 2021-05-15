@@ -26,17 +26,24 @@ def _serialize_and_commit_area_state(area: Area, area_state: AreaState) -> Area:
     return area
 
 
+def _create_empty_area_by_width_and_height(
+    area_id: int, width: int, height: int
+) -> list[list[AreaItem]]:
+    return [
+        [AreaItem.zero(area_id=area_id) for x in range(width)] for x in range(height)
+    ]
+
+
 def _get_or_create_area_state_by_area_id(
     area_id: int,
 ) -> Tuple[List[List[AreaItem]], Area, bool]:
     area = area_providers.get_area_instance_by_id(area_id=area_id)
 
     if not area.state:
-        area_state = [
-            [AreaItem.zero() for x in range(area.width)] for x in range(area.height)
-        ]
+        area_state = _create_empty_area_by_width_and_height(
+            area_id=area.id, width=area.width, height=area.height
+        )
         area = _serialize_and_commit_area_state(area=area, area_state=area_state)
-
         return area_state, area, True
 
     return ([[AreaItem.from_dict(x) for x in row] for row in area.state], area, False)
@@ -71,13 +78,15 @@ def _get_user_state_point_position_by_user_id(
 
 
 def _remove_user_from_state(
-    area_state: AreaState, user: "User"
+    area_id: int, area_state: AreaState, user: "User"
 ) -> Tuple[AreaState, PointData]:
     try:
         from_point_data = _get_user_state_point_position_by_user_id(
             user_id=user.id, area_state=area_state
         )
-        area_state[from_point_data.x][from_point_data.y] = AreaItem.zero()
+        area_state[from_point_data.x][from_point_data.y] = AreaItem.zero(
+            area_id=area_id
+        )
     except UserNotFoundInStateException:
         pass
 
@@ -85,11 +94,11 @@ def _remove_user_from_state(
 
 
 def _add_user_to_state(
-    area_state: AreaState, user: "User", point: PointData, **kwargs
+    area_id: int, area_state: AreaState, user: "User", point: PointData, **kwargs
 ) -> AreaState:
     room = kwargs.pop("room", None)
     area_state[point.x][point.y] = AreaItem.from_user(
-        user=user, x=point.x, y=point.y, room=room
+        user=user, area_id=area_id, x=point.x, y=point.y, room=room
     )
 
     return area_state
@@ -110,7 +119,7 @@ def remove_user_from_area_by_area_and_user_id(
         user_id=user_id, area_state=area_state
     )
 
-    area_state[user_point_data.x][user_point_data.y] = AreaItem.zero()
+    area_state[user_point_data.x][user_point_data.y] = AreaItem.zero(area_id=area_id)
 
     area = _serialize_and_commit_area_state(area=area, area_state=area_state)
 
@@ -133,13 +142,17 @@ def move_user_to_point_in_area_state_by_area_user_and_room(
 
     # Remove user from area
     area_state, from_point_data = _remove_user_from_state(
-        area_state=area_state, user=user
+        area_id=area_id, area_state=area_state, user=user
     )
 
     # Add user to area
 
     area_state = _add_user_to_state(
-        area_state=area_state, user=user, point=to_point_data, room=room
+        area_id=area_id,
+        area_state=area_state,
+        user=user,
+        point=to_point_data,
+        room=room,
     )
 
     _serialize_and_commit_area_state(area=area, area_state=area_state)

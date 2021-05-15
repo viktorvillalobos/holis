@@ -1,7 +1,9 @@
-from typing import Dict, List
+from typing import Any, Dict, List, Optional
 
 from django.conf import settings
 from django.core import files
+from django.core.cache import cache
+from django.db import transaction
 from django.db.models import Q
 from django.utils import timezone
 
@@ -10,8 +12,11 @@ import requests
 from io import BytesIO
 
 from .api.serializers import UserSerializer
+from .lib.constants import USER_STATUS_KEY
+from .lib.dataclasses import StatusCachedData
 from .lib.dataclasses import User as UserEntity
-from .models import User
+from .models import Status, User
+from .providers import status as status_providers
 from .providers import user as user_providers
 
 
@@ -62,3 +67,24 @@ def touch_user_by_user_and_area_id(user_id: int, area_id: int, ts=None) -> None:
 
 def disconnect_user_by_id(user_id: int) -> None:
     user_providers.disconnect_user_by_id(user_id=user_id)
+
+
+def set_user_status_by_user_and_status_id(
+    company_id: int, user_id: int, status_id: int
+) -> None:
+    with transaction.atomic:
+        status_providers.inactivate_all_user_status_by_user_id(
+            company_id=company_id, user_id=user_id
+        )
+
+        status_providers.set_active_status_by_user_and_status_id(
+            company_id=company_id, user_id=user_id, status_id=status_id
+        )
+
+
+def get_user_active_status_from_cache_by_user_id(
+    company_id: int, user_id: int
+) -> Optional[dict[str, Any]]:
+    return status_providers.get_user_active_status_from_cache_by_user_id(
+        company_id=company_id, user_id=user_id
+    )

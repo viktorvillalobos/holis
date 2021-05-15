@@ -13,17 +13,23 @@ from apps.users.models import User
 
 from ... import services as core_services
 from ...lib.constants import USER_POSITION_KEY
-from ...lib.dataclasses import PointData
+from ...lib.dataclasses import AreaItem, PointData
 
 logger = logging.getLogger(__name__)
 
 
 def set_cached_position(
-    company_id: int, area: int, user_id: int, x: int, y: int, room: str
+    company_id: int, area: int, user: "User", x: int, y: int, room: str
 ) -> None:
+    logger.info(f"SET CACHED POSITION FOR USER {user.id} in AREA {area}")
+    timestamp = timezone.now()
+
+    to_be_cached_area_item_data = AreaItem.from_user(
+        user=user, area_id=area, x=x, y=y, room=room, last_seen=timestamp
+    ).to_dict()
+
     cache.set(
-        USER_POSITION_KEY.format(company_id, user_id),
-        {"area_id": area, "x": x, "y": y, "room": room, "timestamp": timezone.now()},
+        USER_POSITION_KEY.format(company_id, user.id), to_be_cached_area_item_data
     )
 
 
@@ -111,11 +117,7 @@ async def handle_user_movement(
     to_be_save_data_position = {"user": user, **message}
     to_be_save_data_position.pop("type")
 
-    to_be_cached_position = {
-        "company_id": user.company_id,
-        "user_id": user.id,
-        **message,
-    }
+    to_be_cached_position = {"company_id": user.company_id, "user": user, **message}
     to_be_cached_position.pop("type")
 
     set_cached_position(**to_be_cached_position)

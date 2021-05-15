@@ -1,7 +1,12 @@
 from typing import Any, Dict, List
 
 from django.conf import settings
+from django.core.cache import cache
+from django.utils import timezone
 
+from datetime import timedelta
+
+from apps.core.lib.constants import USER_POSITION_KEY
 from apps.core.uc import area_uc
 from apps.users import services as user_services
 from apps.utils.dataclasses import build_dataclass_from_model_instance
@@ -43,3 +48,16 @@ def remove_user_from_area_by_area_and_user_id(
     return area_uc.remove_user_from_area_by_area_and_user_id(
         area_id=area_id, user_id=user_id
     )
+
+
+def get_users_connecteds_by_area(company_id: int, area_id: int):
+    connected_users_keys = cache.keys(USER_POSITION_KEY.format(company_id, "*"))
+    user_position_values = cache.get_many(connected_users_keys).items()
+
+    one_minute_ago = timezone.now() - timedelta(seconds=60)
+
+    to_disconnect_user_ids = []
+    for key, value in user_position_values:
+        if value["timestamp"] < one_minute_ago:
+            _, _, _, user_id, _ = key.split("-")
+            to_disconnect_user_ids.append((user_id, value["area_id"]))

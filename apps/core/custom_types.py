@@ -1,3 +1,3 @@
 from typing import Any
 
-AreaState = list[list[dict[str, Any]]]
+AreaState = list[list["AreaItem"]]
