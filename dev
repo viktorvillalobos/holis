@@ -45,7 +45,7 @@ pipi)
   fi
 ;;
 isort)
-  isort -rc .
+  isort -rc --skip-glob venv/** .
 ;;
 black)
   black .
