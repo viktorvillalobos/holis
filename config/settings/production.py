@@ -8,10 +8,13 @@ from sentry_sdk.integrations.django import DjangoIntegration
 from sentry_sdk.integrations.logging import LoggingIntegration
 
 from .base import *  # noqa
-from .base import DEBUG, ROOT_DIR, env
+from .base import DEBUG, PRODUCTION, ROOT_DIR, env
 
 # GENERAL
 # ------------------------------------------------------------------------------
+
+ENVIRONMENT = PRODUCTION
+
 # https://docs.djangoproject.com/en/dev/ref/settings/#secret-key
 SECRET_KEY = env("DJANGO_SECRET_KEY")
 # https://docs.djangoproject.com/en/dev/ref/settings/#allowed-hosts

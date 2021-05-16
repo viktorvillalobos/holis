@@ -43,17 +43,6 @@ def get_user_avatar_thumb(user: settings.AUTH_USER_MODEL) -> None:
     return user.avatar.url
 
 
-def get_unavailable_users_by_company_id(company_id: int) -> List[User]:
-    """ Return a list of ids of users who haven't sent hearbeat check """
-
-    return list(
-        User.objects.filter(company_id=company_id).filter(
-            Q(last_seen__lt=timezone.now() - dt.timedelta(seconds=60))
-            | Q(current_area=None)
-        )
-    )
-
-
 def get_user_notification_channel_by_user_id(user_id: int) -> str:
     """ Returns the channel key for notifications """
     return f"notification-{user_id}"

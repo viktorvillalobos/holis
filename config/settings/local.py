@@ -1,8 +1,10 @@
 from .base import *  # noqa
-from .base import ROOT_DIR, env
+from .base import LOCAL, ROOT_DIR, env
 
 # GENERAL
 # ------------------------------------------------------------------------------
+
+ENVIRONMENT = LOCAL
 # https://docs.djangoproject.com/en/dev/ref/settings/#debug
 DEBUG = True
 # https://docs.djangoproject.com/en/dev/ref/settings/#secret-key

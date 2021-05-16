@@ -3,10 +3,13 @@ With these settings, tests run faster.
 """
 
 from .base import *  # noqa
-from .base import env
+from .base import TESTING, env
 
 # GENERAL
 # ------------------------------------------------------------------------------
+
+ENVIRONMENT = TESTING
+
 # https://docs.djangoproject.com/en/dev/ref/settings/#secret-key
 SECRET_KEY = env(
     "DJANGO_SECRET_KEY",
@@ -62,5 +65,3 @@ EMAIL_BACKEND = "django.core.mail.backends.locmem.EmailBackend"
 
 # Your stuff...
 # ------------------------------------------------------------------------------
-
-ENVIRONMENT = "testing"
