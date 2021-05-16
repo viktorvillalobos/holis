@@ -5,16 +5,19 @@ from django.core.cache import cache
 from django.utils import timezone
 
 import itertools
+import logging
 from datetime import timedelta
 
-from apps.core.lib.constants import USER_POSITION_KEY
 from apps.core.uc import area_uc
 from apps.users import services as user_services
 from apps.utils.dataclasses import build_dataclass_from_model_instance
 
 from .custom_types import AreaState
-from .lib.dataclasses import AreaData, PointData
+from .lib.constants import USER_POSITION_KEY
+from .lib.dataclasses import AreaData, AreaItem, PointData
 from .providers import area as area_providers
+
+logger = logging.getLogger(__name__)
 
 
 def get_area(area_id: int) -> AreaData:
@@ -72,3 +75,28 @@ def get_users_connecteds_by_area_from_cache(company_id: int):
         {"company_id": company_id, "id": key, "state": list(group)}
         for key, group in an_iterator
     ]
+
+
+def set_cached_position(
+    company_id: int, area: int, user: "User", x: int, y: int, room: str
+) -> None:
+    logger.info(f"SET CACHED POSITION FOR USER {user.id} in AREA {area}")
+    timestamp = timezone.now()
+
+    to_be_cached_area_item_data = AreaItem.from_user(
+        user=user, area_id=area, x=x, y=y, room=room, last_seen=timestamp
+    ).to_dict()
+
+    cache.set(
+        USER_POSITION_KEY.format(company_id, user.id), to_be_cached_area_item_data
+    )
+
+
+def get_cached_position(company_id: int, user_id: int) -> Dict[str, Any]:
+    key = USER_POSITION_KEY.format(company_id, user_id)
+    return cache.get(key)
+
+
+def delete_cached_position(company_id: int, user_id: int) -> None:
+    key = USER_POSITION_KEY.format(company_id, user_id)
+    cache.delete(key)

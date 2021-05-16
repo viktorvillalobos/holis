@@ -25,3 +25,22 @@ def changelog(company):
 @pytest.fixture
 def active_user(company):
     return baker.make("users.User", company=company, name="John Doe")
+
+
+@pytest.fixture
+def cached_position_fields():
+    return {
+        "id",
+        "x",
+        "y",
+        "name",
+        "last_name",
+        "status",
+        "position",
+        "avatar",
+        "room",
+        "is_online",
+        "last_seen",
+        "jid",
+        "area_id",
+    }

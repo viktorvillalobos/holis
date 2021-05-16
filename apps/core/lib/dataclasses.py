@@ -54,7 +54,10 @@ def from_int(x: Any) -> int:
     return x
 
 
-def from_str(x: Any) -> str:
+def from_str(x: Any, nullable=True) -> str:
+    if nullable and x is None:
+        return None
+
     assert isinstance(x, str)
     return x
 
@@ -74,13 +77,13 @@ def from_datetime(x: Any, nullable=True) -> str:
         return None
 
     assert isinstance(x, datetime.datetime)
-    return x.strftime(ISO_FORMAT)
+    return x.isoformat()
 
 
 def from_str_to_datetime(x: str) -> datetime.datetime:
     assert isinstance(x, str)
 
-    return datetime.datetime.strptime(x, ISO_FORMAT)
+    return datetime.datetime.fromisoformat(x)
 
 
 @dataclass
@@ -110,14 +113,14 @@ class AreaItem:
             name="",
             last_name="",
             status={},
-            position="",
+            position=None,
             avatar="",
             room="",
             is_online=False,
             last_seen=None,
             x=0,
             y=0,
-            jid="",
+            jid=None,
             area_id=area_id,
         )
 
@@ -173,14 +176,14 @@ class AreaItem:
             status=user_services.get_user_active_status_from_cache_by_user_id(
                 company_id=user.company_id, user_id=user.id
             ),
-            position=user.position or "",
+            position=user.position,
             avatar=user.avatar_thumb,
             room=room,
             is_online=True,
             last_seen=last_seen,
             x=x,
             y=y,
-            jid=user.jid or "",
+            jid=user.jid,
             area_id=area_id,
         )
 
@@ -196,7 +199,6 @@ class AreaItem:
         result["avatar"] = from_str(self.avatar)
         result["room"] = from_str(self.room)
         result["is_online"] = from_bool(self.is_online or True)
-        # result["last_seen"] = self.last_seen.isoformat() if self.last_seen else None
         result["last_seen"] = from_datetime(self.last_seen)
         result["jid"] = from_str(self.jid)
         result["area_id"] = from_int(self.area_id)
