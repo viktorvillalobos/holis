@@ -1,7 +1,7 @@
 from typing import Dict
 
 from django.conf import settings
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext as _
 
 import logging
 from channels.db import database_sync_to_async
