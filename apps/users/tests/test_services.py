@@ -104,3 +104,15 @@ def test_get_user_active_status_from_cache_by_user_id(mocker):
     user_services.get_user_active_status_from_cache_by_user_id(**expected_kwargs)
 
     mocked_provider.assert_called_once_with(**expected_kwargs)
+
+
+def test_get_user_active_status_from_db_by_user_id(mocker):
+    mocked_provider = mocker.patch(
+        f"{USER_SERVICES_PATH}.status_providers.get_user_active_status_from_db_by_user_id"
+    )
+
+    expected_kwargs = dict(company_id=111, user_id=999)
+
+    user_services.get_user_active_status_from_db_by_user_id(**expected_kwargs)
+
+    mocked_provider.assert_called_once_with(**expected_kwargs)

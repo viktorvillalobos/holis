@@ -40,3 +40,11 @@ def get_user_active_status_from_cache_by_user_id(
     company_id: int, user_id: int
 ) -> Optional[dict[str, Any]]:
     return cache.get(USER_STATUS_KEY.format(company_id, user_id))
+
+
+def get_user_active_status_from_db_by_user_id(
+    company_id: int, user_id: int
+) -> Optional[Status]:
+    return Status.objects.filter(
+        is_active=True, user_id=user_id, company_id=company_id
+    ).first()

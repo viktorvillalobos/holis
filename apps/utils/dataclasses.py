@@ -1,7 +1,7 @@
 from dataclasses import dataclass, fields
 
 
-def build_dataclass_from_model_instance(klass: dataclass, instance: "Model", **kwargs):
+def build_dataclass_from_model_instance(klass: type, instance: "Model", **kwargs):
     """
     Return a dataclass from a model instance
     """
@@ -17,7 +17,7 @@ def build_dataclass_from_model_instance(klass: dataclass, instance: "Model", **k
     return klass(**_kwargs)
 
 
-def build_model_from_dataclass_instance(klass: dataclass, instance: "Model", **kwargs):
+def build_model_from_dataclass_instance(klass: type, instance: "Model", **kwargs):
     """
     Return a dataclass from a model instance
     """

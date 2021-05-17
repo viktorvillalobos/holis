@@ -11,6 +11,8 @@ import datetime as dt
 import requests
 from io import BytesIO
 
+from apps.utils.dataclasses import build_dataclass_from_model_instance
+
 from .api.serializers import UserSerializer
 from .lib.constants import USER_NOTIFICATION_CHANNEL_KEY, USER_STATUS_KEY
 from .lib.dataclasses import StatusCachedData
@@ -71,3 +73,16 @@ def get_user_active_status_from_cache_by_user_id(
     return status_providers.get_user_active_status_from_cache_by_user_id(
         company_id=company_id, user_id=user_id
     )
+
+
+def get_user_active_status_from_db_by_user_id(
+    company_id: int, user_id: int
+) -> Optional[StatusCachedData]:
+    status = status_providers.get_user_active_status_from_db_by_user_id(
+        company_id=company_id, user_id=user_id
+    )
+
+    if not status:
+        return None
+
+    return build_dataclass_from_model_instance(instance=status, klass=StatusCachedData)
