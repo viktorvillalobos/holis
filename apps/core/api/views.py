@@ -1,5 +1,5 @@
 from rest_framework.response import Response
-from rest_framework.viewsets import GenericViewSet, ModelViewSet
+from rest_framework.viewsets import ModelViewSet, ViewSet
 
 from apps.core import models as core_models
 from apps.core import services as core_services
@@ -12,7 +12,7 @@ class CompanyViewSet(CompanyMixinViewSet, ModelViewSet):
     queryset = core_models.Company.objects.all()
 
 
-class AreaViewSet(CompanyMixinViewSet, GenericViewSet):
+class AreaViewSet(ViewSet):
     def list(self, request, *args, **kwargs):
         return Response(
             core_services.get_users_connecteds_by_area_from_cache(
