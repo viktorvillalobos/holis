@@ -18,3 +18,12 @@ user_julls = Recipe(
     company=get_or_create_foreign_key(adslab),
     current_area=get_or_create_foreign_key(core_recipes.default_area),
 )
+
+
+user_status_holidays = Recipe(
+    "users.Status",
+    company=get_or_create_foreign_key(adslab),
+    user=get_or_create_foreign_key(user_viktor),
+    text="holidays",
+    is_active=True,
+)

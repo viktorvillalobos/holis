@@ -18,7 +18,7 @@ class NotificationsConsumer(AsyncJsonWebsocketConsumer):
             return
 
         user_notification_channel = user_services.get_user_notification_channel_by_user_id(
-            user_id=user.id
+            company_id=user.company_id, user_id=user.id
         )
 
         await self.channel_layer.group_add(user_notification_channel, self.channel_name)

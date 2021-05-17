@@ -17,6 +17,8 @@ from apps.users import models
 from apps.users.api import serializers
 from apps.web import models as web_models
 
+from .. import services as user_services
+
 User = get_user_model()
 
 logger = logging.getLogger(__name__)
@@ -140,10 +142,11 @@ class SetStatusAPIView(views.APIView):
         serializer.is_valid(raise_exception=True)
 
         status_id = serializer.validated_data["status_id"]
-        models.Status.objects.filter(user=self.request.user).update(is_active=False)
-        status = models.Status.objects.get(id=status_id)
-        status.is_active = True
-        status.save()
+        user_services.set_user_status_by_user_and_status_id(
+            company_id=request.user.company_id,
+            user_id=request.user.id,
+            status_id=status_id,
+        )
         return Response(status=200)
 
 

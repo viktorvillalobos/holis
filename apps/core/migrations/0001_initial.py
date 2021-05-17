@@ -2,10 +2,11 @@
 
 import django.contrib.postgres.fields.jsonb
 import django.utils.timezone
+from django.db import migrations, models
+
 import django_countries.fields
 import model_utils.fields
 import sorl.thumbnail.fields
-from django.db import migrations, models
 
 
 class Migration(migrations.Migration):

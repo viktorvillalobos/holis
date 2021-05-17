@@ -19,6 +19,13 @@ if READ_DOT_ENV_FILE:
 # GENERAL
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#debug
+
+LOCAL = "local"
+PRODUCTION = "production"
+TESTING = "testing"
+
+ENVIRONMENT = PRODUCTION
+
 DEBUG = env.bool("DJANGO_DEBUG", False)
 # Local time zone. Choices are
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -342,8 +349,6 @@ TWILIO_AUTH_TOKEN = env("TWILIO_AUTH_TOKEN")
 SESSION_COOKIE_DOMAIN = ".holis.local"
 
 ABSTRACT_API_KEY = env("ABSTRACT_API_KEY")
-
-ENVIRONMENT = "production"
 
 DJPADDLE_VENDOR_ID = env("DJPADDLE_VENDOR_ID")
 

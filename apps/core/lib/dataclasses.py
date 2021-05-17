@@ -1,10 +1,15 @@
 from typing import Any, Dict, Optional, Type, TypeVar, cast
 
 import datetime
+import logging
 from dataclasses import dataclass
+
+from apps.users import services as user_services
 
 from ..custom_types import AreaState
 from ..models import Area as AreaModel
+
+logger = logging.getLogger(__name__)
 
 
 @dataclass
@@ -18,7 +23,7 @@ class AreaData:
     state: AreaState
 
     @classmethod
-    def load_from_model(cls, area: AreaModel) -> AreaModel:
+    def load_from_model(cls, area: AreaModel) -> "AreaData":
         return cls(
             id=area.id,
             company=area.company_id,
@@ -49,7 +54,10 @@ def from_int(x: Any) -> int:
     return x
 
 
-def from_str(x: Any) -> str:
+def from_str(x: Any, nullable=True) -> str:
+    if nullable and x is None:
+        return None
+
     assert isinstance(x, str)
     return x
 
@@ -69,19 +77,19 @@ def from_datetime(x: Any, nullable=True) -> str:
         return None
 
     assert isinstance(x, datetime.datetime)
-    return x.strftime(ISO_FORMAT)
+    return x.isoformat()
 
 
 def from_str_to_datetime(x: str) -> datetime.datetime:
     assert isinstance(x, str)
 
-    return datetime.datetime.strptime(x, ISO_FORMAT)
+    return datetime.datetime.fromisoformat(x)
 
 
 @dataclass
 class AreaItem:
     """
-        Area item are items used to build the AreaStateGrid
+    Area item are items used to build the AreaStateGrid
     """
 
     id: int
@@ -89,29 +97,31 @@ class AreaItem:
     y: int
     name: str
     last_name: str
-    status: str
     position: str
     avatar: str
     room: str
     is_online: bool
-    last_seen: datetime.datetime
     jid: str
+    area_id: int
+    last_seen: Optional[datetime.datetime]
+    status: Optional[dict[str, Any]]
 
     @staticmethod
-    def zero() -> "AreaItem":
+    def zero(area_id: int) -> "AreaItem":
         return AreaItem(
             id=0,
             name="",
             last_name="",
             status={},
-            position="",
+            position=None,
             avatar="",
             room="",
             is_online=False,
             last_seen=None,
             x=0,
             y=0,
-            jid="",
+            jid=None,
+            area_id=area_id,
         )
 
     @staticmethod
@@ -131,6 +141,7 @@ class AreaItem:
             from_str_to_datetime(obj.get("last_seen")) if obj.get("last_seen") else None
         )
         jid = from_str(obj.get("jid", ""))
+        area_id = from_int(obj.get("area_id", None))
 
         return AreaItem(
             id=id,
@@ -145,26 +156,38 @@ class AreaItem:
             x=x,
             y=y,
             jid=jid,
+            area_id=area_id,
         )
 
     @staticmethod
-    def from_user(user: Any, x: int, y: int, room: Optional[str]) -> dict:
+    def from_user(
+        user: "User",
+        area_id: int,
+        x: int,
+        y: int,
+        room: Optional[str],
+        last_seen: Optional[datetime.datetime] = None,
+    ) -> "AreaItem":
+        last_seen = last_seen or user.last_seen
         return AreaItem(
             id=user.id,
             name=user.name,
             last_name=user.last_name,
-            status=user.current_status or {},
-            position=user.position or "",
+            status=user_services.get_user_active_status_from_cache_by_user_id(
+                company_id=user.company_id, user_id=user.id
+            ),
+            position=user.position,
             avatar=user.avatar_thumb,
             room=room,
             is_online=True,
-            last_seen=user.last_seen,
+            last_seen=last_seen,
             x=x,
             y=y,
-            jid=user.jid or "",
+            jid=user.jid,
+            area_id=area_id,
         )
 
-    def to_dict(self) -> dict:
+    def to_dict(self) -> dict[str, Any]:
         result: dict = {}
         result["id"] = from_int(self.id)
         result["x"] = from_int(self.x)
@@ -178,6 +201,7 @@ class AreaItem:
         result["is_online"] = from_bool(self.is_online or True)
         result["last_seen"] = from_datetime(self.last_seen)
         result["jid"] = from_str(self.jid)
+        result["area_id"] = from_int(self.area_id)
         return result
 
 

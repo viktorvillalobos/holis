@@ -1,13 +1,9 @@
 from typing import Any, Dict, List, Optional, Tuple
 
-from django.core.cache import cache
-from django.utils import timezone
-
 import datetime as dt
 import logging
 from channels.db import database_sync_to_async
 
-from apps.core.custom_types import AreaState
 from apps.users import services as user_services
 from apps.users.models import User
 
@@ -16,25 +12,6 @@ from ...lib.constants import USER_POSITION_KEY
 from ...lib.dataclasses import PointData
 
 logger = logging.getLogger(__name__)
-
-
-def set_cached_position(
-    company_id: int, area: int, user_id: int, x: int, y: int, room: str
-) -> None:
-    cache.set(
-        USER_POSITION_KEY.format(company_id, user_id),
-        {"area_id": area, "x": x, "y": y, "room": room, "timestamp": timezone.now()},
-    )
-
-
-def get_cached_position(company_id: int, user_id: int) -> Dict[str, Any]:
-    key = USER_POSITION_KEY.format(company_id, user_id)
-    return cache.get(key)
-
-
-def delete_cached_position(company_id: int, user_id: int) -> None:
-    key = USER_POSITION_KEY.format(company_id, user_id)
-    cache.delete(key)
 
 
 @database_sync_to_async
@@ -76,10 +53,9 @@ async def handle_clear_user_position(channel_layer, company_channel, user: "User
     Executed when the user is disconnected
     """
     logger.info("core.channels.consumers.grid.handle_clear_user_position")
-    last_user_position = get_cached_position(
+    last_user_position = core_services.get_cached_position(
         company_id=user.company_id, user_id=user.id
     )
-    last_user_position["timestamp"] = last_user_position["timestamp"].isoformat()
 
     if last_user_position:
         logger.info("User in cached position, proceed to remove")
@@ -87,7 +63,9 @@ async def handle_clear_user_position(channel_layer, company_channel, user: "User
             core_services.remove_user_from_area_by_area_and_user_id
         )(area_id=last_user_position["area_id"], user_id=user.id)
 
-        delete_cached_position(company_id=user.company_id, user_id=user.id)
+        core_services.delete_cached_position(
+            company_id=user.company_id, user_id=user.id
+        )
 
         await notify_user_disconnect(
             channel_layer=channel_layer,
@@ -111,14 +89,10 @@ async def handle_user_movement(
     to_be_save_data_position = {"user": user, **message}
     to_be_save_data_position.pop("type")
 
-    to_be_cached_position = {
-        "company_id": user.company_id,
-        "user_id": user.id,
-        **message,
-    }
+    to_be_cached_position = {"company_id": user.company_id, "user": user, **message}
     to_be_cached_position.pop("type")
 
-    set_cached_position(**to_be_cached_position)
+    core_services.set_cached_position(**to_be_cached_position)
 
     old_point_data, serialized_state = await save_position(**to_be_save_data_position)
 
@@ -143,5 +117,5 @@ async def handle_force_disconnect(channel_layer, company_channel, message):
 async def handle_notify_user_status(
     channel_layer, company_channel, user, message
 ) -> None:
-    message["user"] = database_sync_to_async(user_services.serialize_user)(user)
+    message["user"] = await database_sync_to_async(user_services.serialize_user)(user)
     await channel_layer.group_send(company_channel, message)

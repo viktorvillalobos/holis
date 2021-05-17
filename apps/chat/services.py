@@ -115,11 +115,11 @@ def get_twilio_credentials_by_user_id(user_id: int) -> Dict[str, Any]:
 
 
 async def send_notification_chat_by_user_id_async(
-    to_user_id: int, from_user_name: str, message: str
+    company_id: int, to_user_id: int, from_user_name: str, message: str
 ) -> None:
     payload = {"type": "notification", "ntype": "dm", "message": f"{message[:40]}..."}
 
     channel_name = user_services.get_user_notification_channel_by_user_id(
-        user_id=to_user_id
+        company_id=company_id, user_id=to_user_id
     )
     await get_channel_layer().group_send(channel_name, payload)
