@@ -12,7 +12,7 @@ const state = {
   typeProject: 'my_projects',
   tasks:[]
 }
-  
+
 const mutations = {
   setCurrentScreen(state, screen){
     state.currentScreen = screen
@@ -67,7 +67,7 @@ const actions = {
   async updateTask ({ commit }, payload) {
     const { data } = await apiClient.projects.updateTask(payload.uuid, payload.task, payload.data)
     console.log("Update Result " ,data)
-  }, 
+  },
   async deleteTask ({ commit, dispatch }, payload) {
     const { data } = await apiClient.projects.deleteTask(payload.project_uuid, payload.task)
     console.log(data)
