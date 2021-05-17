@@ -19,19 +19,19 @@ def inactivate_all_user_status_by_user_id(company_id: int, user_id: int) -> None
 def set_active_status_by_user_and_status_id(
     company_id: int, user_id: int, status_id: int
 ) -> None:
-    new_status = Status.objects.get(
+    new_active_status = Status.objects.get(
         company_id=company_id, user_id=user_id, id=status_id
     )
 
-    new_status.is_active = True
-    new_status.save()
+    new_active_status.is_active = True
+    new_active_status.save()
 
     cache.set(
         USER_STATUS_KEY.format(company_id, user_id),
         {
-            "id": new_status.id,
-            "icon_text": new_status.icon_text,
-            "text": new_status.text,
+            "id": new_active_status.id,
+            "icon_text": new_active_status.icon_text,
+            "text": new_active_status.text,
         },
     )
 
