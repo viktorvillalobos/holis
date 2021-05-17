@@ -56,7 +56,6 @@ async def handle_clear_user_position(channel_layer, company_channel, user: "User
     last_user_position = core_services.get_cached_position(
         company_id=user.company_id, user_id=user.id
     )
-    last_user_position["last_seen"] = last_user_position["last_seen"]
 
     if last_user_position:
         logger.info("User in cached position, proceed to remove")
