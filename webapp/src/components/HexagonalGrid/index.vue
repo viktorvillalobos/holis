@@ -143,8 +143,11 @@ export default {
       this.selectCellByCoordinates(hexCoordinates, user, isLocalUser)
     },
     selectCellByCoordinates (hexCoordinates, user, isLocalUser) {
+      console.log('selectCellByCoordinates')
       const selectedHex = this.rectangle.get(hexCoordinates)
       if (selectedHex) {
+        console.log('aqui estamos')
+        console.log(user)
         selectedHex.filled(user, isLocalUser)
         if (isLocalUser) {
           this.setNeighbors(selectedHex)

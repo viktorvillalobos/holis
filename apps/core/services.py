@@ -14,7 +14,7 @@ from apps.utils.dataclasses import build_dataclass_from_model_instance
 
 from .custom_types import AreaState
 from .lib.constants import USER_POSITION_KEY
-from .lib.dataclasses import AreaData, AreaItem, PointData
+from .lib.dataclasses import AreaData, AreaItem, MovementData, PointData
 from .providers import area as area_providers
 
 logger = logging.getLogger(__name__)
@@ -32,12 +32,10 @@ def get_area_items_for_connected_users_by_id(area_id: int) -> List[Dict[str, Any
 
 def move_user_to_point_in_area_state_by_area_user_and_room(
     area_id: int, user: settings.AUTH_USER_MODEL, to_point_data: PointData, room: str
-) -> PointData:
-    movement_data = area_uc.move_user_to_point_in_area_state_by_area_user_and_room(
+) -> MovementData:
+    return area_uc.move_user_to_point_in_area_state_by_area_user_and_room(
         area_id=area_id, user=user, to_point_data=to_point_data, room=room
     )
-
-    return movement_data.from_point
 
 
 def remove_user_from_area_by_area_and_user_id(

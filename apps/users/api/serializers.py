@@ -1,4 +1,4 @@
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 
 from django.contrib.auth import authenticate
 from django.core.cache import cache
@@ -11,6 +11,7 @@ import logging
 from apps.core import models as core_models
 from apps.core.cachekeys import USER_POSITION_KEY
 from apps.users import models as users_models
+from apps.users import services as user_services
 
 logger = logging.getLogger(__name__)
 
@@ -54,11 +55,6 @@ class UserCompanySerializer(serializers.ModelSerializer):
             return obj.logo_thumb
 
 
-class ActiveStatusSerializer(serializers.Serializer):
-    text = serializers.CharField()
-    icon_text = serializers.CharField()
-
-
 def serialize_user_queryset(queryset: QuerySet) -> List[Dict[str, Any]]:
     results = [
         {
@@ -94,6 +90,24 @@ class UserSerializer(serializers.ModelSerializer):
     room = serializers.SerializerMethodField(read_only=True)
     birthday = serializers.DateField(required=False)
     email = serializers.EmailField(allow_blank=False, allow_null=False)
+    status = serializers.SerializerMethodField()
+
+    def get_status(self, user: "User") -> Optional[dict[str, Any]]:
+        cached_status = user_services.get_user_active_status_from_cache_by_user_id(
+            company_id=user.company_id, user_id=user.id
+        )
+
+        if cached_status:
+            return cached_status
+
+        status = user_services.get_user_active_status_from_db_by_user_id(
+            company_id=user.company_id, user_id=user.id
+        )
+
+        if not status:
+            return None
+
+        return {"id": status.id, "text": status.text, "icon_text": status.icon_text}
 
     def get_avatar_thumb(self, obj):
         if not obj.avatar_thumb:
@@ -130,6 +144,7 @@ class UserSerializer(serializers.ModelSerializer):
             "avatar_thumb",
             "is_staff",
             "is_superuser",
+            "status",
         ]
 
 

@@ -84,3 +84,13 @@ class TestUserStatusSet:
         assert cached_status["id"] == to_active_status.id
         assert cached_status["icon_text"] == to_active_status.icon_text
         assert cached_status["text"] == to_active_status.text
+
+
+@pytest.mark.django_db
+def test_get_status_providers_get_user_active_status_from_db_by_user_id():
+    expected_status = user_recipes.user_status_holidays.make()
+    result = status_providers.get_user_active_status_from_db_by_user_id(
+        company_id=expected_status.company_id, user_id=expected_status.user_id
+    )
+
+    assert result == expected_status
