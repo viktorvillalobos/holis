@@ -12,17 +12,11 @@ import requests
 from io import BytesIO
 
 from .api.serializers import UserSerializer
-from .lib.constants import USER_STATUS_KEY
+from .lib.constants import USER_NOTIFICATION_CHANNEL_KEY, USER_STATUS_KEY
 from .lib.dataclasses import StatusCachedData
-from .lib.dataclasses import User as UserEntity
 from .models import Status, User
 from .providers import status as status_providers
 from .providers import user as user_providers
-
-
-def get_user(user_id: int) -> UserEntity:
-    instance = User.objects.get(id=user_id)
-    return UserEntity.load_from_model(instance)
 
 
 def serialize_user(user: settings.AUTH_USER_MODEL) -> Dict:
@@ -43,9 +37,9 @@ def get_user_avatar_thumb(user: settings.AUTH_USER_MODEL) -> None:
     return user.avatar.url
 
 
-def get_user_notification_channel_by_user_id(user_id: int) -> str:
+def get_user_notification_channel_by_user_id(company_id: int, user_id: int) -> str:
     """ Returns the channel key for notifications """
-    return f"notification-{user_id}"
+    return USER_NOTIFICATION_CHANNEL_KEY.format(company_id, user_id)
 
 
 def touch_user_by_user_and_area_id(user_id: int, area_id: int, ts=None) -> None:

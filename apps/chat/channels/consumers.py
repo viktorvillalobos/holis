@@ -37,6 +37,7 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
 
                 logger.info(f"Is one-to-one chat sending notifications to {user_id}")
                 await send_notification_chat_by_user_id_async(
+                    company_id=user.company_id,
                     to_user_id=user_id,
                     from_user_name=user.name,
                     message=content["message"],
