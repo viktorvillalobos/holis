@@ -11,17 +11,13 @@ repos:
     -   id: trailing-whitespace
         name: trim trailing whitespace
         files: (.*\.py$|.*\.css$|.*\.js$|.*\.html$)
-        exclude: (^.*\/migrations\/.*\.py$|.*\/node_modules\/.*)
+        exclude: (^.*\/migrations\/.*\.py$|.*\/node_modules\/.*|.*\/webapp\/.*|.*\/static\/.*|.*\/templates\/.*)
     -   id: end-of-file-fixer
         name: end of line fixer
         files: (.*\.py$|.*\.css$|.*\.js$|.*\.html$)
-        exclude: (^.*\/migrations\/.*\.py$|.*\/node_modules\/.*)
+        exclude: (^.*\/migrations\/.*\.py$|.*\/node_modules\/.*|.*\/webapp\/.*|.*\/static\/.*|.*\/templates\/.*)
     -   id: check-merge-conflict
         name: check merge conflicts
-    -   id: check-json
-        name: Check Kubernetes secrets format
-        files: (.*\.ejson$)
-        types: [file]
 -   repo: local
     hooks:
     -   id: print-checker
