@@ -119,8 +119,6 @@ def get_disconnected_users_ids_by_company_id(company_id: int) -> list[tuple[int,
         company_id=company_id
     )
 
-    breakpoint()
-
     to_disconnect_user_ids = []
     for key, value in user_position_positions_values.items():
         last_seen = datetime.datetime.fromisoformat(value["last_seen"])
