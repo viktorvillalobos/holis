@@ -86,3 +86,23 @@ def get_user_active_status_from_db_by_user_id(
         return None
 
     return build_dataclass_from_model_instance(instance=status, klass=StatusCachedData)
+
+
+def get_user_status_from_anywhere_by_user_id(
+    company_id: int, user_id: int
+) -> Optional[dict[str, Any]]:
+    cached_status = get_user_active_status_from_cache_by_user_id(
+        company_id=company_id, user_id=user_id
+    )
+
+    if cached_status:
+        return cached_status
+
+    status = get_user_active_status_from_db_by_user_id(
+        company_id=company_id, user_id=user_id
+    )
+
+    if not status:
+        return None
+
+    return {"id": status.id, "text": status.text, "icon_text": status.icon_text}

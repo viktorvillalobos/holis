@@ -7,6 +7,14 @@ from ..lib.constants import USER_STATUS_KEY
 from ..models import Status
 
 
+def _set_status_cache(company_id: int, user_id: int, status: Status) -> None:
+    cache.set(
+        USER_STATUS_KEY.format(status.company_id, user_id),
+        {"id": status.id, "icon_text": status.icon_text, "text": status.text},
+        30,
+    )
+
+
 def get_user_statuses_by_user_id(company_id: int, user_id: int) -> QuerySet:
     return Status.objects.filter(company_id=company_id, user_id=user_id)
 
@@ -26,14 +34,7 @@ def set_active_status_by_user_and_status_id(
     new_active_status.is_active = True
     new_active_status.save()
 
-    cache.set(
-        USER_STATUS_KEY.format(company_id, user_id),
-        {
-            "id": new_active_status.id,
-            "icon_text": new_active_status.icon_text,
-            "text": new_active_status.text,
-        },
-    )
+    _set_status_cache(company_id=company_id, user_id=user_id, status=new_active_status)
 
 
 def get_user_active_status_from_cache_by_user_id(
@@ -45,6 +46,10 @@ def get_user_active_status_from_cache_by_user_id(
 def get_user_active_status_from_db_by_user_id(
     company_id: int, user_id: int
 ) -> Optional[Status]:
-    return Status.objects.filter(
+    status = Status.objects.filter(
         is_active=True, user_id=user_id, company_id=company_id
     ).first()
+
+    _set_status_cache(company_id=company_id, user_id=user_id, status=status)
+
+    return status

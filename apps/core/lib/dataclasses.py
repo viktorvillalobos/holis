@@ -173,7 +173,7 @@ class AreaItem:
             id=user.id,
             name=user.name,
             last_name=user.last_name,
-            status=user_services.get_user_active_status_from_cache_by_user_id(
+            status=user_services.get_user_status_from_anywhere_by_user_id(
                 company_id=user.company_id, user_id=user.id
             ),
             position=user.position,

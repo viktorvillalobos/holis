@@ -93,21 +93,9 @@ class UserSerializer(serializers.ModelSerializer):
     status = serializers.SerializerMethodField()
 
     def get_status(self, user: "User") -> Optional[dict[str, Any]]:
-        cached_status = user_services.get_user_active_status_from_cache_by_user_id(
+        return user_services.get_user_status_from_anywhere_by_user_id(
             company_id=user.company_id, user_id=user.id
         )
-
-        if cached_status:
-            return cached_status
-
-        status = user_services.get_user_active_status_from_db_by_user_id(
-            company_id=user.company_id, user_id=user.id
-        )
-
-        if not status:
-            return None
-
-        return {"id": status.id, "text": status.text, "icon_text": status.icon_text}
 
     def get_avatar_thumb(self, obj):
         if not obj.avatar_thumb:

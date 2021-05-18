@@ -7,6 +7,7 @@ from django.utils import timezone
 import datetime
 import itertools
 import logging
+from channels.db import database_sync_to_async
 from datetime import timedelta
 
 from apps.core.uc import area_uc
@@ -34,10 +35,12 @@ def get_area_items_for_connected_users_by_id(area_id: int) -> List[Dict[str, Any
 
 def move_user_to_point_in_area_state_by_area_user_and_room(
     area_id: int, user: settings.AUTH_USER_MODEL, to_point_data: PointData, room: str
-) -> MovementData:
-    return area_uc.move_user_to_point_in_area_state_by_area_user_and_room(
+) -> PointData:
+    movement_data = area_uc.move_user_to_point_in_area_state_by_area_user_and_room(
         area_id=area_id, user=user, to_point_data=to_point_data, room=room
     )
+
+    return movement_data.from_point
 
 
 def remove_user_from_area_by_area_and_user_id(
@@ -77,15 +80,18 @@ def get_users_connecteds_by_area_from_cache(company_id: int):
     ]
 
 
+@database_sync_to_async
 def set_cached_position(
     company_id: int, area: int, user: "User", x: int, y: int, room: str
 ) -> None:
     logger.info(f"SET CACHED POSITION FOR USER {user.id} in AREA {area}")
     timestamp = timezone.now()
 
-    to_be_cached_area_item_data = AreaItem.from_user(
+    area_item = AreaItem.from_user(
         user=user, area_id=area, x=x, y=y, room=room, last_seen=timestamp
-    ).to_dict()
+    )
+
+    to_be_cached_area_item_data = area_item.to_dict()
 
     cache.set(
         USER_POSITION_KEY.format(company_id, user.id), to_be_cached_area_item_data

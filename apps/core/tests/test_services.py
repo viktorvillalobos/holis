@@ -2,6 +2,7 @@ from django.conf import settings
 from django.utils import timezone
 
 import pytest
+from channels.db import database_sync_to_async
 from datetime import timedelta
 from freezegun import freeze_time
 
@@ -86,8 +87,10 @@ class TestCachedPosition:
     def setup_method(self, method):
         self.user = user_recipes.user_viktor.make()
         self.area = core_recipes.default_area.make(company_id=self.user.company_id)
+
         self.expected_datetime_string = timezone.now().isoformat()
 
+    def test_get_cached_position(self, cached_position_fields):
         core_services.set_cached_position(
             company_id=self.user.company_id,
             area=self.area.id,
@@ -97,7 +100,6 @@ class TestCachedPosition:
             room="custom-room",
         )
 
-    def test_get_cached_position(self, cached_position_fields):
         cached_position = core_services.get_cached_position(
             company_id=self.user.company_id, user_id=self.user.id
         )

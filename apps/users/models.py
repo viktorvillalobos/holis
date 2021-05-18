@@ -85,14 +85,6 @@ class User(AbstractUser):
     class Meta:
         unique_together = ["id", "company"]
 
-    @property
-    def current_status(self):
-        status = self.statuses.filter(is_active=True).first()
-        if not status:
-            return None
-
-        return {"id": status.id, "icon_text": status.icon_text, "text": status.text}
-
     @cached_property
     def avatar_thumb(self):
         if not self.avatar:

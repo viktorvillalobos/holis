@@ -33,12 +33,12 @@ def save_position(
 
     user_services.touch_user_by_user_and_area_id(user_id=user.id, area_id=area)
 
-    movement_data = core_services.move_user_to_point_in_area_state_by_area_user_and_room(
+    old_point = core_services.move_user_to_point_in_area_state_by_area_user_and_room(
         area_id=area, user=user, to_point_data=PointData(x, y), room=room
     )
 
     return (
-        movement_data.from_point,
+        old_point,
         core_services.get_area_items_for_connected_users_by_id(area_id=area),
     )
 
