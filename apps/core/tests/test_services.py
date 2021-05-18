@@ -2,6 +2,7 @@ from django.conf import settings
 from django.utils import timezone
 
 import pytest
+from datetime import timedelta
 from freezegun import freeze_time
 
 from apps.users.tests import baker_recipes as user_recipes
@@ -10,6 +11,8 @@ from .. import services as core_services
 from ..lib.dataclasses import AreaItem, PointData
 from ..models import Area
 from . import baker_recipes as core_recipes
+
+CORE_SERVICES_PATH = "apps.core.services"
 
 
 @pytest.mark.django_db
@@ -132,3 +135,30 @@ class TestCachedPosition:
             )
             == None
         )
+
+
+@freeze_time("1992-02-14 00:00:00", tz_offset=-4)
+def test_get_disconnected_users_ids_by_company_id(mocker):
+    user_id = 999
+    company_id = 111
+    area_id = 1
+    expected_result = [(user_id, area_id)]
+
+    mocked_provider = mocker.patch(
+        f"{CORE_SERVICES_PATH}.presence_providers.get_disconnect_users_ids_by_company_id"
+    )
+
+    last_seen = (timezone.now() - timedelta(seconds=61)).isoformat()
+    mocked_provider.return_value = {
+        "company-1-user-999-position": {
+            "id": user_id,
+            "last_seen": last_seen,
+            "area_id": area_id,
+        }
+    }
+
+    result = core_services.get_disconnected_users_ids_by_company_id(company_id)
+
+    mocked_provider.assert_called_once_with(company_id=company_id)
+
+    assert result == expected_result

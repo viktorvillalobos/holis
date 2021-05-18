@@ -4,6 +4,7 @@ from django.conf import settings
 from django.core.cache import cache
 from django.utils import timezone
 
+import datetime
 import itertools
 import logging
 from datetime import timedelta
@@ -16,6 +17,7 @@ from .custom_types import AreaState
 from .lib.constants import USER_POSITION_KEY
 from .lib.dataclasses import AreaData, AreaItem, MovementData, PointData
 from .providers import area as area_providers
+from .providers import presence as presence_providers
 
 logger = logging.getLogger(__name__)
 
@@ -98,3 +100,26 @@ def get_cached_position(company_id: int, user_id: int) -> Dict[str, Any]:
 def delete_cached_position(company_id: int, user_id: int) -> None:
     key = USER_POSITION_KEY.format(company_id, user_id)
     cache.delete(key)
+
+
+def get_disconnected_users_ids_by_company_id(company_id: int) -> list[tuple[int, int]]:
+    """
+    Return a list of tuples with tuple([users, area_id]) without healtcheck about 60 seconds ago.
+    """
+
+    one_minute_ago = timezone.now() - timedelta(seconds=60)
+
+    user_position_positions_values = presence_providers.get_disconnect_users_ids_by_company_id(
+        company_id=company_id
+    )
+
+    breakpoint()
+
+    to_disconnect_user_ids = []
+    for key, value in user_position_positions_values.items():
+        last_seen = datetime.datetime.fromisoformat(value["last_seen"])
+        if last_seen < one_minute_ago:
+            _, _, _, user_id, _ = key.split("-")
+            to_disconnect_user_ids.append((int(user_id), value["area_id"]))
+
+    return to_disconnect_user_ids
