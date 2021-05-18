@@ -17,8 +17,8 @@ const state = {
 }
 
 const mutations = {
-  setNotificationsActive (state) {
-    state.isNotificationsActive = !state.isNotificationsActive
+  setNotificationsActive (state, status) {
+    state.isNotificationsActive = status
   },
   setNotifications (state, payload) {
     state.notifications = payload

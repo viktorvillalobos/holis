@@ -2,7 +2,7 @@
   <div class="holis-config">
     <div class="columns">
       <div class="column">
-        <h2>Configuraciones</h2>
+        <h1>Configuraciones</h1>
       </div>
     </div>
     <div class="columns">

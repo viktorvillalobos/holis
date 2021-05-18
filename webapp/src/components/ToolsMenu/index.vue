@@ -14,7 +14,7 @@
           <font-awesome-icon icon="cog" />
         </li>
 
-        <li @click="handleProjects" :class="{'active': (isProjectsActive || isCreateProjectActive) && asideOpened}">
+        <li @click="handleProjects" :class="{'active': isProjectsActive && asideOpened}">
           <font-awesome-icon icon="list-ol" />
         </li>
       </ul>
@@ -54,38 +54,45 @@ export default {
   computed: {
     ...mapState({
       isBoardActive: state => state.app.isBoardActive,
-      isNotificationsActive: state => state.app.isNotificationsActive,
+      isNotificationsActive: state => state.notifications.isNotificationsActive,
       isReleasesActive: state => state.app.isReleasesActive,
-      isProjectsActive: state => state.app.isProjectsActive,
-      isCreateProjectActive: state => state.app.isCreateProjectActive
+      isProjectsActive: state => state.app.isProjectsActive
     })
   },
   methods: {
     handleBoard () {
-      if (this.isNotificationsActive) { this.$store.commit('setNotificationsActive') }
-      if (this.isReleasesActive) this.$store.commit('setReleasesActive')
-      if (!this.asideOpened || this.isBoardActive) { this.$store.commit('setAsideLeftActive') }
+      let statusAux = this.isBoardActive
+      this.closeAllAside()
+      if (!this.asideOpened || statusAux) { this.$store.commit('setAsideLeftActive') }
       this.$store.commit('setBoardActive')
       this.$store.dispatch('getList')
       this.$store.dispatch('getBirthdays')
     },
     handleProjects () {
-      if (!this.asideOpened || this.isProjectsActive) { this.$store.commit('setAsideLeftActive') }
+      let statusAux = this.isProjectsActive
+      this.closeAllAside()
+      if (!this.asideOpened || statusAux) { this.$store.commit('setAsideLeftActive') }
       this.$store.commit('setProjectsActive')
     },
     handleNotifications () {
-      if (this.isBoardActive) this.$store.commit('setBoardActive')
-      if (this.isReleasesActive) this.$store.commit('setReleasesActive')
-      if (!this.asideOpened || this.isNotificationsActive) { this.$store.commit('setAsideLeftActive') }
-      this.$store.commit('setNotificationsActive')
+      let statusAux = this.isNotificationsActive
+      this.closeAllAside()
+      if (!this.asideOpened || statusAux) { this.$store.commit('setAsideLeftActive') }
+      this.$store.commit('setNotificationsActive', !statusAux)
     },
     handleReleases () {
-      if (this.isBoardActive) this.$store.commit('setBoardActive')
-      if (this.isNotificationsActive) { this.$store.commit('setNotificationsActive') }
-      if (!this.asideOpened || this.isReleasesActive) { this.$store.commit('setAsideLeftActive') }
+      let statusAux = this.isReleasesActive
+      this.closeAllAside()
+      if (!this.asideOpened || statusAux) { this.$store.commit('setAsideLeftActive') }
       this.$store.commit('setReleasesActive')
     },
+    closeAllAside(){
+      this.$store.commit('setNotificationsActive', false)
+      this.$store.commit('closeAllAside')
+    },
     goTo (to) {
+      if(this.$route.name === to)
+        to = "office"
       this.$router.push({ name: to })
     }
   }
