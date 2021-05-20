@@ -13,11 +13,10 @@ import os
 import random
 
 from apps.core import models as core_models
+from apps.core.users import services as user_services
 from apps.users import models
 from apps.users.api import serializers
 from apps.web import models as web_models
-
-from .. import services as user_services
 
 User = get_user_model()
 

@@ -1,5 +1,6 @@
 from django.conf import settings
-from django.contrib.auth.models import AbstractUser, UserManager
+from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import UserManager as BaseUserManager
 from django.core import files
 from django.db import models
 from django.urls import reverse
@@ -18,7 +19,7 @@ from sorl.thumbnail import ImageField  # , get_thumbnail
 from apps.core.models import Area
 
 
-class UserManager(BirthdayManager, UserManager):
+class UserManager(BirthdayManager, BaseUserManager):
     def create_superuser(self, username, email, password, company) -> "User":
         if password is None:
             raise TypeError("Superusers must have a password.")
