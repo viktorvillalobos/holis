@@ -1,6 +1,7 @@
 from django.conf import settings
-from rest_framework import exceptions, generics, views
+from rest_framework import exceptions, generics, status, views
 from rest_framework.pagination import CursorPagination
+from rest_framework.parsers import MultiPartParser
 from rest_framework.response import Response
 
 import logging
@@ -9,6 +10,7 @@ from twilio.rest import Client
 from apps.chat import models as chat_models
 from apps.chat import uc as chat_uc
 from apps.chat.api import serializers
+from apps.chat.providers import message_attachment as message_attachment_providers
 
 from ..services import (
     get_or_create_room_by_company_and_members_ids,
@@ -48,7 +50,22 @@ class GetTurnCredentialsAPIView(views.APIView):
 
 
 class UploadFileAPIView(views.APIView):
-    pass
+    parser_classes = [MultiPartParser]
+    pagination_class = None
+
+    def put(self, request, message_uuid, *args, **kwargs):
+        files = request.FILES.getlist("files")
+        attachments = message_attachment_providers.create_message_attachments_by_message_uuid(
+            company_id=self.request.user.company_id,
+            message_uuid=message_uuid,
+            files=files,
+        )
+
+        serialized_data = serializers.MessageAttachmentChatSerializer(
+            attachments, many=True
+        ).data
+
+        return Response(serialized_data, status=status.HTTP_204_NO_CONTENT)
 
 
 class RecentChatsAPIView(views.APIView):
