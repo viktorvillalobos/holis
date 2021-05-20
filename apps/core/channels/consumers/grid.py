@@ -92,7 +92,7 @@ async def handle_user_movement(
     to_be_cached_position = {"company_id": user.company_id, "user": user, **message}
     to_be_cached_position.pop("type")
 
-    core_services.set_cached_position(**to_be_cached_position)
+    await core_services.set_cached_position(**to_be_cached_position)
 
     old_point_data, serialized_state = await save_position(**to_be_save_data_position)
 
