@@ -15,7 +15,7 @@ Design Concepts
 
 class Room(TimeStampedModel):
     """
-        Chat Room
+    Chat Room
     """
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -64,7 +64,7 @@ class Room(TimeStampedModel):
 
 class Message(TimeStampedModel):
     """
-        A message from an user
+    A message from an user
     """
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -92,9 +92,13 @@ class Message(TimeStampedModel):
         ordering = ["-created"]
 
 
+def chat_attachments_path(instance, file_name):
+    return f"{instance.company_id}/chat/room/{instance.message.room_id}/attachments/{file_name}"
+
+
 class MessageAttachment(TimeStampedModel):
     """
-        Message Attachment
+    Message Attachment
     """
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -110,7 +114,7 @@ class MessageAttachment(TimeStampedModel):
         related_name="attachments",
         on_delete=models.CASCADE,
     )
-    attachment = models.FileField(_("attachment"))
+    attachment = models.FileField(_("attachment"), upload_to=chat_attachments_path)
     mimetype = models.CharField(_("Mimetype"), blank=True, null=True, max_length=255)
 
     tenant_id = "company_id"
@@ -120,6 +124,3 @@ class MessageAttachment(TimeStampedModel):
         ordering = ["created"]
         verbose_name = _("message attachment")
         verbose_name_plural = _("message attachments")
-
-    def __str__(self):
-        return self.attachment.file.url

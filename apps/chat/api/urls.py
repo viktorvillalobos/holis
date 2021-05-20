@@ -14,9 +14,13 @@ else:
 urlpatterns = [
     path("get-or-create-room/", views.GetOrCreateRoomAPIView.as_view()),
     path("get-turn-credentials/", views.GetTurnCredentialsAPIView.as_view()),
-    path("upload-file/", views.UploadFileAPIView.as_view()),
     path("recents/", views.RecentChatsAPIView.as_view()),
     path("room/<uuid:room_uuid>/messages/", views.MessageListAPIView.as_view()),
+    path(
+        "room/<uuid:room_uuid>/messages/<uuid:message_uuid>/upload-file/",
+        views.UploadFileAPIView.as_view(),
+        name="upload-file",
+    ),
 ]
 
 urlpatterns += router.urls
