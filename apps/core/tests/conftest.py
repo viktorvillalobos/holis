@@ -1,5 +1,10 @@
 import pytest
+from channels.db import database_sync_to_async
 from model_bakery import baker
+
+from apps.users.tests import baker_recipes as user_recipes
+
+from . import baker_recipes as core_recipes
 
 
 @pytest.fixture
@@ -44,3 +49,14 @@ def cached_position_fields():
         "jid",
         "area_id",
     }
+
+
+@pytest.fixture
+def create_status_test_data():
+    @database_sync_to_async
+    def _create_status_test_data():
+        user = user_recipes.user_viktor.make()
+        area = core_recipes.default_area.make(company_id=user.company_id)
+        return user, area
+
+    return _create_status_test_data

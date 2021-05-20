@@ -50,6 +50,9 @@ def get_user_active_status_from_db_by_user_id(
         is_active=True, user_id=user_id, company_id=company_id
     ).first()
 
+    if not status:
+        return None
+
     _set_status_cache(company_id=company_id, user_id=user_id, status=status)
 
     return status

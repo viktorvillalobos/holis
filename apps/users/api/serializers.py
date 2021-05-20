@@ -11,7 +11,6 @@ import logging
 from apps.core import models as core_models
 from apps.core.cachekeys import USER_POSITION_KEY
 from apps.users import models as users_models
-from apps.users import services as user_services
 
 logger = logging.getLogger(__name__)
 
@@ -93,6 +92,8 @@ class UserSerializer(serializers.ModelSerializer):
     status = serializers.SerializerMethodField()
 
     def get_status(self, user: "User") -> Optional[dict[str, Any]]:
+        from apps.users import services as user_services
+
         return user_services.get_user_status_from_anywhere_by_user_id(
             company_id=user.company_id, user_id=user.id
         )

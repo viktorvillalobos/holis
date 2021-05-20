@@ -93,9 +93,8 @@ def set_cached_position(
 
     to_be_cached_area_item_data = area_item.to_dict()
 
-    cache.set(
-        USER_POSITION_KEY.format(company_id, user.id), to_be_cached_area_item_data
-    )
+    cache_key = USER_POSITION_KEY.format(company_id, user.id)
+    cache.set(cache_key, to_be_cached_area_item_data)
 
 
 def get_cached_position(company_id: int, user_id: int) -> Dict[str, Any]:
