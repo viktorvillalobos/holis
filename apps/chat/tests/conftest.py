@@ -36,3 +36,33 @@ def expected_chat_upload_file_fields():
         "attachment_url",
         "attachment_mimetype",
     }
+
+
+@pytest.fixture
+def expected_recent_fields():
+    return {"name", "id", "room", "avatar_thumb"}
+
+
+@pytest.fixture
+def expected_message_raw_fields():
+    return {
+        "avatar_thumb",
+        "user_name",
+        "user_id",
+        "user_name",
+        "attachment_url",
+        "attachment_mimetype",
+    }
+
+
+@pytest.fixture
+def expected_message_attachment_fields():
+    return {
+        "id",
+        "company_id",
+        "room_uuid",
+        "user_id",
+        "user_name",
+        "attachment_url",
+        "attachment_mimetype",
+    }

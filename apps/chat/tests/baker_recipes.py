@@ -23,3 +23,10 @@ adslab_message_one_to_one = Recipe(
     user=get_or_create_foreign_key(user_recipes.user_viktor),
     text="Hello Julls",
 )
+
+adslab_attachment_one_to_one = Recipe(
+    "chat.MessageAttachment",
+    company=get_or_create_foreign_key(core_recipes.adslab),
+    message=get_or_create_foreign_key(adslab_message_one_to_one),
+    _create_files=True,
+)

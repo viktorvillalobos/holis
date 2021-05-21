@@ -46,7 +46,7 @@ class MessageAttachmentChatSerializer(serializers.Serializer):
     id = serializers.UUIDField()
     company_id = serializers.IntegerField()
     message_uuid = serializers.UUIDField(source="message.pk")
-    room_uuid = serializers.IntegerField(source="message.room_id")
+    room_uuid = serializers.UUIDField(source="message.room_id")
     user_id = serializers.IntegerField(source="message.user.id")
     user_name = serializers.CharField(source="message.user.name")
     attachment_url = serializers.CharField(source="attachment.url")
