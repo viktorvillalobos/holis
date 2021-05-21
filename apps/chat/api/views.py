@@ -12,12 +12,7 @@ from apps.chat import uc as chat_uc
 from apps.chat.api import serializers
 from apps.chat.providers import message_attachment as message_attachment_providers
 
-from ..services import (
-    create_message,
-    get_or_create_room_by_company_and_members_ids,
-    get_recents_rooms,
-    get_twilio_credentials_by_user_id,
-)
+from .. import services as chat_services
 
 logger = logging.getLogger(__name__)
 
@@ -35,7 +30,7 @@ class GetOrCreateRoomAPIView(views.APIView):
 
     def get_one_to_one_room(self, validated_data: dict) -> chat_models.Room:
         try:
-            return get_or_create_room_by_company_and_members_ids(
+            return chat_services.get_or_create_room_by_company_and_members_ids(
                 company_id=self.request.user.company_id,
                 members_ids=[self.request.user.id, validated_data["to"]],
             )
@@ -45,7 +40,9 @@ class GetOrCreateRoomAPIView(views.APIView):
 
 class GetTurnCredentialsAPIView(views.APIView):
     def get(self, request, *args, **kwargs):
-        credentials = get_twilio_credentials_by_user_id(user_id=self.request.user.id)
+        credentials = chat_services.get_twilio_credentials_by_user_id(
+            user_id=self.request.user.id
+        )
 
         return Response(credentials.ice_servers, status=200)
 
@@ -58,8 +55,7 @@ class UploadFileAPIView(views.APIView):
         text = request.POST.get("text")
         files = request.FILES.getlist("files")
 
-        # TODO: User a service/provider
-        message = chat_models.Message.objects.create(
+        message = chat_services.create_message(
             company_id=request.user.company_id,
             room_id=room_uuid,
             user_id=request.user.id,
@@ -74,6 +70,12 @@ class UploadFileAPIView(views.APIView):
 
         serialized_data = serializers.MessageWithAttachmentsSerializer(message).data
 
+        chat_services.broadcast_chat_message_with_attachments(
+            company_id=self.request.user.company_id,
+            room_uuid=room_uuid,
+            message_uuid=str(message.id),
+        )
+
         return Response(serialized_data, status=status.HTTP_201_CREATED)
 
 
@@ -83,7 +85,9 @@ class RecentChatsAPIView(views.APIView):
     pagination_class = None
 
     def get(self, request, *args, **kwargs):
-        return Response(get_recents_rooms(self.request.user.id), status=200)
+        return Response(
+            chat_services.get_recents_rooms(self.request.user.id), status=200
+        )
 
 
 class MessageCursoredPagination(CursorPagination):

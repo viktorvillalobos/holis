@@ -1,13 +1,15 @@
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Union
 
 from django.conf import settings
 from django.core.files.storage import default_storage
 
 import uuid
+from asgiref.sync import async_to_sync
 from channels.db import database_sync_to_async
 from channels.layers import get_channel_layer
 from twilio.rest import Client
 
+from apps.chat.lib.constants import ROOM_GROUP_NAME
 from apps.users import models as users_models
 from apps.users import services as user_services
 from apps.utils.cache import cache
@@ -22,6 +24,14 @@ class NonExistentMemberException(Exception):
 
 
 @database_sync_to_async
+def create_message_async(
+    company_id: int, user_id: int, room_id: int, text: str
+) -> chat_models.Message:
+    return chat_models.Message.objects.create(
+        company_id=company_id, room_id=room_id, user_id=user_id, text=text
+    )
+
+
 def create_message(
     company_id: int, user_id: int, room_id: int, text: str
 ) -> chat_models.Message:
@@ -30,18 +40,22 @@ def create_message(
     )
 
 
-@database_sync_to_async
-def serialize_message(message: chat_models.Message) -> Dict[str, Any]:
-
-    # This is a patch to Django Serializer BUG
-    # https://stackoverflow.com/questions/36588126/uuid-is-not-json-serializable
-
+def _serialize_message(message):
     data = serializers.MessageRawSerializer(message).data
 
     return {
         **data,
         **{"id": str(data["id"]), "room": str(data["room"]), "type": "chat.message"},
     }
+
+
+@database_sync_to_async
+def serialize_message(message: chat_models.Message) -> Dict[str, Any]:
+
+    # This is a patch to Django Serializer BUG
+    # https://stackoverflow.com/questions/36588126/uuid-is-not-json-serializable
+
+    return _serialize_message(message=message)
 
 
 def get_recents_rooms(user_id: id) -> Dict[str, Any]:
@@ -123,3 +137,17 @@ async def send_notification_chat_by_user_id_async(
         company_id=company_id, user_id=to_user_id
     )
     await get_channel_layer().group_send(channel_name, payload)
+
+
+def broadcast_chat_message_with_attachments(
+    company_id: int,
+    room_uuid: Union[str, uuid.UUID],
+    message_uuid: Union[str, uuid.UUID],
+) -> None:
+    channel_layer = get_channel_layer()
+    group = ROOM_GROUP_NAME.format(company_id=company_id, room_uuid=room_uuid)
+    message = chat_models.Message.objects.get(id=message_uuid)
+
+    serialized_message = _serialize_message(message)
+
+    async_to_sync(channel_layer.group_send)(group, serialized_message)

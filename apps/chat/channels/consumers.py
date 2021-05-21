@@ -1,11 +1,9 @@
 import logging
 from channels.generic.websocket import AsyncJsonWebsocketConsumer
 
-from ..services import (
-    create_message,
-    send_notification_chat_by_user_id_async,
-    serialize_message,
-)
+from apps.chat.lib.constants import ROOM_GROUP_NAME
+
+from .. import services as chat_services
 
 logger = logging.getLogger(__name__)
 COMPANY_MAIN_CHANNEL = "company-chat-{}"
@@ -13,9 +11,9 @@ COMPANY_MAIN_CHANNEL = "company-chat-{}"
 
 class ChatConsumer(AsyncJsonWebsocketConsumer):
     @property
-    def room_name(self):
+    def room_uuid(self):
         try:
-            return self.scope["url_route"]["kwargs"]["room_name"]
+            return self.scope["url_route"]["kwargs"]["room_uuid"]
         except KeyError:
             raise Exception("CHAT: Error getting channel name from route")
 
@@ -36,7 +34,7 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
             if is_one_to_one_chat:
 
                 logger.info(f"Is one-to-one chat sending notifications to {user_id}")
-                await send_notification_chat_by_user_id_async(
+                await chat_services.send_notification_chat_by_user_id_async(
                     company_id=user.company_id,
                     to_user_id=user_id,
                     from_user_name=user.name,
@@ -47,7 +45,9 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
             logger.info(f" {_type} type is not handled by ChatConsumer")
 
     async def connect(self):
-        self.room_group_name = f"chat_{self.room_name}"
+        self.room_group_name = ROOM_GROUP_NAME.format(
+            company_id=self.scope["user"].company_id, room_uuid=self.room_uuid
+        )
         logger.info(f"CONNECTING TO {self.room_group_name}")
 
         await self.channel_layer.group_add(self.room_group_name, self.channel_name)
@@ -67,10 +67,10 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
         logger.info("broadcast_chat_message")
         user = self.scope["user"]
 
-        message = await create_message(
+        message = await chat_services.create_message_async(
             user.company_id, user.id, content["room"], content["message"]
         )
-        serialized_message = await serialize_message(message=message)
+        serialized_message = await chat_services.serialize_message(message=message)
 
         await self.channel_layer.group_send(self.room_group_name, serialized_message)
 

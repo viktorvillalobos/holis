@@ -29,11 +29,15 @@ class TestUploadFileAPIView:
 
         self.files = [video, images]
 
-    def test_upload_returns_204(
+    def test_upload_returns_201(
         self,
+        mocker,
         expected_chat_upload_file_fields,
         expected_message_raw_with_attachments_fields,
     ):
+        mocked_broadcast = mocker.patch(
+            "apps.chat.api.views.chat_services.broadcast_chat_message_with_attachments"
+        )
         rf = APIRequestFactory()
         request = rf.post(
             self.url,
@@ -62,3 +66,9 @@ class TestUploadFileAPIView:
         for attachment_data in attachment_datas:
             for field in expected_chat_upload_file_fields:
                 assert field in attachment_data
+
+        mocked_broadcast.assert_called_once_with(
+            company_id=self.user.company_id,
+            room_uuid=self.room.id,
+            message_uuid=parsed_response["id"],
+        )
