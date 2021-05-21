@@ -36,7 +36,7 @@ class MessageRawSerializer(serializers.Serializer):
         return obj.user.avatar_thumb
 
     def get_user_name(self, obj: chat_models.Message) -> str:
-        return obj.message.user.name
+        return obj.user.name
 
     def get_user_id(self, obj: chat_models.Message) -> int:
         return obj.user_id
