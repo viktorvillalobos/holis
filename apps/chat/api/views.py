@@ -56,7 +56,7 @@ class UploadFileAPIView(views.APIView):
 
     def post(self, request, room_uuid, *args, **kwargs):
         text = request.POST.get("text")
-        breakpoint()
+        files = request.FILES.getlist("files")
 
         # TODO: User a service/provider
         message = chat_models.Message.objects.create(
@@ -66,8 +66,7 @@ class UploadFileAPIView(views.APIView):
             text=text,
         )
 
-        files = request.FILES.getlist("files")
-        attachments = message_attachment_providers.create_message_attachments_by_message_uuid(
+        message_attachment_providers.create_message_attachments_by_message_uuid(
             company_id=self.request.user.company_id,
             message_uuid=message.id,
             files=files,
