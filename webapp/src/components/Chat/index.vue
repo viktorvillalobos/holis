@@ -137,7 +137,11 @@ export default {
       this.$emit('selectedChat')
       this.$store.commit('setCurrentChatName', user.name || user.username)
       this.$store.commit('setCurrentChatID', user.id)
-      this.$store.dispatch('getMessagesByUser', user.id)
+      const data = {
+        "to": user.id,
+        "first_time": true
+      }
+      this.$store.dispatch('getMessagesByUser', data)
     }
   }
 }

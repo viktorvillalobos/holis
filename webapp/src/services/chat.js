@@ -16,7 +16,7 @@ export default {
     window.$socketChat.close()
     delete window.$socketChat
   },
-  mustCloseActiveConnectionByRoom ({ room }) {
+  statusConnectionByRoom ({ room }) {
     console.log(`mustCloseActiveConnectionByRoom: ${room}`)
     if (!window.$socketChat) return false
     console.log(`socketChat current url ${window.$socketChat.url}`)
@@ -27,6 +27,9 @@ export default {
     console.log(`isTheSameRoom: ${isTheSameRoom}`)
     console.log(`socketIsOpen: ${socketIsOpen}`)
 
-    return socketIsOpen && !isTheSameRoom
+    return {
+      "socketIsOpen": socketIsOpen,
+      "isTheSameRoom": isTheSameRoom
+    }
   }
 }

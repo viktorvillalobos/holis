@@ -67,7 +67,10 @@ const mutations = {
     state.tempMessages = []
   },
   unshiftMessages (state, messages) {
-    state.messages = [...messages.results, ...state.messages]
+    if(messages.first_time)
+      state.messages = [...messages.results]
+    else
+      state.messages = [...messages.results, ...state.messages]
     state.next = messages.next
     state.prev = messages.previous
   },
@@ -93,14 +96,21 @@ const actions = {
     commit('setRoom', room)
 
     const url = getChatUrlByRoomId(room)
-    const mustCloseActiveConnection = chatServices.mustCloseActiveConnectionByRoom({ vm, room })
+    const statusConnection = chatServices.statusConnectionByRoom({ vm, room })
+    
+    const socketIsOpen = statusConnection.socketIsOpen
+    const isTheSameRoom = statusConnection.isTheSameRoom
 
-    if (mustCloseActiveConnection) {
+    if(socketIsOpen && isTheSameRoom){
+        return
+    }
+
+    if (socketIsOpen && !isTheSameRoom) {
       console.log('Closing Old Chat WS service')
       chatServices.closeSocketService()
       commit('clearMessages')
     }
-
+    
     const callback = message => dispatch('onMessage', message.data)
     chatServices.setSocketService({ vm, url, callback })
   },
@@ -109,17 +119,17 @@ const actions = {
     console.log(message)
     if (message.type === 'chat.message') commit('addMessage', message)
   },
-  async getMessagesByRoom ({ commit }, room) {
-    const { data } = await apiClient.chat.getMessages(room)
-
+  async getMessagesByRoom ({ commit }, payload) {
+    const { data } = await apiClient.chat.getMessages(payload.id)
+    data.first_time = payload.first_time
     console.log('getMessagesByRoom')
     console.log(data)
     commit('unshiftMessages', data)
   },
-  async getMessagesByUser ({ commit, dispatch }, to) {
-    const { data } = await apiClient.chat.getRoomByUserID(to)
-
-    dispatch('getMessagesByRoom', data.id)
+  async getMessagesByUser ({ commit, dispatch }, payload) {
+    const { data } = await apiClient.chat.getRoomByUserID(payload.to)
+    data.first_time = payload.first_time
+    dispatch('getMessagesByRoom', data)
     dispatch('connectToRoom', { vm: this.$app, room: data.id })
   },
   async getNextMessages ({ commit }) {
