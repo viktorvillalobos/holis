@@ -17,9 +17,9 @@ urlpatterns = [
     path("recents/", views.RecentChatsAPIView.as_view()),
     path("room/<uuid:room_uuid>/messages/", views.MessageListAPIView.as_view()),
     path(
-        "room/<uuid:room_uuid>/messages/<uuid:message_uuid>/upload-file/",
+        "room/<uuid:room_uuid>/messages/new-with-attachments/",
         views.UploadFileAPIView.as_view(),
-        name="upload-file",
+        name="message-with-attachments",
     ),
 ]
 

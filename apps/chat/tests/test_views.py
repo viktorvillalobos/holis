@@ -16,15 +16,10 @@ from ..api import views as chat_views
 @pytest.mark.django_db
 class TestUploadFileAPIView:
     def setup_method(self, method):
+        self.room = chat_recipes.adslab_room_one_to_one.make()
         self.user = user_recipes.user_viktor.make()
-        self.message = chat_recipes.adslab_message_one_to_one.make(
-            company=self.user.company
-        )
-        self.kwargs = {
-            "message_uuid": self.message.id,
-            "room_uuid": self.message.room_id,
-        }
-        self.url = reverse("api-v1:chat:upload-file", kwargs=self.kwargs)
+        self.kwargs = {"room_uuid": self.room.id}
+        self.url = reverse("api-v1:chat:message-with-attachments", kwargs=self.kwargs)
         video = SimpleUploadedFile(
             "file.mp4", b"file_content", content_type="video/mp4"
         )
@@ -34,9 +29,17 @@ class TestUploadFileAPIView:
 
         self.files = [video, images]
 
-    def test_upload_returns_204(self, expected_chat_upload_file_fields):
+    def test_upload_returns_204(
+        self,
+        expected_chat_upload_file_fields,
+        expected_message_raw_with_attachments_fields,
+    ):
         rf = APIRequestFactory()
-        request = rf.put(self.url, data={"files": self.files}, format="multipart")
+        request = rf.post(
+            self.url,
+            data={"files": self.files, "text": "This is a message"},
+            format="multipart",
+        )
 
         force_authenticate(request, user=self.user)
 
@@ -44,14 +47,18 @@ class TestUploadFileAPIView:
             request, **self.kwargs
         ).render()
 
-        assert response.status_code == status.HTTP_204_NO_CONTENT
+        assert response.status_code == status.HTTP_201_CREATED
 
         parsed_response = json.loads(response.content)
-        assert len(parsed_response) == 2
+
+        for field in expected_message_raw_with_attachments_fields:
+            assert field in parsed_response
+
+        attachment_datas = parsed_response["attachments"]
+        assert len(attachment_datas) == 2
 
         assert MessageAttachment.objects.count() == 2
 
-        for attachment_data in parsed_response:
-            assert str(self.message.pk) == attachment_data["message_uuid"]
+        for attachment_data in attachment_datas:
             for field in expected_chat_upload_file_fields:
                 assert field in attachment_data

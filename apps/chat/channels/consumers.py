@@ -31,7 +31,7 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
         if _type == "echo":
             await self.chat_echo(content)
         elif _type == "chat.message":
-            await self.broadcast_chat_message(content)
+            await self.create_and_broadcast_message(content)
 
             if is_one_to_one_chat:
 
@@ -61,7 +61,7 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
         _msg = {"type": "chat.presence", "kind": "disconnect", "user": "pepito"}
         await self.channel_layer.group_send(self.room_group_name, _msg)
 
-    async def broadcast_chat_message(self, content):
+    async def create_and_broadcast_message(self, content):
         assert isinstance(content["room"], str)
         assert isinstance(content["message"], str)
         logger.info("broadcast_chat_message")

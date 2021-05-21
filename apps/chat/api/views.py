@@ -13,6 +13,7 @@ from apps.chat.api import serializers
 from apps.chat.providers import message_attachment as message_attachment_providers
 
 from ..services import (
+    create_message,
     get_or_create_room_by_company_and_members_ids,
     get_recents_rooms,
     get_twilio_credentials_by_user_id,
@@ -53,19 +54,28 @@ class UploadFileAPIView(views.APIView):
     parser_classes = [MultiPartParser]
     pagination_class = None
 
-    def put(self, request, message_uuid, *args, **kwargs):
+    def post(self, request, room_uuid, *args, **kwargs):
+        text = request.POST.get("text")
+        breakpoint()
+
+        # TODO: User a service/provider
+        message = chat_models.Message.objects.create(
+            company_id=request.user.company_id,
+            room_id=room_uuid,
+            user_id=request.user.id,
+            text=text,
+        )
+
         files = request.FILES.getlist("files")
         attachments = message_attachment_providers.create_message_attachments_by_message_uuid(
             company_id=self.request.user.company_id,
-            message_uuid=message_uuid,
+            message_uuid=message.id,
             files=files,
         )
 
-        serialized_data = serializers.MessageAttachmentChatSerializer(
-            attachments, many=True
-        ).data
+        serialized_data = serializers.MessageWithAttachmentsSerializer(message).data
 
-        return Response(serialized_data, status=status.HTTP_204_NO_CONTENT)
+        return Response(serialized_data, status=status.HTTP_201_CREATED)
 
 
 class RecentChatsAPIView(views.APIView):

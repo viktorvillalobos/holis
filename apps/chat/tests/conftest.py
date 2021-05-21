@@ -45,14 +45,12 @@ def expected_recent_fields():
 
 @pytest.fixture
 def expected_message_raw_fields():
-    return {
-        "avatar_thumb",
-        "user_name",
-        "user_id",
-        "user_name",
-        "attachment_url",
-        "attachment_mimetype",
-    }
+    return {"avatar_thumb", "user_name", "user_id", "user_name"}
+
+
+@pytest.fixture
+def expected_message_raw_with_attachments_fields():
+    return {"avatar_thumb", "user_name", "user_id", "user_name", "attachments"}
 
 
 @pytest.fixture

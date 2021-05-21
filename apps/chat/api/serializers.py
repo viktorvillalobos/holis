@@ -51,3 +51,7 @@ class MessageAttachmentChatSerializer(serializers.Serializer):
     user_name = serializers.CharField(source="message.user.name")
     attachment_url = serializers.CharField(source="attachment.url")
     attachment_mimetype = serializers.CharField(source="mimetype")
+
+
+class MessageWithAttachmentsSerializer(MessageRawSerializer):
+    attachments = MessageAttachmentChatSerializer(many=True)
