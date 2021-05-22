@@ -193,7 +193,7 @@ class BlogSingleView(TemplateView):
 
         try:
             blog_entry = blog_entry_providers.get_blog_entry_by_slug(
-                slug=self.kwargs["slug"]
+                category_slug=self.kwargs["cat_slug"], slug=self.kwargs["slug"]
             )
         except BlogEntry.DoesNotExist:
             raise Http404()
@@ -208,3 +208,6 @@ class BlogListView(ListView):
     template_name = "blog/blog_list.html"
     model = BlogEntry
     paginate_by = 6
+
+    def get_queryset(self):
+        return self.model.objects.filter(is_draft=False)

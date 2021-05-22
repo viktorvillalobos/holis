@@ -60,11 +60,25 @@ class PageContentTranslation(TimeStampedModel):
     content = models.TextField(blank=True)
 
 
+class BlogCategory(TimeStampedModel):
+    name = models.CharField(max_length=100)
+    slug = AutoSlugField(populate_from="name", slugify_function=slugify, max_length=100)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name_plural = "Blog Categories"
+
+
 class BlogEntry(TimeStampedModel):
     """
     A custom page
     """
 
+    category = models.ForeignKey(
+        "web.BlogCategory", on_delete=models.DO_NOTHING, null=True, blank=True
+    )
     title = models.CharField(max_length=150)
     content = models.TextField(blank=True)
     is_draft = models.BooleanField(default=True, db_index=True)
