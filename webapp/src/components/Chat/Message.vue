@@ -8,7 +8,7 @@
     ></div>
     <div class="connect-chat-message-user">
       <Avatar v-if="!messageIsMine" :img="avatar"/>
-      <p>{{ messageIsMine ? 'You' : who}} · {{ datetime | moment("ddd, hA")}}</p>
+      <p>{{ messageIsMine ? 'You' : who}} · {{ datetime | moment("ddd, h:mm a")}}</p>
     </div>
   </div>
 </template>

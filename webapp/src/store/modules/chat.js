@@ -116,7 +116,7 @@ const actions = {
   },
   onMessage ({ commit }, message) {
     message = JSON.parse(message)
-    console.log(message)
+    console.log('HOLAAA',message)
     if (message.type === 'chat.message') commit('addMessage', message)
   },
   async getMessagesByRoom ({ commit }, payload) {
@@ -139,19 +139,24 @@ const actions = {
     commit('unshiftMessages', data)
     commit('unBlockScroll')
   },
-  sendChatMessage ({ commit, state, dispatch }, { msg }) {
-    const payload = {
-      type: 'chat.message',
-      message: msg.message,
-      room: state.room,
-      to: state.currentChatID,
-      is_one_to_one: true
+  async sendChatMessage ({ commit, state, dispatch }, { msg }) {
+    if(msg.files.length > 0){
+      const { data } = await apiClient.chat.uploadFiles(state.room, msg)
+      console.log(data)
+    }else{
+      const payload = {
+        type: 'chat.message',
+        message: msg.message,
+        room: state.room,
+        to: state.currentChatID,
+        is_one_to_one: true
+      }
+
+      window.$socketChat.sendObj(payload)
+      const isRecent = state.recents.filter(x => x.id === state.currentChatID)
+
+      if (!isRecent.length) dispatch('getRecents')
     }
-
-    window.$socketChat.sendObj(payload)
-    const isRecent = state.recents.filter(x => x.id === state.currentChatID)
-
-    if (!isRecent.length) dispatch('getRecents')
   }
 }
 
