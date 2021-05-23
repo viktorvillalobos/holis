@@ -64,7 +64,7 @@ class MessageAttachmentChatSerializer(serializers.Serializer):
         if context:
             return self.context["request"].build_absolute_uri(obj.attachment.url)
 
-        return f"{obj.company.code}.holis.local:8000/{obj.attachment.url}"
+        return f"{obj.company.code}.holis.local:8000{obj.attachment.url}"
 
     def get_attachment_name(self, obj):
         return os.path.basename(obj.attachment.name)
