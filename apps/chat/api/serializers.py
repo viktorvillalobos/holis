@@ -63,8 +63,9 @@ class MessageAttachmentChatSerializer(serializers.Serializer):
 
 
 class MessageWithAttachmentsSerializer(MessageRawSerializer):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields["attachments"].context.update(self.context)
+    attachments = serializers.SerializerMethodField()
 
-    attachments = MessageAttachmentChatSerializer(many=True)
+    def get_attachments(self, obj):
+        return MessageAttachmentChatSerializer(
+            obj.attachments.all(), many=True, context=self.context
+        ).data
