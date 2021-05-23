@@ -32,7 +32,15 @@ export class Attachment{
 
     constructor(map){
         this.attachment_mimetype = map.attachment_mimetype
-        this.attachment_url = attachment_url
+        this.attachment_url = map.attachment_url
+        if(map.attachment_name !== undefined)
+            this.attachment_name = map.attachment_name
+        else
+            this.attachment_name = "Texto de prueba"
+    }
+
+    isImage(){
+        return this.attachment_mimetype.includes('image/png')
     }
 }
 

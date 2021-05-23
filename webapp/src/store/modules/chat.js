@@ -116,6 +116,7 @@ const actions = {
     chatServices.setSocketService({ vm, url, callback })
   },
   onMessage ({ commit }, message) {
+    console.log("HOLAAAA1",message)
     message = JSON.parse(message)
     console.log('HOLAAA',message)
     if (message.type === 'chat.message') commit('addMessage', message)

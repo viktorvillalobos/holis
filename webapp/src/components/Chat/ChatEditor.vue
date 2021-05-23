@@ -118,7 +118,7 @@
             @click="submit"
             :class="{ 'is-active': isSendActive }"
           >
-            <font-awesome-icon icon="paper-plane" />
+            <font-awesome-icon icon="paper-plane"  />
           </button>
         </div>
       </div>

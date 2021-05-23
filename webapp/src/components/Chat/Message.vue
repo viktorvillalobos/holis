@@ -3,14 +3,16 @@
     :class="['connect-chat-message-wrapper', {'connect-chat-message-wrapper--mine' : message.messageIsMine}]"
   >
     <div
-      :class="['connect-chat-message', {'connect-chat-message--mine' : message.messageIsMine}]"
-      v-html="message.text">
+      v-if="message.text.length > 0 || message.text !== '<p></p>'"
+      :class="['connect-chat-message', {'connect-chat-message--mine' : message.messageIsMine}]">
+        <Attachment v-if="message.attachments.length > 0" :attachment="message.attachments[0]"/>
+        <p v-html="message.text"></p>
     </div>
 
-{{message}}
-    <div v-for="attachment in message.attachments" :key="attachment.attachment_url">
-      {{ attachment.attachment_url }}
-      <img :src="attachment.attachment_url">
+    <div 
+      :class="['connect-chat-message', {'connect-chat-message--mine' : message.messageIsMine}]"
+      v-for="attachment in message.attachments.slice(1)" :key="attachment.attachment_url">
+      <Attachment class="image-message" :attachment="attachment"/>
     </div>
 
     <div class="connect-chat-message-user">
@@ -22,6 +24,7 @@
 <script>
 import Avatar from '@/components/Avatar'
 import Message from '../../models/Message'
+import Attachment from './Attachment'
 
 export default {
   name: 'Message',
@@ -30,7 +33,7 @@ export default {
       type: Message
     }
   },
-  components: { Avatar }
+  components: { Avatar, Attachment }
 }
 </script>
 <style lang="scss">
@@ -41,9 +44,9 @@ export default {
   border-radius: 8px 8px 8px 0;
   font-size: 13px;
 
-  * {
+  /** {
     color: #fff;
-  }
+  }*/
 
   pre, code {
     background: $dark-blue;
@@ -56,7 +59,7 @@ export default {
 
   &-wrapper {
     min-width: 262px;
-    max-width: 90%;
+    max-width: 60%;
     margin-bottom: 10px;
 
     &--mine {
