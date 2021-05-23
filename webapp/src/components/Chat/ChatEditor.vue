@@ -239,6 +239,8 @@ export default {
         datetime: new Date(),
         files: this.files
       }
+      this.$refs.chatFileInput.value=null
+      this.files = []
       console.log(msg)
       this.$emit('enter', msg)
       this.editor.clearContent()
