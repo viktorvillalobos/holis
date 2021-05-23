@@ -16,18 +16,18 @@ async def test_create_message_async_is_successful(one_to_one_room, user):
     assert message.text == text
     assert message.company_id == user.company_id
     assert message.room_uuid == one_to_one_room.uuid
-    assert isinstance(message.id, uuid.UUID)
+    assert isinstance(message.uuid, uuid.UUID)
 
 
 @pytest.mark.django_db(transaction=True)
-async def test_create_message_is_successful(one_to_one_room, user):
+def test_create_message_is_successful(one_to_one_room, user):
     text = "This is a test message"
     message = create_message(user.company_id, user.id, one_to_one_room.uuid, text)
 
     assert message.text == text
     assert message.company_id == user.company_id
     assert message.room_uuid == one_to_one_room.uuid
-    assert isinstance(message.id, uuid.UUID)
+    assert isinstance(message.uuid, uuid.UUID)
 
 
 @pytest.mark.django_db
