@@ -5,6 +5,7 @@ from rest_framework.test import APIRequestFactory, force_authenticate
 
 import json
 import pytest
+import uuid
 
 from apps.chat.models import MessageAttachment
 from apps.chat.tests import baker_recipes as chat_recipes
@@ -18,7 +19,7 @@ class TestUploadFileAPIView:
     def setup_method(self, method):
         self.room = chat_recipes.adslab_room_one_to_one.make()
         self.user = user_recipes.user_viktor.make()
-        self.kwargs = {"room_uuid": self.room.id}
+        self.kwargs = {"room_uuid": self.room.uuid}
         self.url = reverse("api-v1:chat:message-with-attachments", kwargs=self.kwargs)
         video = SimpleUploadedFile(
             "file.mp4", b"file_content", content_type="video/mp4"
@@ -69,6 +70,6 @@ class TestUploadFileAPIView:
 
         mocked_broadcast.assert_called_once_with(
             company_id=self.user.company_id,
-            room_uuid=self.room.id,
-            message_uuid=parsed_response["id"],
+            room_uuid=self.room.uuid,
+            message_uuid=uuid.UUID(parsed_response["id"]),
         )

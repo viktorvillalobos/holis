@@ -11,7 +11,7 @@ def create_message_attachments_by_message_uuid(
     messages = [
         MessageAttachment(
             company_id=company_id,
-            message_id=message_uuid,
+            message_uuid=message_uuid,
             attachment=_file,
             mimetype=_file.content_type,
         )

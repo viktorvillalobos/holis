@@ -19,8 +19,8 @@ def test_recent_serializer(expected_recent_fields, mocker):
     for field in expected_recent_fields:
         assert field in serialized_data
 
-    assert serialized_data["room"] == str(room.id)
-    assert serialized_data["id"] == str(room.id)
+    assert serialized_data["room"] == str(room.uuid)
+    assert serialized_data["id"] == str(room.uuid)
     assert serialized_data["name"] == room.name
 
 
@@ -56,8 +56,8 @@ def test_message_attachment_serializer(expected_message_attachment_fields, mocke
     for field in expected_message_attachment_fields:
         assert field in expected_message_attachment_fields
 
-    assert serialized_data["message_uuid"] == str(message_attachment.message_id)
-    assert serialized_data["room_uuid"] == str(message_attachment.message.room_id)
+    assert serialized_data["message_uuid"] == str(message_attachment.message_uuid)
+    assert serialized_data["room_uuid"] == str(message_attachment.message.room_uuid)
     assert serialized_data["user_id"] == message_attachment.message.user_id
     assert serialized_data["user_name"] == message_attachment.message.user.name
     assert serialized_data["attachment_url"] == message_attachment.attachment.url

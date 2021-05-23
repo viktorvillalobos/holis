@@ -22,4 +22,4 @@ def test_create_message_attachments_by_message_uuid():
 
     attachments = MessageAttachment.objects.all()
     assert len(attachments) == 2
-    assert attachments[0].message_id == message.id
+    assert attachments[0].message_uuid == message.uuid

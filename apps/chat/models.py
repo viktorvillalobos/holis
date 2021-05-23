@@ -4,6 +4,8 @@ from django.utils.translation import gettext_lazy as _
 import uuid
 from model_utils.models import TimeStampedModel
 
+from apps.utils.fields import UUIDForeignKey
+
 """
 Design Concepts
 ========
@@ -18,7 +20,7 @@ class Room(TimeStampedModel):
     Chat Room
     """
 
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     company = models.ForeignKey(
         "core.Company",
         related_name="channels",
@@ -67,14 +69,14 @@ class Message(TimeStampedModel):
     A message from an user
     """
 
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     company = models.ForeignKey(
         "core.Company",
         related_name="messages",
         on_delete=models.CASCADE,
         verbose_name=_("company"),
     )
-    room = models.ForeignKey(
+    room = UUIDForeignKey(
         Room, verbose_name=_("room"), related_name="messages", on_delete=models.CASCADE
     )
     user = models.ForeignKey(
@@ -88,12 +90,12 @@ class Message(TimeStampedModel):
     tenant_id = "company_id"
 
     class Meta:
-        unique_together = ["id", "company"]
+        unique_together = ["uuid", "company"]
         ordering = ["-created"]
 
 
 def chat_attachments_path(instance, file_name):
-    return f"{instance.company_id}/chat/room/{instance.message.room_id}/attachments/{file_name}"
+    return f"{instance.company_id}/chat/room/{instance.message.room_uuid}/attachments/{file_name}"
 
 
 class MessageAttachment(TimeStampedModel):
@@ -101,14 +103,14 @@ class MessageAttachment(TimeStampedModel):
     Message Attachment
     """
 
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     company = models.ForeignKey(
         "core.Company",
         related_name="attachments",
         on_delete=models.CASCADE,
         verbose_name=_("company"),
     )
-    message = models.ForeignKey(
+    message = UUIDForeignKey(
         Message,
         verbose_name=_("message"),
         related_name="attachments",
@@ -120,7 +122,7 @@ class MessageAttachment(TimeStampedModel):
     tenant_id = "company_id"
 
     class Meta:
-        unique_together = ["id", "company"]
+        unique_together = ["uuid", "company"]
         ordering = ["created"]
         verbose_name = _("message attachment")
         verbose_name_plural = _("message attachments")
