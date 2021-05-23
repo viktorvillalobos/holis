@@ -1,3 +1,4 @@
+from django.conf import settings
 from rest_framework import serializers
 
 import os
@@ -56,7 +57,14 @@ class MessageAttachmentChatSerializer(serializers.Serializer):
     attachment_mimetype = serializers.CharField(source="mimetype")
 
     def get_attachment_url(self, obj):
-        return self.context["request"].build_absolute_uri(obj.attachment.url)
+        if settings.ENVIRONMENT == "PRODUCTION":
+            return obj.attachment.url
+
+        context = self.context.get("request")
+        if context:
+            return self.context["request"].build_absolute_uri(obj.attachment.url)
+
+        return f"{obj.company.code}.holis.local:8000/{obj.attachment.url}"
 
     def get_attachment_name(self, obj):
         return os.path.basename(obj.attachment.name)
