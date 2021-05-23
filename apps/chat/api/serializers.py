@@ -1,5 +1,7 @@
 from rest_framework import serializers
 
+import os
+
 from apps.chat import models as chat_models
 
 
@@ -49,9 +51,20 @@ class MessageAttachmentChatSerializer(serializers.Serializer):
     room_uuid = serializers.UUIDField(source="message.room_id")
     user_id = serializers.IntegerField(source="message.user.id")
     user_name = serializers.CharField(source="message.user.name")
-    attachment_url = serializers.CharField(source="attachment.url")
+    attachment_url = serializers.SerializerMethodField()
+    attachment_name = serializers.SerializerMethodField()
     attachment_mimetype = serializers.CharField(source="mimetype")
+
+    def get_attachment_url(self, obj):
+        return self.context["request"].build_absolute_uri(obj.attachment.url)
+
+    def get_attachment_name(self, obj):
+        return os.path.basename(obj.attachment.name)
 
 
 class MessageWithAttachmentsSerializer(MessageRawSerializer):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["attachments"].context.update(self.context)
+
     attachments = MessageAttachmentChatSerializer(many=True)

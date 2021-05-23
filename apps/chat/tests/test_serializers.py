@@ -39,11 +39,18 @@ def test_message_raw_serializer(expected_message_raw_fields):
 
 
 @pytest.mark.django_db
-def test_message_attachment_serializer(expected_message_attachment_fields):
+def test_message_attachment_serializer(expected_message_attachment_fields, mocker):
     message_attachment = chat_recipes.adslab_attachment_one_to_one.make()
 
+    def build_absolute_uri(obj):
+        return message_attachment.attachment.url
+
+    request = mocker.Mock()
+    request.build_absolute_uri = build_absolute_uri
+    context = {"request": request}
+
     serialized_data = serializers.MessageAttachmentChatSerializer(
-        message_attachment
+        message_attachment, context=context
     ).data
 
     for field in expected_message_attachment_fields:

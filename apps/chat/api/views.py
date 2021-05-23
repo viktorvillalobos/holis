@@ -68,7 +68,9 @@ class UploadFileAPIView(views.APIView):
             files=files,
         )
 
-        serialized_data = serializers.MessageWithAttachmentsSerializer(message).data
+        serialized_data = serializers.MessageWithAttachmentsSerializer(
+            message, context={"request": request}
+        ).data
 
         chat_services.broadcast_chat_message_with_attachments(
             company_id=self.request.user.company_id,
