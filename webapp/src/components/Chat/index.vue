@@ -37,7 +37,7 @@
       <vue-scroll ref="chatContainer"
                   @handle-scroll="handleScroll">
         <div class="connect-chat-body-messages-wrapper">
-          <message
+          <!--<message
             v-for="msg in messages"
             :key="msg.id"
             :id="msg.id"
@@ -46,7 +46,13 @@
             :datetime="msg.created"
             :text="msg.text"
             :avatar="msg.avatar_thumb"
+          />-->
+          <message
+            v-for="msg in messages"
+            :key="msg.id"
+            :message="msg"
           />
+
         </div>
       </vue-scroll>
     </div>
@@ -100,9 +106,9 @@ export default {
     }
   },
   methods: {
-    getIsMine (userId) {
+    /*getIsMine (userId) {
       return userId === window.user_id
-    },
+    },*/
     handleScroll (vertical, horizonal, nativeEvent) {
       const content = this.$refs.chatContainer
       if (

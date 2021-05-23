@@ -22,14 +22,13 @@ export default {
   getMessagesFromUrl (url) {
     return axios.get(url)
   },
-  uploadFiles (room, payload){
+  sendMessageWithFiles (room, payload){
     const formData = new FormData()
-    for(var i = 0; i < payload.files.length; i++ ){
-      let file = payload.files[i];
-      formData.append('files[' + i + ']', file);
-    }
+    payload.files.forEach(file => {
+      formData.append('files', file);
+    })
     formData.append('text', payload.message)
-    return axios.post(`${urlBase}/chat/room/${room}/`, formData, {
+    return axios.post(`${urlBase}/chat/room/${room}/messages/new-with-attachments/`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data'
       }

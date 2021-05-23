@@ -1,6 +1,6 @@
 import apiClient from '../../providers/api'
 import chatServices from '../../services/chat'
-
+import Message from '../../models/Message'
 
 const socketChat = process.env.NODE_ENV === 'production'
   ? `wss://${location.hostname}:${location.port}/ws/chat/`
@@ -55,7 +55,7 @@ const mutations = {
     state.connected = value
   },
   addMessage (state, msg) {
-    state.messages.push(msg)
+    state.messages.push(new Message(msg))
   },
   setMessages (state, lst) {
     state.messages = lst
@@ -67,6 +67,7 @@ const mutations = {
     state.tempMessages = []
   },
   unshiftMessages (state, messages) {
+    messages.results = messages.results.map(message => new Message(message))
     if(messages.first_time)
       state.messages = [...messages.results]
     else
@@ -121,7 +122,9 @@ const actions = {
   },
   async getMessagesByRoom ({ commit }, payload) {
     const { data } = await apiClient.chat.getMessages(payload.id)
+    console.log("antes deee",data)
     data.first_time = payload.first_time
+    
     console.log('getMessagesByRoom')
     console.log(data)
     commit('unshiftMessages', data)
@@ -141,8 +144,8 @@ const actions = {
   },
   async sendChatMessage ({ commit, state, dispatch }, { msg }) {
     if(msg.files.length > 0){
-      const { data } = await apiClient.chat.uploadFiles(state.room, msg)
-      console.log(data)
+      const { data } = await apiClient.chat.sendMessageWithFiles(state.room, msg)
+      console.log("RESPUESTAA",data)
     }else{
       const payload = {
         type: 'chat.message',

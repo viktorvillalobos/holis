@@ -1,0 +1,39 @@
+import moment from 'moment'
+
+export default class Message{
+
+    constructor(map) {
+        console.log(map)
+        this.id = map.uuid
+        this.messageIsMine = this.getIsMine(map.user_id)
+        this.who = map.user_name
+        this.created = map.created
+        this.text = map.text
+        this.avatar = map.avatar
+        if(map.attachments !== undefined){
+            const attachments = map.attachments
+            this.attachments = attachments.map(attachment => new Attachment(attachment))
+        }else{
+            this.attachments = []
+        }
+    }
+  
+    getIsMine (userId) {
+        return userId === window.user_id
+    }
+
+    getDateTime(){
+        const date = moment(this.created).format("ddd, h:mm a").replace('.','')
+        return date.charAt(0).toUpperCase() + date.slice(1)
+    }
+}
+
+export class Attachment{
+
+    constructor(map){
+        this.attachment_mimetype = map.attachment_mimetype
+        this.attachment_url = attachment_url
+    }
+}
+
+  

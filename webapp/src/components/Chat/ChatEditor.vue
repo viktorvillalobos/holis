@@ -1,8 +1,5 @@
 <template>
   <div class="holis-chat-editor">
-    <button @click="editor.chain().focus().toggleOrderedList().run()" :class="{ 'is-active': editor.isActive('orderedList') }">
-      ordered list
-    </button>
     <div v-show="files.length" class="files-slot">
       <ul>
         <li v-for="(file, index) in files" :key="index">
@@ -242,6 +239,7 @@ export default {
         datetime: new Date(),
         files: this.files
       }
+      console.log(msg)
       this.$emit('enter', msg)
       this.editor.clearContent()
       this.showEmojiPicker = false

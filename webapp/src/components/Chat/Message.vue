@@ -1,39 +1,33 @@
 <template>
   <div
-    :class="['connect-chat-message-wrapper', {'connect-chat-message-wrapper--mine' : messageIsMine}]"
+    :class="['connect-chat-message-wrapper', {'connect-chat-message-wrapper--mine' : message.messageIsMine}]"
   >
     <div
-      :class="['connect-chat-message', {'connect-chat-message--mine' : messageIsMine}]"
-      v-html="text"
-    ></div>
+      :class="['connect-chat-message', {'connect-chat-message--mine' : message.messageIsMine}]"
+      v-html="message.text">
+    </div>
+
+{{message}}
+    <div v-for="attachment in message.attachments" :key="attachment.attachment_url">
+      {{ attachment.attachment_url }}
+      <img :src="attachment.attachment_url">
+    </div>
+
     <div class="connect-chat-message-user">
-      <Avatar v-if="!messageIsMine" :img="avatar"/>
-      <p>{{ messageIsMine ? 'You' : who}} · {{ datetime | moment("ddd, h:mm a")}}</p>
+      <Avatar v-if="!message.messageIsMine" :img="message.avatar"/>
+      <p>{{ message.messageIsMine ? 'You' : message.who}} · {{ message.getDateTime() }}</p>
     </div>
   </div>
 </template>
 <script>
 import Avatar from '@/components/Avatar'
+import Message from '../../models/Message'
+
 export default {
   name: 'Message',
   props: {
-    messageIsMine: {
-      type: Boolean
-    },
-    avatar: {
-      type: String
-    },
-    datetime: {
-      type: String
-    },
-    who: {
-      type: String
-    },
-    id: {
-      type: String
-    },
-    text: {
-      type: String
+    message : {
+      type: Message
     }
   },
   components: { Avatar }
