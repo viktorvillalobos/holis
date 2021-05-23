@@ -32,6 +32,6 @@ application = get_default_application()
 sentry_sdk.init(
     dsn=settings.SENTRY_DSN,
     integrations=[settings.SENTRY_LOGGING, DjangoIntegration(), CeleryIntegration()],
-    traces_sample=0.2,
+    traces_sample_rate=0.2,
 )
 application = SentryAsgiMiddleware(application)
