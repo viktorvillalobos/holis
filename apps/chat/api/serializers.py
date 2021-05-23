@@ -11,7 +11,9 @@ class GetOrCreateRoomSerializer(serializers.Serializer):
 
 
 class RecentsSerializer(serializers.ModelSerializer):
-    room = serializers.UUIDField(source="id")
+    room = serializers.UUIDField(source="uuid")
+    # This is for legacy compantibilty.
+    id = serializers.UUIDField(source="uuid")
     avatar_thumb = serializers.SerializerMethodField()
 
     def get_avatar_thumb(self, obj):
@@ -21,7 +23,7 @@ class RecentsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = chat_models.Room
-        fields = ("name", "id", "room", "avatar_thumb")
+        fields = ("name", "uuid", "id", "room", "avatar_thumb")
         read_only_fields = fields
 
 
@@ -29,7 +31,8 @@ class MessageRawSerializer(serializers.Serializer):
     avatar_thumb = serializers.SerializerMethodField()
     user_name = serializers.SerializerMethodField()
     user_id = serializers.SerializerMethodField()
-    id = serializers.CharField()
+    uuid = serializers.CharField()
+    id = serializers.CharField(source="uuid")
     room = serializers.UUIDField()
     created = serializers.DateTimeField()
     text = serializers.CharField()
@@ -46,10 +49,11 @@ class MessageRawSerializer(serializers.Serializer):
 
 
 class MessageAttachmentChatSerializer(serializers.Serializer):
-    id = serializers.UUIDField()
+    uuid = serializers.UUIDField()
+    id = serializers.UUIDField(source="uuid")
     company_id = serializers.IntegerField()
     message_uuid = serializers.UUIDField(source="message.pk")
-    room_uuid = serializers.UUIDField(source="message.room_id")
+    room_uuid = serializers.UUIDField(source="message.room_uuid")
     user_id = serializers.IntegerField(source="message.user.id")
     user_name = serializers.CharField(source="message.user.name")
     attachment_url = serializers.SerializerMethodField()

@@ -10,6 +10,7 @@ from twilio.rest import Client
 from apps.chat import models as chat_models
 from apps.chat import uc as chat_uc
 from apps.chat.api import serializers
+from apps.chat.providers import message as message_providers
 from apps.chat.providers import message_attachment as message_attachment_providers
 
 from .. import services as chat_services
@@ -26,7 +27,7 @@ class GetOrCreateRoomAPIView(views.APIView):
 
         room = self.get_one_to_one_room(serializer.validated_data)
 
-        return Response({"id": room.id}, status=200)
+        return Response({"id": room.uuid}, status=200)
 
     def get_one_to_one_room(self, validated_data: dict) -> chat_models.Room:
         try:
@@ -57,14 +58,14 @@ class UploadFileAPIView(views.APIView):
 
         message = chat_services.create_message(
             company_id=request.user.company_id,
-            room_id=room_uuid,
+            room_uuid=room_uuid,
             user_id=request.user.id,
             text=text,
         )
 
         message_attachment_providers.create_message_attachments_by_message_uuid(
             company_id=self.request.user.company_id,
-            message_uuid=message.id,
+            message_uuid=message.uuid,
             files=files,
         )
 
@@ -75,7 +76,7 @@ class UploadFileAPIView(views.APIView):
         chat_services.broadcast_chat_message_with_attachments(
             company_id=self.request.user.company_id,
             room_uuid=room_uuid,
-            message_uuid=str(message.id),
+            message_uuid=message.uuid,
         )
 
         return Response(serialized_data, status=status.HTTP_201_CREATED)
@@ -102,15 +103,8 @@ class MessageListAPIView(generics.ListAPIView):
     pagination_class = MessageCursoredPagination
 
     def get_queryset(self):
-        return (
-            super()
-            .get_queryset()
-            .filter(
-                room__id=self.kwargs["room_uuid"],
-                company_id=self.request.user.company_id,
-            )
-            .select_related("user", "room")
-            .prefetch_related("attachments")
+        return message_providers.get_messages_by_room_uuid(
+            company_id=self.request.user.company_id, room_uuid=self.kwargs["room_uuid"]
         )
 
     def list(self, request, *args, **kwargs):
