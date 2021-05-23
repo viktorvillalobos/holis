@@ -98,7 +98,7 @@ class MessageCursoredPagination(CursorPagination):
 
 class MessageListAPIView(generics.ListAPIView):
     queryset = chat_models.Message.objects.all()
-    serializer_class = serializers.MessageRawSerializer
+    serializer_class = serializers.MessageWithAttachmentsSerializer
     pagination_class = MessageCursoredPagination
 
     def get_queryset(self):
@@ -110,6 +110,7 @@ class MessageListAPIView(generics.ListAPIView):
                 company_id=self.request.user.company_id,
             )
             .select_related("user", "room")
+            .prefetch_related("attachments")
         )
 
     def list(self, request, *args, **kwargs):
