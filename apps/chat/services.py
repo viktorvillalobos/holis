@@ -41,7 +41,7 @@ def create_message(
 
 
 def _serialize_message(message):
-    data = serializers.MessageRawSerializer(message).data
+    data = serializers.MessageWithAttachmentsSerializer(message).data
 
     return {
         **data,
@@ -146,7 +146,9 @@ def broadcast_chat_message_with_attachments(
 ) -> None:
     channel_layer = get_channel_layer()
     group = ROOM_GROUP_NAME.format(company_id=company_id, room_uuid=room_uuid)
-    message = chat_models.Message.objects.get(id=message_uuid)
+    message = chat_models.Message.objects.prefetch_related("attachments").get(
+        id=message_uuid
+    )
 
     serialized_message = _serialize_message(message)
 
