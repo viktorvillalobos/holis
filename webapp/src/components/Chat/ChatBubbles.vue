@@ -136,6 +136,7 @@ export default {
   flex-direction: column;
   align-items: center;
   transition: $aside-transition;
+  z-index: 14;
 
   &.aside-opened {
     right: $margin-right-container-aside-opened;

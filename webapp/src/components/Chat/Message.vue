@@ -10,7 +10,7 @@
     </div>
 
     <div 
-      :class="['connect-chat-message', {'connect-chat-message--mine' : message.messageIsMine}]"
+      :class="['connect-chat-message', 'attachment', {'connect-chat-message--mine' : message.messageIsMine}]"
       v-for="attachment in message.attachments.slice(1)" :key="attachment.attachment_url">
       <Attachment class="image-message" :attachment="attachment"/>
     </div>
@@ -88,5 +88,9 @@ export default {
       margin-left: 10px;
     }
   }
+}
+
+.attachment{
+  margin-top: 10px;
 }
 </style>

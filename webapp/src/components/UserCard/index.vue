@@ -168,6 +168,7 @@ export default {
   box-shadow: $card-box-shadow;
   background: #fff;
   border-radius: $card-border-radius;
+  z-index: 14;
 
   > div {
     display: inline-flex;
