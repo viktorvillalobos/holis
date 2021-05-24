@@ -126,28 +126,3 @@ class MessageAttachment(TimeStampedModel):
         ordering = ["created"]
         verbose_name = _("message attachment")
         verbose_name_plural = _("message attachments")
-
-
-class MessageDraft(TimeStampedModel):
-    """
-    Message Attachment
-    """
-
-    uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    company = models.ForeignKey(
-        "core.Company",
-        related_name="attachments",
-        on_delete=models.CASCADE,
-        verbose_name=_("company"),
-    )
-    room = UUIDForeignKey(
-        Room, verbose_name=_("room"), related_name="messages", on_delete=models.CASCADE
-    )
-
-    tenant_id = "company_id"
-
-    class Meta:
-        unique_together = ["uuid", "company"]
-        ordering = ["created"]
-        verbose_name = _("message attachment")
-        verbose_name_plural = _("message attachments")
