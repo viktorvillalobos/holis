@@ -29,9 +29,23 @@ django.setup()
 
 application = get_default_application()
 
+
+def traces_sampler(context):
+    """
+        Avoid WhineNoise Statics
+    """
+    if context.get("transaction_context") and context.get("transaction_context").get(
+        "name"
+    ):
+        if "static" in context["transaction_context"]["name"]:
+            return 0
+
+    return 0.2
+
+
 sentry_sdk.init(
     dsn=settings.SENTRY_DSN,
     integrations=[settings.SENTRY_LOGGING, DjangoIntegration(), CeleryIntegration()],
-    traces_sample_rate=0.2,
+    traces_sampler=traces_sampler,
 )
 application = SentryAsgiMiddleware(application)
