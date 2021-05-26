@@ -28,24 +28,19 @@
       v-if="!chatActive"
       class="connect-chat-body"
     >
-      <div class="nose"></div>
-      <span
-        v-if="next"
-        class="connect-chat-load-more"
-        @click="loadHistory()"
-      >Load history</span>
+      
+      <button
+        class="button is-dark is-rounded load-more"
+        v-if="showLoadHistory"
+        @click="loadHistory()">Load history</button>
+
       <vue-scroll ref="chatContainer"
                   @handle-scroll="handleScroll">
         <div class="connect-chat-body-messages-wrapper">
           <message
             v-for="msg in messages"
             :key="msg.id"
-            :id="msg.id"
-            :messageIsMine="getIsMine(msg.user_id)"
-            :who="msg.user_name"
-            :datetime="msg.created"
-            :text="msg.text"
-            :avatar="msg.avatar_thumb"
+            :message="msg"
           />
         </div>
       </vue-scroll>
@@ -77,7 +72,10 @@ export default {
     return {
       searchPerson: '',
       jid: '',
-      patternChat: pattern
+      patternChat: pattern,
+      isFirstTime: true,
+      showLoadHistory: false,
+      savePosition: 0
     }
   },
   computed: {
@@ -91,19 +89,39 @@ export default {
       chatActive: state => state.chat.chatActive
     })
   },
+  watch: {
+    messages(newVal){
+      if(newVal.length == 0){
+        this.isFirstTime = true // Esta comprobacion forza para que la primera vez para que haga scroll
+        return
+      }
+
+      if(this.isFirstTime){
+        setTimeout(() => {
+          this.scrollToEnd()
+          this.isFirstTime = false
+        }, 400)
+      }
+    },
+    chatActive(newVal){
+      this.isFirstTime = true
+    }
+  },
   mounted () {
-    this.scrollToEnd()
+    //this.scrollToEnd()
   },
   updated () {
     if (this.allowScrollToEnd) {
-      this.scrollToEnd()
+      //this.scrollToEnd()
     }
   },
   methods: {
-    getIsMine (userId) {
-      return userId === window.user_id
-    },
     handleScroll (vertical, horizonal, nativeEvent) {
+      if(this.next && vertical.process <= 0.06)
+        this.showLoadHistory = true
+      else
+        this.showLoadHistory = false
+
       const content = this.$refs.chatContainer
       if (
         content &&
@@ -117,10 +135,15 @@ export default {
       }
     },
     loadHistory () {
-      if (this.next) this.$store.dispatch('getNextMessages')
+      if (this.next){
+        //this.savePosition = this.$refs.chatContainer.getPosition()
+        this.$store.dispatch('getNextMessages')
+      }
     },
     scrollToEnd () {
       const content = this.$refs.chatContainer
+      console.log("SOLAAAA",content.scrollHeight)
+      
       if (content) content.scrollTo({ y: '100%' }, content.scrollHeight)
     },
     addMessage (msg) {
@@ -137,13 +160,24 @@ export default {
       this.$emit('selectedChat')
       this.$store.commit('setCurrentChatName', user.name || user.username)
       this.$store.commit('setCurrentChatID', user.id)
-      this.$store.dispatch('getMessagesByUser', user.id)
+      const data = {
+        "to": user.id,
+        "first_time": true
+      }
+      this.$store.dispatch('getMessagesByUser', data)
     }
   }
 }
 </script>
 
 <style lang="scss">
+.load-more{
+  width: 140px;
+  margin: auto;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  position: absolute;
+}
 .connect-chat {
   border-top: 1px solid $light-gray;
   position: relative;

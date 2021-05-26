@@ -118,7 +118,7 @@
             @click="submit"
             :class="{ 'is-active': isSendActive }"
           >
-            <font-awesome-icon icon="paper-plane" />
+            <font-awesome-icon icon="paper-plane"  />
           </button>
         </div>
       </div>
@@ -232,13 +232,20 @@ export default {
       this.showEmojiPicker = false
     },
     submit () {
+      console.log("ENTERRRRR")
       const msg = {
         message: this.message,
         is_mine: true,
-        datetime: new Date()
+        datetime: new Date(),
+        files: this.files
       }
+      this.$refs.chatFileInput.value=null
+      this.files = []
+      console.log(msg)
       this.$emit('enter', msg)
       this.editor.clearContent()
+      this.showEmojiPicker = false
+      this.message = '<p></p>'
     }
   }
 }

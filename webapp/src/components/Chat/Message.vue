@@ -1,42 +1,39 @@
 <template>
   <div
-    :class="['connect-chat-message-wrapper', {'connect-chat-message-wrapper--mine' : messageIsMine}]"
+    :class="['connect-chat-message-wrapper', {'connect-chat-message-wrapper--mine' : message.messageIsMine}]"
   >
     <div
-      :class="['connect-chat-message', {'connect-chat-message--mine' : messageIsMine}]"
-      v-html="text"
-    ></div>
+      v-if="message.text.length > 0 || message.text !== '<p></p>'"
+      :class="['connect-chat-message', {'connect-chat-message--mine' : message.messageIsMine}]">
+        <Attachment v-if="message.attachments.length > 0" :attachment="message.attachments[0]"/>
+        <p v-html="message.text"></p>
+    </div>
+
+    <div 
+      :class="['connect-chat-message', 'attachment', {'connect-chat-message--mine' : message.messageIsMine}]"
+      v-for="attachment in message.attachments.slice(1)" :key="attachment.attachment_url">
+      <Attachment class="image-message" :attachment="attachment"/>
+    </div>
+
     <div class="connect-chat-message-user">
-      <Avatar v-if="!messageIsMine" :img="avatar"/>
-      <p>{{ messageIsMine ? 'You' : who}} · {{ datetime | moment("ddd, hA")}}</p>
+      <Avatar v-if="!message.messageIsMine" :img="message.avatar"/>
+      <p>{{ message.messageIsMine ? 'You' : message.who}} · {{ message.getDateTime() }}</p>
     </div>
   </div>
 </template>
 <script>
 import Avatar from '@/components/Avatar'
+import Message from '../../models/Message'
+import Attachment from './Attachment'
+
 export default {
   name: 'Message',
   props: {
-    messageIsMine: {
-      type: Boolean
-    },
-    avatar: {
-      type: String
-    },
-    datetime: {
-      type: String
-    },
-    who: {
-      type: String
-    },
-    id: {
-      type: String
-    },
-    text: {
-      type: String
+    message : {
+      type: Message
     }
   },
-  components: { Avatar }
+  components: { Avatar, Attachment }
 }
 </script>
 <style lang="scss">
@@ -47,9 +44,9 @@ export default {
   border-radius: 8px 8px 8px 0;
   font-size: 13px;
 
-  * {
+  /** {
     color: #fff;
-  }
+  }*/
 
   pre, code {
     background: $dark-blue;
@@ -62,7 +59,7 @@ export default {
 
   &-wrapper {
     min-width: 262px;
-    max-width: 90%;
+    max-width: 60%;
     margin-bottom: 10px;
 
     &--mine {
@@ -91,5 +88,9 @@ export default {
       margin-left: 10px;
     }
   }
+}
+
+.attachment{
+  margin-top: 10px;
 }
 </style>

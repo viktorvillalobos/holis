@@ -21,5 +21,17 @@ export default {
   },
   getMessagesFromUrl (url) {
     return axios.get(url)
+  },
+  sendMessageWithFiles (room, payload){
+    const formData = new FormData()
+    payload.files.forEach(file => {
+      formData.append('files', file);
+    })
+    formData.append('text', payload.message)
+    return axios.post(`${urlBase}/chat/room/${room}/messages/new-with-attachments/`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    })
   }
 }

@@ -92,7 +92,11 @@ export default {
       this.$store.commit('setAsideRightActive', true)
       this.$store.commit('setChatActive', false)
       this.$store.commit('clearMessages')
-      this.$store.dispatch('getMessagesByUser', recent.id)
+      const data = {
+        "to": recent.id,
+        "first_time": true
+      }
+      this.$store.dispatch('getMessagesByUser', data)
 
       this.$store.commit('setCurrentChatName', recent.name)
       this.$store.commit('setCurrentChatID', recent.id)
@@ -132,6 +136,7 @@ export default {
   flex-direction: column;
   align-items: center;
   transition: $aside-transition;
+  z-index: 14;
 
   &.aside-opened {
     right: $margin-right-container-aside-opened;

@@ -1,7 +1,10 @@
 <template>
-  <div class="connect-board-post-cta" :style="`background-image: url(${CTABg})`">
-    <p>¿Tienes algo muy bueno que contarle a todos?</p>
-    <Btn @btn-click="emitAction" inverse>¡Anúncialo!</Btn>
+  <div class="connect-board-post-cta">
+    <img :src="CTABg"/>
+    <div class="columns content-footer">
+      <p class="column is-four-fifths">¿Tienes algo muy bueno que contarle a todos?</p>
+      <Btn @btn-click="emitAction" inverse class="column">¡Anúncialo!</Btn>
+    </div>
   </div>
 </template>
 <script>
@@ -25,20 +28,25 @@ export default {
 </script>
 <style lang="scss" scoped>
 .connect-board-post-cta {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  padding: 0 5px 5px 5px;
-  display: inline-flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  background-repeat: no-repeat;
-  background-position: bottom;
-  height: 90px;
-  color: #fff;
-
   p {
+    color: white;
     margin: 0 10px 0 0;
   }
+}
+
+.connect-board-post-cta img{
+  position: absolute;
+  right: 0px;
+  bottom: -1px;
+  z-index: -1;
+  width: 100%;
+  height: auto;
+}
+
+.content-footer{
+  bottom: 0px;
+  padding-top: 20px;
+  margin-left: 20px;
+  margin-right: 40px;
 }
 </style>

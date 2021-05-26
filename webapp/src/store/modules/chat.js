@@ -1,6 +1,6 @@
 import apiClient from '../../providers/api'
 import chatServices from '../../services/chat'
-
+import Message from '../../models/Message'
 
 const socketChat = process.env.NODE_ENV === 'production'
   ? `wss://${location.hostname}:${location.port}/ws/chat/`
@@ -55,7 +55,7 @@ const mutations = {
     state.connected = value
   },
   addMessage (state, msg) {
-    state.messages.push(msg)
+    state.messages.push(new Message(msg))
   },
   setMessages (state, lst) {
     state.messages = lst
@@ -67,7 +67,11 @@ const mutations = {
     state.tempMessages = []
   },
   unshiftMessages (state, messages) {
-    state.messages = [...messages.results, ...state.messages]
+    messages.results = messages.results.map(message => new Message(message))
+    if(messages.first_time)
+      state.messages = [...messages.results]
+    else
+      state.messages = [...messages.results, ...state.messages]
     state.next = messages.next
     state.prev = messages.previous
   },
@@ -93,33 +97,43 @@ const actions = {
     commit('setRoom', room)
 
     const url = getChatUrlByRoomId(room)
-    const mustCloseActiveConnection = chatServices.mustCloseActiveConnectionByRoom({ vm, room })
+    const statusConnection = chatServices.statusConnectionByRoom({ vm, room })
+    
+    const socketIsOpen = statusConnection.socketIsOpen
+    const isTheSameRoom = statusConnection.isTheSameRoom
 
-    if (mustCloseActiveConnection) {
+    if(socketIsOpen && isTheSameRoom){
+        return
+    }
+
+    if (socketIsOpen && !isTheSameRoom) {
       console.log('Closing Old Chat WS service')
       chatServices.closeSocketService()
       commit('clearMessages')
     }
-
+    
     const callback = message => dispatch('onMessage', message.data)
     chatServices.setSocketService({ vm, url, callback })
   },
   onMessage ({ commit }, message) {
+    console.log("HOLAAAA1",message)
     message = JSON.parse(message)
-    console.log(message)
+    console.log('HOLAAA',message)
     if (message.type === 'chat.message') commit('addMessage', message)
   },
-  async getMessagesByRoom ({ commit }, room) {
-    const { data } = await apiClient.chat.getMessages(room)
-
+  async getMessagesByRoom ({ commit }, payload) {
+    const { data } = await apiClient.chat.getMessages(payload.id)
+    console.log("antes deee",data)
+    data.first_time = payload.first_time
+    
     console.log('getMessagesByRoom')
     console.log(data)
     commit('unshiftMessages', data)
   },
-  async getMessagesByUser ({ commit, dispatch }, to) {
-    const { data } = await apiClient.chat.getRoomByUserID(to)
-
-    dispatch('getMessagesByRoom', data.id)
+  async getMessagesByUser ({ commit, dispatch }, payload) {
+    const { data } = await apiClient.chat.getRoomByUserID(payload.to)
+    data.first_time = payload.first_time
+    dispatch('getMessagesByRoom', data)
     dispatch('connectToRoom', { vm: this.$app, room: data.id })
   },
   async getNextMessages ({ commit }) {
@@ -129,19 +143,24 @@ const actions = {
     commit('unshiftMessages', data)
     commit('unBlockScroll')
   },
-  sendChatMessage ({ commit, state, dispatch }, { msg }) {
-    const payload = {
-      type: 'chat.message',
-      message: msg.message,
-      room: state.room,
-      to: state.currentChatID,
-      is_one_to_one: true
+  async sendChatMessage ({ commit, state, dispatch }, { msg }) {
+    if(msg.files.length > 0){
+      const { data } = await apiClient.chat.sendMessageWithFiles(state.room, msg)
+      console.log("RESPUESTAA",data)
+    }else{
+      const payload = {
+        type: 'chat.message',
+        message: msg.message,
+        room: state.room,
+        to: state.currentChatID,
+        is_one_to_one: true
+      }
+
+      window.$socketChat.sendObj(payload)
+      const isRecent = state.recents.filter(x => x.id === state.currentChatID)
+
+      if (!isRecent.length) dispatch('getRecents')
     }
-
-    window.$socketChat.sendObj(payload)
-    const isRecent = state.recents.filter(x => x.id === state.currentChatID)
-
-    if (!isRecent.length) dispatch('getRecents')
   }
 }
 
