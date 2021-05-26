@@ -20,8 +20,9 @@ Holis is a toolkit for that offers a single access point for remote teams, Holis
 
 Precommit checks the project when a commit is generated.
 
-`pip install pre-commit --user`
-`pre-commit install`
+  * `pip install pre-commit --user`
+
+  * `pre-commit install`
 
 
 1. Create tenant hosts 😱
