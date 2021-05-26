@@ -21,7 +21,7 @@
                         </div>
                     </a>
                     <div class="holis-blog-list-featured-post-content-extract">
-                        {{ post.content | truncatechars:300 }}
+                        {{ post.content | truncatechars:300 | safe_markdown }}
                     </div>
                 </div>
             {% endfor %}
