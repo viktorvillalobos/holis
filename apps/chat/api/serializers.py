@@ -61,7 +61,7 @@ class MessageAttachmentChatSerializer(serializers.Serializer):
     attachment_mimetype = serializers.CharField(source="mimetype")
 
     def get_attachment_url(self, obj):
-        if settings.ENVIRONMENT == "PRODUCTION":
+        if settings.ENVIRONMENT == settings.PRODUCTION:
             return obj.attachment.url
 
         context = self.context.get("request")
