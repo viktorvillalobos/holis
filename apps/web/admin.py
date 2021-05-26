@@ -3,13 +3,7 @@ from django.db import models
 
 from martor.widgets import AdminMartorWidget
 
-from apps.web.models import (
-    BlogCategory,
-    BlogEntry,
-    BlogEntryContentTranslation,
-    Lead,
-    Page,
-)
+from apps.web.models import BlogCategory, BlogEntry, Lead, Page
 
 # Register your models here.
 
@@ -40,14 +34,8 @@ class BlogCategoryAdmin(admin.ModelAdmin):
     search_fields = ("name",)
 
 
-class BlogEntryContentTranslationInLine(admin.StackedInline):
-    model = BlogEntryContentTranslation
-    extra = 1
-
-
 @admin.register(BlogEntry)
 class BlogEntryAdmin(admin.ModelAdmin):
     formfield_overrides = {models.TextField: {"widget": AdminMartorWidget}}
     list_display = ("title", "category", "slug", "created", "modified")
     search_fields = ("title", "is_draft")
-    inlines = (BlogEntryContentTranslationInLine,)

@@ -204,7 +204,9 @@ class BlogSingleView(RedirectToLangPage, TemplateView):
 
         try:
             blog_entry = blog_entry_providers.get_blog_entry_by_slug(
-                category_slug=self.kwargs["cat_slug"], slug=self.kwargs["slug"]
+                category_slug=self.kwargs["cat_slug"],
+                slug=self.kwargs["slug"],
+                lang=self.request.LANGUAGE_CODE,
             )
         except BlogEntry.DoesNotExist:
             raise Http404()
@@ -222,4 +224,6 @@ class BlogListView(RedirectToLangPage, ListView):
     url_name = "web:blog-list"
 
     def get_queryset(self):
-        return self.model.objects.filter(is_draft=False)
+        return self.model.objects.filter(
+            is_draft=False, lang=self.request.LANGUAGE_CODE
+        )

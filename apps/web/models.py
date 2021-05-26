@@ -78,6 +78,12 @@ class BlogEntry(TimeStampedModel):
     A custom page
     """
 
+    lang = models.CharField(
+        choices=web_constants.BlogEntryLangChoices.choices,
+        max_length=2,
+        default=web_constants.BlogEntryLangChoices.EN,
+    )
+
     category = models.ForeignKey(
         "web.BlogCategory", on_delete=models.DO_NOTHING, null=True, blank=True
     )
@@ -96,13 +102,3 @@ class BlogEntry(TimeStampedModel):
 
     def __str__(self):
         return self.title
-
-
-class BlogEntryContentTranslation(TimeStampedModel):
-    ES = "es"
-    LANG_CHOICES = web_constants.BlogEntryLangChoices.choices
-
-    blog_entry = models.ForeignKey("web.BlogEntry", on_delete=models.CASCADE)
-    lang = models.CharField(db_index=True, max_length=2, choices=LANG_CHOICES)
-    title = models.CharField(max_length=150)
-    content = models.TextField(blank=True)
