@@ -37,5 +37,5 @@ class BlogCategoryAdmin(admin.ModelAdmin):
 @admin.register(BlogEntry)
 class BlogEntryAdmin(admin.ModelAdmin):
     formfield_overrides = {models.TextField: {"widget": AdminMartorWidget}}
-    list_display = ("title", "category", "slug", "created", "modified")
+    list_display = ("title", "lang", "category", "slug", "created", "modified")
     search_fields = ("title", "is_draft")

@@ -91,7 +91,7 @@ class BlogEntry(TimeStampedModel):
     content = models.TextField(blank=True)
     is_draft = models.BooleanField(default=True, db_index=True)
     slug = AutoSlugField(
-        populate_from="title", slugify_function=slugify, max_length=255
+        populate_from="title", slugify_function=slugify, max_length=255, editable=True
     )
     image = models.ImageField(upload_to="holis/blog/", null=True, blank=True)
     tags = TaggableManager()
