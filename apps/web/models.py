@@ -10,6 +10,8 @@ from taggit.managers import TaggableManager
 
 from apps.utils.fields import LowerCharField
 
+from .lib import constants as web_constants
+
 # Create your models here.
 
 
@@ -92,10 +94,13 @@ class BlogEntry(TimeStampedModel):
         verbose_name = "Blog Entries"
         verbose_name_plural = "Blog Entries"
 
+    def __str__(self):
+        return self.title
+
 
 class BlogEntryContentTranslation(TimeStampedModel):
     ES = "es"
-    LANG_CHOICES = ((ES, "Spanish"),)
+    LANG_CHOICES = web_constants.BlogEntryLangChoices.choices
 
     blog_entry = models.ForeignKey("web.BlogEntry", on_delete=models.CASCADE)
     lang = models.CharField(db_index=True, max_length=2, choices=LANG_CHOICES)

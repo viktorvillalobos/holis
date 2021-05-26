@@ -10,15 +10,23 @@ urlpatterns = [
     path("check-company/", views.CheckCompanyView.as_view(), name="check-company"),
     path("login/", views.LoginView.as_view(), name="login"),
     path("blog/", views.BlogListView.as_view(), name="blog-list"),
+    path("<str:lang_code>/blog/", views.BlogListView.as_view(), name="blog-list"),
     path(
         "blog/<str:cat_slug>/<str:slug>",
+        views.BlogSingleView.as_view(),
+        name="blog-single",
+    ),
+    path(
+        "<str:lang_code>/blog/<str:cat_slug>/<str:slug>",
         views.BlogSingleView.as_view(),
         name="blog-single",
     ),
     path("", views.HomeView.as_view(), name="home"),
     path("<str:lang_code>/", views.HomeView.as_view(), name="home_with_lang"),
     path(
-        "about/", TemplateView.as_view(template_name="pages/about.html"), name="about"
+        "<str:lang_code>/about/",
+        TemplateView.as_view(template_name="pages/about.html"),
+        name="about",
     ),
     path("signup/step1/", views.SignUpStep1.as_view(), name="signup-step-1"),
     path("signup/step2/", views.SignUpStep2.as_view(), name="signup-step-2"),

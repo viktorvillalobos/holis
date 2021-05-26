@@ -27,6 +27,24 @@ from .providers import page as page_providers
 logger = logging.getLogger(__name__)
 
 
+class RedirectToLangPage:
+    url_name = None
+
+    def dispatch(self, request, *args, **kwargs):
+        if not self.url_name:
+            raise Exception("url_name attribute is required")
+
+        kwargs_with_lang_code = kwargs | {"lang_code": request.LANGUAGE_CODE}
+
+        if (
+            not self.kwargs.get("lang_code")
+            or self.kwargs.get("lang_code") != request.LANGUAGE_CODE
+        ):
+            return redirect(reverse(self.url_name, kwargs=kwargs_with_lang_code))
+
+        return super().dispatch(request, *args, **kwargs_with_lang_code)
+
+
 class RedirectToAppMixin:
     def dispatch(self, request, *args, **kwargs):
         host = request.META.get("HTTP_HOST", "")
@@ -142,18 +160,9 @@ def logout_view(request):
     return redirect("webapp")
 
 
-class HomeView(RedirectToAppMixin, TemplateView):
+class HomeView(RedirectToAppMixin, RedirectToLangPage, TemplateView):
     template_name = "pages/home_v2.html"
-
-    def dispatch(self, request, *args, **kwargs):
-        if (
-            not self.kwargs.get("lang_code")
-            or self.kwargs.get("lang_code") != request.LANGUAGE_CODE
-        ):
-            return redirect(
-                reverse("web:home_with_lang", args=(request.LANGUAGE_CODE,))
-            )
-        return super().dispatch(request, *args, **kwargs)
+    url_name = "web:home_with_lang"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -171,8 +180,9 @@ class HomeView(RedirectToAppMixin, TemplateView):
         }
 
 
-class PageSingleView(TemplateView):
+class PageSingleView(RedirectToLangPage, TemplateView):
     template_name = "pages/page_single.html"
+    url_name = "web:page-simple"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -185,8 +195,9 @@ class PageSingleView(TemplateView):
         return context | {"PAGE": page}
 
 
-class BlogSingleView(TemplateView):
+class BlogSingleView(RedirectToLangPage, TemplateView):
     template_name = "blog/blog_single.html"
+    url_name = "web:blog-single"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -204,10 +215,11 @@ class BlogSingleView(TemplateView):
         }
 
 
-class BlogListView(ListView):
+class BlogListView(RedirectToLangPage, ListView):
     template_name = "blog/blog_list.html"
     model = BlogEntry
     paginate_by = 6
+    url_name = "web:blog-list"
 
     def get_queryset(self):
         return self.model.objects.filter(is_draft=False)
