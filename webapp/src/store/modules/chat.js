@@ -98,7 +98,7 @@ const actions = {
 
     const url = getChatUrlByRoomId(room)
     const statusConnection = chatServices.statusConnectionByRoom({ vm, room })
-    
+
     const socketIsOpen = statusConnection.socketIsOpen
     const isTheSameRoom = statusConnection.isTheSameRoom
 
@@ -111,7 +111,7 @@ const actions = {
       chatServices.closeSocketService()
       commit('clearMessages')
     }
-    
+
     const callback = message => dispatch('onMessage', message.data)
     chatServices.setSocketService({ vm, url, callback })
   },
@@ -125,7 +125,7 @@ const actions = {
     const { data } = await apiClient.chat.getMessages(payload.id)
     console.log("antes deee",data)
     data.first_time = payload.first_time
-    
+
     console.log('getMessagesByRoom')
     console.log(data)
     commit('unshiftMessages', data)
