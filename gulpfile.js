@@ -82,7 +82,11 @@ function scripts() {
 // Image compression
 function imgCompression() {
   return src(`${paths.images}/*`)
-    .pipe(imagemin()) // Compresses PNG, JPEG, GIF and SVG images
+    .pipe(imagemin(
+      imagemin.gifsicle(),
+      imagemin.mozjpeg(),
+      imagemin.optipng()
+    )) // Compresses PNG, JPEG, GIF and SVG images
     .pipe(dest(paths.images))
 }
 
