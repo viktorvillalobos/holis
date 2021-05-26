@@ -17,7 +17,7 @@ export default class Message{
             this.attachments = []
         }
     }
-  
+
     getIsMine (userId) {
         return userId === window.user_id
     }
@@ -43,5 +43,3 @@ export class Attachment{
         return this.attachment_mimetype.includes('image/png')
     }
 }
-
-  
