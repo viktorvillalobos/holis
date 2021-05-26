@@ -147,7 +147,7 @@ def broadcast_chat_message_with_attachments(
     channel_layer = get_channel_layer()
     group = ROOM_GROUP_NAME.format(company_id=company_id, room_uuid=room_uuid)
     message = chat_models.Message.objects.prefetch_related("attachments").get(
-        id=message_uuid
+        uuid=message_uuid
     )
 
     serialized_message = _serialize_message(message)
