@@ -224,4 +224,4 @@ class BlogListView(RedirectToLangPage, ListView):
     def get_queryset(self):
         return self.model.objects.filter(
             is_draft=False, lang=self.request.LANGUAGE_CODE
-        )
+        ).order_by("-created")
