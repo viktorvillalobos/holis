@@ -195,7 +195,7 @@ class PageSingleView(RedirectToLangPage, TemplateView):
         return context | {"PAGE": page}
 
 
-class BlogSingleView(RedirectToLangPage, TemplateView):
+class BlogSingleView(TemplateView):
     template_name = "blog/blog_single.html"
     url_name = "web:blog-single"
 
@@ -204,7 +204,7 @@ class BlogSingleView(RedirectToLangPage, TemplateView):
 
         try:
             blog_entry = blog_entry_providers.get_blog_entry_by_slug(
-                slug=self.kwargs["slug"], lang=self.request.LANGUAGE_CODE
+                slug=self.kwargs["slug"]
             )
         except BlogEntry.DoesNotExist:
             raise Http404()

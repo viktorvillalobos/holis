@@ -10,12 +10,12 @@
 
             {% for post in object_list %}
                 <div class="holis-blog-list-featured-post-image column is-half">
-                    <a href="{% url  'web:blog-single' post.category.slug post.slug %}">
+                    <a href="{% url  'web:blog-single' post.lang post.slug %}">
                         <img src="{{ post.image.url }}" alt="">
                     </a>
                 </div>
                 <div class="holis-blog-list-featured-post-content column is-half">
-                    <a href="{% url  'web:blog-single' post.category.slug post.slug %}">
+                    <a href="{% url  'web:blog-single' post.lang post.slug %}">
                         <div class="holis-blog-list-featured-post-content-title">
                             {{ post.title }}
                         </div>

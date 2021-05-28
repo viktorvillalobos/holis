@@ -11,7 +11,6 @@ urlpatterns = [
     path("login/", views.LoginView.as_view(), name="login"),
     path("blog/", views.BlogListView.as_view(), name="blog-list"),
     path("<str:lang_code>/blog/", views.BlogListView.as_view(), name="blog-list"),
-    path("blog/<str:slug>", views.BlogSingleView.as_view(), name="blog-single"),
     path(
         "<str:lang_code>/blog/<str:slug>",
         views.BlogSingleView.as_view(),
