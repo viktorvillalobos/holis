@@ -34,16 +34,16 @@ import Card from '@/components/Card'
 import Btn from '@/components/Btn'
 export default {
   name: 'ProjectChat',
-  props: ["task"],
+  props: ['task'],
   components: {
     Card,
     Btn
   },
-  methods:{
-      openProjectDetail(){
-        this.$store.commit('setProjectsActive')
-        this.$store.commit('setProjectDetailActive')
-      }
+  methods: {
+    openProjectDetail () {
+      this.$store.commit('setProjectsActive')
+      this.$store.commit('setProjectDetailActive')
+    }
   }
 }
 </script>
@@ -56,9 +56,9 @@ export default {
 .hover-card{
    box-shadow: 0px 0px 0px grey;
   -webkit-transition:  box-shadow .6s ease-out;
-  box-shadow: .8px .9px 3px grey; 
+  box-shadow: .8px .9px 3px grey;
 }
-.hover-card:hover{ 
+.hover-card:hover{
      box-shadow: 1px 8px 10px grey;
     -webkit-transition:  box-shadow .6s ease-in;
 }

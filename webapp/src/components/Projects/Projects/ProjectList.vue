@@ -25,17 +25,17 @@ import Project from './Project'
 import { mapState } from 'vuex'
 
 export default {
-  name: "ProjectList",
+  name: 'ProjectList',
   components: {
     Project
   },
   props: ['type'],
-  data(){
-      return {
-        loading: false
-      }
+  data () {
+    return {
+      loading: false
+    }
   },
-  created(){
+  created () {
     this.getProjects()
   },
   computed: {
@@ -43,22 +43,22 @@ export default {
       projects: state => state.projects.projects
     })
   },
-  methods:{
-    getProjects(){
+  methods: {
+    getProjects () {
       this.loading = true
       this.$store.dispatch('getProjects', this.type)
     }
   },
   watch: {
     type: function (newType, oldType) {
-        this.getProjects()
+      this.getProjects()
     },
-    projects: function(newType){
-      console.log("TUNDIII",newType)
+    projects: function (newType) {
+      console.log('TUNDIII', newType)
       this.loading = false
     }
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>

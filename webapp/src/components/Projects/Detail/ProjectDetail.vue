@@ -41,31 +41,31 @@ import ProjectTasks from './Tasks'
 import ProjectChats from './Chat/Chats'
 
 export default {
-  name: "ProjectDetail",
+  name: 'ProjectDetail',
   components: {
-      ProjectTasks,
-      ProjectChats
+    ProjectTasks,
+    ProjectChats
   },
-  props: ["project"],
-  data(){
+  props: ['project'],
+  data () {
     return {
-        type: 'tasks',
-        tasks: []
+      type: 'tasks',
+      tasks: []
     }
   },
-  methods:{
-      backToMain() {
-         this.$store.commit('setCurrentScreen', {'screen' : 'main'})
-      },
-      addNewTask(){
-          this.tasks.push({
-              "nombre" : "",
-              "responsable" : "",
-              "descripcion" : ""
-          })
-      }
+  methods: {
+    backToMain () {
+      this.$store.commit('setCurrentScreen', { screen: 'main' })
+    },
+    addNewTask () {
+      this.tasks.push({
+        nombre: '',
+        responsable: '',
+        descripcion: ''
+      })
+    }
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>

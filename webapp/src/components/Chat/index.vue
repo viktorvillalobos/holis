@@ -28,7 +28,7 @@
       v-if="!chatActive"
       class="connect-chat-body"
     >
-      
+
       <button
         class="button is-dark is-rounded load-more"
         v-if="showLoadHistory"
@@ -90,37 +90,34 @@ export default {
     })
   },
   watch: {
-    messages(newVal){
-      if(newVal.length == 0){
+    messages (newVal) {
+      if (newVal.length == 0) {
         this.isFirstTime = true // Esta comprobacion forza para que la primera vez para que haga scroll
         return
       }
 
-      if(this.isFirstTime){
+      if (this.isFirstTime) {
         setTimeout(() => {
           this.scrollToEnd()
           this.isFirstTime = false
         }, 400)
       }
     },
-    chatActive(newVal){
+    chatActive (newVal) {
       this.isFirstTime = true
     }
   },
   mounted () {
-    //this.scrollToEnd()
+    // this.scrollToEnd()
   },
   updated () {
     if (this.allowScrollToEnd) {
-      //this.scrollToEnd()
+      // this.scrollToEnd()
     }
   },
   methods: {
     handleScroll (vertical, horizonal, nativeEvent) {
-      if(this.next && vertical.process <= 0.06)
-        this.showLoadHistory = true
-      else
-        this.showLoadHistory = false
+      if (this.next && vertical.process <= 0.06) { this.showLoadHistory = true } else { this.showLoadHistory = false }
 
       const content = this.$refs.chatContainer
       if (
@@ -135,15 +132,15 @@ export default {
       }
     },
     loadHistory () {
-      if (this.next){
-        //this.savePosition = this.$refs.chatContainer.getPosition()
+      if (this.next) {
+        // this.savePosition = this.$refs.chatContainer.getPosition()
         this.$store.dispatch('getNextMessages')
       }
     },
     scrollToEnd () {
       const content = this.$refs.chatContainer
-      console.log("SOLAAAA",content.scrollHeight)
-      
+      console.log('SOLAAAA', content.scrollHeight)
+
       if (content) content.scrollTo({ y: '100%' }, content.scrollHeight)
     },
     addMessage (msg) {
@@ -161,8 +158,8 @@ export default {
       this.$store.commit('setCurrentChatName', user.name || user.username)
       this.$store.commit('setCurrentChatID', user.id)
       const data = {
-        "to": user.id,
-        "first_time": true
+        to: user.id,
+        first_time: true
       }
       this.$store.dispatch('getMessagesByUser', data)
     }

@@ -26,7 +26,7 @@ import { mapState } from 'vuex'
 import WebRTC from '@/components/WebRtc'
 
 export default {
-  name: "App",
+  name: 'App',
   components: {
     webrtc: WebRTC
   },
@@ -45,45 +45,45 @@ export default {
       muteMicro: (state) => state.webrtc.muteMicro,
       enableAudio: (state) => state.webrtc.enableAudio,
       enableVideo: (state) => state.webrtc.enableVideo,
-      float: (state) => state.app.isAsideRightActive,
-    }),
+      float: (state) => state.app.isAsideRightActive
+    })
   },
   methods: {
-    logEvent(event) {
-      console.log("Event : ", event);
+    logEvent (event) {
+      console.log('Event : ', event)
     },
-    onError(error, stream) {
-      console.log("On Error Event", error, stream);
+    onError (error, stream) {
+      console.log('On Error Event', error, stream)
     },
-    onCapture() {
-      this.img = this.$refs.webrtc.capture();
+    onCapture () {
+      this.img = this.$refs.webrtc.capture()
     },
-    onJoin() {
-      console.log("Join to the connection");
+    onJoin () {
+      console.log('Join to the connection')
     },
-    onLeave() {
-      this.$refs.webrtc.leave();
+    onLeave () {
+      this.$refs.webrtc.leave()
     },
-    onShareScreen() {
-      this.img = this.$refs.webrtc.shareScreen();
+    onShareScreen () {
+      this.img = this.$refs.webrtc.shareScreen()
     },
-    joinedRoom({ isLocalUser }) {
-      console.log("An user is joined to room");
+    joinedRoom ({ isLocalUser }) {
+      console.log('An user is joined to room')
       if (!isLocalUser) {
-        const audio = new Audio("/static/sounds/in.m4a");
-        audio.play();
+        const audio = new Audio('/static/sounds/in.m4a')
+        audio.play()
       }
     },
-    leftRoom({ isLocalUser }) {
-      console.log("An user left the room");
+    leftRoom ({ isLocalUser }) {
+      console.log('An user left the room')
       if (!isLocalUser) {
-        console.log("play left audio");
-        const audio = new Audio("/static/sounds/out.m4a");
-        audio.play();
+        console.log('play left audio')
+        const audio = new Audio('/static/sounds/out.m4a')
+        audio.play()
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>
 
 <style lang="scss">

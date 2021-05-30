@@ -15,8 +15,8 @@
 
 <script>
 export default {
-  name: "Notifications",
-};
+  name: 'Notifications'
+}
 </script>
 
 <style lang="scss" scoped>

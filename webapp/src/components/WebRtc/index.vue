@@ -129,7 +129,7 @@ export default {
     }
 
     this.rtcmConnection.onstream = function (stream) {
-      console.log("onstream")
+      console.log('onstream')
       console.log(stream)
 
       const found = that.videoList.find(video => {

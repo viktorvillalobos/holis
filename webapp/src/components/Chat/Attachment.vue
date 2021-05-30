@@ -30,25 +30,25 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 export default {
   name: 'Attachment',
   props: {
-    attachment : {
+    attachment: {
       type: Attachment
     }
   },
-  data(){
+  data () {
     return {
       url: ''
     }
   },
   components: { FontAwesomeIcon },
-  methods:{
-    openImage(url){
-        this.url = url
+  methods: {
+    openImage (url) {
+      this.url = url
     },
-    downloadFile(url){
-      const link=document.createElement('a');
-      link.href = url;
-      link.download = url.substr(url.lastIndexOf('/') + 1);
-      link.click();
+    downloadFile (url) {
+      const link = document.createElement('a')
+      link.href = url
+      link.download = url.substr(url.lastIndexOf('/') + 1)
+      link.click()
     }
   }
 }

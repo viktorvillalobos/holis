@@ -61,7 +61,7 @@ export default {
   },
   methods: {
     handleBoard () {
-      let statusAux = this.isBoardActive
+      const statusAux = this.isBoardActive
       this.closeAllAside()
       if (!this.asideOpened || statusAux) { this.$store.commit('setAsideLeftActive') }
       this.$store.commit('setBoardActive')
@@ -69,30 +69,29 @@ export default {
       this.$store.dispatch('getBirthdays')
     },
     handleProjects () {
-      let statusAux = this.isProjectsActive
+      const statusAux = this.isProjectsActive
       this.closeAllAside()
       if (!this.asideOpened || statusAux) { this.$store.commit('setAsideLeftActive') }
       this.$store.commit('setProjectsActive')
     },
     handleNotifications () {
-      let statusAux = this.isNotificationsActive
+      const statusAux = this.isNotificationsActive
       this.closeAllAside()
       if (!this.asideOpened || statusAux) { this.$store.commit('setAsideLeftActive') }
       this.$store.commit('setNotificationsActive', !statusAux)
     },
     handleReleases () {
-      let statusAux = this.isReleasesActive
+      const statusAux = this.isReleasesActive
       this.closeAllAside()
       if (!this.asideOpened || statusAux) { this.$store.commit('setAsideLeftActive') }
       this.$store.commit('setReleasesActive')
     },
-    closeAllAside(){
+    closeAllAside () {
       this.$store.commit('setNotificationsActive', false)
       this.$store.commit('closeAllAside')
     },
     goTo (to) {
-      if(this.$route.name === to)
-        to = "office"
+      if (this.$route.name === to) { to = 'office' }
       this.$router.push({ name: to })
     }
   }

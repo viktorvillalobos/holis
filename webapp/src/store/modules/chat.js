@@ -6,7 +6,6 @@ const socketChat = process.env.NODE_ENV === 'production'
   ? `wss://${location.hostname}:${location.port}/ws/chat/`
   : `ws://${location.hostname}:${location.port}/ws/chat/`
 
-
 const getChatUrlByRoomId = roomId => `${socketChat}${roomId}/`
 
 const state = {
@@ -68,10 +67,7 @@ const mutations = {
   },
   unshiftMessages (state, messages) {
     messages.results = messages.results.map(message => new Message(message))
-    if(messages.first_time)
-      state.messages = [...messages.results]
-    else
-      state.messages = [...messages.results, ...state.messages]
+    if (messages.first_time) { state.messages = [...messages.results] } else { state.messages = [...messages.results, ...state.messages] }
     state.next = messages.next
     state.prev = messages.previous
   },
@@ -102,8 +98,8 @@ const actions = {
     const socketIsOpen = statusConnection.socketIsOpen
     const isTheSameRoom = statusConnection.isTheSameRoom
 
-    if(socketIsOpen && isTheSameRoom){
-        return
+    if (socketIsOpen && isTheSameRoom) {
+      return
     }
 
     if (socketIsOpen && !isTheSameRoom) {
@@ -116,14 +112,14 @@ const actions = {
     chatServices.setSocketService({ vm, url, callback })
   },
   onMessage ({ commit }, message) {
-    console.log("HOLAAAA1",message)
+    console.log('HOLAAAA1', message)
     message = JSON.parse(message)
-    console.log('HOLAAA',message)
+    console.log('HOLAAA', message)
     if (message.type === 'chat.message') commit('addMessage', message)
   },
   async getMessagesByRoom ({ commit }, payload) {
     const { data } = await apiClient.chat.getMessages(payload.id)
-    console.log("antes deee",data)
+    console.log('antes deee', data)
     data.first_time = payload.first_time
 
     console.log('getMessagesByRoom')
@@ -144,10 +140,10 @@ const actions = {
     commit('unBlockScroll')
   },
   async sendChatMessage ({ commit, state, dispatch }, { msg }) {
-    if(msg.files.length > 0){
+    if (msg.files.length > 0) {
       const { data } = await apiClient.chat.sendMessageWithFiles(state.room, msg)
-      console.log("RESPUESTAA",data)
-    }else{
+      console.log('RESPUESTAA', data)
+    } else {
       const payload = {
         type: 'chat.message',
         message: msg.message,

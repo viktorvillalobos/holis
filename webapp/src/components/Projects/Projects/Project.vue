@@ -31,18 +31,18 @@ import Card from '@/components/Card'
 import Btn from '@/components/Btn'
 export default {
   name: 'Project',
-  props: ["project"],
+  props: ['project'],
   components: {
     Card,
     Btn
   },
-  methods:{
-      deleteProject(){
-        console.log("Falta implementacion")
-      },
-      openProjectDetail(){
-        this.$store.commit('setCurrentScreen',{'screen' : 'detail', 'data' : this.project})
-      }
+  methods: {
+    deleteProject () {
+      console.log('Falta implementacion')
+    },
+    openProjectDetail () {
+      this.$store.commit('setCurrentScreen', { screen: 'detail', data: this.project })
+    }
   }
 }
 </script>
@@ -55,9 +55,9 @@ export default {
 .hover-card{
    box-shadow: 0px 0px 0px grey;
   -webkit-transition:  box-shadow .6s ease-out;
-  box-shadow: .8px .9px 3px grey; 
+  box-shadow: .8px .9px 3px grey;
 }
-.hover-card:hover{ 
+.hover-card:hover{
      box-shadow: 1px 8px 10px grey;
     -webkit-transition:  box-shadow .6s ease-in;
 }

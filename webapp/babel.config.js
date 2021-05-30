@@ -4,10 +4,10 @@ module.exports = api => {
   const plugins = []
 
   if (babelEnv === 'production') {
-    plugins.push(['transform-remove-console', {exclude: ['error', 'warn']}])
+    plugins.push(['transform-remove-console', { exclude: ['error', 'warn'] }])
   }
 
-  return  {
+  return {
     presets: [
       '@vue/cli-plugin-babel/preset'
     ],

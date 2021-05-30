@@ -28,8 +28,8 @@ export default {
     console.log(`socketIsOpen: ${socketIsOpen}`)
 
     return {
-      "socketIsOpen": socketIsOpen,
-      "isTheSameRoom": isTheSameRoom
+      socketIsOpen: socketIsOpen,
+      isTheSameRoom: isTheSameRoom
     }
   }
 }

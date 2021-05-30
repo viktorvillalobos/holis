@@ -29,7 +29,7 @@ const mutations = {
   setAsideRightActive (state, status) {
     status ? state.isAsideRightActive = true : state.isAsideRightActive = !state.isAsideRightActive
   },
-  closeAllAside(state){
+  closeAllAside (state) {
     state.isBoardActive = false
     state.isProjectsActive = false
     state.isReleasesActive = false
