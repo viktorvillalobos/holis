@@ -2,6 +2,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 import uuid
+from django_extensions.db.fields import CreationDateTimeField, ModificationDateTimeField
 from model_utils.models import TimeStampedModel
 
 from apps.utils.fields import UUIDForeignKey
@@ -70,22 +71,29 @@ class Message(TimeStampedModel):
     """
 
     uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+
     company = models.ForeignKey(
         "core.Company",
         related_name="messages",
         on_delete=models.CASCADE,
         verbose_name=_("company"),
     )
+
     room = UUIDForeignKey(
         Room, verbose_name=_("room"), related_name="messages", on_delete=models.CASCADE
     )
+
     user = models.ForeignKey(
         "users.User",
         verbose_name=_("User"),
         on_delete=models.CASCADE,
         related_name="messages",
     )
+
     text = models.TextField(_("text"))
+
+    created = CreationDateTimeField(_("created"), db_index=True)
+    modified = ModificationDateTimeField(_("modified"))
 
     tenant_id = "company_id"
 
@@ -126,3 +134,34 @@ class MessageAttachment(TimeStampedModel):
         ordering = ["created"]
         verbose_name = _("message attachment")
         verbose_name_plural = _("message attachments")
+
+
+class RoomRead(TimeStampedModel):
+    """
+    Record of the last time an user check a group, this is used
+    to take control about the unread messages
+    """
+
+    uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+
+    company = models.ForeignKey(
+        "core.Company",
+        related_name="room_reads",
+        on_delete=models.CASCADE,
+        verbose_name=_("company"),
+    )
+
+    room = UUIDForeignKey(
+        Room, verbose_name=_("room"), related_name="reads", on_delete=models.CASCADE
+    )
+
+    user = models.ForeignKey(
+        "users.User", related_name="room_reads", on_delete=models.DO_NOTHING
+    )
+
+    timestamp = models.DateTimeField()
+
+    class Meta:
+        unique_together = ["uuid", "company", "room", "user"]
+        verbose_name = _("room read")
+        verbose_name_plural = _("room reads")

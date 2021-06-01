@@ -1,4 +1,6 @@
-from model_bakery.recipe import Recipe, related
+from django.utils import timezone
+
+from model_bakery.recipe import Recipe, foreign_key, related
 
 from apps.core.tests import baker_recipes as core_recipes
 from apps.users.tests import baker_recipes as user_recipes
@@ -29,4 +31,12 @@ adslab_attachment_one_to_one = Recipe(
     company=get_or_create_foreign_key(core_recipes.adslab),
     message=get_or_create_foreign_key(adslab_message_one_to_one),
     _create_files=True,
+)
+
+adslab_room_one_to_one_room_read = Recipe(
+    "chat.RoomRead",
+    company=get_or_create_foreign_key(core_recipes.adslab),
+    room=get_or_create_foreign_key(adslab_room_one_to_one),
+    user=get_or_create_foreign_key(user_recipes.user_viktor),
+    timestamp=timezone.now(),
 )
