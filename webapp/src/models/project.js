@@ -1,6 +1,5 @@
-export default class Project{
-
-  constructor(map) {
+export default class Project {
+  constructor (map) {
     this.uuid = map.uuid
     this.name = map.name
     this.company_id = map.company_id
@@ -11,14 +10,14 @@ export default class Project{
     this.members = members.map(member => new ProjectMember(member))
   }
 
-  getMembers(){
-    return Array.prototype.map.call(this.members, (s) => s.name).toString();
+  getMembers () {
+    return Array.prototype.map.call(this.members, (s) => s.name).toString()
   }
 }
 
-export class ProjectMember{
-    constructor(map) {
-        this.id = map.id;
-        this.name = map.name;
-    }
+export class ProjectMember {
+  constructor (map) {
+    this.id = map.id
+    this.name = map.name
+  }
 }

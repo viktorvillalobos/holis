@@ -9,7 +9,7 @@
         <p v-html="message.text"></p>
     </div>
 
-    <div 
+    <div
       :class="['connect-chat-message', 'attachment', {'connect-chat-message--mine' : message.messageIsMine}]"
       v-for="attachment in message.attachments.slice(1)" :key="attachment.attachment_url">
       <Attachment class="image-message" :attachment="attachment"/>
@@ -29,7 +29,7 @@ import Attachment from './Attachment'
 export default {
   name: 'Message',
   props: {
-    message : {
+    message: {
       type: Message
     }
   },

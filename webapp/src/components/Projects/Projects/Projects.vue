@@ -17,26 +17,26 @@
 </template>
 
 <script>
-import Card from "@/components/Card";
+import Card from '@/components/Card'
 import ProjectList from './ProjectList'
 
 export default {
-  name: "Projects",
+  name: 'Projects',
   components: {
     Card,
     ProjectList
   },
-  data(){
+  data () {
     return {
-      type: "my_projects"
+      type: 'my_projects'
     }
   },
   methods: {
     openCreateProject () {
-      this.$store.commit('setCurrentScreen', {'screen' : 'create', 'data' : this.type})
+      this.$store.commit('setCurrentScreen', { screen: 'create', data: this.type })
     }
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>

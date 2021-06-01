@@ -17,7 +17,7 @@
         </div>
       </div>
     </div>
-    
+
     <b style="is-size-6">Nombre</b>
     <input v-model="name" class="input" type="text" placeholder="Ej: Proyecto ejemplo">
 
@@ -47,7 +47,7 @@
                                     <p class="mt-2 is-size-5">{{ task.title }}</p>
                                 </div>
                                 <div class="column" align="right">
-                                    <font-awesome-icon class="mt-2" icon="chevron-up" /> 
+                                    <font-awesome-icon class="mt-2" icon="chevron-up" />
                                 </div>
                             </div>
                         </div>
@@ -137,132 +137,134 @@
 </template>
 
 <script>
-import 'vue-collapsible-component/lib/vue-collapsible.css';
-import Collapsible from 'vue-collapsible-component';
+import 'vue-collapsible-component/lib/vue-collapsible.css'
+import Collapsible from 'vue-collapsible-component'
 import { mapState } from 'vuex'
 import Draggable from 'vuedraggable'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 export default {
-  name: "CreateProject",
+  name: 'CreateProject',
   components: {
-      Collapsible,
-      Draggable
+    Collapsible,
+    Draggable
   },
   props: ['typeProject'],
-  data(){
+  data () {
     return {
-        tasks: [],
-        name: '',
-        description: '',
-        dateStart: '',
-        dateEnd: '',
-        loading: false,
-        modalError: false,
-        errorAlert: ''
+      tasks: [],
+      name: '',
+      description: '',
+      dateStart: '',
+      dateEnd: '',
+      loading: false,
+      modalError: false,
+      errorAlert: ''
     }
   },
   computed: {
     ...mapState({
-        project: state => state.projects.project,
-        users: state => state.chat.users
+      project: state => state.projects.project,
+      users: state => state.chat.users
     })
   },
-  created(){
-      this.$store.dispatch('getUsers')
+  created () {
+    this.$store.dispatch('getUsers')
   },
-  methods:{
-      isValid(){
-        if(this.name.length < 3){
-            this.errorAlert = "El nombre no puede ser menor de 3 caracteres"
-            this.modalError = true
-            return false
-        }
-        if(this.dateStart == '' || this.dateEnd == ''){
-            this.errorAlert = "No debes dejar los campos de fecha vacios"
-            this.modalError = true
-            return false
-        }
-
-        let isValid = true
-        this.tasks.forEach(element => {
-            if(element.title.length < 3){
-                this.errorAlert = "El nombre de la tarea " + element.title + " no puede ser menor a 3 caracteres"
-                this.modalError = true
-                isValid = false
-                throw BreakException
-            }
-            if(element.content.length < 3){
-                this.errorAlert = "La descripcion de la tarea " + element.content + " no puede ser menor menor a 3 caracteres "
-                this.modalError = true
-                isValid = false
-                throw BreakException
-            }
-        });
-        return isValid
-      },
-      selectUser(user, index){
-        this.tasks[index].assigned_to = user.id
-        this.tasks[index].memberName = user.name
-        this.tasks[index].dropdownActive = false
-      },
-      backToMain() {
-         this.$store.commit('setCurrentScreen', {'screen' : 'main'})
-      },
-      createProject(){
-        const data = {
-            'name': this.name,
-            'description': this.description,
-            'start_date': this.dateStart,
-            'end_date': this.dateEnd
-        }
-        const dataSend = {'typeProject' : this.typeProject, 
-                        'data' : data,
-                        'tasks':this.tasks}
-        console.log(data)
-        console.log(dataSend)
-        if(this.isValid()){
-            this.loading = true
-            this.$store.dispatch('createProject', dataSend)
-        }
-      },
-      addNewTask(){
-        this.tasks.push({
-            "title": "Ejemplo Tarea",
-            "content": "",
-            "assigned_to": null,
-            "dropdownActive": false
-        })
-      },
-      duplicateTask(task){
-          this.tasks.push({
-            "title": task.title,
-            "content": task.description,
-            "member": task.assigned_to,
-            "dropdownActive": task.dropdownActive
-        })
-      },
-      deleteTask(index){
-        this.tasks.splice(index,1)
+  methods: {
+    isValid () {
+      if (this.name.length < 3) {
+        this.errorAlert = 'El nombre no puede ser menor de 3 caracteres'
+        this.modalError = true
+        return false
       }
+      if (this.dateStart == '' || this.dateEnd == '') {
+        this.errorAlert = 'No debes dejar los campos de fecha vacios'
+        this.modalError = true
+        return false
+      }
+
+      let isValid = true
+      this.tasks.forEach(element => {
+        if (element.title.length < 3) {
+          this.errorAlert = 'El nombre de la tarea ' + element.title + ' no puede ser menor a 3 caracteres'
+          this.modalError = true
+          isValid = false
+          throw BreakException
+        }
+        if (element.content.length < 3) {
+          this.errorAlert = 'La descripcion de la tarea ' + element.content + ' no puede ser menor menor a 3 caracteres '
+          this.modalError = true
+          isValid = false
+          throw BreakException
+        }
+      })
+      return isValid
+    },
+    selectUser (user, index) {
+      this.tasks[index].assigned_to = user.id
+      this.tasks[index].memberName = user.name
+      this.tasks[index].dropdownActive = false
+    },
+    backToMain () {
+      this.$store.commit('setCurrentScreen', { screen: 'main' })
+    },
+    createProject () {
+      const data = {
+        name: this.name,
+        description: this.description,
+        start_date: this.dateStart,
+        end_date: this.dateEnd
+      }
+      const dataSend = {
+        typeProject: this.typeProject,
+        data: data,
+        tasks: this.tasks
+      }
+      console.log(data)
+      console.log(dataSend)
+      if (this.isValid()) {
+        this.loading = true
+        this.$store.dispatch('createProject', dataSend)
+      }
+    },
+    addNewTask () {
+      this.tasks.push({
+        title: 'Ejemplo Tarea',
+        content: '',
+        assigned_to: null,
+        dropdownActive: false
+      })
+    },
+    duplicateTask (task) {
+      this.tasks.push({
+        title: task.title,
+        content: task.description,
+        member: task.assigned_to,
+        dropdownActive: task.dropdownActive
+      })
+    },
+    deleteTask (index) {
+      this.tasks.splice(index, 1)
+    }
   },
-  watch:{
-    project: function(newVal){
-        setTimeout(() => {  
-            this.loading = false 
-            this.$store.commit('setCurrentScreen', {'screen' : 'main'})
-        }, 2000);
-        console.log("Mogeko",newVal)
+  watch: {
+    project: function (newVal) {
+      setTimeout(() => {
+        this.loading = false
+        this.$store.commit('setCurrentScreen', { screen: 'main' })
+      }, 2000)
+      console.log('Mogeko', newVal)
     },
-    tasks: function(newVal,oldVal){
-        console.log("newVal",newVal)
-        console.log("oldVal",oldVal)
+    tasks: function (newVal, oldVal) {
+      console.log('newVal', newVal)
+      console.log('oldVal', oldVal)
     },
-    users: function(users){
-        console.log("users",users)
+    users: function (users) {
+      console.log('users', users)
     }
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>

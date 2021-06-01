@@ -93,8 +93,8 @@ export default {
       this.$store.commit('setChatActive', false)
       this.$store.commit('clearMessages')
       const data = {
-        "to": recent.id,
-        "first_time": true
+        to: recent.id,
+        first_time: true
       }
       this.$store.dispatch('getMessagesByUser', data)
 

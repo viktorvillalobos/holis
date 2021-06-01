@@ -232,14 +232,14 @@ export default {
       this.showEmojiPicker = false
     },
     submit () {
-      console.log("ENTERRRRR")
+      console.log('ENTERRRRR')
       const msg = {
         message: this.message,
         is_mine: true,
         datetime: new Date(),
         files: this.files
       }
-      this.$refs.chatFileInput.value=null
+      this.$refs.chatFileInput.value = null
       this.files = []
       console.log(msg)
       this.$emit('enter', msg)

@@ -21,7 +21,7 @@
                                     <p class="mt-2 is-size-5">{{ task.title }}</p>
                                 </div>
                                 <div class="column" align="right">
-                                    <font-awesome-icon class="mt-2" icon="chevron-up" /> 
+                                    <font-awesome-icon class="mt-2" icon="chevron-up" />
                                 </div>
                             </div>
                         </div>
@@ -144,137 +144,137 @@
 </template>
 
 <script>
-import 'vue-collapsible-component/lib/vue-collapsible.css';
-import Collapsible from 'vue-collapsible-component';
+import 'vue-collapsible-component/lib/vue-collapsible.css'
+import Collapsible from 'vue-collapsible-component'
 import { mapState } from 'vuex'
 import Draggable from 'vuedraggable'
 
 export default {
-  name: "ProjectTasks",
+  name: 'ProjectTasks',
   components: {
-      Draggable,
-      Collapsible
+    Draggable,
+    Collapsible
   },
-  props:["project"],
+  props: ['project'],
   computed: {
     ...mapState({
       tasksState: state => state.projects.tasks,
       users: state => state.chat.users
     })
   },
-  data(){
+  data () {
     return {
-        tasks: [],
-        modalNewTask: false,
-        loading:true,
-        newTask: {
-            "title": "Ejemplo Tarea",
-            "content": "",
-            "assigned_to": null,
-            "dropdownActive": false
-        }
+      tasks: [],
+      modalNewTask: false,
+      loading: true,
+      newTask: {
+        title: 'Ejemplo Tarea',
+        content: '',
+        assigned_to: null,
+        dropdownActive: false
+      }
     }
   },
-  created(){
+  created () {
     this.$store.dispatch('getUsers')
     this.getTasks()
   },
-  methods:{
-    checkMove(evt){
-        const futureIndex = evt.draggedContext.futureIndex
-        const index = evt.draggedContext.index
-        const task = this.tasks[index]
-        const data = {
-            "project_uuid": this.project.uuid,
-            "task": task.uuid,
-            "index": futureIndex
+  methods: {
+    checkMove (evt) {
+      const futureIndex = evt.draggedContext.futureIndex
+      const index = evt.draggedContext.index
+      const task = this.tasks[index]
+      const data = {
+        project_uuid: this.project.uuid,
+        task: task.uuid,
+        index: futureIndex
+      }
+      this.$store.dispatch('moveTask', data)
+    },
+    getTasks () {
+      this.$store.dispatch('getTasksProject', this.project.uuid)
+    },
+    deleteTask (index) {
+      const payload = {
+        task: this.tasks[index].uuid,
+        project_uuid: this.project.uuid
+      }
+      this.$store.dispatch('deleteTask', payload)
+      this.loading = true
+    },
+    addNewTask () {
+      const tasks = []
+      tasks.push(this.newTask)
+      const payload = {
+        tasks: tasks,
+        project_uuid: this.project.uuid
+      }
+      this.$store.dispatch('addTaskProject', payload)
+      this.modalNewTask = false
+      this.loading = true
+    },
+    selectUserNewTask (user) {
+      this.newTask.assigned_to = user.id
+      this.newTask.memberName = user.name
+      this.newTask.dropdownActive = false
+    },
+    selectUser (user, index) {
+      this.tasks[index].assigned_to.id = user.id
+      this.tasks[index].assigned_to.name = user.name
+      this.tasks[index].dropdownActive = false
+      this.updateAssigned(index)
+    },
+    updateAssigned (index) {
+      const payload = {
+        uuid: this.project.uuid,
+        task: this.tasks[index].uuid,
+        data: {
+          assigned_to_id: this.tasks[index].assigned_to.id
         }
-        this.$store.dispatch('moveTask', data)
+      }
+      this.$store.dispatch('updateTask', payload)
     },
-    getTasks(){
-        this.$store.dispatch('getTasksProject', this.project.uuid)
-    },
-    deleteTask(index){
-        const payload = {
-            'task':this.tasks[index].uuid,
-            'project_uuid': this.project.uuid
+    updateCheck (index) {
+      const payload = {
+        uuid: this.project.uuid,
+        task: this.tasks[index].uuid,
+        data: {
+          is_done: this.tasks[index].is_done
         }
-        this.$store.dispatch('deleteTask', payload)
-        this.loading = true
+      }
+      this.$store.dispatch('updateTask', payload)
     },
-    addNewTask(){
-        const tasks = []
-        tasks.push(this.newTask)
-        const payload = {
-            'tasks':tasks,
-            'project_uuid': this.project.uuid
+    updateTitle (index) {
+      this.tasks[index].titleEdit = false
+      const payload = {
+        uuid: this.project.uuid,
+        task: this.tasks[index].uuid,
+        data: {
+          title: this.tasks[index].title
         }
-        this.$store.dispatch('addTaskProject', payload)
-        this.modalNewTask = false
-        this.loading = true
+      }
+      this.$store.dispatch('updateTask', payload)
     },
-    selectUserNewTask(user){
-        this.newTask.assigned_to = user.id
-        this.newTask.memberName = user.name
-        this.newTask.dropdownActive = false
-    },
-    selectUser(user, index){
-        this.tasks[index].assigned_to.id = user.id
-        this.tasks[index].assigned_to.name = user.name
-        this.tasks[index].dropdownActive = false
-        this.updateAssigned(index)
-    },
-    updateAssigned(index){
-        const payload = {
-            'uuid' : this.project.uuid,
-            'task' : this.tasks[index].uuid,
-            'data' : {
-                'assigned_to_id' :  this.tasks[index].assigned_to.id
-            }
+    updateContent (index) {
+      this.tasks[index].contentEdit = false
+      const payload = {
+        uuid: this.project.uuid,
+        task: this.tasks[index].uuid,
+        data: {
+          content: this.tasks[index].content
         }
-        this.$store.dispatch('updateTask', payload)
-    },
-    updateCheck(index){
-        const payload = {
-            'uuid' : this.project.uuid,
-            'task' : this.tasks[index].uuid,
-            'data' : {
-                'is_done' : this.tasks[index].is_done
-            }
-        }
-        this.$store.dispatch('updateTask', payload)
-    },
-    updateTitle(index){
-        this.tasks[index].titleEdit = false
-        const payload = {
-            'uuid' : this.project.uuid,
-            'task' : this.tasks[index].uuid,
-            'data' : {
-                'title' : this.tasks[index].title
-            }
-        }
-        this.$store.dispatch('updateTask', payload)
-    },
-    updateContent(index){
-        this.tasks[index].contentEdit = false
-        const payload = {
-            'uuid' : this.project.uuid,
-            'task' : this.tasks[index].uuid,
-            'data' : {
-                'content' : this.tasks[index].content
-            }
-        }
-        this.$store.dispatch('updateTask', payload)
+      }
+      this.$store.dispatch('updateTask', payload)
     }
   },
   watch: {
-      tasksState(tasks){
-          console.log(tasks)
-          this.loading = false
-          this.tasks = JSON.parse(JSON.stringify(tasks)) // Tuve que crear una copia para no modificar la variable mutable directamente
-      }
+    tasksState (tasks) {
+      console.log(tasks)
+      this.loading = false
+      this.tasks = JSON.parse(JSON.stringify(tasks)) // Tuve que crear una copia para no modificar la variable mutable directamente
+    }
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>

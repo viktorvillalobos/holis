@@ -42,7 +42,7 @@ module.exports = {
       .hotOnly(true)
       .watchOptions({ poll: 1000 })
       .https(false)
-      .headers({ 'Access-Control-Allow-Origin': ['\*'] })
+      .headers({ 'Access-Control-Allow-Origin': ['*'] })
 
     if (config.plugins.has('extract-css')) {
       const extractCSSPlugin = config.plugin('extract-css')

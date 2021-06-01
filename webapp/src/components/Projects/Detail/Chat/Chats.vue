@@ -8,27 +8,27 @@
 import ProjectChat from './Chat'
 
 export default {
-  name: "ProjectChats",
+  name: 'ProjectChats',
   components: {
     ProjectChat
   },
   props: ['type'],
-  data(){
-      return {
-        list: [
-            { nombre: "Nombre"},
-            { nombre: "Nombre"},
-            { nombre: "Nombre"}
-        ],
-      }
+  data () {
+    return {
+      list: [
+        { nombre: 'Nombre' },
+        { nombre: 'Nombre' },
+        { nombre: 'Nombre' }
+      ]
+    }
   },
-  created(){
+  created () {
 
   },
   watch: {
     type: function (newType, oldType) {
-        
+
     }
   }
-};
+}
 </script>
