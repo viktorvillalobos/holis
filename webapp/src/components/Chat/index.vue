@@ -73,7 +73,7 @@ export default {
       searchPerson: '',
       jid: '',
       patternChat: pattern,
-      isFirstTime: true,
+      isLoadingHistory: false,
       showLoadHistory: false,
       savePosition: 0
     }
@@ -96,11 +96,12 @@ export default {
         return
       }
 
-      if (this.isFirstTime) {
+      if(!this.isLoadingHistory){
         setTimeout(() => {
           this.scrollToEnd()
-          this.isFirstTime = false
         }, 400)
+      }else{
+        this.isLoadingHistory = false
       }
     },
     chatActive (newVal) {
@@ -135,6 +136,7 @@ export default {
       if (this.next) {
         // this.savePosition = this.$refs.chatContainer.getPosition()
         this.$store.dispatch('getNextMessages')
+        this.isLoadingHistory = true
       }
     },
     scrollToEnd () {
