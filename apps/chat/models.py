@@ -99,7 +99,7 @@ class Message(TimeStampedModel):
 
     class Meta:
         unique_together = ["uuid", "company"]
-        ordering = ["-created"]
+        # ordering = ["-created"]
 
 
 def chat_attachments_path(instance, file_name):

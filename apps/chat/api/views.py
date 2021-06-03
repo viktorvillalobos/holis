@@ -1,3 +1,5 @@
+from typing import Optional
+
 from django.conf import settings
 from rest_framework import exceptions, generics, status, views
 from rest_framework.pagination import CursorPagination
@@ -5,6 +7,8 @@ from rest_framework.parsers import MultiPartParser
 from rest_framework.response import Response
 
 import logging
+from collections import OrderedDict
+from datetime import datetime
 from twilio.rest import Client
 
 from apps.chat import models as chat_models
@@ -12,6 +16,8 @@ from apps.chat import uc as chat_uc
 from apps.chat.api import serializers
 from apps.chat.providers import message as message_providers
 from apps.chat.providers import message_attachment as message_attachment_providers
+from apps.chat.providers import room_read as room_read_providers
+from apps.chat.providers.room_read import get_room_read_by_user_and_room_uuid
 
 from .. import services as chat_services
 
@@ -109,12 +115,24 @@ class MessageListAPIView(generics.ListAPIView):
 
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
+        page = reversed(self.paginate_queryset(queryset))
+        serialized_data = self.get_serializer(page, many=True).data
 
-        page = self.paginate_queryset(queryset)
-        if page is not None:
-            serializer = self.get_serializer(reversed(page), many=True)
-            return self.get_paginated_response(serializer.data)
+        # TODO: We need to found a better way to do this
 
-        serializer = self.get_serializer(queryset, many=True)
+        serialized_paginated_data = self.get_paginated_response(serialized_data).data
+        serialized_paginated_data[
+            "last_read_timestamp"
+        ] = self.get_last_read_timestamp_isoformat()
 
-        return Response(serializer.data)
+        return Response(serialized_paginated_data, status=200)
+
+    def get_last_read_timestamp_isoformat(self) -> Optional[str]:
+        try:
+            return room_read_providers.get_room_read_by_user_and_room_uuid(
+                company_id=self.request.user.company_id,
+                user_id=self.request.user.id,
+                room_uuid=self.kwargs["room_uuid"],
+            ).timestamp.isoformat()
+        except chat_models.RoomRead.DoesNotExist:
+            return None

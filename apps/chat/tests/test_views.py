@@ -1,11 +1,13 @@
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.urls import reverse
+from django.utils import timezone
 from rest_framework import status
 from rest_framework.test import APIRequestFactory, force_authenticate
 
 import json
 import pytest
 import uuid
+from freezegun import freeze_time
 
 from apps.chat.models import MessageAttachment
 from apps.chat.tests import baker_recipes as chat_recipes
@@ -73,3 +75,42 @@ class TestUploadFileAPIView:
             room_uuid=self.room.uuid,
             message_uuid=uuid.UUID(parsed_response["id"]),
         )
+
+
+# @freeze_time("2016-03-28 14:32:00", tz_offset=-4)
+@pytest.mark.django_db
+def test_message_list_api_view():
+
+    user = user_recipes.user_viktor.make()
+    room_read = chat_recipes.adslab_room_one_to_one_room_read.make(user_id=user.id)
+    room = room_read.room
+    url = reverse("api-v1:chat:message-list", args=(room.uuid,))
+
+    for i in range(10):
+        chat_recipes.adslab_message_one_to_one.make(room=room, text=f"message-{i}")
+
+    rf = APIRequestFactory()
+    request = rf.get(url, format="json")
+
+    force_authenticate(request, user=user)
+
+    response = chat_views.MessageListAPIView.as_view()(
+        request, room_uuid=room.uuid
+    ).render()
+
+    assert response.status_code == status.HTTP_200_OK
+
+    response_data = json.loads(response.content)
+
+    expected_fields = {"results", "next", "previous", "last_read_timestamp"}
+
+    for field in expected_fields:
+        assert field in response_data
+
+    assert response_data["last_read_timestamp"] == room_read.timestamp.isoformat()
+
+    assert len(response_data["results"]) == 10
+
+    last_message = response_data["results"][-1]
+
+    assert last_message["text"] == "message-9"

@@ -11,7 +11,9 @@ def get_room_read_by_user_and_room_uuid(
     *, company_id: int, room_uuid: Union[UUID, str], user_id: int
 ) -> RoomRead:
     """ Return the room read for an user in a group """
-    return RoomRead.objects.get(user_id=user_id, room_uuid=room_uuid)
+    return RoomRead.objects.get(
+        company_id=company_id, user_id=user_id, room_uuid=room_uuid
+    )
 
 
 def update_or_create_room_read_by_user_and_room_uuid(
