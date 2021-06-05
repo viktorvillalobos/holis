@@ -285,4 +285,4 @@ webapp/assets/
 webpack-stats-prod.json
 apps/static/js/*.min*
 apps/web/providers/blog_entry.py
-
+certs/
