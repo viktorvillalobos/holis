@@ -53,23 +53,8 @@ DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
 # DATABASES
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#databases
-# DATABASES = {"default": env.db("DATABASE_URL")}
-# DATABASES["default"]["ATOMIC_REQUESTS"] = True
-
-DATABASES = {
-    "default": {
-        "ENGINE": "django_cockroachdb",
-        "NAME": env.str("POSTGRES_DB", default="holis"),
-        "USER": env.str("POSTGRES_USER", default="admin"),
-        "PASSWORD": env.str("POSTGRES_PASSWORD", default="admin"),
-        "HOST": env.str("POSTGRES_HOST", default="postgres"),
-        "PORT": env.str("POSTGRES_PORT", default="26257"),
-    }
-}
-
-COCKROACH_OPTIONS = {"sslmode": "require", "sslrootcert": "/client-certs/ca.crt"}
-
-DATABASES["ingestion"]["OPTIONS"] = COCKROACH_OPTIONS
+DATABASES = {"default": env.db("DATABASE_URL")}
+DATABASES["default"]["ATOMIC_REQUESTS"] = True
 
 # URLS
 # ------------------------------------------------------------------------------
