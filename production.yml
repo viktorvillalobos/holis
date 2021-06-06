@@ -8,6 +8,7 @@ services:
   django: &django
     image: gcr.io/espazum/holis-full:latest
     depends_on:
+      - postgres
       - redis
     env_file:
       - ./.envs/.production/.django
