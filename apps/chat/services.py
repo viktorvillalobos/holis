@@ -58,7 +58,7 @@ def serialize_message(message: chat_models.Message) -> Dict[str, Any]:
     return _serialize_message(message=message)
 
 
-def get_recents_rooms(user_id: int) -> list[dict[str, Any]]:
+def get_recents_rooms(*, user_id: int, limit: int = 3) -> list[dict[str, Any]]:
     rooms_ids = (
         chat_models.Message.objects.filter(
             room__is_one_to_one=True, room__members__id=user_id
@@ -66,7 +66,7 @@ def get_recents_rooms(user_id: int) -> list[dict[str, Any]]:
         .order_by("room__uuid", "-created")
         .distinct("room__uuid")
         .values_list("room__uuid", flat=True)
-    )[:3]
+    )[:limit]
 
     rooms_data = (
         chat_models.Room.objects.filter(uuid__in=rooms_ids)
