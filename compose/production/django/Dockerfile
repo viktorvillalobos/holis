@@ -6,7 +6,7 @@ RUN npm install && npm cache clean --force
 COPY . /app
 RUN npm run build
 
-FROM node:12-stretch-slim as webapp-builder
+FROM node:14-stretch-slim as webapp-builder
 
 WORKDIR /app
 COPY --from=client-builder /app/webapp/package.json /app/webapp/package.json
