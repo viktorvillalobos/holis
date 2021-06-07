@@ -88,8 +88,11 @@ class RecentChatsAPIView(views.APIView):
     pagination_class = None
 
     def get(self, request, *args, **kwargs):
+        limit = int(request.GET.get("limit", "3"))
+
         return Response(
-            chat_services.get_recents_rooms(self.request.user.id), status=200
+            chat_services.get_recents_rooms(user_id=self.request.user.id, limit=limit),
+            status=status.HTTP_200_OK,
         )
 
 

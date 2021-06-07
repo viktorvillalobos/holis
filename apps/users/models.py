@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser, UserManager
 from django.core import files
+from django.core.files.storage import default_storage
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
@@ -97,7 +98,7 @@ class User(AbstractUser):
             self.save()
 
         # return get_thumbnail(self.avatar.file, "100x100", crop="center", quality=99).url
-        return self.avatar.url
+        return default_storage.url(self.avatar.url)
 
     def __str__(self):
         return f"{self.id} -> {self.name}"
