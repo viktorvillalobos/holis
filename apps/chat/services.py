@@ -70,26 +70,12 @@ def get_recents_rooms(*, user_id: int, limit: int = 3) -> list[dict[str, Any]]:
         .values_list("room__uuid", flat=True)
     )[:limit]
 
-    rooms = (
-        chat_models.Room.objects.filter(uuid__in=rooms_ids)
-        .order_by("created")
-        .prefetch_related(
-            Prefetch("members", queryset=users_models.User.objects.exclude(id=user_id))
-        )
-    )
-
-    # rooms_data = (
-    #     chat_models.Room.objects.filter(uuid__in=rooms_ids)
-    #     .values("uuid", "members__avatar", "members__id", "members__name")
-    #     .order_by("created")
-    # )
+    rooms = chat_models.Room.objects.filter(uuid__in=rooms_ids).order_by("created")
 
     data = []
 
     for room in rooms:
-        members = room.members.order_by("id")
-
-        for member in members:
+        for member in room.members.exclude(id=user_id):
             data.append(
                 {
                     "room": room.uuid,
