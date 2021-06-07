@@ -2,6 +2,7 @@ from typing import Any, Dict, List, Union
 
 from django.conf import settings
 from django.core.files.storage import default_storage
+from django.db.models.query import Prefetch
 
 import uuid
 from asgiref.sync import async_to_sync
@@ -58,7 +59,8 @@ def serialize_message(message: chat_models.Message) -> Dict[str, Any]:
     return _serialize_message(message=message)
 
 
-def get_recents_rooms(user_id: int) -> list[dict[str, Any]]:
+def get_recents_rooms(*, user_id: int, limit: int = 3) -> list[dict[str, Any]]:
+
     rooms_ids = (
         chat_models.Message.objects.filter(
             room__is_one_to_one=True, room__members__id=user_id
@@ -66,24 +68,24 @@ def get_recents_rooms(user_id: int) -> list[dict[str, Any]]:
         .order_by("room__uuid", "-created")
         .distinct("room__uuid")
         .values_list("room__uuid", flat=True)
-    )[:3]
+    )[:limit]
 
-    rooms_data = (
-        chat_models.Room.objects.filter(uuid__in=rooms_ids)
-        .prefetch_related("members")
-        .values("uuid", "members__avatar", "members__id", "members__name")
-    )
+    rooms = chat_models.Room.objects.filter(uuid__in=rooms_ids).order_by("created")
 
-    return [
-        {
-            "room": room_values["uuid"],
-            "avatar_thumb": default_storage.url(room_values["members__avatar"]),
-            "id": room_values["members__id"],
-            "name": room_values["members__name"],
-        }
-        for room_values in rooms_data
-        if room_values["members__id"] != user_id
-    ]
+    data = []
+
+    for room in rooms:
+        for member in room.members.exclude(id=user_id):
+            data.append(
+                {
+                    "room": room.uuid,
+                    "avatar_thumb": member.avatar_thumb,
+                    "id": member.id,
+                    "name": member.name,
+                }
+            )
+
+    return data
 
 
 def get_or_create_room_by_company_and_members_ids(

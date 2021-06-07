@@ -14,11 +14,17 @@ user_viktor = Recipe(
 
 user_julls = Recipe(
     "users.User",
-    name="Víktor",
+    name="Julls",
     company=get_or_create_foreign_key(adslab),
     current_area=get_or_create_foreign_key(core_recipes.default_area),
 )
 
+user_tundi = Recipe(
+    "users.User",
+    name="Tundi",
+    company=get_or_create_foreign_key(adslab),
+    current_area=get_or_create_foreign_key(core_recipes.default_area),
+)
 
 user_status_holidays = Recipe(
     "users.Status",
