@@ -2,6 +2,7 @@ from typing import Any, Dict, List, Union
 
 from django.conf import settings
 from django.core.files.storage import default_storage
+from django.db.models.query import Prefetch
 
 import uuid
 from asgiref.sync import async_to_sync
@@ -59,6 +60,7 @@ def serialize_message(message: chat_models.Message) -> Dict[str, Any]:
 
 
 def get_recents_rooms(*, user_id: int, limit: int = 3) -> list[dict[str, Any]]:
+
     rooms_ids = (
         chat_models.Message.objects.filter(
             room__is_one_to_one=True, room__members__id=user_id
@@ -68,22 +70,36 @@ def get_recents_rooms(*, user_id: int, limit: int = 3) -> list[dict[str, Any]]:
         .values_list("room__uuid", flat=True)
     )[:limit]
 
-    rooms_data = (
+    rooms = (
         chat_models.Room.objects.filter(uuid__in=rooms_ids)
-        .prefetch_related("members")
-        .values("uuid", "members__avatar", "members__id", "members__name")
+        .order_by("created")
+        .prefetch_related(
+            Prefetch("members", queryset=users_models.User.objects.exclude(id=user_id))
+        )
     )
 
-    return [
-        {
-            "room": room_values["uuid"],
-            "avatar_thumb": default_storage.url(room_values["members__avatar"]),
-            "id": room_values["members__id"],
-            "name": room_values["members__name"],
-        }
-        for room_values in rooms_data
-        if room_values["members__id"] != user_id
-    ]
+    # rooms_data = (
+    #     chat_models.Room.objects.filter(uuid__in=rooms_ids)
+    #     .values("uuid", "members__avatar", "members__id", "members__name")
+    #     .order_by("created")
+    # )
+
+    data = []
+
+    for room in rooms:
+        members = room.members.order_by("id")
+
+        for member in members:
+            data.append(
+                {
+                    "room": room.uuid,
+                    "avatar_thumb": member.avatar_thumb,
+                    "id": member.id,
+                    "name": member.name,
+                }
+            )
+
+    return data
 
 
 def get_or_create_room_by_company_and_members_ids(

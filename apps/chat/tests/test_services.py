@@ -1,3 +1,5 @@
+from django.core.files.storage import default_storage
+
 import pytest
 import uuid
 from model_bakery import baker
