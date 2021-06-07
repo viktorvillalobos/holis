@@ -10,8 +10,8 @@ else:
     router = SimpleRouter()
 
 router.register("profile", views.UserProfileViewSet)
-router.register("", views.UserViewSet)
 router.register("notifications", views.NotificationViewSet)
+router.register("", views.UserViewSet)
 
 urlpatterns = [
     path(
