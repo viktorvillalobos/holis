@@ -46,8 +46,20 @@ const actions = {
     })
   },
   async getNotifications ({ commit }) {
-    const { data } = await apiClient.app.getNotifications()
-    commit('setNotifications', data.results)
+    //const { data } = await apiClient.app.getNotifications()
+    //console.log("Notificaciones",data)
+    //commit('setNotifications', data.results)
+    commit('setNotifications', [
+      {
+        hola:"holaaa"
+      },
+      {
+        hola:"holaaa"
+      },
+      {
+        hola:"holaaa"
+      }
+    ])
   },
   onNotification ({ commit }, notification) {
     notification = JSON.parse(notification)

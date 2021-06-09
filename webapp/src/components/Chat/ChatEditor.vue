@@ -146,6 +146,7 @@ export default {
       this.$refs.chatFileInput.value = null
       this.files = []
       console.log(msg)
+      msg.message = msg.message.replaceAll("<p></p>","</br>")
       this.$emit('enter', msg)
       this.editor.commands.clearContent()
       this.showEmojiPicker = false
@@ -199,7 +200,7 @@ export default {
   }
 
   pre {
-    background: #0D0D0D;
+    background: $dark-blue;
     color: #FFF;
     font-family: 'JetBrainsMono', monospace;
     padding: 0.75rem 1rem;

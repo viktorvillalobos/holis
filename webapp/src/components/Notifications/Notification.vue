@@ -1,23 +1,20 @@
 <template>
-  <div :class="['connect-notification-card']">
-    <card outline>
-      <div class="connect-notification-image">
-        <img src="@/assets/notifications/reminder.png" alt="notifications" />
-      </div>
-      <div class="connect-notification-content">
-        <div class="connect-notification-content-body">
-          <slot />
+  <div class="card m-2 hover-card" >
+        <div class="card-content">
+            <div class="media">
+                <div class="media-left mt-4">
+                    <img class="connect-logo-company" src="/static/images/logo/logo.svg" alt="espazum logo" width="60"/>
+                </div>
+                <div class="media-content">
+                    <p class="is-size-6"><b>Chat</b></p>
+                    <p class="is-size-7"><b>Luis Tundisi </b> te envio un mensaje</p>
+                </div>
+
+                <div class="media-right" align="right">
+                    <p class="is-size-7" style="color:#A9A9A9">19, Julio, 2020</p>
+                </div>
+            </div>
         </div>
-        <ul class="connect-notification-content-action">
-          <li>
-            <btn flat>Informar ausencia</btn>
-          </li>
-          <li>
-            <btn primary>¡Entrar ya!</btn>
-          </li>
-        </ul>
-      </div>
-    </card>
   </div>
 </template>
 <script>
@@ -49,49 +46,20 @@ export default {
 }
 </script>
 <style lang="scss">
-.connect-notification {
-  &-image {
-    max-width: 30px;
-  }
-  &-card {
-    margin-bottom: 8px;
-    .connect-card {
-      position: relative;
-      display: flex;
-      padding: 15px;
-    }
+.alert-days{
+    padding: 2px;
+    margin-left: 5px;
+}
 
-    .connect-btn span {
-      font-size: 0.7rem;
-    }
-
-    ul {
-      list-style: none;
-      padding: 0;
-
-      li {
-        margin-left: 10px;
-      }
-    }
-  }
-
-  &-close {
-    position: absolute;
-    top: 4px;
-    right: 4px;
-    cursor: pointer;
-    z-index: 3;
-  }
-
-  &-content {
-    margin-left: 10px;
-    font-size: .9rem;
-    &-action {
-      margin-bottom: 0;
-      width: 100%;
-      display: inline-flex;
-      justify-content: flex-end;
-    }
-  }
+.hover-card{
+   box-shadow: 0px 0px 0px grey;
+   transition: box-shadow .6s ease-out;
+  -webkit-transition:  box-shadow .6s ease-out;
+  box-shadow: .8px .9px 3px grey; 
+}
+.hover-card:hover{ 
+     box-shadow: 1px 8px 10px grey;
+     transition: box-shadow .6s ease-in;
+    -webkit-transition:  box-shadow .6s ease-in;
 }
 </style>
