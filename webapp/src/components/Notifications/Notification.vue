@@ -6,12 +6,12 @@
                     <img class="connect-logo-company" src="/static/images/logo/logo.svg" alt="espazum logo" width="60"/>
                 </div>
                 <div class="media-content">
-                    <p class="is-size-6"><b>Chat</b></p>
-                    <p class="is-size-7"><b>Luis Tundisi </b> te envio un mensaje</p>
+                    <p class="is-size-6"><b>{{ notification.title }}</b></p>
+                    <p class="is-size-7"><b></b>{{ notification.description }}</p>
                 </div>
 
                 <div class="media-right" align="right">
-                    <p class="is-size-7" style="color:#A9A9A9">19, Julio, 2020</p>
+                    <p class="is-size-7" style="color:#A9A9A9">{{ notification.created | moment("dddd, MMMM Do YYYY, h:mm:ss a") }}</p>
                 </div>
             </div>
         </div>
@@ -22,18 +22,7 @@ import Card from '@/components/Card'
 import Btn from '@/components/Btn'
 export default {
   name: 'NotificationCard',
-  props: {
-    active: {
-      type: Boolean,
-      default: false
-    },
-    img: {
-      type: String
-    },
-    asideOpened: {
-      type: Boolean
-    }
-  },
+  props: ["notification"],
   components: {
     Card,
     Btn
