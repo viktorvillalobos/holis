@@ -44,12 +44,26 @@ export default {
   border-radius: 8px 8px 8px 0;
   font-size: 13px;
 
+  ul{
+    list-style-type: circle;
+    padding: 0 1.1rem;
+  }
+  ol {
+    padding: 0 1rem;
+  }
+
+  blockquote {
+    padding-left: 1rem;
+    border-left: 2px solid rgba(white, 1);
+  }
+
   /** {
     color: #fff;
   }*/
 
   pre, code {
     background: $dark-blue;
+    color: #fff;
     border-radius:4px ;
   }
 

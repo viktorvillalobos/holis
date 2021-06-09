@@ -45,6 +45,7 @@
         </div>
       </vue-scroll>
     </div>
+    <Loading v-bind:loading="loading"/>
     <chat-editor v-if="!chatActive" @enter="sendMessage" />
   </div>
 </template>
@@ -57,8 +58,9 @@ import ChatEditor from './ChatEditor'
 import Message from './Message'
 import Avatar from '@/components/Avatar'
 import Card from '@/components/Card'
-
 import pattern from '@/assets/lighter_pattern.png'
+import Loading from '@/components/Loading'
+
 export default {
   name: 'Chat',
   components: {
@@ -66,7 +68,8 @@ export default {
     ChatEditor,
     Message,
     Avatar,
-    Card
+    Card,
+    Loading
   },
   data () {
     return {
@@ -75,7 +78,8 @@ export default {
       patternChat: pattern,
       isLoadingHistory: false,
       showLoadHistory: false,
-      savePosition: 0
+      savePosition: 0,
+      loading: true
     }
   },
   computed: {
@@ -96,12 +100,14 @@ export default {
         return
       }
 
+      this.loading = false
+
       if(!this.isLoadingHistory){
         setTimeout(() => {
           this.scrollToEnd()
         }, 400)
       }else{
-        this.isLoadingHistory = false
+        this.isLoadingHistory = false 
       }
     },
     chatActive (newVal) {
