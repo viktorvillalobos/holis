@@ -107,7 +107,9 @@ class MessageListAPIView(generics.ListAPIView):
 
     def get_queryset(self):
         return message_providers.get_messages_by_room_uuid(
-            company_id=self.request.user.company_id, room_uuid=self.kwargs["room_uuid"]
+            company_id=self.request.user.company_id,
+            room_uuid=self.kwargs["room_uuid"],
+            user_id=self.request.user.id,
         )
 
     def list(self, request, *args, **kwargs):

@@ -17,19 +17,19 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
         except KeyError:
             raise Exception("CHAT: Error getting channel name from route")
 
-    async def receive_json(self, content):
+    async def receive_json(self, message):
 
         user = self.scope["user"]
-        _type = content["type"]
-        is_one_to_one_chat = content.get("is_one_to_one")
-        user_id = content.get("to")
+        _type = message["type"]
+        is_one_to_one_chat = message.get("is_one_to_one")
+        user_id = message.get("to")
 
         logger.info(f"Chat type: {_type}")
 
         if _type == "echo":
-            await self.chat_echo(content)
+            await self.chat_echo(message)
         elif _type == "chat.message":
-            await self.create_and_broadcast_message(content)
+            await self.create_and_broadcast_message(message)
 
             if is_one_to_one_chat:
 
@@ -38,8 +38,10 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
                     company_id=user.company_id,
                     to_user_id=user_id,
                     from_user_name=user.name,
-                    message=content["message"],
+                    message=message["message"],
                 )
+        elif _type == "chat.message":
+            await self.mark_user_read(message)
 
         else:
             logger.info(f" {_type} type is not handled by ChatConsumer")
@@ -61,14 +63,17 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
         _msg = {"type": "chat.presence", "kind": "disconnect", "user": "pepito"}
         await self.channel_layer.group_send(self.room_group_name, _msg)
 
-    async def create_and_broadcast_message(self, content):
-        assert isinstance(content["room"], str)
-        assert isinstance(content["message"], str)
+    async def mark_user_read(self, message):
+        logger.info("mark_user_read")
+
+    async def create_and_broadcast_message(self, message):
+        assert isinstance(message["room"], str)
+        assert isinstance(message["message"], str)
         logger.info("broadcast_chat_message")
         user = self.scope["user"]
 
         message = await chat_services.create_message_async(
-            user.company_id, user.id, content["room"], content["message"]
+            user.company_id, user.id, message["room"], message["message"]
         )
         serialized_message = await chat_services.serialize_message(message=message)
 
