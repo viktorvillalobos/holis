@@ -40,8 +40,8 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
                     from_user_name=user.name,
                     message=message["message"],
                 )
-        elif _type == "chat.message":
-            await self.mark_user_read(message)
+        elif _type == "chat.read":
+            await self.set_messages_readed(message)
 
         else:
             logger.info(f" {_type} type is not handled by ChatConsumer")
@@ -63,8 +63,13 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
         _msg = {"type": "chat.presence", "kind": "disconnect", "user": "pepito"}
         await self.channel_layer.group_send(self.room_group_name, _msg)
 
-    async def mark_user_read(self, message):
-        logger.info("mark_user_read")
+    async def set_messages_readed(self, message):
+        logger.info("set_messages_readed")
+        user = self.scope["user"]
+
+        await chat_services.set_messages_readed_by_room_and_user_async(
+            company_id=user.company_id, room_id=message["room_uuid"], user_id=user.id
+        )
 
     async def create_and_broadcast_message(self, message):
         assert isinstance(message["room"], str)

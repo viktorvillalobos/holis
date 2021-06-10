@@ -8,6 +8,7 @@ import uuid
 from asgiref.sync import async_to_sync
 from channels.db import database_sync_to_async
 from channels.layers import get_channel_layer
+from datetime import datetime
 from twilio.rest import Client
 from uuid import UUID
 
@@ -154,9 +155,10 @@ def broadcast_chat_message_with_attachments(
 
 
 @database_sync_to_async
-def set_message_readed_by_async(
-    company_id: int, message_uuid: Union[str, UUID], user_id: int
-) -> Message:
-    return message_providers.set_message_readed_by(
-        company_id=company_id, message_uuid=message_uuid, user_id=user_id
+def set_messages_readed_by_room_and_user_async(
+    company_id: int, room_uuid: Union[str, UUID], user_id: int
+) -> int:
+    """ Allow to mark unreaded messages readed by user in room """
+    return message_providers.set_messages_readed_by_room_and_user(
+        company_id=company_id, room_uuid=room_uuid, user_id=user_id
     )

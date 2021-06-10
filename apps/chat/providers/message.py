@@ -4,9 +4,11 @@ from django.db.models import Exists
 from django.db.models.query import QuerySet
 from django.utils import timezone
 
+from datetime import datetime
 from uuid import UUID
 
 from apps.chat.models import Message
+from apps.utils.models import InsertJSONValue
 
 
 def get_messages_by_room_uuid(
@@ -30,11 +32,15 @@ def create_message(
     )
 
 
-def set_message_readed_by(
-    company_id: int, message_uuid: Union[UUID, str], user_id: int
-) -> Message:
-    message = Message.objects.get(company_id=company_id, uuid=message_uuid)
-    message.reads[user_id] = {"timestamp": timezone.now().isoformat()}
-    message.save()
-
-    return message
+def set_messages_readed_by_room_and_user(
+    company_id: int, room_uuid: Union[UUID, str], user_id: int
+) -> int:
+    return (
+        Message.objects.filter(company_id=company_id, room_uuid=room_uuid)
+        .exclude(reads__has_key=str(user_id))
+        .update(
+            reads=InsertJSONValue(
+                "reads", keyname=str(user_id), new_value=True, create_missing=False
+            )
+        )
+    )
