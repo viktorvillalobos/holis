@@ -8,15 +8,18 @@ import uuid
 from asgiref.sync import async_to_sync
 from channels.db import database_sync_to_async
 from channels.layers import get_channel_layer
+from datetime import datetime
 from twilio.rest import Client
+from uuid import UUID
 
 from apps.chat.lib.constants import ROOM_GROUP_NAME
 from apps.users import models as users_models
 from apps.users import services as user_services
 from apps.utils.cache import cache
 
-from ..chat import models as chat_models
 from ..chat.api import serializers
+from ..chat.models import Message, Room
+from .providers import message as message_providers
 from .providers import room as room_providers
 
 
@@ -26,17 +29,15 @@ class NonExistentMemberException(Exception):
 
 @database_sync_to_async
 def create_message_async(
-    company_id: int, user_id: int, room_uuid: int, text: str
-) -> chat_models.Message:
-    return chat_models.Message.objects.create(
+    company_id: int, user_id: int, room_uuid: Union[UUID, str], text: str
+) -> Message:
+    return message_providers.create_message(
         company_id=company_id, room_uuid=room_uuid, user_id=user_id, text=text
     )
 
 
-def create_message(
-    company_id: int, user_id: int, room_uuid: int, text: str
-) -> chat_models.Message:
-    return chat_models.Message.objects.create(
+def create_message(company_id: int, user_id: int, room_uuid: int, text: str) -> Message:
+    return message_providers.create_message(
         company_id=company_id, room_uuid=room_uuid, user_id=user_id, text=text
     )
 
@@ -51,7 +52,7 @@ def _serialize_message(message):
 
 
 @database_sync_to_async
-def serialize_message(message: chat_models.Message) -> Dict[str, Any]:
+def serialize_message(message: Message) -> Dict[str, Any]:
 
     # This is a patch to Django Serializer BUG
     # https://stackoverflow.com/questions/36588126/uuid-is-not-json-serializable
@@ -62,15 +63,13 @@ def serialize_message(message: chat_models.Message) -> Dict[str, Any]:
 def get_recents_rooms(*, user_id: int, limit: int = 3) -> list[dict[str, Any]]:
 
     rooms_ids = (
-        chat_models.Message.objects.filter(
-            room__is_one_to_one=True, room__members__id=user_id
-        )
+        Message.objects.filter(room__is_one_to_one=True, room__members__id=user_id)
         .order_by("room__uuid", "-created")
         .distinct("room__uuid")
         .values_list("room__uuid", flat=True)
     )[:limit]
 
-    rooms = chat_models.Room.objects.filter(uuid__in=rooms_ids).order_by("created")
+    rooms = Room.objects.filter(uuid__in=rooms_ids).order_by("created")
 
     data = []
 
@@ -90,15 +89,15 @@ def get_recents_rooms(*, user_id: int, limit: int = 3) -> list[dict[str, Any]]:
 
 def get_or_create_room_by_company_and_members_ids(
     company_id: int, members_ids: List[int]
-) -> chat_models.Room:
+) -> Room:
     try:
         return room_providers.get_one_to_one_room_by_members_ids(
             company_id=company_id, members_ids=members_ids
         )
-    except chat_models.Room.DoesNotExist:
+    except Room.DoesNotExist:
         pass
 
-    channel = chat_models.Room.objects.create(
+    channel = Room.objects.create(
         **{
             "company_id": company_id,
             "is_one_to_one": True,
@@ -148,10 +147,18 @@ def broadcast_chat_message_with_attachments(
 ) -> None:
     channel_layer = get_channel_layer()
     group = ROOM_GROUP_NAME.format(company_id=company_id, room_uuid=room_uuid)
-    message = chat_models.Message.objects.prefetch_related("attachments").get(
-        uuid=message_uuid
-    )
+    message = Message.objects.prefetch_related("attachments").get(uuid=message_uuid)
 
     serialized_message = _serialize_message(message)
 
     async_to_sync(channel_layer.group_send)(group, serialized_message)
+
+
+@database_sync_to_async
+def set_messages_readed_by_room_and_user_async(
+    company_id: int, room_uuid: Union[str, UUID], user_id: int
+) -> int:
+    """ Allow to mark unreaded messages readed by user in room """
+    return message_providers.set_messages_readed_by_room_and_user(
+        company_id=company_id, room_uuid=room_uuid, user_id=user_id
+    )

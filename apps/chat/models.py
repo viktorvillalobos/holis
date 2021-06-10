@@ -1,3 +1,4 @@
+from django.contrib.postgres.indexes import GinIndex
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
@@ -86,10 +87,17 @@ class Message(TimeStampedModel):
         related_name="messages",
     )
     text = models.TextField(_("text"))
+    reads = models.JSONField(
+        _("reads"),
+        db_index=True,
+        default=dict,
+        help_text="include a dict with user_id:timestamp",
+    )
 
     tenant_id = "company_id"
 
     class Meta:
+        indexes = [GinIndex(fields=["reads"])]
         unique_together = ["uuid", "company"]
         ordering = ["-created"]
 

@@ -37,6 +37,7 @@ class MessageRawSerializer(serializers.Serializer):
     created = serializers.DateTimeField()
     text = serializers.CharField()
     room = serializers.CharField()
+    is_readed = serializers.BooleanField(default=False)
 
     def get_avatar_thumb(self, obj: chat_models.Message) -> str:
         return obj.user.avatar_thumb
