@@ -60,31 +60,40 @@ def serialize_message(message: Message) -> Dict[str, Any]:
     return _serialize_message(message=message)
 
 
-def get_recents_rooms(*, user_id: int, limit: int = 3) -> list[dict[str, Any]]:
+def get_recents_rooms_by_user_id(
+    *, user_id: int, is_one_to_one: bool = False, limit: int = 3
+) -> list[dict[str, Any]]:
 
-    rooms_ids = (
-        Message.objects.filter(room__is_one_to_one=True, room__members__id=user_id)
-        .order_by("room__uuid", "-created")
-        .distinct("room__uuid")
-        .values_list("room__uuid", flat=True)
-    )[:limit]
+    recents_messages = message_providers.get_recents_messages_by_user_id(
+        user_id=user_id, is_one_to_one=is_one_to_one, limit=limit
+    )
 
-    rooms = Room.objects.filter(uuid__in=rooms_ids).order_by("created")
+    recent_messages_by_room = {
+        message.room_uuid: message for message in recents_messages
+    }
 
-    data = []
+    rooms = room_providers.get_rooms_by_uuids(room_uuids=recent_messages_by_room.keys())
 
+    recents_data = []
     for room in rooms:
-        for member in room.members.exclude(id=user_id):
-            data.append(
+
+        last_room_message = recent_messages_by_room[room.uuid]
+
+        users = room.members.exclude(id=user_id).order_by("id")
+
+        for member in users:
+            recents_data.append(
                 {
                     "room": room.uuid,
                     "avatar_thumb": member.avatar_thumb,
                     "id": member.id,
                     "name": member.name,
+                    "message": last_room_message.text,
+                    "created": last_room_message.created,
                 }
             )
 
-    return data
+    return recents_data
 
 
 def get_or_create_room_by_company_and_members_ids(

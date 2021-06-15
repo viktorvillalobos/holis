@@ -112,7 +112,7 @@ async def test_get_cached_position(cached_position_fields, create_status_test_da
     assert cached_position["position"] == user.position
     assert cached_position["area_id"] == area.id
     assert cached_position["jid"] == user.jid
-    assert cached_position["avatar"] == user.avatar.url
+    assert cached_position["avatar"] == user.avatar_thumb
     assert cached_position["last_seen"] == expected_datetime_string
 
 

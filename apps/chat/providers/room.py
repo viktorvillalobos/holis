@@ -1,13 +1,15 @@
-from typing import List
+from typing import Iterable, List, Union
 
 from django.db.models import Count
+from django.db.models.query import QuerySet
+
+from uuid import UUID
 
 from apps.utils.cache import cache
 
 from ..models import Room
 
 
-# @cache(60 * 60 * 24)
 def get_one_to_one_room_by_members_ids(company_id: int, members_ids: List[int]) -> Room:
     return (
         Room.objects.filter(
@@ -17,3 +19,7 @@ def get_one_to_one_room_by_members_ids(company_id: int, members_ids: List[int]) 
         .filter(num_members=2)
         .earliest("created")
     )
+
+
+def get_rooms_by_uuids(*, room_uuids: Iterable[Union[UUID, str]]) -> QuerySet:
+    return Room.objects.filter(uuid__in=room_uuids).order_by("created")

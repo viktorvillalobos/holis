@@ -91,7 +91,9 @@ class RecentChatsAPIView(views.APIView):
         limit = int(request.GET.get("limit", "3"))
 
         return Response(
-            chat_services.get_recents_rooms(user_id=self.request.user.id, limit=limit),
+            chat_services.get_recents_rooms_by_user_id(
+                user_id=self.request.user.id, is_one_to_one=True, limit=limit
+            ),
             status=status.HTTP_200_OK,
         )
 

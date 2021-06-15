@@ -44,3 +44,15 @@ def set_messages_readed_by_room_and_user(
             )
         )
     )
+
+
+def get_recents_messages_by_user_id(
+    *, user_id: int, is_one_to_one: bool = True, limit: int = 3
+) -> QuerySet:
+    return (
+        Message.objects.filter(
+            room__is_one_to_one=is_one_to_one, room__members__id=user_id
+        )
+        .order_by("room__uuid", "-created")
+        .distinct("room__uuid")
+    )[:limit]
