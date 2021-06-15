@@ -1,4 +1,4 @@
-from typing import Union
+from typing import Any, Union
 
 from django.db.models import Exists
 from django.db.models.aggregates import Count
@@ -49,15 +49,17 @@ def set_messages_readed_by_room_and_user(
 
 def get_recents_messages_by_user_id(
     *, user_id: int, is_one_to_one: bool = True, limit: int = 3
-) -> QuerySet:
+) -> list[dict[str, Any]]:
     is_readed_queryset = Message.objects.filter(reads__has_key=str(user_id))
 
-    return (
+    queryset = (
         Message.objects.filter(
             room__is_one_to_one=is_one_to_one, room__members__id__in=[user_id]
         )
-        .all()
         .annotate(have_unread_messages=Exists(is_readed_queryset))
-        .order_by("room__uuid", "-created")
+        .values("room_uuid", "have_unread_messages", "text", "created")
+        .order_by("room__uuid", "have_unread_messages", "-created")
         .distinct("room__uuid")
     )[:limit]
+
+    return list(queryset)

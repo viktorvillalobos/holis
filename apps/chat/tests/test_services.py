@@ -68,6 +68,7 @@ class TestGetRecentsRooms:
                 "name": self.user_tundi.name,
                 "message": self.room_viktor_tundi_message.text,
                 "created": self.room_viktor_tundi_message.created,
+                "have_unread_messages": False,
             },
             {
                 "room": self.room_viktor_julls.uuid,
@@ -76,6 +77,7 @@ class TestGetRecentsRooms:
                 "name": self.user_julls.name,
                 "message": self.room_viktor_julls_message.text,
                 "created": self.room_viktor_julls_message.created,
+                "have_unread_messages": False,
             },
         ]
         results = chat_services.get_recents_rooms_by_user_id(
@@ -94,11 +96,12 @@ class TestGetRecentsRooms:
                 "name": self.user_tundi.name,
                 "message": self.room_viktor_tundi_message.text,
                 "created": self.room_viktor_tundi_message.created,
+                "have_unread_messages": False,
             }
         ]
 
         results = chat_services.get_recents_rooms_by_user_id(
-            user_id=self.user_viktor.id, limit=1
+            user_id=self.user_viktor.id, is_one_to_one=True, limit=1
         )
 
         assert results == expected_result

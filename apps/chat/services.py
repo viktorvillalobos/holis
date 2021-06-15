@@ -64,16 +64,12 @@ def get_recents_rooms_by_user_id(
     *, user_id: int, is_one_to_one: bool = True, limit: int = 3
 ) -> list[dict[str, Any]]:
 
-    recents_messages = list(
-        message_providers.get_recents_messages_by_user_id(
-            user_id=user_id, is_one_to_one=is_one_to_one, limit=limit
-        )
+    recents_messages = message_providers.get_recents_messages_by_user_id(
+        user_id=user_id, is_one_to_one=is_one_to_one, limit=limit
     )
 
-    recents_messages = sorted(recents_messages, key=lambda x: x.created, reverse=True)
-
     recent_messages_by_room = {
-        message.room_uuid: message for message in recents_messages
+        message["room_uuid"]: message for message in recents_messages
     }
 
     rooms_in_bulk = room_providers.get_rooms_by_uuids_in_bulk(
@@ -83,11 +79,9 @@ def get_recents_rooms_by_user_id(
     recents_data = []
     for room_uuid in recent_messages_by_room.keys():
 
-        last_room_message = recent_messages_by_room[room_uuid]
+        recent_messages_values = recent_messages_by_room[room_uuid]
         room = rooms_in_bulk[room_uuid]
         users = room.members.exclude(id=user_id).order_by("id")
-
-        assert users.count() == 1
 
         for member in users:
             recents_data.append(
@@ -96,9 +90,11 @@ def get_recents_rooms_by_user_id(
                     "avatar_thumb": member.avatar_thumb,
                     "id": member.id,
                     "name": member.name,
-                    "message": last_room_message.text,
-                    "created": last_room_message.created,
-                    "have_unread_messages": last_room_message.have_unread_messages,
+                    "message": recent_messages_values["text"],
+                    "created": recent_messages_values["created"],
+                    "have_unread_messages": recent_messages_values[
+                        "have_unread_messages"
+                    ],
                 }
             )
 
