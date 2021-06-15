@@ -99,7 +99,6 @@ class Message(TimeStampedModel):
     class Meta:
         indexes = [GinIndex(fields=["reads"])]
         unique_together = ["uuid", "company"]
-        ordering = ["-created"]
 
 
 def chat_attachments_path(instance, file_name):

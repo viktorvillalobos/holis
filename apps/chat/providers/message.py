@@ -1,6 +1,7 @@
 from typing import Union
 
 from django.db.models import Exists
+from django.db.models.aggregates import Count
 from django.db.models.query import QuerySet
 from django.utils import timezone
 
@@ -49,10 +50,14 @@ def set_messages_readed_by_room_and_user(
 def get_recents_messages_by_user_id(
     *, user_id: int, is_one_to_one: bool = True, limit: int = 3
 ) -> QuerySet:
+    is_readed_queryset = Message.objects.filter(reads__has_key=str(user_id))
+
     return (
         Message.objects.filter(
-            room__is_one_to_one=is_one_to_one, room__members__id=user_id
+            room__is_one_to_one=is_one_to_one, room__members__id__in=[user_id]
         )
+        .all()
+        .annotate(have_unread_messages=Exists(is_readed_queryset))
         .order_by("room__uuid", "-created")
         .distinct("room__uuid")
     )[:limit]

@@ -1,4 +1,4 @@
-from typing import Iterable, List, Union
+from typing import Dict, Iterable, List, Union
 
 from django.db.models import Count
 from django.db.models.query import QuerySet
@@ -22,4 +22,10 @@ def get_one_to_one_room_by_members_ids(company_id: int, members_ids: List[int]) 
 
 
 def get_rooms_by_uuids(*, room_uuids: Iterable[Union[UUID, str]]) -> QuerySet:
-    return Room.objects.filter(uuid__in=room_uuids).order_by("created")
+    return Room.objects.filter(uuid__in=room_uuids).order_by("uuid", "-created")
+
+
+def get_rooms_by_uuids_in_bulk(
+    *, room_uuids: Iterable[Union[UUID, str]]
+) -> Dict[UUID, Room]:
+    return get_rooms_by_uuids(room_uuids=room_uuids).in_bulk()

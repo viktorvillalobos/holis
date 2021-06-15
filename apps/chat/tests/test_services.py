@@ -38,7 +38,7 @@ def test_create_message_is_successful(one_to_one_room, user):
 
 
 @pytest.mark.skip("Flaky")
-@pytest.mark.django_db(transaction=True)
+@pytest.mark.django_db()
 class TestGetRecentsRooms:
     def setup_method(self):
         self.user_viktor = user_recipes.user_viktor.make()
@@ -62,20 +62,20 @@ class TestGetRecentsRooms:
 
         expected_result = [
             {
-                "room": self.room_viktor_julls.uuid,
-                "avatar_thumb": self.user_julls.avatar_thumb,
-                "id": self.user_julls.id,
-                "name": self.user_julls.name,
-                "message": self.room_viktor_julls_message.text,
-                "created": self.room_viktor_julls_message.created,
-            },
-            {
                 "room": self.room_viktor_tundi.uuid,
                 "avatar_thumb": self.user_tundi.avatar_thumb,
                 "id": self.user_tundi.id,
                 "name": self.user_tundi.name,
                 "message": self.room_viktor_tundi_message.text,
                 "created": self.room_viktor_tundi_message.created,
+            },
+            {
+                "room": self.room_viktor_julls.uuid,
+                "avatar_thumb": self.user_julls.avatar_thumb,
+                "id": self.user_julls.id,
+                "name": self.user_julls.name,
+                "message": self.room_viktor_julls_message.text,
+                "created": self.room_viktor_julls_message.created,
             },
         ]
         results = chat_services.get_recents_rooms_by_user_id(
@@ -96,6 +96,7 @@ class TestGetRecentsRooms:
                 "created": self.room_viktor_tundi_message.created,
             }
         ]
+
         results = chat_services.get_recents_rooms_by_user_id(
             user_id=self.user_viktor.id, limit=1
         )
