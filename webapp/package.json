@@ -53,6 +53,9 @@
     "webpack-bundle-tracker": "^0.4.3"
   },
   "devDependencies": {
+    "@iconify-icons/mdi-light": "^1.1.0",
+    "@iconify/icons-mdi": "^1.1.15",
+    "@iconify/vue": "^1.0.6",
     "@vue/cli-plugin-babel": "~4.3.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
     "@vue/cli-plugin-unit-jest": "~4.5.0",

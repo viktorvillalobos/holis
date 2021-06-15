@@ -1072,6 +1072,21 @@
   dependencies:
     "@hapi/hoek" "^8.3.0"
 
+"@iconify-icons/mdi-light@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@iconify-icons/mdi-light/-/mdi-light-1.1.0.tgz#30c2308e2e599c96da97f8d60a1aabf91504e712"
+  integrity sha512-pV69tNZO9u0qZFVcy5VFmg7dL+Yq3g8DrkCIMGnW3ukgcYDZG2M2oAKeIxHUCIE/11khAsYlBdrUFglTIcbDxg==
+
+"@iconify/icons-mdi@^1.1.15":
+  version "1.1.15"
+  resolved "https://registry.yarnpkg.com/@iconify/icons-mdi/-/icons-mdi-1.1.15.tgz#e035130cc480c4318fb4cb21b8b836a2ba32c8b9"
+  integrity sha512-H2dwj/vlBXd9Gc7d66m8ZW/8TZcxshMwIoyUkyTMft1mnGqsxJWq5QEWnX+jkmL8KKGR/czqh6p9sEe67Laq6Q==
+
+"@iconify/vue@^1.0.6":
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/@iconify/vue/-/vue-1.0.6.tgz#e15c36305b55ca92f51dd514f784ac926bfd6fe7"
+  integrity sha512-hqzfDXN9sEkes1bDzLPbQchOVACMPB5lwGHkk7StD4PuWLXZjgmLKybhLgsssCjWpHTHzE47dmZvB240eLZlYw==
+
 "@intervolga/optimize-cssnano-plugin@^1.0.5":
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/@intervolga/optimize-cssnano-plugin/-/optimize-cssnano-plugin-1.0.6.tgz#be7c7846128b88f6a9b1d1261a0ad06eb5c0fdf8"

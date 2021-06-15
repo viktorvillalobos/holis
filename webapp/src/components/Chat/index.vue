@@ -1,5 +1,6 @@
 <template>
   <div class="connect-chat" :style="`background-image: url(${patternChat})`">
+    <HeaderInbox/>
     <div v-if="chatActive" class="connect-chat-new">
       <h3>Nuevo mensaje</h3>
       <div class="field is-horizontal">
@@ -60,16 +61,19 @@ import Avatar from '@/components/Avatar'
 import Card from '@/components/Card'
 import pattern from '@/assets/lighter_pattern.png'
 import Loading from '@/components/Loading'
+import HeaderInbox from './Inbox'
 
 export default {
   name: 'Chat',
   components: {
+
     ChatHeader,
     ChatEditor,
     Message,
     Avatar,
     Card,
-    Loading
+    Loading,
+    HeaderInbox
   },
   data () {
     return {
@@ -90,7 +94,8 @@ export default {
       allowScrollToEnd: state => state.chat.allowScrollToEnd,
       currentChatJID: state => state.chat.currentChatJID,
       currentChatName: state => state.chat.currentChatName,
-      chatActive: state => state.chat.chatActive
+      chatActive: state => state.chat.chatActive,
+      app: state => state.app.user
     })
   },
   watch: {
