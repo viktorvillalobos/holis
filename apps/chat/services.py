@@ -168,11 +168,13 @@ def broadcast_chat_message_with_attachments(
     async_to_sync(channel_layer.group_send)(group, serialized_message)
 
 
-@database_sync_to_async
-def set_messages_readed_by_room_and_user_async(
+def set_messages_readed_by_room_and_user(
     company_id: int, room_uuid: Union[str, UUID], user_id: int
 ) -> int:
-    """ Allow to mark unreaded messages readed by user in room """
+    """
+    Allow to mark unreaded messages readed by user in room
+    Return the total messages marked as readed
+    """
     return message_providers.set_messages_readed_by_room_and_user(
         company_id=company_id, room_uuid=room_uuid, user_id=user_id
     )

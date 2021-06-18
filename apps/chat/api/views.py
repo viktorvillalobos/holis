@@ -14,6 +14,7 @@ from apps.chat.providers import message as message_providers
 from apps.chat.providers import message_attachment as message_attachment_providers
 
 from .. import services as chat_services
+from .. import tasks as chat_tasks
 
 logger = logging.getLogger(__name__)
 
@@ -120,6 +121,8 @@ class MessageListAPIView(generics.ListAPIView):
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
 
+        self.launch_set_mensages_readed_task()
+
         page = self.paginate_queryset(queryset)
         if page is not None:
             serializer = self.get_serializer(reversed(page), many=True)
@@ -128,3 +131,10 @@ class MessageListAPIView(generics.ListAPIView):
         serializer = self.get_serializer(queryset, many=True)
 
         return Response(serializer.data)
+
+    def launch_set_mensages_readed_task(self):
+        chat_tasks.set_messages_readed_by_room_and_user_task.delay(
+            company_id=self.request.company_id,
+            room_uuid=self.kwargs["room_uuid"],
+            user_id=self.request.user.id,
+        )
