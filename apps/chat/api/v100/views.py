@@ -1,10 +1,8 @@
-from django.conf import settings
 from rest_framework import exceptions, generics, status, views
 from rest_framework.parsers import MultiPartParser
 from rest_framework.response import Response
 
 import logging
-from twilio.rest import Client
 
 from apps.chat.lib.exceptions import NonExistentMemberException
 from apps.utils.rest_framework import objects
@@ -14,7 +12,6 @@ from ... import services as chat_services
 from ... import tasks as chat_tasks
 from ...context import models as chat_models
 from ...context.providers import message as message_providers
-from ...context.providers import message_attachment as message_attachment_providers
 from . import serializers
 from .pagination import MessageCursoredPagination
 
@@ -28,18 +25,32 @@ class GetOrCreateRoomAPIView(views.APIView):
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        room = self.get_one_to_one_room(serializer.validated_data)
+        to = serializer.validated_data["to"]
+
+        if len(to) == 1:
+            room = self.get_one_to_one_room(to=to[0])
+        else:
+            room = self.get_many_to_many_room(to=to)
 
         return Response({"id": room.uuid}, status=200)
 
-    def get_one_to_one_room(self, validated_data: dict) -> chat_models.Room:
+    def get_one_to_one_room(self, to: int) -> chat_models.Room:
         try:
             return chat_services.get_or_create_room_by_company_and_members_ids(
                 company_id=self.request.user.company_id,
-                members_ids=[self.request.user.id, validated_data["to"]],
+                members_ids={self.request.user.id, to},
             )
         except NonExistentMemberException:
-            raise exceptions.ValidationError("Member not exist")
+            raise exceptions.ValidationError("Member does not exist")
+
+    def get_many_to_many_room(self, to: list[int]) -> chat_models.Room:
+        try:
+            return chat_services.get_or_create_room_by_company_and_members_ids(
+                company_id=self.request.user.company_id,
+                members_ids={self.request.user.id, *to},
+            )
+        except NonExistentMemberException:
+            raise exceptions.ValidationError("Member does not exist")
 
 
 class GetTurnCredentialsAPIView(views.APIView):

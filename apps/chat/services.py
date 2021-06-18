@@ -115,25 +115,20 @@ def get_cursored_recents_rooms_by_user_id(
 
 
 def get_or_create_room_by_company_and_members_ids(
-    company_id: int, members_ids: List[int]
+    company_id: int,
+    members_ids: set[int],
+    is_one_to_one: bool = True,
+    name: str = "custom-room",
 ) -> Room:
-    try:
-        return room_providers.get_one_to_one_room_by_members_ids(
+
+    if is_one_to_one:
+        room = room_providers.get_or_create_one_to_one_room_by_members_ids(
             company_id=company_id, members_ids=members_ids
         )
-    except Room.DoesNotExist:
-        pass
-
-    channel = Room.objects.create(
-        **{
-            "company_id": company_id,
-            "is_one_to_one": True,
-            "name": str(uuid.uuid4()),
-            "any_can_invite": False,
-            "members_only": True,
-            "max_users": 2,
-        }
-    )
+    else:
+        room = room_providers.create_many_to_many_room_by_name(
+            company_id=company_id, name=name
+        )
 
     members = users_models.User.objects.filter(
         id__in=members_ids, company_id=company_id
@@ -142,10 +137,8 @@ def get_or_create_room_by_company_and_members_ids(
     if members.count() != len(members_ids):
         raise NonExistentMemberException("User does not exist")
 
-    for member in members:
-        channel.members.add(member)
-
-    return channel
+    room.members.set(members)
+    return room
 
 
 @cache(12 * 60 * 60)
