@@ -114,21 +114,30 @@ def get_cursored_recents_rooms_by_user_id(
     return recents_data, next_page_cursor, previous_page_cursor
 
 
-def get_or_create_room_by_company_and_members_ids(
-    company_id: int,
-    members_ids: set[int],
-    is_one_to_one: bool = True,
-    name: str = "custom-room",
+def get_or_create_one_to_one_room_by_company_and_users(
+    company_id: int, to_user_id: int, from_user_id: int
 ) -> Room:
+    room = room_providers.get_or_create_one_to_one_room_by_members_ids(
+        company_id=company_id, from_user_id=from_user_id, to_user_id=to_user_id
+    )
 
-    if is_one_to_one:
-        room = room_providers.get_or_create_one_to_one_room_by_members_ids(
-            company_id=company_id, members_ids=members_ids
-        )
-    else:
-        room = room_providers.create_many_to_many_room_by_name(
-            company_id=company_id, name=name
-        )
+    members = users_models.User.objects.filter(
+        id__in=[from_user_id, to_user_id], company_id=company_id
+    )
+
+    if members.count() != 2:
+        raise NonExistentMemberException("User does not exist")
+
+    room.members.set(members)
+    return room
+
+
+def create_many_to_many_room_by_name(
+    company_id: int, members_ids: set[int], name: str = "custom-room"
+) -> Room:
+    room = room_providers.create_many_to_many_room_by_name(
+        company_id=company_id, name=name
+    )
 
     members = users_models.User.objects.filter(
         id__in=members_ids, company_id=company_id

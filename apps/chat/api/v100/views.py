@@ -36,16 +36,17 @@ class GetOrCreateRoomAPIView(views.APIView):
 
     def get_one_to_one_room(self, to: int) -> chat_models.Room:
         try:
-            return chat_services.get_or_create_room_by_company_and_members_ids(
-                company_id=self.request.user.company_id,
-                members_ids={self.request.user.id, to},
+            return chat_services.get_or_create_one_to_one_room_by_company_and_users(
+                company_id=self.request.company_id,
+                from_user_id=self.request.user.id,
+                to_user_id=to,
             )
         except NonExistentMemberException:
             raise exceptions.ValidationError("Member does not exist")
 
     def get_many_to_many_room(self, to: list[int]) -> chat_models.Room:
         try:
-            return chat_services.get_or_create_room_by_company_and_members_ids(
+            return chat_services.create_many_to_many_room_by_name(
                 company_id=self.request.user.company_id,
                 members_ids={self.request.user.id, *to},
             )

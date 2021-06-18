@@ -10,12 +10,14 @@ from ..models import Room
 
 
 def get_or_create_one_to_one_room_by_members_ids(
-    company_id: int, members_ids: set[int]
+    company_id: int, to_user_id: int, from_user_id: int
 ) -> Room:
     try:
         return (
             Room.objects.filter(
-                company_id=company_id, members__id__in=members_ids, is_one_to_one=True
+                company_id=company_id,
+                members__id__in={from_user_id, to_user_id},
+                is_one_to_one=True,
             )
             .annotate(num_members=Count("members"))
             .filter(num_members=2)
