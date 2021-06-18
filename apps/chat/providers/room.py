@@ -21,11 +21,15 @@ def get_one_to_one_room_by_members_ids(company_id: int, members_ids: List[int]) 
     )
 
 
-def get_rooms_by_uuids(*, room_uuids: Iterable[Union[UUID, str]]) -> QuerySet:
-    return Room.objects.filter(uuid__in=room_uuids).order_by("uuid", "-created")
+def get_rooms_by_uuids(
+    *, company_id: int, room_uuids: Iterable[Union[UUID, str]]
+) -> QuerySet:
+    return Room.objects.filter(company_id=company_id, uuid__in=room_uuids).order_by(
+        "uuid", "-created"
+    )
 
 
 def get_rooms_by_uuids_in_bulk(
-    *, room_uuids: Iterable[Union[UUID, str]]
+    *, company_id: int, room_uuids: Iterable[Union[UUID, str]]
 ) -> Dict[UUID, Room]:
-    return get_rooms_by_uuids(room_uuids=room_uuids).in_bulk()
+    return get_rooms_by_uuids(company_id=company_id, room_uuids=room_uuids).in_bulk()

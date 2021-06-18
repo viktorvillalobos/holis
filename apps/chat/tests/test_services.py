@@ -7,6 +7,8 @@ from model_bakery import baker
 from apps.users.tests import baker_recipes as user_recipes
 
 from .. import services as chat_services
+from ..providers import message as message_providers
+from ..providers import room as room_providers
 from . import baker_recipes as chat_recipes
 
 
@@ -37,71 +39,28 @@ def test_create_message_is_successful(one_to_one_room, user):
     assert isinstance(message.uuid, uuid.UUID)
 
 
-@pytest.mark.skip("Flaky")
-@pytest.mark.django_db()
 class TestGetRecentsRooms:
-    def setup_method(self):
-        self.user_viktor = user_recipes.user_viktor.make()
-        self.user_julls = user_recipes.user_julls.make()
-        self.user_tundi = user_recipes.user_tundi.make()
-
-        self.room_viktor_julls = chat_recipes.adslab_room_one_to_one.make(
-            members=[self.user_viktor, self.user_julls]
+    def test_get_recents_rooms(self, mocker):
+        mocked_get_recents_messages_values_by_user_id = mocker.patch(
+            f"{message_providers.__name__}.get_recents_messages_values_by_user_id"
         )
 
-        self.room_viktor_tundi = chat_recipes.adslab_room_one_to_one.make(
-            name="room-viktor-tundi", members=[self.user_viktor, self.user_tundi]
-        )
-
-        self.room_viktor_julls_message = chat_recipes.adslab_message_one_to_one.make()
-        self.room_viktor_tundi_message = chat_recipes.adslab_message_one_to_one.make(
-            room=self.room_viktor_tundi
-        )
-
-    def test_get_recents_rooms(self):
-
-        expected_result = [
-            {
-                "room": self.room_viktor_tundi.uuid,
-                "avatar_thumb": self.user_tundi.avatar_thumb,
-                "id": self.user_tundi.id,
-                "name": self.user_tundi.name,
-                "message": self.room_viktor_tundi_message.text,
-                "created": self.room_viktor_tundi_message.created,
-                "have_unread_messages": False,
-            },
-            {
-                "room": self.room_viktor_julls.uuid,
-                "avatar_thumb": self.user_julls.avatar_thumb,
-                "id": self.user_julls.id,
-                "name": self.user_julls.name,
-                "message": self.room_viktor_julls_message.text,
-                "created": self.room_viktor_julls_message.created,
-                "have_unread_messages": False,
-            },
-        ]
-        results = chat_services.get_recents_rooms_by_user_id(
-            user_id=self.user_viktor.id
-        )
-
-        assert results == expected_result
-
-    def test_get_recents_rooms_with_limit(self):
-
-        expected_result = [
-            {
-                "room": self.room_viktor_tundi.uuid,
-                "avatar_thumb": self.user_tundi.avatar_thumb,
-                "id": self.user_tundi.id,
-                "name": self.user_tundi.name,
-                "message": self.room_viktor_tundi_message.text,
-                "created": self.room_viktor_tundi_message.created,
-                "have_unread_messages": False,
-            }
+        mocked_get_recents_messages_values_by_user_id.return_value = [
+            {"room_uuid": uuid.uuid4(), "text": "this is a text"}
         ]
 
-        results = chat_services.get_recents_rooms_by_user_id(
-            user_id=self.user_viktor.id, is_one_to_one=True, limit=1
+        mocked_get_rooms_by_uuids_in_bulk = mocker.patch(
+            f"{room_providers.__name__}.get_rooms_by_uuids_in_bulk"
         )
 
-        assert results == expected_result
+        expected_kwargs = dict(company_id=1, user_id=1, is_one_to_one=True, limit=5)
+
+        results = chat_services.get_recents_rooms_by_user_id(**expected_kwargs)
+
+        mocked_get_recents_messages_values_by_user_id.assert_called_once_with(
+            **expected_kwargs
+        )
+
+        mocked_get_rooms_by_uuids_in_bulk.assert_called_once()
+
+        assert isinstance(results, list)

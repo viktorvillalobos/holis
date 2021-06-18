@@ -47,14 +47,16 @@ def set_messages_readed_by_room_and_user(
     )
 
 
-def get_recents_messages_by_user_id(
-    *, user_id: int, is_one_to_one: bool = True, limit: int = 3
+def get_recents_messages_values_by_user_id(
+    *, company_id: int, user_id: int, is_one_to_one: bool = True, limit: int = 3
 ) -> list[dict[str, Any]]:
     is_readed_queryset = Message.objects.filter(reads__has_key=str(user_id))
 
     queryset = (
         Message.objects.filter(
-            room__is_one_to_one=is_one_to_one, room__members__id__in=[user_id]
+            company_id=company_id,
+            room__is_one_to_one=is_one_to_one,
+            room__members__id__in=[user_id],
         )
         .annotate(have_unread_messages=Exists(is_readed_queryset))
         .values("room_uuid", "have_unread_messages", "text", "created")

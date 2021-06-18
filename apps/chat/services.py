@@ -61,11 +61,11 @@ def serialize_message(message: Message) -> Dict[str, Any]:
 
 
 def get_recents_rooms_by_user_id(
-    *, user_id: int, is_one_to_one: bool = True, limit: int = 3
+    *, company_id: int, user_id: int, is_one_to_one: bool = True, limit: int = 3
 ) -> list[dict[str, Any]]:
 
-    recents_messages = message_providers.get_recents_messages_by_user_id(
-        user_id=user_id, is_one_to_one=is_one_to_one, limit=limit
+    recents_messages = message_providers.get_recents_messages_values_by_user_id(
+        company_id=company_id, user_id=user_id, is_one_to_one=is_one_to_one, limit=limit
     )
 
     recent_messages_by_room = {
@@ -73,7 +73,7 @@ def get_recents_rooms_by_user_id(
     }
 
     rooms_in_bulk = room_providers.get_rooms_by_uuids_in_bulk(
-        room_uuids=recent_messages_by_room.keys()
+        company_id=company_id, room_uuids=recent_messages_by_room.keys()
     )
 
     recents_data = []

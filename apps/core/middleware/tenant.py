@@ -53,4 +53,5 @@ class HolisTenantMiddleware(django.utils.deprecation.MiddlewareMixin):
             )
 
         request.company = tenant
+        request.company_id = tenant.id
         logger.info(f"TENANT: {request.company}")
