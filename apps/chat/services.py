@@ -1,4 +1,4 @@
-from typing import Any, Dict, List, Union
+from typing import Any, Dict, List, Optional, Union
 
 from django.conf import settings
 from django.core.files.storage import default_storage
@@ -61,11 +61,20 @@ def serialize_message(message: Message) -> Dict[str, Any]:
 
 
 def get_recents_rooms_by_user_id(
-    *, company_id: int, user_id: int, is_one_to_one: bool = True, limit: int = 3
+    *,
+    company_id: int,
+    user_id: int,
+    is_one_to_one: bool = True,
+    limit: int = 3,
+    search: Optional[str] = None,
 ) -> list[dict[str, Any]]:
 
     recents_messages = message_providers.get_recents_messages_values_by_user_id(
-        company_id=company_id, user_id=user_id, is_one_to_one=is_one_to_one, limit=limit
+        company_id=company_id,
+        user_id=user_id,
+        is_one_to_one=is_one_to_one,
+        limit=limit,
+        search=search,
     )
 
     recent_messages_by_room = {

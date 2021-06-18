@@ -1,11 +1,9 @@
-from typing import Any, Union
+from typing import Any, Optional, Union
 
-from django.db.models import Exists
+from django.db.models import Exists, Q
 from django.db.models.aggregates import Count
 from django.db.models.query import QuerySet
-from django.utils import timezone
 
-from datetime import datetime
 from uuid import UUID
 
 from apps.chat.models import Message
@@ -48,7 +46,12 @@ def set_messages_readed_by_room_and_user(
 
 
 def get_recents_messages_values_by_user_id(
-    *, company_id: int, user_id: int, is_one_to_one: bool = True, limit: int = 3
+    *,
+    company_id: int,
+    user_id: int,
+    is_one_to_one: bool = True,
+    limit: int = 3,
+    search: Optional[str] = None,
 ) -> list[dict[str, Any]]:
     is_readed_queryset = Message.objects.filter(reads__has_key=str(user_id))
 
@@ -62,6 +65,11 @@ def get_recents_messages_values_by_user_id(
         .values("room_uuid", "have_unread_messages", "text", "created")
         .order_by("room__uuid", "have_unread_messages", "-created")
         .distinct("room__uuid")
-    )[:limit]
+    )
 
-    return list(queryset)
+    if search:
+        queryset = queryset.filter(
+            Q(room__members__name__icontains=search) | Q(room__name__icontains=search)
+        )
+
+    return list(queryset[:limit])
