@@ -31,13 +31,16 @@ class UserViewSet(RetrieveModelMixin, ListModelMixin, GenericViewSet):
     filterset_fields = ("name", "email", "username")
 
     def get_queryset(self, *args, **kwargs):
-        queryset = (
-            self.queryset.prefetch_related("statuses")
-            .filter(company=self.request.user.company)
-            .exclude(id=self.request.user.id)
+        include_myself = self.request.GET.get("include_myself")
+        name_param = self.request.GET.get("name")
+
+        queryset = self.queryset.prefetch_related("statuses").filter(
+            company=self.request.user.company
         )
 
-        name_param = self.request.GET.get("name")
+        if not include_myself:
+            queryset = queryset.exclude(id=self.request.user.id)
+
         if name_param:
             queryset = queryset.filter(name__icontains=name_param)
 
