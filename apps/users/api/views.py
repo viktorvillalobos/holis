@@ -15,6 +15,7 @@ import random
 from apps.core import models as core_models
 from apps.users import models
 from apps.users.api import serializers
+from apps.users.providers import user as users_providers
 from apps.web import models as web_models
 
 from .. import services as user_services
@@ -31,20 +32,15 @@ class UserViewSet(RetrieveModelMixin, ListModelMixin, GenericViewSet):
     filterset_fields = ("name", "email", "username")
 
     def get_queryset(self, *args, **kwargs):
-        include_myself = self.request.GET.get("include_myself")
+        include_myself = bool(self.request.GET.get("include_myself", False))
         name_param = self.request.GET.get("name")
 
-        queryset = self.queryset.prefetch_related("statuses").filter(
-            company=self.request.user.company
+        return users_providers.get_users_with_statuses(
+            company_id=self.request.company_id,
+            user_id=self.request.user.id,
+            include_myself=include_myself,
+            name=name_param,
         )
-
-        if not include_myself:
-            queryset = queryset.exclude(id=self.request.user.id)
-
-        if name_param:
-            queryset = queryset.filter(name__icontains=name_param)
-
-        return queryset
 
     def list(self, request, *args, **kwargs):
         queryset = self.get_queryset(*args, **kwargs)

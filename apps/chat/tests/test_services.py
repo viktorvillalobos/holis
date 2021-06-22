@@ -53,7 +53,9 @@ class TestGetRecentsRooms:
             f"{room_providers.__name__}.get_rooms_by_uuids_in_bulk"
         )
 
-        expected_kwargs = dict(company_id=1, user_id=1, is_one_to_one=True, limit=5)
+        expected_kwargs = dict(
+            company_id=1, user_id=1, is_one_to_one=True, limit=5, search=None
+        )
 
         results = chat_services.get_recents_rooms_by_user_id(**expected_kwargs)
 
