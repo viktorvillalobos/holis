@@ -22,12 +22,12 @@ const state = {
   next: null,
   prev: null,
   currentChatID: null,
-  chatActive: false
+  inboxActive: false
 }
 
 const mutations = {
-  setChatActive (state, status) {
-    state.chatActive = status
+  setInboxActive (state, status) {
+    state.inboxActive = status
   },
   setRoom (state, name) {
     state.room = name
@@ -82,7 +82,9 @@ const mutations = {
 
 const actions = {
   async getUsers ({ commit }) {
+    console.log("Entre2")
     const { data } = await apiClient.chat.getUsers()
+    console.log("Entre4")
     commit('setUsers', data.results)
   },
   async getRecents ({ commit }) {

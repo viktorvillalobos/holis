@@ -10,13 +10,14 @@
               </div>
           </div>
           <div class="column columns" style="justify-content: flex-end;">
-            <iconify-icon :icon="icons.newChatIcon" style="color:#fff" class="column is-one-fifth"/>
-            <iconify-icon :icon="icons.newGroupIcon" style="color:#fff" class="column is-one-fifth"/>
+            <span class="material-icons column is-one-fifth icons-header" style="color:#fff" >add_comment</span>
+            <!--<iconify-icon :icon="icons.newChatIcon" style="color:#fff" class="column is-one-fifth icons-header"/>
+            <iconify-icon :icon="icons.newGroupIcon" style="color:#fff" class="column is-one-fifth icons-header"/>-->
           </div>
       </div>
       <div class="field">
         <p class="control has-icons-left has-icons-right">
-          <input class="input is-focused" type="email" placeholder="Search or start a new conversation">
+          <input class="input is-focused" placeholder="Search person or group">
           <span class="icon is-left">
             <iconify-icon :icon="icons.magnifyIcon" style="color:#fff"/>
           </span>
@@ -26,9 +27,9 @@
         </p>
       </div>
     </div>
-    <div v-for="recent in recents" :key="recent.id">
-      <InboxMessage v-bind:recent="recent"/>
-    </div>
+      <div v-for="recent in recents" :key="recent.id">
+        <InboxMessage v-bind:recent="recent"/>
+      </div>
   </div>
 </template>
 
@@ -93,19 +94,11 @@ export default {
     background-color: transparent !important;
     border-color: #fff !important;
     color: #fff !important;
+}
 
-    ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
-      color: fff;
-      opacity: 1; /* Firefox */
-    }
-
-    :-ms-input-placeholder { /* Internet Explorer 10-11 */
-      color: fff;
-    }
-
-    ::-ms-input-placeholder { /* Microsoft Edge */
-      color: fff;
-    }
+::-webkit-input-placeholder { /* WebKit browsers */
+    color:    red;
+     opacity: 1 !important;
 }
 
 .avatar-titles{
@@ -117,6 +110,29 @@ export default {
   &-p{
     size: 12px;
   }
+}
+
+.items-right{
+   float: right;
+   clear: both;
+}
+
+.icons-header{
+  margin-right: -25px;
+
+ &:hover{
+   cursor: pointer;
+
+    svg:not(.non-lineal) path {
+      fill: $primary;
+    }
+
+    svg.non-lineal path {
+      fill: none;
+      stroke: $primary;
+    }
+ }
+
 }
 
 </style>

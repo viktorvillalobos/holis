@@ -1,27 +1,50 @@
 <template>
   <div class="connect-chat"> <!-- :style="`background-image: url(${patternChat})`" -->
-    <HeaderInbox v-if="inboxActive"/>
-    <NewChat v-if="!inboxActive && currentChatJID == null"/>
-    <ChatDetail v-else/>
+    <chat-header :chat-name="currentChatName" />
+    <div
+      class="connect-chat-body"
+    >
+      <button
+        class="button is-dark is-rounded load-more"
+        v-if="showLoadHistory"
+        @click="loadHistory()">Load history</button>
+
+      <vue-scroll ref="chatContainer"
+                  @handle-scroll="handleScroll">
+        <div class="connect-chat-body-messages-wrapper">
+          <message
+            v-for="msg in messages"
+            :key="msg.id"
+            :message="msg"
+          />
+        </div>
+      </vue-scroll>
+    </div>
+    <Loading v-bind:loading="loading"/>
+    <chat-editor @enter="sendMessage" />
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex'
 
+import ChatHeader from './ChatHeader'
+import ChatEditor from './ChatEditor'
+import Message from './Message'
 import Avatar from '@/components/Avatar'
 import Card from '@/components/Card'
 import pattern from '@/assets/lighter_pattern.png'
-import HeaderInbox from './Inbox'
-import NewChat from './NewChat'
+import Loading from '@/components/Loading'
 
 export default {
   name: 'Chat',
   components: {
+    ChatHeader,
+    ChatEditor,
+    Message,
     Avatar,
     Card,
-    HeaderInbox,
-    NewChat
+    Loading
   },
   data () {
     return {
@@ -36,12 +59,12 @@ export default {
   },
   computed: {
     ...mapState({
+      users: state => state.chat.users,
       messages: state => state.chat.messages,
       next: state => state.chat.next,
       allowScrollToEnd: state => state.chat.allowScrollToEnd,
       currentChatJID: state => state.chat.currentChatJID,
       currentChatName: state => state.chat.currentChatName,
-      inboxActive: state => state.chat.inboxActive,
       app: state => state.app.user
     })
   },

@@ -38,3 +38,7 @@ In html code
 - Iconify
 
 [Links]https://yarnpkg.com/package/@iconify/icons-mdi
+
+- Material Design 
+
+[Links]https://google.github.io/material-design-icons/

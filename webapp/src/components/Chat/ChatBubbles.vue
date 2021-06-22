@@ -1,66 +1,24 @@
 <template>
   <ul :class="['connect-chat-bubbles', {'aside-opened': asideOpened}]">
     <li>
-      <Btn @btn-click="emitAsideHandle" :size="30" primary round icon>
-        <svg
-          v-if="asideOpened"
-          width="5"
-          height="9"
-          viewBox="0 0 5 9"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <g clip-path="url(#clip0)">
-            <path
-              d="M0.625 8.125L4.375 4.375L0.625 0.625"
-              stroke="white"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-          </g>
-          <defs>
-            <clipPath id="clip0">
-              <rect width="5" height="8.75" fill="white" />
-            </clipPath>
-          </defs>
-        </svg>
-        <svg
-          v-else
-          width="5"
-          height="9"
-          viewBox="0 0 5 9"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <g clip-path="url(#clip0)">
-            <path
-              d="M4.375 8.125L0.625 4.375L4.375 0.625"
-              stroke="white"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-          </g>
-          <defs>
-            <clipPath id="clip0">
-              <rect width="5" height="8.75" transform="matrix(-1 0 0 1 5 0)" fill="white" />
-            </clipPath>
-          </defs>
-        </svg>
+      <Btn @btn-click="emitAsideHandle" :size="40" primary round icon>
+        <span v-if="asideOpened" class="material-icons md-16" style="color:#fff">chevron_left</span>
+        <span v-else class="material-icons md-16" style="color:#fff">chevron_right</span>
       </Btn>
     </li>
     <li>
       <Btn :size="40" primary round icon @btn-click="openNewChat">
-        <font-awesome-icon icon="comment-medical" />
+        <span class="material-icons md-16" style="color:#fff">chat</span>
       </Btn>
     </li>
-    <li class="history-chat"
+    <!--
+      Comentando chat recientes
+      <li class="history-chat"
         v-for="recent in recents"
         :key="recent.id"
         @click="handleHistoryChat(recent)">
       <Avatar :img="recent.avatar_thumb" :text="recent.name"/>
-    </li>
+    </li>--> 
   </ul>
 </template>
 <script>
@@ -97,29 +55,27 @@ export default {
         first_time: true
       }
       this.$store.dispatch('getMessagesByUser', data)
-
       this.$store.commit('setCurrentChatName', recent.name)
       this.$store.commit('setCurrentChatID', recent.id)
     },
     emitAsideHandle () {
-      console.log('emitAsideHandle')
-      console.log(this.isAsideRightActive)
-
       if (this.isAsideRightActive) {
         this.$store.commit('setAsideRightActive')
         return
       }
 
-      this.currentChatID ? this.openLastChat() : this.openNewChat()
-    },
-    openLastChat () {
-      this.$store.commit('setChatActive', false)
+      this.clearChat()
+      this.$store.commit('setInboxActive', true)
       this.$store.commit('setAsideRightActive')
     },
     openNewChat () {
-      this.$store.commit('clearMessages')
-      this.$store.commit('setChatActive', true)
+      this.clearChat()
+      this.$store.commit('setInboxActive', false)
       this.$store.commit('setAsideRightActive', true)
+    },
+    clearChat(){
+      this.$store.commit('setCurrentChatName', null)
+      this.$store.commit('setCurrentChatID', null)
     }
   }
 }
