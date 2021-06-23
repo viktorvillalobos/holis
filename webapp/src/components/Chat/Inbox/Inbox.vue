@@ -5,7 +5,7 @@
             <!--<Avatar v-if="recent.avatar_thum" class="column" :img="recent.avatar_thumb" :text="recent.name" />-->
             <font-awesome-icon icon="user-circle" size="3x" style="margin-top:10px"/>
             <div class="column">
-                <b>{{recent ? recent.name : 'Nombre misterioso' }}</b>
+                <b style="color:#000000">{{recent ? recent.name : 'Nombre misterioso' }}</b>
                 <div style="color:#828282" v-html="recent.message"></div>
             </div>
         </div>
@@ -40,7 +40,7 @@ export default {
 <style lang="scss">
 .inbox{
     height: 100px;
-    padding: 30px;
+    padding: 20px 40px 20px 50px;
 }
 
 .hover{

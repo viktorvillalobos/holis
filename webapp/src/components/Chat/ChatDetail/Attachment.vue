@@ -24,7 +24,7 @@
   </div>
 </template>
 <script>
-import { Attachment } from '../../models/Message'
+import { Attachment } from '../../../models/Message'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 export default {

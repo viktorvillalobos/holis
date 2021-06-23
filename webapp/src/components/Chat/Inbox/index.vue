@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="header-inbox">
-      <div class="columns">
+      <div class="columns" style="height:80px">
           <div class="column columns">
               <Avatar class="column" :img="user ? user.avatar || user.avatar_thumb : null" />
               <div class="column avatar-titles">
@@ -10,24 +10,26 @@
               </div>
           </div>
           <div class="column columns" style="justify-content: flex-end;">
-            <span class="material-icons column is-one-fifth icons-header" style="color:#fff" >add_comment</span>
-            <!--<iconify-icon :icon="icons.newChatIcon" style="color:#fff" class="column is-one-fifth icons-header"/>
-            <iconify-icon :icon="icons.newGroupIcon" style="color:#fff" class="column is-one-fifth icons-header"/>-->
+            <button class="button is-ghost is-1" @click="openNewChat">
+              <span class="icon is-small">
+                 <span class="material-icons" style="color:#fff">add_comment</span>
+              </span>
+            </button>
           </div>
       </div>
       <div class="field">
         <p class="control has-icons-left has-icons-right">
-          <input class="input is-focused" placeholder="Search person or group">
+          <input class="input input-inbox" placeholder="Search person or group" v-model="query">
           <span class="icon is-left">
-            <iconify-icon :icon="icons.magnifyIcon" style="color:#fff"/>
+            <span class="material-icons" style="color:#fff" >search</span>
           </span>
-          <span class="icon is-right">
-            <iconify-icon :icon="icons.closeIcon" style="color:#fff"/>
+          <span class="icon is-right" v-if="query.length > 0">
+            <span class="material-icons" style="color:#fff" >close</span>
           </span>
         </p>
       </div>
     </div>
-      <div v-for="recent in recents" :key="recent.id">
+      <div v-for="recent in recents" :key="recent.id" @click="openChatUser(recent)">
         <InboxMessage v-bind:recent="recent"/>
       </div>
   </div>
@@ -55,6 +57,7 @@ export default {
   data () {
     return {
       loading: false,
+      query: "",
       icons: {
         newChatIcon: newChatIcon,
         newGroupIcon: newGroupIcon,
@@ -70,12 +73,27 @@ export default {
       recents: state => state.chat.recents,
     })
   },
+  methods:{
+    openNewChat () {
+      this.$store.commit('setCurrentChatName', null)
+      this.$store.commit('setCurrentChatID', null)
+      this.$store.commit('setInboxActive', false)
+      this.$store.commit('setAsideRightActive', true)
+    },
+    openChatUser(recent){
+      const data = {
+        to: recent.id,
+        first_time: true
+      }
+      this.$store.dispatch('getMessagesByUser', data)
+      this.$store.commit('setCurrentChatName', recent.name)
+      this.$store.commit('setCurrentChatID', recent.id)
+    }
+  },
   watch: {
     recents (newVal) {
         console.log("RECIENTESSS",newVal)
     },
-  },
-  methods: {
   }
 }
 </script>
@@ -90,15 +108,23 @@ export default {
   box-shadow: 0px 4px 4px rgba(224, 224, 224, 0.1);
 }
 
-.input{
+.input-inbox{
     background-color: transparent !important;
     border-color: #fff !important;
     color: #fff !important;
 }
 
-::-webkit-input-placeholder { /* WebKit browsers */
-    color:    red;
-     opacity: 1 !important;
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: #fff !important;
+  opacity: 1 !important; /* Firefox */
+}
+
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  color: #fff !important;
+}
+
+::-ms-input-placeholder { /* Microsoft Edge */
+  color: #fff !important;
 }
 
 .avatar-titles{

@@ -57,13 +57,16 @@ export default {
       loading: true
     }
   },
+  created(){
+    console.log("ENRTTERERER")
+  },
   computed: {
     ...mapState({
       users: state => state.chat.users,
       messages: state => state.chat.messages,
       next: state => state.chat.next,
       allowScrollToEnd: state => state.chat.allowScrollToEnd,
-      currentChatJID: state => state.chat.currentChatJID,
+      currentChatID: state => state.chat.currentChatID,
       currentChatName: state => state.chat.currentChatName,
       app: state => state.app.user
     })

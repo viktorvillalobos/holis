@@ -1,8 +1,8 @@
 <template>
   <div class="connect-chat"> <!-- :style="`background-image: url(${patternChat})`" -->
-    <HeaderInbox v-if="inboxActive"/>
-    <NewChat v-if="!inboxActive && currentChatJID == null"/>
-    <ChatDetail v-else/>
+    <HeaderInbox v-if="inboxActive && currentChatID == null"/>
+    <NewChat v-if="!inboxActive && currentChatID == null"/>
+    <ChatDetail v-if="currentChatID"/>
   </div>
 </template>
 
@@ -14,6 +14,7 @@ import Card from '@/components/Card'
 import pattern from '@/assets/lighter_pattern.png'
 import HeaderInbox from './Inbox'
 import NewChat from './NewChat'
+import ChatDetail from './ChatDetail'
 
 export default {
   name: 'Chat',
@@ -21,109 +22,23 @@ export default {
     Avatar,
     Card,
     HeaderInbox,
-    NewChat
+    NewChat,
+    ChatDetail
   },
   data () {
-    return {
-      searchPerson: '',
-      jid: '',
-      patternChat: pattern,
-      isLoadingHistory: false,
-      showLoadHistory: false,
-      savePosition: 0,
-      loading: true
-    }
+    return {}
   },
   computed: {
     ...mapState({
       messages: state => state.chat.messages,
       next: state => state.chat.next,
       allowScrollToEnd: state => state.chat.allowScrollToEnd,
-      currentChatJID: state => state.chat.currentChatJID,
+      currentChatID: state => state.chat.currentChatID,
       currentChatName: state => state.chat.currentChatName,
       inboxActive: state => state.chat.inboxActive,
       app: state => state.app.user
     })
   },
-  watch: {
-    messages (newVal) {
-      if (newVal.length == 0) {
-        this.isFirstTime = true // Esta comprobacion forza para que la primera vez para que haga scroll
-        return
-      }
-
-      this.loading = false
-
-      if(!this.isLoadingHistory){
-        setTimeout(() => {
-          this.scrollToEnd()
-        }, 400)
-      }else{
-        this.isLoadingHistory = false 
-      }
-    },
-    chatActive (newVal) {
-      this.isFirstTime = true
-    }
-  },
-  mounted () {
-    // this.scrollToEnd()
-  },
-  updated () {
-    if (this.allowScrollToEnd) {
-      // this.scrollToEnd()
-    }
-  },
-  methods: {
-    handleScroll (vertical, horizonal, nativeEvent) {
-      if (this.next && vertical.process <= 0.06) { this.showLoadHistory = true } else { this.showLoadHistory = false }
-
-      const content = this.$refs.chatContainer
-      if (
-        content &&
-        content.scrollTop === 0 &&
-        this.next
-      ) {
-        setTimeout(() => {
-          this.loadHistory()
-          content.scrollTop = 1200
-        }, 400)
-      }
-    },
-    loadHistory () {
-      if (this.next) {
-        // this.savePosition = this.$refs.chatContainer.getPosition()
-        this.$store.dispatch('getNextMessages')
-        this.isLoadingHistory = true
-      }
-    },
-    scrollToEnd () {
-      const content = this.$refs.chatContainer
-      console.log('SOLAAAA', content.scrollHeight)
-
-      if (content) content.scrollTo({ y: '100%' }, content.scrollHeight)
-    },
-    addMessage (msg) {
-      this.messages.push(msg)
-    },
-    sendMessage (msg) {
-      console.log('msg', msg)
-      this.$store.dispatch('sendChatMessage', { msg })
-      this.scrollToEnd()
-    },
-    setChat (user) {
-      console.log('hey!')
-      console.log(user)
-      this.$emit('selectedChat')
-      this.$store.commit('setCurrentChatName', user.name || user.username)
-      this.$store.commit('setCurrentChatID', user.id)
-      const data = {
-        to: user.id,
-        first_time: true
-      }
-      this.$store.dispatch('getMessagesByUser', data)
-    }
-  }
 }
 </script>
 

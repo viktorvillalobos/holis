@@ -23,7 +23,7 @@
 </template>
 <script>
 import Avatar from '@/components/Avatar'
-import Message from '../../models/Message'
+import Message from '../../../models/Message'
 import Attachment from './Attachment'
 
 export default {
