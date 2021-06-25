@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="header-new-chat columns pt-5">
-            <button class="button is-ghost column is-1">
+            <button class="button is-ghost column is-1" @click="goToInbox">
                 <span class="icon is-small">
                     <span class="material-icons" style="color:#fff">chevron_left</span>
                 </span>
@@ -19,7 +19,7 @@
                 </span>
             </p>
         </div>
-        <div class="user-items" v-for="user in users" :key="user.id">
+        <div class="user-items" v-for="user in users" :key="user.id" @click="openChatUser(user)">
             <span class="icon-text">
                 <span class="icon">
                     <font-awesome-icon icon="user-circle" size="3x"/>
@@ -52,6 +52,22 @@ export default {
   components: {
       Avatar,
       IconifyIcon
+  },
+  methods:{
+      goToInbox(){
+        this.$store.commit('setCurrentChatName', null)
+        this.$store.commit('setCurrentChatID', null)
+        this.$store.commit('setInboxActive', true)
+      },
+      openChatUser(recent){
+        const data = {
+            to: recent.id,
+            first_time: true
+        }
+        this.$store.dispatch('getMessagesByUser', data)
+        this.$store.commit('setCurrentChatName', recent.name)
+        this.$store.commit('setCurrentChatID', recent.id)
+      }
   },
   data () {
     return {
