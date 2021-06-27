@@ -67,7 +67,7 @@ DATABASES = {
     }
 }
 
-COCKROACH_OPTIONS = {"sslmode": "require", "sslrootcert": "/certs/ca.crt"}
+COCKROACH_OPTIONS = {"sslmode": "require", "sslrootcert": "/client-certs/ca.crt"}
 
 DATABASES["default"]["OPTIONS"] = COCKROACH_OPTIONS
 

@@ -64,7 +64,7 @@ class Migration(migrations.Migration):
                         verbose_name="ID",
                     ),
                 ),
-                ("name", models.CharField(max_length=50, unique=True)),
+                ("name", models.CharField(max_length=50, unique=False)),
                 (
                     "width",
                     models.PositiveIntegerField(default=30, verbose_name="Width"),
