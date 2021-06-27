@@ -1,7 +1,10 @@
 # PostgreSQL
 # ------------------------------------------------------------------------------
 POSTGRES_HOST=postgres
-POSTGRES_PORT=26257
+POSTGRES_PORT=5432
 POSTGRES_DB=holis
-POSTGRES_USER=admin
-POSTGRES_PASSWORD=admin
+POSTGRES_USER=holis
+POSTGRES_PASSWORD=holis
+
+
+OPENFIRE_DATABASE_URL=postgres://holis:holis@postgres:5432/openfire

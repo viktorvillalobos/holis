@@ -1,5 +1,5 @@
 from .base import *  # noqa
-from .base import DATABASES, LOCAL, ROOT_DIR, env
+from .base import LOCAL, ROOT_DIR, env
 
 # GENERAL
 # ------------------------------------------------------------------------------
@@ -14,17 +14,6 @@ SECRET_KEY = env(
 )
 # https://docs.djangoproject.com/en/dev/ref/settings/#allowed-hosts
 ALLOWED_HOSTS = ["holis.local", ".holis.local", "localhost"]
-
-
-# DATABASES
-
-DATABASES["default"]["NAME"] = env.str("POSTGRES_DB", default="holis")
-DATABASES["default"]["USER"] = env.str("POSTGRES_USER", default="admin")
-DATABASES["default"]["PASSWORD"] = env.str("POSTGRES_PASSWORD", default="admin")
-DATABASES["default"]["HOST"] = env.str("POSTGRES_HOST", default="postgres")
-DATABASES["default"]["PORT"] = env.str("POSTGRES_PORT", default="26257")
-DATABASES["default"]["OPTIONS"] = {}
-
 
 # CACHES
 # ------------------------------------------------------------------------------
