@@ -3,7 +3,7 @@ With these settings, tests run faster.
 """
 
 from .base import *  # noqa
-from .base import TESTING, env
+from .base import DATABASES, TESTING, env
 
 # GENERAL
 # ------------------------------------------------------------------------------
@@ -28,18 +28,12 @@ CACHES = {
     }
 }
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": "holis",
-        "USER": "holis",
-        "PASSWORD": "testing",
-        "HOST": "testdb",
-        "PORT": "5432",
-        "CONN_MAX_AGE": None,
-        "DISABLE_SERVER_SIDE_CURSORS": True,
-    }
-}
+DATABASES["default"]["NAME"] = "holis"
+DATABASES["default"]["USER"] = "root"
+DATABASES["default"]["PASSWORD"] = "root"
+DATABASES["default"]["HOST"] = "postgres"
+DATABASES["default"]["PORT"] = "26257"
+DATABASES["default"]["OPTIONS"] = {}
 
 # PASSWORDS
 # ------------------------------------------------------------------------------
