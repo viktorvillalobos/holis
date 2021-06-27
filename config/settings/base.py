@@ -69,7 +69,7 @@ DATABASES = {
 
 COCKROACH_OPTIONS = {"sslmode": "require", "sslrootcert": "/client-certs/ca.crt"}
 
-DATABASES["ingestion"]["OPTIONS"] = COCKROACH_OPTIONS
+DATABASES["default"]["OPTIONS"] = COCKROACH_OPTIONS
 
 # URLS
 # ------------------------------------------------------------------------------
