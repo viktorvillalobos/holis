@@ -14,7 +14,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='message',
             name='reads',
-            field=models.JSONField(db_index=False, default=dict, help_text='include a dict with user_id:timestamp', verbose_name='reads'),
+            field=models.JSONField(db_index=True, default=dict, help_text='include a dict with user_id:timestamp', verbose_name='reads'),
         ),
         migrations.AddIndex(
             model_name='message',
