@@ -10,8 +10,11 @@ export default {
   getUsers () {
     return axios.get(`${urlBase}/users/`, { params: { limit: 999 } })
   },
-  getRecents () {
-    return axios.get(`${urlBase}/chat/recents/`)
+  getRecents (search) {
+    const params ={
+      search: search
+    }
+    return axios.get(`${urlBase}/chat/recents/`,{params: params})
   },
   getRoomByUserID (to) {
     return axios.post(`${urlBase}/chat/get-or-create-room/`, { to })

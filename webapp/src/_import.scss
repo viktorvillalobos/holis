@@ -96,4 +96,9 @@ $modal-background-background-color: rgba(0, 0, 0, .4);
 
 $slider-track-background: $primary;
 
+
+.clickable{
+  cursor: pointer;
+}
+
 @import "../node_modules/bulma/bulma.sass";

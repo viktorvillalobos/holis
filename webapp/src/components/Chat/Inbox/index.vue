@@ -1,5 +1,6 @@
 <template>
   <div>
+    <Loading v-bind:loading="loading"/>
     <div class="header-inbox">
       <div class="columns" style="height:80px">
           <div class="column columns">
@@ -21,17 +22,23 @@
         <p class="control has-icons-left has-icons-right">
           <input class="input input-inbox" placeholder="Search person or group" v-model="query">
           <span class="icon is-left">
-            <span class="material-icons" style="color:#fff" >search</span>
+            <span class="material-icons" style="color:#fff">search</span>
           </span>
-          <span class="icon is-right" v-if="query.length > 0">
+          <span class="icon is-right" style="cursor: pointer;" v-if="query.length > 0">
             <span class="material-icons" style="color:#fff" >close</span>
           </span>
         </p>
       </div>
     </div>
+    <div v-if="recents.length > 0">
       <div v-for="recent in recents" :key="recent.id" @click="openChatUser(recent)">
         <InboxMessage v-bind:recent="recent"/>
       </div>
+    </div>
+    <div v-if="recents.length == 0 && !firstLoad" style="display: flex; flex-direction: column; justify-content: center; align-items: center;" class="mt-6">
+      <font-awesome-icon icon="sad-tear" size="6x"/>
+      <p>No contact found</p>
+    </div>
   </div>
 </template>
 
@@ -39,31 +46,22 @@
 import { mapState } from 'vuex'
 import Loading from '@/components/Loading'
 import Avatar from '@/components/Avatar'
-import IconifyIcon from '@iconify/vue';
-import newChatIcon from '@iconify/icons-mdi/account-multiple-plus';
-import newGroupIcon from '@iconify/icons-mdi/comment-plus';
-import magnifyIcon from '@iconify/icons-mdi/magnify'
-import closeIcon from '@iconify/icons-mdi/close'
 import InboxMessage from './Inbox'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 export default {
   name: 'Inbox',
   components: {
     Loading,
     Avatar,
-    IconifyIcon,
-    InboxMessage
+    InboxMessage,
+    FontAwesomeIcon
   },
   data () {
     return {
       loading: false,
       query: "",
-      icons: {
-        newChatIcon: newChatIcon,
-        newGroupIcon: newGroupIcon,
-        magnifyIcon: magnifyIcon,
-        closeIcon: closeIcon
-      },
+      firstLoad: true
     }
   },
   computed: {
@@ -88,12 +86,29 @@ export default {
       this.$store.dispatch('getMessagesByUser', data)
       this.$store.commit('setCurrentChatName', recent.name)
       this.$store.commit('setCurrentChatID', recent.id)
+    },
+    getInbox(search = ""){
+      try {
+        //this.$store.commit('setRecents', [])
+        this.loading = true
+        this.$store.dispatch('getRecents',search)
+      } catch (e) {
+        console.log('couldnt load recents')
+      }
     }
+  },
+  mounted(){
+    this.getInbox()
   },
   watch: {
     recents (newVal) {
-        console.log("RECIENTESSS",newVal)
+      console.log("RECIENTESSS",newVal)
+      this.loading = false
+      this.firstLoad = false
     },
+    query (newQuery){
+      this.getInbox(newQuery)
+    }
   }
 }
 </script>

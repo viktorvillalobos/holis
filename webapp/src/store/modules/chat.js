@@ -87,8 +87,9 @@ const actions = {
     console.log("Entre4")
     commit('setUsers', data.results)
   },
-  async getRecents ({ commit }) {
-    const { data } = await apiClient.chat.getRecents()
+  async getRecents ({ commit }, search) {
+    const { data } = await apiClient.chat.getRecents(search)
+    console.log(data)
     commit('setRecents', data)
   },
   async connectToRoom ({ commit, state, getters, dispatch }, { vm, room }) {
