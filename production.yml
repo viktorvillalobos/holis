@@ -14,7 +14,7 @@ services:
       - ./.envs/.production/.postgres
     command: /start
     volumes:
-      - ./certs/:/client-certs/
+      - ./certs/:/certs/
     deploy:
       replicas: 2
       update_config:
