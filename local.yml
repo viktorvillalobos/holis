@@ -1,8 +1,7 @@
 version: '3'
 
 volumes:
-  local_postgres_data: {}
-  local_postgres_data_backups: {}
+  local_crdb_data: {}
 
 services:
   django: &django
@@ -27,15 +26,38 @@ services:
     command: /start
 
   postgres:
-    build:
-      context: .
-      dockerfile: ./compose/production/postgres/Dockerfile
-    image: holis_production_postgres
+    image: cockroachdb/cockroach:v21.1.3
+    ports:
+      - "26257:26257"
+      - "8080:8080"
+    command: start-single-node --insecure
     volumes:
-      - local_postgres_data:/var/lib/postgresql/data
-      - local_postgres_data_backups:/backups
-    env_file:
-      - ./.envs/.local/.postgres
+      - "local_crdb_data:/cockroach/cockroach-data"
+
+  crdb-init:
+    image: cockroachdb/cockroach:latest-v20.2
+    entrypoint: /cockroach-init/init.sh
+    volumes:
+      - "./compose/production/crdb:/cockroach-init"
+    command: cockroachdb-ingestion
+    environment:
+      INIT_USER: holis
+      INIT_PASSWORD: holis
+      INIT_DB: holis
+    depends_on:
+      - postgres
+    restart: on-failure
+
+  # postgres:
+  #   build:
+  #     context: .
+  #     dockerfile: ./compose/production/postgres/Dockerfile
+  #   image: holis_production_postgres
+  #   volumes:
+  #     - local_postgres_data:/var/lib/postgresql/data
+  #     - local_postgres_data_backups:/backups
+  #   env_file:
+  #     - ./.envs/.local/.postgres
 
   testdb:
     image: circleci/postgres:11.5-alpine-postgis

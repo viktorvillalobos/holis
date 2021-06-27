@@ -6,3 +6,4 @@ node_modules/
 venv
 apps/static/css/
 webapp/assets/
+certs/
