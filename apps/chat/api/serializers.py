@@ -10,21 +10,19 @@ class GetOrCreateRoomSerializer(serializers.Serializer):
     to = serializers.CharField()
 
 
-class RecentsSerializer(serializers.ModelSerializer):
-    room = serializers.UUIDField(source="uuid")
+class RecentsSerializer(serializers.Serializer):
+    room = serializers.UUIDField(source="room_uuid")
+    room_uuid = serializers.UUIDField()
     # This is for legacy compantibilty.
-    id = serializers.UUIDField(source="uuid")
-    avatar_thumb = serializers.SerializerMethodField()
-
-    def get_avatar_thumb(self, obj):
-        return (
-            obj.members.exclude(id=self.context["request"].user.id).first().avatar_thumb
-        )
-
-    class Meta:
-        model = chat_models.Room
-        fields = ("name", "uuid", "id", "room", "avatar_thumb")
-        read_only_fields = fields
+    id = serializers.UUIDField(source="user_id")
+    user_id = serializers.UUIDField()
+    avatar_thumb = serializers.CharField(source="user_avatar_thumb")
+    user_avatar_thumb = serializers.CharField()
+    user_id = serializers.IntegerField()
+    user_name = serializers.CharField()
+    message = serializers.CharField()
+    created = serializers.DateTimeField()
+    have_unread_messages = serializers.BooleanField()
 
 
 class MessageRawSerializer(serializers.Serializer):

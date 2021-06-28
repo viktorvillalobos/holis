@@ -8,6 +8,7 @@ from uuid import UUID
 
 from apps.chat.models import Message
 from apps.utils.models import InsertJSONValue
+from apps.utils.rest_framework.paginators import get_paginated_queryset
 
 
 def get_messages_by_room_uuid(
@@ -45,14 +46,19 @@ def set_messages_readed_by_room_and_user(
     )
 
 
+RECENT_INFO = list[dict[str, Any]]
+
+
 def get_recents_messages_values_by_user_id(
     *,
     company_id: int,
     user_id: int,
     is_one_to_one: bool = True,
-    limit: int = 3,
     search: Optional[str] = None,
-) -> list[dict[str, Any]]:
+    cursor: Optional[dict[str, str]] = None,
+    page_size: Optional[int] = 200,
+    reverse: Optional[bool] = False,
+) -> tuple[list[RECENT_INFO], Optional[dict[str, str]], Optional[dict[str, str]]]:
     is_readed_queryset = Message.objects.filter(reads__has_key=str(user_id))
 
     queryset = (
@@ -72,4 +78,10 @@ def get_recents_messages_values_by_user_id(
             Q(room__members__name__icontains=search) | Q(room__name__icontains=search)
         )
 
-    return list(queryset[:limit])
+    return get_paginated_queryset(
+        queryset,
+        cursor=cursor,
+        page_size=page_size,
+        reverse=reverse,
+        order_column="room__uuid",
+    )

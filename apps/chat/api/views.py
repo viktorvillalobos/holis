@@ -1,6 +1,5 @@
 from django.conf import settings
 from rest_framework import exceptions, generics, status, views
-from rest_framework.pagination import CursorPagination
 from rest_framework.parsers import MultiPartParser
 from rest_framework.response import Response
 
@@ -12,9 +11,12 @@ from apps.chat import uc as chat_uc
 from apps.chat.api import serializers
 from apps.chat.providers import message as message_providers
 from apps.chat.providers import message_attachment as message_attachment_providers
+from apps.utils.rest_framework import objects
+from apps.utils.rest_framework.paginators import CursoredAPIPagination
 
 from .. import services as chat_services
 from .. import tasks as chat_tasks
+from .pagination import MessageCursoredPagination
 
 logger = logging.getLogger(__name__)
 
@@ -83,29 +85,24 @@ class UploadFileAPIView(views.APIView):
         return Response(serialized_data, status=status.HTTP_201_CREATED)
 
 
-class RecentChatsAPIView(views.APIView):
+class RecentChatsAPIView(objects.ListAPIView):
     serializer_class = serializers.RecentsSerializer
     queryset = chat_models.Message.objects.all()
-    pagination_class = None
+    objects_generator = staticmethod(
+        chat_services.get_cursored_recents_rooms_by_user_id
+    )
+    pagination_class = CursoredAPIPagination
 
-    def get(self, request, *args, **kwargs):
-        limit = int(request.GET.get("limit", "3"))
-        search = request.GET.get("search")
+    def get_objects_generator_context(self):
+        context = super().get_objects_generator_context() or {}
+        context["reverse"] = True
+        context["page_size"] = True
+        context["company_id"] = self.request.company_id
+        context["user_id"] = self.request.user.id
+        context["is_one_to_one"] = True
+        context["search"] = self.request.GET.get("search")
 
-        return Response(
-            chat_services.get_recents_rooms_by_user_id(
-                company_id=self.request.company_id,
-                user_id=self.request.user.id,
-                is_one_to_one=True,
-                limit=limit,
-                search=search,
-            ),
-            status=status.HTTP_200_OK,
-        )
-
-
-class MessageCursoredPagination(CursorPagination):
-    page_size = 10
+        return context
 
 
 class MessageListAPIView(generics.ListAPIView):
