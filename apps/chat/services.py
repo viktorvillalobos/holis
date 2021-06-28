@@ -13,6 +13,7 @@ from twilio.rest import Client
 from uuid import UUID
 
 from apps.chat.lib.constants import ROOM_GROUP_NAME
+from apps.chat.lib.dataclasses import RecentChatInfo
 from apps.users import models as users_models
 from apps.users import services as user_services
 from apps.utils.cache import cache
@@ -60,20 +61,28 @@ def serialize_message(message: Message) -> Dict[str, Any]:
     return _serialize_message(message=message)
 
 
-def get_recents_rooms_by_user_id(
+def get_cursored_recents_rooms_by_user_id(
     *,
     company_id: int,
     user_id: int,
     is_one_to_one: bool = True,
-    limit: int = 3,
     search: Optional[str] = None,
-) -> list[dict[str, Any]]:
+    cursor: Optional[dict[str, str]] = None,
+    page_size: Optional[int] = 100,
+    reverse: Optional[bool] = False,
+) -> tuple[List[RecentChatInfo], Optional[Dict[str, str]], Optional[Dict[str, str]]]:
 
-    recents_messages = message_providers.get_recents_messages_values_by_user_id(
+    (
+        recents_messages,
+        next_page_cursor,
+        previous_page_cursor,
+    ) = message_providers.get_recents_messages_values_by_user_id(
         company_id=company_id,
         user_id=user_id,
         is_one_to_one=is_one_to_one,
-        limit=limit,
+        page_size=page_size,
+        cursor=cursor,
+        reverse=reverse,
         search=search,
     )
 
@@ -94,20 +103,18 @@ def get_recents_rooms_by_user_id(
 
         for member in users:
             recents_data.append(
-                {
-                    "room": room_uuid,
-                    "avatar_thumb": member.avatar_thumb,
-                    "id": member.id,
-                    "name": member.name,
-                    "message": recent_messages_values["text"],
-                    "created": recent_messages_values["created"],
-                    "have_unread_messages": recent_messages_values[
-                        "have_unread_messages"
-                    ],
-                }
+                RecentChatInfo(
+                    room_uuid=room_uuid,
+                    user_avatar_thumb=member.avatar_thumb,
+                    user_id=member.id,
+                    user_name=member.name,
+                    message=recent_messages_values["text"],
+                    created=recent_messages_values["created"],
+                    have_unread_messages=recent_messages_values["have_unread_messages"],
+                )
             )
 
-    return recents_data
+    return recents_data, next_page_cursor, previous_page_cursor
 
 
 def get_or_create_room_by_company_and_members_ids(
