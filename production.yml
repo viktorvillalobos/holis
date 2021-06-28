@@ -72,7 +72,7 @@ services:
 
   celeryworker:
     <<: *django
-    image: holis_production_celeryworker
+    image: gcr.io/espazum/holis-full:latest
     command: /start-celeryworker
     deploy:
       replicas: 1
@@ -81,7 +81,7 @@ services:
 
   celerybeat:
     <<: *django
-    image: holis_production_celerybeat
+    image: gcr.io/espazum/holis-full:latest
     command: /start-celerybeat
     deploy:
       replicas: 1
@@ -90,9 +90,9 @@ services:
 
   flower:
     <<: *django
-    image: holis_production_flower
+    image: gcr.io/espazum/holis-full:latest
     command: /start-flower
     deploy:
       replicas: 1
-    healthcheck:
-      test: ["CMD", "python  scripts/healtcheck_flower.py || exit 1"]
+    # healthcheck:
+    #   test: ["CMD", "python  scripts/healtcheck_flower.py || exit 1"]
