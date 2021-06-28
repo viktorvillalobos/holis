@@ -11,7 +11,6 @@ from rest_framework.utils.urls import remove_query_param, replace_query_param
 from rest_framework.views import APIView
 
 import json
-from __future__ import annotations
 from collections import OrderedDict
 from collections.abc import Sequence
 from copy import deepcopy
@@ -39,7 +38,7 @@ class CursoredPage(Sequence):
 
         return self.object_list[item]
 
-    def _reversed(self) -> CursoredPage:
+    def _reversed(self) -> "CursoredPage":
         self.next_page_cursor, self.previous_page_cursor = (
             self.previous_page_cursor,
             self.next_page_cursor,
