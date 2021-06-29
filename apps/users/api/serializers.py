@@ -82,21 +82,35 @@ def serialize_user_queryset(queryset: QuerySet) -> List[Dict[str, Any]]:
     return {"results": results}
 
 
-class UserSerializer(serializers.ModelSerializer):
-    statuses = StatusSerializer(many=True, read_only=True)
-    company = UserCompanySerializer(read_only=True)
-    avatar_thumb = serializers.SerializerMethodField(read_only=True)
-    room = serializers.SerializerMethodField(read_only=True)
+class UserSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
     birthday = serializers.DateField(required=False)
+    company = UserCompanySerializer(read_only=True)
     email = serializers.EmailField(allow_blank=False, allow_null=False)
+    name = serializers.CharField()
+    room = serializers.SerializerMethodField(read_only=True)
+    position = serializers.CharField()
+    statuses = StatusSerializer(many=True, read_only=True)
+    username = serializers.CharField()
+    avatar = serializers.CharField(read_only=True)
+    avatar_thumb = serializers.CharField(read_only=True)
     status = serializers.SerializerMethodField()
+    is_staff = serializers.BooleanField()
+    is_superuser = serializers.BooleanField()
 
     def get_status(self, user: "User") -> Optional[dict[str, Any]]:
-        from apps.users import services as user_services
+        statuses = list(user.statuses.all())
 
-        return user_services.get_user_status_from_anywhere_by_user_id(
-            company_id=user.company_id, user_id=user.id
-        )
+        if not statuses:
+            return None
+
+        active_status = [status for status in statuses if status.is_active][0]
+
+        return {
+            "id": active_status.id,
+            "text": active_status.text,
+            "icon_text": active_status.icon_text,
+        }
 
     def get_avatar_thumb(self, obj):
         if not obj.avatar_thumb:
@@ -114,27 +128,6 @@ class UserSerializer(serializers.ModelSerializer):
     def get_room(self, obj):
         data = cache.get(USER_POSITION_KEY.format(obj.id)) or {}
         return data.get("room")
-
-    class Meta:
-        model = users_models.User
-        fields = [
-            "id",
-            "birthday",
-            "company",
-            "email",
-            "name",
-            "jid",
-            "room",
-            "position",
-            "statuses",
-            "username",
-            "default_area",
-            "avatar",
-            "avatar_thumb",
-            "is_staff",
-            "is_superuser",
-            "status",
-        ]
 
 
 class NotificationSerializer(serializers.ModelSerializer):

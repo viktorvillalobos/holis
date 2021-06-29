@@ -15,6 +15,7 @@ import random
 from apps.core import models as core_models
 from apps.users import models
 from apps.users.api import serializers
+from apps.users.api.pagination import UserCursoredPagination
 from apps.users.providers import user as users_providers
 from apps.web import models as web_models
 
@@ -28,6 +29,7 @@ logger = logging.getLogger(__name__)
 class UserViewSet(RetrieveModelMixin, ListModelMixin, GenericViewSet):
     serializer_class = serializers.UserSerializer
     queryset = User.objects.all()
+    pagination_class = UserCursoredPagination
     lookup_field = "id"
     filterset_fields = ("name", "email", "username")
 
@@ -41,11 +43,6 @@ class UserViewSet(RetrieveModelMixin, ListModelMixin, GenericViewSet):
             include_myself=include_myself,
             name=name_param,
         )
-
-    def list(self, request, *args, **kwargs):
-        queryset = self.get_queryset(*args, **kwargs)
-        serialized_data = serializers.serialize_user_queryset(queryset)
-        return Response(serialized_data, status=200)
 
 
 class UserProfileViewSet(GenericViewSet):

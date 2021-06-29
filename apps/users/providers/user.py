@@ -25,7 +25,11 @@ def get_users_with_statuses(
     include_myself: Optional[bool] = False,
     name: Optional[str] = None,
 ) -> QuerySet:
-    queryset = User.objects.filter(company_id=company_id).prefetch_related("statuses")
+    queryset = (
+        User.objects.filter(company_id=company_id)
+        .prefetch_related("statuses")
+        .select_related("company")
+    )
 
     if not include_myself:
         queryset = queryset.exclude(id=user_id)
