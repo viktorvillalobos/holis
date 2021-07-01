@@ -2,11 +2,12 @@ from typing import Any, Optional, Union
 
 from django.db.models import Exists, Q
 from django.db.models.aggregates import Count
+from django.db.models.expressions import OuterRef
 from django.db.models.query import QuerySet
 
 from uuid import UUID
 
-from apps.chat.models import Message, Room
+from apps.chat.models import Message, Room, RoomUserRead
 from apps.utils.models import InsertJSONValue
 from apps.utils.rest_framework.paginators import get_paginated_queryset
 
@@ -59,31 +60,32 @@ def get_recents_messages_values_by_user_id(
     page_size: Optional[int] = 200,
     reverse: Optional[bool] = True,
 ) -> tuple[list[QuerySet], Optional[dict[str, str]], Optional[dict[str, str]]]:
-    is_readed_queryset = Message.objects.filter(reads__has_key=str(user_id))
+    is_readed_queryset = RoomUserRead.objects.filter(
+        company_id=company_id,
+        user_id=user_id,
+        room_uuid=OuterRef("uuid"),
+        timestamp__gte=OuterRef("last_message_ts"),
+    )
 
-    members_room_qs = Room.objects.filter(
-        company_id=company_id, members__id__in=[user_id], is_one_to_one=is_one_to_one
+    queryset = (
+        Room.objects.filter(
+            company_id=company_id,
+            members__id__in=[user_id],
+            is_one_to_one=is_one_to_one,
+        )
+        .annotate(have_unread_messages=Exists(is_readed_queryset))
+        .order_by("have_unread_messages", "-last_message_ts")
     )
 
     if search:
-        members_room_qs = members_room_qs.filter(
-            Q(room__members__name__icontains=search) | Q(room__name__icontains=search)
+        queryset = queryset.filter(
+            Q(members__name__icontains=search) | Q(name__icontains=search)
         )
-
-    members_room_uuids = set(members_room_qs.values_list("uuid", flat=True))
-
-    queryset = (
-        Message.objects.filter(company_id=company_id, room_uuid__in=members_room_uuids)
-        .only("room_uuid", "text", "created")
-        .annotate(have_unread_messages=Exists(is_readed_queryset))
-        .order_by("room__uuid", "have_unread_messages", "-created")
-        .distinct("room__uuid")
-    )
 
     return get_paginated_queryset(
         queryset,
         cursor=cursor,
         page_size=page_size,
         reverse=reverse,
-        order_column="room_uuid",
+        order_column="have_unread_messages",
     )

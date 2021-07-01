@@ -1,5 +1,7 @@
 from django.contrib.postgres.indexes import GinIndex
+from django.core.serializers.json import DjangoJSONEncoder
 from django.db import models
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 import uuid
@@ -54,6 +56,7 @@ class Room(TimeStampedModel):
     any_can_invite = models.BooleanField(_("Any can invite"), default=True)
     members_only = models.BooleanField(_("members only"), default=False)
     is_one_to_one = models.BooleanField(_("is one to one"), default=False)
+    last_message_ts = models.DateTimeField(default=timezone.now, db_index=True)
 
     tenant_id = "company_id"
 
@@ -104,6 +107,32 @@ class Message(TimeStampedModel):
     class Meta:
         indexes = [GinIndex(fields=["reads"])]
         unique_together = ["uuid", "company"]
+
+
+class RoomUserRead(models.Model):
+    """
+    Contains the last time read timestamp by user
+    """
+
+    company = models.ForeignKey(
+        "core.Company",
+        related_name="room_user_reads",
+        on_delete=models.CASCADE,
+        verbose_name=_("company"),
+    )
+    user = models.ForeignKey("users.User", on_delete=models.CASCADE)
+    room = UUIDForeignKey(
+        Room,
+        verbose_name=_("room"),
+        related_name="room_user_reads",
+        on_delete=models.CASCADE,
+        db_index=True,
+        db_constraint=False,
+    )
+    timestamp = models.DateTimeField()
+
+    class Meta:
+        unique_together = ["company", "user", "room"]
 
 
 def chat_attachments_path(instance, file_name):

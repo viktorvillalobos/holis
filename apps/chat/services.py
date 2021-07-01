@@ -3,6 +3,7 @@ from typing import Any, Dict, List, Optional, Union
 from django.conf import settings
 from django.core.files.storage import default_storage
 from django.db.models.query import Prefetch
+from django.utils import timezone
 
 import uuid
 from asgiref.sync import async_to_sync
@@ -19,7 +20,7 @@ from apps.users import services as user_services
 from apps.utils.cache import cache
 
 from ..chat.api import serializers
-from ..chat.models import Message, Room
+from ..chat.models import Message, Room, RoomUserRead
 from .providers import message as message_providers
 from .providers import room as room_providers
 
@@ -73,7 +74,7 @@ def get_cursored_recents_rooms_by_user_id(
 ) -> tuple[List[RecentChatInfo], Optional[Dict[str, str]], Optional[Dict[str, str]]]:
 
     (
-        recents_messages,
+        recents_rooms,
         next_page_cursor,
         previous_page_cursor,
     ) = message_providers.get_recents_messages_values_by_user_id(
@@ -86,31 +87,31 @@ def get_cursored_recents_rooms_by_user_id(
         search=search,
     )
 
-    recent_messages_by_room = {
-        message.room_uuid: message for message in recents_messages
-    }
+    # recent_messages_by_room = {
+    #     message.room_uuid: message for message in recents_messages
+    # }
 
-    rooms_in_bulk = room_providers.get_rooms_by_uuids_in_bulk(
-        company_id=company_id, room_uuids=recent_messages_by_room.keys()
-    )
+    # rooms_in_bulk = room_providers.get_rooms_by_uuids_in_bulk(
+    #     company_id=company_id, room_uuids=recent_messages_by_room.keys()
+    # )
 
     recents_data = []
-    for room_uuid in recent_messages_by_room.keys():
+    for room in recents_rooms:
 
-        recent_messages_values = recent_messages_by_room[room_uuid]
-        room = rooms_in_bulk[room_uuid]
+        # recent_messages_values = recent_messages_by_room[room_uuid]
+        # room = rooms_in_bulk[room_uuid]
         users = room.members.exclude(id=user_id).order_by("id")
 
         for member in users:
             recents_data.append(
                 RecentChatInfo(
-                    room_uuid=room_uuid,
+                    room_uuid=room.uuid,
                     user_avatar_thumb=member.avatar_thumb,
                     user_id=member.id,
                     user_name=member.name,
-                    message=recent_messages_values.text,
-                    created=recent_messages_values.created,
-                    have_unread_messages=recent_messages_values.have_unread_messages,
+                    message="custom-mesasge",
+                    created=timezone.now(),
+                    have_unread_messages=room.have_unread_messages,
                 )
             )
 
@@ -193,4 +194,19 @@ def set_messages_readed_by_room_and_user(
     """
     return message_providers.set_messages_readed_by_room_and_user(
         company_id=company_id, room_uuid=room_uuid, user_id=user_id
+    )
+
+
+def set_room_user_read(
+    *, company_id: int, user_id: int, room_uuid: Union[str, uuid.UUID]
+) -> None:
+    """
+    Set the RoomUserRead for and user and room
+    """
+
+    RoomUserRead.objects.update_or_create(
+        company_id=company_id,
+        user_id=user_id,
+        room_uuid=room_uuid,
+        defaults={"timestamp": timezone.now()},
     )
