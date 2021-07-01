@@ -98,7 +98,10 @@ class User(AbstractUser):
             self.save()
 
         # return get_thumbnail(self.avatar.file, "100x100", crop="center", quality=99).url
-        return default_storage.url(self.avatar.url)
+        if settings.ENVIRONMENT == settings.PRODUCTION:
+            return default_storage.url(self.avatar.url)
+
+        return self.avatar.url
 
     def __str__(self):
         return f"{self.id} -> {self.name}"

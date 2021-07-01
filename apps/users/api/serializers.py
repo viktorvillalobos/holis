@@ -92,8 +92,8 @@ class UserSerializer(serializers.Serializer):
     position = serializers.CharField()
     statuses = StatusSerializer(many=True, read_only=True)
     username = serializers.CharField()
-    avatar = serializers.CharField(read_only=True)
-    avatar_thumb = serializers.CharField(read_only=True)
+    avatar = serializers.SerializerMethodField(read_only=True)
+    avatar_thumb = serializers.SerializerMethodField()
     status = serializers.SerializerMethodField()
     is_staff = serializers.BooleanField()
     is_superuser = serializers.BooleanField()
@@ -114,6 +114,12 @@ class UserSerializer(serializers.Serializer):
             "text": active_status.text,
             "icon_text": active_status.icon_text,
         }
+
+    def get_avatar(self, obj):
+        try:
+            return self.context["request"].build_absolute_uri(obj.avatar_thumb)
+        except KeyError:
+            return obj.avatar_thumb
 
     def get_avatar_thumb(self, obj):
         if not obj.avatar_thumb:
