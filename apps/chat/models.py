@@ -76,9 +76,14 @@ class Message(TimeStampedModel):
         related_name="messages",
         on_delete=models.CASCADE,
         verbose_name=_("company"),
+        db_index=True,
     )
     room = UUIDForeignKey(
-        Room, verbose_name=_("room"), related_name="messages", on_delete=models.CASCADE
+        Room,
+        verbose_name=_("room"),
+        related_name="messages",
+        on_delete=models.CASCADE,
+        db_index=True,
     )
     user = models.ForeignKey(
         "users.User",

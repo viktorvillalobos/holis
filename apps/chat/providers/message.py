@@ -6,7 +6,7 @@ from django.db.models.query import QuerySet
 
 from uuid import UUID
 
-from apps.chat.models import Message
+from apps.chat.models import Message, Room
 from apps.utils.models import InsertJSONValue
 from apps.utils.rest_framework.paginators import get_paginated_queryset
 
@@ -57,31 +57,33 @@ def get_recents_messages_values_by_user_id(
     search: Optional[str] = None,
     cursor: Optional[dict[str, str]] = None,
     page_size: Optional[int] = 200,
-    reverse: Optional[bool] = False,
-) -> tuple[list[RECENT_INFO], Optional[dict[str, str]], Optional[dict[str, str]]]:
+    reverse: Optional[bool] = True,
+) -> tuple[list[QuerySet], Optional[dict[str, str]], Optional[dict[str, str]]]:
     is_readed_queryset = Message.objects.filter(reads__has_key=str(user_id))
 
-    queryset = (
-        Message.objects.filter(
-            company_id=company_id,
-            room__is_one_to_one=is_one_to_one,
-            room__members__id__in=[user_id],
-        )
-        .annotate(have_unread_messages=Exists(is_readed_queryset))
-        .values("room_uuid", "have_unread_messages", "text", "created")
-        .order_by("room__uuid", "have_unread_messages", "-created")
-        .distinct("room__uuid")
+    members_room_qs = Room.objects.filter(
+        company_id=company_id, members__id__in=[user_id], is_one_to_one=is_one_to_one
     )
 
     if search:
-        queryset = queryset.filter(
+        members_room_qs = members_room_qs.filter(
             Q(room__members__name__icontains=search) | Q(room__name__icontains=search)
         )
+
+    members_room_uuids = set(members_room_qs.values_list("uuid", flat=True))
+
+    queryset = (
+        Message.objects.filter(company_id=company_id, room_uuid__in=members_room_uuids)
+        .only("room_uuid", "text", "created")
+        .annotate(have_unread_messages=Exists(is_readed_queryset))
+        .order_by("room__uuid", "have_unread_messages", "-created")
+        .distinct("room__uuid")
+    )
 
     return get_paginated_queryset(
         queryset,
         cursor=cursor,
         page_size=page_size,
         reverse=reverse,
-        order_column="room__uuid",
+        order_column="room_uuid",
     )

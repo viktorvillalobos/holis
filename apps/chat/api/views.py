@@ -96,7 +96,7 @@ class RecentChatsAPIView(objects.ListAPIView):
     def get_objects_generator_context(self):
         context = super().get_objects_generator_context() or {}
         context["reverse"] = True
-        context["page_size"] = True
+        context["page_size"] = self.request.GET.get("page_size")
         context["company_id"] = self.request.company_id
         context["user_id"] = self.request.user.id
         context["is_one_to_one"] = True

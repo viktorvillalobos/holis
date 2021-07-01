@@ -69,7 +69,7 @@ def get_cursored_recents_rooms_by_user_id(
     search: Optional[str] = None,
     cursor: Optional[dict[str, str]] = None,
     page_size: Optional[int] = 100,
-    reverse: Optional[bool] = False,
+    reverse: Optional[bool] = True,
 ) -> tuple[List[RecentChatInfo], Optional[Dict[str, str]], Optional[Dict[str, str]]]:
 
     (
@@ -87,7 +87,7 @@ def get_cursored_recents_rooms_by_user_id(
     )
 
     recent_messages_by_room = {
-        message["room_uuid"]: message for message in recents_messages
+        message.room_uuid: message for message in recents_messages
     }
 
     rooms_in_bulk = room_providers.get_rooms_by_uuids_in_bulk(
@@ -108,9 +108,9 @@ def get_cursored_recents_rooms_by_user_id(
                     user_avatar_thumb=member.avatar_thumb,
                     user_id=member.id,
                     user_name=member.name,
-                    message=recent_messages_values["text"],
-                    created=recent_messages_values["created"],
-                    have_unread_messages=recent_messages_values["have_unread_messages"],
+                    message=recent_messages_values.text,
+                    created=recent_messages_values.created,
+                    have_unread_messages=recent_messages_values.have_unread_messages,
                 )
             )
 
