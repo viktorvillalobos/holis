@@ -68,7 +68,7 @@ export default {
     ...mapState({
       messages: state => state.chat.messages,
       user: state => state.app.user,
-      recents: state => state.chat.recents,
+      recents: state => state.chat.recents.results,
     })
   },
   methods:{
