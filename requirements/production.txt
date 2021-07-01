@@ -10,3 +10,4 @@ daphne==3.0.1 #https://github.com/django/daphne
 # ------------------------------------------------------------------------------
 django-storages[google]==1.9.1  # https://github.com/jschneier/django-storages
 django-anymail[mailgun]==8.2  # https://github.com/anymail/django-anymail
+model_bakery==1.2.0
