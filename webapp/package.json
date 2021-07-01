@@ -15,6 +15,7 @@
     "@fortawesome/free-regular-svg-icons": "^5.13.0",
     "@fortawesome/free-solid-svg-icons": "^5.13.0",
     "@fortawesome/vue-fontawesome": "^0.1.9",
+    "@tiptap/extension-placeholder": "^2.0.0-beta.25",
     "@tiptap/starter-kit": "^2.0.0-beta.65",
     "@tiptap/vue-2": "^2.0.0-beta.32",
     "@xmpp/client": "^0.11.1",

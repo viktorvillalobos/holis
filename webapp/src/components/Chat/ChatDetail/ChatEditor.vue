@@ -24,7 +24,9 @@
       </ul>
     </div>
     <div>
-      <div class="columns">
+      <menu-bar :editor="editor" />
+      <editor-content :editor="editor" class="editor-content" />
+      <div class="columns" style="padding-bottom:10px">
         <div class="editor-buttons"></div>
         <div v-if="editor" class="column" style="z-index:1">
           <button @click="editor.chain().focus().toggleBold().run()" class="menubar__button" :class="{ 'is-active': editor.isActive('bold') }">
@@ -70,12 +72,10 @@
               class="menubar__button menubar__button__send"
               @click="submit"
               :class="{ 'is-active': isSendActive }">
-                <font-awesome-icon icon="paper-plane"  />
+                <span class="material-icons" style="font-size:18px">send</span>
             </button>
         </div>
       </div>
-    <menu-bar :editor="editor" />
-    <editor-content :editor="editor" class="editor-content" />
   </div>
   <VEmojiPicker v-if="showEmojiPicker" @select="selectEmoji" />
   </div>
@@ -85,12 +85,19 @@ import VEmojiPicker from 'v-emoji-picker'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { Editor, EditorContent } from '@tiptap/vue-2'
 import StarterKit from '@tiptap/starter-kit'
+import Placeholder from '@tiptap/extension-placeholder'
 
 export default {
   components: {
     EditorContent,
     VEmojiPicker,
     FontAwesomeIcon
+  },
+  props: {
+    modelValue: {
+      type: String,
+      default: '',
+    },
   },
   data () {
     return {
@@ -104,10 +111,14 @@ export default {
   mounted () {
     window.$chatEditor = this
     this.editor = new Editor({
+      content: this.modelValue,
       extensions: [
         StarterKit,
+        Placeholder
       ],
-      content: ''})
+      onUpdate: () => {
+        this.isSendActive = this.editor.getHTML() !== "<p></p>"
+      },})
   },
   beforeDestroy () {
     this.editor.destroy()
@@ -137,6 +148,8 @@ export default {
       this.showEmojiPicker = false
     },
     submit () {
+      if(!this.isSendActive)
+        return
       const msg = {
         message: this.editor.getHTML(),
         is_mine: true,
@@ -150,6 +163,7 @@ export default {
       this.$emit('enter', msg)
       this.editor.commands.clearContent()
       this.showEmojiPicker = false
+      this.isSendActive = false
     }
   }
 }
@@ -157,16 +171,17 @@ export default {
 <style lang="scss">
 .editor-buttons{
   //margin: 0px -10px 0px -10px;
-  margin-top: 12px;
+  margin-top: 2px;
   margin-left: 12px;
   position: absolute;
   z-index: 0;
-  height: 30px;
+  height: 50px;
   width: 100%;
-  background: #e4e4e4;
+  background: #F2F2F2;
+  border-radius: 0px 0px 2px 2px;
 }
 .editor-content{
-  padding: 0px 10px 10px 10px;
+  padding: 20px 10px 20px 10px;
 }
 .ProseMirror {
   > * + * {
@@ -231,6 +246,14 @@ export default {
   }
 }
 
+.ProseMirror p.is-editor-empty:first-child::before {
+    content: attr(data-placeholder);
+    float: left;
+    color: #ced4da;
+    pointer-events: none;
+    height: 0;
+}
+
 .field:not(:last-child) {
   margin-bottom: 0;
 }
@@ -242,7 +265,7 @@ export default {
   right: 0;
   border-radius: 4px;
   background: #fff;
-  border: 1px solid $medium-gray;
+  border: 1px solid #F2F2F2;
   margin: 20px 13px 18px 9px;
   
 
@@ -284,9 +307,11 @@ export default {
       border: 0;
       background: transparent;
       color: $gray;
+      height: 30px;
+      width: 30px;
       padding: 4px 8px;
       margin-left: 5px;
-      border-radius: 4px;
+      border-radius: 15px;
 
       &:hover {
         cursor: pointer;
@@ -299,7 +324,8 @@ export default {
       }
 
       &__send {
-        margin-right: 10px;
+        margin-right: 10px; 
+        color: #BDBDBD;
 
         &.is-active {
           background-color: $primary;

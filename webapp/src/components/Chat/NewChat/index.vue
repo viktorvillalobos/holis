@@ -10,12 +10,12 @@
         </div>
         <div class="field mr-5 ml-5 mt-5">
             <p class="control has-icons-left has-icons-right">
-                <input class="input input-chat" type="email" placeholder="Search or start a new conversation" v-model="query">
+                <input class="input input-chat" type="text" placeholder="Search or start a new conversation" v-model="query">
                 <span class="icon is-left">
-                    <span class="material-icons" style="color:#2D343C" >search</span>
+                    <span class="material-icons" style="color:#2D343C">search</span>
                 </span>
-                <span class="icon is-right" v-if="query.length > 0">
-                    <span class="material-icons" style="color:#2D343C" >close</span>
+                <span class="icon is-right" v-if="query.length > 0" @click="clickPrueba">
+                    <span class="material-icons" style="color:#2D343C">close</span>
                 </span>
             </p>
         </div>
@@ -67,6 +67,9 @@ export default {
         this.$store.dispatch('getMessagesByUser', data)
         this.$store.commit('setCurrentChatName', recent.name)
         this.$store.commit('setCurrentChatID', recent.id)
+      },
+      clickPrueba(){
+          console.log("PRUEBAAAA")
       }
   },
   data () {

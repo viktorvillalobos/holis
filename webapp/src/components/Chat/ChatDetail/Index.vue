@@ -21,7 +21,7 @@
       </vue-scroll>
     </div>
     <Loading v-bind:loading="loading"/>
-    <chat-editor @enter="sendMessage" />
+    <chat-editor ref="chatContainer2" @enter="sendMessage" />
   </div>
 </template>
 
@@ -54,7 +54,8 @@ export default {
       isLoadingHistory: false,
       showLoadHistory: false,
       savePosition: 0,
-      loading: true
+      loading: true,
+      observer: null,
     }
   },
   created(){
@@ -94,6 +95,9 @@ export default {
   },
   mounted () {
     // this.scrollToEnd()
+    const aaa = this.$refs.chatContainer2
+    console.log("TUNDIIIII"+JSON.stringify(aaa))
+    //this.initObserver()
   },
   updated () {
     if (this.allowScrollToEnd) {
@@ -148,12 +152,46 @@ export default {
         first_time: true
       }
       this.$store.dispatch('getMessagesByUser', data)
-    }
+    },
+    onResize() {
+        const box = this.$refs.chatContainer2,
+          vm = this
+        let { width, height } = box.style
+
+        this.width = width
+        this.height = height
+        console.log("cambioooooo"+height)
+        // Optionally, emit event with dimensions
+        //this.$emit('resize', { width, height })
+    },
+    initObserver() {
+        const config = {
+            attributes: true,
+          },
+          vm = this
+        const observer = new MutationObserver(function (mutations) {
+          mutations.forEach(function (mutation) {
+            if (mutation.type === 'attributes') {
+              vm.onResize()
+            }
+          })
+        })
+        observer.observe(this.$refs.chatContainer2, config)
+        this.observer = observer
+      },
   }
 }
 </script>
 
 <style lang="scss">
+
+.flexbox-chat{
+  height: 100%; 
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: stretch;
+}
+
 .load-more{
   width: 140px;
   margin: auto;

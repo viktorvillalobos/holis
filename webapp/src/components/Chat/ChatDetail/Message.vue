@@ -1,24 +1,24 @@
 <template>
-  <div
-    :class="['connect-chat-message-wrapper', {'connect-chat-message-wrapper--mine' : message.messageIsMine}]"
-  >
-    <div
-      v-if="message.text.length > 0 || message.text !== '<p></p>'"
-      :class="['connect-chat-message', {'connect-chat-message--mine' : message.messageIsMine}]">
-        <Attachment v-if="message.attachments.length > 0" :attachment="message.attachments[0]"/>
-        <p v-html="message.text"></p>
-    </div>
+  <div class="chat-message">
+    <div class="columns">
+        <div class="column is-one-fifth">
+            <Avatar :img="message.avatar_thumb" />
+        </div>
+        <div class="column">
+            <p class="chat-message-date"><b class="chat-message-title">{{ message.who}}</b>   {{ message.getDateTime() }}</p>
+            <p v-html="message.text"></p>
+            <div
+              v-if="message.text.length > 0 || message.text !== '<p></p>'">
+                <Attachment v-if="message.attachments.length > 0" :attachment="message.attachments[0]"/>
+            </div>
 
-    <div
-      :class="['connect-chat-message', 'attachment', {'connect-chat-message--mine' : message.messageIsMine}]"
-      v-for="attachment in message.attachments.slice(1)" :key="attachment.attachment_url">
-      <Attachment class="image-message" :attachment="attachment"/>
-    </div>
-
-    <div class="connect-chat-message-user">
-      <Avatar v-if="!message.messageIsMine" :img="message.avatar"/>
-      <p>{{ message.messageIsMine ? 'You' : message.who}} · {{ message.getDateTime() }}</p>
-    </div>
+            <div
+              v-for="attachment in message.attachments.slice(1)" :key="attachment.attachment_url">
+              <Attachment class="image-message" :attachment="attachment"/>
+            </div>
+        </div>
+    </div> 
+    <div class="chat-message-divider"></div>
   </div>
 </template>
 <script>
@@ -37,6 +37,56 @@ export default {
 }
 </script>
 <style lang="scss">
+.chat-message{
+  font-family: $family-dm-sans;
+  padding-top: 10px;
+  padding-bottom: 10px;
+
+  &-title{
+    color: #2D343C;
+    font-size: 14px;
+    padding-bottom: 10px;
+  }
+
+  &-divider{
+    width: 100%;
+    height: 0px;
+    border: 1px solid #F7F7F7;
+  }
+
+  &-date{
+    color: #828282;
+    font-size: 12px;
+  }
+
+  ul{
+    list-style-type: circle;
+    padding: 0 1.1rem;
+  }
+  ol {
+    padding: 0 1rem;
+  }
+
+  blockquote {
+    padding-left: 1rem;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    border-left: 2px solid $dark-blue;
+  }
+
+  pre, code {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin-top: 3px;
+    margin-bottom: 3px;
+    background: $dark-blue;
+    color: #fff;
+    border-radius:4px;
+  }
+  
+}
+
+
 .connect-chat-message {
   padding: 7px;
   background: $primary;
