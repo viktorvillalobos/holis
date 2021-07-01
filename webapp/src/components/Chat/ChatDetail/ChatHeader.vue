@@ -1,16 +1,22 @@
 <template>
   <div class="connect-chat-header">
-    <h3>{{chatName}}</h3>
-    <ul class="chat-actions">
+    <div class="columns">
+        <button class="button is-ghost column is-1" @click="goToInbox">
+            <span class="icon is-small">
+                <span class="material-icons" style="color:#fff">chevron_left</span>
+            </span>
+        </button>
+        <b class="column" style="color:#fff">{{chatName}}</b>
+    </div>
+<!---    <ul class="chat-actions">
       <li>
         <font-awesome-icon icon="search" @click="handleSearch"/>
       </li>
-<!---
+
       <li>
         <font-awesome-icon icon="plus" />
       </li>
--->
-    </ul>
+    </ul>-->
   </div>
 </template>
 <script>
@@ -25,6 +31,11 @@ export default {
     handleSearch () {
       this.$store.commit('clearMessages')
       this.$store.commit('setChatActive', true)
+    },
+    goToInbox(){
+        this.$store.commit('setCurrentChatName', null)
+        this.$store.commit('setCurrentChatID', null)
+        this.$store.commit('setInboxActive', true)
     }
   }
 }
@@ -42,7 +53,7 @@ export default {
   overflow: hidden;
   z-index: 99;
   color: #fff;
-  background-color: $primary;
+  background-color: #364DFF;
 
   .svg-wrapper {
     position: absolute;

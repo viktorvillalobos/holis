@@ -185,7 +185,7 @@ export default {
   methods: {
     gets () {
       this.getUsers()
-      this.getRecents()
+      //this.getRecents()
     },
     getUsers () {
       try {
@@ -196,7 +196,7 @@ export default {
     },
     getRecents  () {
       try {
-        this.$store.dispatch('getRecents')
+        this.$store.dispatch('getRecents',"")
       } catch (e) {
         console.log('couldnt load recents')
       }

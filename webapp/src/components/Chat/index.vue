@@ -1,169 +1,44 @@
 <template>
-  <div class="connect-chat" :style="`background-image: url(${patternChat})`">
-    <div v-if="chatActive" class="connect-chat-new">
-      <h3>Nuevo mensaje</h3>
-      <div class="field is-horizontal">
-        <div class="field-label is-normal">
-          <label class="label">Para:</label>
-        </div>
-        <div class="field-body">
-          <div class="field">
-            <p class="control">
-              <input class="input is-small" type="text" placeholder />
-            </p>
-          </div>
-        </div>
-      </div>
-      <card class="connect-chat-new-frequent-chats">
-        <ul>
-          <li v-for="user in users" :key="user.id" @click="setChat(user)">
-            <Avatar :img="user.avatar_thumb" />
-            <span class="user-name">{{user.name || user.username}}</span>
-          </li>
-        </ul>
-      </card>
-    </div>
-    <chat-header v-if="!chatActive" :chat-name="currentChatName" />
-    <div
-      v-if="!chatActive"
-      class="connect-chat-body"
-    >
-
-      <button
-        class="button is-dark is-rounded load-more"
-        v-if="showLoadHistory"
-        @click="loadHistory()">Load history</button>
-
-      <vue-scroll ref="chatContainer"
-                  @handle-scroll="handleScroll">
-        <div class="connect-chat-body-messages-wrapper">
-          <message
-            v-for="msg in messages"
-            :key="msg.id"
-            :message="msg"
-          />
-        </div>
-      </vue-scroll>
-    </div>
-    <chat-editor v-if="!chatActive" @enter="sendMessage" />
+  <div class="connect-chat"> <!-- :style="`background-image: url(${patternChat})`" -->
+    <HeaderInbox v-if="inboxActive && currentChatID == null"/>
+    <NewChat v-if="!inboxActive && currentChatID == null"/>
+    <ChatDetail v-if="currentChatID"/>
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex'
 
-import ChatHeader from './ChatHeader'
-import ChatEditor from './ChatEditor'
-import Message from './Message'
 import Avatar from '@/components/Avatar'
 import Card from '@/components/Card'
-
 import pattern from '@/assets/lighter_pattern.png'
+import HeaderInbox from './Inbox'
+import NewChat from './NewChat'
+import ChatDetail from './ChatDetail'
+
 export default {
   name: 'Chat',
   components: {
-    ChatHeader,
-    ChatEditor,
-    Message,
     Avatar,
-    Card
+    Card,
+    HeaderInbox,
+    NewChat,
+    ChatDetail
   },
   data () {
-    return {
-      searchPerson: '',
-      jid: '',
-      patternChat: pattern,
-      isFirstTime: true,
-      showLoadHistory: false,
-      savePosition: 0
-    }
+    return {}
   },
   computed: {
     ...mapState({
-      users: state => state.chat.users,
       messages: state => state.chat.messages,
       next: state => state.chat.next,
       allowScrollToEnd: state => state.chat.allowScrollToEnd,
-      currentChatJID: state => state.chat.currentChatJID,
+      currentChatID: state => state.chat.currentChatID,
       currentChatName: state => state.chat.currentChatName,
-      chatActive: state => state.chat.chatActive
+      inboxActive: state => state.chat.inboxActive,
+      app: state => state.app.user
     })
   },
-  watch: {
-    messages (newVal) {
-      if (newVal.length == 0) {
-        this.isFirstTime = true // Esta comprobacion forza para que la primera vez para que haga scroll
-        return
-      }
-
-      if (this.isFirstTime) {
-        setTimeout(() => {
-          this.scrollToEnd()
-          this.isFirstTime = false
-        }, 400)
-      }
-    },
-    chatActive (newVal) {
-      this.isFirstTime = true
-    }
-  },
-  mounted () {
-    // this.scrollToEnd()
-  },
-  updated () {
-    if (this.allowScrollToEnd) {
-      // this.scrollToEnd()
-    }
-  },
-  methods: {
-    handleScroll (vertical, horizonal, nativeEvent) {
-      if (this.next && vertical.process <= 0.06) { this.showLoadHistory = true } else { this.showLoadHistory = false }
-
-      const content = this.$refs.chatContainer
-      if (
-        content &&
-        content.scrollTop === 0 &&
-        this.next
-      ) {
-        setTimeout(() => {
-          this.loadHistory()
-          content.scrollTop = 1200
-        }, 400)
-      }
-    },
-    loadHistory () {
-      if (this.next) {
-        // this.savePosition = this.$refs.chatContainer.getPosition()
-        this.$store.dispatch('getNextMessages')
-      }
-    },
-    scrollToEnd () {
-      const content = this.$refs.chatContainer
-      console.log('SOLAAAA', content.scrollHeight)
-
-      if (content) content.scrollTo({ y: '100%' }, content.scrollHeight)
-    },
-    addMessage (msg) {
-      this.messages.push(msg)
-    },
-    sendMessage (msg) {
-      console.log('msg', msg)
-      this.$store.dispatch('sendChatMessage', { msg })
-      this.scrollToEnd()
-    },
-    setChat (user) {
-      console.log('hey!')
-      console.log(user)
-      this.$emit('selectedChat')
-      this.$store.commit('setCurrentChatName', user.name || user.username)
-      this.$store.commit('setCurrentChatID', user.id)
-      const data = {
-        to: user.id,
-        first_time: true
-      }
-      this.$store.dispatch('getMessagesByUser', data)
-    }
-  }
 }
 </script>
 

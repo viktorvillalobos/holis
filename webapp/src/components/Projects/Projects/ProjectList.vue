@@ -10,24 +10,20 @@
             </select>
         </div>
     </div>
-    <div class="main-loader">
-      <div :class="{'card' : true, 'loader-wrapper' : true, 'is-active' : loading}">
-        <div class="card-content">
-          <div class="loader is-loading"></div>
-        </div>
-      </div>
-    </div>
+    <Loading v-bind:loading="loading"/>
     <Project v-bind:project="project" v-for="project in projects" :key="project.id"/>
   </div>
 </template>
 <script>
 import Project from './Project'
+import Loading from '../../Loading'
 import { mapState } from 'vuex'
 
 export default {
   name: 'ProjectList',
   components: {
-    Project
+    Project,
+    Loading
   },
   props: ['type'],
   data () {
@@ -62,31 +58,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.main-loader{
-  width:100%;
-}
-.loader-wrapper {
-  position: absolute;
-  left: 35%;
-  height: 100;
-  width: 100;
-  background: #fff;
-  opacity: 0;
-  z-index: -1;
-  transition: opacity .3s;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 6px;
 
-  .loader {
-      height: 80px;
-      width: 80px;
-  }
-
-  &.is-active {
-      opacity: 1;
-      z-index: 1;
-  }
-}
 </style>

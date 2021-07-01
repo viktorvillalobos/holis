@@ -55,10 +55,12 @@ export default {
 .hover-card{
    box-shadow: 0px 0px 0px grey;
   -webkit-transition:  box-shadow .6s ease-out;
-  box-shadow: .8px .9px 3px grey;
+  transition: box-shadow .6s ease-out;
+  box-shadow: .8px .9px 3px grey; 
 }
 .hover-card:hover{
      box-shadow: 1px 8px 10px grey;
     -webkit-transition:  box-shadow .6s ease-in;
+    transition: box-shadow .6s ease-in;
 }
 </style>

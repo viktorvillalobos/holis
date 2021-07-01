@@ -47,6 +47,7 @@ const actions = {
   },
   async getNotifications ({ commit }) {
     const { data } = await apiClient.app.getNotifications()
+    console.log("Notificaciones",data)
     commit('setNotifications', data.results)
   },
   onNotification ({ commit }, notification) {

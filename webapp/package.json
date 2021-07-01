@@ -15,6 +15,9 @@
     "@fortawesome/free-regular-svg-icons": "^5.13.0",
     "@fortawesome/free-solid-svg-icons": "^5.13.0",
     "@fortawesome/vue-fontawesome": "^0.1.9",
+    "@tiptap/extension-placeholder": "^2.0.0-beta.25",
+    "@tiptap/starter-kit": "^2.0.0-beta.65",
+    "@tiptap/vue-2": "^2.0.0-beta.32",
     "@xmpp/client": "^0.11.1",
     "@xmpp/debug": "^0.11.0",
     "aos": "^3.0.0-beta.6",
@@ -35,8 +38,6 @@
     "socket.io-client": "^2.2.0",
     "stanza": "^12.13.1",
     "svg.js": "^2.7.1",
-    "tiptap": "^1.29.0",
-    "tiptap-extensions": "^1.31.0",
     "v-emoji-picker": "^2.1.8",
     "vue": "^2.6.11",
     "vue-apexcharts": "^1.5.3",
@@ -53,6 +54,9 @@
     "webpack-bundle-tracker": "^0.4.3"
   },
   "devDependencies": {
+    "@iconify-icons/mdi-light": "^1.1.0",
+    "@iconify/icons-mdi": "^1.1.15",
+    "@iconify/vue": "^1.0.6",
     "@vue/cli-plugin-babel": "~4.3.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
     "@vue/cli-plugin-unit-jest": "~4.5.0",
