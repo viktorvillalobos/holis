@@ -6,7 +6,7 @@
             <font-awesome-icon icon="user-circle" size="3x" style="margin-top:10px"/>
             <div class="column">
                 <b style="color:#000000">{{recent ? recent.name : 'Nombre misterioso' }}</b>
-                <div style="color:#828282" v-html="recent.message"></div>
+                <div style="color:#828282" class="inbox-message" v-html="recent.message"></div>
             </div>
         </div>
         <div class="column">
@@ -41,6 +41,14 @@ export default {
 .inbox{
     height: 100px;
     padding: 20px 40px 20px 50px;
+
+    &-message{
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 1; /* number of lines to show */
+        -webkit-box-orient: vertical;
+    }
 }
 
 .hover{
