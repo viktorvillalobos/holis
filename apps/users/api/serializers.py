@@ -104,7 +104,10 @@ class UserSerializer(serializers.Serializer):
         if not statuses:
             return None
 
-        active_status = [status for status in statuses if status.is_active][0]
+        try:
+            active_status = [status for status in statuses if status.is_active][0]
+        except IndexError:
+            return None
 
         return {
             "id": active_status.id,
