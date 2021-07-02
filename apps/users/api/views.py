@@ -31,7 +31,6 @@ class UserViewSet(RetrieveModelMixin, ListModelMixin, GenericViewSet):
     queryset = User.objects.all()
     pagination_class = UserCursoredPagination
     lookup_field = "id"
-    filterset_fields = ("name", "email", "username")
 
     def get_queryset(self, *args, **kwargs):
         include_myself = bool(self.request.GET.get("include_myself", False))
