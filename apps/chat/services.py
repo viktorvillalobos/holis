@@ -89,18 +89,22 @@ def get_cursored_recents_rooms_by_user_id(
 
     recents_data = []
     for room in recents_rooms:
-        for member in room.members.all():
-            recents_data.append(
-                RecentChatInfo(
-                    room_uuid=room.uuid,
-                    user_avatar_thumb=member.avatar_thumb,
-                    user_id=member.id,
-                    user_name=member.name,
-                    message="custom-mesasge",
-                    created=timezone.now(),
-                    have_unread_messages=room.have_unread_messages,
-                )
+
+        members_by_id = {member.id: member for member in room.members.all()}
+
+        last_message_user = members_by_id[room.last_message_user_id]
+
+        recents_data.append(
+            RecentChatInfo(
+                room_uuid=room.uuid,
+                user_avatar_thumb=last_message_user.avatar_thumb,
+                user_id=last_message_user.id,
+                user_name=last_message_user.name,
+                message=room.last_message_text,
+                created=room.last_message_ts,
+                have_unread_messages=room.have_unread_messages,
             )
+        )
 
     return recents_data, next_page_cursor, previous_page_cursor
 
@@ -196,4 +200,18 @@ def set_room_user_read(
         user_id=user_id,
         room_uuid=room_uuid,
         defaults={"timestamp": timezone.now()},
+    )
+
+
+@database_sync_to_async
+def update_room_last_message_by_room_uuid_async(
+    *,
+    company_id: int,
+    user_id: int,
+    room_uuid: Union[str, UUID],
+    text: str,
+    ts: datetime,
+) -> int:
+    return room_providers.update_room_last_message_by_room_uuid(
+        company_id=company_id, user_id=user_id, room_uuid=room_uuid, text=text, ts=ts
     )

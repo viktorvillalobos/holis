@@ -56,7 +56,11 @@ class Room(TimeStampedModel):
     any_can_invite = models.BooleanField(_("Any can invite"), default=True)
     members_only = models.BooleanField(_("members only"), default=False)
     is_one_to_one = models.BooleanField(_("is one to one"), default=False)
+
+    # Last message info
     last_message_ts = models.DateTimeField(default=timezone.now, db_index=True)
+    last_message_text = models.TextField(null=True)
+    last_message_user_id = models.IntegerField(null=True)
 
     tenant_id = "company_id"
 
