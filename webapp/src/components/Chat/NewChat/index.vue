@@ -22,9 +22,10 @@
         <div class="user-items" v-for="user in users" :key="user.id" @click="openChatUser(user)">
             <span class="icon-text">
                 <span class="icon">
-                    <font-awesome-icon icon="user-circle" size="3x"/>
+                    <Avatar v-if="user.avatar_thumb" :img="user.avatar_thumb"/>
+                    <font-awesome-icon v-else icon="user-circle" size="3x"/>
                 </span>
-                <span style="margin-left:20px">{{user.name || user.username}}</span>
+                <b style="margin-left:20px">{{user.name || user.username}}</b>
             </span>
         </div>
     </div>

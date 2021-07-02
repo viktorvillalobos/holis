@@ -1,9 +1,7 @@
 <template>
   <div class="chat-message">
     <div class="columns">
-        <div class="column is-one-fifth">
-            <Avatar :img="message.avatar_thumb" />
-        </div>
+        <Avatar :img="message.avatar_thumb" style="margin-top:10px; margin-left:20px" />
         <div class="column">
             <p class="chat-message-date"><b class="chat-message-title">{{ message.who}}</b>   {{ message.getDateTime() }}</p>
             <p v-html="message.text"></p>

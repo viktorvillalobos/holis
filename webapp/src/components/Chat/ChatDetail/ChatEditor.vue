@@ -24,8 +24,7 @@
       </ul>
     </div>
     <div>
-      <menu-bar :editor="editor" />
-      <editor-content :editor="editor" class="editor-content" />
+      <editor-content :editor="editor" class="editor-content"  />
       <div class="columns" style="padding-bottom:10px">
         <div class="editor-buttons"></div>
         <div v-if="editor" class="column" style="z-index:1">
@@ -86,6 +85,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { Editor, EditorContent } from '@tiptap/vue-2'
 import StarterKit from '@tiptap/starter-kit'
 import Placeholder from '@tiptap/extension-placeholder'
+import BulletList from '@tiptap/extension-bullet-list'
 
 export default {
   components: {
@@ -109,12 +109,20 @@ export default {
     }
   },
   mounted () {
+    const vm = this
     window.$chatEditor = this
     this.editor = new Editor({
       content: this.modelValue,
       extensions: [
         StarterKit,
-        Placeholder
+        Placeholder,
+        BulletList.extend({
+          addKeyboardShortcuts() {
+            return {
+              // ↓ your new keyboard shortcut
+              'Enter': () => vm.submit(),
+            }
+          }})
       ],
       onUpdate: () => {
         this.isSendActive = this.editor.getHTML() !== "<p></p>"
