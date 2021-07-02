@@ -18,3 +18,12 @@ def set_messages_readed_by_room_and_user_task(
     return chat_services.set_messages_readed_by_room_and_user(
         company_id=company_id, room_uuid=room_uuid, user_id=user_id
     )
+
+
+@shared_task
+def set_room_user_read_task(
+    *, company_id: int, user_id: int, room_uuid: Union[str, UUID]
+) -> None:
+    chat_services.set_room_user_read(
+        company_id=company_id, user_id=user_id, room_uuid=room_uuid
+    )

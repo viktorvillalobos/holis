@@ -120,7 +120,7 @@ class MessageListAPIView(generics.ListAPIView):
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
 
-        self.launch_set_mensages_readed_task()
+        self.set_room_user_read()
 
         page = self.paginate_queryset(queryset)
         if page is not None:
@@ -131,9 +131,9 @@ class MessageListAPIView(generics.ListAPIView):
 
         return Response(serializer.data)
 
-    def launch_set_mensages_readed_task(self):
-        chat_tasks.set_messages_readed_by_room_and_user_task.delay(
+    def set_room_user_read(self):
+        chat_tasks.set_room_user_read_task(
             company_id=self.request.company_id,
-            room_uuid=self.kwargs["room_uuid"],
             user_id=self.request.user.id,
+            room_uuid=self.kwargs["room_uuid"],
         )
