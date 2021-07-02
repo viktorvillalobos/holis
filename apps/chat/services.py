@@ -77,7 +77,7 @@ def get_cursored_recents_rooms_by_user_id(
         recents_rooms,
         next_page_cursor,
         previous_page_cursor,
-    ) = message_providers.get_recents_messages_values_by_user_id(
+    ) = room_providers.get_recents_rooms_by_user_id(
         company_id=company_id,
         user_id=user_id,
         is_one_to_one=is_one_to_one,
@@ -87,22 +87,9 @@ def get_cursored_recents_rooms_by_user_id(
         search=search,
     )
 
-    # recent_messages_by_room = {
-    #     message.room_uuid: message for message in recents_messages
-    # }
-
-    # rooms_in_bulk = room_providers.get_rooms_by_uuids_in_bulk(
-    #     company_id=company_id, room_uuids=recent_messages_by_room.keys()
-    # )
-
     recents_data = []
     for room in recents_rooms:
-
-        # recent_messages_values = recent_messages_by_room[room_uuid]
-        # room = rooms_in_bulk[room_uuid]
-        users = room.members.exclude(id=user_id).order_by("id")
-
-        for member in users:
+        for member in room.members.all():
             recents_data.append(
                 RecentChatInfo(
                     room_uuid=room.uuid,
