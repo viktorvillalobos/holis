@@ -84,7 +84,7 @@ export default {
         first_time: true
       }
       this.$store.dispatch('getMessagesByUser', data)
-      this.$store.commit('setCurrentChatName', recent.name)
+      this.$store.commit('setCurrentChatName', recent.user_name )
       this.$store.commit('setCurrentChatID', recent.id)
     },
     getInbox(search = ""){

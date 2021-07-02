@@ -2,10 +2,10 @@
   <div class="hover">
     <div class="inbox columns">
         <div class="column columns">
-            <!--<Avatar v-if="recent.avatar_thum" class="column" :img="recent.avatar_thumb" :text="recent.name" />-->
-            <font-awesome-icon icon="user-circle" size="3x" style="margin-top:10px"/>
+            <Avatar v-if="recent.user_avatar_thumb" :img="recent.avatar_thumb" style="margin-top:10px"/>
+            <font-awesome-icon v-else icon="user-circle" size="3x" style="margin-top:10px"/>
             <div class="column">
-                <b style="color:#000000">{{recent ? recent.name : 'Nombre misterioso' }}</b>
+                <b style="color:#000000">{{recent ? recent.user_name : 'Nombre misterioso' }}</b>
                 <div style="color:#828282" class="inbox-message" v-html="recent.message"></div>
             </div>
         </div>

@@ -21,7 +21,7 @@
       </vue-scroll>
     </div>
     <Loading v-bind:loading="loading"/>
-    <chat-editor ref="chatContainer2" @enter="sendMessage" />
+    <chat-editor ref="chatContainer2" @keyup.enter="sendMessage" />
   </div>
 </template>
 
@@ -56,10 +56,10 @@ export default {
       savePosition: 0,
       loading: true,
       observer: null,
+      isFirstTime: true
     }
   },
   created(){
-    console.log("ENRTTERERER")
   },
   computed: {
     ...mapState({
@@ -74,13 +74,6 @@ export default {
   },
   watch: {
     messages (newVal) {
-      if (newVal.length == 0) {
-        this.isFirstTime = true // Esta comprobacion forza para que la primera vez para que haga scroll
-        return
-      }
-
-      this.loading = false
-
       if(!this.isLoadingHistory){
         setTimeout(() => {
           this.scrollToEnd()
@@ -88,6 +81,7 @@ export default {
       }else{
         this.isLoadingHistory = false 
       }
+      this.loading = false
     },
     chatActive (newVal) {
       this.isFirstTime = true
@@ -95,8 +89,8 @@ export default {
   },
   mounted () {
     // this.scrollToEnd()
-    const aaa = this.$refs.chatContainer2
-    console.log("TUNDIIIII"+JSON.stringify(aaa))
+    //const aaa = this.$refs.chatContainer2
+    //console.log("TUNDIIIII"+JSON.stringify(aaa))
     //this.initObserver()
   },
   updated () {
