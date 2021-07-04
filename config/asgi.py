@@ -19,6 +19,7 @@ from sentry_sdk.integrations.asgi import SentryAsgiMiddleware
 from sentry_sdk.integrations.celery import CeleryIntegration
 from sentry_sdk.integrations.django import DjangoIntegration
 from sentry_sdk.integrations.logging import LoggingIntegration
+from sentry_sdk.integrations.redis import RedisIntegration
 
 app_path = Path(__file__).parents[1].resolve()
 sys.path.append(str(app_path / "apps"))
@@ -32,7 +33,7 @@ application = get_default_application()
 
 def traces_sampler(context):
     """
-        Avoid WhineNoise Statics
+    Avoid WhineNoise Statics
     """
     if context.get("transaction_context") and context.get("transaction_context").get(
         "name"
@@ -45,7 +46,12 @@ def traces_sampler(context):
 
 sentry_sdk.init(
     dsn=settings.SENTRY_DSN,
-    integrations=[settings.SENTRY_LOGGING, DjangoIntegration(), CeleryIntegration()],
+    integrations=[
+        settings.SENTRY_LOGGING,
+        DjangoIntegration(),
+        CeleryIntegration(),
+        RedisIntegration(),
+    ],
     traces_sampler=traces_sampler,
 )
 application = SentryAsgiMiddleware(application)
