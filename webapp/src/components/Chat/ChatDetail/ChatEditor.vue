@@ -155,27 +155,36 @@ export default {
       this.editor.commands.setContent(content, true)
       this.showEmojiPicker = false
     },
+    clearEditor() {
+      this.editor.commands.clearContent()
+      this.$refs.chatFileInput.value = null
+      this.files = []
+      this.showEmojiPicker = false
+      this.isSendActive = false
+    },
     submit () {
       if(!this.isSendActive)
         return
-      const msg = {
-        message: this.editor.getHTML(),
+
+      const messageText =
+                this.editor
+                .getHTML()
+                .replaceAll("<p></p>","</br>")
+
+      const messageObj = {
+        message: messageText,
         is_mine: true,
         datetime: new Date(),
         files: this.files
       }
-      this.$refs.chatFileInput.value = null
-      this.files = []
-      console.log(msg)
-      msg.message = msg.message.replaceAll("<p></p>","</br>")
-      this.$emit('enter', msg)
-      this.editor.commands.clearContent()
-      this.showEmojiPicker = false
-      this.isSendActive = false
+
+      this.clearEditor()
+      this.$emit('sendMessage', messageObj)
     }
   }
 }
 </script>
+
 <style lang="scss">
 .editor-buttons{
   //margin: 0px -10px 0px -10px;
