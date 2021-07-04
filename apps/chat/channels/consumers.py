@@ -75,13 +75,13 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
         serialized_message = await chat_services.serialize_message(message=message)
         await self.channel_layer.group_send(self.room_group_name, serialized_message)
 
-        await chat_services.update_room_last_message_by_room_uuid_async(
-            company_id=user.company_id,
-            room_uuid=message.room_uuid,
-            ts=message.created,
-            text=message.text,
-            user_id=message.user_id,
-        )
+        # await chat_services.update_room_last_message_by_room_uuid_async(
+        #     company_id=user.company_id,
+        #     room_uuid=message.room_uuid,
+        #     ts=message.created,
+        #     text=message.text,
+        #     user_id=message.user_id,
+        # )
 
     async def chat_echo(self, event):
         logger.info("chat_echo")
