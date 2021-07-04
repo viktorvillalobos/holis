@@ -89,7 +89,7 @@ class User(AbstractUser):
     @cached_property
     def avatar_thumb(self):
         if not self.avatar:
-            url = f"https://avatars.abstractapi.com/v1/?api_key={settings.ABSTRACT_API_KEY}&name={self.username}"  # noqa
+            url = f"https://ui-avatars.com/api/?name={self.username}&background=random"
             resp = requests.get(url)
             fp = BytesIO()
             fp.write(resp.content)
