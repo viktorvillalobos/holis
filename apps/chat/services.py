@@ -1,8 +1,6 @@
 from typing import Any, Dict, List, Optional, Union
 
 from django.conf import settings
-from django.core.files.storage import default_storage
-from django.db.models.query import Prefetch
 from django.utils import timezone
 
 import uuid
@@ -15,6 +13,7 @@ from uuid import UUID
 
 from apps.chat.lib.constants import ROOM_GROUP_NAME
 from apps.chat.lib.dataclasses import RecentChatInfo
+from apps.chat.lib.exceptions import NonExistentMemberException
 from apps.users import models as users_models
 from apps.users import services as user_services
 from apps.utils.cache import cache
@@ -23,10 +22,6 @@ from ..chat.api import serializers
 from ..chat.models import Message, Room, RoomUserRead
 from .providers import message as message_providers
 from .providers import room as room_providers
-
-
-class NonExistentMemberException(Exception):
-    pass
 
 
 @database_sync_to_async

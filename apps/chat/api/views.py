@@ -7,8 +7,8 @@ import logging
 from twilio.rest import Client
 
 from apps.chat import models as chat_models
-from apps.chat import uc as chat_uc
 from apps.chat.api import serializers
+from apps.chat.lib.exceptions import NonExistentMemberException
 from apps.chat.providers import message as message_providers
 from apps.chat.providers import message_attachment as message_attachment_providers
 from apps.utils.rest_framework import objects
@@ -38,7 +38,7 @@ class GetOrCreateRoomAPIView(views.APIView):
                 company_id=self.request.user.company_id,
                 members_ids=[self.request.user.id, validated_data["to"]],
             )
-        except chat_uc.NonExistentMemberException:
+        except NonExistentMemberException:
             raise exceptions.ValidationError("Member not exist")
 
 

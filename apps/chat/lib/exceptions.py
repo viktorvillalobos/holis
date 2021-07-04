@@ -1,0 +1,2 @@
+class NonExistentMemberException(Exception):
+    pass
