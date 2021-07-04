@@ -45,7 +45,7 @@ def traces_sampler(context):
 
 
 sentry_sdk.init(
-    environment=settings.ENVIROMENT,
+    environment=settings.ENVIRONMENT,
     dsn=settings.SENTRY_DSN,
     integrations=[
         settings.SENTRY_LOGGING,
