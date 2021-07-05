@@ -25,7 +25,7 @@
                     <Avatar v-if="user.avatar_thumb" :img="user.avatar_thumb"/>
                     <font-awesome-icon v-else icon="user-circle" size="3x"/>
                 </span>
-                <b style="margin-left:20px">{{user.name || user.username}}</b>
+                <b class="header-new-chat-title">{{user.name || user.username}}</b>
             </span>
         </div>
     </div>
@@ -98,6 +98,16 @@ export default {
   height: 80px;
   //background: linear-gradient(90deg, #364DFF 0%, #5165FF 100%);
   box-shadow: 0px 4px 4px rgba(224, 224, 224, 0.1);
+
+    &-title{
+        max-lines: 1;
+        margin-left:20px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 1; /* number of lines to show */
+        -webkit-box-orient: vertical;
+    }
 }
 
 .user-items{

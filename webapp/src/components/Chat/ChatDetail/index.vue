@@ -4,6 +4,13 @@
     <div
       class="connect-chat-body"
     >
+    <div class="card load-more">
+      <div class="card-content">
+        <div class="content">
+          {{ dateTest }}
+        </div>
+      </div>
+    </div>
       <button
         class="button is-dark is-rounded load-more"
         v-if="showLoadHistory"
@@ -11,13 +18,14 @@
 
       <vue-scroll ref="chatContainer"
                   @handle-scroll="handleScroll">
-        <div class="connect-chat-body-messages-wrapper">
+        <!--<div class="connect-chat-body-messages-wrapper">-->
           <message
+            :id="msg.created"
             v-for="msg in messages"
             :key="msg.id"
             :message="msg"
           />
-        </div>
+        <!--</div>-->
       </vue-scroll>
     </div>
     <Loading v-bind:loading="loading"/>
@@ -38,6 +46,7 @@ import Avatar from '@/components/Avatar'
 import Card from '@/components/Card'
 import pattern from '@/assets/lighter_pattern.png'
 import Loading from '@/components/Loading'
+import moment from 'moment'
 
 export default {
   name: 'Chat',
@@ -59,7 +68,8 @@ export default {
       savePosition: 0,
       loading: true,
       observer: null,
-      isFirstTime: true
+      isFirstTime: true,
+      dateTest: ''
     }
   },
   created(){
@@ -106,6 +116,9 @@ export default {
       if (this.next && vertical.process <= 0.06) { this.showLoadHistory = true } else { this.showLoadHistory = false }
 
       const content = this.$refs.chatContainer
+      console.log("currentView", content.getCurrentviewDom()[0].id)
+      const dateTest = content.getCurrentviewDom()[0].id
+      this.dateTest = moment(dateTest).fromNow()
       if (
         content &&
         content.scrollTop === 0 &&
@@ -195,6 +208,7 @@ export default {
   margin-top: 10px;
   margin-bottom: 10px;
   position: absolute;
+  background: transparent;
 }
 .connect-chat {
   border-top: 1px solid $light-gray;
