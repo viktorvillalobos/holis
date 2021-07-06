@@ -1,6 +1,7 @@
 import apiClient from '../../providers/api'
 import chatServices from '../../services/chat'
 import Message from '../../models/Message'
+import moment from 'moment'
 
 const socketChat = process.env.NODE_ENV === 'production'
   ? `wss://${location.hostname}:${location.port}/ws/chat/`
@@ -66,7 +67,20 @@ const mutations = {
     state.tempMessages = []
   },
   unshiftMessages (state, messages) {
-    messages.results = messages.results.map(message => new Message(message))
+    const messagesAux = []
+    var dateAux = ''
+    messages.results.forEach(element => {
+      const dateMomentAux = moment(element.created).format('L')
+      if(dateAux != dateMomentAux){
+        dateAux = dateMomentAux
+        element.showDate = true
+      }else
+        element.showDate = false
+      messagesAux.push(element)
+    });
+    console.log("TUNDIII",messagesAux)
+
+    messages.results = messagesAux.map(message => new Message(message))
     if (messages.first_time) { state.messages = [...messages.results] } else { state.messages = [...messages.results, ...state.messages] }
     state.next = messages.next
     state.prev = messages.previous

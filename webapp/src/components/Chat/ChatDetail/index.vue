@@ -4,13 +4,6 @@
     <div
       class="connect-chat-body"
     >
-    <div class="card load-more">
-      <div class="card-content">
-        <div class="content">
-          {{ dateTest }}
-        </div>
-      </div>
-    </div>
       <button
         class="button is-dark is-rounded load-more"
         v-if="showLoadHistory"
@@ -18,14 +11,24 @@
 
       <vue-scroll ref="chatContainer"
                   @handle-scroll="handleScroll">
-        <!--<div class="connect-chat-body-messages-wrapper">-->
-          <message
-            :id="msg.created"
-            v-for="msg in messages"
-            :key="msg.id"
-            :message="msg"
-          />
-        <!--</div>-->
+        <div class="connect-chat-body-messages-wrapper">
+          <div v-for="msg in messages" :key="msg.id">
+
+            <div class="chat-divider" style="position:absolute"></div>
+
+            <div v-if="msg.showDate" class="card date-message">
+              <div class="card-content">
+                <div class="content">
+                  {{ dateMessage(msg.created) }}
+                </div>
+              </div>
+            </div>
+            <message
+              :id="msg.created"
+              :message="msg"
+            />
+          </div>
+        </div>
       </vue-scroll>
     </div>
     <Loading v-bind:loading="loading"/>
@@ -69,7 +72,7 @@ export default {
       loading: true,
       observer: null,
       isFirstTime: true,
-      dateTest: ''
+      dateMsg: '',
     }
   },
   created(){
@@ -116,9 +119,9 @@ export default {
       if (this.next && vertical.process <= 0.06) { this.showLoadHistory = true } else { this.showLoadHistory = false }
 
       const content = this.$refs.chatContainer
-      console.log("currentView", content.getCurrentviewDom()[0].id)
-      const dateTest = content.getCurrentviewDom()[0].id
-      this.dateTest = moment(dateTest).fromNow()
+      //console.log("currentView", content.getCurrentviewDom()[0].id)
+      //const dateTest = content.getCurrentviewDom()[0].id
+      //this.prepareDate(dateTest)
       if (
         content &&
         content.scrollTop === 0 &&
@@ -129,6 +132,22 @@ export default {
           content.scrollTop = 1200
         }, 400)
       }
+    },
+    dateMessage(date){
+      return this.prepareDate(date)
+    },
+    prepareDate(date){
+      console.log(date)
+      const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
+      const firstDate = new Date(date);
+      const secondDate = new Date();
+
+      const diffDays = Math.round(Math.abs((firstDate - secondDate) / oneDay));
+
+      if(diffDays > 2)
+        return moment(date).format('L')
+      
+      return moment(date).fromNow()
     },
     loadHistory () {
       if (this.next) {
@@ -195,11 +214,25 @@ export default {
 
 <style lang="scss">
 
+.chat-divider{
+    width: 100%;
+    height: 0px;
+    border: 1px solid #F7F7F7;
+}
+
 .flexbox-chat{
   height: 100%; 
     display: flex;
     flex-flow: column nowrap;
     align-items: stretch;
+}
+
+.date-message{
+  width: 140px;
+  margin: auto;
+  margin-top: -30px;
+  position: absolute;
+  background: transparent;
 }
 
 .load-more{

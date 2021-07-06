@@ -11,6 +11,7 @@ export default class Message{
       this.text = map.text
       this.avatar = map.avatar
       this.avatar_thumb = map.avatar_thumb
+      this.showDate = map.showDate
       if(map.attachments !== undefined){
           const attachments = map.attachments
           this.attachments = attachments.map(attachment => new Attachment(attachment))
