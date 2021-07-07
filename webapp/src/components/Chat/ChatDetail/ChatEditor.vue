@@ -125,7 +125,10 @@ export default {
           }})
       ],
       onUpdate: () => {
-        this.isSendActive = this.editor.getHTML() !== "<p></p>"
+        this.isSendActive = this.editor.getHTML()
+                                        .replaceAll("<p>","")
+                                        .replaceAll("</p>","")
+                                        .replaceAll("<br>","") !== ""
       },})
   },
   beforeDestroy () {
@@ -156,11 +159,15 @@ export default {
       this.showEmojiPicker = false
     },
     clearEditor() {
-      this.editor.commands.clearContent()
+      this.editor.commands.setContent("", true)
+      this.editor.commands.clearContent(true)
+      this.editor.commands.clearNodes()
       this.$refs.chatFileInput.value = null
       this.files = []
       this.showEmojiPicker = false
       this.isSendActive = false
+      console.log("TUNDIIPUTAMDREE",this.editor
+                .getHTML())
     },
     submit () {
       if(!this.isSendActive)

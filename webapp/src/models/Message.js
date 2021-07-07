@@ -25,7 +25,8 @@ export default class Message{
   }
 
   getDateTime () {
-    const date = moment(this.created).format('ddd, h:mm a').replace('.', '')
+    //const date = moment(this.created).format('ddd, h:mm a').replace('.', '')
+    const date = moment(this.created).format('h:mm a').replace('.', '')
     return date.charAt(0).toUpperCase() + date.slice(1)
   }
 }

@@ -69,7 +69,12 @@ const mutations = {
   unshiftMessages (state, messages) {
     const messagesAux = []
     var dateAux = ''
-    messages.results.forEach(element => {
+
+    messages.results = messages.results.map(message => new Message(message))
+    const messagesFormatted = messages.first_time ? [...messages.results] :  [...messages.results, ...state.messages]
+
+    console.log("TUNDIII",messagesFormatted)
+    messagesFormatted.forEach(element => {
       const dateMomentAux = moment(element.created).format('L')
       if(dateAux != dateMomentAux){
         dateAux = dateMomentAux
@@ -78,10 +83,8 @@ const mutations = {
         element.showDate = false
       messagesAux.push(element)
     });
-    console.log("TUNDIII",messagesAux)
 
-    messages.results = messagesAux.map(message => new Message(message))
-    if (messages.first_time) { state.messages = [...messages.results] } else { state.messages = [...messages.results, ...state.messages] }
+    state.messages = messagesAux
     state.next = messages.next
     state.prev = messages.previous
   },

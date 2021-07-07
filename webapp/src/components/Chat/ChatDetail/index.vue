@@ -16,13 +16,12 @@
 
             <div class="chat-divider" style="position:absolute"></div>
 
-            <div v-if="msg.showDate" class="card date-message">
-              <div class="card-content">
-                <div class="content">
-                  {{ dateMessage(msg.created) }}
-                </div>
+            <div class="date-center">
+              <div v-if="msg.showDate" class="date-message">
+                  <b>{{ dateMessage(msg.created) }}</b>
               </div>
             </div>
+
             <message
               :id="msg.created"
               :message="msg"
@@ -38,7 +37,6 @@
     />
   </div>
 </template>
-
 <script>
 import { mapState } from 'vuex'
 
@@ -144,10 +142,15 @@ export default {
 
       const diffDays = Math.round(Math.abs((firstDate - secondDate) / oneDay));
 
-      if(diffDays > 2)
+      const lang = moment.locale()
+      if(diffDays == 0){
+        return (lang == "es") ? "Hoy" : "Today"
+      }
+      else if(diffDays == 1){
+        return (lang == "es") ? "Ayer" : "Yesterday"
+      }
+      else
         return moment(date).format('L')
-      
-      return moment(date).fromNow()
     },
     loadHistory () {
       if (this.next) {
@@ -215,7 +218,7 @@ export default {
 <style lang="scss">
 
 .chat-divider{
-    width: 100%;
+    width: 95%;
     height: 0px;
     border: 1px solid #F7F7F7;
 }
@@ -227,12 +230,29 @@ export default {
     align-items: stretch;
 }
 
+.date-center{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
 .date-message{
-  width: 140px;
+  font-family: $family-dm-sans;
+  font-size: 14px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding-left: 10px;
+  padding-right: 10px;
+  height: 50px; 
   margin: auto;
-  margin-top: -30px;
   position: absolute;
-  background: transparent;
+  background: #FFFFFF;
+  border: 1px solid #F2F2F2;
+  box-sizing: border-box;
+  border-radius: 20.5px;
 }
 
 .load-more{
@@ -313,7 +333,7 @@ export default {
   }
 
   &-body {
-    height: calc(100vh - 100px);
+    height: calc(100vh - 120px);
     padding: 40px 0 0 0;
     box-sizing: border-box;
     display: flex;
@@ -332,4 +352,9 @@ export default {
     }
   }
 }
+
+/*.__view{
+  display: flex !important;
+  align-items: flex-end !important;
+}*/
 </style>

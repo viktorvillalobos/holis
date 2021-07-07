@@ -120,7 +120,7 @@ export default {
   }
 
   &-body {
-    height: calc(100vh - 100px);
+    height: calc(100vh - 120px);
     padding: 40px 0 0 0;
     box-sizing: border-box;
     display: flex;
@@ -135,7 +135,7 @@ export default {
       flex: 0 0 auto;
       display: flex;
       flex-direction: column;
-      padding: 0 15px;
+      padding: 50px 15px 0px 15px;
     }
   }
 }
