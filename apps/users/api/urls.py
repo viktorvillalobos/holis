@@ -2,6 +2,8 @@ from django.conf import settings
 from django.urls import path
 from rest_framework.routers import DefaultRouter, SimpleRouter
 
+from fcm_django.api.rest_framework import FCMDeviceCreateOnlyViewSet
+
 from apps.users.api import views
 
 if settings.DEBUG:
@@ -11,6 +13,7 @@ else:
 
 router.register("profile", views.UserProfileViewSet)
 router.register("notifications", views.NotificationViewSet)
+router.register("devices", FCMDeviceCreateOnlyViewSet)
 router.register("", views.UserViewSet)
 
 urlpatterns = [

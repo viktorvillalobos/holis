@@ -21,7 +21,10 @@
       </vue-scroll>
     </div>
     <Loading v-bind:loading="loading"/>
-    <chat-editor ref="chatContainer2" @keyup.enter="sendMessage" />
+    <chat-editor 
+          ref="chatContainer2"
+          @sendMessage="sendMessage"
+    />
   </div>
 </template>
 

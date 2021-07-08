@@ -92,6 +92,7 @@ THIRD_PARTY_APPS = [
     "djpaddle",
     "martor",
     "taggit",
+    "fcm_django",
 ]
 
 LOCAL_APPS = [
@@ -358,3 +359,14 @@ DJPADDLE_PUBLIC_KEY = env.str("DJPADDLE_PUBLIC_KEY", multiline=True)
 
 # https://django-taggit.readthedocs.io/en/latest/getting_started.html
 TAGGIT_CASE_INSENSITIVE = True
+
+
+FCM_DJANGO_SETTINGS = {
+    # default: _('FCM Django')
+    # "APP_VERBOSE_NAME": "Holis",
+    # Your firebase API KEY
+    "FCM_SERVER_KEY": env.str("FCM_SERVER_KEY"),
+    # true if you want to have only one active device per registered user at a time
+    "ONE_DEVICE_PER_USER": False,
+    "DELETE_INACTIVE_DEVICES": False,
+}
