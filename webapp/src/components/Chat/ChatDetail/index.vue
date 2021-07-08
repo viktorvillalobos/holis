@@ -12,11 +12,21 @@
       <vue-scroll ref="chatContainer"
                   @handle-scroll="handleScroll">
         <div class="connect-chat-body-messages-wrapper">
-          <message
-            v-for="msg in messages"
-            :key="msg.id"
-            :message="msg"
-          />
+          <div v-for="msg in messages" :key="msg.id">
+
+            <div class="chat-divider" style="position:absolute"></div>
+
+            <div class="date-center">
+              <div v-if="msg.showDate" class="date-message">
+                  <b>{{ dateMessage(msg.created) }}</b>
+              </div>
+            </div>
+
+            <message
+              :id="msg.created"
+              :message="msg"
+            />
+          </div>
         </div>
       </vue-scroll>
     </div>
@@ -27,7 +37,6 @@
     />
   </div>
 </template>
-
 <script>
 import { mapState } from 'vuex'
 
@@ -38,6 +47,7 @@ import Avatar from '@/components/Avatar'
 import Card from '@/components/Card'
 import pattern from '@/assets/lighter_pattern.png'
 import Loading from '@/components/Loading'
+import moment from 'moment'
 
 export default {
   name: 'Chat',
@@ -59,7 +69,8 @@ export default {
       savePosition: 0,
       loading: true,
       observer: null,
-      isFirstTime: true
+      isFirstTime: true,
+      dateMsg: '',
     }
   },
   created(){
@@ -106,6 +117,9 @@ export default {
       if (this.next && vertical.process <= 0.06) { this.showLoadHistory = true } else { this.showLoadHistory = false }
 
       const content = this.$refs.chatContainer
+      //console.log("currentView", content.getCurrentviewDom()[0].id)
+      //const dateTest = content.getCurrentviewDom()[0].id
+      //this.prepareDate(dateTest)
       if (
         content &&
         content.scrollTop === 0 &&
@@ -116,6 +130,27 @@ export default {
           content.scrollTop = 1200
         }, 400)
       }
+    },
+    dateMessage(date){
+      return this.prepareDate(date)
+    },
+    prepareDate(date){
+      console.log(date)
+      const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
+      const firstDate = new Date(date);
+      const secondDate = new Date();
+
+      const diffDays = Math.round(Math.abs((firstDate - secondDate) / oneDay));
+
+      const lang = moment.locale()
+      if(diffDays == 0){
+        return (lang == "es") ? "Hoy" : "Today"
+      }
+      else if(diffDays == 1){
+        return (lang == "es") ? "Ayer" : "Yesterday"
+      }
+      else
+        return moment(date).format('L')
     },
     loadHistory () {
       if (this.next) {
@@ -182,11 +217,42 @@ export default {
 
 <style lang="scss">
 
+.chat-divider{
+    width: 95%;
+    height: 0px;
+    border: 1px solid #F7F7F7;
+}
+
 .flexbox-chat{
   height: 100%; 
     display: flex;
     flex-flow: column nowrap;
     align-items: stretch;
+}
+
+.date-center{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.date-message{
+  font-family: $family-dm-sans;
+  font-size: 14px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding-left: 10px;
+  padding-right: 10px;
+  height: 50px; 
+  margin: auto;
+  position: absolute;
+  background: #FFFFFF;
+  border: 1px solid #F2F2F2;
+  box-sizing: border-box;
+  border-radius: 20.5px;
 }
 
 .load-more{
@@ -195,6 +261,7 @@ export default {
   margin-top: 10px;
   margin-bottom: 10px;
   position: absolute;
+  background: transparent;
 }
 .connect-chat {
   border-top: 1px solid $light-gray;
@@ -266,7 +333,7 @@ export default {
   }
 
   &-body {
-    height: calc(100vh - 100px);
+    height: calc(100vh - 120px);
     padding: 40px 0 0 0;
     box-sizing: border-box;
     display: flex;
@@ -285,4 +352,9 @@ export default {
     }
   }
 }
+
+/*.__view{
+  display: flex !important;
+  align-items: flex-end !important;
+}*/
 </style>

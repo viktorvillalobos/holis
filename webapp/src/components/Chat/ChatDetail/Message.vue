@@ -37,19 +37,13 @@ export default {
 <style lang="scss">
 .chat-message{
   font-family: $family-dm-sans;
-  padding-top: 10px;
+  padding-top: 20px;
   padding-bottom: 10px;
 
   &-title{
     color: #2D343C;
     font-size: 14px;
     padding-bottom: 10px;
-  }
-
-  &-divider{
-    width: 100%;
-    height: 0px;
-    border: 1px solid #F7F7F7;
   }
 
   &-date{

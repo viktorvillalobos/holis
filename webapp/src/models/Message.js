@@ -11,6 +11,7 @@ export default class Message{
       this.text = map.text
       this.avatar = map.avatar
       this.avatar_thumb = map.avatar_thumb
+      this.showDate = map.showDate
       if(map.attachments !== undefined){
           const attachments = map.attachments
           this.attachments = attachments.map(attachment => new Attachment(attachment))
@@ -24,7 +25,8 @@ export default class Message{
   }
 
   getDateTime () {
-    const date = moment(this.created).format('ddd, h:mm a').replace('.', '')
+    //const date = moment(this.created).format('ddd, h:mm a').replace('.', '')
+    const date = moment(this.created).format('h:mm a').replace('.', '')
     return date.charAt(0).toUpperCase() + date.slice(1)
   }
 }
