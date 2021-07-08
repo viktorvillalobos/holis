@@ -20,6 +20,7 @@ from apps.utils.cache import cache
 
 from ..chat.api import serializers
 from ..chat.models import Message, Room, RoomUserRead
+from .providers import devices as devices_providers
 from .providers import message as message_providers
 from .providers import room as room_providers
 
@@ -216,4 +217,16 @@ def update_room_last_message_by_room_uuid_async(
 ) -> int:
     return room_providers.update_room_last_message_by_room_uuid(
         company_id=company_id, user_id=user_id, room_uuid=room_uuid, text=text, ts=ts
+    )
+
+
+@database_sync_to_async
+def send_message_to_devices_by_user_ids_async(
+    company_id: int, room_uuid: Union[UUID, str], serialized_message: dict[str, Any]
+) -> None:
+    user_ids = set(
+        Room.objects.get(uuid=room_uuid).members.values_list("id", flat=True)
+    )
+    devices_providers.send_message_to_devices_by_user_ids(
+        company_id=company_id, user_ids=user_ids, serialized_message=serialized_message
     )
