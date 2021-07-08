@@ -8,6 +8,7 @@ from datetime import datetime
 from uuid import UUID
 
 from apps.utils.cache import cache
+from apps.utils.html import strip_tags
 from apps.utils.rest_framework.paginators import get_paginated_queryset
 
 from ..models import Room, RoomUserRead
@@ -90,5 +91,7 @@ def update_room_last_message_by_room_uuid(
     ts: datetime,
 ) -> int:
     return Room.objects.filter(company_id=company_id, uuid=room_uuid).update(
-        last_message_ts=ts, last_message_text=text, last_message_user_id=user_id
+        last_message_ts=ts,
+        last_message_text=strip_tags(text),
+        last_message_user_id=user_id,
     )
