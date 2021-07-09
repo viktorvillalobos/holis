@@ -12,7 +12,7 @@ from twilio.rest import Client
 from uuid import UUID
 
 from apps.chat.lib.constants import ROOM_GROUP_NAME
-from apps.chat.lib.dataclasses import RecentChatInfo
+from apps.chat.lib.dataclasses import RecentRoomInfo
 from apps.chat.lib.exceptions import NonExistentMemberException
 from apps.users import models as users_models
 from apps.users import services as user_services
@@ -67,7 +67,7 @@ def get_cursored_recents_rooms_by_user_id(
     cursor: Optional[dict[str, str]] = None,
     page_size: Optional[int] = 100,
     reverse: Optional[bool] = True,
-) -> tuple[List[RecentChatInfo], Optional[Dict[str, str]], Optional[Dict[str, str]]]:
+) -> tuple[List[RecentRoomInfo], Optional[Dict[str, str]], Optional[Dict[str, str]]]:
 
     (
         recents_rooms,
@@ -89,24 +89,24 @@ def get_cursored_recents_rooms_by_user_id(
         members_by_id = {member.id: member for member in room.members.all()}
 
         if is_one_to_one:
-            if user_id != room.last_message_user_id:
-                chat_user_id = list(members_by_id.keys())[0]
-            else:
-                chat_user_id = room.last_message_user_id
-
-            chat_image_url = members_by_id[chat_user_id].avatar_thumb
-            chat_name = members_by_id[chat_user_id].name
+            other_user_id = [
+                member_id for member_id in members_by_id.keys() if user_id != member_id
+            ][0]
+            chat_image_url = members_by_id[other_user_id].avatar_thumb
+            chat_name = members_by_id[other_user_id].name
         else:
             raise NotImplementedError("We must implement grupal recents rooms")
 
         recents_data.append(
-            RecentChatInfo(
-                room_uuid=room.uuid,
-                user_avatar_thumb=chat_image_url,
-                user_id=chat_user_id,
-                user_name=chat_name,
-                message=room.last_message_text,
-                created=room.last_message_ts,
+            RecentRoomInfo(
+                uuid=room.uuid,
+                image=chat_image_url,
+                is_one_to_one=is_one_to_one,
+                to_user_id=other_user_id,
+                to_user_name=chat_name,
+                last_message_text=room.last_message_text,
+                last_message_ts=room.last_message_ts,
+                last_message_user_id=room.last_message_user_id,
                 have_unread_messages=room.have_unread_messages,
             )
         )
@@ -218,7 +218,7 @@ def update_room_last_message_by_room_uuid_async(
     ts: datetime,
 ) -> int:
     """
-        Set the last message inside the room
+    Set the last message inside the room
     """
     return room_providers.update_room_last_message_by_room_uuid(
         company_id=company_id, user_id=user_id, room_uuid=room_uuid, text=text, ts=ts

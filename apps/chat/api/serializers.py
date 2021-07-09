@@ -11,17 +11,14 @@ class GetOrCreateRoomSerializer(serializers.Serializer):
 
 
 class RecentsSerializer(serializers.Serializer):
-    room = serializers.UUIDField(source="room_uuid")
-    room_uuid = serializers.UUIDField()
-    # This is for legacy compantibilty.
-    id = serializers.UUIDField(source="user_id")
-    user_id = serializers.UUIDField()
-    avatar_thumb = serializers.CharField(source="user_avatar_thumb")
-    user_avatar_thumb = serializers.CharField()
-    user_id = serializers.IntegerField()
-    user_name = serializers.CharField()
-    message = serializers.CharField()
-    created = serializers.DateTimeField()
+    uuid = serializers.UUIDField()
+    image = serializers.CharField()
+    is_one_to_one = serializers.BooleanField()
+    to_user_id = serializers.IntegerField()
+    to_user_name = serializers.CharField()
+    last_message_text = serializers.CharField()
+    last_message_ts = serializers.DateTimeField()
+    last_message_user_id = serializers.IntegerField()
     have_unread_messages = serializers.BooleanField()
 
 

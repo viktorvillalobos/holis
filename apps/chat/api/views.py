@@ -85,7 +85,7 @@ class UploadFileAPIView(views.APIView):
         return Response(serialized_data, status=status.HTTP_201_CREATED)
 
 
-class RecentChatsAPIView(objects.ListAPIView):
+class RecentRoomsAPIView(objects.ListAPIView):
     serializer_class = serializers.RecentsSerializer
     queryset = chat_models.Message.objects.all()
     objects_generator = staticmethod(
