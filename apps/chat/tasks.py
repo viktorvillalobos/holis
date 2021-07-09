@@ -2,9 +2,12 @@ from typing import Union
 
 from celery import shared_task
 
+import logging
 from uuid import UUID
 
 from . import services as chat_services
+
+logger = logging.getLogger(__name__)
 
 
 @shared_task
@@ -24,6 +27,7 @@ def set_messages_readed_by_room_and_user_task(
 def set_room_user_read_task(
     *, company_id: int, user_id: int, room_uuid: Union[str, UUID]
 ) -> None:
+    logger.info("set_room_user_read_task")
     chat_services.set_room_user_read(
         company_id=company_id, user_id=user_id, room_uuid=room_uuid
     )

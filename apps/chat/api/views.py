@@ -132,7 +132,7 @@ class MessageListAPIView(generics.ListAPIView):
         return Response(serializer.data)
 
     def set_room_user_read(self):
-        chat_tasks.set_room_user_read_task(
+        chat_tasks.set_room_user_read_task.delay(
             company_id=self.request.company_id,
             user_id=self.request.user.id,
             room_uuid=self.kwargs["room_uuid"],

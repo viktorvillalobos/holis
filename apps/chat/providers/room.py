@@ -53,7 +53,7 @@ def get_recents_rooms_by_user_id(
         company_id=company_id,
         user_id=user_id,
         room_uuid=OuterRef("uuid"),
-        timestamp__gte=OuterRef("last_message_ts"),
+        timestamp__lte=OuterRef("last_message_ts"),
     )
 
     queryset = (
