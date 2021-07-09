@@ -135,7 +135,7 @@ export default {
       flex: 0 0 auto;
       display: flex;
       flex-direction: column;
-      padding: 50px 15px 0px 15px;
+      padding: 30px 15px 0px 15px;
     }
   }
 }

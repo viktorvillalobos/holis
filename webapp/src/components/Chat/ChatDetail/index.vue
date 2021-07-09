@@ -9,7 +9,7 @@
         v-if="showLoadHistory"
         @click="loadHistory()">Load history</button>
 
-      <vue-scroll ref="chatContainer"
+      <vue-scroll :ops="ops" ref="chatContainer"
                   @handle-scroll="handleScroll">
         <div class="connect-chat-body-messages-wrapper">
           <div v-for="msg in messages" :key="msg.id">
@@ -71,6 +71,14 @@ export default {
       observer: null,
       isFirstTime: true,
       dateMsg: '',
+      ops:{
+        scrollPanel: {
+          initialScrollY: '100%',
+          scrollingX: true,
+          scrollingY: true,
+          speed: 300
+        }
+      }
     }
   },
   created(){
@@ -94,6 +102,10 @@ export default {
         }, 400)
       }else{
         this.isLoadingHistory = false 
+        this.ops.scrollingY = true
+        this.ops.scrollingX = true
+        //this.$refs.chatContainer.mergedOptions = this.ops // updated options
+        this.$refs.chatContainer.refresh()
       }
       this.loading = false
     },
@@ -114,28 +126,17 @@ export default {
   },
   methods: {
     handleScroll (vertical, horizonal, nativeEvent) {
-      if (this.next && vertical.process <= 0.06) { this.showLoadHistory = true } else { this.showLoadHistory = false }
-
-      const content = this.$refs.chatContainer
-      //console.log("currentView", content.getCurrentviewDom()[0].id)
-      //const dateTest = content.getCurrentviewDom()[0].id
-      //this.prepareDate(dateTest)
-      if (
-        content &&
-        content.scrollTop === 0 &&
-        this.next
-      ) {
-        setTimeout(() => {
-          this.loadHistory()
-          content.scrollTop = 1200
-        }, 400)
+      if (this.next && vertical.process <= 0.1) { 
+        this.showLoadHistory = true 
+      } 
+      else { 
+        this.showLoadHistory = false 
       }
     },
     dateMessage(date){
       return this.prepareDate(date)
     },
     prepareDate(date){
-      console.log(date)
       const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
       const firstDate = new Date(date);
       const secondDate = new Date();
@@ -154,6 +155,14 @@ export default {
     },
     loadHistory () {
       if (this.next) {
+        const content = this.$refs.chatContainer
+        this.ops.scrollingY = false
+        this.ops.scrollingX = false
+        //this.$refs.chatContainer.mergedOptions = this.ops // updated options
+        this.$refs.chatContainer.ops = this.ops
+        this.$refs.chatContainer.refresh()
+       // this.$refs.chatContainer.refreshAll();
+
         // this.savePosition = this.$refs.chatContainer.getPosition()
         this.$store.dispatch('getNextMessages')
         this.isLoadingHistory = true
@@ -192,9 +201,6 @@ export default {
 
         this.width = width
         this.height = height
-        console.log("cambioooooo"+height)
-        // Optionally, emit event with dimensions
-        //this.$emit('resize', { width, height })
     },
     initObserver() {
         const config = {

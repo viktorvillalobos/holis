@@ -98,9 +98,9 @@ const mutations = {
 }
 
 const actions = {
-  async getUsers ({ commit }) {
+  async getUsers ({ commit }, search) {
     console.log("Entre2")
-    const { data } = await apiClient.chat.getUsers()
+    const { data } = await apiClient.chat.getUsers(search)
     console.log("Entre4")
     commit('setUsers', data.results)
   },
@@ -132,23 +132,20 @@ const actions = {
     chatServices.setSocketService({ vm, url, callback })
   },
   onMessage ({ commit }, message) {
-    console.log('HOLAAAA1', message)
     message = JSON.parse(message)
-    console.log('HOLAAA', message)
     if (message.type === 'chat.message') commit('addMessage', message)
   },
   async getMessagesByRoom ({ commit }, payload) {
     const { data } = await apiClient.chat.getMessages(payload.id)
-    console.log('antes deee', data)
     data.first_time = payload.first_time
-
-    console.log('getMessagesByRoom')
-    console.log(data)
     commit('unshiftMessages', data)
   },
   async getMessagesByUser ({ commit, dispatch }, payload) {
     const { data } = await apiClient.chat.getRoomByUserID(payload.to)
     data.first_time = payload.first_time
+    if(payload.new_chat){
+      commit('setCurrentChatID', data.id)
+    }
     dispatch('getMessagesByRoom', data)
     dispatch('connectToRoom', { vm: this.$app, room: data.id })
   },
@@ -162,7 +159,6 @@ const actions = {
   async sendChatMessage ({ commit, state, dispatch }, { msg }) {
     if (msg.files.length > 0) {
       const { data } = await apiClient.chat.sendMessageWithFiles(state.room, msg)
-      console.log('RESPUESTAA', data)
     } else {
       const payload = {
         type: 'chat.message',
@@ -174,7 +170,6 @@ const actions = {
 
       window.$socketChat.sendObj(payload)
       const isRecent = state.recents.filter(x => x.id === state.currentChatID)
-
       if (!isRecent.length) dispatch('getRecents')
     }
   }

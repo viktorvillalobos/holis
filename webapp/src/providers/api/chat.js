@@ -7,14 +7,18 @@ export default {
   getTurnCredentials () {
     return axios.get(`${urlBase}/chat/get-turn-credentials/`)
   },
-  getUsers () {
-    return axios.get(`${urlBase}/users/`, { params: { limit: 999 } })
+  getUsers (search) {
+    const params ={
+      name: search,
+      limit: 999
+    }
+    return axios.get(`${urlBase}/users/`, { params: params })
   },
   getRecents (search) {
     const params ={
       search: search
     }
-    return axios.get(`${urlBase}/chat/recents/`,{params: params})
+    return axios.get(`${urlBase}/chat/room/recents/`,{params: params})
   },
   getRoomByUserID (to) {
     return axios.post(`${urlBase}/chat/get-or-create-room/`, { to })
