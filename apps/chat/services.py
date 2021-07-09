@@ -91,9 +91,9 @@ def get_cursored_recents_rooms_by_user_id(
         last_message_user = members_by_id.pop(room.last_message_user_id)
 
         if is_one_to_one:
-            another_user_id = list(members_by_id.keys())[0]
-            chat_image_url = members_by_id[another_user_id].avatar_thumb
-            chat_name = members_by_id[another_user_id].name
+            chat_user_id = list(members_by_id.keys())[0]
+            chat_image_url = members_by_id[chat_user_id].avatar_thumb
+            chat_name = members_by_id[chat_user_id].name
         else:
             raise NotImplementedError("We must implement grupal recents rooms")
 
@@ -101,7 +101,7 @@ def get_cursored_recents_rooms_by_user_id(
             RecentChatInfo(
                 room_uuid=room.uuid,
                 user_avatar_thumb=chat_image_url,
-                user_id=last_message_user.id,
+                user_id=chat_user_id,
                 user_name=chat_name,
                 message=room.last_message_text,
                 created=room.last_message_ts,
