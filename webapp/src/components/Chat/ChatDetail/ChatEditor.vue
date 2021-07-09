@@ -114,15 +114,17 @@ export default {
     this.editor = new Editor({
       content: this.modelValue,
       extensions: [
-        StarterKit,
-        Placeholder,
         BulletList.extend({
           addKeyboardShortcuts() {
             return {
-              // ↓ your new keyboard shortcut
-              'Enter': () => vm.submit(),
+              Enter: () => {
+                  vm.submit()
+                return true
+              }
             }
-          }})
+          }}),
+        StarterKit,
+        Placeholder
       ],
       onUpdate: () => {
         this.isSendActive = this.editor.getHTML()
@@ -159,15 +161,11 @@ export default {
       this.showEmojiPicker = false
     },
     clearEditor() {
-      this.editor.commands.setContent("", true)
-      this.editor.commands.clearContent(true)
-      this.editor.commands.clearNodes()
+      this.editor.commands.setContent("<p></p>")
       this.$refs.chatFileInput.value = null
       this.files = []
       this.showEmojiPicker = false
       this.isSendActive = false
-      console.log("TUNDIIPUTAMDREE",this.editor
-                .getHTML())
     },
     submit () {
       if(!this.isSendActive)
@@ -184,9 +182,8 @@ export default {
         datetime: new Date(),
         files: this.files
       }
-
-      this.clearEditor()
       this.$emit('sendMessage', messageObj)
+      this.clearEditor()
     }
   }
 }
