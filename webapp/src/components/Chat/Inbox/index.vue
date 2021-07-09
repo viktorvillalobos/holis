@@ -75,7 +75,7 @@ export default {
   methods:{
     debounceInput: _.debounce(function (e) {
       this.getInbox(e.target.value)
-    }, 200),
+    }, 300),
     openNewChat () {
       this.$store.commit('setCurrentChatName', null)
       this.$store.commit('setCurrentChatID', null)

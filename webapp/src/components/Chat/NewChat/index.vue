@@ -1,5 +1,6 @@
 <template>
     <div>
+        <Loading v-bind:loading="loading"/>
         <div class="header-new-chat columns pt-5">
             <button class="button is-ghost column is-1" @click="goToInbox">
                 <span class="icon is-small">
@@ -14,9 +15,9 @@
                 <span class="icon is-left">
                     <span class="material-icons" style="color:#2D343C">search</span>
                 </span>
-                <span class="icon is-right" v-if="query.length > 0" @click="clickPrueba">
+                <!--<span class="icon is-right">
                     <span class="material-icons" style="color:#2D343C">close</span>
-                </span>
+                </span>-->
             </p>
         </div>
         <div class="user-items" v-for="user in users" :key="user.id" @click="openChatUser(user)">
@@ -28,6 +29,10 @@
                 <b class="header-new-chat-title">{{user.name || user.username}}</b>
             </span>
         </div>
+        <div v-if="users.length == 0 && !firstLoad" style="display: flex; flex-direction: column; justify-content: center; align-items: center;" class="mt-6">
+            <font-awesome-icon icon="sad-tear" size="6x"/>
+            <p>No contact found</p>
+        </div>
     </div>
 </template>
 
@@ -37,6 +42,7 @@ import Avatar from '@/components/Avatar'
 import IconifyIcon from '@iconify/vue';
 import magnifyIcon from '@iconify/icons-mdi/magnify'
 import closeIcon from '@iconify/icons-mdi/close'
+import Loading from '@components/Loading'
 import _ from 'lodash'
 
 export default {
@@ -46,20 +52,32 @@ export default {
       users: state => state.chat.users
     })
   },
+  data () {
+    return {
+      loading: false,
+      icons: {
+        magnifyIcon: magnifyIcon,
+        closeIcon: closeIcon
+      },
+      firstLoad: true
+    }
+  },
   watch:{
       users (newVal){
-          console.log("entreeee5",newVal)
+          this.firstLoad = false
+          this.loading = false
       }
   },
   components: {
       Avatar,
-      IconifyIcon
+      IconifyIcon,
+      Loading
   },
   methods:{
       debounceInput: _.debounce(function (e) {
-        //this.getInbox(e.target.value)
+        this.loading = true
         this.$store.dispatch('getUsers', e.target.value)
-      }, 200),
+      }, 300),
       goToInbox(){
         this.$store.commit('setCurrentChatName', null)
         this.$store.commit('setCurrentChatID', null)
@@ -73,22 +91,10 @@ export default {
         this.$store.dispatch('getMessagesByUser', data)
         this.$store.commit('setCurrentChatName', recent.name)
         this.$store.commit('setCurrentChatID', recent.id)
-      },
-      clickPrueba(){
-          console.log("PRUEBAAAA")
       }
   },
-  data () {
-    return {
-        query: "",
-        icons: {
-            magnifyIcon: magnifyIcon,
-            closeIcon: closeIcon
-        },
-    }
-  },
   created(){
-      console.log("Entre")
+      this.loading = true
       this.$store.dispatch('getUsers', "")
   }
 }

@@ -2,11 +2,11 @@
   <div class="hover">
     <div class="inbox columns">
         <div class="column columns">
-            <Avatar v-if="recent.user_avatar_thumb" :img="recent.avatar_thumb" style="margin-top:10px"/>
-            <font-awesome-icon v-else icon="user-circle" size="3x" style="margin-top:10px"/>
+            <Avatar v-if="recent.user_avatar_thumb" :img="recent.avatar_thumb" style="margin-top:12px"/>
+            <font-awesome-icon v-else icon="user-circle" size="3x" style="margin-top:12px"/>
             <div class="column">
-                <b style="color:#000000">{{recent ? recent.user_name : 'Nombre misterioso' }}</b>
-                <div style="color:#828282" class="inbox-message" v-html="recent.message"></div>
+                <b class="inbox-title">{{recent ? recent.user_name : 'Nombre misterioso' }}</b>
+                <div :class="{'inbox-message': true, 'inbox-message-active': recent.have_unread_messages }">{{ recent.message }}</div>
             </div>
         </div>
         <div class="column">
@@ -39,15 +39,29 @@ export default {
 
 <style lang="scss">
 .inbox{
+    font-family: $family-dm-sans;
     height: 100px;
     padding: 20px 40px 20px 50px;
 
+    &-title{
+        font-size: 16px;
+        color:#000000;
+    }
+
     &-message{
+        font-size: 14px;
+        margin-top: 2px;
+        color:#828282;
         overflow: hidden;
         text-overflow: ellipsis;
         display: -webkit-box;
         -webkit-line-clamp: 1; /* number of lines to show */
         -webkit-box-orient: vertical;
+
+        &-active{
+            color:$primary;
+            font-weight:bold;
+        }
     }
 }
 
