@@ -88,10 +88,12 @@ def get_cursored_recents_rooms_by_user_id(
 
         members_by_id = {member.id: member for member in room.members.all()}
 
-        last_message_user = members_by_id.pop(room.last_message_user_id)
-
         if is_one_to_one:
-            chat_user_id = list(members_by_id.keys())[0]
+            if user_id != room.last_message_user_id:
+                chat_user_id = list(members_by_id.keys())[0]
+            else:
+                chat_user_id = room.last_message_user_id
+
             chat_image_url = members_by_id[chat_user_id].avatar_thumb
             chat_name = members_by_id[chat_user_id].name
         else:
@@ -215,6 +217,9 @@ def update_room_last_message_by_room_uuid_async(
     text: str,
     ts: datetime,
 ) -> int:
+    """
+        Set the last message inside the room
+    """
     return room_providers.update_room_last_message_by_room_uuid(
         company_id=company_id, user_id=user_id, room_uuid=room_uuid, text=text, ts=ts
     )
