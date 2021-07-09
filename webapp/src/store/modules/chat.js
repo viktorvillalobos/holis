@@ -98,9 +98,9 @@ const mutations = {
 }
 
 const actions = {
-  async getUsers ({ commit }) {
+  async getUsers ({ commit }, search) {
     console.log("Entre2")
-    const { data } = await apiClient.chat.getUsers()
+    const { data } = await apiClient.chat.getUsers(search)
     console.log("Entre4")
     commit('setUsers', data.results)
   },
@@ -174,7 +174,6 @@ const actions = {
 
       window.$socketChat.sendObj(payload)
       const isRecent = state.recents.filter(x => x.id === state.currentChatID)
-
       if (!isRecent.length) dispatch('getRecents')
     }
   }

@@ -20,7 +20,7 @@
       </div>
       <div class="field">
         <p class="control has-icons-left has-icons-right">
-          <input class="input input-inbox" placeholder="Search person or group" v-model="query">
+          <input class="input input-inbox" placeholder="Search person or group" @input="debounceInput">
           <span class="icon is-left">
             <span class="material-icons" style="color:#fff">search</span>
           </span>
@@ -48,6 +48,7 @@ import Loading from '@/components/Loading'
 import Avatar from '@/components/Avatar'
 import InboxMessage from './Inbox'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import _ from 'lodash'
 
 export default {
   name: 'Inbox',
@@ -72,6 +73,9 @@ export default {
     })
   },
   methods:{
+    debounceInput: _.debounce(function (e) {
+      this.getInbox(e.target.value)
+    }, 200),
     openNewChat () {
       this.$store.commit('setCurrentChatName', null)
       this.$store.commit('setCurrentChatID', null)
@@ -105,9 +109,6 @@ export default {
       console.log("RECIENTESSS",newVal)
       this.loading = false
       this.firstLoad = false
-    },
-    query (newQuery){
-      this.getInbox(newQuery)
     }
   }
 }

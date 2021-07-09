@@ -10,7 +10,7 @@
         </div>
         <div class="field mr-5 ml-5 mt-5">
             <p class="control has-icons-left has-icons-right">
-                <input class="input input-chat" type="text" placeholder="Search or start a new conversation" v-model="query">
+                <input class="input input-chat" type="text" placeholder="Search or start a new conversation" @input="debounceInput">
                 <span class="icon is-left">
                     <span class="material-icons" style="color:#2D343C">search</span>
                 </span>
@@ -37,6 +37,7 @@ import Avatar from '@/components/Avatar'
 import IconifyIcon from '@iconify/vue';
 import magnifyIcon from '@iconify/icons-mdi/magnify'
 import closeIcon from '@iconify/icons-mdi/close'
+import _ from 'lodash'
 
 export default {
   name: 'InboxMessage',
@@ -55,6 +56,10 @@ export default {
       IconifyIcon
   },
   methods:{
+      debounceInput: _.debounce(function (e) {
+        //this.getInbox(e.target.value)
+        this.$store.dispatch('getUsers', e.target.value)
+      }, 200),
       goToInbox(){
         this.$store.commit('setCurrentChatName', null)
         this.$store.commit('setCurrentChatID', null)
@@ -84,7 +89,7 @@ export default {
   },
   created(){
       console.log("Entre")
-      this.$store.dispatch('getUsers')
+      this.$store.dispatch('getUsers', "")
   }
 }
 </script>

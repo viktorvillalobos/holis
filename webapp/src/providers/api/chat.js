@@ -7,8 +7,12 @@ export default {
   getTurnCredentials () {
     return axios.get(`${urlBase}/chat/get-turn-credentials/`)
   },
-  getUsers () {
-    return axios.get(`${urlBase}/users/`, { params: { limit: 999 } })
+  getUsers (search) {
+    const params ={
+      name: search,
+      limit: 999
+    }
+    return axios.get(`${urlBase}/users/`, { params: params })
   },
   getRecents (search) {
     const params ={
