@@ -18,7 +18,7 @@ export default {
     const params ={
       search: search
     }
-    return axios.get(`${urlBase}/chat/recents/`,{params: params})
+    return axios.get(`${urlBase}/chat/room/recents/`,{params: params})
   },
   getRoomByUserID (to) {
     return axios.post(`${urlBase}/chat/get-or-create-room/`, { to })

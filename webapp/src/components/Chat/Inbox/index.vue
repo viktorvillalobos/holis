@@ -30,12 +30,12 @@
         </p>
       </div>
     </div>
-    <div v-if="recents.length > 0">
+    <div v-if="recents && recents.length > 0">
       <div v-for="recent in recents" :key="recent.id" @click="openChatUser(recent)">
         <InboxMessage v-bind:recent="recent"/>
       </div>
     </div>
-    <div v-if="recents.length == 0 && !firstLoad" style="display: flex; flex-direction: column; justify-content: center; align-items: center;" class="mt-6">
+    <div v-if="recents && recents.length == 0 && !firstLoad" style="display: flex; flex-direction: column; justify-content: center; align-items: center;" class="mt-6">
       <font-awesome-icon icon="sad-tear" size="6x"/>
       <p>No contact found</p>
     </div>
@@ -84,12 +84,12 @@ export default {
     },
     openChatUser(recent){
       const data = {
-        to: recent.id,
+        to: recent.to_user_id,
         first_time: true
       }
       this.$store.dispatch('getMessagesByUser', data)
-      this.$store.commit('setCurrentChatName', recent.user_name )
-      this.$store.commit('setCurrentChatID', recent.id)
+      this.$store.commit('setCurrentChatName', recent.to_user_name )
+      this.$store.commit('setCurrentChatID', recent.uuid)
     },
     getInbox(search = ""){
       try {

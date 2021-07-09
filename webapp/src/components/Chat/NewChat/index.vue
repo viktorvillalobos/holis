@@ -42,7 +42,7 @@ import Avatar from '@/components/Avatar'
 import IconifyIcon from '@iconify/vue';
 import magnifyIcon from '@iconify/icons-mdi/magnify'
 import closeIcon from '@iconify/icons-mdi/close'
-import Loading from '@components/Loading'
+import Loading from '@/components/Loading'
 import _ from 'lodash'
 
 export default {
@@ -84,13 +84,14 @@ export default {
         this.$store.commit('setInboxActive', true)
       },
       openChatUser(recent){
+          console.log(recent)
         const data = {
             to: recent.id,
-            first_time: true
+            first_time: true,
+            new_chat : true
         }
         this.$store.dispatch('getMessagesByUser', data)
         this.$store.commit('setCurrentChatName', recent.name)
-        this.$store.commit('setCurrentChatID', recent.id)
       }
   },
   created(){
