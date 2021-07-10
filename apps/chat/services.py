@@ -11,18 +11,18 @@ from datetime import datetime
 from twilio.rest import Client
 from uuid import UUID
 
-from apps.chat.lib.constants import ROOM_GROUP_NAME
-from apps.chat.lib.dataclasses import RecentRoomInfo
-from apps.chat.lib.exceptions import NonExistentMemberException
 from apps.users import models as users_models
 from apps.users import services as user_services
 from apps.utils.cache import cache
 
-from ..chat.api import serializers
-from ..chat.models import Message, Room, RoomUserRead
-from .providers import devices as devices_providers
-from .providers import message as message_providers
-from .providers import room as room_providers
+from ..chat.context.models import Message, Room, RoomUserRead
+from .api.v100 import serializers as v100_serializers
+from .context.providers import devices as devices_providers
+from .context.providers import message as message_providers
+from .context.providers import room as room_providers
+from .lib.constants import ROOM_GROUP_NAME
+from .lib.dataclasses import RecentRoomInfo
+from .lib.exceptions import NonExistentMemberException
 
 
 @database_sync_to_async
@@ -41,7 +41,7 @@ def create_message(company_id: int, user_id: int, room_uuid: int, text: str) -> 
 
 
 def _serialize_message(message):
-    data = serializers.MessageWithAttachmentsSerializer(message).data
+    data = v100_serializers.MessageWithAttachmentsSerializer(message).data
 
     return {
         **data,

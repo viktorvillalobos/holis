@@ -1,7 +1,7 @@
 import pytest
 
-from ..api import serializers
-from ..tests import baker_recipes as chat_recipes
+from ...api.v100 import serializers
+from ...tests import baker_recipes as chat_recipes
 
 
 @pytest.mark.skip("TODO: this not use a room to serialize")

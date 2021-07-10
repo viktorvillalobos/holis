@@ -6,16 +6,16 @@ from rest_framework.response import Response
 import logging
 from twilio.rest import Client
 
-from apps.chat import models as chat_models
-from apps.chat.api import serializers
 from apps.chat.lib.exceptions import NonExistentMemberException
-from apps.chat.providers import message as message_providers
-from apps.chat.providers import message_attachment as message_attachment_providers
 from apps.utils.rest_framework import objects
 from apps.utils.rest_framework.paginators import CursoredAPIPagination
 
-from .. import services as chat_services
-from .. import tasks as chat_tasks
+from ... import services as chat_services
+from ... import tasks as chat_tasks
+from ...context import models as chat_models
+from ...context.providers import message as message_providers
+from ...context.providers import message_attachment as message_attachment_providers
+from . import serializers
 from .pagination import MessageCursoredPagination
 
 logger = logging.getLogger(__name__)

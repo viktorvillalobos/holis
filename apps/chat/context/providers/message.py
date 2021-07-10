@@ -5,8 +5,9 @@ from django.db.models.query import QuerySet
 
 from uuid import UUID
 
-from apps.chat.models import Message
 from apps.utils.models import InsertJSONValue
+
+from ...context.models import Message
 
 
 def get_messages_by_room_uuid(

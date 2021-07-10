@@ -10,7 +10,7 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ("chat", "0001_initial"),
+        ("apps.chat.context", "0001_initial"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
         ("core", "0001_initial"),
     ]

@@ -2,7 +2,7 @@ from django.core.files.uploadedfile import InMemoryUploadedFile
 
 from uuid import UUID
 
-from apps.chat.models import MessageAttachment
+from ...context.models import MessageAttachment
 
 
 def create_message_attachments_by_message_uuid(

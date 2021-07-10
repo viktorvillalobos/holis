@@ -11,12 +11,12 @@ import pytz
 import uuid
 from freezegun import freeze_time
 
-from apps.chat.api import serializers
-from apps.chat.models import MessageAttachment
-from apps.chat.tests import baker_recipes as chat_recipes
 from apps.users.tests import baker_recipes as user_recipes
 
-from ..api import views as chat_views
+from ...api.v100 import serializers
+from ...api.v100 import views as chat_views
+from ...context.models import MessageAttachment
+from ...tests import baker_recipes as chat_recipes
 
 
 @pytest.mark.django_db

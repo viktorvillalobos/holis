@@ -3,7 +3,7 @@ from rest_framework import serializers
 
 import os
 
-from apps.chat import models as chat_models
+from ...context import models as chat_models
 
 
 class GetOrCreateRoomSerializer(serializers.Serializer):

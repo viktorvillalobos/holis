@@ -98,7 +98,7 @@ THIRD_PARTY_APPS = [
 LOCAL_APPS = [
     "apps.users.apps.UsersConfig",
     "apps.core.apps.CoreConfig",
-    "apps.chat.apps.ChatConfig",
+    "apps.chat.context.apps.ChatContextConfig",
     "apps.web.apps.WebConfig",
     "apps.billings.apps.BillingsConfig",
     "apps.projects.apps.ProjectsConfig",
