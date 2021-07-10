@@ -5,7 +5,7 @@ from django.db import migrations
 
 class Migration(migrations.Migration):
 
-    dependencies = [("apps.chat.context", "0002_auto_20200809_0107")]
+    dependencies = [("context", "0002_auto_20200809_0107")]
 
     operations = [
         migrations.AlterModelOptions(name="room", options={"ordering": ["created"]})

@@ -12,7 +12,7 @@ class Migration(migrations.Migration):
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
         ('core', '0007_auto_20210328_1459'),
-        ('apps.chat.context', '0012_alter_message_options'),
+        ('context', '0012_alter_message_options'),
     ]
 
     operations = [

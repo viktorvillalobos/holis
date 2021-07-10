@@ -9,7 +9,7 @@ import apps.utils.fields
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("apps.chat.context", "0008_auto_20210523_2129"),
+        ("context", "0008_auto_20210523_2129"),
     ]
 
     operations = [
