@@ -8,7 +8,7 @@ from ..models import chat_attachments_path
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("context", "0006_auto_20210131_0419"),
+        ("chat", "0006_auto_20210131_0419"),
     ]
 
     operations = [

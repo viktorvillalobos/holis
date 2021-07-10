@@ -7,7 +7,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('core', '0007_auto_20210328_1459'),
-        ('context', '0007_alter_messageattachment_attachment'),
+        ('chat', '0007_alter_messageattachment_attachment'),
     ]
 
     operations = [

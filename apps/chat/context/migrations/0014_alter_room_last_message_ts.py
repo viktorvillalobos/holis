@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('context', '0013_auto_20210701_1253'),
+        ('chat', '0013_auto_20210701_1253'),
     ]
 
     operations = [

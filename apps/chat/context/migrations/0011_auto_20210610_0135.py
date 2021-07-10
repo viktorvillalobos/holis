@@ -7,7 +7,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("context", "0010_message_reads"),
+        ("chat", "0010_message_reads"),
     ]
 
     operations = [
