@@ -5,8 +5,12 @@ from django.db import migrations
 
 import datetime as dt
 
+NOT_CREATE_DEFAULT_DATA = settings.ENVIRONMENT is settings.TESTING
 
 def create_base_status(StatusModel, user):
+    if NOT_CREATE_DEFAULT_DATA:
+        return
+
     base = [
         {
             "company": user.company,
@@ -44,6 +48,9 @@ def create_base_status(StatusModel, user):
 
 
 def create_django_user(UserModel, company, email, name, position, birthday):
+    if NOT_CREATE_DEFAULT_DATA:
+        return
+
     return UserModel.objects.create(
         company=company,
         email=email,
@@ -58,7 +65,7 @@ def create_django_user(UserModel, company, email, name, position, birthday):
 
 
 def create_base_users(apps, schema_editor):
-    if not settings.ENVIRONMENT == settings.LOCAL:
+    if NOT_CREATE_DEFAULT_DATA:
         return
 
     Company = apps.get_model("core", "Company")

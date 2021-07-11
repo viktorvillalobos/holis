@@ -4,11 +4,6 @@ from . import baker_recipes
 
 
 @pytest.fixture
-def active_user():
-    return baker_recipes.generic_user.make()
-
-
-@pytest.fixture
 def generate_project_and_user():
     def _():
         project = baker_recipes.generic_company_project.make()

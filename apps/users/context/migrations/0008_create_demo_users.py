@@ -7,11 +7,13 @@ from model_bakery import baker
 
 
 def create_demo_users(apps, schema_editor):
+    if settings.ENVIRONMENT is settings.TESTING:
+        return 
+
     Company = apps.get_model("core", "Company")
     company = Company.objects.get(code="adslab")
 
-    if not settings.ENVIRONMENT == settings.TESTING:
-        baker.make("users.User", company_id=company.id, _quantity=10)
+    baker.make("users.User", company_id=company.id, _quantity=10)
 
 
 class Migration(migrations.Migration):

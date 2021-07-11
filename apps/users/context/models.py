@@ -9,6 +9,7 @@ from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 
 import datetime as dt
+import logging
 import requests
 from birthday.fields import BirthdayField
 from birthday.managers import BirthdayManager
@@ -17,6 +18,8 @@ from model_utils.models import TimeStampedModel
 from sorl.thumbnail import ImageField  # , get_thumbnail
 
 from apps.core.context.models import Area
+
+logger = logging.getLogger(__name__)
 
 
 class UserManager(BirthdayManager, UserManager):
@@ -88,18 +91,19 @@ class User(AbstractUser):
 
     @cached_property
     def avatar_thumb(self):
-        if not self.avatar:
-            url = f"https://ui-avatars.com/api/?name={self.username}&background=random"
-            resp = requests.get(url)
-            fp = BytesIO()
-            fp.write(resp.content)
-            file_name = self.username + ".png"
-            self.avatar.save(file_name, files.File(fp))
-            self.save()
+        if settings.ENVIRONMENT is not settings.TESTING:
+            if not self.avatar:
+                url = f"https://ui-avatars.com/api/?name={self.username}&background=random"
+                resp = requests.get(url)
+                fp = BytesIO()
+                fp.write(resp.content)
+                file_name = self.username + ".png"
+                self.avatar.save(file_name, files.File(fp))
+                self.save()
 
         # return get_thumbnail(self.avatar.file, "100x100", crop="center", quality=99).url
 
-        return self.avatar.url
+        return self.avatar.url if self.avatar else None
 
     def __str__(self):
         return f"{self.id} -> {self.name}"
