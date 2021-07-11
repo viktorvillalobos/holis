@@ -12,7 +12,7 @@ export default {
       name: search,
       limit: 999
     }
-    return axios.get(`${urlBase}/users/`, { params: params })
+    return axios.get(`${urlBase}/users/v100/`, { params: params })
   },
   getRecents (search) {
     const params ={
