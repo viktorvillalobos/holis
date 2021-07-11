@@ -4,7 +4,7 @@ from django.db.models.query import QuerySet
 
 from datetime import date
 
-from ..lib import constants as projects_constants
+from ...lib import constants as projects_constants
 from ..models import Project
 
 

@@ -7,7 +7,7 @@ from model_utils.models import SoftDeletableModel, TimeStampedModel
 
 from apps.utils.fields import UUIDForeignKey
 
-from .lib import constants as project_constants
+from ..lib import constants as project_constants
 
 
 class BaseModel(TimeStampedModel):

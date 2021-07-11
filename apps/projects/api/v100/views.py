@@ -12,10 +12,10 @@ from uuid import UUID
 
 from apps.utils.pagination import paginate_response
 
-from ..lib import constants as projects_constants
-from ..lib.exceptions import TaskDoesNotExist
-from ..providers import project as project_providers
-from ..providers import task as task_providers
+from ...context.providers import project as project_providers
+from ...context.providers import task as task_providers
+from ...lib import constants as projects_constants
+from ...lib.exceptions import TaskDoesNotExist
 from . import serializers
 
 

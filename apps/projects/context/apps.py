@@ -1,5 +1,6 @@
 from django.apps import AppConfig
 
 
-class ProjectsConfig(AppConfig):
+class ProjectsContextConfig(AppConfig):
     name = "apps.projects"
+    label = "projects"

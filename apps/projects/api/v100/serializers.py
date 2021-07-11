@@ -4,9 +4,9 @@ from django.db import IntegrityError
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
-from ..models import Project, Task
-from ..providers import project as project_providers
-from ..providers import task as task_providers
+from ...context.models import Project, Task
+from ...context.providers import project as project_providers
+from ...context.providers import task as task_providers
 
 
 class MembersField(serializers.Field):

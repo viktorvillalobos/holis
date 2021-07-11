@@ -5,7 +5,7 @@ from django.db.models import Max
 import datetime
 from uuid import UUID, uuid4
 
-from ..lib.exceptions import TaskDoesNotExist
+from ...lib.exceptions import TaskDoesNotExist
 from ..models import Task
 
 
