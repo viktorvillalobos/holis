@@ -9,8 +9,8 @@ from freezegun import freeze_time
 from apps.users.tests import baker_recipes as user_recipes
 
 from .. import services as core_services
+from ..context.models import Area
 from ..lib.dataclasses import AreaItem, PointData
-from ..models import Area
 from . import baker_recipes as core_recipes
 
 CORE_SERVICES_PATH = "apps.core.services"

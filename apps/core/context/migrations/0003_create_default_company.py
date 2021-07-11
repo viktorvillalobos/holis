@@ -4,7 +4,7 @@ from django.db import migrations
 
 
 def create_base_company(apps, schema_editor):
-    from apps.core.models import Area, Company
+    from ..models import Area, Company
 
     company1 = Company.objects.create(
         name="adslab", code="adslab", email="viktor@adslab.io"
