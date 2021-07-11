@@ -2,9 +2,8 @@ from rest_framework import serializers
 
 import logging
 
-from apps.core import models as core_models
-
-from .. import services as core_services
+from ... import services as core_services
+from ...context import models as core_models
 
 logger = logging.getLogger(__name__)
 

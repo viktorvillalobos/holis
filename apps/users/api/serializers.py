@@ -8,8 +8,8 @@ from rest_framework import serializers
 
 import logging
 
-from apps.core import models as core_models
 from apps.core.cachekeys import USER_POSITION_KEY
+from apps.core.context import models as core_models
 from apps.users import models as users_models
 
 logger = logging.getLogger(__name__)

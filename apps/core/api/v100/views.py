@@ -1,10 +1,11 @@
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet, ViewSet
 
-from apps.core import models as core_models
-from apps.core import services as core_services
-from apps.core.api import serializers
 from apps.utils.mixins.views import CompanyMixinViewSet
+
+from ... import services as core_services
+from ...context import models as core_models
+from . import serializers
 
 
 class CompanyViewSet(CompanyMixinViewSet, ModelViewSet):

@@ -1,4 +1,4 @@
-from apps.core.models import Company
+from apps.core.context.models import Company
 
 
 class CreateCompany(object):

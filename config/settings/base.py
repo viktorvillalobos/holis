@@ -97,9 +97,9 @@ THIRD_PARTY_APPS = [
 
 LOCAL_APPS = [
     "apps.chat.context.apps.ChatContextConfig",
+    "apps.core.context.apps.CoreContextConfig",
     "apps.projects.context.apps.ProjectsContextConfig",
     "apps.users.apps.UsersConfig",
-    "apps.core.apps.CoreConfig",
     "apps.web.apps.WebConfig",
     "apps.billings.apps.BillingsConfig",
 ]
@@ -157,7 +157,7 @@ MIDDLEWARE = [
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
-    "apps.core.middleware.tenant.HolisTenantMiddleware",
+    "apps.core.context.middleware.tenant.HolisTenantMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.common.BrokenLinkEmailsMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",

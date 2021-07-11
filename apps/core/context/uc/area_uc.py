@@ -7,8 +7,8 @@ import logging
 
 from apps.users.models import User
 
-from ..custom_types import AreaState
-from ..lib.dataclasses import AreaItem, MovementData, PointData
+from ...custom_types import AreaState
+from ...lib.dataclasses import AreaItem, MovementData, PointData
 from ..models import Area
 from ..providers import area as area_providers
 

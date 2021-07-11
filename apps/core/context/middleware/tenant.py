@@ -3,8 +3,8 @@ from django.http import Http404
 
 import logging
 
-from apps.core.middleware.utils import remove_www
-from apps.core.models import Company
+from ..middleware.utils import remove_www
+from ..models import Company
 
 logger = logging.getLogger(__name__)
 
@@ -16,8 +16,8 @@ class HolisTenantMiddleware(django.utils.deprecation.MiddlewareMixin):
         return Company.objects.get(code=hostname)
 
     def hostname_from_request(self, request):
-        """ Extracts hostname from request. Used for custom requests filtering.
-            By default removes the request"s port and common prefixes.
+        """Extracts hostname from request. Used for custom requests filtering.
+        By default removes the request"s port and common prefixes.
         """
         return remove_www(request.get_host().split(":")[0]).lower()
 

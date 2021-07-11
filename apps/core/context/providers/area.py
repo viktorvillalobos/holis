@@ -1,4 +1,4 @@
-from apps.core.models import Area
+from ...context.models import Area
 
 
 def get_area_instance_by_id(area_id: int) -> Area:

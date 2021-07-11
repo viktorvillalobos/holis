@@ -16,7 +16,7 @@ from io import BytesIO
 from model_utils.models import TimeStampedModel
 from sorl.thumbnail import ImageField  # , get_thumbnail
 
-from apps.core.models import Area
+from apps.core.context.models import Area
 
 
 class UserManager(BirthdayManager, UserManager):

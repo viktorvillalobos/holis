@@ -12,7 +12,7 @@ import logging
 import os
 import random
 
-from apps.core import models as core_models
+from apps.core.context import models as core_models
 from apps.users import models
 from apps.users.api import serializers
 from apps.users.api.pagination import UserCursoredPagination
