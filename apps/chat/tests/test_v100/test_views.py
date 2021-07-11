@@ -42,7 +42,7 @@ class TestUploadFileAPIView:
         expected_message_raw_with_attachments_fields,
     ):
         mocked_broadcast = mocker.patch(
-            "apps.chat.api.views.chat_services.broadcast_chat_message_with_attachments"
+            "apps.chat.api.v100.views.chat_services.broadcast_chat_message_with_attachments"
         )
         rf = APIRequestFactory()
         request = rf.post(
