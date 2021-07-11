@@ -96,12 +96,12 @@ THIRD_PARTY_APPS = [
 ]
 
 LOCAL_APPS = [
+    "apps.chat.context.apps.ChatContextConfig",
+    "apps.projects.context.apps.ProjectsContextConfig",
     "apps.users.apps.UsersConfig",
     "apps.core.apps.CoreConfig",
-    "apps.chat.context.apps.ChatContextConfig",
     "apps.web.apps.WebConfig",
     "apps.billings.apps.BillingsConfig",
-    "apps.projects.context.apps.ProjectsContextConfig",
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
