@@ -10,7 +10,7 @@ import { urlBase } from '../config'
 
 export default {
   login (email, password, company) {
-    return axios.post(`${urlBase}/login/`, {
+    return axios.post(`${urlBase}/v100/login/`, {
       email,
       password,
       company

@@ -5,6 +5,6 @@ import { urlBase } from '../config'
 
 export default {
   list () {
-    return axios.get(`${urlBase}/core/areas/`)
+    return axios.get(`${urlBase}/core/v100/areas/`)
   }
 }
