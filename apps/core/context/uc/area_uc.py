@@ -9,8 +9,8 @@ import logging
 
 from apps.users.context.models import User
 
-from ...cachekeys import COMPANY_AREA_DATA_KEY
 from ...custom_types import AreaState
+from ...lib.constants import COMPANY_AREA_DATA_KEY, USER_POSITION_KEY
 from ...lib.dataclasses import AreaItem, MovementData, PointData
 from ..models import Area
 from ..providers import area as area_providers
@@ -20,6 +20,11 @@ logger = logging.getLogger(__name__)
 
 class UserNotFoundInStateException(Exception):
     pass
+
+
+def get_cached_position(company_id: int, user_id: int) -> Dict[str, Any]:
+    key = USER_POSITION_KEY.format(company_id, user_id)
+    return cache.get(key)
 
 
 def _serialize_and_commit_area_state(area: Area, area_state: AreaState) -> Area:
@@ -62,9 +67,19 @@ def _get_connected_ids_in_area_state_by_state(area_state: AreaState):
 
 
 def _get_user_state_point_position_by_user_id(
-    area_state: AreaState, user_id: int
+    company_id: int, area_state: AreaState, user_id: int
 ) -> PointData:
     logger.info("get_user_position")
+
+    user_cached_area_item = get_cached_position(company_id=company_id, user_id=user_id)
+
+    if user_cached_area_item:
+        logger.info(
+            f"There is a cached user_position in {user_cached_area_item.x}, {user_cached_area_item.y}"
+        )
+        return PointData(x=user_cached_area_item.x, y=user_cached_area_item.y)
+
+    logger.info("There is no cached user_position")
     x_pos = 0
     y_pos = 0
 
@@ -82,11 +97,11 @@ def _get_user_state_point_position_by_user_id(
 
 
 def _remove_user_from_state(
-    area_id: int, area_state: AreaState, user: "User"
+    company_id: int, area_id: int, area_state: AreaState, user: "User"
 ) -> Tuple[AreaState, PointData]:
     try:
         from_point_data = _get_user_state_point_position_by_user_id(
-            user_id=user.id, area_state=area_state
+            company_id=company_id, user_id=user.id, area_state=area_state
         )
         area_state[from_point_data.x][from_point_data.y] = AreaItem.zero(
             area_id=area_id
@@ -116,16 +131,24 @@ def get_area_items_for_connected_users_by_id(area_id: int) -> List[Dict[str, Any
 
 
 def remove_user_from_area_by_area_and_user_id(
-    area_id: int, user_id: int
+    area_id: int, user_id: int, serialize=False
 ) -> List[Dict[str, Any]]:
     area_state, area, _ = _get_or_create_area_state_by_area_id(area_id=area_id)
     user_point_data = _get_user_state_point_position_by_user_id(
-        user_id=user_id, area_state=area_state
+        company_id=area.company_id, user_id=user_id, area_state=area_state
     )
 
     area_state[user_point_data.x][user_point_data.y] = AreaItem.zero(area_id=area_id)
 
     area = _serialize_and_commit_area_state(area=area, area_state=area_state)
+
+    if serialize:
+        return [
+            area_item.to_dict()
+            for area_item in _get_connected_ids_in_area_state_by_state(
+                area_state=area_state
+            )
+        ]
 
     return [
         area_item
@@ -146,7 +169,7 @@ def move_user_to_point_in_area_state_by_area_user_and_room(
 
     # Remove user from area
     area_state, from_point_data = _remove_user_from_state(
-        area_id=area_id, area_state=area_state, user=user
+        area_id=area_id, area_state=area_state, user=user, company_id=area.company_id
     )
 
     # Add user to area

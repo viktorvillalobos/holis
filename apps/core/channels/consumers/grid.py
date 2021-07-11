@@ -59,19 +59,26 @@ async def handle_clear_user_position(channel_layer, company_channel, user: "User
 
     if last_user_position:
         logger.info("User in cached position, proceed to remove")
+        serialized_last_user_position = last_user_position.to_dict()
+
         state = await database_sync_to_async(
             core_services.remove_user_from_area_by_area_and_user_id
-        )(area_id=last_user_position["area_id"], user_id=user.id)
+        )(area_id=last_user_position.area_id, user_id=user.id, serialize=True)
 
         core_services.delete_cached_position(
             company_id=user.company_id, user_id=user.id
         )
 
+        logger.info(serialized_last_user_position)
         await notify_user_disconnect(
             channel_layer=channel_layer,
             company_channel=company_channel,
             user=user,
-            message={"type": "grid.disconnect", "state": state, **last_user_position},
+            message={
+                "type": "grid.disconnect",
+                "state": state,
+                **serialized_last_user_position,
+            },
         )
     else:
         logger.info("User without cached position")
@@ -89,7 +96,14 @@ async def handle_user_movement(
     to_be_save_data_position = {"user": user, **message}
     to_be_save_data_position.pop("type")
 
+    # Individual position by user
+
+    to_be_cached_position = {"company_id": user.company_id, "user": user, **message}
+    to_be_cached_position.pop("type")
+
     old_point_data, serialized_state = await save_position(**to_be_save_data_position)
+
+    await core_services.set_cached_position(**to_be_cached_position)
 
     await notify_change_position(
         channel_layer=channel_layer,

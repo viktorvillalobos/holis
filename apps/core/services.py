@@ -45,7 +45,7 @@ def move_user_to_point_in_area_state_by_area_user_and_room(
 
 
 def remove_user_from_area_by_area_and_user_id(
-    area_id: int, user_id: int
+    area_id: int, user_id: int, serialize=False
 ) -> List[Dict[str, Any]]:
     """
     Disconnect and user and later remove the user
@@ -54,7 +54,7 @@ def remove_user_from_area_by_area_and_user_id(
     user_services.disconnect_user_by_id(user_id=user_id)
 
     return area_uc.remove_user_from_area_by_area_and_user_id(
-        area_id=area_id, user_id=user_id
+        area_id=area_id, user_id=user_id, serialize=serialize
     )
 
 
@@ -123,15 +123,13 @@ def set_cached_position(
         user=user, area_id=area, x=x, y=y, room=room, last_seen=timestamp
     )
 
-    to_be_cached_area_item_data = area_item.to_dict()
-
     cache_key = USER_POSITION_KEY.format(company_id, user.id)
-    cache.set(cache_key, to_be_cached_area_item_data)
+    logger.info(f"user position key: {cache_key}")
+    cache.set(cache_key, area_item)
 
 
 def get_cached_position(company_id: int, user_id: int) -> Dict[str, Any]:
-    key = USER_POSITION_KEY.format(company_id, user_id)
-    return cache.get(key)
+    return area_uc.get_cached_position(company_id=company_id, user_id=user_id)
 
 
 def delete_cached_position(company_id: int, user_id: int) -> None:
