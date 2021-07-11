@@ -7,8 +7,9 @@ import pytest
 from model_bakery import baker
 from unittest import mock
 
-from ..api.v100 import views as users_views
-from ..context.models import User
+from apps.users.context.models import User
+
+from ..api import views as users_views
 from . import baker_recipes as users_recipes
 
 

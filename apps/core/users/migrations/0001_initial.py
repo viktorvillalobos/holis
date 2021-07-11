@@ -10,7 +10,7 @@ import birthday.fields
 import model_utils.fields
 import sorl.thumbnail.fields
 
-import apps.users.models
+import apps.users.context.models
 
 
 class Migration(migrations.Migration):
@@ -199,7 +199,7 @@ class Migration(migrations.Migration):
                 ),
             ],
             options={"ordering": ["-id"], "unique_together": {("id", "company")}},
-            managers=[("objects", apps.users.models.UserManager())],
+            managers=[("objects", apps.users.context.models.UserManager())],
         ),
         migrations.CreateModel(
             name="Status",

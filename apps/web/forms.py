@@ -8,7 +8,7 @@ import logging
 
 from apps.core.context import models as core_models
 from apps.core.context.uc.company import CreateCompany
-from apps.users.uc import CreateUser
+from apps.users.context.uc import CreateUser
 from apps.web.models import Lead
 
 logger = logging.getLogger(__name__)

@@ -2,7 +2,7 @@ from django.db import DatabaseError, transaction
 
 import datetime as dt
 
-from apps.users.models import Status, User
+from apps.users.context.models import Status, User
 
 
 class UserCreationXMPPError(Exception):

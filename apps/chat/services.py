@@ -11,8 +11,8 @@ from datetime import datetime
 from twilio.rest import Client
 from uuid import UUID
 
-from apps.users import models as users_models
 from apps.users import services as user_services
+from apps.users.context import models as users_models
 from apps.utils.cache import cache
 
 from ..chat.context.models import Message, Room, RoomUserRead

@@ -13,12 +13,12 @@ from io import BytesIO
 
 from apps.utils.dataclasses import build_dataclass_from_model_instance
 
-from .api.v100.serializers import UserSerializer
-from .context.models import Status, User
-from .context.providers import status as status_providers
-from .context.providers import user as user_providers
+from .api.serializers import UserSerializer
 from .lib.constants import USER_NOTIFICATION_CHANNEL_KEY, USER_STATUS_KEY
 from .lib.dataclasses import StatusCachedData
+from .models import Status, User
+from .providers import status as status_providers
+from .providers import user as user_providers
 
 
 def serialize_user(user: settings.AUTH_USER_MODEL) -> Dict:

@@ -6,11 +6,11 @@ from datetime import datetime, timedelta
 from model_bakery import baker
 
 from apps.core.tests import baker_recipes as core_recipes
-from apps.users.context.providers.status import (
+from apps.users.lib.constants import USER_NOTIFICATION_CHANNEL_KEY
+from apps.users.providers.status import (
     inactivate_all_user_status_by_user_id,
     set_active_status_by_user_and_status_id,
 )
-from apps.users.lib.constants import USER_NOTIFICATION_CHANNEL_KEY
 
 from .. import services as user_services
 from . import baker_recipes as user_recipes

@@ -3,7 +3,7 @@ from django.contrib.auth.hashers import check_password
 
 import logging
 
-from apps.users.models import User
+from apps.users.context.models import User
 
 logger = logging.getLogger(__name__)
 

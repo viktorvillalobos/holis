@@ -5,7 +5,7 @@ from typing import Any, Dict, List, Tuple
 
 import logging
 
-from apps.users.models import User
+from apps.users.context.models import User
 
 from ...custom_types import AreaState
 from ...lib.dataclasses import AreaItem, MovementData, PointData

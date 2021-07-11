@@ -17,7 +17,7 @@ urlpatterns = [
     path(settings.ADMIN_URL, admin.site.urls),
     # User management
     path("", include("apps.web.urls", namespace="web")),
-    path("users/", include("apps.users.urls", namespace="users")),
+    path("users/", include("apps.users.context.urls", namespace="users")),
     # Your stuff: custom urls includes go here
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 if settings.DEBUG:

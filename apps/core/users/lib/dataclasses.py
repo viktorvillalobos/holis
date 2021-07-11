@@ -1,7 +1,7 @@
 import datetime as dt
 from dataclasses import dataclass
 
-from ..context.models import User as UserModel
+from ..models import User as UserModel
 
 
 @dataclass

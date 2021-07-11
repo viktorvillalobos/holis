@@ -5,7 +5,7 @@ import logging
 from channels.db import database_sync_to_async
 
 from apps.users import services as user_services
-from apps.users.models import User
+from apps.users.context.models import User
 
 from ... import services as core_services
 from ...lib.constants import USER_POSITION_KEY
