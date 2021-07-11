@@ -19,8 +19,9 @@ USER_SERVICES_PATH = "apps.users.services"
 
 
 @pytest.mark.django_db
-def test_service_serialize_user(active_user: settings.AUTH_USER_MODEL) -> None:
-    serialized_user = user_services.serialize_user(active_user)
+def test_service_serialize_user() -> None:
+    user = user_recipes.user_viktor.make()
+    serialized_user = user_services.serialize_user(user)
 
     assert isinstance(serialized_user, dict)
 
