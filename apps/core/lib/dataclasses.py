@@ -201,7 +201,7 @@ class AreaItem:
         result["is_online"] = from_bool(self.is_online or True)
         result["last_seen"] = from_datetime(self.last_seen)
         result["jid"] = from_str(self.jid)
-        result["area_id"] = from_int(self.area_id)
+        result["area_id"] = self.area_id
         return result
 
 

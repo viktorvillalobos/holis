@@ -16,8 +16,11 @@ class CompanyViewSet(CompanyMixinViewSet, ModelViewSet):
 class AreaViewSet(ViewSet):
     def list(self, request, *args, **kwargs):
         return Response(
-            core_services.get_users_connecteds_by_area_from_cache(
-                company_id=self.request.user.company_id
+            # core_services.get_users_connecteds_by_area_from_cache(
+            #     company_id=self.request.user.company_id
+            # ),
+            core_services.get_connected_user_from_company_areas_from_cache(
+                company_id=self.request.company_id
             ),
             status=200,
         )

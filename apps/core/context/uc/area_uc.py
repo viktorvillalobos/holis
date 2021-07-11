@@ -3,10 +3,13 @@
 """
 from typing import Any, Dict, List, Tuple
 
+from django.core.cache import cache
+
 import logging
 
 from apps.users.context.models import User
 
+from ...cachekeys import COMPANY_AREA_DATA_KEY
 from ...custom_types import AreaState
 from ...lib.dataclasses import AreaItem, MovementData, PointData
 from ..models import Area
@@ -20,9 +23,8 @@ class UserNotFoundInStateException(Exception):
 
 
 def _serialize_and_commit_area_state(area: Area, area_state: AreaState) -> Area:
-    area.state = [[x.to_dict() for x in row] for row in area_state]
-    area.save()
-
+    key = COMPANY_AREA_DATA_KEY.format(company_id=area.company_id, area_id=area.id)
+    cache.set(key, area_state)
     return area
 
 
@@ -38,15 +40,17 @@ def _get_or_create_area_state_by_area_id(
     area_id: int,
 ) -> Tuple[List[List[AreaItem]], Area, bool]:
     area = area_providers.get_area_instance_by_id(area_id=area_id)
+    area_key = COMPANY_AREA_DATA_KEY.format(company_id=area.company_id, area_id=area.id)
+    area_state = cache.get(area_key)
 
-    if not area.state:
+    if not area_state:
         area_state = _create_empty_area_by_width_and_height(
             area_id=area.id, width=area.width, height=area.height
         )
         area = _serialize_and_commit_area_state(area=area, area_state=area_state)
         return area_state, area, True
 
-    return ([[AreaItem.from_dict(x) for x in row] for row in area.state], area, False)
+    return (area_state, area, False)
 
 
 def _get_connected_ids_in_area_state_by_state(area_state: AreaState):
@@ -124,7 +128,7 @@ def remove_user_from_area_by_area_and_user_id(
     area = _serialize_and_commit_area_state(area=area, area_state=area_state)
 
     return [
-        area_item.to_dict()
+        area_item
         for area_item in _get_connected_ids_in_area_state_by_state(
             area_state=area_state
         )

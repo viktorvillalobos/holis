@@ -10,6 +10,7 @@ import logging
 from channels.db import database_sync_to_async
 from datetime import timedelta
 
+from apps.core.cachekeys import COMPANY_AREA_DATA_KEY
 from apps.users import services as user_services
 from apps.utils.dataclasses import build_dataclass_from_model_instance
 
@@ -55,6 +56,37 @@ def remove_user_from_area_by_area_and_user_id(
     return area_uc.remove_user_from_area_by_area_and_user_id(
         area_id=area_id, user_id=user_id
     )
+
+
+def get_connected_user_from_company_areas_from_cache(company_id: int):
+    areas = area_providers.get_company_areas_by_company_id(company_id=company_id)
+    area_states_keys = cache.keys(
+        COMPANY_AREA_DATA_KEY.format(company_id=company_id, area_id="*")
+    )
+
+    if not area_states_keys:
+        areas = area_providers.get_company_areas_by_company_id(company_id=company_id)
+        return [
+            {"company_id": company_id, "id": area.id, "state": []} for area in areas
+        ]
+
+    area_states = cache.get_many(area_states_keys)
+
+    response = []
+    for key, area_state in area_states.items():
+        _, _, _, area_id, _ = key.split("-")
+        serialized_state = [
+            [item.to_dict() for item in row if item.id]
+            for row in area_state
+            if len(row)
+        ]
+        serialized_state = list(itertools.chain(*serialized_state))
+
+        response.append(
+            {"company_id": company_id, "id": int(area_id), "state": serialized_state}
+        )
+
+    return response
 
 
 def get_users_connecteds_by_area_from_cache(company_id: int):
