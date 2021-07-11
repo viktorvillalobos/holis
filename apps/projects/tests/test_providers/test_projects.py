@@ -3,10 +3,10 @@ from django.utils import timezone
 import pytest
 from datetime import timedelta
 
+from ...context.models import Project
+from ...context.providers import project as project_providers
 from ...lib import constants as projects_constants
-from ...models import Project
-from ...providers import project as project_providers
-from .. import recipes as project_recipes
+from .. import baker_recipes as project_recipes
 
 
 @pytest.mark.django_db

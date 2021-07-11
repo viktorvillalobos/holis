@@ -6,7 +6,7 @@ from django.urls import include, path
 from django.views import defaults as default_views
 from rest_framework.authtoken.views import obtain_auth_token
 
-from apps.core import views as core_views
+from apps.core.context import views as core_views
 
 urlpatterns = [
     path("martor/", include("martor.urls")),
@@ -17,7 +17,7 @@ urlpatterns = [
     path(settings.ADMIN_URL, admin.site.urls),
     # User management
     path("", include("apps.web.urls", namespace="web")),
-    path("users/", include("apps.users.urls", namespace="users")),
+    path("users/", include("apps.users.context.urls", namespace="users")),
     # Your stuff: custom urls includes go here
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 if settings.DEBUG:
@@ -27,7 +27,7 @@ if settings.DEBUG:
 # API URLS
 urlpatterns += [
     # API base url
-    path("api/v1/", include(("config.api_router", "api"), namespace="api-v1")),
+    path("api/", include(("config.api_router", "api"), namespace="api-v1")),
     # DRF auth token
     path("auth-token/", obtain_auth_token),
 ]

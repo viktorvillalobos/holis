@@ -7,8 +7,8 @@ from freezegun import freeze_time
 
 from apps.core.tests import baker_recipes as core_recipes
 
-from ...models import User
-from ...providers import user as user_providers
+from ...context.models import User
+from ...context.providers import user as user_providers
 from .. import baker_recipes as user_recipes
 
 

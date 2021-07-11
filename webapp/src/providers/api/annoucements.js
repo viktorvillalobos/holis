@@ -4,12 +4,12 @@ import { urlBase } from '../config'
 
 export default {
   getBirthdays () {
-    return axios.get(`${urlBase}/users/list/birthdays/`)
+    return axios.get(`${urlBase}/users/v100/list/birthdays/`)
   },
   getList () {
-    return axios.get(`${urlBase}/core/announcements/`)
+    return axios.get(`${urlBase}/core/v100/announcements/`)
   },
   postAnnouncement (payload) {
-    return axios.post(`${urlBase}/core/announcements/`, payload)
+    return axios.post(`${urlBase}/core/v100/announcements/`, payload)
   }
 }

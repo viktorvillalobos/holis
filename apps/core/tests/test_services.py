@@ -9,8 +9,8 @@ from freezegun import freeze_time
 from apps.users.tests import baker_recipes as user_recipes
 
 from .. import services as core_services
+from ..context.models import Area
 from ..lib.dataclasses import AreaItem, PointData
-from ..models import Area
 from . import baker_recipes as core_recipes
 
 CORE_SERVICES_PATH = "apps.core.services"
@@ -25,9 +25,7 @@ def test_get_area(area) -> None:
 
 
 @pytest.mark.django_db
-def test_get_area_items_for_connected_users_by_id(
-    area: Area, user: settings.AUTH_USER_MODEL
-) -> None:
+def test_get_area_items_for_connected_users_by_id(area: Area) -> None:
     expected_result = []
     state = core_services.get_area_items_for_connected_users_by_id(area_id=area.id)
 
@@ -36,10 +34,8 @@ def test_get_area_items_for_connected_users_by_id(
 
 
 @pytest.mark.django_db
-def test_move_user_to_point_in_area_state_by_area_user_and_room(
-    area: Area, active_user: settings.AUTH_USER_MODEL
-) -> None:
-
+def test_move_user_to_point_in_area_state_by_area_user_and_room(area: Area) -> None:
+    active_user = user_recipes.user_julls.make()
     asked_point = PointData(20, 20)
     core_services.move_user_to_point_in_area_state_by_area_user_and_room(
         area_id=area.pk, user=active_user, to_point_data=asked_point, room="EvilCorp"
@@ -52,13 +48,12 @@ def test_move_user_to_point_in_area_state_by_area_user_and_room(
 
     area_item = AreaItem.from_dict(state[0])
 
-    assert area_item.name == "John Doe"
+    assert area_item.name == "Julls"
 
 
 @pytest.mark.django_db
-def test_remove_user_from_area_by_area_and_user_id(
-    area: Area, active_user: settings.AUTH_USER_MODEL
-) -> None:
+def test_remove_user_from_area_by_area_and_user_id(area: Area) -> None:
+    active_user = user_recipes.user_julls.make()
     asked_point = PointData(20, 20)
     core_services.move_user_to_point_in_area_state_by_area_user_and_room(
         area_id=area.pk, user=active_user, to_point_data=asked_point, room="EvilCorp"
@@ -71,7 +66,7 @@ def test_remove_user_from_area_by_area_and_user_id(
 
     area_item = AreaItem.from_dict(state[0])
 
-    assert area_item.name == "John Doe"
+    assert area_item.name == "Julls"
 
     core_services.remove_user_from_area_by_area_and_user_id(
         area_id=area.id, user_id=active_user.id

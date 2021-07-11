@@ -3,7 +3,7 @@ from django.conf import settings
 import pytest
 from model_bakery import baker
 
-from apps.users.models import User
+from apps.users.context.models import User
 
 baker.generators.add(
     "apps.utils.fields.LowerCharField", "model_bakery.random_gen.gen_string"

@@ -5,8 +5,8 @@ from model_bakery import baker
 
 from apps.users.lib.constants import USER_STATUS_KEY
 
-from ...models import Status
-from ...providers import status as status_providers
+from ...context.models import Status
+from ...context.providers import status as status_providers
 from .. import baker_recipes as user_recipes
 
 

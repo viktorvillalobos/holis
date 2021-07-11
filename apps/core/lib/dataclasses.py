@@ -6,8 +6,8 @@ from dataclasses import dataclass
 
 from apps.users import services as user_services
 
+from ..context.models import Area as AreaModel
 from ..custom_types import AreaState
-from ..models import Area as AreaModel
 
 logger = logging.getLogger(__name__)
 

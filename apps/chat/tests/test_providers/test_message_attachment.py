@@ -2,11 +2,11 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 
 import pytest
 
-from apps.chat.models import MessageAttachment
-from apps.chat.tests import baker_recipes as chat_recipes
 from apps.users.tests import baker_recipes as user_recipes
 
-from ...providers import message_attachment as message_attachment_providers
+from ...context.models import MessageAttachment
+from ...context.providers import message_attachment as message_attachment_providers
+from .. import baker_recipes as chat_recipes
 
 
 @pytest.mark.django_db

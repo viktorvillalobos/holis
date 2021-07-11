@@ -4,16 +4,15 @@ from django.utils import timezone
 import pytest
 from uuid import uuid4
 
-from apps.projects.models import Task
-
-from ...providers import task as task_providers
-from .. import recipes as project_recipes
+from ...context.models import Task
+from ...context.providers import task as task_providers
+from .. import baker_recipes as project_recipes
 
 
 def test_create_task_by_data(mocker):
-    mocked_task = mocker.patch("apps.projects.providers.task.Task", spec=Task)
+    mocked_task = mocker.patch("apps.projects.context.providers.task.Task", spec=Task)
     mocked_provider = mocker.patch(
-        "apps.projects.providers.task.get_tasks_count_by_company_and_project_uuid"
+        "apps.projects.context.providers.task.get_tasks_count_by_company_and_project_uuid"
     )
     mocked_provider.return_value = 1
 
@@ -61,7 +60,7 @@ def test_move_task_by_task_uuid():
 
 
 def test_bulk_create_tasks_by_dataclasses(mocker):
-    mocked_class = mocker.patch("apps.projects.providers.task.Task")
+    mocked_class = mocker.patch("apps.projects.context.providers.task.Task")
 
     to_create_task_fake = [1, 2, 3]
     task_providers.bulk_create_tasks_by_dataclasses(to_create_tasks=to_create_task_fake)
@@ -70,7 +69,7 @@ def test_bulk_create_tasks_by_dataclasses(mocker):
 
 
 def test_get_task_by_uuid(mocker):
-    mocked_class = mocker.patch("apps.projects.providers.task.Task")
+    mocked_class = mocker.patch("apps.projects.context.providers.task.Task")
 
     expected_uuid = uuid4()
     expected_company_id = 123

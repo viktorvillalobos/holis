@@ -28,11 +28,6 @@ def changelog(company):
 
 
 @pytest.fixture
-def active_user(company):
-    return baker.make("users.User", company=company, name="John Doe")
-
-
-@pytest.fixture
 def cached_position_fields():
     return {
         "id",
@@ -55,7 +50,7 @@ def cached_position_fields():
 def create_status_test_data():
     @database_sync_to_async
     def _create_status_test_data():
-        user = user_recipes.user_viktor.make()
+        user = user_recipes.user_julls.make()
         area = core_recipes.default_area.make(company_id=user.company_id)
         return user, area
 

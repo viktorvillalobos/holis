@@ -10,15 +10,15 @@ import logging
 from channels.db import database_sync_to_async
 from datetime import timedelta
 
-from apps.core.uc import area_uc
 from apps.users import services as user_services
 from apps.utils.dataclasses import build_dataclass_from_model_instance
 
+from .context.providers import area as area_providers
+from .context.providers import presence as presence_providers
+from .context.uc import area_uc
 from .custom_types import AreaState
 from .lib.constants import USER_POSITION_KEY
 from .lib.dataclasses import AreaData, AreaItem, MovementData, PointData
-from .providers import area as area_providers
-from .providers import presence as presence_providers
 
 logger = logging.getLogger(__name__)
 

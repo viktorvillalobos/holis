@@ -12,9 +12,9 @@ from uuid import uuid4
 
 from apps.users.tests import baker_recipes as user_recipes
 
+from ..context.models import Project
 from ..lib import constants as projects_constants
-from ..models import Project
-from ..tests import recipes as project_recipes
+from ..tests import baker_recipes as project_recipes
 
 
 def is_valid_uuid(val: str) -> Optional[uuid.UUID]:

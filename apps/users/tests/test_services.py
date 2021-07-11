@@ -6,11 +6,11 @@ from datetime import datetime, timedelta
 from model_bakery import baker
 
 from apps.core.tests import baker_recipes as core_recipes
-from apps.users.lib.constants import USER_NOTIFICATION_CHANNEL_KEY
-from apps.users.providers.status import (
+from apps.users.context.providers.status import (
     inactivate_all_user_status_by_user_id,
     set_active_status_by_user_and_status_id,
 )
+from apps.users.lib.constants import USER_NOTIFICATION_CHANNEL_KEY
 
 from .. import services as user_services
 from . import baker_recipes as user_recipes
@@ -19,8 +19,9 @@ USER_SERVICES_PATH = "apps.users.services"
 
 
 @pytest.mark.django_db
-def test_service_serialize_user(active_user: settings.AUTH_USER_MODEL) -> None:
-    serialized_user = user_services.serialize_user(active_user)
+def test_service_serialize_user() -> None:
+    user = user_recipes.user_viktor.make()
+    serialized_user = user_services.serialize_user(user)
 
     assert isinstance(serialized_user, dict)
 

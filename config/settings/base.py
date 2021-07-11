@@ -96,12 +96,12 @@ THIRD_PARTY_APPS = [
 ]
 
 LOCAL_APPS = [
-    "apps.users.apps.UsersConfig",
-    "apps.core.apps.CoreConfig",
-    "apps.chat.apps.ChatConfig",
+    "apps.chat.context.apps.ChatContextConfig",
+    "apps.core.context.apps.CoreContextConfig",
+    "apps.projects.context.apps.ProjectsContextConfig",
+    "apps.users.context.apps.UsersContextConfig",
     "apps.web.apps.WebConfig",
     "apps.billings.apps.BillingsConfig",
-    "apps.projects.apps.ProjectsConfig",
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -109,14 +109,14 @@ INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 # MIGRATIONS
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#migration-modules
-MIGRATION_MODULES = {"sites": "apps.contrib.sites.migrations"}
+MIGRATION_MODULES = {"sites": "apps.core.contrib.sites.migrations"}
 
 # AUTHENTICATION
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#authentication-backends
 AUTHENTICATION_BACKENDS = [
     "django.contrib.auth.backends.ModelBackend",
-    "users.auth_backends.EmailBackend",
+    "users.context.auth_backends.EmailBackend",
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#auth-user-model
 AUTH_USER_MODEL = "users.User"
@@ -157,7 +157,7 @@ MIDDLEWARE = [
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
-    "apps.core.middleware.tenant.HolisTenantMiddleware",
+    "apps.core.context.middleware.tenant.HolisTenantMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.common.BrokenLinkEmailsMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",

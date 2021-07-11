@@ -7,8 +7,8 @@ from model_bakery import baker
 from apps.users.tests import baker_recipes as user_recipes
 
 from .. import services as chat_services
-from ..providers import message as message_providers
-from ..providers import room as room_providers
+from ..context.providers import message as message_providers
+from ..context.providers import room as room_providers
 from . import baker_recipes as chat_recipes
 
 
