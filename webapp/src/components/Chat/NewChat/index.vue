@@ -1,25 +1,23 @@
 <template>
-    <div>
-        <Loading v-bind:loading="loading"/>
-        <div class="header-new-chat columns pt-5">
-            <button class="button is-ghost column is-1" @click="goToInbox">
-                <span class="icon is-small">
-                    <span class="material-icons" style="color:#fff">chevron_left</span>
-                </span>
-            </button>
-            <b class="column" style="color:#fff">New message</b>
-        </div>
-        <div class="field mr-5 ml-5 mt-5">
-            <p class="control has-icons-left has-icons-right">
-                <input class="input input-chat" type="text" placeholder="Search or start a new conversation" @input="debounceInput">
-                <span class="icon is-left">
-                    <span class="material-icons" style="color:#2D343C">search</span>
-                </span>
-                <!--<span class="icon is-right">
-                    <span class="material-icons" style="color:#2D343C">close</span>
-                </span>-->
-            </p>
-        </div>
+    <div class="new-chat">
+      <div class="header-new-chat columns pt-5 flx-1">
+          <button class="button is-ghost column is-1" @click="goToInbox">
+              <span class="icon is-small">
+                  <span class="material-icons" style="color:#fff">chevron_left</span>
+              </span>
+          </button>
+          <b class="column" style="color:#fff">New message</b>
+      </div>
+      <div class="field mr-5 ml-5 mt-5 flx-1">
+          <p class="control has-icons-left has-icons-right">
+              <input class="input input-chat" type="text" placeholder="Search or start a new conversation" @input="debounceInput">
+              <span class="icon is-left">
+                  <span class="material-icons" style="color:#2D343C">search</span>
+              </span>
+          </p>
+          <Loading v-bind:loading="loading"/>
+      </div>
+      <vue-scroll class="flx-1">
         <div class="user-items" v-for="user in users" :key="user.id" @click="openChatUser(user)">
             <span class="icon-text">
                 <span class="icon">
@@ -29,10 +27,11 @@
                 <b class="header-new-chat-title">{{user.name || user.username}}</b>
             </span>
         </div>
-        <div v-if="users.length == 0 && !firstLoad" style="display: flex; flex-direction: column; justify-content: center; align-items: center;" class="mt-6">
-            <font-awesome-icon icon="sad-tear" size="6x"/>
-            <p>No contact found</p>
-        </div>
+      </vue-scroll>
+      <div v-if="users.length == 0 && !firstLoad" style="display: flex; flex-direction: column; justify-content: center; align-items: center;" class="mt-6">
+          <font-awesome-icon icon="sad-tear" size="6x"/>
+          <p>No contact found</p>
+      </div>
     </div>
 </template>
 
@@ -102,6 +101,20 @@ export default {
 </script>
 
 <style lang="scss">
+.new-chat{
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  &-flx-1{
+    flex: 1;
+  }
+
+  &-flx-0{
+    flex: 0;
+  }
+}
+
 .header-new-chat {
   font-family: $family-dm-sans;
   background: #364DFF;

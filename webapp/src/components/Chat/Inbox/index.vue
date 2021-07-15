@@ -1,7 +1,6 @@
 <template>
-  <div>
-    <Loading v-bind:loading="loading"/>
-    <div class="header-inbox">
+  <div class="index-inbox">
+    <div class="header-inbox flx-0">
       <div class="columns" style="height:80px">
           <div class="column columns">
               <Avatar class="column" :img="user ? user.avatar || user.avatar_thumb : null" />
@@ -29,11 +28,14 @@
           </span>
         </p>
       </div>
+      <Loading v-bind:loading="loading"/>
     </div>
-    <div v-if="recents && recents.length > 0">
-      <div v-for="recent in recents" :key="recent.id" @click="openChatUser(recent)">
-        <InboxMessage v-bind:recent="recent"/>
-      </div>
+    <div class="inbox-messages flx-1" v-if="recents && recents.length > 0">
+      <vue-scroll>
+        <div v-for="recent in recents" :key="recent.id" @click="openChatUser(recent)">
+          <InboxMessage v-bind:recent="recent"/>
+        </div>
+      </vue-scroll>
     </div>
     <div v-if="recents && recents.length == 0 && !firstLoad" style="display: flex; flex-direction: column; justify-content: center; align-items: center;" class="mt-6">
       <font-awesome-icon icon="sad-tear" size="6x"/>
@@ -115,6 +117,20 @@ export default {
 </script>
 
 <style lang="scss">
+
+.index-inbox{
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  &-flx-1{
+    flex: 1;
+  }
+
+  &-flx-0{
+    flex: 0;
+  }
+}
 
 .header-inbox {
   font-family: $family-dm-sans;

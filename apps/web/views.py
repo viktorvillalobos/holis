@@ -47,11 +47,17 @@ class RedirectToLangPage:
 
 class RedirectToAppMixin:
     def dispatch(self, request, *args, **kwargs):
-        if request.is_subdomain:
-            if self.request.user.is_authenticated:
-                return redirect(reverse("webapp"))
-            else:
-                return redirect(reverse("web:login"))
+        host = request.META.get("HTTP_HOST", "")
+        if settings.ENVIRONMENT == settings.LOCAL and "localhost" in host:
+            is_subdomain = len(host.split(".")) > 1
+        else:
+            is_subdomain = len(host.split(".")) > 2
+
+        if is_subdomain and self.request.user.is_authenticated:
+            return redirect(reverse("webapp"))
+
+        if is_subdomain and self.request.user.is_anonymous:
+            return redirect(reverse("web:login"))
 
         return super().dispatch(request, *args, **kwargs)
 
