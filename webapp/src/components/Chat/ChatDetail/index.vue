@@ -9,6 +9,15 @@
         v-if="showLoadHistory"
         @click="loadHistory()">Load history</button>
 
+        <vue-skeleton-loader
+          type="circle"
+          :width="200"
+          :height="200"
+          color="rgba(0,0,0,0.12)"
+          wave-color="rgba(255, 255, 255, 0.5)"
+          animation="fade"
+        />
+
       <vue-scroll :ops="ops" ref="chatContainer"
                   @handle-scroll="handleScroll">
         <div class="connect-chat-body-messages-wrapper">
@@ -48,6 +57,7 @@ import Card from '@/components/Card'
 import pattern from '@/assets/lighter_pattern.png'
 import Loading from '@/components/Loading'
 import moment from 'moment'
+import VueSkeletonLoader from 'skeleton-loader-vue';
 
 export default {
   name: 'Chat',
@@ -57,7 +67,8 @@ export default {
     Message,
     Avatar,
     Card,
-    Loading
+    Loading,
+    VueSkeletonLoader
   },
   data () {
     return {
