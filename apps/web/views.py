@@ -47,14 +47,11 @@ class RedirectToLangPage:
 
 class RedirectToAppMixin:
     def dispatch(self, request, *args, **kwargs):
-        host = request.META.get("HTTP_HOST", "")
-        is_subdomain = len(host.split(".")) > 2
-
-        if is_subdomain and self.request.user.is_authenticated:
-            return redirect(reverse("webapp"))
-
-        if is_subdomain and self.request.user.is_anonymous:
-            return redirect(reverse("web:login"))
+        if request.is_subdomain:
+            if self.request.user.is_authenticated:
+                return redirect(reverse("webapp"))
+            else:
+                return redirect(reverse("web:login"))
 
         return super().dispatch(request, *args, **kwargs)
 
@@ -73,7 +70,7 @@ class LoginView(FormView):
     success_url = "/app/"
 
     def dispatch(self, request, *args, **kwargs):
-        if not self.request.company:
+        if not self.request.company_code:
             return redirect(reverse("web:check-company"))
 
         if self.request.user.is_authenticated:

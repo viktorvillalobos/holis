@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 class EmailBackend(ModelBackend):
     def authenticate(self, request, email, password):
         try:
-            user = User.objects.get(company=request.company, email=email)
+            user = User.objects.get(company__code=request.company_code, email=email)
         except User.DoesNotExist:
             logger.info("User does not exists")
             return None

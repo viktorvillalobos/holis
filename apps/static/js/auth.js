@@ -1,4 +1,4 @@
-const BASE_URL = '/api/v1',
+const BASE_URL = '/api/users/v100',
     token = document.getElementsByName('csrfmiddlewaretoken')[0].value;
 let company, inputsCounter = 2;
 
@@ -23,7 +23,7 @@ async function getCompany(val) {
         return false
     } else {
         try {
-            const { data } = await axios.get(`${BASE_URL}/users/check-company/${val}/`)
+            const { data } = await axios.get(`${BASE_URL}/check-company/${val}/`)
             if (data.id) {
                 return data
             } else {
@@ -37,7 +37,6 @@ async function getCompany(val) {
 }
 
 function handleBackAndForth(company) {
-    const loginForms = document.getElementsByClassName('holis-login-form')
     window.location.href = `${location.protocol}//${company.code}.${location.hostname}:${location.port}/login/`
 }
 
