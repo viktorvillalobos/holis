@@ -15,6 +15,10 @@ SECRET_KEY = env(
 # https://docs.djangoproject.com/en/dev/ref/settings/#allowed-hosts
 ALLOWED_HOSTS = ["holis.local", ".holis.local", ".localhost"]
 
+SESSION_COOKIE_SECURE = env("SESSION_COOKIE_SECURE", default=True)
+
+SESSION_COOKIE_DOMAIN = env("SESSION_COOKIE_DOMAIN", default=None)
+
 # CACHES
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#caches
