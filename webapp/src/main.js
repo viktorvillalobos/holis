@@ -13,7 +13,11 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { far } from '@fortawesome/free-regular-svg-icons'
 import { fas } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { firebase } from '../boots/firebase'
+
+import firebaseMessaging from '../boots/firebase'
+
+Vue.prototype.$messaging = firebaseMessaging
+Vue.prototype.$messaging.usePublicVapidKey('BN228XTdBTOuaK-qP_6SaMzGxIfgRVHWC9u4z4zVIyQi1ewgjGOKq8n8P781YD6J-jrFbSO62svnmC2K5NVdUos')
 
 import '@/plugins/mask.js'
 

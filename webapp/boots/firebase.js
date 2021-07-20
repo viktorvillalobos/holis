@@ -14,19 +14,21 @@ const firebaseConfig = {
 };
 
 const firebaseApp = firebase.initializeApp(firebaseConfig);
-//const messaging = firebase.messaging();
-/*messaging.getToken({ vapidKey: '<YOUR_PUBLIC_VAPID_KEY_HERE>' }).then((currentToken) => {
+/*const messaging = firebase.messaging();
+messaging.getToken({ vapidKey: 'BN228XTdBTOuaK-qP_6SaMzGxIfgRVHWC9u4z4zVIyQi1ewgjGOKq8n8P781YD6J-jrFbSO62svnmC2K5NVdUos' }).then((currentToken) => {
     if (currentToken) {
       // Send the token to your server and update the UI if necessary
       // ...
+      console.log("FIREBASE",currentToken)
     } else {
       // Show permission request UI
-      console.log('No registration token available. Request permission to generate one.');
+      console.log("FIREBASE",'No registration token available. Request permission to generate one.');
       // ...
     }
   }).catch((err) => {
-    console.log('An error occurred while retrieving token. ', err);
+    console.log("FIREBASE",'An error occurred while retrieving token. ', err);
     // ...
-  });
+});
 //let db = firebase.firestore(); */
-export { firebase };
+
+export default firebase.messaging()

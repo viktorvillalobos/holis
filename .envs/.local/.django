@@ -6,7 +6,7 @@ IPYTHONDIR=/app/.ipython
 
 # This is util to work in localhost and use test firebase in local
 SESSION_COOKIE_SECURE=false
-SESSION_COOKIE_DOMAIN=.holis.local
+SESSION_COOKIE_DOMAIN=
 
 # Redis
 # ------------------------------------------------------------------------------

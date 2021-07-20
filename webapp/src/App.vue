@@ -24,6 +24,7 @@ import AOS from 'aos'
 import 'aos/dist/aos.css'
 import { mapState } from 'vuex'
 import WebRTC from '@/components/WebRtc'
+import Vue from 'vue'
 
 export default {
   name: 'App',
@@ -45,10 +46,50 @@ export default {
       muteMicro: (state) => state.webrtc.muteMicro,
       enableAudio: (state) => state.webrtc.enableAudio,
       enableVideo: (state) => state.webrtc.enableVideo,
-      float: (state) => state.app.isAsideRightActive
+      float: (state) => state.app.isAsideRightActive,
+      user: (state) => state.app.user
     })
   },
+  created(){
+    this.initNotifications()
+  },
   methods: {
+    initNotifications(){
+      const vm = this
+      Notification.requestPermission().then(function(result) {
+          if (result === 'denied') {
+            console.log("TUNDI",'Permission wasn\'t granted. Allow a retry.');
+            return;
+          } else if (result === 'default') {
+            console.log("TUNDI",'The permission request was dismissed.');
+            return;
+          }
+          console.log("TUNDI","Todooo biennnn")
+
+          navigator.serviceWorker.register('/static/js/firebase-messaging-sw.js')
+            .then((registration) => {
+              console.log(registration)
+              Vue.prototype.$messaging.useServiceWorker(registration)
+
+              Vue.prototype.$messaging.getToken().then((currentToken) => {
+                if (currentToken) {
+                  console.log('client token', currentToken)
+                  vm.$store.dispatch('activeNotifications', currentToken)
+                  Vue.prototype.$messaging.onMessage((payload) => {
+                    console.log('Message received. ', payload);
+                  });
+                } else {
+                  console.log('No registration token available. Request permission to generate one.');
+                }
+              }).catch((err) => {
+                console.log('An error occurred while retrieving token. ', err);
+              })
+
+            }).catch(err => {
+              console.log(err)
+          })
+        });
+    },
     logEvent (event) {
       console.log('Event : ', event)
     },
