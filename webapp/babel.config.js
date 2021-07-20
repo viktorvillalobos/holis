@@ -3,9 +3,9 @@ module.exports = api => {
 
   const plugins = []
 
-  if (babelEnv === 'production') {
-    plugins.push(['transform-remove-console', { exclude: ['error', 'warn'] }])
-  }
+  // if (babelEnv === 'production') {
+  //   plugins.push(['transform-remove-console', { exclude: ['error', 'warn'] }])
+  // }
 
   return {
     presets: [
