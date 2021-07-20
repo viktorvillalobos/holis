@@ -4,6 +4,7 @@ import announcements from './annoucements'
 import chat from './chat'
 import app from './app'
 import projects from './projects'
+import notifications from './notifications'
 
 export default {
   auth,
@@ -11,5 +12,6 @@ export default {
   announcements,
   chat,
   app,
-  projects
+  projects,
+  notifications
 }

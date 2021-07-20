@@ -50,6 +50,12 @@ const actions = {
     console.log("Notificaciones",data)
     commit('setNotifications', data.results)
   },
+  async activeNotifications ({ commit }, token) {
+    console.log("ENTREEEEE token",token)
+    const { data } = await apiClient.notifications.activeNotifications(token)
+    console.log("Notificaciones",data)
+    //commit('setNotifications', data.results)
+  },
   onNotification ({ commit }, notification) {
     notification = JSON.parse(notification)
     console.log(notification)
