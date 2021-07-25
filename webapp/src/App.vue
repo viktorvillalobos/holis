@@ -34,6 +34,7 @@ export default {
   created () {
     this.$store.dispatch('getMe')
     AOS.init()
+    this.initNotifications()
   },
   mounted () {
     this.$store.dispatch('connectNotificationsChannel', this)
@@ -50,9 +51,6 @@ export default {
       user: (state) => state.app.user
     })
   },
-  created(){
-    this.initNotifications()
-  },
   methods: {
     initNotifications(){
       const vm = this
@@ -67,27 +65,23 @@ export default {
           console.log("TUNDI","Todooo biennnn")
 
           navigator.serviceWorker.register('/static/js/firebase-messaging-sw.js')
-            .then((registration) => {
-              console.log(registration)
+          .then((registration) => {
               Vue.prototype.$messaging.useServiceWorker(registration)
 
-              Vue.prototype.$messaging.getToken().then((currentToken) => {
+              Vue.prototype.$messaging.onMessage((payload) => {
+                console.log('Message received. ', payload);
+              });
+
+              Vue.prototype.$messaging.getToken('BN228XTdBTOuaK-qP_6SaMzGxIfgRVHWC9u4z4zVIyQi1ewgjGOKq8n8P781YD6J-jrFbSO62svnmC2K5NVdUos').then((currentToken) => {
                 if (currentToken) {
                   console.log('client token', currentToken)
-                  vm.$store.dispatch('activeNotifications', currentToken)
-                  Vue.prototype.$messaging.onMessage((payload) => {
-                    console.log('Message received. ', payload);
-                  });
                 } else {
                   console.log('No registration token available. Request permission to generate one.');
                 }
               }).catch((err) => {
                 console.log('An error occurred while retrieving token. ', err);
               })
-
-            }).catch(err => {
-              console.log(err)
-          })
+          });
         });
     },
     logEvent (event) {

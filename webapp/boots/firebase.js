@@ -13,22 +13,5 @@ const firebaseConfig = {
     measurementId: "G-MJ080XNJ8F"
 };
 
-const firebaseApp = firebase.initializeApp(firebaseConfig);
-/*const messaging = firebase.messaging();
-messaging.getToken({ vapidKey: 'BN228XTdBTOuaK-qP_6SaMzGxIfgRVHWC9u4z4zVIyQi1ewgjGOKq8n8P781YD6J-jrFbSO62svnmC2K5NVdUos' }).then((currentToken) => {
-    if (currentToken) {
-      // Send the token to your server and update the UI if necessary
-      // ...
-      console.log("FIREBASE",currentToken)
-    } else {
-      // Show permission request UI
-      console.log("FIREBASE",'No registration token available. Request permission to generate one.');
-      // ...
-    }
-  }).catch((err) => {
-    console.log("FIREBASE",'An error occurred while retrieving token. ', err);
-    // ...
-});
-//let db = firebase.firestore(); */
-
+firebase.initializeApp(firebaseConfig);
 export default firebase.messaging()
