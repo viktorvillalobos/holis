@@ -11,7 +11,10 @@
         </select>
       </div>
     </div>
-    <span class="tag is-primary">{{ totalUsers }} users in area</span>
+    <span class="tag-area">
+      <span class="material-icons-round mr-2">person_pin</span> 
+      {{ totalUsers }} users in area
+    </span>
   </div>
 </template>
 <script>
@@ -62,8 +65,17 @@ export default {
   }
 }
 
-.tag {
-  margin-left: 10px;
+.tag-area {
+  font-family: $family-dm-sans;
+  font-size: 13px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  color: white;
+  background: $primary;
+  border-radius: 20px;
+  height: 30px;
+  padding: 20px;
 }
 
 .select:not(.is-multiple):not(.is-loading)::after {

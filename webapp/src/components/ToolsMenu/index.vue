@@ -3,7 +3,7 @@
     <card>
       <ul>
         <li @click="goTo('office')" :class="{'active' : $route.name === 'office'}">
-          <font-awesome-icon icon="hotel" />
+          <span class="material-icons-round">home</span>
         </li>
       <!--
         <li @click="goTo('reports')" :class="{'active' : $route.name === 'reports'}">
@@ -11,25 +11,25 @@
       </li>
       -->
         <li @click="goTo('user-config')" :class="{'active' : $route.name === 'user-config'}">
-          <font-awesome-icon icon="cog" />
+          <span class="material-icons-outlined">settings</span>
         </li>
 
         <li @click="handleProjects" :class="{'active': isProjectsActive && asideOpened}">
-          <font-awesome-icon icon="list-ol" />
+          <span class="material-icons-outlined">list_alt</span>
         </li>
       </ul>
     </card>
 
-    <card>
+    <card class="mt-5">
       <ul>
         <li @click="handleNotifications" :class="{'active': isNotificationsActive && asideOpened}">
-          <font-awesome-icon icon="bell" />
+          <span class="material-icons-outlined">notifications</span>
         </li>
         <li @click="handleBoard" :class="{'active': isBoardActive && asideOpened}">
-          <font-awesome-icon icon="chalkboard" />
+          <span class="material-icons-outlined">article</span>
         </li>
         <li @click="handleReleases" :class="{'active': isReleasesActive && asideOpened}">
-          <font-awesome-icon icon="star" />
+          <span class="material-icons-outlined">grade</span>
         </li>
       </ul>
     </card>
@@ -100,7 +100,7 @@ export default {
 <style lang="scss" scoped>
 .connect-menu {
   position: fixed;
-  top: 71px;
+  top: 100px;
   left: $margin-left-container;
   width: 50px;
   transition: $aside-transition;
@@ -126,44 +126,18 @@ export default {
       display: flex;
       align-items: center;
       justify-content: center;
+      color: #BDBDBD;
       svg {
         z-index: 2;
       }
 
       &:hover {
         cursor: pointer;
-
-        svg:not(.non-lineal) path {
-          fill: $primary;
-        }
-
-        svg.non-lineal path {
-          fill: none;
-          stroke: $primary;
-        }
+        color: $primary;
       }
 
       &.active {
-        &:before {
-          content: "";
-          position: absolute;
-          z-index: 1;
-          top: 0;
-          left: 0;
-          bottom: 0;
-          right: 0;
-          border-radius: 50%;
-          background: $light-gray;
-        }
-
-        svg:not(.non-lineal) path {
-          fill: $primary;
-        }
-
-        svg.non-lineal path {
-          fill: none;
-          stroke: $primary;
-        }
+        color: $primary;
       }
     }
   }

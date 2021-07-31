@@ -1,7 +1,7 @@
 <template>
   <div :class="['connect-logo-wrapper', {'aside-opened' : asideOpened}]">
     <img class="connect-logo-company" src="/static/images/logo/logo.svg" alt="espazum logo" width="120"/>
-    <span class="connect-separator">|</span>
+    <div class="connect-separator"></div>
     <h1 class="connect-company">{{ company.name }}</h1>
   </div>
 </template>
@@ -63,11 +63,11 @@ export default {
     }
 
     .connect-separator {
-      color: #576fe9;
-      font-weight: bold;
-      font-size: 32px;
-      padding: 0 0 0 15px;
-      margin-top: 5%;
+      border-left: 1.5px solid #E9E9E9;
+      height: 50px;
+      margin-left: 15px;
+      margin-right: 10px;
+      margin-top: 10px;
     }
   }
 
