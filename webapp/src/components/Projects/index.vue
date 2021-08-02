@@ -1,5 +1,5 @@
 <template>
-  <div class="p-4 pr-4">
+  <div class="projects">
     <Projects ref="Projects" v-if="this.currentScreen.screen == 'main'"/>
     <CreateProject v-bind:typeProject="this.currentScreen.data" v-if="this.currentScreen.screen == 'create'"/>
     <DetailProject v-bind:project="this.currentScreen.data" v-if="this.currentScreen.screen == 'detail'"/>
@@ -42,7 +42,6 @@ export default {
 
 <style lang="scss" scoped>
 .projects{
-  padding: 10px;
-  padding-right: 10px;
+  font-family: $family-dm-sans;
 }
 </style>

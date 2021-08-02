@@ -37,7 +37,7 @@
           >
             <span v-if="userState">{{ userState.icon_text }} {{userState.text}}</span>
             <span class="icon is-small">
-              <font-awesome-icon icon="angle-down" />
+              <span class="material-icons-round" style="color: #828282">keyboard_arrow_down</span>
             </span>
           </button>
         </div>
@@ -231,6 +231,9 @@ export default {
     width: 100%;
     display: flex;
     justify-content: space-between;
+    background: white;
+    border: 1px solid #E0E0E0;
+    height: 40px;
   }
 
   &.is-active {

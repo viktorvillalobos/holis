@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div align="right">
+    <!--<div align="right">
         <div class="select is-small is-primary mr-2">
             <select>
             <option>Todos</option>
@@ -9,7 +9,7 @@
             <option>Futuros</option>
             </select>
         </div>
-    </div>
+    </div>-->
     <Loading v-bind:loading="loading"/>
     <Project v-bind:project="project" v-for="project in projects" :key="project.id"/>
   </div>
