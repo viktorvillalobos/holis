@@ -1,5 +1,5 @@
 <template>
-  <div style="overflow: auto; height:90vh;">
+  <div class="create-project scroll-projects p-4">
 
     <div class="columns">
         <button class="button is-white column is-1" @click="backToMain">
@@ -7,7 +7,7 @@
                 <font-awesome-icon icon="arrow-left"/>
             </span>
         </button>
-        <h1 class="column"> Crear Proyecto </h1>
+        <h1 class="column"> Create project </h1>
     </div>
 
     <div class="main-loader">
@@ -18,21 +18,21 @@
       </div>
     </div>
 
-    <b style="is-size-6">Nombre</b>
-    <input v-model="name" class="input" type="text" placeholder="Ej: Proyecto ejemplo">
+    <b style="is-size-6">Name</b>
+    <input v-model="name" class="input" type="text" placeholder="Project zero">
 
-    <div class="mt-2">
-        <p style="is-size-6"><b>Descripción</b> (opcional)</p>
-        <textarea v-model="description" class="textarea" placeholder="e.g. Hello world"></textarea>
+    <div class="mt-4">
+        <p style="is-size-6"><b>Description</b> (optional)</p>
+        <textarea v-model="description" class="textarea" placeholder="Hello world this is my first project"></textarea>
     </div>
     <div class="mt-2 columns">
         <div class="column">
-            <b style="is-size-6">Fecha de inicio</b>
-            <input v-model="dateStart" class="input" type="date" placeholder="--/--/----">
+            <b style="is-size-6">Start date</b>
+            <input v-model="dateStart" class="input" type="date" :min="currentDate()" placeholder="--/--/----">
         </div>
-        <div class="column">
-            <b style="is-size-6">Fecha de término</b>
-            <input v-model="dateEnd" class="input" type="date" placeholder="--/--/----">
+        <div v-if="dateStart" class="column">
+            <b style="is-size-6">End date</b>
+            <input v-model="dateEnd" class="input" type="date" :min="dateStart" placeholder="--/--/----">
         </div>
     </div>
 
@@ -68,18 +68,18 @@
 
                     <div class="mt-2 columns">
                         <div class="column">
-                            <b style="is-size-6">Nombre</b>
+                            <b style="is-size-6">Name task</b>
                             <input v-model="task.title" class="input" type="text" placeholder="Ej: Hexagonal interactivo">
                         </div>
                         <div class="column">
                             <div>
-                                <b style="is-size-6">Responsable</b>
+                                <b style="is-size-6">Responsible</b>
                             </div>
                             <div :class="{'dropdown' : true, 'is-active' : task.dropdownActive}"> <!-- task -->
                                 <div class="dropdown-trigger">
                                     <button class="button" aria-haspopup="true" aria-controls="dropdown-menu" @click="task.dropdownActive = true">
                                     <span v-if="task.assigned_to">{{ task.memberName }}</span>
-                                    <span v-else>Seleccionar</span>
+                                    <span v-else>Select</span>
                                     <span class="icon is-small">
                                         <i class="fas fa-angle-down" aria-hidden="true"></i>
                                     </span>
@@ -97,12 +97,12 @@
                     </div>
 
                     <div class="mt-2">
-                        <p style="is-size-6"><b>Descripción</b> (opcional)</p>
+                        <p style="is-size-6"><b>Description</b> (optional)</p>
                         <textarea v-model="task.content" class="textarea" placeholder="e.g. Hello world"></textarea>
                     </div>
                     <div class="mt-2" align="right">
-                        <button @click="deleteTask(index)" class="button is-danger is-inverted is-small">Borrar</button>
-                        <button @click="duplicateTask(task)" class="button is-primary is-inverted is-small">Duplicar</button>
+                      <span @click="duplicateTask(task)" class="material-icons-outlined btn-task">content_copy</span>
+                      <span @click="deleteTask(index)" class="material-icons-round btn-task">delete</span>
                     </div>
                 </Collapsible>
             </div>
@@ -110,11 +110,11 @@
     </draggable>
 
     <div class="mt-6" align="right">
-        <button @click="addNewTask" class="button is-primary is-inverted is-small">Agregar tarea nueva</button>
+        <button @click="addNewTask" class="button is-primary is-inverted is-small">Add task</button>
     </div>
 
     <div align=right>
-      <button @click="createProject" class="button is-primary">Crear proyecto</button>
+      <button @click="createProject" class="button is-primary">Create project</button>
     </div>
 
     <div class="modal" :class="{'is-active' : this.modalError}">
@@ -152,7 +152,12 @@ export default {
   props: ['typeProject'],
   data () {
     return {
-      tasks: [],
+      tasks: [{
+        title: 'Example task',
+        content: '',
+        assigned_to: null,
+        dropdownActive: false
+      }],
       name: '',
       description: '',
       dateStart: '',
@@ -178,7 +183,7 @@ export default {
         this.modalError = true
         return false
       }
-      if (this.dateStart == '' || this.dateEnd == '') {
+      if (this.dateStart == '') {
         this.errorAlert = 'No debes dejar los campos de fecha vacios'
         this.modalError = true
         return false
@@ -230,7 +235,7 @@ export default {
     },
     addNewTask () {
       this.tasks.push({
-        title: 'Ejemplo Tarea',
+        title: 'Example task',
         content: '',
         assigned_to: null,
         dropdownActive: false
@@ -246,9 +251,17 @@ export default {
     },
     deleteTask (index) {
       this.tasks.splice(index, 1)
+    },
+    currentDate() {
+      const current = new Date();
+      const date = `${current.getDay()}/${current.getMonth()+1}/${current.getFullYear()}`;
+      return date;
     }
   },
   watch: {
+    dateStart: function(newVal){
+      this.dateEnd = ''
+    },
     project: function (newVal) {
       setTimeout(() => {
         this.loading = false
@@ -268,6 +281,23 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
+.btn-task {
+  cursor: pointer;
+  padding: 8px;
+  font-size: 22px;
+
+  &:hover {
+    cursor: pointer;
+    color: $primary;
+  }
+}
+
+.create-project{
+  font-family: $family-dm-sans;
+  height:90vh;
+}
+
 .collapse-focus:focus {
   outline: none;
   box-shadow: none;

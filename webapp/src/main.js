@@ -8,6 +8,7 @@ import VueApexCharts from 'vue-apexcharts'
 import VueLodash from 'vue-lodash'
 import lodash from 'lodash'
 import vuescroll from 'vuescroll'
+import Skeleton from 'vue-loading-skeleton';
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { far } from '@fortawesome/free-regular-svg-icons'
@@ -51,6 +52,8 @@ require('moment/locale/es')
 Vue.use(require('vue-moment'), {
   moment
 })
+
+Vue.use(Skeleton)
 
 Vue.use(VueLodash, { name: 'piso', lodash: lodash })
 

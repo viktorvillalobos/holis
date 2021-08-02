@@ -9,13 +9,18 @@
             <option>Futuros</option>
             </select>
         </div>
-    </div>-->
+    </div>
     <Loading v-bind:loading="loading"/>
-    <Project v-bind:project="project" v-for="project in projects" :key="project.id"/>
+    -->
+    <div v-if="loading">
+        <ProjectSkeleton  v-for="index in 10" :key="index" />
+    </div>
+    <Project v-else v-bind:project="project" v-for="project in projects" :key="project.id"/>
   </div>
 </template>
 <script>
 import Project from './Project'
+import ProjectSkeleton from './ProjectSkeleton'
 import Loading from '../../Loading'
 import { mapState } from 'vuex'
 
@@ -23,7 +28,8 @@ export default {
   name: 'ProjectList',
   components: {
     Project,
-    Loading
+    Loading,
+    ProjectSkeleton
   },
   props: ['type'],
   data () {
