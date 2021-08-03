@@ -20,7 +20,9 @@ def get_or_create_company_project_by_company_id(
 
 
 def get_projects_by_company_and_kind(company_id: int, kind: int) -> QuerySet:
-    return Project.objects.filter(kind=kind, company_id=company_id)
+    return Project.objects.filter(kind=kind, company_id=company_id).prefetch_related(
+        "members"
+    )
 
 
 def create_project_by_company_and_user_id(
