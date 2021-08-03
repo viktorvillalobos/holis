@@ -44,22 +44,4 @@ export default {
   padding: 10px;
   padding-right: 10px;
 }
-.scroll-projects{
-  overflow: auto;
-  margin-right: 5px;
-}
-
-.scroll-projects::-webkit-scrollbar {
-  width: 8px;               /* width of the entire scrollbar */
-}
-
-.scroll-projects::-webkit-scrollbar-track {
-  background: transparent;        /* color of the tracking area */
-}
-
-.scroll-projects::-webkit-scrollbar-thumb {
-  background-color: $primary;    /* color of the scroll thumb */
-  border-radius: 20px;       /* roundness of the scroll thumb */
-  border: 3px solid transparent;  /* creates padding around scroll thumb */
-}
 </style>
