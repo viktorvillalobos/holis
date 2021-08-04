@@ -9,15 +9,7 @@
         </button>
         <h1 class="column"> Create project </h1>
     </div>
-
-    <div class="main-loader">
-      <div :class="{'card' : true, 'loader-wrapper' : true, 'is-active' : loading}">
-        <div class="card-content">
-          <div class="loader is-loading"></div>
-        </div>
-      </div>
-    </div>
-
+    
     <b style="is-size-6">Name</b>
     <input v-model="name" class="input" type="text" placeholder="Project zero">
 
@@ -109,26 +101,30 @@
         </transition-group>
     </draggable>
 
-    <div class="mt-6" align="right">
-        <button @click="addNewTask" class="button is-primary is-inverted is-small">Add task</button>
-    </div>
 
-    <div align=right>
-      <button @click="createProject" class="button is-primary">Create project</button>
+    <button @click="addNewTask" class="button is-large is-fullwidth is-primary is-outlined mt-6">
+      <span class="icon">
+        <span class="material-icons-round">add_circle_outline</span>
+      </span>
+      <span style="font-size: 16px;">Add task</span>
+    </button>
+
+    <div align="right" class="mt-6" >
+      <button @click="createProject" class="button is-primary" :class="{'is-loading': loading}">Create project</button>
     </div>
 
     <div class="modal" :class="{'is-active' : this.modalError}">
         <div class="modal-background"></div>
         <div class="modal-card">
             <header class="modal-card-head">
-                <p class="modal-card-title has-text-danger">Alerta</p>
+                <p class="modal-card-title has-text-danger">Alert</p>
                 <button class="delete" aria-label="close" @click="modalError = false"></button>
             </header>
             <section class="modal-card-body">
                 {{ this.errorAlert }}
             </section>
             <footer class="modal-card-foot">
-                <button class="button is-info is-outlined" @click="modalError = false">Aceptar</button>
+                <button class="button is-info is-outlined" @click="modalError = false">Ok</button>
             </footer>
         </div>
         <button class="modal-close is-large" aria-label="close" @click="modalError = false"></button>
@@ -179,12 +175,12 @@ export default {
   methods: {
     isValid () {
       if (this.name.length < 3) {
-        this.errorAlert = 'El nombre no puede ser menor de 3 caracteres'
+        this.errorAlert = 'The project name cannot be less than 4 characters.'
         this.modalError = true
         return false
       }
       if (this.dateStart == '') {
-        this.errorAlert = 'No debes dejar los campos de fecha vacios'
+        this.errorAlert = 'Date start cannot be empty'
         this.modalError = true
         return false
       }
@@ -192,13 +188,13 @@ export default {
       let isValid = true
       this.tasks.forEach(element => {
         if (element.title.length < 3) {
-          this.errorAlert = 'El nombre de la tarea ' + element.title + ' no puede ser menor a 3 caracteres'
+          this.errorAlert = 'The task name ' + element.title + ' cannot be less than 3 characters.'
           this.modalError = true
           isValid = false
           throw BreakException
         }
-        if (element.content.length < 3) {
-          this.errorAlert = 'La descripcion de la tarea ' + element.content + ' no puede ser menor menor a 3 caracteres '
+        if (element.content.length < 3 && element.content.length != 0) {
+          this.errorAlert = 'The task description  ' + element.content + ' cannot be less than 3 characters.'
           this.modalError = true
           isValid = false
           throw BreakException
@@ -291,6 +287,14 @@ export default {
     cursor: pointer;
     color: $primary;
   }
+}
+
+.scroll-projects{
+  position: absolute;
+  overflow: auto;
+  margin-right: 5px;
+  height: 100%;
+  width: 99%;
 }
 
 .create-project{
