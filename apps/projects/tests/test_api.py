@@ -12,7 +12,7 @@ from uuid import uuid4
 
 from apps.users.tests import baker_recipes as user_recipes
 
-from ..context.models import Project
+from ..context.models import Project, Task
 from ..lib import constants as projects_constants
 from ..tests import baker_recipes as project_recipes
 
@@ -324,6 +324,22 @@ def test_delete_task_raises_404(client):
     url = reverse("api-v1:projects:update_and_retrieve_task", args=(project.uuid, uuid))
 
     client.force_login(active_user)
-    response = client.get(url, content_type="application/json")
+    response = client.delete(url, content_type="application/json")
 
     assert response.status_code == 404
+
+
+@pytest.mark.django_db(transaction=True)
+def test_delete_task_works_fine(client):
+    task = project_recipes.generic_normal_task.make()
+    active_user = user_recipes.user_viktor.make(company_id=task.project.company_id)
+
+    url = reverse(
+        "api-v1:projects:update_and_retrieve_task", args=(task.project.uuid, task.uuid)
+    )
+
+    client.force_login(active_user)
+    response = client.delete(url, content_type="application/json")
+
+    assert response.status_code == 204
+    assert Task.objects.count() == 0

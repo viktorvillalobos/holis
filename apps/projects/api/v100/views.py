@@ -12,6 +12,7 @@ from uuid import UUID
 
 from apps.utils.pagination import paginate_response
 
+from ... import services as project_services
 from ...context.providers import project as project_providers
 from ...context.providers import task as task_providers
 from ...lib import constants as projects_constants
@@ -71,6 +72,7 @@ class ProjectViewSet(ViewSet):
 
 class TaskViewSet(ViewSet):
     def list(self, request, project_uuid: UUID, *args, **kwargs) -> Response:
+        # TODO: Create service
         tasks = task_providers.get_tasks_by_project_uuid(project_uuid=project_uuid)
         return paginate_response(
             queryset=tasks, request=request, serializer_class=serializers.TaskSerializer
@@ -98,8 +100,10 @@ class TaskViewSet(ViewSet):
         self, request, project_uuid: UUID, task_uuid: UUID, *args, **kwargs
     ) -> Response:
         try:
-            task = task_providers.get_task_by_company_and_uuid(
-                company_id=request.user.company_id, task_uuid=task_uuid
+            project_services.delete_task_by_uuid(
+                company_id=request.user.company_id,
+                project_uuid=project_uuid,
+                task_uuid=task_uuid,
             )
         except TaskDoesNotExist:
             raise Http404
@@ -109,6 +113,7 @@ class TaskViewSet(ViewSet):
     def update(
         self, request, task_uuid: UUID, project_uuid: UUID, *args, **kwargs
     ) -> Response:
+        # TODO: Create service
         is_partial = request.method == "PATCH"
 
         task_instance = task_providers.get_task_by_company_and_uuid(
@@ -131,6 +136,7 @@ class TaskViewSet(ViewSet):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def retrieve(self, request, project_uuid: UUID, task_uuid: UUID) -> Response:
+        # TODO: Create service
         try:
             task = task_providers.get_task_by_company_and_uuid(
                 company_id=request.user.company_id, task_uuid=task_uuid

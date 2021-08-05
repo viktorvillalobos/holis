@@ -124,17 +124,16 @@ def get_task_by_company_and_uuid(company_id: int, task_uuid: Union[str, UUID]) -
 
 
 def delete_task_by_company_and_uuid(
-    company_id: int, task_uuid: Union[str, UUID]
+    company_id: int, project_uuid: Union[str, UUID], task_uuid: Union[str, UUID]
 ) -> None:
-    try:
-        Task.objects.get(company_id=company_id, uuid=task_uuid).delete()
-    except Task.DoesNotExist:
-        raise TaskDoesNotExist
+    Task.objects.get(
+        company_id=company_id, project_uuid=project_uuid, uuid=task_uuid
+    ).delete()
 
 
 def partial_update_task_by_data(instance: Task, validated_data: Dict[str, Any]) -> Task:
     """
-        Allow partial update , this should only be called inside a serializer
+    Allow partial update , this should only be called inside a serializer
     """
 
     # TODO: [SECURITY] This function should be replaced for something more secure
