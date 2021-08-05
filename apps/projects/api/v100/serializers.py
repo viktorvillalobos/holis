@@ -1,5 +1,6 @@
 from typing import Any, Dict, Union
 
+from django.conf import settings
 from django.db import IntegrityError
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
@@ -113,3 +114,19 @@ class ProjectSerializer(serializers.Serializer):
         )
 
         return project
+
+
+class AttachmentSerializer(serializers.Serializer):
+    uuid = serializers.UUIDField(required=False, allow_null=True)
+    file = serializers.FileField()
+    mime = serializers.CharField()
+
+    def get_attachment_url(self, obj):
+        if settings.ENVIRONMENT == settings.PRODUCTION:
+            return obj.attachment.url
+
+        context = self.context.get("request")
+        if context:
+            return self.context["request"].build_absolute_uri(obj.attachment.url)
+
+        return f"http://{obj.company.code}.holis.local:8000{obj.attachment.url}"

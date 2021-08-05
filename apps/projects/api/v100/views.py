@@ -1,9 +1,10 @@
 from typing import Any, Callable
 
 from django.http import Http404
-from rest_framework import status
+from rest_framework import status, views
 from rest_framework.decorators import api_view
 from rest_framework.exceptions import ValidationError
+from rest_framework.parsers import MultiPartParser
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.viewsets import ViewSet
@@ -158,3 +159,32 @@ def move_task_by_uuid(
     return Response(
         serializers.TaskSerializer(result, many=True).data, status=status.HTTP_200_OK
     )
+
+
+class ProjectAttachmentAPIView(views.APIView):
+    parser_classes = [MultiPartParser]
+    pagination_class = None
+
+    def get(self, request, project_uuid, *args, **kwargs):
+        attachments_data = project_services.get_attachments_by_project_uuid(
+            company_id=request.company_id, project_uuid=project_uuid
+        )
+
+        serialized_data = serializers.AttachmentSerializer(
+            attachments_data, context={"request": request}, many=True
+        ).data
+
+        return Response(serialized_data, status=status.HTTP_200_OK)
+
+    def post(self, request, project_uuid, *args, **kwargs):
+        files = request.FILES.getlist("files")
+
+        attachments_data = project_services.create_attachment_by_project_uuid(
+            company_id=request.company_id, project_uuid=project_uuid, files=files
+        )
+
+        serialized_data = serializers.AttachmentSerializer(
+            attachments_data, context={"request": request}
+        ).data
+
+        return Response(serialized_data, status=status.HTTP_201_CREATED)

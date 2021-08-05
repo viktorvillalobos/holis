@@ -33,6 +33,11 @@ PROJECT_URLS = [
         views.ProjectViewSet.as_view({"get": "list", "post": "create"}),
         name="project_resource",
     ),
+    path(
+        "<uuid:project_uuid>/attachments/",
+        views.ProjectAttachmentAPIView.as_view(),
+        name="attachment_resource",
+    ),
 ]
 
 urlpatterns = [*PROJECT_URLS, *TASKS_URLS]
