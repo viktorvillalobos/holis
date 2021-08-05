@@ -87,17 +87,27 @@ def move_task_by_task_uuid_and_above_index(
     task_uuid: Union[str, UUID],
     to_index: Optional[int] = None,
 ) -> list[Task]:
+
+    # Get tasks ordered by index
     tasks_of_the_project = list(
         Task.objects.filter(company_id=company_id, project_uuid=project_uuid).order_by(
             "index"
         )
     )
 
+    # Find the task to move
     task_to_move = [task for task in tasks_of_the_project if task.uuid == task_uuid][0]
     task_to_move_index = tasks_of_the_project.index(task_to_move)
 
+    # Add the task in the new index
     tasks_of_the_project.pop(task_to_move_index)
     tasks_of_the_project.insert(to_index, task_to_move)
+
+    # Update databases indexes
+    for index, task in enumerate(tasks_of_the_project):
+        task.index = index
+
+    Task.objects.bulk_update(tasks_of_the_project, ["index"])
 
     return tasks_of_the_project
 

@@ -167,10 +167,11 @@ def test_move_task_by_uuid(client):
 
     assert response.status_code == 200
 
-    expected_results = [str(task.uuid) for task in tasks]
+    expected_results = [str(tasks[1].uuid), str(tasks[0].uuid)]
 
-    for result in response_data:
-        result["uuid"] in expected_results
+    result = [result["uuid"] for result in response_data]
+
+    assert result == expected_results
 
 
 @pytest.mark.django_db(transaction=True)
