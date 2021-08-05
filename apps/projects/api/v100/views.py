@@ -30,10 +30,6 @@ def get_company_project_by_company_id_view(request: Request) -> Response:
     return Response(serialized_data, status.HTTP_200_OK)
 
 
-def _create_project_by_kind(request: Request, project_kind_value: int) -> Response:
-    return Response({"data": project_kind_value}, status=status.HTTP_201_CREATED)
-
-
 class ProjectViewSet(ViewSet):
     def dispatch(self, *args, **kwargs):
         project_kind_value = kwargs.get("project_kind_value")
