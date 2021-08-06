@@ -1,44 +1,40 @@
 <template>
-  <div style="overflow: auto; height:90vh;">
+  <div class="create-project scroll-projects p-4">
 
-    <div class="columns">
-        <button class="button is-white column is-1" @click="backToMain">
-            <span class="icon is-small">
-                <font-awesome-icon icon="arrow-left"/>
-            </span>
-        </button>
-        <h1 class="column"> Crear Proyecto </h1>
+    <div class="columns btn-back" @click="backToMain">
+        <span class="column is-1 material-icons-round" style="color:#757575">arrow_back</span>
+        <p class="column" style="color:#757575; margin-left:-15px"> Back </p>
+    </div>
+    
+    <div style="margin-top:-20px" class="mb-5">
+      <b class="is-size-4" style="color: #181818"> Create project </b>
     </div>
 
-    <div class="main-loader">
-      <div :class="{'card' : true, 'loader-wrapper' : true, 'is-active' : loading}">
-        <div class="card-content">
-          <div class="loader is-loading"></div>
-        </div>
-      </div>
-    </div>
+    <b class="is-size-6">Name</b>
+    <input v-model="name" class="input" type="text" placeholder="Project zero">
 
-    <b style="is-size-6">Nombre</b>
-    <input v-model="name" class="input" type="text" placeholder="Ej: Proyecto ejemplo">
-
-    <div class="mt-2">
-        <p style="is-size-6"><b>Descripción</b> (opcional)</p>
-        <textarea v-model="description" class="textarea" placeholder="e.g. Hello world"></textarea>
+    <div class="mt-4">
+        <p style="is-size-6"><b>Description</b> (optional)</p>
+        <textarea v-model="description" class="textarea" placeholder="Hello world this is my first project"></textarea>
     </div>
     <div class="mt-2 columns">
         <div class="column">
-            <b style="is-size-6">Fecha de inicio</b>
-            <input v-model="dateStart" class="input" type="date" placeholder="--/--/----">
+            <b style="is-size-6">Start date</b>
+            <input v-model="dateStart" class="input" type="date" :min="currentDate()" placeholder="--/--/----">
         </div>
-        <div class="column">
-            <b style="is-size-6">Fecha de término</b>
-            <input v-model="dateEnd" class="input" type="date" placeholder="--/--/----">
+        <div v-if="dateStart" class="column">
+            <b style="is-size-6">End date</b>
+            <input v-model="dateEnd" class="input" type="date" :min="dateStart" placeholder="--/--/----">
         </div>
     </div>
 
-    <draggable v-model="tasks">
+    <b v-if="tasks.length > 0" class="is-size-6">
+      Tasks
+    </b>
+
+    <draggable v-model="tasks" class="mt-4">
         <transition-group>
-            <div v-for="(task, index) in tasks" :key="task">
+            <div v-for="(task, index) in tasks" :key="task" class="card p-4 mb-4">
                 <Collapsible>
                     <div slot="trigger" class="collapse-focus m-3">
                         <div class="customTrigger">
@@ -68,18 +64,18 @@
 
                     <div class="mt-2 columns">
                         <div class="column">
-                            <b style="is-size-6">Nombre</b>
+                            <b style="is-size-6">Name task</b>
                             <input v-model="task.title" class="input" type="text" placeholder="Ej: Hexagonal interactivo">
                         </div>
                         <div class="column">
                             <div>
-                                <b style="is-size-6">Responsable</b>
+                                <b style="is-size-6">Responsible</b>
                             </div>
                             <div :class="{'dropdown' : true, 'is-active' : task.dropdownActive}"> <!-- task -->
                                 <div class="dropdown-trigger">
                                     <button class="button" aria-haspopup="true" aria-controls="dropdown-menu" @click="task.dropdownActive = true">
                                     <span v-if="task.assigned_to">{{ task.memberName }}</span>
-                                    <span v-else>Seleccionar</span>
+                                    <span v-else>Select</span>
                                     <span class="icon is-small">
                                         <i class="fas fa-angle-down" aria-hidden="true"></i>
                                     </span>
@@ -97,38 +93,41 @@
                     </div>
 
                     <div class="mt-2">
-                        <p style="is-size-6"><b>Descripción</b> (opcional)</p>
+                        <p style="is-size-6"><b>Description</b> (optional)</p>
                         <textarea v-model="task.content" class="textarea" placeholder="e.g. Hello world"></textarea>
                     </div>
                     <div class="mt-2" align="right">
-                        <button @click="deleteTask(index)" class="button is-danger is-inverted is-small">Borrar</button>
-                        <button @click="duplicateTask(task)" class="button is-primary is-inverted is-small">Duplicar</button>
+                      <span @click="duplicateTask(task)" class="material-icons-outlined btn-task">content_copy</span>
+                      <span @click="deleteTask(index)" class="material-icons-round btn-task">delete</span>
                     </div>
                 </Collapsible>
             </div>
         </transition-group>
     </draggable>
 
-    <div class="mt-6" align="right">
-        <button @click="addNewTask" class="button is-primary is-inverted is-small">Agregar tarea nueva</button>
-    </div>
+    <button @click="addNewTask" class="button is-large is-fullwidth is-primary is-outlined mt-6">
+      <span class="icon">
+        <span class="material-icons-round">add_circle_outline</span>
+      </span>
+      <span style="font-size: 16px;">Add task</span>
+    </button>
 
-    <div align=right>
-      <button @click="createProject" class="button is-primary">Crear proyecto</button>
+    <div align="right" class="mt-6" >
+      <button @click="createProject" class="button is-primary" :class="{'is-loading': loading}">Create project</button>
     </div>
 
     <div class="modal" :class="{'is-active' : this.modalError}">
         <div class="modal-background"></div>
         <div class="modal-card">
             <header class="modal-card-head">
-                <p class="modal-card-title has-text-danger">Alerta</p>
+                <p class="modal-card-title has-text-danger">Alert</p>
                 <button class="delete" aria-label="close" @click="modalError = false"></button>
             </header>
             <section class="modal-card-body">
                 {{ this.errorAlert }}
             </section>
             <footer class="modal-card-foot">
-                <button class="button is-info is-outlined" @click="modalError = false">Aceptar</button>
+                <button class="button is-info is-outlined" @click="modalError = false">Ok</button>
             </footer>
         </div>
         <button class="modal-close is-large" aria-label="close" @click="modalError = false"></button>
@@ -152,7 +151,12 @@ export default {
   props: ['typeProject'],
   data () {
     return {
-      tasks: [],
+      tasks: [{
+        title: 'Example task',
+        content: '',
+        assigned_to: null,
+        dropdownActive: false
+      }],
       name: '',
       description: '',
       dateStart: '',
@@ -174,12 +178,12 @@ export default {
   methods: {
     isValid () {
       if (this.name.length < 3) {
-        this.errorAlert = 'El nombre no puede ser menor de 3 caracteres'
+        this.errorAlert = 'The project name cannot be less than 4 characters.'
         this.modalError = true
         return false
       }
-      if (this.dateStart == '' || this.dateEnd == '') {
-        this.errorAlert = 'No debes dejar los campos de fecha vacios'
+      if (this.dateStart == '') {
+        this.errorAlert = 'Date start cannot be empty'
         this.modalError = true
         return false
       }
@@ -187,13 +191,13 @@ export default {
       let isValid = true
       this.tasks.forEach(element => {
         if (element.title.length < 3) {
-          this.errorAlert = 'El nombre de la tarea ' + element.title + ' no puede ser menor a 3 caracteres'
+          this.errorAlert = 'The task name ' + element.title + ' cannot be less than 3 characters.'
           this.modalError = true
           isValid = false
           throw BreakException
         }
-        if (element.content.length < 3) {
-          this.errorAlert = 'La descripcion de la tarea ' + element.content + ' no puede ser menor menor a 3 caracteres '
+        if (element.content.length < 3 && element.content.length != 0) {
+          this.errorAlert = 'The task description  ' + element.content + ' cannot be less than 3 characters.'
           this.modalError = true
           isValid = false
           throw BreakException
@@ -214,7 +218,7 @@ export default {
         name: this.name,
         description: this.description,
         start_date: this.dateStart,
-        end_date: this.dateEnd
+        end_date: this.dateEnd == '' ? null : this.dateEnd
       }
       const dataSend = {
         typeProject: this.typeProject,
@@ -230,7 +234,7 @@ export default {
     },
     addNewTask () {
       this.tasks.push({
-        title: 'Ejemplo Tarea',
+        title: 'Example task',
         content: '',
         assigned_to: null,
         dropdownActive: false
@@ -246,9 +250,17 @@ export default {
     },
     deleteTask (index) {
       this.tasks.splice(index, 1)
+    },
+    currentDate() {
+      const current = new Date();
+      const date = `${current.getDay()}/${current.getMonth()+1}/${current.getFullYear()}`;
+      return date;
     }
   },
   watch: {
+    dateStart: function(newVal){
+      this.dateEnd = ''
+    },
     project: function (newVal) {
       setTimeout(() => {
         this.loading = false
@@ -268,6 +280,34 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.btn-back {
+  cursor: pointer;
+}
+
+.btn-task {
+  cursor: pointer;
+  padding: 8px;
+  font-size: 22px;
+
+  &:hover {
+    cursor: pointer;
+    color: $primary;
+  }
+}
+
+.scroll-projects{
+  position: absolute;
+  overflow: auto;
+  margin-right: 5px;
+  height: 100%;
+  width: 99%;
+}
+
+.create-project{
+  font-family: $family-dm-sans;
+  height:90vh;
+}
+
 .collapse-focus:focus {
   outline: none;
   box-shadow: none;

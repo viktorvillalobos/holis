@@ -2,7 +2,7 @@
   <div class="connect-area-voice">
 
     <div class="connect-area-voice-status">
-      <font-awesome-icon :color="icon.color" :icon="icon.icon" class="status-icon"/>
+      <span class="material-icons-round status-icon" :style="{'color': icon.color}">signal_cellular_alt</span> 
       <div class="connect-area-voice-status-text">
           <p> {{ translateStatus }}</p>
           <span>{{ streamsCount }} members</span>
@@ -10,8 +10,7 @@
     </div>
 
     <div @click="disconnect" class="connect-area-voice-disconnect">
-      <font-awesome-icon v-if="connected" icon="phone-slash" />
-      <font-awesome-icon v-else icon="phone-slash" disabled color="grey"/>
+      <span class="material-icons-round" :style="{'color': connected ? $primary : 'grey'}">phone_disabled</span> 
     </div>
   </div>
 </template>
@@ -74,7 +73,7 @@ export default {
 
     .status-icon {
       margin-right: 4%;
-      margin-top: 4.5%;
+      margin-top: 2%;
     }
 
     .connect-area-voice-disconnect {

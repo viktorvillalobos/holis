@@ -14,15 +14,15 @@
           <font-awesome-icon v-else icon="video-slash" />
       </li> -->
         <li @click="emitSound">
-          <font-awesome-icon v-if="!muteAudio" icon="volume-up" />
-          <font-awesome-icon v-else icon="volume-mute" />
+          <span v-if="!muteAudio" class="material-icons-round user-card-icon-active">volume_up</span>
+          <span v-else class="material-icons-round">volume_off</span>
         </li>
         <li @click="emitMicro">
-          <font-awesome-icon v-if="!muteMicro" icon="microphone-alt" />
-          <font-awesome-icon v-else icon="microphone-alt-slash" />
+          <span v-if="!muteMicro" class="material-icons-round user-card-icon-active">mic</span>
+          <span v-else class="material-icons-round">mic_off</span>
         </li>
         <li @click="handleLogout">
-          <font-awesome-icon icon="sign-out-alt" />
+          <span class="material-icons-round user-card-icon-active">login</span>
         </li>
       </ul>
     </div>
@@ -37,7 +37,7 @@
           >
             <span v-if="userState">{{ userState.icon_text }} {{userState.text}}</span>
             <span class="icon is-small">
-              <font-awesome-icon icon="angle-down" />
+              <span class="material-icons-round" style="color: #828282">keyboard_arrow_down</span>
             </span>
           </button>
         </div>
@@ -158,17 +158,21 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.user-card-icon-active{
+  color: $primary;
+}
 .connect-user-card {
   position: fixed;
   top: 7px;
   right: $margin-right-container-aside-opened;
   width: 326px;
-  padding: 15px 8px 15px;
+  padding: 15px;
   transition: $aside-transition;
   box-shadow: $card-box-shadow;
   background: #fff;
   border-radius: $card-border-radius;
   z-index: 14;
+  font-family: $family-dm-sans;
 
   > div {
     display: inline-flex;
@@ -203,6 +207,11 @@ export default {
     li {
       margin-left: 10px;
       cursor: pointer;
+
+      &:hover {
+        cursor: pointer;
+        color: $primary;
+      }
     }
   }
 
@@ -222,6 +231,9 @@ export default {
     width: 100%;
     display: flex;
     justify-content: space-between;
+    background: white;
+    border: 1px solid #E0E0E0;
+    height: 40px;
   }
 
   &.is-active {

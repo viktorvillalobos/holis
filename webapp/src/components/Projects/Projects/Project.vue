@@ -1,23 +1,24 @@
 <template>
-  <div class="card m-2 hover-card" @click="openProjectDetail">
+  <div class="card ml-4 mb-3 hover-card" @click="openProjectDetail">
         <div class="card-content">
             <div class="media">
-                <div class="media-left mt-4">
+                <!--<div class="media-left mt-4">
                     <img class="connect-logo-company" src="/static/images/logo/logo.svg" alt="espazum logo" width="60"/>
-                </div>
+                </div>-->
                 <div class="media-content">
-                    <p class="is-size-7">{{ project.name}}</p>
-                    <p class="is-size-7">Equipo: {{ project.getMembers() }}</p>
+                    <b class="is-size-6">{{ project.name}}</b>
+                    <p class="is-size-7">Team: {{ project.getMembers() }}</p>
+                    <p class="is-size-7" v-if="project.end_date">Final date: {{ project.end_date }}</p>
                 </div>
 
                 <div class="media-right" align="right">
-                    <p class="is-size-7" v-if="project.end_date" >Fecha final: {{ project.end_date }}</p>
                     <!--<div>
                         <button class="button is-danger is-light is-small alert-days">15 tareas abiertas</button>
                         <button class="button is-success is-light is-small alert-days">15 días restantes</button>
                     </div>-->
                     <div>
-                        <button class="button is-danger is-inverted is-small" @click.stop="deleteProject">Borrar</button>
+                       <span class="material-icons-round mt-5" style="color: #828282">chevron_right</span>
+                        <!--<button class="button is-danger is-inverted is-small" @click.stop="deleteProject">Borrar</button>-->
                         <!--<button class="button is-primary is-inverted is-small">Editar</button>
                         <button class="button is-primary is-inverted is-small">Ver más</button>-->
                     </div>
@@ -53,6 +54,7 @@ export default {
 }
 
 .hover-card{
+  font-family: $family-dm-sans;
    box-shadow: 0px 0px 0px grey;
   -webkit-transition:  box-shadow .6s ease-out;
   transition: box-shadow .6s ease-out;
