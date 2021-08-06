@@ -1,16 +1,16 @@
 <template>
   <div class="create-project scroll-projects p-4">
 
-    <div class="columns">
-        <button class="button is-white column is-1" @click="backToMain">
-            <span class="icon is-small">
-                <font-awesome-icon icon="arrow-left"/>
-            </span>
-        </button>
-        <h1 class="column"> Create project </h1>
+    <div class="columns btn-back" @click="backToMain">
+        <span class="column is-1 material-icons-round" style="color:#757575">arrow_back</span>
+        <p class="column" style="color:#757575; margin-left:-15px"> Back </p>
     </div>
     
-    <b style="is-size-6">Name</b>
+    <div style="margin-top:-20px" class="mb-5">
+      <b class="is-size-4" style="color: #181818"> Create project </b>
+    </div>
+
+    <b class="is-size-6">Name</b>
     <input v-model="name" class="input" type="text" placeholder="Project zero">
 
     <div class="mt-4">
@@ -28,9 +28,13 @@
         </div>
     </div>
 
-    <draggable v-model="tasks">
+    <b v-if="tasks.length > 0" class="is-size-6">
+      Tasks
+    </b>
+
+    <draggable v-model="tasks" class="mt-4">
         <transition-group>
-            <div v-for="(task, index) in tasks" :key="task">
+            <div v-for="(task, index) in tasks" :key="task" class="card p-4 mb-4">
                 <Collapsible>
                     <div slot="trigger" class="collapse-focus m-3">
                         <div class="customTrigger">
@@ -100,7 +104,6 @@
             </div>
         </transition-group>
     </draggable>
-
 
     <button @click="addNewTask" class="button is-large is-fullwidth is-primary is-outlined mt-6">
       <span class="icon">
@@ -215,7 +218,7 @@ export default {
         name: this.name,
         description: this.description,
         start_date: this.dateStart,
-        end_date: this.dateEnd
+        end_date: this.dateEnd == '' ? null : this.dateEnd
       }
       const dataSend = {
         typeProject: this.typeProject,
@@ -277,6 +280,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.btn-back {
+  cursor: pointer;
+}
 
 .btn-task {
   cursor: pointer;

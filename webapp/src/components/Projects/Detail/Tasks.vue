@@ -7,9 +7,9 @@
         </div>
       </div>
     </div>
-    <draggable v-model="tasks" :move="checkMove">
+    <draggable v-model="tasks" :move="checkMove" class="ml-4">
         <transition-group>
-            <div class="columns" v-for="(task, index) in tasks" :key="task.uuid">
+            <div class="columns card mb-5" v-for="(task, index) in tasks" :key="task.uuid">
                 <div class="column is-1 check-absolute">
                     <input type="checkbox" v-model="task.is_done" @change="updateCheck(index)">
                 </div>
@@ -42,14 +42,14 @@
 
                     <div class="mt-2 columns">
                         <div class="column">
-                            <b style="is-size-6">Nombre</b>
+                            <b style="is-size-6">Name</b>
                             <input v-if="task.titleEdit" v-model="task.title" class="input" type="text" placeholder="Ej: Hexagonal interactivo" @blur="task.titleEdit = false; $emit('update')"
                 @keyup.enter="updateTitle(index); $emit('update')">
                             <p v-else @click="task.titleEdit=true">{{ task.title }}</p>
                         </div>
                         <div class="column">
                             <div>
-                                <b style="is-size-6">Responsable</b>
+                                <b style="is-size-6">Responsible</b>
                             </div>
                             <div :class="{'dropdown' : true, 'is-active' : task.dropdownActive}"> <!-- task -->
                                 <div class="dropdown-trigger">
@@ -63,7 +63,7 @@
                                 </div>
                                 <div class="dropdown-menu" id="dropdown-menu" role="menu">
                                     <div class="dropdown-content">
-                                        <a @click="selectUser(user, index)" :class="{'dropdown-item' : true, 'is-active' : (user.id == task.assigned_to.id && task.dropdownActive)}" v-for="user in users" :key="user.id">
+                                        <a @click="selectUser(user, index)" :class="{'dropdown-item' : true, 'is-active' : (task.assigned_to && user.id == task.assigned_to.id && task.dropdownActive)}" v-for="user in users" :key="user.id">
                                             {{ user.name }}
                                         </a>
                                     </div>
@@ -73,13 +73,13 @@
                     </div>
 
                     <div class="mt-2">
-                        <p style="is-size-6"><b>Descripción</b> (opcional)</p>
+                        <p style="is-size-6"><b>Description</b> (optional)</p>
                         <textarea v-if="task.contentEdit" v-model="task.content" class="textarea" placeholder="e.g. Hello world" @blur="task.contentEdit = false; $emit('update')"
                 @keyup.enter="updateContent(index); $emit('update')"></textarea>
                         <p v-else @click="task.contentEdit=true">{{ task.content }}</p>
                     </div>
                     <div class="mt-2" align="right">
-                        <button @click="deleteTask(index)" class="button is-danger is-inverted is-small">Borrar</button>
+                        <span @click="deleteTask(index)" class="material-icons-round" style="cursor: pointer;">delete</span>
                         <!--<button @click="duplicateTask(task)" class="button is-primary is-inverted is-small">Duplicar</button>-->
                     </div>
                 </Collapsible>
@@ -88,31 +88,36 @@
     </draggable>
 
     <div class="mt-6" align="right">
-        <button @click="modalNewTask = true" class="button is-primary is-inverted is-small">Agregar tarea nueva</button>
+        <button @click="modalNewTask = true" class="button is-large is-fullwidth is-primary is-outlined mt-6">
+          <span class="icon">
+            <span class="material-icons-round">add_circle_outline</span>
+          </span>
+          <span style="font-size: 16px;">Add task</span>
+        </button>
     </div>
-
+    
     <div class="modal" :class="{'is-active' : modalNewTask}">
         <div class="modal-background"></div>
         <div class="modal-card">
             <header class="modal-card-head">
-            <p class="modal-card-title">Crear tarea</p>
+            <p class="modal-card-title">Create task</p>
             <button class="delete" aria-label="close" @click="modalNewTask = false"></button>
             </header>
             <section class="modal-card-body">
                 <div class="mt-2 columns">
                     <div class="column">
-                        <b style="is-size-6">Nombre</b>
-                        <input v-model="newTask.title" class="input" type="text" placeholder="Ej: Hexagonal interactivo">
+                        <b style="is-size-6">Name</b>
+                        <input v-model="newTask.title" class="input" type="text" placeholder="Example task">
                     </div>
                     <div class="column">
                         <div>
-                            <b style="is-size-6">Responsable</b>
+                            <b style="is-size-6">Responsible</b>
                         </div>
                         <div :class="{'dropdown' : true, 'is-active' : newTask.dropdownActive}"> <!-- task -->
                             <div class="dropdown-trigger">
                                 <button class="button" aria-haspopup="true" aria-controls="dropdown-menu" @click="newTask.dropdownActive = true">
                                 <span v-if="newTask.assigned_to">{{ newTask.memberName }}</span>
-                                <span v-else>Seleccionar</span>
+                                <span v-else>Select</span>
                                 <span class="icon is-small">
                                     <i class="fas fa-angle-down" aria-hidden="true"></i>
                                 </span>
@@ -120,7 +125,7 @@
                             </div>
                             <div class="dropdown-menu" id="dropdown-menu" role="menu">
                                 <div class="dropdown-content">
-                                    <a @click="selectUserNewTask(user, index)" :class="{'dropdown-item' : true, 'is-active' : (user.id == newTask.assigned_to && newTask.dropdownActive)}" v-for="user in users" :key="user.id">
+                                    <a @click="selectUserNewTask(user, index)" :class="{'dropdown-item' : true, 'is-active' : (newTask.assigned_to && user.id == newTask.assigned_to && newTask.dropdownActive)}" v-for="user in users" :key="user.id">
                                         {{ user.name }}
                                     </a>
                                 </div>
@@ -130,13 +135,13 @@
                 </div>
 
                 <div class="mt-2">
-                    <p style="is-size-6"><b>Descripción</b> (opcional)</p>
+                    <p style="is-size-6"><b>Description</b> (optional)</p>
                     <textarea v-model="newTask.content" class="textarea" placeholder="e.g. Hello world"></textarea>
                 </div>
             </section>
             <footer class="modal-card-foot">
-            <button class="button is-success" @click="addNewTask">Crear</button>
-            <button class="button" @click="modalNewTask = false">Cancelar</button>
+            <button class="button is-success" @click="addNewTask">Save</button>
+            <button class="button" @click="modalNewTask = false">Cancel</button>
             </footer>
         </div>
     </div>
@@ -159,7 +164,8 @@ export default {
   computed: {
     ...mapState({
       tasksState: state => state.projects.tasks,
-      users: state => state.chat.users
+      users: state => state.chat.users,
+      user: state => state.app.user
     })
   },
   data () {
@@ -176,8 +182,7 @@ export default {
     }
   },
   created () {
-    this.$store.dispatch('getUsers')
-    this.getTasks()
+    this.$store.dispatch('getMe')
   },
   methods: {
     checkMove (evt) {
@@ -219,7 +224,10 @@ export default {
       this.newTask.dropdownActive = false
     },
     selectUser (user, index) {
-      this.tasks[index].assigned_to.id = user.id
+      if(this.tasks[index].assigned_to)
+        this.tasks[index].assigned_to.id = user.id
+      else
+        this.tasks[index].assigned_to = { id : user.id}
       this.tasks[index].assigned_to.name = user.name
       this.tasks[index].dropdownActive = false
       this.updateAssigned(index)
@@ -268,6 +276,14 @@ export default {
     }
   },
   watch: {
+    users: function(newVal){
+      console.log("Users", newVal)
+    },
+    user: function(newVal){
+      console.log("User", newVal)
+      this.$store.dispatch('getUsers')
+      this.getTasks()
+    },
     tasksState (tasks) {
       console.log(tasks)
       this.loading = false

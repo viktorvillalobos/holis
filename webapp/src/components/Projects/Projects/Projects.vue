@@ -14,7 +14,7 @@
         <button @click="openCreateProject" class="button is-primary">New Project</button>
       </div>
     </div>
-    <div class="scroll-projects pr-4 pt-4">
+    <div class="scroll-projects pr-4">
         <ProjectList v-bind:type="this.type"/>
     </div>
   </div>
@@ -53,9 +53,9 @@ export default {
   position: absolute;
   overflow: auto;
   margin-right: 5px;
-  height: 82%;
+  height: 75%;
   width: 99%;
-  top: 18%;
+  top: 25%;
 }
 
 .scroll-projects::-webkit-scrollbar {
