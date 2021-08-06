@@ -12,6 +12,7 @@ from ... import services as chat_services
 from ... import tasks as chat_tasks
 from ...context import models as chat_models
 from ...context.providers import message as message_providers
+from ...context.providers import message_attachment as message_attachment_providers
 from . import serializers
 from .pagination import MessageCursoredPagination
 
@@ -27,7 +28,9 @@ class GetOrCreateRoomAPIView(views.APIView):
 
         to = serializer.validated_data["to"]
 
-        if len(to) == 1:
+        is_a_one_to_one_room = len(to) == 1
+
+        if is_a_one_to_one_room:
             room = self.get_one_to_one_room(to=to[0])
         else:
             room = self.get_many_to_many_room(to=to)
