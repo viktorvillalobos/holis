@@ -1,11 +1,13 @@
 from django.db import IntegrityError
 from django.utils import timezone
 
-import datetime
 import pytest
+from datetime import date, datetime
 from freezegun import freeze_time
+from unittest import mock
 
 from apps.core.tests import baker_recipes as core_recipes
+from apps.users.lib.exceptions import UserDoesNotExist
 
 from ...context.models import User
 from ...context.providers import user as user_providers
@@ -61,3 +63,41 @@ def test_touch_user_by_user_and_area_id_with_incorrect_area_raise_foreign_key_co
         user_providers.touch_user_by_user_and_area_id(
             user_id=user_without_area.id, area_id=nonexistent_area_id
         )
+
+
+@pytest.mark.django_db
+class TestUpdateUserProfile:
+    def setup_method(self):
+        self.user = user_recipes.user_viktor.make()
+
+    def test_update_user_profile(self, django_assert_num_queries):
+
+        expected_kwargs = dict(
+            id=self.user.id,
+            company_id=self.user.company_id,
+            birthday=date(1991, 2, 15),
+            email="other@email.com",
+            name="Linus Torvalds",
+            position="Linux Creator",
+        )
+
+        with django_assert_num_queries(num=1):
+            user_providers.update_user_profile(**expected_kwargs)
+
+        self.user.refresh_from_db()
+
+        for key, value in expected_kwargs.items():
+            assert getattr(self.user, key) == value
+
+    def test_not_existent_user_raise_exception(self):
+        kwargs = dict(
+            id=-999,
+            company_id=-999,
+            birthday=date(1991, 2, 15),
+            email="other@email.com",
+            name="Linus Torvalds",
+            position="Linux Creator",
+        )
+
+        with pytest.raises(UserDoesNotExist):
+            user_providers.update_user_profile(**kwargs)

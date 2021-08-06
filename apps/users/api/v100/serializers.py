@@ -83,6 +83,15 @@ def serialize_user_queryset(queryset: QuerySet) -> List[Dict[str, Any]]:
     return {"results": results}
 
 
+class UserProfileUpdateSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
+    company_id = serializers.IntegerField()
+    birthday = serializers.DateField(required=False)
+    email = serializers.EmailField(required=False)
+    name = serializers.CharField(required=False)
+    position = serializers.CharField(required=False)
+
+
 class UserSerializer(serializers.Serializer):
     id = serializers.IntegerField()
     birthday = serializers.DateField(required=False)

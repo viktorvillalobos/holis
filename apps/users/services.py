@@ -11,6 +11,7 @@ import datetime as dt
 import requests
 from io import BytesIO
 
+from apps.users.lib.exceptions import UserDoesNotExist
 from apps.utils.dataclasses import build_dataclass_from_model_instance
 
 from .api.v100.serializers import UserSerializer
@@ -106,3 +107,23 @@ def get_user_status_from_anywhere_by_user_id(
         return None
 
     return {"id": status.id, "text": status.text, "icon_text": status.icon_text}
+
+
+def update_user_profile(
+    *,
+    id: int,
+    company_id: int,
+    birthday: dt.datetime,
+    email: str,
+    name: str,
+    position: str,
+) -> None:
+    """ Update User Profile fields """
+    return user_providers.update_user_profile(
+        id=id,
+        company_id=company_id,
+        birthday=birthday,
+        email=email,
+        name=name,
+        position=position,
+    )

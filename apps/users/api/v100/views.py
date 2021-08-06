@@ -54,11 +54,15 @@ class UserProfileViewSet(GenericViewSet):
 
     @action(detail=False, methods=["patch"])
     def edit(self, request):
-        serializer = self.serializer_class(
-            request.user, data=request.data, context={"request": request}, partial=True
+        to_validate_data = {"company_id": self.request.company_id, **request.data}
+
+        serializer = serializers.UserProfileUpdateSerializer(
+            request.user, data=to_validate_data, context={"request": request}
         )
         serializer.is_valid(raise_exception=True)
-        serializer.save()
+
+        user_services.update_user_profile(**serializers.validated_data)
+
         return Response(status=status.HTTP_200_OK, data=serializer.data)
 
 

@@ -190,7 +190,7 @@ export default {
           isError: true,
           isActive: true,
           title: 'Yikes!',
-          text: 'Something wnet wrong, please check your fields and try again.'
+          text: 'Something went wrong, please check your fields and try again.'
         }
       }
     }

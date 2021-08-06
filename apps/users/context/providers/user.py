@@ -3,6 +3,10 @@ from typing import Optional
 from django.db.models import QuerySet
 from django.utils import timezone
 
+from datetime import datetime
+
+from apps.users.lib.exceptions import UserDoesNotExist
+
 from ..models import User
 
 
@@ -38,3 +42,24 @@ def get_users_with_statuses(
         queryset = queryset.filter(name__icontains=name)
 
     return queryset
+
+
+def update_user_profile(
+    *,
+    id: int,
+    company_id: int,
+    birthday: datetime,
+    email: str,
+    name: str,
+    position: str,
+) -> None:
+    """
+    Update an user.
+    """
+
+    rows_updated_count = User.objects.filter(id=id, company_id=company_id).update(
+        birthday=birthday, email=email, name=name, position=position
+    )
+
+    if rows_updated_count == 0:
+        raise UserDoesNotExist

@@ -2,7 +2,7 @@ from django.conf import settings
 from django.utils import timezone
 
 import pytest
-from datetime import datetime, timedelta
+from datetime import date, datetime, timedelta
 from model_bakery import baker
 
 from apps.core.tests import baker_recipes as core_recipes
@@ -115,5 +115,24 @@ def test_get_user_active_status_from_db_by_user_id(mocker):
     expected_kwargs = dict(company_id=111, user_id=999)
 
     user_services.get_user_active_status_from_db_by_user_id(**expected_kwargs)
+
+    mocked_provider.assert_called_once_with(**expected_kwargs)
+
+
+def test_update_user_profile(mocker):
+    mocked_provider = mocker.patch(
+        f"{USER_SERVICES_PATH}.user_providers.update_user_profile"
+    )
+
+    expected_kwargs = dict(
+        id=-999,
+        company_id=-999,
+        birthday=date(1991, 2, 15),
+        email="other@email.com",
+        name="Linus Torvalds",
+        position="Linux Creator",
+    )
+
+    user_services.update_user_profile(**expected_kwargs)
 
     mocked_provider.assert_called_once_with(**expected_kwargs)
