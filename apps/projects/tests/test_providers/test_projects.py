@@ -31,7 +31,7 @@ def test_get_projects_by_company_and_kind(django_assert_num_queries):
         members=(user1, user2), _quantity=3
     )
 
-    with django_assert_num_queries(1):
+    with django_assert_num_queries(2):
         results = list(
             project_providers.get_projects_by_company_and_kind(
                 company_id=user1.company_id,

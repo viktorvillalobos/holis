@@ -82,7 +82,8 @@ def test_remove_user_from_area_by_area_and_user_id(area: Area) -> None:
 async def test_get_cached_position(cached_position_fields, create_status_test_data):
     user, area = await create_status_test_data()
 
-    expected_datetime_string = timezone.now().isoformat()
+    expected_datetime = timezone.now()
+
     await core_services.set_cached_position(
         company_id=user.company_id,
         area=area.id,
@@ -96,19 +97,21 @@ async def test_get_cached_position(cached_position_fields, create_status_test_da
         company_id=user.company_id, user_id=user.id
     )
 
-    assert isinstance(cached_position, dict)
-    assert all(field_name in cached_position for field_name in cached_position_fields)
-    assert cached_position["id"] == user.id
-    assert cached_position["x"] == 10
-    assert cached_position["y"] == 15
-    assert cached_position["room"] == "custom-room"
-    assert cached_position["name"] == user.name
-    assert cached_position["last_name"] == user.last_name
-    assert cached_position["position"] == user.position
-    assert cached_position["area_id"] == area.id
-    assert cached_position["jid"] == user.jid
-    assert cached_position["avatar"] == user.avatar_thumb
-    assert cached_position["last_seen"] == expected_datetime_string
+    assert isinstance(cached_position, AreaItem)
+    assert all(
+        field_name in cached_position.__dict__ for field_name in cached_position_fields
+    )
+    assert cached_position.id == user.id
+    assert cached_position.x == 10
+    assert cached_position.y == 15
+    assert cached_position.room == "custom-room"
+    assert cached_position.name == user.name
+    assert cached_position.last_name == user.last_name
+    assert cached_position.position == user.position
+    assert cached_position.area_id == area.id
+    assert cached_position.jid == user.jid
+    assert cached_position.avatar == user.avatar_thumb
+    assert cached_position.last_seen == expected_datetime
 
 
 @pytest.mark.django_db
@@ -130,7 +133,7 @@ async def test_delete_cached_position(create_status_test_data):
         company_id=user.company_id, user_id=user.id
     )
 
-    assert isinstance(cached_position, dict)
+    assert isinstance(cached_position, AreaItem)
 
     core_services.delete_cached_position(company_id=user.company_id, user_id=user.id)
 
