@@ -27,10 +27,18 @@ from .lib.exceptions import NonExistentMemberException
 
 @database_sync_to_async
 def create_message_async(
-    company_id: int, user_id: int, room_uuid: Union[UUID, str], text: str
+    company_id: int,
+    user_id: int,
+    room_uuid: Union[UUID, str],
+    text: str,
+    app_uuid: Union[UUID, str],
 ) -> Message:
     return message_providers.create_message(
-        company_id=company_id, room_uuid=room_uuid, user_id=user_id, text=text
+        company_id=company_id,
+        room_uuid=room_uuid,
+        user_id=user_id,
+        text=text,
+        app_uuid=app_uuid,
     )
 
 
@@ -40,8 +48,10 @@ def create_message(company_id: int, user_id: int, room_uuid: int, text: str) -> 
     )
 
 
-def _serialize_message(message):
-    data = v100_serializers.MessageWithAttachmentsSerializer(message).data
+def _serialize_message(message, user):
+    data = v100_serializers.MessageWithAttachmentsSerializer(
+        message, context={"user": user}
+    ).data
 
     return {
         **data,
@@ -50,12 +60,12 @@ def _serialize_message(message):
 
 
 @database_sync_to_async
-def serialize_message(message: Message) -> Dict[str, Any]:
+def serialize_message(message: Message, user: "User") -> Dict[str, Any]:
 
     # This is a patch to Django Serializer BUG
     # https://stackoverflow.com/questions/36588126/uuid-is-not-json-serializable
 
-    return _serialize_message(message=message)
+    return _serialize_message(message=message, user=user)
 
 
 def get_cursored_recents_rooms_by_user_id(
@@ -227,8 +237,7 @@ def update_room_last_message_by_room_uuid_async(
     )
 
 
-@database_sync_to_async
-def send_message_to_devices_by_user_ids_async(
+def send_message_to_devices_by_user_ids(
     company_id: int, room_uuid: Union[UUID, str], serialized_message: dict[str, Any]
 ) -> None:
     user_ids = Room.objects.get(uuid=room_uuid).members.values_list("id", flat=True)

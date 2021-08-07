@@ -24,10 +24,18 @@ def get_messages_by_room_uuid(
 
 
 def create_message(
-    company_id: int, user_id: int, room_uuid: Union[UUID, str], text: str
+    company_id: int,
+    user_id: int,
+    room_uuid: Union[UUID, str],
+    text: str,
+    app_uuid: Union[UUID, str],
 ):
     return Message.objects.create(
-        company_id=company_id, room_uuid=room_uuid, user_id=user_id, text=text
+        company_id=company_id,
+        room_uuid=room_uuid,
+        user_id=user_id,
+        text=text,
+        app_uuid=app_uuid,
     )
 
 

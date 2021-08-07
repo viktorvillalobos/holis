@@ -26,8 +26,10 @@ class MessageRawSerializer(serializers.Serializer):
     avatar_thumb = serializers.SerializerMethodField()
     user_name = serializers.SerializerMethodField()
     user_id = serializers.SerializerMethodField()
-    uuid = serializers.CharField()
-    id = serializers.CharField(source="uuid")
+    uuid = serializers.UUIDField()
+    app_uuid = serializers.UUIDField()
+    id = serializers.UUIDField(source="uuid")
+    app_uuid = serializers.UUIDField()
     room = serializers.UUIDField()
     created = serializers.DateTimeField()
     text = serializers.CharField()
@@ -47,14 +49,20 @@ class MessageRawSerializer(serializers.Serializer):
 class MessageAttachmentChatSerializer(serializers.Serializer):
     uuid = serializers.UUIDField()
     id = serializers.UUIDField(source="uuid")
+    app_uuid = serializers.UUIDField()
     company_id = serializers.IntegerField()
     message_uuid = serializers.UUIDField(source="message.pk")
     room_uuid = serializers.UUIDField(source="message.room_uuid")
-    user_id = serializers.IntegerField(source="message.user.id")
-    user_name = serializers.CharField(source="message.user.name")
+    user_id = serializers.IntegerField(source="message.user_id")
+    # user_name = serializers.CharField(source="message.user.name")
+    user_name = serializers.SerializerMethodField()
     attachment_url = serializers.SerializerMethodField()
     attachment_name = serializers.SerializerMethodField()
     attachment_mimetype = serializers.CharField(source="mimetype")
+
+    def get_user_id(self, obj):
+        user = self.context.get("user")
+        return user.name
 
     def get_attachment_url(self, obj):
         if settings.ENVIRONMENT == settings.PRODUCTION:

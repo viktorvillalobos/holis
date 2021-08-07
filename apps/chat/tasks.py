@@ -1,8 +1,9 @@
-from typing import Union
+from typing import Any, Union
 
 from celery import shared_task
 
 import logging
+from asgiref.sync import sync_to_async
 from uuid import UUID
 
 from . import services as chat_services
@@ -31,3 +32,20 @@ def set_room_user_read_task(
     chat_services.set_room_user_read(
         company_id=company_id, user_id=user_id, room_uuid=room_uuid
     )
+
+
+@shared_task
+def send_message_to_devices_by_user_ids_task(
+    company_id: int, room_uuid: Union[UUID, str], serialized_message: dict[str, Any]
+):
+    logger.info("send_message_to_devices_by_user_ids_task")
+    chat_services.send_message_to_devices_by_user_ids(
+        company_id=company_id,
+        room_uuid=room_uuid,
+        serialized_message=serialized_message,
+    )
+
+
+send_message_to_devices_by_user_ids_task_async = sync_to_async(
+    send_message_to_devices_by_user_ids_task.delay
+)

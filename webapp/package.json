@@ -39,6 +39,7 @@
     "socket.io-client": "^2.2.0",
     "stanza": "^12.13.1",
     "svg.js": "^2.7.1",
+    "uuid": "^8.3.2",
     "v-emoji-picker": "^2.1.8",
     "vue": "^2.6.11",
     "vue-apexcharts": "^1.5.3",

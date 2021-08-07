@@ -3,7 +3,10 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.urls import reverse
 
+import json
 import logging
+
+from apps.users.api.v100.serializers import UserSerializer
 
 logger = logging.getLogger(__name__)
 
@@ -18,4 +21,6 @@ def webapp(request):
         url = f"{scheme_url}://{request.user.company.code}.{request.hostname}/app/"
         return HttpResponseRedirect(url)
 
-    return render(request, "core/webapp.html")
+    user_data = json.dumps(UserSerializer(request.user).data)
+
+    return render(request, "core/webapp.html", {"user_data": user_data})
