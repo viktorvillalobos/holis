@@ -74,11 +74,13 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
         )
         serialized_message = await chat_services.serialize_message(message=message)
         await self.channel_layer.group_send(self.room_group_name, serialized_message)
-        await chat_services.send_message_to_devices_by_user_ids_async(
-            company_id=user.company_id,
-            room_uuid=message.room_uuid,
-            serialized_message=serialized_message,
-        )
+
+        # # TODO: This produce a delay of 400ms
+        # await chat_services.send_message_to_devices_by_user_ids_async(
+        #     company_id=user.company_id,
+        #     room_uuid=message.room_uuid,
+        #     serialized_message=serialized_message,
+        # )
 
         await chat_services.update_room_last_message_by_room_uuid_async(
             company_id=user.company_id,

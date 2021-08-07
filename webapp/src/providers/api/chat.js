@@ -15,13 +15,15 @@ export default {
     return axios.get(`${urlBase}/users/v100/`, { params: params })
   },
   getRecents (search) {
-    const params ={
+    const params = {
       search: search
     }
     return axios.get(`${urlBase}/chat/v100/room/recents/`,{params: params})
   },
   getRoomByUserID (to) {
-    return axios.post(`${urlBase}/chat/v100/get-or-create-room/`, { to })
+    return axios.post(`${urlBase}/chat/v100/get-or-create-room/`, {
+      to: [to]
+    })
   },
   getMessages (room) {
     return axios.get(`${urlBase}/chat/v100/room/${room}/messages/`)

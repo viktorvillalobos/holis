@@ -231,9 +231,7 @@ def update_room_last_message_by_room_uuid_async(
 def send_message_to_devices_by_user_ids_async(
     company_id: int, room_uuid: Union[UUID, str], serialized_message: dict[str, Any]
 ) -> None:
-    user_ids = set(
-        Room.objects.get(uuid=room_uuid).members.values_list("id", flat=True)
-    )
+    user_ids = Room.objects.get(uuid=room_uuid).members.values_list("id", flat=True)
     devices_providers.send_message_to_devices_by_user_ids(
         company_id=company_id, user_ids=user_ids, serialized_message=serialized_message
     )
