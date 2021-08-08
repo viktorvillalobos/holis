@@ -71,7 +71,10 @@ class UploadFileAPIView(views.APIView):
     pagination_class = None
 
     def post(self, request, room_uuid, *args, **kwargs):
+        # TODO: add validation
+
         text = request.POST.get("text")
+        app_uuid = request.POST.get("app_uuid")
         files = request.FILES.getlist("files")
 
         message = chat_services.create_message(
@@ -79,6 +82,7 @@ class UploadFileAPIView(views.APIView):
             room_uuid=room_uuid,
             user_id=request.user.id,
             text=text,
+            app_uuid=app_uuid,
         )
 
         message_attachment_providers.create_message_attachments_by_message_uuid(
@@ -95,6 +99,7 @@ class UploadFileAPIView(views.APIView):
             company_id=self.request.user.company_id,
             room_uuid=room_uuid,
             message_uuid=message.uuid,
+            user=self.request.user,
         )
 
         return Response(serialized_data, status=status.HTTP_201_CREATED)

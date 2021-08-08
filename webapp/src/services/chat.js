@@ -50,7 +50,7 @@ export default {
 
     return payloadSocketMessage
   },
-  async getMessageWithFiles({ room, msg }) {
+  async sendMessageWithFiles({ room, msg }) {
     const { data } = await chatProviders.sendMessageWithFiles(room, msg)
     return data
   }

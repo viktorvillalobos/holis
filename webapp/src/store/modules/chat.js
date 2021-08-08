@@ -170,7 +170,7 @@ const actions = {
     let payloadSocketMessage = null
 
     if (thereAreFiles) {
-      await chatServices.chat.sendMessageWithFiles({
+      await chatServices.sendMessageWithFiles({
         room: state.room,
         msg
       })

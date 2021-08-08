@@ -1,4 +1,4 @@
-
+import { v4 as uuidv4 } from 'uuid'
 import axios from 'axios'
 
 import { urlBase } from '../config'
@@ -33,6 +33,8 @@ export default {
   },
   sendMessageWithFiles (room, payload) {
     const formData = new FormData()
+    formData.append("app_uuid", uuidv4())
+
     payload.files.forEach(file => {
       formData.append('files', file)
     })

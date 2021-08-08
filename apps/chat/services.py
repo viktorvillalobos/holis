@@ -42,9 +42,15 @@ def create_message_async(
     )
 
 
-def create_message(company_id: int, user_id: int, room_uuid: int, text: str) -> Message:
+def create_message(
+    company_id: int, user_id: int, room_uuid: int, text: str, app_uuid: Union[UUID, str]
+) -> Message:
     return message_providers.create_message(
-        company_id=company_id, room_uuid=room_uuid, user_id=user_id, text=text
+        company_id=company_id,
+        room_uuid=room_uuid,
+        user_id=user_id,
+        text=text,
+        app_uuid=app_uuid,
     )
 
 
@@ -183,12 +189,13 @@ def broadcast_chat_message_with_attachments(
     company_id: int,
     room_uuid: Union[str, uuid.UUID],
     message_uuid: Union[str, uuid.UUID],
+    user: "User",
 ) -> None:
     channel_layer = get_channel_layer()
     group = ROOM_GROUP_NAME.format(company_id=company_id, room_uuid=room_uuid)
     message = Message.objects.prefetch_related("attachments").get(uuid=message_uuid)
 
-    serialized_message = _serialize_message(message)
+    serialized_message = _serialize_message(message, user=user)
 
     async_to_sync(channel_layer.group_send)(group, serialized_message)
 
