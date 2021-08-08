@@ -27,21 +27,37 @@ from .lib.exceptions import NonExistentMemberException
 
 @database_sync_to_async
 def create_message_async(
-    company_id: int, user_id: int, room_uuid: Union[UUID, str], text: str
+    company_id: int,
+    user_id: int,
+    room_uuid: Union[UUID, str],
+    text: str,
+    app_uuid: Union[UUID, str],
 ) -> Message:
     return message_providers.create_message(
-        company_id=company_id, room_uuid=room_uuid, user_id=user_id, text=text
+        company_id=company_id,
+        room_uuid=room_uuid,
+        user_id=user_id,
+        text=text,
+        app_uuid=app_uuid,
     )
 
 
-def create_message(company_id: int, user_id: int, room_uuid: int, text: str) -> Message:
+def create_message(
+    company_id: int, user_id: int, room_uuid: int, text: str, app_uuid: Union[UUID, str]
+) -> Message:
     return message_providers.create_message(
-        company_id=company_id, room_uuid=room_uuid, user_id=user_id, text=text
+        company_id=company_id,
+        room_uuid=room_uuid,
+        user_id=user_id,
+        text=text,
+        app_uuid=app_uuid,
     )
 
 
-def _serialize_message(message):
-    data = v100_serializers.MessageWithAttachmentsSerializer(message).data
+def _serialize_message(message, user):
+    data = v100_serializers.MessageWithAttachmentsSerializer(
+        message, context={"user": user}
+    ).data
 
     return {
         **data,
@@ -50,12 +66,12 @@ def _serialize_message(message):
 
 
 @database_sync_to_async
-def serialize_message(message: Message) -> Dict[str, Any]:
+def serialize_message(message: Message, user: "User") -> Dict[str, Any]:
 
     # This is a patch to Django Serializer BUG
     # https://stackoverflow.com/questions/36588126/uuid-is-not-json-serializable
 
-    return _serialize_message(message=message)
+    return _serialize_message(message=message, user=user)
 
 
 def get_cursored_recents_rooms_by_user_id(
@@ -114,25 +130,29 @@ def get_cursored_recents_rooms_by_user_id(
     return recents_data, next_page_cursor, previous_page_cursor
 
 
-def get_or_create_room_by_company_and_members_ids(
-    company_id: int, members_ids: List[int]
+def get_or_create_one_to_one_room_by_company_and_users(
+    company_id: int, to_user_id: int, from_user_id: int
 ) -> Room:
-    try:
-        return room_providers.get_one_to_one_room_by_members_ids(
-            company_id=company_id, members_ids=members_ids
-        )
-    except Room.DoesNotExist:
-        pass
+    room = room_providers.get_or_create_one_to_one_room_by_members_ids(
+        company_id=company_id, from_user_id=from_user_id, to_user_id=to_user_id
+    )
 
-    channel = Room.objects.create(
-        **{
-            "company_id": company_id,
-            "is_one_to_one": True,
-            "name": str(uuid.uuid4()),
-            "any_can_invite": False,
-            "members_only": True,
-            "max_users": 2,
-        }
+    members = users_models.User.objects.filter(
+        id__in=[from_user_id, to_user_id], company_id=company_id
+    )
+
+    if members.count() != 2:
+        raise NonExistentMemberException("User does not exist")
+
+    room.members.set(members)
+    return room
+
+
+def create_many_to_many_room_by_name(
+    company_id: int, members_ids: set[int], name: str = "custom-room"
+) -> Room:
+    room = room_providers.create_many_to_many_room_by_name(
+        company_id=company_id, name=name
     )
 
     members = users_models.User.objects.filter(
@@ -142,10 +162,8 @@ def get_or_create_room_by_company_and_members_ids(
     if members.count() != len(members_ids):
         raise NonExistentMemberException("User does not exist")
 
-    for member in members:
-        channel.members.add(member)
-
-    return channel
+    room.members.set(members)
+    return room
 
 
 @cache(12 * 60 * 60)
@@ -171,12 +189,13 @@ def broadcast_chat_message_with_attachments(
     company_id: int,
     room_uuid: Union[str, uuid.UUID],
     message_uuid: Union[str, uuid.UUID],
+    user: "User",
 ) -> None:
     channel_layer = get_channel_layer()
     group = ROOM_GROUP_NAME.format(company_id=company_id, room_uuid=room_uuid)
     message = Message.objects.prefetch_related("attachments").get(uuid=message_uuid)
 
-    serialized_message = _serialize_message(message)
+    serialized_message = _serialize_message(message, user=user)
 
     async_to_sync(channel_layer.group_send)(group, serialized_message)
 
@@ -225,13 +244,10 @@ def update_room_last_message_by_room_uuid_async(
     )
 
 
-@database_sync_to_async
-def send_message_to_devices_by_user_ids_async(
+def send_message_to_devices_by_user_ids(
     company_id: int, room_uuid: Union[UUID, str], serialized_message: dict[str, Any]
 ) -> None:
-    user_ids = set(
-        Room.objects.get(uuid=room_uuid).members.values_list("id", flat=True)
-    )
+    user_ids = Room.objects.get(uuid=room_uuid).members.values_list("id", flat=True)
     devices_providers.send_message_to_devices_by_user_ids(
         company_id=company_id, user_ids=user_ids, serialized_message=serialized_message
     )

@@ -7,7 +7,7 @@ from ...context import models as chat_models
 
 
 class GetOrCreateRoomSerializer(serializers.Serializer):
-    to = serializers.CharField()
+    to = serializers.ListField(child=serializers.IntegerField(), min_length=1)
 
 
 class RecentsSerializer(serializers.Serializer):
@@ -26,8 +26,10 @@ class MessageRawSerializer(serializers.Serializer):
     avatar_thumb = serializers.SerializerMethodField()
     user_name = serializers.SerializerMethodField()
     user_id = serializers.SerializerMethodField()
-    uuid = serializers.CharField()
-    id = serializers.CharField(source="uuid")
+    uuid = serializers.UUIDField()
+    app_uuid = serializers.UUIDField()
+    id = serializers.UUIDField(source="uuid")
+    app_uuid = serializers.UUIDField()
     room = serializers.UUIDField()
     created = serializers.DateTimeField()
     text = serializers.CharField()

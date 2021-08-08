@@ -1,4 +1,4 @@
-
+import { v4 as uuidv4 } from 'uuid'
 import axios from 'axios'
 
 import { urlBase } from '../config'
@@ -15,13 +15,15 @@ export default {
     return axios.get(`${urlBase}/users/v100/`, { params: params })
   },
   getRecents (search) {
-    const params ={
+    const params = {
       search: search
     }
     return axios.get(`${urlBase}/chat/v100/room/recents/`,{params: params})
   },
   getRoomByUserID (to) {
-    return axios.post(`${urlBase}/chat/v100/get-or-create-room/`, { to })
+    return axios.post(`${urlBase}/chat/v100/get-or-create-room/`, {
+      to: [to]
+    })
   },
   getMessages (room) {
     return axios.get(`${urlBase}/chat/v100/room/${room}/messages/`)
@@ -31,6 +33,8 @@ export default {
   },
   sendMessageWithFiles (room, payload) {
     const formData = new FormData()
+    formData.append("app_uuid", uuidv4())
+
     payload.files.forEach(file => {
       formData.append('files', file)
     })

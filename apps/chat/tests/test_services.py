@@ -17,7 +17,7 @@ from . import baker_recipes as chat_recipes
 async def test_create_message_async_is_successful(one_to_one_room, user):
     text = "This is a test message"
     message = await chat_services.create_message_async(
-        user.company_id, user.id, one_to_one_room.uuid, text
+        user.company_id, user.id, one_to_one_room.uuid, text, app_uuid=uuid.uuid4()
     )
 
     assert message.text == text
@@ -30,7 +30,7 @@ async def test_create_message_async_is_successful(one_to_one_room, user):
 def test_create_message_is_successful(one_to_one_room, user):
     text = "This is a test message"
     message = chat_services.create_message(
-        user.company_id, user.id, one_to_one_room.uuid, text
+        user.company_id, user.id, one_to_one_room.uuid, text, app_uuid=uuid.uuid4()
     )
 
     assert message.text == text

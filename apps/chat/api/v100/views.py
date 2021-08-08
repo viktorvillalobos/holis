@@ -1,10 +1,8 @@
-from django.conf import settings
 from rest_framework import exceptions, generics, status, views
 from rest_framework.parsers import MultiPartParser
 from rest_framework.response import Response
 
 import logging
-from twilio.rest import Client
 
 from apps.chat.lib.exceptions import NonExistentMemberException
 from apps.utils.rest_framework import objects
@@ -28,18 +26,35 @@ class GetOrCreateRoomAPIView(views.APIView):
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        room = self.get_one_to_one_room(serializer.validated_data)
+        to = serializer.validated_data["to"]
+
+        is_a_one_to_one_room = len(to) == 1
+
+        if is_a_one_to_one_room:
+            room = self.get_one_to_one_room(to=to[0])
+        else:
+            room = self.get_many_to_many_room(to=to)
 
         return Response({"id": room.uuid}, status=200)
 
-    def get_one_to_one_room(self, validated_data: dict) -> chat_models.Room:
+    def get_one_to_one_room(self, to: int) -> chat_models.Room:
         try:
-            return chat_services.get_or_create_room_by_company_and_members_ids(
-                company_id=self.request.user.company_id,
-                members_ids=[self.request.user.id, validated_data["to"]],
+            return chat_services.get_or_create_one_to_one_room_by_company_and_users(
+                company_id=self.request.company_id,
+                from_user_id=self.request.user.id,
+                to_user_id=to,
             )
         except NonExistentMemberException:
-            raise exceptions.ValidationError("Member not exist")
+            raise exceptions.ValidationError("Member does not exist")
+
+    def get_many_to_many_room(self, to: list[int]) -> chat_models.Room:
+        try:
+            return chat_services.create_many_to_many_room_by_name(
+                company_id=self.request.user.company_id,
+                members_ids={self.request.user.id, *to},
+            )
+        except NonExistentMemberException:
+            raise exceptions.ValidationError("Member does not exist")
 
 
 class GetTurnCredentialsAPIView(views.APIView):
@@ -56,7 +71,10 @@ class UploadFileAPIView(views.APIView):
     pagination_class = None
 
     def post(self, request, room_uuid, *args, **kwargs):
+        # TODO: add validation
+
         text = request.POST.get("text")
+        app_uuid = request.POST.get("app_uuid")
         files = request.FILES.getlist("files")
 
         message = chat_services.create_message(
@@ -64,6 +82,7 @@ class UploadFileAPIView(views.APIView):
             room_uuid=room_uuid,
             user_id=request.user.id,
             text=text,
+            app_uuid=app_uuid,
         )
 
         message_attachment_providers.create_message_attachments_by_message_uuid(
@@ -80,6 +99,7 @@ class UploadFileAPIView(views.APIView):
             company_id=self.request.user.company_id,
             room_uuid=room_uuid,
             message_uuid=message.uuid,
+            user=self.request.user,
         )
 
         return Response(serialized_data, status=status.HTTP_201_CREATED)

@@ -47,7 +47,11 @@ class TestUploadFileAPIView:
         rf = APIRequestFactory()
         request = rf.post(
             self.url,
-            data={"files": self.files, "text": "This is a message"},
+            data={
+                "files": self.files,
+                "text": "This is a message",
+                "app_uuid": uuid.uuid4(),
+            },
             format="multipart",
         )
 
@@ -77,6 +81,7 @@ class TestUploadFileAPIView:
             company_id=self.user.company_id,
             room_uuid=self.room.uuid,
             message_uuid=uuid.UUID(parsed_response["id"]),
+            user=self.user,
         )
 
 

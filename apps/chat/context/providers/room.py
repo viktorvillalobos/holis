@@ -1,9 +1,10 @@
-from typing import Dict, Iterable, List, Optional, Union
+from typing import Dict, Iterable, Optional, Union
 
 from django.db.models import Case, Count, Exists, Q, Value, When
 from django.db.models.expressions import OuterRef
 from django.db.models.query import QuerySet
 
+import uuid
 from datetime import datetime
 from uuid import UUID
 
@@ -14,14 +15,45 @@ from apps.utils.rest_framework.paginators import get_paginated_queryset
 from ..models import Message, Room, RoomUserRead
 
 
-def get_one_to_one_room_by_members_ids(company_id: int, members_ids: List[int]) -> Room:
-    return (
-        Room.objects.filter(
-            company_id=company_id, members__id__in=members_ids, is_one_to_one=True
+def get_or_create_one_to_one_room_by_members_ids(
+    company_id: int, to_user_id: int, from_user_id: int
+) -> Room:
+    try:
+        return (
+            Room.objects.filter(
+                company_id=company_id,
+                members__id__in={from_user_id, to_user_id},
+                is_one_to_one=True,
+            )
+            .annotate(num_members=Count("members"))
+            .filter(num_members=2)
+            .earliest("created")
         )
-        .annotate(num_members=Count("members"))
-        .filter(num_members=2)
-        .earliest("created")
+    except Room.DoesNotExist:
+        return Room.objects.create(
+            **{
+                "company_id": company_id,
+                "is_one_to_one": True,
+                "name": str(uuid.uuid4()),
+                "any_can_invite": False,
+                "members_only": True,
+                "max_users": 2,
+            }
+        )
+
+
+def create_many_to_many_room_by_name(
+    company_id: int, name: str, any_can_invite: bool = True
+) -> Room:
+    return Room.objects.create(
+        **{
+            "company_id": company_id,
+            "is_one_to_one": False,
+            "name": name,
+            "any_can_invite": any_can_invite,
+            "members_only": True,
+            "max_users": -1,
+        }
     )
 
 

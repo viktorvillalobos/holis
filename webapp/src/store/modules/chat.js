@@ -1,6 +1,6 @@
 import apiClient from '../../providers/api'
 import chatServices from '../../services/chat'
-import Message from '../../models/Message'
+import { Message, TempMessage } from '../../models/Message'
 import moment from 'moment'
 
 const socketChat = process.env.NODE_ENV === 'production'
@@ -55,7 +55,9 @@ const mutations = {
     state.connected = value
   },
   addMessage (state, msg) {
-    state.messages.push(new Message(msg))
+    const isTempMessage = msg.uuid === null
+    const to_send = isTempMessage ? new TempMessage(msg) : new Message(msg)
+    state.messages.push(to_send)
   },
   setMessages (state, lst) {
     state.messages = lst
@@ -131,9 +133,15 @@ const actions = {
     const callback = message => dispatch('onMessage', message.data)
     chatServices.setSocketService({ vm, url, callback })
   },
-  onMessage ({ commit }, message) {
+  onMessage ({ commit, state }, message) {
     message = JSON.parse(message)
-    if (message.type === 'chat.message') commit('addMessage', message)
+    if (message.type === 'chat.message') {
+
+      // Validate that is not a local sent message so, we not need to add again
+      const existLocalMessage = state.messages.filter( x => x.app_uuid == message.app_uuid ).length > 0
+
+      if (!existLocalMessage) commit('addMessage', message)
+    }
   },
   async getMessagesByRoom ({ commit }, payload) {
     const { data } = await apiClient.chat.getMessages(payload.id)
@@ -143,7 +151,7 @@ const actions = {
   async getMessagesByUser ({ commit, dispatch }, payload) {
     const { data } = await apiClient.chat.getRoomByUserID(payload.to)
     data.first_time = payload.first_time
-    if(payload.new_chat){
+    if (payload.new_chat) {
       commit('setCurrentChatID', data.id)
     }
     dispatch('getMessagesByRoom', data)
@@ -157,21 +165,39 @@ const actions = {
     commit('unBlockScroll')
   },
   async sendChatMessage ({ commit, state, dispatch }, { msg }) {
-    if (msg.files.length > 0) {
-      const { data } = await apiClient.chat.sendMessageWithFiles(state.room, msg)
+    const thereAreFiles = msg.files.length > 0
+
+    let payloadSocketMessage = null
+
+    if (thereAreFiles) {
+      await chatServices.sendMessageWithFiles({
+        room: state.room,
+        msg
+      })
     } else {
-      const payload = {
-        type: 'chat.message',
+      payloadSocketMessage = chatServices.sendMessage({
         message: msg.message,
         room: state.room,
         to: state.currentChatID,
         is_one_to_one: true
-      }
-
-      window.$socketChat.sendObj(payload)
-      const isRecent = state.recents.filter(x => x.id === state.currentChatID)
-      if (!isRecent.length) dispatch('getRecents')
+      })
     }
+
+    commit('addMessage', {
+      avatar_thumb: null,
+      created: new Date().toISOString(),
+      room: payloadSocketMessage.room,
+      app_id: payloadSocketMessage.app_uuid,
+      text: payloadSocketMessage.message,
+      user_id: null,
+      user_name: 'Temp Message User',
+      uuid: null,
+      app_uuid: payloadSocketMessage.app_uuid,
+      attachments: []
+    })
+
+    const isRecent = state.recents && state.recents.results.filter(x => x.id === state.currentChatID)
+    if (!isRecent.length) dispatch('getRecents')
   }
 }
 

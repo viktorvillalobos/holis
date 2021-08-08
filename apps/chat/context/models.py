@@ -78,6 +78,7 @@ class Message(TimeStampedModel):
     """
 
     uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    app_uuid = models.UUIDField(null=True)
     company = models.ForeignKey(
         "core.Company",
         related_name="messages",
