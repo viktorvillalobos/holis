@@ -28,10 +28,14 @@
           </span>
         </p>
       </div>
-      <Loading v-bind:loading="loading"/>
     </div>
-    <div class="inbox-messages flx-1" v-if="recents && recents.length > 0">
-      <vue-scroll>
+    <div class="inbox-messages flx-1">
+      <vue-scroll v-if="loading">
+        <div v-for="index in 10" :key="index">
+          <InboxSkeleton v-bind:recent="recent"/>
+        </div>
+      </vue-scroll>
+      <vue-scroll v-if="!loading && recents && recents.length > 0">
         <div v-for="recent in recents" :key="recent.id" @click="openChatUser(recent)">
           <InboxMessage v-bind:recent="recent"/>
         </div>
@@ -49,6 +53,7 @@ import { mapState } from 'vuex'
 import Loading from '@/components/Loading'
 import Avatar from '@/components/Avatar'
 import InboxMessage from './Inbox'
+import InboxSkeleton from './InboxSkeleton'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import _ from 'lodash'
 
@@ -58,7 +63,8 @@ export default {
     Loading,
     Avatar,
     InboxMessage,
-    FontAwesomeIcon
+    FontAwesomeIcon,
+    InboxSkeleton
   },
   data () {
     return {

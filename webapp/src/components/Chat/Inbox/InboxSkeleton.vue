@@ -1,21 +1,19 @@
 <template>
-  <div class="hover">
+  <div>
     <div style="padding-bottom:10px">
         <div class="inbox columns">
             <div class="column columns">
-                <Avatar v-if="recent.image" :img="recent.image" style="margin-top:12px"/>
-                <font-awesome-icon v-else icon="user-circle" size="3x" style="margin-top:12px"/>
+                <PuSkeleton style="margin-top:12px" circle height="50px" width="50px"/>
                 <div class="column">
-                    <b class="inbox-title">{{recent ? recent.to_user_name : 'Nombre misterioso' }}</b>
-                    <div :class="{'inbox-message': true, 'inbox-message-active': recent.have_unread_messages }">{{ recent.last_message_text }}</div>
+                    <PuSkeleton height="20px" width="30%"  />
+                    <div>
+                        <PuSkeleton height="20px" width="80%"  />
+                    </div>
                 </div>
             </div>
             <div class="column">
-                <div>
-                    <p style="color:#828282" class="items-right">{{recent.last_message_ts | moment("hh:mm")}}<p/>
-                </div>
                 <div class="items-right">
-                    <font-awesome-icon icon="chevron-right" size="1x" style="color:#828282"/>
+                    <PuSkeleton  height="20px" width="40px"  />
                 </div>
             </div>
         </div>
@@ -28,11 +26,10 @@
 import Avatar from '@/components/Avatar'
 
 export default {
-  name: 'InboxMessage',
+  name: 'InboxSkeleton',
   components: {
       Avatar
   },
-  props:["recent"],
   data () {
     return {}
   }
@@ -65,16 +62,6 @@ export default {
             font-weight:bold;
         }
     }
-}
-
-.hover{
-    padding-top: 10px;
-    padding-right: 12px;
-}
-
-.hover:hover{
-    cursor: pointer;
-    background-color: rgba(128, 128, 128, 0.5);
 }
 
 .items-right{

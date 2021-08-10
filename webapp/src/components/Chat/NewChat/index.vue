@@ -7,6 +7,9 @@
               </span>
           </button>
           <b class="column" style="color:#fff">New message</b>
+          <div class="column mr-5" align="right">
+            <span class="material-icons-round" style="color:white">forum</span> 
+          </div>
       </div>
       <div class="field mr-5 ml-5 mt-5 flx-1">
           <p class="control has-icons-left has-icons-right">
@@ -15,9 +18,18 @@
                   <span class="material-icons" style="color:#2D343C">search</span>
               </span>
           </p>
-          <Loading v-bind:loading="loading"/>
       </div>
-      <vue-scroll class="flx-1">
+      <vue-scroll v-if="loading">
+        <div v-for="index in 10" :key="index">
+          <div class="column columns">
+              <PuSkeleton class="ml-5" circle height="50px" width="50px"/>
+              <div class="column">
+                  <PuSkeleton height="20px" width="80%"  />
+              </div>
+          </div>
+        </div>
+      </vue-scroll>
+      <vue-scroll class="flx-1" v-else>
         <div class="user-items" v-for="user in users" :key="user.id" @click="openChatUser(user)">
             <span class="icon-text">
                 <span class="icon">
@@ -120,7 +132,7 @@ export default {
   background: #364DFF;
   margin-left: 0px !important;
   padding-left: 0px;
-  height: 80px;
+  height: 90px;
   //background: linear-gradient(90deg, #364DFF 0%, #5165FF 100%);
   box-shadow: 0px 4px 4px rgba(224, 224, 224, 0.1);
 

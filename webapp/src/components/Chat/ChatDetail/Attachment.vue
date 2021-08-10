@@ -16,7 +16,7 @@
     <div :class="{'modal' : true, 'is-active' : url != ''}" style="z-index:100"> <!-- Coloque 100 por que el chat header tiene 99 ni idea por q-->
       <div class="modal-background"></div>
       <div class="modal-content">
-        <img :src="url" class="zoom"/>
+        <img :src="url" class="zoom" />
       </div>
       <button class="modal-close is-large" aria-label="close" @click="url=''"></button>
     </div>
