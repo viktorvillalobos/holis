@@ -43,7 +43,7 @@ def get_or_create_one_to_one_room_by_members_ids(
 
 
 def create_many_to_many_room_by_name(
-    company_id: int, name: str, any_can_invite: bool = True
+    company_id: int, name: Optional[str], any_can_invite: bool = True
 ) -> Room:
     return Room.objects.create(
         **{

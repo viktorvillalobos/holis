@@ -27,13 +27,17 @@ class GetOrCreateRoomAPIView(views.APIView):
         serializer.is_valid(raise_exception=True)
 
         to = serializer.validated_data["to"]
+        name = serializer.validated_data.get("name")
 
         is_a_one_to_one_room = len(to) == 1
 
         if is_a_one_to_one_room:
             room = self.get_one_to_one_room(to=to[0])
         else:
-            room = self.get_many_to_many_room(to=to)
+            if name is None:
+                raise exceptions.ValidationError({"name": "is required"})
+
+            room = self.get_many_to_many_room(to=to, name=name)
 
         return Response({"id": room.uuid}, status=200)
 
@@ -47,11 +51,14 @@ class GetOrCreateRoomAPIView(views.APIView):
         except NonExistentMemberException:
             raise exceptions.ValidationError("Member does not exist")
 
-    def get_many_to_many_room(self, to: list[int]) -> chat_models.Room:
+    def get_many_to_many_room(
+        self, to: list[int], name: str = None
+    ) -> chat_models.Room:
         try:
             return chat_services.create_many_to_many_room_by_name(
                 company_id=self.request.user.company_id,
                 members_ids={self.request.user.id, *to},
+                name=name,
             )
         except NonExistentMemberException:
             raise exceptions.ValidationError("Member does not exist")

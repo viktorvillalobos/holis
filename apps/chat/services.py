@@ -149,7 +149,7 @@ def get_or_create_one_to_one_room_by_company_and_users(
 
 
 def create_many_to_many_room_by_name(
-    company_id: int, members_ids: set[int], name: str = "custom-room"
+    company_id: int, members_ids: set[int], name: Optional[str] = "custom-room"
 ) -> Room:
     room = room_providers.create_many_to_many_room_by_name(
         company_id=company_id, name=name

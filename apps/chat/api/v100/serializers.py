@@ -8,6 +8,7 @@ from ...context import models as chat_models
 
 class GetOrCreateRoomSerializer(serializers.Serializer):
     to = serializers.ListField(child=serializers.IntegerField(), min_length=1)
+    name = serializers.CharField(allow_null=True)
 
 
 class RecentsSerializer(serializers.Serializer):
