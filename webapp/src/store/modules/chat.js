@@ -2,6 +2,7 @@ import apiClient from '../../providers/api'
 import chatServices from '../../services/chat'
 import { Message, TempMessage } from '../../models/Message'
 import moment from 'moment'
+import ChatScreen from './../../models/chatScreen'
 
 const socketChat = process.env.NODE_ENV === 'production'
   ? `wss://${location.hostname}:${location.port}/ws/chat/`
@@ -23,12 +24,13 @@ const state = {
   next: null,
   prev: null,
   currentChatID: null,
-  inboxActive: false
+  inboxActive: false,
+  screenChat: 'inbox'
 }
 
 const mutations = {
-  setInboxActive (state, status) {
-    state.inboxActive = status
+  setScreenChat (state, screnn) {
+    state.screenChat = screnn
   },
   setRoom (state, name) {
     state.room = name

@@ -87,7 +87,7 @@ export default {
     openNewChat () {
       this.$store.commit('setCurrentChatName', null)
       this.$store.commit('setCurrentChatID', null)
-      this.$store.commit('setInboxActive', false)
+      this.$store.commit('setScreenChat', 'newchat')
       this.$store.commit('setAsideRightActive', true)
     },
     openChatUser(recent){

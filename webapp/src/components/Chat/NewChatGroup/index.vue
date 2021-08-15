@@ -6,14 +6,31 @@
                   <span class="material-icons" style="color:#fff">chevron_left</span>
               </span>
           </button>
-          <b class="column" style="color:#fff">New message</b>
-          <div class="column mr-5" align="right" style="cursor: pointer" @click="goToGroup">
-            <span class="material-icons-round" style="color:white">forum</span> 
-          </div>
+          <b class="column" style="color:#fff">New group</b>
       </div>
-      <div class="field mr-5 ml-5 mt-5 flx-1">
+      <div>
+          <p class="column ml-4" style="color:#000000;">Group name</p>
+      </div>
+      <div class="field mr-5 ml-5 flx-1">
+          <input class="input" type="text" placeholder="Group name">
+      </div>
+      <div>
+          <p class="column ml-4" style="color:#000000;">Participants</p>
+      </div>
+      <div v-if="participants.length > 0">
+        <div class="user-items" v-for="participant in participants" :key="participant.id">
+            <span class="icon-text">
+                <span class="icon">
+                    <Avatar v-if="participant.avatar_thumb" :img="participant.avatar_thumb"/>
+                    <font-awesome-icon v-else icon="user-circle" size="3x"/>
+                </span>
+                <b class="header-new-chat-title">{{participant.name || participant.username}}</b>
+            </span>
+        </div>
+      </div>
+      <div class="field mr-5 ml-5 flx-1">
           <p class="control has-icons-left has-icons-right">
-              <input class="input input-chat" type="text" placeholder="Search or start a new conversation" @input="debounceInput">
+              <input class="input input-chat" type="text" placeholder="Search participants" @input="debounceInput">
               <span class="icon is-left">
                   <span class="material-icons" style="color:#2D343C">search</span>
               </span>
@@ -30,7 +47,7 @@
         </div>
       </vue-scroll>
       <vue-scroll class="flx-1" v-else>
-        <div class="user-items" v-for="user in users" :key="user.id" @click="openChatUser(user)">
+        <div class="user-items" v-for="user in users" :key="user.id" @click="selectParticipant(user)">
             <span class="icon-text">
                 <span class="icon">
                     <Avatar v-if="user.avatar_thumb" :img="user.avatar_thumb"/>
@@ -40,6 +57,9 @@
             </span>
         </div>
       </vue-scroll>
+      <div class="flx-1 m-5">
+        <button class="button is-fullwidth is-primary">Create group</button>
+      </div>
       <div v-if="users.length == 0 && !firstLoad" style="display: flex; flex-direction: column; justify-content: center; align-items: center;" class="mt-6">
           <font-awesome-icon icon="sad-tear" size="6x"/>
           <p>No contact found</p>
@@ -57,7 +77,7 @@ import Loading from '@/components/Loading'
 import _ from 'lodash'
 
 export default {
-  name: 'InboxMessage',
+  name: 'NewChatGroup',
   computed: {
     ...mapState({
       users: state => state.chat.users
@@ -70,7 +90,8 @@ export default {
         magnifyIcon: magnifyIcon,
         closeIcon: closeIcon
       },
-      firstLoad: true
+      firstLoad: true,
+      participants: []
     }
   },
   watch:{
@@ -92,22 +113,15 @@ export default {
       goToInbox(){
         this.$store.commit('setCurrentChatName', null)
         this.$store.commit('setCurrentChatID', null)
-        this.$store.commit('setScreenChat', 'inbox')
+        this.$store.commit('setInboxActive', true)
       },
-      goToGroup(){
-        this.$store.commit('setCurrentChatName', null)
-        this.$store.commit('setCurrentChatID', null)
-        this.$store.commit('setScreenChat', 'newgroup')
-      },
-      openChatUser(recent){
-          console.log(recent)
-        const data = {
-            to: recent.id,
-            first_time: true,
-            new_chat : true
+      selectParticipant(recent){
+        const index = this.participants.findIndex(element => element.id == recent.id)
+        if(index == -1){
+            this.participants.push(recent)
+        }else{
+            this.participants.splice(index, 1)
         }
-        this.$store.dispatch('getMessagesByUser', data)
-        this.$store.commit('setCurrentChatName', recent.name)
       }
   },
   created(){

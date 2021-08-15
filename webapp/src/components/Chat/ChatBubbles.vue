@@ -65,12 +65,12 @@ export default {
       }
 
       this.clearChat()
-      this.$store.commit('setInboxActive', true)
+      this.$store.commit('setScreenChat', 'inbox')
       this.$store.commit('setAsideRightActive')
     },
     openNewChat () {
       this.clearChat()
-      this.$store.commit('setInboxActive', false)
+      this.$store.commit('setScreenChat', 'newchat')
       this.$store.commit('setAsideRightActive', true)
     },
     clearChat(){

@@ -1,8 +1,17 @@
 <template>
   <div class="connect-chat"> <!-- :style="`background-image: url(${patternChat})`" -->
-    <HeaderInbox v-if="inboxActive && currentChatID == null"/>
-    <NewChat v-if="!inboxActive && currentChatID == null"/>
-    <ChatDetail v-if="currentChatID"/>
+    <transition name="slide-fade">
+      <HeaderInbox v-if="screenChat == 'inbox' && currentChatID == null"/>
+    </transition>
+    <transition name="slide-fade">
+      <NewChat v-if="screenChat == 'newchat' && currentChatID == null"/>
+    </transition>
+    <transition name="slide-fade">
+      <ChatDetail v-if="currentChatID"/>
+    </transition>
+     <transition name="slide-fade">
+      <NewGroup v-if="screenChat == 'newgroup'" />
+    </transition>
   </div>
 </template>
 
@@ -15,6 +24,8 @@ import pattern from '@/assets/lighter_pattern.png'
 import HeaderInbox from './Inbox'
 import NewChat from './NewChat'
 import ChatDetail from './ChatDetail'
+import NewGroup from './NewChatGroup'
+import ChatScreen from './../../models/chatScreen'
 
 export default {
   name: 'Chat',
@@ -23,7 +34,8 @@ export default {
     Card,
     HeaderInbox,
     NewChat,
-    ChatDetail
+    ChatDetail,
+    NewGroup
   },
   data () {
     return {}
@@ -35,7 +47,7 @@ export default {
       allowScrollToEnd: state => state.chat.allowScrollToEnd,
       currentChatID: state => state.chat.currentChatID,
       currentChatName: state => state.chat.currentChatName,
-      inboxActive: state => state.chat.inboxActive,
+      screenChat: state => state.chat.screenChat,
       app: state => state.app.user
     })
   },
@@ -138,5 +150,17 @@ export default {
       padding: 30px 15px 0px 15px;
     }
   }
+}
+
+.slide-fade-enter-active {
+  transition: all .3s ease;
+}
+.slide-fade-leave-active {
+  transition: all .3s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+.slide-fade-enter, .slide-fade-leave-to
+/* .slide-fade-leave-active below version 2.1.8 */ {
+  transform: translateX(10px);
+  opacity: 0;
 }
 </style>
