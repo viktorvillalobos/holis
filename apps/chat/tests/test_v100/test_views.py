@@ -19,6 +19,23 @@ from ...context.models import MessageAttachment
 from ...tests import baker_recipes as chat_recipes
 
 
+@pytest.fixture
+def expected_room_fields():
+    return {
+        "company_id",
+        "uuid",
+        "name",
+        "subject",
+        "members",
+        "admins",
+        "max_users",
+        "is_public",
+        "any_can_invite",
+        "is_one_to_one",
+        "image_url",
+    }
+
+
 @pytest.mark.django_db
 class TestUploadFileAPIView:
     def setup_method(self, method):
@@ -189,3 +206,33 @@ def test_get_recents_rooms_api_view_filtered():
         x.pop("created")
 
     assert response_data == expected_result
+
+
+@pytest.mark.django_db
+class TestUploadRoomImageViewSet:
+    def setup_method(self, method):
+        self.room = chat_recipes.adslab_room_one_to_one.make()
+        self.user = user_recipes.user_viktor.make()
+        self.kwargs = {"room_uuid": self.room.uuid}
+        self.url = reverse("api-v1:chat:upload-room-image", kwargs=self.kwargs)
+        self.image = SimpleUploadedFile(
+            "file.png", b"file_content", content_type="image/png"
+        )
+
+    def test_upload_returns_201(self, expected_room_fields):
+        rf = APIRequestFactory()
+        request = rf.patch(self.url, data={"image": self.image}, format="multipart")
+        request.company_id = self.room.company_id
+
+        force_authenticate(request, user=self.user)
+
+        response = chat_views.UploadRoomImageViewSet.as_view(
+            {"patch": "partial_update"}
+        )(request, **self.kwargs).render()
+
+        assert response.status_code == status.HTTP_200_OK
+
+        parsed_response = json.loads(response.content)
+
+        for field in expected_room_fields:
+            assert field in parsed_response

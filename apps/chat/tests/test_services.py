@@ -3,7 +3,9 @@ from django.core.files.storage import default_storage
 import pytest
 import uuid
 from model_bakery import baker
+from unittest import mock
 
+from apps.chat.lib.dataclasses import RoomData
 from apps.users.tests import baker_recipes as user_recipes
 
 from .. import services as chat_services
@@ -67,3 +69,27 @@ class TestGetRecentsRooms:
         mocked_get_rooms_by_uuids_in_bulk.assert_called_once()
 
         assert isinstance(results, list)
+
+
+@mock.patch("apps.chat.services.room_providers.get_room_with_members_by_uuid")
+def test_get_room_with_members_by_uuid(mocked_provider):
+    mocked_provider.return_value = mock.MagicMock()
+
+    kwargs = dict(company_id=mock.Mock(), room_uuid=mock.Mock())
+
+    result = chat_services.get_room_with_members_by_uuid(**kwargs)
+
+    mocked_provider.assert_called_once_with(**kwargs)
+    assert isinstance(result, RoomData)
+
+
+@mock.patch("apps.chat.services.room_providers.update_room_image_by_uuid")
+def test_update_room_image_by_uuid(mocked_provider):
+    mocked_provider.return_value = mock.MagicMock()
+
+    kwargs = dict(company_id=mock.Mock(), room_uuid=mock.Mock(), image=mock.Mock())
+
+    result = chat_services.update_room_image_by_uuid(**kwargs)
+
+    assert isinstance(result, RoomData)
+    mocked_provider.assert_called_once_with(**kwargs)
