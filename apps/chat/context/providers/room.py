@@ -1,5 +1,6 @@
 from typing import Dict, Iterable, Optional, Union
 
+from django.core.files.base import File
 from django.db.models import Case, Count, Exists, Q, Value, When
 from django.db.models.expressions import OuterRef
 from django.db.models.query import QuerySet
@@ -155,3 +156,13 @@ def get_room_with_members_by_uuid(company_id: int, room_uuid: Union[UUID, str]) 
         )
     except Room.DoesNotExist:
         raise RoomDoesNotExist
+
+
+def update_room_image_by_uuid(
+    company_id: int, room_uuid: Union[UUID, str], image: File
+) -> Room:
+    room = Room.objects.get(company_id=company_id, uuid=room_uuid)
+    room.image = image
+    room.save()
+
+    return room

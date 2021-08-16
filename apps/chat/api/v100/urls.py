@@ -14,6 +14,11 @@ urlpatterns = [
     path("get-turn-credentials/", views.GetTurnCredentialsAPIView.as_view()),
     path("room/recents/", views.RecentRoomsAPIView.as_view(), name="recents"),
     path("room/<uuid:room_uuid>/", views.RoomViewSet.as_view({"get": "retrieve"})),
+    path(
+        "room/<uuid:room_uuid>/upload-image/",
+        views.UploadRoomImageViewSet.as_view({"post": "create"}),
+        name="upload-room-image",
+    ),
     path("room/<uuid:room_uuid>/messages/", views.MessageListAPIView.as_view()),
     path(
         "room/<uuid:room_uuid>/messages/new-with-attachments/",

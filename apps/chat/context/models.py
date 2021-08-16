@@ -1,3 +1,5 @@
+from typing import Optional
+
 from django.contrib.postgres.indexes import GinIndex
 from django.core.serializers.json import DjangoJSONEncoder
 from django.db import models
@@ -71,6 +73,10 @@ class Room(TimeStampedModel):
 
     def __str__(self):
         return self.name
+
+    @property
+    def image_url(self) -> Optional[str]:
+        return self.image.url if self.image else None
 
 
 class Message(TimeStampedModel):

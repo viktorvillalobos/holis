@@ -1,8 +1,9 @@
 from rest_framework import exceptions, generics, status, views, viewsets
-from rest_framework.parsers import MultiPartParser
+from rest_framework.parsers import FileUploadParser, MultiPartParser
 from rest_framework.response import Response
 
 import logging
+import os
 
 from apps.chat.lib.exceptions import NonExistentMemberException
 from apps.utils.rest_framework import objects
@@ -176,3 +177,33 @@ class RoomViewSet(viewsets.ViewSet):
 
         serializer = self.serializers_class(room)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class UploadRoomImageViewSet(viewsets.ViewSet):
+    parser_class = (FileUploadParser,)
+
+    def partial_update(self, request, *args, **kwargs):
+        image = request.data.get("image")
+
+        self.validate_extensions(image)
+
+        room = chat_services.update_room_image_by_uuid(
+            company_id=request.company_id,
+            room_uuid=self.kwargs["room_uuid"],
+            image=image,
+        )
+
+        return Response(
+            serializers.RoomSerializer(room).data, status=status.HTTP_200_OK
+        )
+
+    def validate_extensions(self, avatar):
+        if isinstance(avatar, str):
+            return True
+
+        valid_extensions = [".jpeg", ".jpg", ".png"]
+        ext = os.path.splitext(avatar.name)[1]
+        if not ext.lower() in valid_extensions:
+            raise exceptions.ValidationError(
+                {"avatar": "Only jpeg, jpg or png are supported"}
+            )

@@ -1,6 +1,7 @@
 from typing import Any, Dict, List, Optional, Union
 
 from django.conf import settings
+from django.core.files.base import File
 from django.utils import timezone
 
 import uuid
@@ -280,3 +281,13 @@ def get_room_by_uuid(company_id: int, room_uuid: Union[UUID, str]) -> RoomData:
         admins=admins,
         image_url=image_url,
     )
+
+
+def update_room_image_by_uuid(
+    company_id: int, room_uuid: Union[UUID, str], image: File
+) -> RoomData:
+    room = room_providers.update_room_image_by_uuid(
+        company_id=company_id, room_uuid=room_uuid, image=image
+    )
+
+    return build_dataclass_from_model_instance(klass=RoomData, instance=room)
