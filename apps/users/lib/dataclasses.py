@@ -5,7 +5,7 @@ from ..context.models import User as UserModel
 
 
 @dataclass
-class User:
+class UserData:
     id: int
     name: str
     company: int

@@ -12,6 +12,7 @@ from apps.utils.cache import cache
 from apps.utils.html import strip_tags
 from apps.utils.rest_framework.paginators import get_paginated_queryset
 
+from ...lib.exceptions import RoomDoesNotExist
 from ..models import Message, Room, RoomUserRead
 
 
@@ -145,3 +146,12 @@ def update_room_last_message_by_room_uuid(
         last_message_text=strip_tags(text),
         last_message_user_id=user_id,
     )
+
+
+def get_room_with_members_by_uuid(company_id: int, room_uuid: Union[UUID, str]) -> Room:
+    try:
+        return Room.objects.prefetch_related("members", "admins").get(
+            company_id=company_id, uuid=room_uuid
+        )
+    except Room.DoesNotExist:
+        raise RoomDoesNotExist

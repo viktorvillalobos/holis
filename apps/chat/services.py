@@ -13,7 +13,9 @@ from uuid import UUID
 
 from apps.users import services as user_services
 from apps.users.context import models as users_models
+from apps.users.lib.dataclasses import UserData
 from apps.utils.cache import cache
+from apps.utils.dataclasses import build_dataclass_from_model_instance
 
 from ..chat.context.models import Message, Room, RoomUserRead
 from .api.v100 import serializers as v100_serializers
@@ -21,7 +23,7 @@ from .context.providers import devices as devices_providers
 from .context.providers import message as message_providers
 from .context.providers import room as room_providers
 from .lib.constants import ROOM_GROUP_NAME
-from .lib.dataclasses import RecentRoomInfo
+from .lib.dataclasses import RecentRoomInfo, RoomData
 from .lib.exceptions import NonExistentMemberException
 
 
@@ -250,4 +252,31 @@ def send_message_to_devices_by_user_ids(
     user_ids = Room.objects.get(uuid=room_uuid).members.values_list("id", flat=True)
     devices_providers.send_message_to_devices_by_user_ids(
         company_id=company_id, user_ids=user_ids, serialized_message=serialized_message
+    )
+
+
+def get_room_by_uuid(company_id: int, room_uuid: Union[UUID, str]) -> RoomData:
+    """ Return a RoomData instance """
+    room = room_providers.get_room_with_members_by_uuid(
+        company_id=company_id, room_uuid=room_uuid
+    )
+
+    members = [
+        build_dataclass_from_model_instance(klass=UserData, instance=member)
+        for member in room.members.all()
+    ]
+
+    admins = [
+        build_dataclass_from_model_instance(klass=UserData, instance=user)
+        for user in room.admins.all()
+    ]
+
+    image_url = room.image.url if room.image else None
+
+    return build_dataclass_from_model_instance(
+        klass=RoomData,
+        instance=room,
+        members=members,
+        admins=admins,
+        image_url=image_url,
     )

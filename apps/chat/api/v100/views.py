@@ -1,4 +1,4 @@
-from rest_framework import exceptions, generics, status, views
+from rest_framework import exceptions, generics, status, views, viewsets
 from rest_framework.parsers import MultiPartParser
 from rest_framework.response import Response
 
@@ -164,3 +164,15 @@ class MessageListAPIView(generics.ListAPIView):
             user_id=self.request.user.id,
             room_uuid=self.kwargs["room_uuid"],
         )
+
+
+class RoomViewSet(viewsets.ViewSet):
+    serializers_class = serializers.RoomSerializer
+
+    def retrieve(self, request, *args, **kwargs):
+        room = chat_services.get_room_by_uuid(
+            company_id=request.company_id, room_uuid=self.kwargs["room_uuid"]
+        )
+
+        serializer = self.serializers_class(room)
+        return Response(serializer.data, status=status.HTTP_200_OK)

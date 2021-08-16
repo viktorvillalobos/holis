@@ -80,3 +80,25 @@ class MessageWithAttachmentsSerializer(MessageRawSerializer):
         return MessageAttachmentChatSerializer(
             obj.attachments.all(), many=True, context=self.context
         ).data
+
+
+class RoomMemberSerializer(serializers.Serializer):
+    company_id = serializers.IntegerField(read_only=True)
+    id = serializers.IntegerField()
+    name = serializers.CharField()
+    birthday = serializers.DateField()
+    position = serializers.CharField()
+
+
+class RoomSerializer(serializers.Serializer):
+    company_id = serializers.IntegerField(read_only=True)
+    uuid = serializers.UUIDField()
+    name = serializers.CharField()
+    subject = serializers.CharField()
+    members = RoomMemberSerializer(many=True)
+    admins = RoomMemberSerializer(many=True)
+    max_users = serializers.IntegerField()
+    is_public = serializers.BooleanField()
+    any_can_invite = serializers.BooleanField()
+    is_one_to_one = serializers.BooleanField()
+    image_url = serializers.CharField()

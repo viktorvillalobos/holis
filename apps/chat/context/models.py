@@ -56,6 +56,7 @@ class Room(TimeStampedModel):
     any_can_invite = models.BooleanField(_("Any can invite"), default=True)
     members_only = models.BooleanField(_("members only"), default=False)
     is_one_to_one = models.BooleanField(_("is one to one"), default=False)
+    image = models.ImageField(null=True)
 
     # Last message info
     last_message_ts = models.DateTimeField(default=timezone.now, db_index=True)
