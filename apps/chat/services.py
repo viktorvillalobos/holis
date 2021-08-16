@@ -256,7 +256,9 @@ def send_message_to_devices_by_user_ids(
     )
 
 
-def get_room_by_uuid(company_id: int, room_uuid: Union[UUID, str]) -> RoomData:
+def get_room_with_members_by_uuid(
+    company_id: int, room_uuid: Union[UUID, str]
+) -> RoomData:
     """ Return a RoomData instance """
     room = room_providers.get_room_with_members_by_uuid(
         company_id=company_id, room_uuid=room_uuid

@@ -171,7 +171,7 @@ class RoomViewSet(viewsets.ViewSet):
     serializers_class = serializers.RoomSerializer
 
     def retrieve(self, request, *args, **kwargs):
-        room = chat_services.get_room_by_uuid(
+        room = chat_services.get_room_with_members_by_uuid(
             company_id=request.company_id, room_uuid=self.kwargs["room_uuid"]
         )
 
