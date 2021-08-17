@@ -12,21 +12,16 @@
           <p class="column ml-4" style="color:#000000;">Group name</p>
       </div>
       <div class="field mr-5 ml-5 flx-1">
-          <input class="input" type="text" placeholder="Group name">
+          <input class="input" type="text" placeholder="Group name" v-model="group">
       </div>
       <div>
           <p class="column ml-4" style="color:#000000;">Participants</p>
       </div>
-      <div v-if="participants.length > 0">
-        <div class="user-items" v-for="participant in participants" :key="participant.id">
-            <span class="icon-text">
-                <span class="icon">
-                    <Avatar v-if="participant.avatar_thumb" :img="participant.avatar_thumb"/>
-                    <font-awesome-icon v-else icon="user-circle" size="3x"/>
-                </span>
-                <b class="header-new-chat-title">{{participant.name || participant.username}}</b>
-            </span>
-        </div>
+      <div class="tags ml-5 mr-5" v-if="participants.length > 0">
+        <span v-for="participant in participants" :key="participant.id" class="tag is-primary">
+          {{participant.name.substring(0,50) || participant.username.substring(0,50)}}
+          <button class="delete is-small" @click="selectParticipant(participant)"></button>
+        </span>
       </div>
       <div class="field mr-5 ml-5 flx-1">
           <p class="control has-icons-left has-icons-right">
@@ -47,17 +42,17 @@
         </div>
       </vue-scroll>
       <vue-scroll class="flx-1" v-else>
-        <div class="user-items" v-for="user in users" :key="user.id" @click="selectParticipant(user)">
+        <div class="user-items" v-for="user in filterUsers" :key="user.id" @click="selectParticipant(user)">
             <span class="icon-text">
                 <span class="icon">
                     <Avatar v-if="user.avatar_thumb" :img="user.avatar_thumb"/>
                     <font-awesome-icon v-else icon="user-circle" size="3x"/>
                 </span>
-                <b class="header-new-chat-title">{{user.name || user.username}}</b>
+                <b class="header-new-chat-title">{{user.name.substring(0,50) || user.username.substring(0,50)}}</b>
             </span>
         </div>
       </vue-scroll>
-      <div class="flx-1 m-5">
+      <div class="flx-1 m-5" v-if="participants.length > 0" @click="createGroup()">
         <button class="button is-fullwidth is-primary">Create group</button>
       </div>
       <div v-if="users.length == 0 && !firstLoad" style="display: flex; flex-direction: column; justify-content: center; align-items: center;" class="mt-6">
@@ -81,7 +76,10 @@ export default {
   computed: {
     ...mapState({
       users: state => state.chat.users
-    })
+    }),
+    filterUsers(){
+      return this.users.filter(user => this.participants.findIndex(participant => participant.id == user.id) == -1)
+    }
   },
   data () {
     return {
@@ -91,7 +89,8 @@ export default {
         closeIcon: closeIcon
       },
       firstLoad: true,
-      participants: []
+      participants: [],
+      group: ""
     }
   },
   watch:{
@@ -113,7 +112,7 @@ export default {
       goToInbox(){
         this.$store.commit('setCurrentChatName', null)
         this.$store.commit('setCurrentChatID', null)
-        this.$store.commit('setInboxActive', true)
+        this.$store.commit('setScreenChat', 'newchat')
       },
       selectParticipant(recent){
         const index = this.participants.findIndex(element => element.id == recent.id)
@@ -122,6 +121,21 @@ export default {
         }else{
             this.participants.splice(index, 1)
         }
+      },
+      createGroup(){
+        const ids = []
+        this.participants.forEach(element => {
+            ids.push(element.id)
+        })
+        const data = {
+            to: ids,
+            name: this.group,
+            first_time: true,
+            new_chat : true
+        }
+        console.log(data)
+        this.$store.dispatch('getMessagesByGroup', data)
+        this.$store.commit('setCurrentChatName', this.group)
       }
   },
   created(){

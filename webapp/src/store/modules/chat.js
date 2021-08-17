@@ -150,6 +150,12 @@ const actions = {
     data.first_time = payload.first_time
     commit('unshiftMessages', data)
   },
+  async getMessagesByGroup ({ commit, dispatch }, payload) {
+    const { data } = await apiClient.chat.getRoomByGroup(payload)
+    commit('setCurrentChatID', data.id)
+    dispatch('getMessagesByRoom', data)
+    dispatch('connectToRoom', { vm: this.$app, room: data.id })
+  },
   async getMessagesByUser ({ commit, dispatch }, payload) {
     const { data } = await apiClient.chat.getRoomByUserID(payload.to)
     data.first_time = payload.first_time
