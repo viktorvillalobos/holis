@@ -1,218 +1,25 @@
 <template>
-    <div class="new-chat">
-      <div class="header-new-chat columns pt-5 flx-1">
-          <button class="button is-ghost column is-1" @click="goToInbox">
-              <span class="icon is-small">
-                  <span class="material-icons" style="color:#fff">chevron_left</span>
-              </span>
-          </button>
-          <b class="column" style="color:#fff">New group</b>
-      </div>
-      <div>
-          <p class="column ml-4" style="color:#000000;">Group name</p>
-      </div>
-      <div class="field mr-5 ml-5 flx-1">
-          <input class="input" type="text" placeholder="Group name" v-model="group">
-      </div>
-      <div>
-          <p class="column ml-4" style="color:#000000;">Participants</p>
-      </div>
-      <div class="tags ml-5 mr-5" v-if="participants.length > 0">
-        <span v-for="participant in participants" :key="participant.id" class="tag is-primary">
-          {{participant.name.substring(0,50) || participant.username.substring(0,50)}}
-          <button class="delete is-small" @click="selectParticipant(participant)"></button>
-        </span>
-      </div>
-      <div class="field mr-5 ml-5 flx-1">
-          <p class="control has-icons-left has-icons-right">
-              <input class="input input-chat" type="text" placeholder="Search participants" @input="debounceInput">
-              <span class="icon is-left">
-                  <span class="material-icons" style="color:#2D343C">search</span>
-              </span>
-          </p>
-      </div>
-      <vue-scroll v-if="loading">
-        <div v-for="index in 10" :key="index">
-          <div class="column columns">
-              <PuSkeleton class="ml-5" circle height="50px" width="50px"/>
-              <div class="column">
-                  <PuSkeleton height="20px" width="80%"  />
-              </div>
-          </div>
-        </div>
-      </vue-scroll>
-      <vue-scroll class="flx-1" v-else>
-        <div class="user-items" v-for="user in filterUsers" :key="user.id" @click="selectParticipant(user)">
-            <span class="icon-text">
-                <span class="icon">
-                    <Avatar v-if="user.avatar_thumb" :img="user.avatar_thumb"/>
-                    <font-awesome-icon v-else icon="user-circle" size="3x"/>
-                </span>
-                <b class="header-new-chat-title">{{user.name.substring(0,50) || user.username.substring(0,50)}}</b>
-            </span>
-        </div>
-      </vue-scroll>
-      <div class="flx-1 m-5" v-if="participants.length > 0" @click="createGroup()">
-        <button class="button is-fullwidth is-primary">Create group</button>
-      </div>
-      <div v-if="users.length == 0 && !firstLoad" style="display: flex; flex-direction: column; justify-content: center; align-items: center;" class="mt-6">
-          <font-awesome-icon icon="sad-tear" size="6x"/>
-          <p>No contact found</p>
-      </div>
-    </div>
+  <div>
+    <CreateGroup />
+  </div>
 </template>
 
 <script>
-import { mapState } from 'vuex'
-import Avatar from '@/components/Avatar'
-import IconifyIcon from '@iconify/vue';
-import magnifyIcon from '@iconify/icons-mdi/magnify'
-import closeIcon from '@iconify/icons-mdi/close'
-import Loading from '@/components/Loading'
-import _ from 'lodash'
+
+import CreateGroup from "./CreateGroup"
+import CreateGroupParticipants from "./CreateGroupParticipants"
 
 export default {
-  name: 'NewChatGroup',
-  computed: {
-    ...mapState({
-      users: state => state.chat.users
-    }),
-    filterUsers(){
-      return this.users.filter(user => this.participants.findIndex(participant => participant.id == user.id) == -1)
-    }
+  name: 'ChatGroup',
+  components:{
+    CreateGroup,
+    CreateGroupParticipants
   },
   data () {
-    return {
-      loading: false,
-      icons: {
-        magnifyIcon: magnifyIcon,
-        closeIcon: closeIcon
-      },
-      firstLoad: true,
-      participants: [],
-      group: ""
-    }
+    return {}
   },
-  watch:{
-      users (newVal){
-          this.firstLoad = false
-          this.loading = false
-      }
-  },
-  components: {
-      Avatar,
-      IconifyIcon,
-      Loading
-  },
-  methods:{
-      debounceInput: _.debounce(function (e) {
-        this.loading = true
-        this.$store.dispatch('getUsers', e.target.value)
-      }, 300),
-      goToInbox(){
-        this.$store.commit('setCurrentChatName', null)
-        this.$store.commit('setCurrentChatID', null)
-        this.$store.commit('setScreenChat', 'newchat')
-      },
-      selectParticipant(recent){
-        const index = this.participants.findIndex(element => element.id == recent.id)
-        if(index == -1){
-            this.participants.push(recent)
-        }else{
-            this.participants.splice(index, 1)
-        }
-      },
-      createGroup(){
-        const ids = []
-        this.participants.forEach(element => {
-            ids.push(element.id)
-        })
-        const data = {
-            to: ids,
-            name: this.group,
-            first_time: true,
-            new_chat : true
-        }
-        console.log(data)
-        this.$store.dispatch('getMessagesByGroup', data)
-        this.$store.commit('setCurrentChatName', this.group)
-      }
-  },
-  created(){
-      this.loading = true
-      this.$store.dispatch('getUsers', "")
-  }
 }
 </script>
 
 <style lang="scss">
-.new-chat{
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-
-  &-flx-1{
-    flex: 1;
-  }
-
-  &-flx-0{
-    flex: 0;
-  }
-}
-
-.header-new-chat {
-  font-family: $family-dm-sans;
-  background: #364DFF;
-  margin-left: 0px !important;
-  padding-left: 0px;
-  height: 90px;
-  //background: linear-gradient(90deg, #364DFF 0%, #5165FF 100%);
-  box-shadow: 0px 4px 4px rgba(224, 224, 224, 0.1);
-
-    &-title{
-        max-lines: 1;
-        margin-left:20px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        display: -webkit-box;
-        -webkit-line-clamp: 1; /* number of lines to show */
-        -webkit-box-orient: vertical;
-    }
-}
-
-.user-items{
-    padding: 20px 40px 20px 40px;
-}
-
-.user-items:hover{
-    cursor: pointer;
-    background-color: rgba(128, 128, 128, 0.5);
-}
-
-.input-chat{
-    background-color: transparent !important;
-    border-color: #BDBDBD !important;
-    color: #BDBDBD !important;
-}
-
-::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
-  color: #BDBDBD !important;
-  opacity: 1 !important; /* Firefox */
-}
-
-:-ms-input-placeholder { /* Internet Explorer 10-11 */
-  color: #BDBDBD !important;
-}
-
-::-ms-input-placeholder { /* Microsoft Edge */
-  color: #BDBDBD !important;
-}
-
-/*.input{
-    background-color: transparent !important;
-    border-color: #ffffff !important;
-    color: #ffffff !important;
-}*/
-
-//$input-placeholder-color: #fff;
 </style>
