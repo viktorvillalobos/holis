@@ -1,9 +1,11 @@
+from django.http.request import HttpRequest
 from rest_framework import exceptions, generics, status, views, viewsets
 from rest_framework.parsers import FileUploadParser, MultiPartParser
 from rest_framework.response import Response
 
 import logging
 import os
+from uuid import UUID
 
 from apps.chat.lib.exceptions import NonExistentMemberException
 from apps.utils.rest_framework import objects
@@ -177,6 +179,21 @@ class RoomViewSet(viewsets.ViewSet):
 
         serializer = self.serializers_class(room)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class ExitRoomViewSet(views.APIView):
+    """
+    Allow to the user to exist from a room
+    """
+
+    def delete(self, request: HttpRequest, **kwargs) -> Response:
+        chat_services.remove_user_from_room_by_uuid(
+            company_id=request.company_id,
+            user_id=request.user.id,
+            room_uuid=kwargs["room_uuid"],
+        )
+
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class UploadRoomImageViewSet(viewsets.ViewSet):

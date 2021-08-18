@@ -13,7 +13,7 @@ from apps.utils.cache import cache
 from apps.utils.html import strip_tags
 from apps.utils.rest_framework.paginators import get_paginated_queryset
 
-from ...lib.exceptions import RoomDoesNotExist
+from ...lib.exceptions import NonExistentMemberException, RoomDoesNotExist
 from ..models import Message, Room, RoomUserRead
 
 
@@ -166,3 +166,27 @@ def update_room_image_by_uuid(
     room.save()
 
     return room
+
+
+def remove_user_from_room_by_uuid(
+    company_id: int, user_id: int, room_uuid: Union[UUID, str]
+) -> None:
+    """
+    Remove user from a room
+    """
+
+    try:
+        room = Room.objects.prefetch_related("members").get(
+            company_id=company_id, uuid=room_uuid
+        )
+    except Room.DoesNotExist:
+        raise RoomDoesNotExist
+
+    users = iter(room.members.all())
+
+    try:
+        user = next(user for user in users if user.id == user_id)
+    except StopIteration:
+        raise NonExistentMemberException
+
+    room.members.remove(user)

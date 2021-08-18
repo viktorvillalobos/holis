@@ -293,3 +293,15 @@ def update_room_image_by_uuid(
     )
 
     return build_dataclass_from_model_instance(klass=RoomData, instance=room)
+
+
+def remove_user_from_room_by_uuid(
+    company_id: int, user_id: int, room_uuid: Union[UUID, str]
+) -> None:
+    """
+        Remove an user from a room,
+        this is commonly used on the user room exit.
+    """
+    room_providers.remove_user_from_room_by_uuid(
+        company_id=company_id, user_id=user_id, room_uuid=room_uuid
+    )

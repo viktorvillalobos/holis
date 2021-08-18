@@ -93,3 +93,14 @@ def test_update_room_image_by_uuid(mocked_provider):
 
     assert isinstance(result, RoomData)
     mocked_provider.assert_called_once_with(**kwargs)
+
+
+@mock.patch("apps.chat.services.room_providers.remove_user_from_room_by_uuid")
+def test_remove_user_from_room_by_uuid(mocked_provider):
+    mocked_provider.return_value = None
+    kwargs = dict(company_id=mock.Mock(), user_id=mock.Mock(), room_uuid=mock.Mock())
+
+    result = chat_services.remove_user_from_room_by_uuid(**kwargs)
+
+    assert result is None
+    mocked_provider.assert_called_once_with(**kwargs)

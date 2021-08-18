@@ -10,6 +10,7 @@ import pytest
 import pytz
 import uuid
 from freezegun import freeze_time
+from unittest import mock
 
 from apps.users.tests import baker_recipes as user_recipes
 
@@ -236,3 +237,22 @@ class TestUploadRoomImageViewSet:
 
         for field in expected_room_fields:
             assert field in parsed_response
+
+
+class TestExitRoomViewSet:
+    @mock.patch("apps.chat.api.v100.views.chat_services.remove_user_from_room_by_uuid")
+    def test_delete_remove_user_from_room(self, mocked_remove_user_from_room_by_uuid):
+        mock_room_uuid = uuid.uuid4()
+        company_mocked_id = mock.Mock()
+
+        kwargs = {"room_uuid": mock_room_uuid}
+        url = reverse("api-v1:chat:room-exit", kwargs=kwargs)
+        rf = APIRequestFactory()
+        request = rf.delete(url)
+        request.company_id = company_mocked_id
+
+        force_authenticate(request, user=mock.Mock())
+
+        response = chat_views.ExitRoomViewSet.as_view()(request, **kwargs).render()
+
+        assert response.status_code == status.HTTP_204_NO_CONTENT
