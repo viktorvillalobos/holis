@@ -21,7 +21,7 @@ export default {
     return axios.get(`${urlBase}/chat/v100/room/recents/`,{params: params})
   },
   getRoomByUserID (to) {
-    return axios.post(`${urlBase}/chat/v100/get-or-create-room/`, {
+    return axios.post(`${urlBase}/chat/v100/get-or-create-conversation/`, {
       to: [to]
     })
   },
