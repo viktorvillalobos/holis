@@ -116,7 +116,7 @@ class UploadFileAPIView(views.APIView):
 
 
 class RecentRoomsAPIView(objects.ListAPIView):
-    serializer_class = serializers.RecentsSerializer
+    serializer_class = serializers.RecentRoomSerializer
     queryset = chat_models.Message.objects.all()
     objects_generator = staticmethod(
         chat_services.get_cursored_recents_rooms_by_user_id
@@ -129,7 +129,6 @@ class RecentRoomsAPIView(objects.ListAPIView):
         context["page_size"] = self.request.GET.get("page_size")
         context["company_id"] = self.request.company_id
         context["user_id"] = self.request.user.id
-        context["is_one_to_one"] = True
         context["search"] = self.request.GET.get("search")
 
         return context

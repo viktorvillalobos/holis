@@ -77,12 +77,12 @@ def get_recents_rooms_by_user_id(
     *,
     company_id: int,
     user_id: int,
-    is_one_to_one: bool = True,
     search: Optional[str] = None,
     cursor: Optional[dict[str, str]] = None,
     page_size: Optional[int] = 200,
     reverse: Optional[bool] = True,
-) -> tuple[list[QuerySet], Optional[dict[str, str]], Optional[dict[str, str]]]:
+) -> tuple[list[Room], Optional[dict[str, str]], Optional[dict[str, str]]]:
+
     message_after_last_message = Message.objects.filter(
         user_id=user_id,
         company_id=OuterRef("company_id"),
@@ -108,13 +108,13 @@ def get_recents_rooms_by_user_id(
         default=Value(True),
     )
 
+    is_one_to_one_and_not_have_messages = Q(last_message_user_id__isnull=True) & Q(
+        is_one_to_one=True
+    )
+
     queryset = (
-        Room.objects.filter(
-            company_id=company_id,
-            members__id__in=[user_id],
-            is_one_to_one=is_one_to_one,
-        )
-        .exclude(last_message_user_id__isnull=True)
+        Room.objects.filter(company_id=company_id, members__id__in=[user_id])
+        .exclude(is_one_to_one_and_not_have_messages)
         .prefetch_related("members")
         .annotate(have_unread_messages=have_unread_messages)
         .order_by("have_unread_messages", "-last_message_ts")

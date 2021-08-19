@@ -106,7 +106,7 @@ class User(AbstractUser):
         return self.avatar.url if self.avatar else None
 
     def __str__(self):
-        return f"{self.id} -> {self.name}"
+        return f"{self.company_id}:{self.id}:{self.name}"
 
 
 class Status(TimeStampedModel):

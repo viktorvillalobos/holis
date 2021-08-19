@@ -81,7 +81,6 @@ def get_cursored_recents_rooms_by_user_id(
     *,
     company_id: int,
     user_id: int,
-    is_one_to_one: bool = True,
     search: Optional[str] = None,
     cursor: Optional[dict[str, str]] = None,
     page_size: Optional[int] = 100,
@@ -95,7 +94,6 @@ def get_cursored_recents_rooms_by_user_id(
     ) = room_providers.get_recents_rooms_by_user_id(
         company_id=company_id,
         user_id=user_id,
-        is_one_to_one=is_one_to_one,
         page_size=page_size,
         cursor=cursor,
         reverse=reverse,
@@ -107,22 +105,24 @@ def get_cursored_recents_rooms_by_user_id(
 
         members_by_id = {member.id: member for member in room.members.all()}
 
-        if is_one_to_one:
+        if room.is_one_to_one:
             other_user_id = [
                 member_id for member_id in members_by_id.keys() if user_id != member_id
             ][0]
             chat_image_url = members_by_id[other_user_id].avatar_thumb
             chat_name = members_by_id[other_user_id].name
         else:
-            raise NotImplementedError("We must implement grupal recents rooms")
+            other_user_id = None
+            chat_image_url = room.image_url
+            chat_name = room.name
 
         recents_data.append(
             RecentRoomInfo(
                 uuid=room.uuid,
+                name=chat_name,
                 image=chat_image_url,
-                is_one_to_one=is_one_to_one,
+                is_one_to_one=room.is_one_to_one,
                 to_user_id=other_user_id,
-                to_user_name=chat_name,
                 last_message_text=room.last_message_text,
                 last_message_ts=room.last_message_ts,
                 last_message_user_id=room.last_message_user_id,

@@ -39,13 +39,13 @@ class Room(TimeStampedModel):
         "users.User", related_name="members", verbose_name=_("members")
     )
     owners = models.ManyToManyField(
-        "users.User", related_name="owners", verbose_name=_("owners")
+        "users.User", related_name="owners", verbose_name=_("owners"), blank=True
     )
     admins = models.ManyToManyField(
-        "users.User", related_name="admins", verbose_name=_("admins")
+        "users.User", related_name="admins", verbose_name=_("admins"), blank=True
     )
     outcasts = models.ManyToManyField(
-        "users.User", related_name="outcats", verbose_name=_("outcats")
+        "users.User", related_name="outcats", verbose_name=_("outcats"), blank=True
     )
     max_users = models.IntegerField(_("Max users"), default=0)
     password = models.CharField(_("password"), max_length=255, null=True, blank=True)
@@ -54,16 +54,16 @@ class Room(TimeStampedModel):
     )
 
     is_public = models.BooleanField(_("is public"), default=True)
-    persistent = models.BooleanField(_("is public"), default=True)
+    persistent = models.BooleanField(_("is persistent"), default=True)
     any_can_invite = models.BooleanField(_("Any can invite"), default=True)
     members_only = models.BooleanField(_("members only"), default=False)
     is_one_to_one = models.BooleanField(_("is one to one"), default=False)
-    image = models.ImageField(null=True)
+    image = models.ImageField(null=True, blank=True)
 
     # Last message info
     last_message_ts = models.DateTimeField(default=timezone.now, db_index=True)
-    last_message_text = models.TextField(null=True)
-    last_message_user_id = models.IntegerField(null=True)
+    last_message_text = models.TextField(null=True, blank=True)
+    last_message_user_id = models.IntegerField(null=True, blank=True)
 
     tenant_id = "company_id"
 

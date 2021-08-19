@@ -11,12 +11,12 @@ class GetOrCreateRoomSerializer(serializers.Serializer):
     name = serializers.CharField(allow_null=True)
 
 
-class RecentsSerializer(serializers.Serializer):
+class RecentRoomSerializer(serializers.Serializer):
     uuid = serializers.UUIDField()
+    name = serializers.CharField()
     image = serializers.CharField()
     is_one_to_one = serializers.BooleanField()
-    to_user_id = serializers.IntegerField()
-    to_user_name = serializers.CharField()
+    to_user_id = serializers.IntegerField(allow_null=True, required=False)
     last_message_text = serializers.CharField()
     last_message_ts = serializers.DateTimeField()
     last_message_user_id = serializers.IntegerField()

@@ -86,7 +86,7 @@ export default {
     },
     openChatUser(recent){
       const data = {
-        to: recent.to_user_id,
+        to: recent.name,
         first_time: true
       }
       this.$store.dispatch('getMessagesByUser', data)
