@@ -57,7 +57,12 @@ class Room(TimeStampedModel):
     persistent = models.BooleanField(_("is persistent"), default=True)
     any_can_invite = models.BooleanField(_("Any can invite"), default=True)
     members_only = models.BooleanField(_("members only"), default=False)
-    is_one_to_one = models.BooleanField(_("is one to one"), default=False)
+    is_conversation = models.BooleanField(
+        _("is conversation"), default=False, db_index=True
+    )
+    is_one_to_one = models.BooleanField(
+        _("is one to one"), default=False, db_index=True
+    )
     image = models.ImageField(null=True, blank=True)
 
     # Last message info

@@ -11,11 +11,13 @@ from apps.users.lib import dataclasses as users_dataclasses
 class RecentRoomInfo:
     uuid: Union[UUID, str]
     name: str
+    is_conversation: bool
     is_one_to_one: bool
     last_message_text: str
     last_message_ts: datetime
     last_message_user_id: int
     have_unread_messages: bool
+    members_count: int
     to_user_id: Optional[int]  # Only if is a one_to_one
     image: Optional[str]
 

@@ -17,7 +17,7 @@ from ...lib.exceptions import NonExistentMemberException, RoomDoesNotExist
 from ..models import Message, Room, RoomUserRead
 
 
-def get_or_create_one_to_one_room_by_members_ids(
+def get_or_create_one_to_one_conversation_room_by_members_ids(
     company_id: int, to_user_id: int, from_user_id: int
 ) -> Room:
     try:
@@ -25,6 +25,7 @@ def get_or_create_one_to_one_room_by_members_ids(
             Room.objects.filter(
                 company_id=company_id,
                 members__id__in={from_user_id, to_user_id},
+                is_conversation=True,
                 is_one_to_one=True,
             )
             .annotate(num_members=Count("members"))
@@ -36,6 +37,7 @@ def get_or_create_one_to_one_room_by_members_ids(
             **{
                 "company_id": company_id,
                 "is_one_to_one": True,
+                "is_conversation": True,
                 "name": str(uuid.uuid4()),
                 "any_can_invite": False,
                 "members_only": True,
@@ -44,21 +46,32 @@ def get_or_create_one_to_one_room_by_members_ids(
         )
 
 
-def create_many_to_many_room_by_name(
-    company_id: int, any_can_invite: bool = True
+def get_or_create_many_to_many_conversation_room_by_members_ids(
+    company_id: int, members_ids: set[int]
 ) -> Room:
-    """
-    This is a conversation room
-    """
-    return Room.objects.create(
-        **{
-            "company_id": company_id,
-            "is_one_to_one": False,
-            "any_can_invite": any_can_invite,
-            "members_only": True,
-            "max_users": -1,
-        }
-    )
+    try:
+        return (
+            Room.objects.filter(
+                company_id=company_id,
+                members__id__in=members_ids,
+                is_conversation=True,
+                is_one_to_one=True,
+            )
+            .annotate(num_members=Count("members"))
+            .filter(num_members=2)
+            .earliest("created")
+        )
+    except Room.DoesNotExist:
+        return Room.objects.create(
+            **{
+                "company_id": company_id,
+                "is_conversation": True,
+                "is_one_to_one": False,
+                "any_can_invite": False,
+                "members_only": True,
+                "max_users": len(members_ids),
+            }
+        )
 
 
 def get_rooms_by_uuids(
@@ -119,7 +132,7 @@ def get_recents_rooms_by_user_id(
         .exclude(is_one_to_one_and_not_have_messages)
         .prefetch_related("members")
         .annotate(have_unread_messages=have_unread_messages)
-        .order_by("have_unread_messages", "-last_message_ts")
+        .order_by("have_unread_messages", "-last_message_ts", "is_conversation")
     )
 
     if search:

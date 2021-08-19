@@ -52,7 +52,7 @@ class GetOrCreateConversationRoomAPIView(views.APIView):
 
     def get_many_to_many_room(self, to: list[int]) -> chat_models.Room:
         try:
-            return chat_services.create_many_to_many_conversation_room_by_name(
+            return chat_services.get_or_create_many_to_many_conversation_room_by_members_ids(
                 company_id=self.request.user.company_id,
                 members_ids={self.request.user.id, *to},
             )

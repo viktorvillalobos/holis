@@ -121,12 +121,14 @@ def get_cursored_recents_rooms_by_user_id(
                 uuid=room.uuid,
                 name=chat_name,
                 image=chat_image_url,
+                is_conversation=room.is_conversation,
                 is_one_to_one=room.is_one_to_one,
                 to_user_id=other_user_id,
                 last_message_text=room.last_message_text,
                 last_message_ts=room.last_message_ts,
                 last_message_user_id=room.last_message_user_id,
                 have_unread_messages=room.have_unread_messages,
+                members_count=len(members_by_id.values()),
             )
         )
 
@@ -137,10 +139,10 @@ def get_or_create_one_to_one_conversation_room_by_company_and_users(
     company_id: int, to_user_id: int, from_user_id: int
 ) -> Room:
     """
-        create an one to one conversation room, for more info please read about
-        `conversation rooms`
+    create an one to one conversation room, for more info please read about
+    `conversation rooms`
     """
-    room = room_providers.get_or_create_one_to_one_room_by_members_ids(
+    room = room_providers.get_or_create_one_to_one_conversation_room_by_members_ids(
         company_id=company_id, from_user_id=from_user_id, to_user_id=to_user_id
     )
 
@@ -155,14 +157,16 @@ def get_or_create_one_to_one_conversation_room_by_company_and_users(
     return room
 
 
-def create_many_to_many_conversation_room_by_name(
+def get_or_create_many_to_many_conversation_room_by_members_ids(
     company_id: int, members_ids: set[int]
 ) -> Room:
     """
-        create a many to many conversation room, for more info please read about
-        `conversation rooms`
+    create a many to many conversation room, for more info please read about
+    `conversation rooms`
     """
-    room = room_providers.create_many_to_many_room_by_name(company_id=company_id)
+    room = room_providers.get_or_create_many_to_many_conversation_room_by_members_ids(
+        company_id=company_id, members_ids=members_ids
+    )
 
     members = users_models.User.objects.filter(
         id__in=members_ids, company_id=company_id
@@ -305,8 +309,8 @@ def remove_user_from_room_by_uuid(
     company_id: int, user_id: int, room_uuid: Union[UUID, str]
 ) -> None:
     """
-        Remove an user from a room,
-        this is commonly used on the user room exit.
+    Remove an user from a room,
+    this is commonly used on the user room exit.
     """
     room_providers.remove_user_from_room_by_uuid(
         company_id=company_id, user_id=user_id, room_uuid=room_uuid
