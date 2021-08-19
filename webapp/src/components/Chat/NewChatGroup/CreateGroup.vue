@@ -12,7 +12,7 @@
         <div class="is-flex is-justify-content-center">
             <input class="file-input" type="file" id="fileUpload" accept="image/*" @change="previewFiles" hidden>
             <figure class="image is-128x128" v-if="url" @click="chooseFiles">
-                <img class="is-rounded" :src="url">
+                <img class="is-rounded" :src="url" style="width: 128px; height: 128px">
             </figure>
             <figure v-else class="circle is-flex is-justify-content-center is-clickable" @click="chooseFiles">
                 <span class="material-icons mt-6" style="color: white; font-size: 32px">
@@ -25,7 +25,7 @@
             <input class="input" type="text" placeholder="Group name" v-model="group">
         </div>
         <div class="flx-1 m-5">
-            <button class="button is-fullwidth is-primary">Select participants</button>
+            <button class="button is-fullwidth is-primary" @click="goToParticipants">Select participants</button>
         </div>
     </div>
 </template>
@@ -43,6 +43,9 @@ export default {
   components: {},
   methods:{
     backComponent(){
+      this.$store.commit('setCurrentChatName', null)
+      this.$store.commit('setCurrentChatID', null)
+      this.$store.commit('setScreenChat', 'inbox')
     },
     chooseFiles() {
         document.getElementById("fileUpload").click()
@@ -50,6 +53,9 @@ export default {
     previewFiles(event) {
       const file = event.target.files[0];
       this.url = URL.createObjectURL(file);
+    },
+    goToParticipants(){
+      this.$emit('send', 'participants');
     }
   },
 }

@@ -11,7 +11,7 @@
       <!--<div>
           <p class="column ml-4" style="color:#000000;">Participants</p>
       </div>-->
-      <div class="tags ml-5 mr-5" v-if="participants.length > 0">
+      <div class="tags ml-5 mr-5 flx-1" v-if="participants.length > 0">
         <span v-for="participant in participants" :key="participant.id" class="tag is-primary">
           {{participant.name.substring(0,50) || participant.username.substring(0,50)}}
           <button class="delete is-small" @click="selectParticipant(participant)"></button>
@@ -104,9 +104,7 @@ export default {
         this.$store.dispatch('getUsers', e.target.value)
       }, 300),
       goToInbox(){
-        this.$store.commit('setCurrentChatName', null)
-        this.$store.commit('setCurrentChatID', null)
-        this.$store.commit('setScreenChat', 'newchat')
+        this.$emit('send', 'index');
       },
       selectParticipant(recent){
         const index = this.participants.findIndex(element => element.id == recent.id)

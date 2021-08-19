@@ -1,6 +1,7 @@
 <template>
   <div>
-    <CreateGroup />
+    <CreateGroup v-if="screen == 'index'" @send="updateScreen"/>
+    <CreateGroupParticipants v-else @send="updateScreen" />
   </div>
 </template>
 
@@ -16,8 +17,15 @@ export default {
     CreateGroupParticipants
   },
   data () {
-    return {}
+    return {
+      screen: 'index'
+    }
   },
+  methods:{
+    updateScreen(screen) {
+        this.screen = screen
+    }
+  }
 }
 </script>
 

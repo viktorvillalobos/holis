@@ -9,8 +9,12 @@
                   <p>{{user ? user.position: 'Cargo misterioso'}}</p>
               </div>
           </div>
+          
           <div class="column columns" style="justify-content: flex-end;">
-            <button class="button is-ghost is-1" @click="openNewChat">
+            <div class="column mr-4" align="right" >
+              <span class="material-icons-round is-clickable" style="color:white" @click="goToGroup">forum</span> 
+            </div>
+            <button class="button is-ghost is-1 mt-1" @click="openNewChat">
               <span class="icon is-small">
                  <span class="material-icons" style="color:#fff">add_comment</span>
               </span>
@@ -98,6 +102,11 @@ export default {
       this.$store.dispatch('getMessagesByUser', data)
       this.$store.commit('setCurrentChatName', recent.to_user_name )
       this.$store.commit('setCurrentChatID', recent.uuid)
+    },
+    goToGroup(){
+        this.$store.commit('setCurrentChatName', null)
+        this.$store.commit('setCurrentChatID', null)
+        this.$store.commit('setScreenChat', 'newgroup')
     },
     getInbox(search = ""){
       try {

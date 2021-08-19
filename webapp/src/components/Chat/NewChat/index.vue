@@ -6,14 +6,20 @@
                   <span class="material-icons" style="color:#fff">chevron_left</span>
               </span>
           </button>
-          <b class="column" style="color:#fff">New message</b>
-          <div class="column mr-5" align="right" style="cursor: pointer" @click="goToGroup">
+          <b class="column" style="color:#fff">New conversation</b>
+          <!--<div class="column mr-5" align="right" style="cursor: pointer" @click="goToGroup">
             <span class="material-icons-round" style="color:white">forum</span> 
-          </div>
+          </div>-->
       </div>
-      <div class="field mr-5 ml-5 mt-5 flx-1">
+      <div class="tags ml-5 mr-5 flx-1" v-if="participants.length > 0">
+        <span v-for="participant in participants" :key="participant.id" class="tag is-primary">
+          {{participant.name.substring(0,50) || participant.username.substring(0,50)}}
+          <button class="delete is-small" @click="selectParticipant(participant)"></button>
+        </span>
+      </div>
+      <div class="field mr-5 ml-5 mt-4 flx-1">
           <p class="control has-icons-left has-icons-right">
-              <input class="input input-chat" type="text" placeholder="Search or start a new conversation" @input="debounceInput">
+              <input class="input input-chat" type="text" placeholder="Search user" @input="debounceInput">
               <span class="icon is-left">
                   <span class="material-icons" style="color:#2D343C">search</span>
               </span>
@@ -30,16 +36,19 @@
         </div>
       </vue-scroll>
       <vue-scroll class="flx-1" v-else>
-        <div class="user-items" v-for="user in users" :key="user.id" @click="openChatUser(user)">
+        <div class="user-items" v-for="user in filterUsers" :key="user.id" @click="selectParticipant(user)"> <!-- @click="openChatUser(user)"-->
             <span class="icon-text">
                 <span class="icon">
                     <Avatar v-if="user.avatar_thumb" :img="user.avatar_thumb"/>
                     <font-awesome-icon v-else icon="user-circle" size="3x"/>
                 </span>
-                <b class="header-new-chat-title">{{user.name || user.username}}</b>
+                <b class="header-new-chat-title">{{user.name.substring(0,50) || user.username.substring(0,50) }}</b>
             </span>
         </div>
       </vue-scroll>
+      <div class="flx-1 m-5" v-if="participants.length > 0">
+        <button class="button is-fullwidth is-primary">Create conversation</button>
+      </div>
       <div v-if="users.length == 0 && !firstLoad" style="display: flex; flex-direction: column; justify-content: center; align-items: center;" class="mt-6">
           <font-awesome-icon icon="sad-tear" size="6x"/>
           <p>No contact found</p>
@@ -61,7 +70,10 @@ export default {
   computed: {
     ...mapState({
       users: state => state.chat.users
-    })
+    }),
+    filterUsers(){
+      return this.users.filter(user => this.participants.findIndex(participant => participant.id == user.id) == -1)
+    }
   },
   data () {
     return {
@@ -70,7 +82,8 @@ export default {
         magnifyIcon: magnifyIcon,
         closeIcon: closeIcon
       },
-      firstLoad: true
+      firstLoad: true,
+      participants: [],
     }
   },
   watch:{
@@ -98,6 +111,14 @@ export default {
         this.$store.commit('setCurrentChatName', null)
         this.$store.commit('setCurrentChatID', null)
         this.$store.commit('setScreenChat', 'newgroup')
+      },
+      selectParticipant(recent){
+        const index = this.participants.findIndex(element => element.id == recent.id)
+        if(index == -1){
+            this.participants.push(recent)
+        }else{
+            this.participants.splice(index, 1)
+        }
       },
       openChatUser(recent){
           console.log(recent)
@@ -178,6 +199,11 @@ export default {
 
 ::-ms-input-placeholder { /* Microsoft Edge */
   color: #BDBDBD !important;
+}
+
+.tags{
+  margin-top: 10px !important;
+  margin-bottom: 0px !important;
 }
 
 /*.input{
