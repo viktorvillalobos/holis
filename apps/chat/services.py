@@ -135,7 +135,7 @@ def get_cursored_recents_rooms_by_user_id(
     return recents_data, next_page_cursor, previous_page_cursor
 
 
-def get_or_create_one_to_one_conversation_room_by_company_and_users(
+def get_or_create_one_to_one_conversation_room_by_members_ids(
     company_id: int, to_user_id: int, from_user_id: int
 ) -> Room:
     """

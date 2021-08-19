@@ -42,7 +42,7 @@ class GetOrCreateConversationRoomAPIView(views.APIView):
 
     def get_one_to_one_room(self, to: int) -> chat_models.Room:
         try:
-            return chat_services.get_or_create_one_to_one_conversation_room_by_company_and_users(
+            return chat_services.get_or_create_one_to_one_conversation_room_by_members_ids(
                 company_id=self.request.company_id,
                 from_user_id=self.request.user.id,
                 to_user_id=to,
