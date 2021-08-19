@@ -45,13 +45,15 @@ def get_or_create_one_to_one_room_by_members_ids(
 
 
 def create_many_to_many_room_by_name(
-    company_id: int, name: Optional[str], any_can_invite: bool = True
+    company_id: int, any_can_invite: bool = True
 ) -> Room:
+    """
+    This is a conversation room
+    """
     return Room.objects.create(
         **{
             "company_id": company_id,
             "is_one_to_one": False,
-            "name": name,
             "any_can_invite": any_can_invite,
             "members_only": True,
             "max_users": -1,

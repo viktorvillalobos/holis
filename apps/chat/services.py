@@ -133,9 +133,13 @@ def get_cursored_recents_rooms_by_user_id(
     return recents_data, next_page_cursor, previous_page_cursor
 
 
-def get_or_create_one_to_one_room_by_company_and_users(
+def get_or_create_one_to_one_conversation_room_by_company_and_users(
     company_id: int, to_user_id: int, from_user_id: int
 ) -> Room:
+    """
+        create an one to one conversation room, for more info please read about
+        `conversation rooms`
+    """
     room = room_providers.get_or_create_one_to_one_room_by_members_ids(
         company_id=company_id, from_user_id=from_user_id, to_user_id=to_user_id
     )
@@ -151,12 +155,14 @@ def get_or_create_one_to_one_room_by_company_and_users(
     return room
 
 
-def create_many_to_many_room_by_name(
-    company_id: int, members_ids: set[int], name: Optional[str] = "custom-room"
+def create_many_to_many_conversation_room_by_name(
+    company_id: int, members_ids: set[int]
 ) -> Room:
-    room = room_providers.create_many_to_many_room_by_name(
-        company_id=company_id, name=name
-    )
+    """
+        create a many to many conversation room, for more info please read about
+        `conversation rooms`
+    """
+    room = room_providers.create_many_to_many_room_by_name(company_id=company_id)
 
     members = users_models.User.objects.filter(
         id__in=members_ids, company_id=company_id
