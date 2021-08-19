@@ -68,9 +68,17 @@ def get_or_create_many_to_many_conversation_room_by_members_ids(
             .earliest("created")
         )
     except Room.DoesNotExist:
+
+        members_names = User.objects.filter(id__in=members_ids).values_list(
+            "name", flat=True
+        )
+
+        room_name = ", ".join(members_names)
+
         return Room.objects.create(
             **{
                 "company_id": company_id,
+                "name": room_name,
                 "is_conversation": True,
                 "is_one_to_one": False,
                 "any_can_invite": False,
