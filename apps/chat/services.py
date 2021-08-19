@@ -184,6 +184,7 @@ def create_custom_room_by_name(
     name: str,
     admins_ids: set[int],
     members_ids: set[int],
+    is_public: bool = True,
     any_can_invite: bool = True,
 ) -> RoomData:
     room = room_providers.create_custom_room_by_name(
@@ -191,6 +192,7 @@ def create_custom_room_by_name(
         name=name,
         admins_ids=admins_ids,
         members_ids=members_ids,
+        is_public=is_public,
         any_can_invite=any_can_invite,
     )
 

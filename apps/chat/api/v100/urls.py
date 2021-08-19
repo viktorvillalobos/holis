@@ -10,7 +10,15 @@ else:
     router = SimpleRouter()
 
 urlpatterns = [
-    path("get-or-create-room/", views.GetOrCreateConversationRoomAPIView.as_view()),
+    path(
+        "get-or-create-conversation/",
+        views.GetOrCreateConversationRoomAPIView.as_view(),
+    ),
+    path(
+        "create-channel/",
+        views.CustomRoomViewSet.as_view({"post": "create"}),
+        name="create-custom-room",
+    ),
     path("get-turn-credentials/", views.GetTurnCredentialsAPIView.as_view()),
     path("room/recents/", views.RecentRoomsAPIView.as_view(), name="recents"),
     path("room/<uuid:room_uuid>/", views.RoomViewSet.as_view({"get": "retrieve"})),
