@@ -102,4 +102,15 @@ class RoomSerializer(serializers.Serializer):
     is_public = serializers.BooleanField()
     any_can_invite = serializers.BooleanField()
     is_one_to_one = serializers.BooleanField()
-    image_url = serializers.CharField()
+    image_url = serializers.CharField(read_only=True)
+
+
+class CreateCustomRoomSerializer(serializers.Serializer):
+    company_id = serializers.IntegerField(read_only=True)
+    uuid = serializers.UUIDField()
+    name = serializers.CharField()
+    subject = serializers.CharField()
+    members = RoomMemberSerializer(many=True)
+    admins = RoomMemberSerializer(many=True)
+    is_public = serializers.BooleanField()
+    any_can_invite = serializers.BooleanField()

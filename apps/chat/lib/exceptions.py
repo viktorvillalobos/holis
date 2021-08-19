@@ -4,3 +4,7 @@ class NonExistentMemberException(Exception):
 
 class RoomDoesNotExist(Exception):
     pass
+
+
+class RoomNameAlreadyExist(Exception):
+    pass

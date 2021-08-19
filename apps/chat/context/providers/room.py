@@ -1,6 +1,7 @@
 from typing import Dict, Iterable, Optional, Union
 
 from django.core.files.base import File
+from django.db import IntegrityError
 from django.db.models import Case, Count, Exists, Q, Value, When
 from django.db.models.expressions import OuterRef
 from django.db.models.query import QuerySet
@@ -9,11 +10,16 @@ import uuid
 from datetime import datetime
 from uuid import UUID
 
+from apps.users.context.models import User
 from apps.utils.cache import cache
 from apps.utils.html import strip_tags
 from apps.utils.rest_framework.paginators import get_paginated_queryset
 
-from ...lib.exceptions import NonExistentMemberException, RoomDoesNotExist
+from ...lib.exceptions import (
+    NonExistentMemberException,
+    RoomDoesNotExist,
+    RoomNameAlreadyExist,
+)
 from ..models import Message, Room, RoomUserRead
 
 
@@ -72,6 +78,36 @@ def get_or_create_many_to_many_conversation_room_by_members_ids(
                 "max_users": len(members_ids),
             }
         )
+
+
+def create_custom_room_by_name(
+    company_id: int,
+    name: str,
+    admins_ids: set[int],
+    members_ids: set[int],
+    is_public: bool = True,
+    any_can_invite: bool = True,
+) -> Room:
+
+    try:
+        room = Room.objects.create(
+            name=name,
+            company_id=company_id,
+            is_conversation=False,
+            is_one_to_one=False,
+            is_public=is_public,
+            any_can_invite=any_can_invite,
+            is_persistent=True,
+            max_users=0,
+        )
+    except IntegrityError as ex:
+        if "unique constraint" in str(ex):
+            raise RoomNameAlreadyExist
+
+    room.admins.set(admins_ids)
+    room.members.set(members_ids)
+
+    return Room.objects.prefetch_related("members", "admins").get(uuid=room.uuid)
 
 
 def get_rooms_by_uuids(

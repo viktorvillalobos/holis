@@ -179,6 +179,35 @@ def get_or_create_many_to_many_conversation_room_by_members_ids(
     return room
 
 
+def create_custom_room_by_name(
+    company_id: int,
+    name: str,
+    admins_ids: set[int],
+    members_ids: set[int],
+    any_can_invite: bool = True,
+) -> RoomData:
+    room = room_providers.create_custom_room_by_name(
+        company_id=company_id,
+        name=name,
+        admins_ids=admins_ids,
+        members_ids=members_ids,
+        any_can_invite=any_can_invite,
+    )
+
+    members = [
+        build_dataclass_from_model_instance(klass=UserData, instance=member)
+        for member in room.members.all()
+    ]
+    admins = [
+        build_dataclass_from_model_instance(klass=UserData, instance=admin)
+        for admin in room.members.all()
+    ]
+
+    return build_dataclass_from_model_instance(
+        klass=RoomData, instance=room, members=members, admins=admins
+    )
+
+
 @cache(12 * 60 * 60)
 def get_twilio_credentials_by_user_id(user_id: int) -> Dict[str, Any]:
     account_sid = settings.TWILIO_ACCOUNT_ID

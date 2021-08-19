@@ -1,6 +1,7 @@
 from django.http.request import HttpRequest
 from rest_framework import exceptions, generics, status, views, viewsets
 from rest_framework.parsers import FileUploadParser, MultiPartParser
+from rest_framework.request import Request
 from rest_framework.response import Response
 
 import logging
@@ -58,6 +59,22 @@ class GetOrCreateConversationRoomAPIView(views.APIView):
             )
         except NonExistentMemberException:
             raise exceptions.ValidationError("Member does not exist")
+
+
+class CustomRoomViewSet(viewsets.ViewSet):
+    serializer_class = serializers.CreateCustomRoomSerializer
+
+    def create(self, request: HttpRequest) -> Response:
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        room = chat_services.create_custom_room_by_name(
+            company_id=self.request.company_id, **serializer.validated_data
+        )
+
+        serialized_data = self.serializer_class(room).data
+
+        return Response(serialized_data, status=status.HTTP_201_CREATED)
 
 
 class GetTurnCredentialsAPIView(views.APIView):
