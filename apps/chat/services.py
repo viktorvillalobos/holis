@@ -142,16 +142,16 @@ def get_or_create_one_to_one_conversation_room_by_members_ids(
     create an one to one conversation room, for more info please read about
     `conversation rooms`
     """
-    room = room_providers.get_or_create_one_to_one_conversation_room_by_members_ids(
-        company_id=company_id, from_user_id=from_user_id, to_user_id=to_user_id
-    )
-
     members_in_bulk = user_services.get_users_by_ids_in_bulk(
         company_id=company_id, users_ids={to_user_id, from_user_id}
     )
 
     if len(members_in_bulk.keys()) != 2:
         raise NonExistentMemberException("User does not exist")
+
+    room = room_providers.get_or_create_one_to_one_conversation_room_by_members_ids(
+        company_id=company_id, from_user_id=from_user_id, to_user_id=to_user_id
+    )
 
     room.members.set(members_in_bulk.keys())
 
