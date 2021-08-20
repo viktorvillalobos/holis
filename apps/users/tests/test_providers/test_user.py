@@ -1,4 +1,5 @@
 from django.db import IntegrityError
+from django.db.models import QuerySet
 from django.utils import timezone
 
 import pytest
@@ -101,3 +102,21 @@ class TestUpdateUserProfile:
 
         with pytest.raises(UserDoesNotExist):
             user_providers.update_user_profile(**kwargs)
+
+
+@pytest.mark.django_db
+def test_get_users_by_ids(django_assert_num_queries):
+    user1 = user_recipes.user_julls.make()
+    user2 = user_recipes.user_viktor.make()
+
+    with django_assert_num_queries(num=0):
+        result = user_providers.get_users_by_ids(
+            company_id=user1.company_id, users_ids={user1.id, user2.id}
+        )
+
+    assert isinstance(result, QuerySet)
+
+    with django_assert_num_queries(num=1):
+        result = list(result)
+
+    assert result == [user1, user2]

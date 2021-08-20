@@ -66,4 +66,4 @@ def update_user_profile(
 
 
 def get_users_by_ids(company_id: int, users_ids: Iterable[int]) -> QuerySet:
-    return User.objects.filter(id__in=users_ids, company_id=company_id)
+    return User.objects.filter(id__in=users_ids, company_id=company_id).order_by("id")
