@@ -23,6 +23,15 @@ from ...lib.exceptions import (
 from ..models import Message, Room, RoomUserRead
 
 
+def _get_room_name_by_members_ids(members_ids: Iterable[int]) -> str:
+    members_names = list(
+        User.objects.filter(id__in=members_ids).values_list("name", flat=True)
+    )
+
+    members_names = sorted(members_names)
+    return ", ".join(members_names)
+
+
 def get_or_create_one_to_one_conversation_room_by_members_ids(
     company_id: int, to_user_id: int, from_user_id: int
 ) -> Room:
@@ -39,12 +48,17 @@ def get_or_create_one_to_one_conversation_room_by_members_ids(
             .earliest("created")
         )
     except Room.DoesNotExist:
+
+        room_name = _get_room_name_by_members_ids(
+            members_ids={to_user_id, from_user_id}
+        )
+
         return Room.objects.create(
             **{
                 "company_id": company_id,
                 "is_one_to_one": True,
                 "is_conversation": True,
-                "name": str(uuid.uuid4()),
+                "name": room_name,
                 "any_can_invite": False,
                 "members_only": True,
                 "max_users": 2,
@@ -69,11 +83,7 @@ def get_or_create_many_to_many_conversation_room_by_members_ids(
         )
     except Room.DoesNotExist:
 
-        members_names = User.objects.filter(id__in=members_ids).values_list(
-            "name", flat=True
-        )
-
-        room_name = ", ".join(members_names)
+        room_name = _get_room_name_by_members_ids(members_ids=members_ids)
 
         return Room.objects.create(
             **{
