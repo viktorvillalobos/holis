@@ -137,7 +137,7 @@ def get_cursored_recents_rooms_by_user_id(
 
 def get_or_create_one_to_one_conversation_room_by_members_ids(
     company_id: int, to_user_id: int, from_user_id: int
-) -> Room:
+) -> RoomData:
     """
     create an one to one conversation room, for more info please read about
     `conversation rooms`
@@ -162,24 +162,27 @@ def get_or_create_one_to_one_conversation_room_by_members_ids(
 
 def get_or_create_many_to_many_conversation_room_by_members_ids(
     company_id: int, members_ids: set[int]
-) -> Room:
+) -> RoomData:
     """
     create a many to many conversation room, for more info please read about
     `conversation rooms`
     """
+    members_in_bulk = user_services.get_users_by_ids_in_bulk(
+        company_id=company_id, users_ids=members_ids
+    )
+
+    if len(members_in_bulk.keys()) != len(members_ids):
+        raise NonExistentMemberException("User does not exist")
+
     room = room_providers.get_or_create_many_to_many_conversation_room_by_members_ids(
         company_id=company_id, members_ids=members_ids
     )
 
-    members = users_models.User.objects.filter(
-        id__in=members_ids, company_id=company_id
+    room.members.set(members_in_bulk.keys())
+
+    return build_dataclass_from_model_instance(
+        klass=RoomData, instance=room, members=members_in_bulk.values()
     )
-
-    if members.count() != len(members_ids):
-        raise NonExistentMemberException("User does not exist")
-
-    room.members.set(members)
-    return room
 
 
 def create_custom_room_by_name(

@@ -113,7 +113,6 @@ def test_remove_user_from_room_by_uuid(mocked_provider):
 def test_get_or_create_one_to_one_conversation_room_by_members_ids(
     mocked_provider, mocked_user_service
 ):
-
     mocked_to_user_id = mock.Mock()
     mocked_from_user_id = mock.Mock()
     mocked_company_id = mock.Mock()
@@ -137,6 +136,43 @@ def test_get_or_create_one_to_one_conversation_room_by_members_ids(
 
     mocked_user_service.assert_called_once_with(
         company_id=mocked_company_id, users_ids={mocked_to_user_id, mocked_from_user_id}
+    )
+
+    assert isinstance(result, RoomData)
+
+
+@mock.patch("apps.chat.services.user_services.get_users_by_ids_in_bulk")
+@mock.patch(
+    "apps.chat.services.room_providers.get_or_create_many_to_many_conversation_room_by_members_ids"
+)
+def test_get_or_create_many_to_many_conversation_room_by_members_ids(
+    mocked_provider, mocked_user_service
+):
+    mocked_user1 = mock.Mock()
+    mocked_user2 = mock.Mock()
+    mocked_user3 = mock.Mock()
+    mocked_company_id = mock.Mock()
+
+    mocked_user_service_return = {
+        mocked_user1: mocked_user1,
+        mocked_user2: mocked_user2,
+        mocked_user3: mocked_user3,
+    }
+
+    members_ids = list(mocked_user_service_return.values())
+
+    mocked_user_service.return_value = mocked_user_service_return
+
+    kwargs = dict(company_id=mocked_company_id, members_ids=members_ids)
+
+    result = chat_services.get_or_create_many_to_many_conversation_room_by_members_ids(
+        **kwargs
+    )
+
+    mocked_provider.assert_called_once_with(**kwargs)
+
+    mocked_user_service.assert_called_once_with(
+        company_id=mocked_company_id, users_ids=members_ids
     )
 
     assert isinstance(result, RoomData)
