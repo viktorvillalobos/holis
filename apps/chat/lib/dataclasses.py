@@ -26,6 +26,7 @@ class RecentRoomInfo:
 class RoomData:
     company_id: int
     uuid: Union[UUID, str]
+    is_conversation: bool
     is_one_to_one: bool
     members: list[users_dataclasses.UserData]
     admins: list[users_dataclasses.UserData]

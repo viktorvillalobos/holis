@@ -104,3 +104,39 @@ def test_remove_user_from_room_by_uuid(mocked_provider):
 
     assert result is None
     mocked_provider.assert_called_once_with(**kwargs)
+
+
+@mock.patch("apps.chat.services.user_services.get_users_by_ids_in_bulk")
+@mock.patch(
+    "apps.chat.services.room_providers.get_or_create_one_to_one_conversation_room_by_members_ids"
+)
+def test_get_or_create_one_to_one_conversation_room_by_members_ids(
+    mocked_provider, mocked_user_service
+):
+
+    mocked_to_user_id = mock.Mock()
+    mocked_from_user_id = mock.Mock()
+    mocked_company_id = mock.Mock()
+
+    mocked_user_service.return_value = {
+        mocked_to_user_id: mocked_to_user_id,
+        mocked_from_user_id: mocked_from_user_id,
+    }
+
+    kwargs = dict(
+        company_id=mocked_company_id,
+        to_user_id=mocked_to_user_id,
+        from_user_id=mocked_from_user_id,
+    )
+
+    result = chat_services.get_or_create_one_to_one_conversation_room_by_members_ids(
+        **kwargs
+    )
+
+    mocked_provider.assert_called_once_with(**kwargs)
+
+    mocked_user_service.assert_called_once_with(
+        company_id=mocked_company_id, users_ids={mocked_to_user_id, mocked_from_user_id}
+    )
+
+    assert isinstance(result, RoomData)

@@ -1,4 +1,4 @@
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, Iterable, List, Optional
 
 from django.conf import settings
 from django.core import files
@@ -19,7 +19,7 @@ from .context.models import Status, User
 from .context.providers import status as status_providers
 from .context.providers import user as user_providers
 from .lib.constants import USER_NOTIFICATION_CHANNEL_KEY, USER_STATUS_KEY
-from .lib.dataclasses import StatusCachedData
+from .lib.dataclasses import StatusCachedData, UserData
 
 
 def serialize_user(user: settings.AUTH_USER_MODEL) -> Dict:
@@ -127,3 +127,17 @@ def update_user_profile(
         name=name,
         position=position,
     )
+
+
+def get_users_by_ids_in_bulk(
+    company_id: int, users_ids: Iterable[int]
+) -> dict[int, UserData]:
+    """
+    Return a Dict with the user id as key and a UserData as value
+    """
+    users = User.objects.filter(id__in=users_ids, company_id=company_id)
+
+    return {
+        user.id: build_dataclass_from_model_instance(klass=UserData, instance=user)
+        for user in users
+    }

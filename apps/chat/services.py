@@ -146,15 +146,18 @@ def get_or_create_one_to_one_conversation_room_by_members_ids(
         company_id=company_id, from_user_id=from_user_id, to_user_id=to_user_id
     )
 
-    members = users_models.User.objects.filter(
-        id__in=[from_user_id, to_user_id], company_id=company_id
+    members_in_bulk = user_services.get_users_by_ids_in_bulk(
+        company_id=company_id, users_ids={to_user_id, from_user_id}
     )
 
-    if members.count() != 2:
+    if len(members_in_bulk.keys()) != 2:
         raise NonExistentMemberException("User does not exist")
 
-    room.members.set(members)
-    return room
+    room.members.set(members_in_bulk.keys())
+
+    return build_dataclass_from_model_instance(
+        klass=RoomData, instance=room, members=members_in_bulk.values()
+    )
 
 
 def get_or_create_many_to_many_conversation_room_by_members_ids(
