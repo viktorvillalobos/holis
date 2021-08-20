@@ -75,10 +75,10 @@ def get_or_create_many_to_many_conversation_room_by_members_ids(
                 company_id=company_id,
                 members__id__in=members_ids,
                 is_conversation=True,
-                is_one_to_one=True,
+                is_one_to_one=False,
             )
             .annotate(num_members=Count("members"))
-            .filter(num_members=2)
+            .filter(num_members=len(members_ids))
             .earliest("created")
         )
     except Room.DoesNotExist:
