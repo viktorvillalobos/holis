@@ -135,7 +135,7 @@ def get_users_by_ids_in_bulk(
     """
     Return a Dict with the user id as key and a UserData as value
     """
-    users = User.objects.filter(id__in=users_ids, company_id=company_id)
+    users = user_providers.get_users_by_ids(company_id=company_id, users_ids=users_ids)
 
     return {
         user.id: build_dataclass_from_model_instance(klass=UserData, instance=user)

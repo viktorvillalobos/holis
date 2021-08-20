@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Iterable, Optional
 
 from django.db.models import QuerySet
 from django.utils import timezone
@@ -63,3 +63,7 @@ def update_user_profile(
 
     if rows_updated_count == 0:
         raise UserDoesNotExist
+
+
+def get_users_by_ids(company_id: int, users_ids: Iterable[int]) -> QuerySet:
+    return User.objects.filter(id__in=users_ids, company_id=company_id)

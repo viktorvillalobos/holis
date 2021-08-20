@@ -4,6 +4,7 @@ from django.utils import timezone
 import pytest
 from datetime import date, datetime, timedelta
 from model_bakery import baker
+from unittest import mock
 
 from apps.core.tests import baker_recipes as core_recipes
 from apps.users.context.providers.status import (
@@ -136,3 +137,22 @@ def test_update_user_profile(mocker):
     user_services.update_user_profile(**expected_kwargs)
 
     mocked_provider.assert_called_once_with(**expected_kwargs)
+
+
+@mock.patch("apps.users.services.build_dataclass_from_model_instance")
+@mock.patch("apps.users.services.user_providers.get_users_by_ids")
+def test_get_users_by_ids_in_bulk(
+    mocked_provider, mocked_build_dataclass_from_model_instance
+):
+
+    mocked_provider.return_value = [mock.MagicMock(), mock.MagicMock()]
+
+    mocked_users_ids = [mock.Mock(), mock.Mock()]
+    kwargs = dict(company_id=mock.Mock(), users_ids=mocked_users_ids)
+
+    result = user_services.get_users_by_ids_in_bulk(**kwargs)
+
+    mocked_provider.assert_called_once_with(**kwargs)
+
+    assert mocked_build_dataclass_from_model_instance.call_count == 2
+    assert isinstance(result, dict)
