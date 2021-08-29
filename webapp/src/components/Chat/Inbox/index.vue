@@ -96,11 +96,10 @@ export default {
     },
     openChatUser(recent){
       const data = {
-        to: recent.name,
-        first_time: true
+        id: recent.uuid
       }
-      this.$store.dispatch('getMessagesByUser', data)
-      this.$store.commit('setCurrentChatName', recent.to_user_name )
+      this.$store.dispatch('getMessagesFromInbox', data)
+      this.$store.commit('setCurrentChatName', recent.name )
       this.$store.commit('setCurrentChatID', recent.uuid)
     },
     goToGroup(){

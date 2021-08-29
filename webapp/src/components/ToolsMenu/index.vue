@@ -10,7 +10,7 @@
           <font-awesome-icon icon="chart-pie" />
       </li>
       -->
-        <li @click="goTo('user-config')" :class="{'active' : $route.name === 'user-config'}">
+        <li @click="goTo('user-config')" :class="{'active' : $route.name.includes('-config')}">
           <span class="material-icons-outlined">settings</span>
         </li>
 

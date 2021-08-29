@@ -8,6 +8,8 @@ import Config from '@/views/config.vue'
 import UserConfig from '@/components/Config/UserConfig'
 import VoiceAndVideo from '@/components/Config/VoiceAndVideo'
 import Notifications from '@/components/Config/Notifications'
+import Invitations from '@/components/Config/Invitations'
+import UsersRole from '@/components/Config/UsersRole'
 
 Vue.use(Router)
 
@@ -49,6 +51,16 @@ const router = new Router({
               path: '/notifications',
               name: 'notifications-config',
               component: Notifications
+            },
+            {
+              path: '/invitations',
+              name: 'invitations-config',
+              component: Invitations
+            },
+            {
+              path: '/users-role',
+              name: 'users-role-config',
+              component: UsersRole
             }
           ]
         }

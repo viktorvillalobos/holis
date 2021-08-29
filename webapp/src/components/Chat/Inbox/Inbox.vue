@@ -6,8 +6,8 @@
                 <Avatar v-if="recent.image" :img="recent.image" style="margin-top:12px"/>
                 <font-awesome-icon v-else icon="user-circle" size="3x" style="margin-top:12px"/>
                 <div class="column">
-                    <b class="inbox-title">{{recent ? recent.to_user_name : 'Nombre misterioso' }}</b>
-                    <div :class="{'inbox-message': true, 'inbox-message-active': recent.have_unread_messages }">{{ recent.last_message_text }}</div>
+                    <b class="inbox-title">{{recent ? recent.name : 'Nombre misterioso' }}</b>
+                    <div :class="{'inbox-message': true, 'inbox-message-active': recent.have_unread_messages }">{{ recent.last_message_text ? recent.last_message_text : "Write the first message" }}</div>
                 </div>
             </div>
             <div class="column">

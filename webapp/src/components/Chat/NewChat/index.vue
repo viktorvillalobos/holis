@@ -47,7 +47,7 @@
         </div>
       </vue-scroll>
       <div class="flx-1 m-5" v-if="participants.length > 0">
-        <button class="button is-fullwidth is-primary">Create conversation</button>
+        <button class="button is-fullwidth is-primary" :class="{'is-loading' : loadingCreate}" @click="createGroup">Create conversation</button>
       </div>
       <div v-if="users.length == 0 && !firstLoad" style="display: flex; flex-direction: column; justify-content: center; align-items: center;" class="mt-6">
           <font-awesome-icon icon="sad-tear" size="6x"/>
@@ -78,6 +78,7 @@ export default {
   data () {
     return {
       loading: false,
+      loadingCreate: false,
       icons: {
         magnifyIcon: magnifyIcon,
         closeIcon: closeIcon
@@ -129,6 +130,22 @@ export default {
         }
         this.$store.dispatch('getMessagesByUser', data)
         this.$store.commit('setCurrentChatName', recent.name)
+      },
+      createGroup(){
+        this.loadingCreate = true
+        const ids = []
+        this.participants.forEach(element => {
+            ids.push(element.id)
+        })
+        const data = {
+            to: ids,
+            name: this.group,
+            first_time: true,
+            new_chat : true
+        }
+        console.log(data)
+        this.$store.dispatch('getMessagesByGroup', data)
+        this.$store.commit('setCurrentChatName', this.group)
       }
   },
   created(){

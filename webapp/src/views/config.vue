@@ -1,21 +1,23 @@
 <template>
-  <div class="holis-config">
-    <div class="columns">
-      <div class="column">
-        <h1>Configuraciones</h1>
-      </div>
-    </div>
+  <div class="holis-config pl-5 pt-6">
     <div class="columns">
       <div class="column is-2">
-        <ul class="holis-config-links">
+        <b class="is-size-4">Settings</b>
+        <ul class="holis-config-links mt-3">
           <li>
-            <router-link exact :to="{name: 'user-config'}">Usuario</router-link>
+            <router-link exact :to="{name: 'user-config'}">Profile</router-link>
           </li>
           <li>
-            <router-link exact :to="{name: 'voice-and-video-config'}">Voz y video</router-link>
+            <router-link exact :to="{name: 'voice-and-video-config'}">Voice and Video</router-link>
           </li>
           <li>
-            <router-link exact :to="{name: 'notifications-config'}">Notificaciones</router-link>
+            <router-link exact :to="{name: 'notifications-config'}">Notifications</router-link>
+          </li>
+          <li>
+            <router-link exact :to="{name: 'invitations-config'}">Invitations</router-link>
+          </li>
+          <li>
+            <router-link exact :to="{name: 'users-role-config'}">Users and Role</router-link>
           </li>
         </ul>
       </div>
@@ -41,9 +43,8 @@ export default {
 
 <style lang="scss" scoped>
 .holis-config {
+  font-family: $family-dm-sans;
   &-links {
-    text-align: right;
-
     .router-link-active {
       font-weight: 900;
     }
