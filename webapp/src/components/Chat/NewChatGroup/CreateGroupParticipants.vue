@@ -6,20 +6,20 @@
                   <span class="material-icons" style="color:#fff">chevron_left</span>
               </span>
           </button>
-          <b class="column" style="color:#fff">New conversation</b>
-          <!--<div class="column mr-5" align="right" style="cursor: pointer" @click="goToGroup">
-            <span class="material-icons-round" style="color:white">forum</span> 
-          </div>-->
+          <b class="column" style="color:#fff">New group</b>
       </div>
+      <!--<div>
+          <p class="column ml-4" style="color:#000000;">Participants</p>
+      </div>-->
       <div class="tags ml-5 mr-5 flx-1" v-if="participants.length > 0">
         <span v-for="participant in participants" :key="participant.id" class="tag is-primary">
           {{participant.name.substring(0,50) || participant.username.substring(0,50)}}
           <button class="delete is-small" @click="selectParticipant(participant)"></button>
         </span>
       </div>
-      <div class="field mr-5 ml-5 mt-4 flx-1">
+      <div class="field mr-5 ml-5 flx-1">
           <p class="control has-icons-left has-icons-right">
-              <input class="input input-chat" type="text" placeholder="Search user" @input="debounceInput">
+              <input class="input input-chat" type="text" placeholder="Search participants" @input="debounceInput">
               <span class="icon is-left">
                   <span class="material-icons" style="color:#2D343C">search</span>
               </span>
@@ -36,18 +36,18 @@
         </div>
       </vue-scroll>
       <vue-scroll class="flx-1" v-else>
-        <div class="user-items" v-for="user in filterUsers" :key="user.id" @click="selectParticipant(user)"> <!-- @click="openChatUser(user)"-->
+        <div class="user-items" v-for="user in filterUsers" :key="user.id" @click="selectParticipant(user)">
             <span class="icon-text">
                 <span class="icon">
                     <Avatar v-if="user.avatar_thumb" :img="user.avatar_thumb"/>
                     <font-awesome-icon v-else icon="user-circle" size="3x"/>
                 </span>
-                <b class="header-new-chat-title">{{user.name.substring(0,50) || user.username.substring(0,50) }}</b>
+                <b class="header-new-chat-title">{{user.name.substring(0,50) || user.username.substring(0,50)}}</b>
             </span>
         </div>
       </vue-scroll>
-      <div class="flx-1 m-5" v-if="participants.length > 0">
-        <button class="button is-fullwidth is-primary" :class="{'is-loading' : loadingCreate}" @click="createGroup">Create conversation</button>
+      <div class="flx-1 m-5" v-if="participants.length > 0" @click="createGroup()">
+        <button class="button is-fullwidth is-primary">Create group</button>
       </div>
       <div v-if="users.length == 0 && !firstLoad" style="display: flex; flex-direction: column; justify-content: center; align-items: center;" class="mt-6">
           <font-awesome-icon icon="sad-tear" size="6x"/>
@@ -66,7 +66,8 @@ import Loading from '@/components/Loading'
 import _ from 'lodash'
 
 export default {
-  name: 'InboxMessage',
+  name: 'Participants',
+  props: ["dataGroup"],
   computed: {
     ...mapState({
       users: state => state.chat.users
@@ -78,13 +79,13 @@ export default {
   data () {
     return {
       loading: false,
-      loadingCreate: false,
       icons: {
         magnifyIcon: magnifyIcon,
         closeIcon: closeIcon
       },
       firstLoad: true,
       participants: [],
+      group: ""
     }
   },
   watch:{
@@ -104,14 +105,7 @@ export default {
         this.$store.dispatch('getUsers', e.target.value)
       }, 300),
       goToInbox(){
-        this.$store.commit('setCurrentChatName', null)
-        this.$store.commit('setCurrentChatID', null)
-        this.$store.commit('setScreenChat', 'inbox')
-      },
-      goToGroup(){
-        this.$store.commit('setCurrentChatName', null)
-        this.$store.commit('setCurrentChatID', null)
-        this.$store.commit('setScreenChat', 'newgroup')
+        this.$emit('send', 'index');
       },
       selectParticipant(recent){
         const index = this.participants.findIndex(element => element.id == recent.id)
@@ -121,39 +115,26 @@ export default {
             this.participants.splice(index, 1)
         }
       },
-      openChatUser(recent){
-          console.log(recent)
-        const data = {
-            to: recent.id,
-            first_time: true,
-            new_chat : true
-        }
-        this.$store.dispatch('getMessagesByUser', data)
-        this.$store.commit('setCurrentChatName', recent.name)
-      },
       createGroup(){
-        this.loadingCreate = true
         const ids = []
-        var nameChat = ""
-        this.participants.forEach((element, index) => {
+        this.participants.forEach(element => {
             ids.push(element.id)
-            nameChat += element.name
-            if(index > 0)
-              nameChat += ", "
         })
         const data = {
             to: ids,
+            name: this.dataGroup.name,
             first_time: true,
             new_chat : true
         }
         console.log(data)
-        this.$store.dispatch('getMessagesByGroup', data)
-        this.$store.commit('setCurrentChatName', nameChat)
+        this.$store.dispatch('getMessagesByChannel', data)
+        this.$store.commit('setCurrentChatName', this.dataGroup.name)
       }
   },
   created(){
       this.loading = true
       this.$store.dispatch('getUsers', "")
+      console.log("Tundiii ojjjj", this.dataGroup)
   }
 }
 </script>
@@ -219,11 +200,6 @@ export default {
 
 ::-ms-input-placeholder { /* Microsoft Edge */
   color: #BDBDBD !important;
-}
-
-.tags{
-  margin-top: 10px !important;
-  margin-bottom: 0px !important;
 }
 
 /*.input{

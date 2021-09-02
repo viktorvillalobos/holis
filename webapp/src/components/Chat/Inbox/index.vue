@@ -9,8 +9,12 @@
                   <p>{{user ? user.position: 'Cargo misterioso'}}</p>
               </div>
           </div>
+          
           <div class="column columns" style="justify-content: flex-end;">
-            <button class="button is-ghost is-1" @click="openNewChat">
+            <div class="column mr-4" align="right" >
+              <span class="material-icons-round is-clickable" style="color:white" @click="goToGroup">forum</span> 
+            </div>
+            <button class="button is-ghost is-1 mt-1" @click="openNewChat">
               <span class="icon is-small">
                  <span class="material-icons" style="color:#fff">add_comment</span>
               </span>
@@ -28,10 +32,14 @@
           </span>
         </p>
       </div>
-      <Loading v-bind:loading="loading"/>
     </div>
-    <div class="inbox-messages flx-1" v-if="recents && recents.length > 0">
-      <vue-scroll>
+    <div class="inbox-messages flx-1">
+      <vue-scroll v-if="loading">
+        <div v-for="index in 10" :key="index">
+          <InboxSkeleton v-bind:recent="recent"/>
+        </div>
+      </vue-scroll>
+      <vue-scroll v-if="!loading && recents && recents.length > 0">
         <div v-for="recent in recents" :key="recent.id" @click="openChatUser(recent)">
           <InboxMessage v-bind:recent="recent"/>
         </div>
@@ -49,6 +57,7 @@ import { mapState } from 'vuex'
 import Loading from '@/components/Loading'
 import Avatar from '@/components/Avatar'
 import InboxMessage from './Inbox'
+import InboxSkeleton from './InboxSkeleton'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import _ from 'lodash'
 
@@ -58,7 +67,8 @@ export default {
     Loading,
     Avatar,
     InboxMessage,
-    FontAwesomeIcon
+    FontAwesomeIcon,
+    InboxSkeleton
   },
   data () {
     return {
@@ -81,17 +91,21 @@ export default {
     openNewChat () {
       this.$store.commit('setCurrentChatName', null)
       this.$store.commit('setCurrentChatID', null)
-      this.$store.commit('setInboxActive', false)
+      this.$store.commit('setScreenChat', 'newchat')
       this.$store.commit('setAsideRightActive', true)
     },
     openChatUser(recent){
       const data = {
-        to: recent.name,
-        first_time: true
+        id: recent.uuid
       }
-      this.$store.dispatch('getMessagesByUser', data)
-      this.$store.commit('setCurrentChatName', recent.to_user_name )
+      this.$store.dispatch('getMessagesFromInbox', data)
+      this.$store.commit('setCurrentChatName', recent.name )
       this.$store.commit('setCurrentChatID', recent.uuid)
+    },
+    goToGroup(){
+        this.$store.commit('setCurrentChatName', null)
+        this.$store.commit('setCurrentChatID', null)
+        this.$store.commit('setScreenChat', 'newgroup')
     },
     getInbox(search = ""){
       try {

@@ -168,7 +168,7 @@ export default {
       this.isSendActive = false
     },
     submit () {
-      if(!this.isSendActive)
+      if(this.files.length ==0 && !this.isSendActive)
         return
 
       const messageText =
@@ -185,7 +185,20 @@ export default {
       this.$emit('sendMessage', messageObj)
       this.clearEditor()
     }
-  }
+  },
+  watch:{
+    files(newFiles){
+      if(newFiles.length > 0){
+        this.isSendActive = true
+      }
+      else{
+        this.isSendActive = this.editor.getHTML()
+                                      .replaceAll("<p>","")
+                                      .replaceAll("</p>","")
+                                      .replaceAll("<br>","") !== ""
+      }  
+    }
+  },
 }
 </script>
 

@@ -173,7 +173,7 @@ export default {
     })
   },
   created () {
-    this.$store.dispatch('getUsers')
+    this.$store.dispatch('getUsers', {}, { include_myself : true})
   },
   methods: {
     isValid () {

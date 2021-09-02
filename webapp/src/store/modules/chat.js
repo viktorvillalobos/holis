@@ -2,6 +2,7 @@ import apiClient from '../../providers/api'
 import chatServices from '../../services/chat'
 import { Message, TempMessage } from '../../models/Message'
 import moment from 'moment'
+import ChatScreen from './../../models/chatScreen'
 
 const socketChat = process.env.NODE_ENV === 'production'
   ? `wss://${location.hostname}:${location.port}/ws/chat/`
@@ -23,12 +24,13 @@ const state = {
   next: null,
   prev: null,
   currentChatID: null,
-  inboxActive: false
+  inboxActive: false,
+  screenChat: 'inbox'
 }
 
 const mutations = {
-  setInboxActive (state, status) {
-    state.inboxActive = status
+  setScreenChat (state, screnn) {
+    state.screenChat = screnn
   },
   setRoom (state, name) {
     state.room = name
@@ -147,6 +149,24 @@ const actions = {
     const { data } = await apiClient.chat.getMessages(payload.id)
     data.first_time = payload.first_time
     commit('unshiftMessages', data)
+  },
+  async getMessagesFromInbox ({ commit, dispatch }, payload) {
+    //const { data } = await apiClient.chat.getRoomByGroup(payload)
+    commit('setCurrentChatID', payload.id)
+    dispatch('getMessagesByRoom', payload)
+    dispatch('connectToRoom', { vm: this.$app, room: payload.id })
+  },
+  async getMessagesByChannel ({ commit, dispatch }, payload) {
+    const { data } = await apiClient.chat.createChannel(payload)
+    commit('setCurrentChatID', data.id)
+    dispatch('getMessagesByRoom', data)
+    dispatch('connectToRoom', { vm: this.$app, room: data.id })
+  },
+  async getMessagesByGroup ({ commit, dispatch }, payload) {
+    const { data } = await apiClient.chat.getRoomByGroup(payload)
+    commit('setCurrentChatID', data.id)
+    dispatch('getMessagesByRoom', data)
+    dispatch('connectToRoom', { vm: this.$app, room: data.id })
   },
   async getMessagesByUser ({ commit, dispatch }, payload) {
     const { data } = await apiClient.chat.getRoomByUserID(payload.to)

@@ -6,12 +6,12 @@
         <span v-else class="material-icons md-16" style="color:#fff">chevron_left</span>
       </Btn>
     </li>
-    <li>
+    <!--<li>
       <Btn :size="40" primary round icon @btn-click="openNewChat" >
         <span class="material-icons" style="color:#fff; font-size: 17px;">chat</span>
       </Btn>
     </li>
-    <!--
+    
       Comentando chat recientes
       <li class="history-chat"
         v-for="recent in recents"
@@ -65,12 +65,12 @@ export default {
       }
 
       this.clearChat()
-      this.$store.commit('setInboxActive', true)
+      this.$store.commit('setScreenChat', 'inbox')
       this.$store.commit('setAsideRightActive')
     },
     openNewChat () {
       this.clearChat()
-      this.$store.commit('setInboxActive', false)
+      this.$store.commit('setScreenChat', 'newchat')
       this.$store.commit('setAsideRightActive', true)
     },
     clearChat(){
