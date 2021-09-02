@@ -168,14 +168,20 @@ h3 {
 }
 
 .try-button {
-    width: 340px;
-    height: 55px;
     color: white;
     background: $blue;
     margin-bottom: 2%;
+    font-size: 1.25rem;
+    padding: 25px 50px;
 
     &:hover {
         color: white;
+    }
+}
+
+.holis-pricing-box {
+    .try-button {
+        font-size: 0.85rem !important;
     }
 }
 
@@ -398,6 +404,7 @@ h3 {
                 width: 100%;
                 margin-top: 10%;
                 align-self: center;
+                font-size: 0.85rem !important;
             }
         }
 
@@ -437,7 +444,7 @@ footer {
     left: 0;
     background-image: url(../images/curve.svg);
     height: 274px;
-    width: 350px;
+    width: 100%;
     background-size: cover;
   }
 
@@ -459,6 +466,16 @@ footer {
 
 
 @media screen and (max-width: 768px) {
+
+    .try-button {
+        font-size: 1.25rem !important;
+        padding: 25px 20px;
+    }
+
+    .hero-background {
+        background-image: none;
+        background-color: #44009B;
+    }
 
     .why-holis {
         margin-top: 3.5%;
@@ -550,6 +567,7 @@ footer {
 
         .try-button {
             width: 100%;
+            font-size: 1.25rem !important;
         }
 
     }
@@ -660,12 +678,12 @@ footer {
     footer {
         margin-top: 12%; 
 
-        .container {
+        /* .container {
             .columns {
                 margin-left: 2%;
                 margin-right: 2%;
             }
-        }
+        } */
 
         .holis-icon-footer-wrapper {
             display:flex;
