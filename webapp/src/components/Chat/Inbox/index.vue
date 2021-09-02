@@ -36,7 +36,7 @@
     <div class="inbox-messages flx-1">
       <vue-scroll v-if="loading">
         <div v-for="index in 10" :key="index">
-          <InboxSkeleton v-bind:recent="recent"/>
+          <InboxSkeleton/>
         </div>
       </vue-scroll>
       <vue-scroll v-if="!loading && recents && recents.length > 0">
