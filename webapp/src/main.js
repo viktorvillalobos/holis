@@ -31,13 +31,19 @@ function receiveMessage(messaging) {
   // [END messaging_receive_message]
 }
 
+try {
+  Vue.prototype.$messaging = firebaseMessaging.messaging()
+  Vue.prototype.$messaging.usePublicVapidKey('BN228XTdBTOuaK-qP_6SaMzGxIfgRVHWC9u4z4zVIyQi1ewgjGOKq8n8P781YD6J-jrFbSO62svnmC2K5NVdUos')
+  Vue.prototype.$messaging.onMessage((payload) => {
+    console.log('Message received. ', payload);
+    // ...
+  });
+} catch(error) {
+  
+}
 
-Vue.prototype.$messaging = firebaseMessaging
-Vue.prototype.$messaging.usePublicVapidKey('BN228XTdBTOuaK-qP_6SaMzGxIfgRVHWC9u4z4zVIyQi1ewgjGOKq8n8P781YD6J-jrFbSO62svnmC2K5NVdUos')
-Vue.prototype.$messaging.onMessage((payload) => {
-  console.log('Message received. ', payload);
-  // ...
-});
+
+
 
 
 console.log(Vue.prototype.$messaging)
