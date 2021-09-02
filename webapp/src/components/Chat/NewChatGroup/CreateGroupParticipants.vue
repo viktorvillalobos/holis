@@ -67,6 +67,7 @@ import _ from 'lodash'
 
 export default {
   name: 'Participants',
+  props: ["dataGroup"],
   computed: {
     ...mapState({
       users: state => state.chat.users
@@ -121,18 +122,19 @@ export default {
         })
         const data = {
             to: ids,
-            name: this.group,
+            name: this.dataGroup.name,
             first_time: true,
             new_chat : true
         }
         console.log(data)
-        this.$store.dispatch('getMessagesByGroup', data)
-        this.$store.commit('setCurrentChatName', this.group)
+        this.$store.dispatch('getMessagesByChannel', data)
+        this.$store.commit('setCurrentChatName', this.dataGroup.name)
       }
   },
   created(){
       this.loading = true
       this.$store.dispatch('getUsers', "")
+      console.log("Tundiii ojjjj", this.dataGroup)
   }
 }
 </script>

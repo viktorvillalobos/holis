@@ -24,7 +24,7 @@
         <div class="field mr-5 ml-5 mt-5 flx-1">
             <input class="input" type="text" placeholder="Group name" v-model="group">
         </div>
-        <div class="flx-1 m-5">
+        <div class="flx-1 m-5" v-if="this.group.length > 0">
             <button class="button is-fullwidth is-primary" @click="goToParticipants">Select participants</button>
         </div>
     </div>
@@ -55,7 +55,15 @@ export default {
       this.url = URL.createObjectURL(file);
     },
     goToParticipants(){
-      this.$emit('send', 'participants');
+      if(this.group.length == 0)
+        return
+
+      const data = {
+        group: this.group,
+        file: this.url 
+      }
+
+      this.$emit('send', 'participants', data);
     }
   },
 }

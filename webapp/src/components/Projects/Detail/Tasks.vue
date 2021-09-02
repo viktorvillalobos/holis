@@ -281,7 +281,7 @@ export default {
     },
     user: function(newVal){
       console.log("User", newVal)
-      this.$store.dispatch('getUsers')
+      this.$store.dispatch('getUsers', { include_myself : true})
       this.getTasks()
     },
     tasksState (tasks) {

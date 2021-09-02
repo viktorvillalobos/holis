@@ -156,6 +156,12 @@ const actions = {
     dispatch('getMessagesByRoom', payload)
     dispatch('connectToRoom', { vm: this.$app, room: payload.id })
   },
+  async getMessagesByChannel ({ commit, dispatch }, payload) {
+    const { data } = await apiClient.chat.createChannel(payload)
+    commit('setCurrentChatID', data.id)
+    dispatch('getMessagesByRoom', data)
+    dispatch('connectToRoom', { vm: this.$app, room: data.id })
+  },
   async getMessagesByGroup ({ commit, dispatch }, payload) {
     const { data } = await apiClient.chat.getRoomByGroup(payload)
     commit('setCurrentChatID', data.id)

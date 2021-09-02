@@ -1,7 +1,7 @@
 <template>
   <div>
     <CreateGroup v-if="screen == 'index'" @send="updateScreen"/>
-    <CreateGroupParticipants v-else @send="updateScreen" />
+    <CreateGroupParticipants v-else @send="updateScreen" v-bind:dataGroup="this.dataGroup"  />
   </div>
 </template>
 
@@ -18,11 +18,14 @@ export default {
   },
   data () {
     return {
-      screen: 'index'
+      screen: 'index',
+      dataGroup: {}
     }
   },
   methods:{
-    updateScreen(screen) {
+    updateScreen(screen, data) {
+      console.log(data)
+      this.dataGroup = data
         this.screen = screen
     }
   }

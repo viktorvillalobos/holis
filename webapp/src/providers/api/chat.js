@@ -20,6 +20,9 @@ export default {
     }
     return axios.get(`${urlBase}/chat/v100/room/recents/`,{params: params})
   },
+  createChannel (payload) {
+    return axios.post(`${urlBase}/chat/v100/create-channel/`, payload)
+  },
   getRoomByGroup (payload) {
     return axios.post(`${urlBase}/chat/v100/get-or-create-conversation/`, payload)
   },

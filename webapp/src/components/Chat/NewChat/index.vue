@@ -134,18 +134,21 @@ export default {
       createGroup(){
         this.loadingCreate = true
         const ids = []
-        this.participants.forEach(element => {
+        var nameChat = ""
+        this.participants.forEach((element, index) => {
             ids.push(element.id)
+            nameChat += element.name
+            if(index > 0)
+              nameChat += ", "
         })
         const data = {
             to: ids,
-            name: this.group,
             first_time: true,
             new_chat : true
         }
         console.log(data)
         this.$store.dispatch('getMessagesByGroup', data)
-        this.$store.commit('setCurrentChatName', this.group)
+        this.$store.commit('setCurrentChatName', nameChat)
       }
   },
   created(){
