@@ -63,6 +63,18 @@
         </card>
       </modal>
 
+      <modal :active="isInvitationActive" @close="handleInvitationModal">
+        <card class="invitate-modal">
+          <div class="modal-header">
+            <h3 class="modal-header-title">
+              <span class="material-icons modal-header-icon has-text-primary">people</span>
+              Invitations
+            </h3>
+          </div>
+          <invitation-modal @close="handleInvitationModal"/>
+        </card>
+      </modal>
+
       <div :class="['modal', {'is-active' : alert.active}]">
         <div class="modal-background"></div>
         <div class="modal-content">
@@ -110,6 +122,7 @@ import ChatBubbles from '@/components/Chat/ChatBubbles'
 import Chat from '@/components/Chat'
 import Modal from '@/components/Modal'
 import Card from '@/components/Card'
+import InvitationModal from '@/components/Invitation/InvitationModal'
 
 import { mapState } from 'vuex'
 
@@ -132,7 +145,8 @@ export default {
     Chat,
     Modal,
     Card,
-    Projects
+    Projects,
+    InvitationModal
   },
   computed: {
     ...mapState({
@@ -145,6 +159,7 @@ export default {
       isVideoActive: state => state.app.isVideoActive,
       isMicroActive: state => state.app.isMicroActive,
       isSoundActive: state => state.app.isSoundActive,
+      isInvitationActive: state => state.app.isInvitationActive,
       notification: state => state.notifications.notification,
       user: state => state.app.user,
       users: state => state.chat.users,
@@ -233,6 +248,9 @@ export default {
     },
     selectedChat () {
       this.$store.commit('setChatActive', false)
+    },
+    handleInvitationModal () {
+      this.$store.commit('setInvitationModalActive')
     },
     closeAlert () {
       const alert = {
@@ -376,5 +394,13 @@ a {
 .connect-alert-notification {
   max-width: 490px;
   margin: 0 auto;
+}
+
+.invitate-modal {
+  font-size: 14px;
+
+  .container {
+    padding: 25px 70px;
+  }
 }
 </style>
