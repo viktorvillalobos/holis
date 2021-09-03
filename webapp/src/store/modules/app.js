@@ -9,6 +9,7 @@ const state = {
   isMicroActive: false,
   isVideoActive: false,
   isSoundActive: true,
+  isInvitationActive: false,
   releases: [],
   notifications: [],
   alert: {
@@ -57,6 +58,9 @@ const mutations = {
   },
   setAlert (state, payload) {
     state.alert = payload
+  },
+  setInvitationModalActive (state) {
+    state.isInvitationActive = !state.isInvitationActive
   }
 }
 
