@@ -11,6 +11,7 @@ from django.utils.translation import gettext_lazy as _
 import datetime as dt
 import logging
 import requests
+import uuid
 from birthday.fields import BirthdayField
 from birthday.managers import BirthdayManager
 from io import BytesIO
@@ -173,3 +174,32 @@ class Notification(TimeStampedModel):
         ordering = ["-created"]
         verbose_name = _("notification")
         verbose_name_plural = _("notifications")
+
+
+class UserInvitation(TimeStampedModel):
+    company = models.ForeignKey(
+        "core.Company",
+        related_name="invitations",
+        on_delete=models.CASCADE,
+        verbose_name=_("company"),
+    )
+    uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    user = models.OneToOneField(
+        "users.User",
+        related_name="invitation",
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True,
+    )
+    email = models.EmailField()
+
+    created_by = models.ForeignKey(
+        "users.User", on_delete=models.DO_NOTHING, related_name="invitations"
+    )
+
+    tenant_id = "company_id"
+
+    class Meta:
+        unique_together = ["uuid", "company"]
+        verbose_name = _("User Invitation")
+        verbose_name_plural = _("User Invitations")

@@ -1,6 +1,8 @@
 from django.contrib.auth import get_user_model
+from django.http.request import HttpRequest
+from django.http.response import HttpResponse
 from django.shortcuts import get_object_or_404
-from rest_framework import exceptions, generics, permissions, status, views
+from rest_framework import exceptions, generics, permissions, status, views, viewsets
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.decorators import action
 from rest_framework.mixins import ListModelMixin, RetrieveModelMixin
@@ -11,11 +13,13 @@ from rest_framework.viewsets import GenericViewSet, ModelViewSet
 import logging
 import os
 import random
+from dataclasses import asdict
 
 from apps.core.context import models as core_models
 from apps.web import models as web_models
 
 from ... import services as user_services
+from ... import tasks as user_tasks
 from ...context import models
 from ...context.providers import user as users_providers
 from . import serializers
@@ -176,3 +180,25 @@ class UploadAvatarAPIView(views.APIView):
             raise exceptions.ValidationError(
                 {"avatar": "Only jpeg, jpg or png are supported"}
             )
+
+
+class UserInvitationViewSet(viewsets.ViewSet):
+    serializer_class = serializers.InvitateSerializer
+
+    def create(self, request: HttpRequest) -> Response:
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        users_invitations_data = user_services.create_users_invitations(
+            company_id=request.company_id,
+            emails=serializer.validated_data["emails"],
+            user_id=request.user.id,
+        )
+
+        invitation_values = [
+            asdict(invitation) for invitation in users_invitations_data
+        ]
+
+        user_tasks.send_users_invitations.delay(invitation_values)
+
+        return Response(status=status.HTTP_200_OK)

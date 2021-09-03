@@ -29,6 +29,11 @@ urlpatterns = [
         name="suggest-company-code",
     ),
     path("birthdays/", views.BirthdaysViewSet.as_view({"get": "list"})),
+    path(
+        "invitate/",
+        views.UserInvitationViewSet.as_view({"post": "create"}),
+        name="invitate",
+    ),
 ]
 
 

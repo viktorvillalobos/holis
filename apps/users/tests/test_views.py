@@ -4,11 +4,14 @@ from rest_framework.test import APIRequestFactory, force_authenticate
 
 import json
 import pytest
+from dataclasses import asdict
 from model_bakery import baker
 from unittest import mock
+from uuid import uuid4
 
 from ..api.v100 import views as users_views
 from ..context.models import User
+from ..lib.dataclasses import UserInvitationData
 from . import baker_recipes as users_recipes
 
 
@@ -92,3 +95,61 @@ class TestUsersViewSet:
         mocked_provider.assert_called_once_with(
             company_id=1, user_id=self.user.id, include_myself=True, name="Viktor"
         )
+
+
+class TestUserInvitationViewSet:
+    def setup_method(self):
+        self.rf = APIRequestFactory()
+        self.url = reverse("api-v1:users:invitate")
+        self.user = User(
+            id=1,
+            company_id=1,
+            avatar="https://demo_avatar.png",
+            # statuses=statuses
+        )
+        self.company_id = 1
+
+    @mock.patch("apps.users.api.v100.views.user_tasks.send_users_invitations")
+    @mock.patch("apps.users.api.v100.views.user_services.create_users_invitations")
+    def test_user_invitation_create_success(
+        self, mocked_create_users_invitations, mocked_send_users_invitations
+    ):
+        invitation1 = UserInvitationData(uuid=uuid4(), email="john@doe.com")
+        invitation2 = UserInvitationData(uuid=uuid4(), email="doe@john.com")
+
+        mocked_create_users_invitations.return_value = [invitation1, invitation2]
+
+        data = {"emails": [invitation1.email, invitation2.email]}
+
+        request = self.rf.post(self.url, data)
+        request.company_id = self.company_id
+
+        force_authenticate(request, user=self.user)
+
+        view = users_views.UserInvitationViewSet.as_view({"post": "create"})
+        response = view(request).render()
+
+        assert response.status_code == status.HTTP_200_OK
+
+        mocked_create_users_invitations.assert_called_once_with(
+            company_id=self.company_id,
+            user_id=self.user.id,
+            emails=[invitation1.email, invitation2.email],
+        )
+
+        invitation_values = [asdict(invitation1), asdict(invitation2)]
+
+        mocked_send_users_invitations.delay.assert_called_once_with(invitation_values)
+
+    def test_create_user_with_bad_formed_emails_fails(self):
+
+        data = {"emails": ["john@doe.com", "BAD-EMAIL"]}
+        request = self.rf.post(self.url, data)
+        request.company_id = self.company_id
+
+        force_authenticate(request, user=self.user)
+
+        view = users_views.UserInvitationViewSet.as_view({"post": "create"})
+        response = view(request).render()
+
+        assert response.status_code == status.HTTP_400_BAD_REQUEST

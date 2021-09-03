@@ -18,8 +18,9 @@ from .api.v100.serializers import UserSerializer
 from .context.models import Status, User
 from .context.providers import status as status_providers
 from .context.providers import user as user_providers
+from .context.providers import user_invitation as user_invitation_providers
 from .lib.constants import USER_NOTIFICATION_CHANNEL_KEY, USER_STATUS_KEY
-from .lib.dataclasses import StatusCachedData, UserData
+from .lib.dataclasses import StatusCachedData, UserData, UserInvitationData
 
 
 def serialize_user(user: settings.AUTH_USER_MODEL) -> Dict:
@@ -141,3 +142,23 @@ def get_users_by_ids_in_bulk(
         user.id: build_dataclass_from_model_instance(klass=UserData, instance=user)
         for user in users
     }
+
+
+def create_users_invitations(
+    company_id: int, user_id: int, emails: list[str]
+) -> list[UserInvitationData]:
+    """
+    Create UserInvitation instances.
+
+    :param user_id: user who sends the invitation
+    """
+    invitations = user_invitation_providers.create_users_invitations(
+        company_id=company_id, emails=emails, user_id=user_id
+    )
+
+    return [
+        build_dataclass_from_model_instance(
+            klass=UserInvitationData, instance=invitation
+        )
+        for invitation in invitations
+    ]

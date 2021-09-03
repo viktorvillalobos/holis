@@ -156,3 +156,15 @@ def test_get_users_by_ids_in_bulk(
 
     assert mocked_build_dataclass_from_model_instance.call_count == 2
     assert isinstance(result, dict)
+
+
+@mock.patch("apps.users.services.user_invitation_providers.create_users_invitations")
+def test_create_users_invitations(mocked_provider):
+
+    kwargs = dict(company_id=mock.Mock(), user_id=mock.Mock(), emails=[mock.Mock()])
+
+    result = user_services.create_users_invitations(**kwargs)
+
+    assert isinstance(result, list)
+
+    mocked_provider.assert_called_once_with(**kwargs)

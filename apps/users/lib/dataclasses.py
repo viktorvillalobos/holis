@@ -1,5 +1,6 @@
 import datetime as dt
 from dataclasses import dataclass
+from uuid import UUID
 
 from ..context.models import User as UserModel
 
@@ -40,3 +41,9 @@ class StatusCachedData:
     id: int
     icon_text: str
     text: str
+
+
+@dataclass
+class UserInvitationData:
+    uuid: UUID
+    email: str

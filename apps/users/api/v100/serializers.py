@@ -207,3 +207,7 @@ class AvatarUploadSerializer(serializers.ModelSerializer):
     class Meta:
         model = users_models.User
         fields = ("avatar", "id")
+
+
+class InvitateSerializer(serializers.Serializer):
+    emails = serializers.ListField(child=serializers.EmailField())
