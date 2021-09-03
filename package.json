@@ -2,6 +2,7 @@
   "name": "espazum",
   "version": "0.1.0",
   "dependencies": {
+    "imagemin-jpegtran": "^7.0.0",
     "vue-webrtc": "^1.2.0"
   },
   "devDependencies": {
