@@ -47,6 +47,7 @@ class User(AbstractUser):
 
     # First Name and Last Name do not cover name patterns
     # around the globe.
+    uuid = models.UUIDField(unique=True, default=uuid.uuid4)
     name = models.CharField(_("name of user"), blank=True, max_length=255)
     company = models.ForeignKey(
         "core.Company",
