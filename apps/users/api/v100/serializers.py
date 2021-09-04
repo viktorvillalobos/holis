@@ -85,6 +85,7 @@ def serialize_user_queryset(queryset: QuerySet) -> List[Dict[str, Any]]:
 
 class UserProfileUpdateSerializer(serializers.Serializer):
     id = serializers.IntegerField()
+    uuid = serializers.UUIDField()
     company_id = serializers.IntegerField()
     birthday = serializers.DateField(required=False)
     email = serializers.EmailField(required=False)
@@ -94,6 +95,7 @@ class UserProfileUpdateSerializer(serializers.Serializer):
 
 class UserSerializer(serializers.Serializer):
     id = serializers.IntegerField()
+    uuid = serializers.UUIDField()
     birthday = serializers.DateField(required=False)
     company = UserCompanySerializer(read_only=True)
     email = serializers.EmailField(allow_blank=False, allow_null=False)
@@ -206,7 +208,7 @@ class SetStatusSerializer(serializers.Serializer):
 class AvatarUploadSerializer(serializers.ModelSerializer):
     class Meta:
         model = users_models.User
-        fields = ("avatar", "id")
+        fields = ("avatar", "id", "uuid")
 
 
 class InvitateSerializer(serializers.Serializer):
