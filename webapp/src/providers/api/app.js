@@ -16,6 +16,9 @@ export default {
   getMe () {
     return axios.get(`${urlBase}/users/v100/profile/`)
   },
+  postInvitations (data) {
+    return axios.post(`${urlBase}/users/v100/invitate/`, data)
+  },
   getUser (id) {
     return axios(`${urlBase}/users/v100/${id}/`)
   },

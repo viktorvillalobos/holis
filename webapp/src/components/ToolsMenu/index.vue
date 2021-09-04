@@ -31,6 +31,9 @@
         <li @click="handleReleases" :class="{'active': isReleasesActive && asideOpened}">
           <span class="material-icons-outlined">grade</span>
         </li>
+        <li @click="handleInvitationModal" :class="{'active': isInvitationActive}">
+          <span class="material-icons-outlined">person</span>
+        </li>
       </ul>
     </card>
   </div>
@@ -56,7 +59,8 @@ export default {
       isBoardActive: state => state.app.isBoardActive,
       isNotificationsActive: state => state.notifications.isNotificationsActive,
       isReleasesActive: state => state.app.isReleasesActive,
-      isProjectsActive: state => state.app.isProjectsActive
+      isProjectsActive: state => state.app.isProjectsActive,
+      isInvitationActive: state => state.app.isInvitationActive
     })
   },
   methods: {
@@ -93,6 +97,9 @@ export default {
     goTo (to) {
       if (this.$route.name === to) { to = 'office' }
       this.$router.push({ name: to })
+    },
+    handleInvitationModal () {
+      this.$store.commit('setInvitationModalActive')
     }
   }
 }
