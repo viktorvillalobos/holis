@@ -7,7 +7,7 @@ from ...context import models as chat_models
 
 
 class GetOrCreateRoomSerializer(serializers.Serializer):
-    to = serializers.ListField(child=serializers.IntegerField(), min_length=1)
+    members = serializers.ListField(child=serializers.IntegerField(), min_length=1)
 
 
 class RecentRoomSerializer(serializers.Serializer):
@@ -105,12 +105,12 @@ class RoomSerializer(serializers.Serializer):
     image_url = serializers.CharField(read_only=True)
 
 
-class CreateCustomRoomSerializer(serializers.Serializer):
+class CreateChannelSerializer(serializers.Serializer):
     company_id = serializers.IntegerField(read_only=True)
-    uuid = serializers.UUIDField()
+    uuid = serializers.UUIDField(read_only=True)
     name = serializers.CharField()
-    subject = serializers.CharField()
-    members = RoomMemberSerializer(many=True)
-    admins = RoomMemberSerializer(many=True)
-    is_public = serializers.BooleanField()
-    any_can_invite = serializers.BooleanField()
+    subject = serializers.CharField(allow_null=True)
+    members = RoomMemberSerializer(many=True, allow_null=True, required=False)
+    admins = RoomMemberSerializer(many=True, allow_null=True, required=False)
+    is_public = serializers.BooleanField(default=True)
+    any_can_invite = serializers.BooleanField(default=True)

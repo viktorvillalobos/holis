@@ -61,8 +61,8 @@ class GetOrCreateConversationRoomAPIView(views.APIView):
             raise exceptions.ValidationError("Member does not exist")
 
 
-class CustomRoomViewSet(viewsets.ViewSet):
-    serializer_class = serializers.CreateCustomRoomSerializer
+class ChannelViewSet(viewsets.ViewSet):
+    serializer_class = serializers.CreateChannelSerializer
 
     def create(self, request: HttpRequest) -> Response:
         serializer = self.serializer_class(data=request.data)

@@ -16,8 +16,8 @@ urlpatterns = [
     ),
     path(
         "create-channel/",
-        views.CustomRoomViewSet.as_view({"post": "create"}),
-        name="create-custom-room",
+        views.ChannelViewSet.as_view({"post": "create"}),
+        name="create-channel",
     ),
     path("get-turn-credentials/", views.GetTurnCredentialsAPIView.as_view()),
     path("room/recents/", views.RecentRoomsAPIView.as_view(), name="recents"),
