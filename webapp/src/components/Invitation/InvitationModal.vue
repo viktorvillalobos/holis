@@ -7,29 +7,22 @@
     </div>
     <div class="columns">
       <div class="column is-12">
-        <div class="field">
+        <div v-for="(email, index) in emailList" :key="`email-${index}`" class="field">
           <p class="control has-icons-left has-icons-right">
-            <input class="input" type="email" placeholder="myfriendsholis@gmail.com">
             <span class="icon is-small is-left material-icons-outlined">
               email
             </span>
-            <span class="icon is-small is-right material-icons has-text-primary">
+            <span 
+              @click="deleteEmail(index)" 
+              class="icon is-small is-right material-icons has-text-primary delete-icon" 
+              v-if="emailList.length > 1"
+            >
               delete
             </span>
+            <input v-model="email.email" class="input" type="email" placeholder="myfriendsholis@gmail.com">
           </p>
         </div>
-        <div class="field">
-          <p class="control has-icons-left has-icons-right">
-            <input class="input" type="email" placeholder="myfriendsholis@gmail.com">
-            <span class="icon is-small is-left material-icons-outlined">
-              email
-            </span>
-            <span class="icon is-small is-right material-icons has-text-primary">
-              delete
-            </span>
-          </p>
-        </div>
-        <button class="button is-fullwidth is-outlined is-primary">
+        <button class="button is-fullwidth is-outlined is-primary" @click="addEmail()">
           <span class="material-icons-outlined mr-3">
             add
           </span>
@@ -72,11 +65,30 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 export default {
   name: 'InvitationModal',
   data () {
     return {
-
+      emailList: [
+        {
+          email: ''
+        },
+        {
+          email: ''
+        }
+      ]
+    }
+  },
+  methods: {
+    addEmail () {
+      this.emailList = [...this.emailList, {email: ''}]
+    },
+    deleteEmail (index) {
+      this.emailList.splice(index, 1)
+    },
+    sendInvitations () {
+      this.$store.dispatch('postInvitations', this.emailList)
     }
   }
 }
@@ -113,5 +125,14 @@ p {
   width: 45px !important;
   height: 40px !important;
   padding: 8px 10px;
+}
+
+.delete-icon {
+  pointer-events: all !important;
+  z-index: 99;
+}
+
+.delete-icon:hover {
+  cursor: pointer;
 }
 </style>
