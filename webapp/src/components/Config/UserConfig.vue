@@ -1,107 +1,116 @@
 <template>
   <div class="holis-config-user">
-    <div class="columns">
-      <div class="column is-3">
-        <Avatar :img="instance.avatar" huge />
-      </div>
-      <div class="column">
-        <div class="field">
-          <label class="label" to="id_avatar">Your avatar</label>
-          <div class="file has-name">
-            <label class="file-label is-fullwidth">
-              <input class="file-input" ref="newAvatar" type="file" name="avatar" accept="image/*" id="id_avatar" @change="handleAvatarChange"/>
-              <span class="file-cta">
-                <span class="file-icon">
-                  <font-awesome-icon icon="upload" />
+    <div class="header">
+      <h3 class="header-title">
+        <span class="material-icons header-icon has-text-primary">groups</span>
+        Profile
+      </h3>
+    </div>
+
+    <div class="container">
+      <div class="columns">
+        <div class="column is-3">
+          <Avatar :img="instance.avatar" huge />
+        </div>
+        <div class="column">
+          <div class="field">
+            <label class="label" to="id_avatar">Your avatar</label>
+            <div class="file has-name">
+              <label class="file-label is-fullwidth">
+                <input class="file-input" ref="newAvatar" type="file" name="avatar" accept="image/*" id="id_avatar" @change="handleAvatarChange"/>
+                <span class="file-cta">
+                  <span class="file-icon">
+                    <font-awesome-icon icon="upload" />
+                  </span>
+                  <span class="file-label">{{ avatarMsg }}</span>
                 </span>
-                <span class="file-label">{{ avatarMsg }}</span>
-              </span>
-              <span id="fileName" class="file-name">{{ avatarNiceMsg }}</span>
-            </label>
-          </div>
-          <div class="field">
-            <label class="label">Your email</label>
-            <input
-              v-model="instance.email"
-              class="input"
-              type="email"
-              placeholder="juaninjuanharry@mail.com"
-              maxlength="50"
-            />
-          </div>
-          <div class="field">
-            <label class="label">Your name</label>
-            <input
-              v-model="instance.name"
-              class="input"
-              type="text"
-              placeholder="Juanin Juan Harry"
-            />
-          </div>
-          <div class="field">
-            <label class="label">Your position</label>
-            <input
-              class="input"
-              type="text"
-              v-model="instance.position"
-              placeholder="Ex. News producer, Studios\'s coordinator"
-            />
-          </div>
-          <div class="field">
-            <label class="label">Your birthday</label>
-            <div class="columns">
-              <div class="column">
-                <div class="select is-fullwidth">
-                  <select v-model="birthday[2]">
-                    <option :value="null">Day</option>
-                    <option v-for="N in 31" :key="N" :value="N < 9 ? '0' + N : N">{{N}}</option>
-                  </select>
-                </div>
-              </div>
-              <div class="column">
-                <div class="select is-fullwidth">
-                  <select v-model="birthday[1]">
-                    <option :value="null">Month</option>
-                    <option
-                      v-for="N in 12"
-                      :key="N"
-                      :value="N < 9 ? '0' + N : N"
-                    >{{$moment().month(N - 1).format('MMMM')}}</option>
-                  </select>
-                </div>
-              </div>
-              <div class="column">
-                <div class="select is-fullwidth">
-                  <select v-model="birthday[0]">
-                    <option :value="null">Year</option>
-                    <option v-for="N in range()" :key="N" :value="N">{{N}}</option>
-                  </select>
-                </div>
-              </div>
+                <span id="fileName" class="file-name">{{ avatarNiceMsg }}</span>
+              </label>
             </div>
-          </div>
-          <div class="columns">
-            <div class="column">
-              <div
-                v-if="toast.isActive"
-                :class="['notification', {'is-danger' : toast.isError}, {'is-success' : !toast.isError}]"
-              >
-                <button @click="toast.isActive = false" class="delete"></button>
-                <div class="toast-inner">
-                  <img :src="toast.isError ? error : success" />
-                  <div>
-                    <h3>{{toast.title}}</h3>
-                    {{toast.text}}
+            <div class="field">
+              <label class="label">Your email</label>
+              <input
+                v-model="instance.email"
+                class="input"
+                type="email"
+                placeholder="juaninjuanharry@mail.com"
+                maxlength="50"
+              />
+            </div>
+            <div class="field">
+              <label class="label">Your name</label>
+              <input
+                v-model="instance.name"
+                class="input"
+                type="text"
+                placeholder="Juanin Juan Harry"
+              />
+            </div>
+            <div class="field">
+              <label class="label">Your position</label>
+              <input
+                class="input"
+                type="text"
+                v-model="instance.position"
+                placeholder="Ex. News producer, Studios\'s coordinator"
+              />
+            </div>
+            <div class="field">
+              <label class="label">Your birthday</label>
+              <div class="columns">
+                <div class="column">
+                  <div class="select is-fullwidth">
+                    <select v-model="birthday[2]">
+                      <option :value="null">Day</option>
+                      <option v-for="N in 31" :key="N" :value="N < 9 ? '0' + N : N">{{N}}</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="column">
+                  <div class="select is-fullwidth">
+                    <select v-model="birthday[1]">
+                      <option :value="null">Month</option>
+                      <option
+                        v-for="N in 12"
+                        :key="N"
+                        :value="N < 9 ? '0' + N : N"
+                      >{{$moment().month(N - 1).format('MMMM')}}</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="column">
+                  <div class="select is-fullwidth">
+                    <select v-model="birthday[0]">
+                      <option :value="null">Year</option>
+                      <option v-for="N in range()" :key="N" :value="N">{{N}}</option>
+                    </select>
                   </div>
                 </div>
               </div>
             </div>
+            <div class="columns">
+              <div class="column">
+                <div
+                  v-if="toast.isActive"
+                  :class="['notification', {'is-danger' : toast.isError}, {'is-success' : !toast.isError}]"
+                >
+                  <button @click="toast.isActive = false" class="delete"></button>
+                  <div class="toast-inner">
+                    <img :src="toast.isError ? error : success" />
+                    <div>
+                      <h3>{{toast.title}}</h3>
+                      {{toast.text}}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <ul class="card-actions">
+              <li>
+                <Btn @btn-click="handleSubmit" primary>Save</Btn>
+              </li>
+            </ul>
           </div>
-          <ul class="card-actions">
-            <li>
-              <Btn @btn-click="handleSubmit" primary>Save</Btn>
-            </li>
-          </ul>
         </div>
       </div>
     </div>

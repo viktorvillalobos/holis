@@ -2,24 +2,23 @@
   <div class="holis-config pl-5 pt-6">
     <div class="columns">
       <div class="column is-2">
-        <b class="is-size-4">Settings</b>
-        <ul class="holis-config-links mt-3">
-          <li>
-            <router-link exact :to="{name: 'user-config'}">Profile</router-link>
-          </li>
-          <li>
-            <router-link exact :to="{name: 'voice-and-video-config'}">Voice and Video</router-link>
-          </li>
-          <li>
-            <router-link exact :to="{name: 'notifications-config'}">Notifications</router-link>
-          </li>
-          <li>
-            <router-link exact :to="{name: 'invitations-config'}">Invitations</router-link>
-          </li>
-          <li>
-            <router-link exact :to="{name: 'users-role-config'}">Users and Role</router-link>
-          </li>
-        </ul>
+        <div class="config-links-container">
+          <b class="is-size-4">Settings</b>
+          <ul class="holis-config-links mt-3">
+            <li>
+              <router-link exact :to="{name: 'user-config'}">Profile</router-link>
+            </li>
+            <li>
+              <router-link exact :to="{name: 'voice-and-video-config'}">Voice and Video</router-link>
+            </li>
+            <li>
+              <router-link exact :to="{name: 'notifications-config'}">Notifications</router-link>
+            </li>
+            <li>
+              <router-link exact :to="{name: 'users-role-config'}">Users</router-link>
+            </li>
+          </ul>
+        </div>
       </div>
       <div class="column">
         <card class="holis-config-card" outline>
@@ -54,8 +53,8 @@ export default {
     }
   }
 
-  &-card {
-    padding: 50px 30px;
+  .config-links-container {
+    position: fixed;
   }
 }
 </style>

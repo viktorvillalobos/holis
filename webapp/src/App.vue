@@ -122,6 +122,26 @@ export default {
 </script>
 
 <style lang="scss">
+.header {
+  padding: 15px 20px;
+  border-bottom: 1px solid #BDBDBD;
+
+  .header-title {
+    font-size: 18px;
+    font-weight: 500px;
+
+    .header-icon {
+      vertical-align: middle;
+      font-size: 20px;
+      margin-right: 20px;
+    }
+  }
+}
+
+.container {
+  padding: 20px 40px;
+}
+
 input[type="range"] {
   -webkit-appearance: none;
   margin: 10px 0;

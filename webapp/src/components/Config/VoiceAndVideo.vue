@@ -1,68 +1,77 @@
 <template>
   <div class="holis-config-voice-video">
-    <div class="columns">
-      <div class="column">
-        <div class="field">
-          <label for class="label">Input devices</label>
-          <div class="select is-fullwidth is-small">
-            <select  @change="handleDeviceChange($event, 'audioinput')">
-              <option v-for="device in inputDevices"
-                      :selected="device.deviceId == selectedInputDevice"
-                      :key="device.deviceId"
-                      :value="device.deviceId"> {{ device.label }}</option>
-            </select>
+    <div class="header">
+      <h3 class="header-title">
+        <span class="material-icons header-icon has-text-primary">groups</span>
+        Voice and Video
+      </h3>
+    </div>
+
+    <div class="container">
+      <div class="columns">
+        <div class="column">
+          <div class="field">
+            <label for class="label">Input devices</label>
+            <div class="select is-fullwidth is-small">
+              <select  @change="handleDeviceChange($event, 'audioinput')">
+                <option v-for="device in inputDevices"
+                        :selected="device.deviceId == selectedInputDevice"
+                        :key="device.deviceId"
+                        :value="device.deviceId"> {{ device.label }}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="column">
+          <div class="field">
+            <label for class="label">Output devices</label>
+            <div class="select is-fullwidth is-small">
+              <select @change="handleDeviceChange($event, 'audiooutput')">
+                <option v-for="device in outputDevices"
+                        :key="device.deviceId"
+                        :value="device.deviceId"
+                > {{ device.label }}</option>
+              </select>
+            </div>
           </div>
         </div>
       </div>
-      <div class="column">
-        <div class="field">
-          <label for class="label">Output devices</label>
-          <div class="select is-fullwidth is-small">
-            <select @change="handleDeviceChange($event, 'audiooutput')">
-              <option v-for="device in outputDevices"
-                      :key="device.deviceId"
-                      :value="device.deviceId"
-              > {{ device.label }}</option>
-            </select>
+      <div class="columns">
+        <div class="column">
+          <div class="field">
+            <label for class="label">Input volume</label>
+            <input
+              class="slider is-fullwidth is-success"
+              step="1"
+              min="0"
+              max="150"
+              type="range"
+              v-model="inputVolume"
+            />
+            <output for="sliderWithValue">{{inputVolume}}</output>
+          </div>
+        </div>
+        <div class="column">
+          <div class="field">
+            <label for class="label">Output volume</label>
+            <input
+              id="sliderWithValue"
+              v-model="outputVolume"
+              min="0"
+              max="150"
+              step="1"
+              type="range"
+            />
+            <output for="sliderWithValue">{{outputVolume}}</output>
           </div>
         </div>
       </div>
+      <ul class="card-actions">
+        <li>
+          <Btn primary>Save</Btn>
+        </li>
+      </ul>
     </div>
-    <div class="columns">
-      <div class="column">
-        <div class="field">
-          <label for class="label">Input volume</label>
-          <input
-            class="slider is-fullwidth is-success"
-            step="1"
-            min="0"
-            max="150"
-            type="range"
-            v-model="inputVolume"
-          />
-          <output for="sliderWithValue">{{inputVolume}}</output>
-        </div>
-      </div>
-      <div class="column">
-        <div class="field">
-          <label for class="label">Output volume</label>
-          <input
-            id="sliderWithValue"
-            v-model="outputVolume"
-            min="0"
-            max="150"
-            step="1"
-            type="range"
-          />
-          <output for="sliderWithValue">{{outputVolume}}</output>
-        </div>
-      </div>
-    </div>
-    <ul class="card-actions">
-      <li>
-        <Btn primary>Save</Btn>
-      </li>
-    </ul>
   </div>
 </template>
 
