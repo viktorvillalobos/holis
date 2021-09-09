@@ -89,6 +89,11 @@ const actions = {
 
     console.log('setProfilePicture')
     console.log(data)
+  },
+  async postInvitations({commit}, payload) {
+    const { data } = await apiClient.app.postInvitations(payload)
+
+    console.log(data)
   }
 }
 
