@@ -5,15 +5,16 @@ from django.db import migrations
 
 from model_bakery import baker
 
+# This will be remobed in some mometn
 
-def create_demo_users(apps, schema_editor):
-    if settings.ENVIRONMENT is settings.TESTING:
-        return 
+# def create_demo_users(apps, schema_editor):
+#     if settings.ENVIRONMENT is settings.TESTING:
+#         return 
 
-    Company = apps.get_model("core", "Company")
-    company = Company.objects.get(code="adslab")
+#     Company = apps.get_model("core", "Company")
+#     company = Company.objects.get(code="adslab")
 
-    baker.make("users.User", company_id=company.id, _quantity=10)
+#     baker.make("users.User", company_id=company.id, _quantity=10)
 
 
 class Migration(migrations.Migration):
@@ -22,4 +23,5 @@ class Migration(migrations.Migration):
         ("users", "0007_alter_user_last_seen"),
     ]
 
-    operations = [migrations.RunPython(create_demo_users)]
+    # operations = [migrations.RunPython(create_demo_users)]
+    operations = []
