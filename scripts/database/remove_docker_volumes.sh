@@ -1,0 +1,2 @@
+docker volume rm core_local_postgres_data_backups
+docker volume rm core_local_postgres_data_backups

@@ -23,11 +23,7 @@ def create_demo_users(apps, schema_editor):
         return
 
     Company = apps.get_model("core", "Company")
-    User = apps.get_model("users", "User")
     company = Company.objects.get(code="adslab")
-
-    # Delete user if exists
-    User.objects.all().delete()
 
     for name in NAMES:
         baker.make(
@@ -44,7 +40,7 @@ def reverse_create_demo_users(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("users", "0012_remove_user_uuid_null"),
+        ("users", "0013_create_default_users"),
     ]
 
     operations = [migrations.RunPython(create_demo_users, reverse_code=reverse_create_demo_users)]

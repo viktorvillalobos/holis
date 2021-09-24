@@ -65,6 +65,9 @@ makemessages|maketrans)
 compilemessages)
   python manage.py compilemessages"$@"
 ;;
+shell)
+  python manage.py shell_plus"$@"
+;;
 *)
   _usage
 ;;
