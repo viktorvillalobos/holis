@@ -1,7 +1,7 @@
 [![Website hol.is](https://img.shields.io/website-up-down-green-red/http/shields.io.svg)](https://hol.is/)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
-Holis Dashboard 👋 (This project is still in progress and has not been completed yet.) 
+Holis 👋 (My team couldn't finish this project, maybe you can.) 
 ========================
 
 [![Dashboard Holis](https://github.com/viktorvillalobos/holis/blob/master/apps/static/images/holis-dashboard.jpg?raw=true)
