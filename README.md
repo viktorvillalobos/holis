@@ -2,12 +2,16 @@
 ![Deployment](https://github.com/getholis/holis/actions/workflows/deploy.yml/badge.svg)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
+Holis Dashboard 👋
+========================
+
+[![Dashboard Holis](https://github.com/viktorvillalobos/holis/blob/master/apps/static/images/holis-dashboard.jpg?raw=true)
 
 
 Holis 👋
 ========================
 
-Holis is a toolkit for that offers a single access point for remote teams, Holis will be offer:
+Holis is a communication tool for that offers a single access point for remote teams, Holis will be offer:
 
 * Voice Communication (Done).
 * Chat Communication (Done).
